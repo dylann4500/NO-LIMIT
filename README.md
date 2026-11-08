@@ -1,6 +1,6 @@
 <div align="center">
 
-# avalon
+# NO LIMIT
 
 **Team avalon's pokerbot for No Limit 2026's three-card discard-and-reveal variant, with the release gate and hand-history tooling that took it from 31st in the first practice round to 6th of 148.**
 
