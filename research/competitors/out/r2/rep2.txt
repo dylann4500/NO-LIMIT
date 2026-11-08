@@ -1,0 +1,53 @@
+### r2: top6 = Amazing huma 22.1, Always Folds 21.4, pocket rocke 20.1, TeamBallHog 19.9, AZ 19.8, sandylikesfr 19.5
+
+-- headline (open% of unopened, fold facing 1 raise, flop first-in bet%, VPIP 8/3/2-handed, chips w/o vs with showdown, bb/table)
+Amazing huma open  42% fold1raise  78% flopFirstBet  39% cbet  43% | VPIP 8h  24% 3h  43% 2h  55% | noSD  -12.7 SD  +58.8 bb/table
+Always Folds open  43% fold1raise  51% flopFirstBet  66% cbet  82% | VPIP 8h  31% 3h  46% 2h  59% | noSD   +4.2 SD  +39.6 bb/table
+pocket rocke open  38% fold1raise  81% flopFirstBet  63% cbet  75% | VPIP 8h  33% 3h  51% 2h  49% | noSD   -3.3 SD  +48.5 bb/table
+TeamBallHog  open  53% fold1raise  74% flopFirstBet  83% cbet  86% | VPIP 8h  25% 3h  51% 2h  52% | noSD   +6.8 SD  +38.5 bb/table
+AZ           open  39% fold1raise  82% flopFirstBet  62% cbet  73% | VPIP 8h  15% 3h  49% 2h  32% | noSD   +0.1 SD  +27.3 bb/table
+sandylikesfr open  33% fold1raise  77% flopFirstBet  85% cbet  96% | VPIP 8h  22% 3h  43% 2h  60% | noSD   +6.1 SD  +12.4 bb/table
+US           open  34% fold1raise  68% flopFirstBet  86% cbet  93% | VPIP 8h  20% 3h  41% 2h  40% | noSD   +9.3 SD  +19.0 bb/table
+TOP6         open  41% fold1raise  75% flopFirstBet  65% cbet  74% | VPIP 8h  25% 3h  47% 2h  49% | noSD   -0.0 SD  +37.8 bb/table
+
+-- open sizes (top 2 bb values) and postflop first-bet size clusters (top 3 pot fractions)
+Amazing huma open 2.5bb 71% 2.0bb 29% | bets 0.50pot 98% 0.10pot  1% 0.35pot  0%
+Always Folds open 2.5bb 54% 2.2bb 25% | bets 0.75pot 42% 0.55pot 36% 0.65pot  8%
+pocket rocke open 2.4bb 26% 2.5bb 21% | bets 0.55pot 48% 0.70pot 18% 0.65pot 15%
+TeamBallHog  open 2.9bb 76% 2.8bb 19% | bets 0.35pot 36% 0.65pot 26% 1.50pot 17%
+AZ           open 2.5bb 86% 3.4bb 12% | bets 0.55pot 39% 0.80pot 38% 0.50pot 12%
+sandylikesfr open 2.0bb 50% 2.2bb 13% | bets 0.50pot 23% 0.75pot 16% 1.00pot 10%
+US           open 2.2bb 38% 2.1bb 23% | bets 0.35pot 39% 1.00pot 28% 0.75pot 18%
+
+-- flop FIRST-IN bet% (any player, no bet yet) by #opponents x villain-visible connect (pair/draw/miss)
+                1/pair    1/draw    1/miss    2/pair    2/draw    2/miss   3+/pair   3+/draw   3+/miss
+Amazing huma       35%       45%       44%       14%       21%       35%       18%       25%        0%
+Always Folds       43%       72%       76%       44%       52%       41%       57%       27%      100%
+pocket rocke       33%       73%       77%       18%       56%       42%       11%       36%       57%
+TeamBallHog        71%       85%       89%       57%       74%       91%       56%       50%      100%
+AZ                 42%       69%       73%       12%       50%       46%        0%       20%        - 
+sandylikesfr       67%       85%       89%       82%       93%       97%       50%       91%       50%
+US                 72%       94%       95%       43%       59%       69%       29%       43%       53%
+TOP6               49%       71%       73%       33%       55%       56%       26%       40%       58%
+-- flop C-BET% (preflop aggressor, checked to) same split
+Amazing huma       42%       45%       46%       17%       21%       40%        0%       50%        - 
+Always Folds       60%       87%       90%       40%       47%       50%        -         0%      100%
+pocket rocke       41%       80%       83%       47%       72%       43%       33%       60%       50%
+TeamBallHog        75%       90%       90%       53%       79%      100%       40%       50%      100%
+AZ                 62%       78%       82%        0%       45%       33%        0%        0%        - 
+sandylikesfr       91%       96%       97%      100%       98%      100%        0%      100%        - 
+US                 88%       99%      100%       50%       69%       76%       31%       50%       58%
+TOP6               60%       78%       79%       41%       62%       63%       27%       55%       75%
+   opp counts (TOP6 cb): 348 1538 1251 81 232 79 11 20 4
+
+-- open% of unopened pots by players left; steal% (CO/BTN/SB first-in) by players left
+                      n8          n7          n6          n5          n4          n3          n2
+Amazing huma  29%/ 44%  31%/ 44%  36%/ 45%  43%/ 49%  37%/ 36%  54%/ 52%  73%/  - 
+Always Folds  20%/ 34%  25%/ 39%  33%/ 44%  39%/ 46%  44%/ 43%  58%/ 58%  94%/  - 
+pocket rocke  27%/ 50%  30%/ 45%  35%/ 41%  39%/ 43%  41%/ 41%  47%/ 45%  56%/  - 
+TeamBallHog   38%/ 47%  43%/ 50%  51%/ 59%  56%/ 63%  57%/ 57%  69%/ 69%  66%/  - 
+AZ            23%/ 45%  27%/ 46%  36%/ 48%  40%/ 45%  46%/ 45%  71%/ 70%  40%/  - 
+sandylikesfr  23%/ 34%  31%/ 45%  31%/ 44%  32%/ 38%  32%/ 32%  45%/ 44%  47%/  - 
+US            23%/ 30%  24%/ 32%  27%/ 33%  31%/ 35%  38%/ 37%  47%/ 47%  56%/  - 
+TOP6          27%/ 43%  32%/ 45%  37%/ 47%  41%/ 47%  42%/ 42%  57%/ 56%  62%/  - 
+   (each cell: open%/steal%)

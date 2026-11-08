@@ -1,0 +1,9 @@
+o1 2 Curry  shown n=  371 | 2-card percentile: top10  55% 10-25  16% 25-50  15% 50-100  14% | pairs  44% A-x  20%
+o1 US       shown n= 1323 | 2-card percentile: top10  97% 10-25   2% 25-50   1% 50-100   0% | pairs  91% A-x   5%
+o1 others   shown n=13449 | 2-card percentile: top10  77% 10-25  10% 25-50   7% 50-100   5% | pairs  70% A-x  13%
+o2 2 Curry  shown n=  379 | 2-card percentile: top10  50% 10-25  17% 25-50  16% 50-100  17% | pairs  37% A-x  19%
+o2 US       shown n= 1174 | 2-card percentile: top10  97% 10-25   2% 25-50   1% 50-100   0% | pairs  92% A-x   5%
+o2 others   shown n=11546 | 2-card percentile: top10  86% 10-25   6% 25-50   5% 50-100   3% | pairs  76% A-x  12%
+o3 2 Curry  shown n=  428 | 2-card percentile: top10  47% 10-25  22% 25-50  15% 50-100  16% | pairs  34% A-x  23%
+o3 US       shown n= 1137 | 2-card percentile: top10  98% 10-25   1% 25-50   1% 50-100   0% | pairs  93% A-x   5%
+o3 others   shown n=10724 | 2-card percentile: top10  85% 10-25   7% 25-50   5% 50-100   4% | pairs  75% A-x  13%

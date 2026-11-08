@@ -1,0 +1,87 @@
+tables=12797 teams=125 maniacs=1: ['griddy bears']
+
+== POINTS (95% CI) and places ==
+  1 AZ             22.51±1.64 n=  692 1st  34% 2nd  10% 3rd  12%
+  2 sandylikesfrog 21.67±1.67 n=  676 1st  33% 2nd  11% 3rd  10%
+  3 TeamBallHog    20.97±1.58 n=  733 1st  31% 2nd  12% 3rd  10%
+  4 Team 72        20.67±1.58 n=  718 1st  30% 2nd  10% 3rd  13%
+  5 Clippers Champ 20.42±1.53 n=  662 1st  24% 2nd  18% 3rd  16%
+  6 Lemonade       20.34±1.57 n=  729 1st  29% 2nd  12% 3rd  10%
+100 US              9.17±0.31 n=12500 1st  13% 2nd   5% 3rd   5%
+
+== PREFLOP/POSTFLOP STYLE ==
+                       VPIP       PFR     open%  openJam%     3bet% 3betJam/3b    cbetHU    cbetMW   barrelT   barrelR foldToBet foldToCbet raiseVsBet
+AZ                    33.2%     28.9%     43.0%      7.5%     14.0%     82.1%     80.9%     43.5%     89.0%     73.9%     52.5%     43.6%      4.9%
+sandylikesfrog        47.3%     33.7%     50.5%      9.2%     15.3%     46.1%     79.0%     75.2%     83.3%     86.8%     53.2%     49.9%     17.1%
+TeamBallHog           37.5%     30.0%     50.7%     12.1%      6.5%     80.0%     87.5%     77.9%     84.8%     84.5%     56.3%     62.0%      7.4%
+Team 72               34.9%     28.2%     48.6%      3.2%      3.2%     21.8%     77.9%     53.8%     83.2%     82.9%     55.7%     53.1%      6.2%
+Clippers Champ        26.3%     21.7%     37.0%      9.4%      3.8%     31.8%     68.9%     29.7%     70.1%     58.4%     40.5%     32.8%      8.4%
+Lemonade              28.6%     15.8%     13.3%     11.4%     19.8%     94.2%     63.0%     43.3%     47.7%    100.0%     57.9%     68.8%      8.0%
+US                    42.2%     39.9%     29.6%      4.5%     63.6%     10.8%     95.2%     52.6%     71.9%     67.0%     35.5%     38.2%     45.8%
+TOP6 avg              34.3%     26.2%     40.3%      8.8%     10.6%     72.5%     78.6%     59.4%     82.2%     80.8%     52.9%     51.4%      9.4%
+field(non-maniac)     28.2%     20.5%     29.7%      5.1%     11.2%     22.1%     70.2%     41.1%     73.7%     77.6%     44.6%     46.6%     11.9%
+
+== SIZES: open raise-to (bb) median [p25,p75], 3bet x open, bet/pot by street (median) ==
+AZ             open  2.5 [ 2.5, 2.5] n=10615 | 8-6  2.5 5-4  2.5 3-2  2.5 | 3bx  3.0 | bet/pot F 0.55 T 0.55 R 0.77 | openJam eff bb med 27.8
+sandylikesfrog open  2.0 [ 2.0, 2.9] n=11686 | 8-6  2.0 5-4  2.0 3-2  2.2 | 3bx  2.2 | bet/pot F 0.50 T 0.50 R 0.50 | openJam eff bb med 35.7
+TeamBallHog    open  2.9 [ 2.8, 2.9] n=13346 | 8-6  2.9 5-4  2.9 3-2  2.9 | 3bx  3.1 | bet/pot F 0.66 T 0.33 R 0.33 | openJam eff bb med 18.5
+Team 72        open  2.2 [ 2.0, 2.6] n=14786 | 8-6  2.6 5-4  2.2 3-2  2.0 | 3bx  2.8 | bet/pot F 0.75 T 0.75 R 0.51 | openJam eff bb med 13.2
+Clippers Champ open  2.6 [ 2.3, 2.6] n= 8329 | 8-6  2.6 5-4  2.6 3-2  2.6 | 3bx  3.0 | bet/pot F 0.55 T 0.55 R 0.75 | openJam eff bb med 11.9
+Lemonade       open  2.0 [ 2.0, 2.0] n=   69 | 8-6  2.2 5-4  2.2 3-2  2.0 | 3bx  2.3 | bet/pot F 0.50 T 1.56 R 1.18 | openJam eff bb med 29.8
+US             open  2.2 [ 2.2, 2.5] n=85028 | 8-6  2.2 5-4  2.2 3-2  2.5 | 3bx  3.5 | bet/pot F 0.66 T 0.33 R 0.33 | openJam eff bb med 36.4
+FIELD          open  2.5 [ 2.2, 2.5] n=919156 | 8-6  2.5 5-4  2.5 3-2  2.5 | 3bx  3.2 | bet/pot F 0.60 T 0.60 R 0.60 | openJam eff bb med 11.2
+
+== BY PLAYERS LEFT: VPIP / openJam% of unopened / callJam% ==
+AZ       8-6: vpip  22% oJam   1% oRaise  28% 3b   7% cJam  24%(n1476) | 5-4: vpip  35% oJam   6% oRaise  37% 3b  16% cJam  25%(n1469) | 3-2: vpip  56% oJam  24% oRaise  49% 3b  30% cJam  45%(n1057)
+sandylikesfrog 8-6: vpip  40% oJam   1% oRaise  41% 3b  10% cJam  23%(n1533) | 5-4: vpip  48% oJam   4% oRaise  49% 3b  15% cJam  27%(n1370) | 3-2: vpip  62% oJam  33% oRaise  30% 3b  32% cJam  47%(n868)
+TeamBallHog 8-6: vpip  29% oJam   3% oRaise  39% 3b   3% cJam  12%(n1866) | 5-4: vpip  41% oJam  13% oRaise  42% 3b   8% cJam  14%(n1709) | 3-2: vpip  52% oJam  31% oRaise  33% 3b  14% cJam  21%(n1580)
+Team 72  8-6: vpip  24% oJam   1% oRaise  33% 3b   3% cJam  17%(n1688) | 5-4: vpip  39% oJam   3% oRaise  51% 3b   3% cJam  22%(n1626) | 3-2: vpip  53% oJam  10% oRaise  63% 3b   5% cJam  40%(n1277)
+Clippers Champ 8-6: vpip  18% oJam   1% oRaise  23% 3b   4% cJam  13%(n1524) | 5-4: vpip  27% oJam   7% oRaise  30% 3b   4% cJam  10%(n1788) | 3-2: vpip  42% oJam  29% oRaise  34% 3b   4% cJam  18%(n1528)
+Lemonade 8-6: vpip  18% oJam   1% oRaise   2% 3b  11% cJam  13%(n1490) | 5-4: vpip  30% oJam   9% oRaise   2% 3b  24% cJam  17%(n1620) | 3-2: vpip  53% oJam  40% oRaise   2% 3b  37% cJam  31%(n1059)
+US       8-6: vpip  41% oJam   1% oRaise  23% 3b  65% cJam  14%(n24765) | 5-4: vpip  44% oJam   4% oRaise  28% 3b  65% cJam  19%(n14657) | 3-2: vpip  43% oJam  18% oRaise  27% 3b  49% cJam  27%(n12420)
+TOP      8-6: vpip  25% oJam   1% oRaise  27% 3b   6% cJam  17%(n9577) | 5-4: vpip  36% oJam   7% oRaise  35% 3b  12% cJam  19%(n9582) | 3-2: vpip  53% oJam  27% oRaise  36% 3b  20% cJam  32%(n7369)
+FIELD    8-6: vpip  25% oJam   1% oRaise  22% 3b  12% cJam  16%(n213608) | 5-4: vpip  28% oJam   5% oRaise  25% 3b  10% cJam  13%(n186972) | 3-2: vpip  37% oJam  15% oRaise  30% 3b  10% cJam  17%(n171121)
+
+== VISIBLE CARD: fold-to-bet by BETTOR's visible class (pair/over/low); HU first-in bet rate by OPP's visible class ==
+AZ       fold[pair: 74%(n1431) over: 50%(n1507) low: 42%(n2494)] | vsOURbet[pair: 67%(n394) over: 32%(n455) low: 20%(n683)] | HUbetInto[pair: 46% over: 64% low: 72%]
+sandylikesfrog fold[pair: 72%(n2345) over: 51%(n2560) low: 44%(n4375)] | vsOURbet[pair: 68%(n356) over: 35%(n480) low: 32%(n769)] | HUbetInto[pair: 62% over: 79% low: 80%]
+TeamBallHog fold[pair: 74%(n1806) over: 51%(n1997) low: 50%(n3079)] | vsOURbet[pair: 67%(n411) over: 51%(n460) low: 42%(n823)] | HUbetInto[pair: 64% over: 83% low: 82%]
+Team 72  fold[pair: 73%(n1800) over: 58%(n2100) low: 43%(n2869)] | vsOURbet[pair: 64%(n339) over: 44%(n363) low: 21%(n564)] | HUbetInto[pair: 64% over: 70% low: 80%]
+Clippers Champ fold[pair: 58%(n1504) over: 36%(n1631) low: 32%(n2290)] | vsOURbet[pair: 59%(n279) over: 35%(n373) low: 26%(n444)] | HUbetInto[pair: 38% over: 50% low: 58%]
+Lemonade fold[pair: 74%(n1456) over: 63%(n1078) low: 46%(n2432)] | vsOURbet[pair: 82%(n225) over: 66%(n185) low: 42%(n339)] | HUbetInto[pair: 23% over: 31% low: 29%]
+US       fold[pair: 46%(n16391) over: 30%(n16617) low: 32%(n21441)] | vsOURbet[pair:nan%(n0) over:nan%(n0) low:nan%(n0)] | HUbetInto[pair: 68% over: 84% low: 84%]
+TOP      fold[pair: 71%(n10342) over: 51%(n10873) low: 43%(n17539)] | vsOURbet[pair: 67%(n2004) over: 41%(n2316) low: 31%(n3622)] | HUbetInto[pair: 52% over: 68% low: 69%]
+FIELD    fold[pair: 58%(n207551) over: 41%(n218323) low: 39%(n334094)] | vsOURbet[pair: 62%(n28746) over: 40%(n32600) low: 32%(n48026)] | HUbetInto[pair: 41% over: 52% low: 53%]
+
+== CHIP FLOW: pairwise transfers (starting stacks, all hands) and HU-flop net bb ==
+US vs AZ             tables  683 net  -20.5% stack/table | HU-flop hands  1296 our net  -4.35bb/hand total    -5632bb
+US vs sandylikesfrog tables  666 net  -23.3% stack/table | HU-flop hands  1223 our net  -3.86bb/hand total    -4726bb
+US vs TeamBallHog    tables  721 net  -16.6% stack/table | HU-flop hands  1462 our net  -1.89bb/hand total    -2770bb
+US vs Team 72        tables  706 net   -9.5% stack/table | HU-flop hands  1114 our net  -2.67bb/hand total    -2977bb
+US vs Clippers Champ tables  655 net   -6.8% stack/table | HU-flop hands   913 our net  -3.10bb/hand total    -2832bb
+US vs Lemonade       tables  717 net  -12.6% stack/table | HU-flop hands   798 our net  +0.73bb/hand total     +586bb
+HU-flop bb/hand vs anyone: AZ +2.07(n8128) sandylikesfrog +1.55(n11869) TeamBallHog +1.57(n10475) Team 72 +1.95(n9810) Clippers Champ +2.59(n6851) Lemonade +0.78(n7580) US -1.97(n97057)
+
+== MANIAC EXTRACTION: chips taken from maniacs per table shared (stacks), early(<=15 hands) / late ==
+AZ             maniac-tables-pairs     37 early +0.055 late +0.064 stacks per maniac-pairing
+sandylikesfrog maniac-tables-pairs     23 early +0.198 late +0.129 stacks per maniac-pairing
+TeamBallHog    maniac-tables-pairs     37 early +0.159 late -0.000 stacks per maniac-pairing
+Team 72        maniac-tables-pairs     41 early +0.139 late +0.085 stacks per maniac-pairing
+Clippers Champ maniac-tables-pairs     37 early +0.241 late -0.004 stacks per maniac-pairing
+Lemonade       maniac-tables-pairs     44 early +0.049 late +0.033 stacks per maniac-pairing
+US             maniac-tables-pairs    688 early +0.119 late +0.011 stacks per maniac-pairing
+FIELD          maniac-tables-pairs   4796 early +0.113 late +0.019 stacks per maniac-pairing
+
+== TABLE COMPOSITION: mean points by #maniacs at table ==
+AZ             0m: 22.73(n655) 1m: 18.65(n37)
+sandylikesfrog 0m: 21.47(n653) 1m: 27.39(n23)
+TeamBallHog    0m: 20.91(n696) 1m: 22.16(n37)
+Team 72        0m: 20.69(n677) 1m: 20.24(n41)
+Clippers Champ 0m: 20.06(n625) 1m: 26.49(n37)
+Lemonade       0m: 20.35(n685) 1m: 20.23(n44)
+US             0m:  9.09(n11812) 1m: 10.60(n688)
+FIELD          0m: 12.50(n94503) 1m: 14.13(n4796)
+
+== SEAT EFFECT (all non-maniac players): mean pts by seat index ==
+s0:12.44 s1:12.37 s2:12.70 s3:12.62 s4:12.50 s5:12.76 s6:12.72 s7:12.50
+US s0: 8.93(n1577) s1: 9.32(n1490) s2: 9.00(n1544) s3: 8.87(n1588) s4: 9.29(n1548) s5: 9.05(n1606) s6: 9.61(n1554) s7: 9.32(n1593)

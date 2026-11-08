@@ -1,0 +1,84 @@
+[
+  {
+    "snapshot": "before",
+    "score": 14.61,
+    "se": 0.6370665222359074,
+    "score_ci95": [
+      13.361349616417622,
+      15.858650383582377
+    ],
+    "tables": 1000,
+    "hands": 69657,
+    "decisions": 97680,
+    "cash": 0.381,
+    "win": 0.195,
+    "bust20": 278,
+    "vpip": 0.3684769657033751,
+    "pfr": 0.27493288542429334,
+    "flopfold": 0.7356358427502785,
+    "riverfold": 0.33848899464604404,
+    "post_raises_facing": 0,
+    "post_facing": 10202,
+    "certain_losing_calls": 90,
+    "certain_call_chips": 71361,
+    "reveal_low": 0.7410568054478063,
+    "fd_actions": {
+      "fold": 255
+    },
+    "nutfd_actions": {
+      "fold": 68
+    },
+    "ranks": {
+      "1": 195,
+      "2": 114,
+      "3": 72,
+      "4": 76,
+      "5": 89,
+      "6": 152,
+      "7": 161,
+      "8": 141
+    }
+  },
+  {
+    "snapshot": "after",
+    "score": 18.88,
+    "se": 0.6734977351106677,
+    "score_ci95": [
+      17.55994443918309,
+      20.200055560816907
+    ],
+    "tables": 1000,
+    "hands": 84544,
+    "decisions": 104455,
+    "cash": 0.49,
+    "win": 0.266,
+    "bust20": 60,
+    "vpip": 0.29588143451930354,
+    "pfr": 0.23096848978046935,
+    "flopfold": 0.31137572840131744,
+    "riverfold": 0.6524879614767255,
+    "post_raises_facing": 939,
+    "post_facing": 7529,
+    "certain_losing_calls": 0,
+    "certain_call_chips": 0,
+    "reveal_low": 0.49656464709556525,
+    "fd_actions": {
+      "call": 118,
+      "fold": 32
+    },
+    "nutfd_actions": {
+      "call": 39,
+      "fold": 2
+    },
+    "ranks": {
+      "1": 266,
+      "2": 110,
+      "3": 114,
+      "4": 140,
+      "5": 138,
+      "6": 111,
+      "7": 76,
+      "8": 45
+    }
+  }
+]

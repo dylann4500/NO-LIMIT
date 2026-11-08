@@ -1,0 +1,26 @@
+CALIBRATION on spots we CALLED: predicted ICM gain vs realized
+  top10  n= 1934 predicted +3.03  realized +2.46±0.33  mean equity 0.68
+  10-25  n=  564 predicted +1.55  realized +1.12±0.32  mean equity 0.53
+  25-45  n=   64 predicted +1.21  realized +1.33±0.62  mean equity 0.44
+
+Spots we FOLDED: predicted ICM gain if we had called (pts), share predicted > 0
+ == frequent re-jammers
+   top10  eff  0-15  folds   102  predicted call gain -1.96 pts  >0 in  59%  equity 0.59
+   top10  eff 15-25  folds   286  predicted call gain -1.53 pts  >0 in  61%  equity 0.60
+   top10  eff 25-999 folds   245  predicted call gain -0.25 pts  >0 in  60%  equity 0.59
+   10-25  eff  0-15  folds   209  predicted call gain -2.30 pts  >0 in  60%  equity 0.57
+   10-25  eff 15-25  folds   532  predicted call gain -1.64 pts  >0 in  62%  equity 0.58
+   10-25  eff 25-999 folds   333  predicted call gain -1.90 pts  >0 in  49%  equity 0.57
+   25-45  eff  0-15  folds   125  predicted call gain -3.17 pts  >0 in  56%  equity 0.52
+   25-45  eff 15-25  folds   303  predicted call gain -4.41 pts  >0 in  43%  equity 0.52
+   25-45  eff 25-999 folds   142  predicted call gain -4.00 pts  >0 in  24%  equity 0.49
+ == others
+   top10  eff  0-15  folds   748  predicted call gain +0.25 pts  >0 in  64%  equity 0.47
+   top10  eff 15-25  folds   627  predicted call gain -1.34 pts  >0 in  47%  equity 0.49
+   top10  eff 25-999 folds   413  predicted call gain -3.17 pts  >0 in  17%  equity 0.40
+   10-25  eff  0-15  folds  1756  predicted call gain +0.30 pts  >0 in  71%  equity 0.49
+   10-25  eff 15-25  folds  1191  predicted call gain -1.46 pts  >0 in  47%  equity 0.49
+   10-25  eff 25-999 folds   561  predicted call gain -3.42 pts  >0 in  14%  equity 0.41
+   25-45  eff  0-15  folds   735  predicted call gain -0.96 pts  >0 in  55%  equity 0.43
+   25-45  eff 15-25  folds   525  predicted call gain -3.17 pts  >0 in  32%  equity 0.44
+   25-45  eff 25-999 folds   175  predicted call gain -6.60 pts  >0 in   2%  equity 0.36

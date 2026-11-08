@@ -1,0 +1,24 @@
+ 0.98 bb/table  CALL s1 bettorvis pair us pair_top: call -7.24 n2711
+ 0.74 bb/table  CALL s1 bettorvis low us pair_mid: call -2.94 n5018
+ 0.62 bb/table  CALL s1 bettorvis pair us pair_mid: call -7.87 n1563
+ 0.61 bb/table  BET s1 oppvis pair us pair_mid: bet -4.00 vs check +0.11 n2973
+ 0.53 bb/table  CALL s1 bettorvis over us pair_mid: call -3.59 n2956
+ 0.42 bb/table  BET s2 oppvis pair us pair_top: bet +1.47 vs check +5.82 n1926
+ 0.34 bb/table  BET s2 oppvis pair us pair_mid: bet -2.44 vs check +0.54 n2261
+ 0.32 bb/table  CALL s1 bettorvis over us air: call -1.32 n4828
+ 0.25 bb/table  BET s1 oppvis pair us pair_top: bet -1.75 vs check -0.18 n2908
+ 0.25 bb/table  BET s1 oppvis pair us air: bet -1.55 vs check +0.19 n2822
+ 0.23 bb/table  CALL s2 bettorvis pair us pair_mid: call -5.02 n920
+ 0.20 bb/table  CALL s1 bettorvis low us air: call -0.82 n4966
+ 0.17 bb/table  BET s2 oppvis pair us air: bet -2.70 vs check +0.34 n1130
+ 0.16 bb/table  CALL s2 bettorvis low us pair_mid: call -1.44 n2260
+ 0.16 bb/table  CALL s2 bettorvis pair us pair_top: call -2.55 n1236
+ 0.14 bb/table  CALL s2 bettorvis over us air: call -3.00 n919
+ 0.13 bb/table  CALL s2 bettorvis over us pair_mid: call -2.45 n1072
+ 0.11 bb/table  CALL s2 bettorvis low us air: call -1.46 n1446
+ 0.04 bb/table  BET s2 oppvis pair us fdraw: bet -0.55 vs check +1.95 n344
+ 0.02 bb/table  CALL s3 bettorvis pair us pair_mid: call -2.36 n157
+ 0.02 bb/table  CALL s3 bettorvis low us air: call -0.96 n368
+ 0.01 bb/table  CALL s1 bettorvis pair us air: call -0.38 n462
+ 0.00 bb/table  CALL s3 bettorvis over us air: call -0.21 n207
+TOTAL bet->check 2.08 bb/table, call->fold 4.36 bb/table

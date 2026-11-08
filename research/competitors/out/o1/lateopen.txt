@@ -1,0 +1,21 @@
+== players left 8-6, late position first-in, stacks >=15bb (non-jam opens)
+  top10   spots  17744 open  98% | open fwd bb +2.64±0.25 (n 17341) | whole-hand pts open +0.38±0.04 fold +0.01±0.03
+  10-25   spots  28336 open  84% | open fwd bb +1.43±0.14 (n 23778) | whole-hand pts open +0.23±0.03 fold +0.01±0.01
+  25-45   spots  31911 open  34% | open fwd bb +1.08±0.18 (n 10712) | whole-hand pts open +0.16±0.04 fold +0.00±0.00
+  45-60   spots  27181 open   3% | open fwd bb +1.13±0.63 (n 867) | whole-hand pts open +0.19±0.12 fold -0.01±0.00
+  60-75   spots  19240 open   0% | open fwd bb   n<30    (n 0) | whole-hand pts open   n<30    fold -0.01±0.00
+  75-100  spots  38492 open   0% | open fwd bb   n<30    (n 0) | whole-hand pts open   n<30    fold -0.00±0.00
+== players left 5-4, late position first-in, stacks >=15bb (non-jam opens)
+  top10   spots  19349 open  93% | open fwd bb +1.73±0.16 (n 17904) | whole-hand pts open +0.38±0.05 fold +0.01±0.07
+  10-25   spots  29842 open  83% | open fwd bb +1.04±0.10 (n 24864) | whole-hand pts open +0.20±0.03 fold +0.07±0.02
+  25-45   spots  34636 open  35% | open fwd bb +0.81±0.12 (n 12254) | whole-hand pts open +0.16±0.04 fold +0.04±0.01
+  45-60   spots  30247 open   3% | open fwd bb +0.71±0.36 (n 1028) | whole-hand pts open +0.12±0.16 fold +0.03±0.01
+  60-75   spots  21467 open   0% | open fwd bb   n<30    (n 0) | whole-hand pts open   n<30    fold +0.03±0.01
+  75-100  spots  43506 open   0% | open fwd bb   n<30    (n 0) | whole-hand pts open   n<30    fold +0.03±0.00
+== players left 3, late position first-in, stacks >=15bb (non-jam opens)
+  top10   spots   7131 open  81% | open fwd bb +1.57±0.23 (n 5771) | whole-hand pts open +0.39±0.07 fold   n<30   
+  10-25   spots  11207 open  79% | open fwd bb +0.71±0.14 (n 8844) | whole-hand pts open +0.15±0.04 fold -0.07±0.04
+  25-45   spots  12953 open  52% | open fwd bb +0.83±0.15 (n 6702) | whole-hand pts open +0.16±0.05 fold -0.02±0.01
+  45-60   spots  11594 open   6% | open fwd bb +1.06±0.52 (n 674) | whole-hand pts open +0.23±0.15 fold -0.02±0.01
+  60-75   spots   8103 open   0% | open fwd bb   n<30    (n 0) | whole-hand pts open   n<30    fold -0.03±0.01
+  75-100  spots  16958 open   0% | open fwd bb   n<30    (n 0) | whole-hand pts open   n<30    fold -0.03±0.00

@@ -1,0 +1,87 @@
+tables=2589 teams=116 maniacs=4: ['Eradicating En', 'RJ', 'Team 115', 'Zhang et al.']
+
+== POINTS (95% CI) and places ==
+  1 Amazing humans 22.14±3.07 n=  159 1st  25% 2nd  20% 3rd  18%
+  2 Always Folds   21.35±3.76 n=  133 1st  32% 2nd  11% 3rd   9%
+  3 pocket rockets 20.06±3.01 n=  161 1st  22% 2nd  19% 3rd  18%
+  4 TeamBallHog    19.86±3.45 n=  147 1st  27% 2nd  15% 3rd   9%
+  5 AZ             19.80±3.19 n=  147 1st  22% 2nd  20% 3rd  15%
+  6 sandylikesfrog 19.47±2.96 n=  151 1st  19% 2nd  19% 3rd  23%
+  8 US             18.87±0.84 n= 2500 1st  27% 2nd  10% 3rd  10%
+
+== PREFLOP/POSTFLOP STYLE ==
+                       VPIP       PFR     open%  openJam%     3bet% 3betJam/3b    cbetHU    cbetMW   barrelT   barrelR foldToBet foldToCbet raiseVsBet
+Amazing humans        34.6%     23.5%     41.8%      0.2%      1.1%      0.0%     45.0%     24.7%     48.8%     71.8%     46.8%     48.6%      5.4%
+Always Folds          40.8%     33.4%     42.1%      9.5%     28.6%     23.6%     85.5%     45.0%     70.0%     69.6%     39.4%     36.0%     10.1%
+pocket rockets        42.2%     25.1%     37.8%      1.6%      9.0%     12.8%     77.3%     59.5%     71.4%     63.9%     51.6%     64.9%      6.4%
+TeamBallHog           39.3%     30.9%     51.2%      9.4%      5.4%     75.1%     88.1%     73.9%     80.6%     89.3%     50.5%     64.2%     10.8%
+AZ                    28.2%     25.1%     39.0%      4.1%     10.7%     79.7%     78.2%     34.4%     88.9%     76.4%     54.6%     59.6%      3.3%
+sandylikesfrog        31.7%     22.5%     32.2%      1.8%     12.2%     25.9%     95.9%     97.1%     88.9%     90.0%     43.4%     41.9%     21.3%
+US                    29.8%     23.3%     32.6%      6.3%     13.8%     76.4%     97.9%     63.5%     89.3%     80.2%     41.0%     36.5%     12.0%
+TOP6 avg              35.9%     26.3%     40.4%      4.0%     10.3%     35.5%     76.3%     57.1%     76.4%     79.0%     47.5%     51.4%      9.3%
+field(non-maniac)     27.2%     18.5%     28.5%      4.2%      7.1%     37.2%     72.2%     47.4%     78.0%     83.4%     41.1%     47.1%     11.7%
+
+== SIZES: open raise-to (bb) median [p25,p75], 3bet x open, bet/pot by street (median) ==
+Amazing humans open  2.5 [ 2.0, 2.5] n= 3135 | 8-6  2.5 5-4  2.5 3-2  2.5 | 3bx  2.6 | bet/pot F 0.50 T 0.50 R 0.50 | openJam eff bb med  1.4
+Always Folds   open  2.5 [ 2.2, 2.5] n= 1759 | 8-6  2.5 5-4  2.5 3-2  2.5 | 3bx  3.8 | bet/pot F 0.66 T 0.66 R 0.75 | openJam eff bb med 30.7
+pocket rockets open  2.5 [ 2.4, 2.8] n= 2691 | 8-6  2.8 5-4  2.6 3-2  2.4 | 3bx  2.7 | bet/pot F 0.56 T 0.65 R 0.69 | openJam eff bb med  6.7
+TeamBallHog    open  2.9 [ 2.9, 2.9] n= 2775 | 8-6  2.9 5-4  2.9 3-2  2.9 | 3bx  3.1 | bet/pot F 0.66 T 0.33 R 0.33 | openJam eff bb med 23.3
+AZ             open  2.5 [ 2.5, 2.5] n= 2337 | 8-6  2.5 5-4  2.5 3-2  2.5 | 3bx  3.0 | bet/pot F 0.55 T 0.59 R 0.78 | openJam eff bb med 10.5
+sandylikesfrog open  2.0 [ 2.0, 2.9] n= 2167 | 8-6  2.0 5-4  2.0 3-2  2.5 | 3bx  2.2 | bet/pot F 0.50 T 0.74 R 0.56 | openJam eff bb med 21.1
+US             open  2.2 [ 2.2, 2.5] n=29564 | 8-6  2.2 5-4  2.2 3-2  2.5 | 3bx  3.5 | bet/pot F 0.75 T 0.33 R 0.33 | openJam eff bb med 22.5
+FIELD          open  2.5 [ 2.2, 2.6] n=173266 | 8-6  2.5 5-4  2.5 3-2  2.5 | 3bx  3.0 | bet/pot F 0.60 T 0.60 R 0.59 | openJam eff bb med 11.3
+
+== BY PLAYERS LEFT: VPIP / openJam% of unopened / callJam% ==
+Amazing humans 8-6: vpip  28% oJam   0% oRaise  32% 3b   1% cJam  17%(n451) | 5-4: vpip  33% oJam   0% oRaise  39% 3b   1% cJam  18%(n385) | 3-2: vpip  50% oJam   1% oRaise  62% 3b   1% cJam  19%(n583)
+Always Folds 8-6: vpip  34% oJam   1% oRaise  25% 3b  27% cJam  18%(n304) | 5-4: vpip  41% oJam   7% oRaise  33% 3b  33% cJam  13%(n268) | 3-2: vpip  54% oJam  29% oRaise  46% 3b  23% cJam  32%(n263)
+pocket rockets 8-6: vpip  37% oJam   1% oRaise  30% 3b   8% cJam  21%(n499) | 5-4: vpip  45% oJam   2% oRaise  38% 3b   9% cJam  17%(n344) | 3-2: vpip  50% oJam   3% oRaise  47% 3b  15% cJam  27%(n359)
+TeamBallHog 8-6: vpip  31% oJam   2% oRaise  41% 3b   3% cJam  12%(n334) | 5-4: vpip  43% oJam  10% oRaise  44% 3b   6% cJam  14%(n308) | 3-2: vpip  53% oJam  24% oRaise  40% 3b  13% cJam  23%(n235)
+AZ       8-6: vpip  21% oJam   1% oRaise  28% 3b   6% cJam  15%(n413) | 5-4: vpip  31% oJam   6% oRaise  37% 3b  10% cJam  19%(n464) | 3-2: vpip  39% oJam   7% oRaise  45% 3b  24% cJam  24%(n450)
+sandylikesfrog 8-6: vpip  27% oJam   1% oRaise  28% 3b  10% cJam  13%(n379) | 5-4: vpip  29% oJam   3% oRaise  29% 3b  13% cJam  15%(n403) | 3-2: vpip  51% oJam   4% oRaise  40% 3b  21% cJam  26%(n310)
+US       8-6: vpip  23% oJam   1% oRaise  24% 3b   7% cJam  16%(n5394) | 5-4: vpip  32% oJam   4% oRaise  29% 3b  17% cJam  22%(n3598) | 3-2: vpip  40% oJam  20% oRaise  28% 3b  28% cJam  28%(n3915)
+TOP      8-6: vpip  29% oJam   1% oRaise  31% 3b   8% cJam  16%(n2380) | 5-4: vpip  37% oJam   4% oRaise  37% 3b  11% cJam  16%(n2172) | 3-2: vpip  49% oJam  10% oRaise  48% 3b  15% cJam  24%(n2200)
+FIELD    8-6: vpip  24% oJam   1% oRaise  22% 3b   6% cJam  16%(n42503) | 5-4: vpip  27% oJam   4% oRaise  25% 3b   7% cJam  14%(n31220) | 3-2: vpip  36% oJam  13% oRaise  30% 3b  10% cJam  18%(n29481)
+
+== VISIBLE CARD: fold-to-bet by BETTOR's visible class (pair/over/low); HU first-in bet rate by OPP's visible class ==
+Amazing humans fold[pair: 59%(n722) over: 48%(n785) low: 39%(n1174)] | vsOURbet[pair: 60%(n155) over: 44%(n204) low: 44%(n229)] | HUbetInto[pair: 39% over: 43% low: 43%]
+Always Folds fold[pair: 56%(n434) over: 40%(n465) low: 30%(n772)] | vsOURbet[pair: 56%(n131) over: 36%(n129) low: 26%(n178)] | HUbetInto[pair: 44% over: 59% low: 66%]
+pocket rockets fold[pair: 71%(n597) over: 54%(n527) low: 40%(n1114)] | vsOURbet[pair: 80%(n159) over: 54%(n156) low: 35%(n270)] | HUbetInto[pair: 31% over: 59% low: 70%]
+TeamBallHog fold[pair: 67%(n479) over: 42%(n466) low: 45%(n791)] | vsOURbet[pair: 61%(n141) over: 30%(n151) low: 40%(n198)] | HUbetInto[pair: 70% over: 84% low: 83%]
+AZ       fold[pair: 71%(n303) over: 54%(n287) low: 46%(n530)] | vsOURbet[pair: 70%(n60) over: 50%(n70) low: 33%(n88)] | HUbetInto[pair: 42% over: 67% low: 73%]
+sandylikesfrog fold[pair: 63%(n486) over: 41%(n421) low: 33%(n786)] | vsOURbet[pair: 59%(n155) over: 35%(n106) low: 28%(n216)] | HUbetInto[pair: 73% over: 87% low: 89%]
+US       fold[pair: 59%(n5416) over: 35%(n5017) low: 33%(n8774)] | vsOURbet[pair:nan%(n0) over:nan%(n0) low:nan%(n0)] | HUbetInto[pair: 71% over: 87% low: 90%]
+TOP      fold[pair: 64%(n3021) over: 46%(n2951) low: 39%(n5167)] | vsOURbet[pair: 64%(n801) over: 42%(n816) low: 35%(n1179)] | HUbetInto[pair: 50% over: 65% low: 69%]
+FIELD    fold[pair: 54%(n46691) over: 38%(n47985) low: 35%(n78208)] | vsOURbet[pair: 55%(n9747) over: 36%(n10679) low: 31%(n14001)] | HUbetInto[pair: 46% over: 57% low: 58%]
+
+== CHIP FLOW: pairwise transfers (starting stacks, all hands) and HU-flop net bb ==
+US vs Amazing humans tables  157 net   -8.5% stack/table | HU-flop hands   491 our net  -0.59bb/hand total     -288bb
+US vs Always Folds   tables  130 net  -12.3% stack/table | HU-flop hands   330 our net  -0.04bb/hand total      -12bb
+US vs pocket rockets tables  160 net  +22.2% stack/table | HU-flop hands   464 our net  +0.59bb/hand total     +273bb
+US vs TeamBallHog    tables  146 net  +15.2% stack/table | HU-flop hands   429 our net  -0.11bb/hand total      -46bb
+US vs AZ             tables  142 net   +7.1% stack/table | HU-flop hands   267 our net  -0.55bb/hand total     -146bb
+US vs sandylikesfrog tables  148 net   +9.4% stack/table | HU-flop hands   462 our net  +0.10bb/hand total      +46bb
+HU-flop bb/hand vs anyone: Amazing humans +1.99(n2660) Always Folds +1.28(n1713) pocket rockets +2.31(n2513) TeamBallHog +1.94(n2240) AZ +2.35(n1544) sandylikesfrog +1.17(n2210) US +1.57(n28830)
+
+== MANIAC EXTRACTION: chips taken from maniacs per table shared (stacks), early(<=15 hands) / late ==
+Amazing humans maniac-tables-pairs     37 early +0.197 late +0.165 stacks per maniac-pairing
+Always Folds   maniac-tables-pairs     37 early +0.092 late +0.000 stacks per maniac-pairing
+pocket rockets maniac-tables-pairs     37 early +0.323 late -0.011 stacks per maniac-pairing
+TeamBallHog    maniac-tables-pairs     37 early -0.055 late +0.029 stacks per maniac-pairing
+AZ             maniac-tables-pairs     38 early +0.236 late +0.308 stacks per maniac-pairing
+sandylikesfrog maniac-tables-pairs     27 early +0.071 late -0.010 stacks per maniac-pairing
+US             maniac-tables-pairs    634 early +0.120 late +0.030 stacks per maniac-pairing
+FIELD          maniac-tables-pairs   4306 early +0.090 late +0.015 stacks per maniac-pairing
+
+== TABLE COMPOSITION: mean points by #maniacs at table ==
+Amazing humans 0m: 23.28(n122) 1m: 18.38(n37)
+Always Folds   0m: 20.71(n98) 1m: 23.94(n33) 2m: 10.00(n2)
+pocket rockets 0m: 18.74(n127) 1m: 23.87(n31) 2m: 36.67(n3)
+TeamBallHog    0m: 19.30(n114) 1m: 23.79(n29) 2m:  7.50(n4)
+AZ             0m: 19.45(n110) 1m: 20.00(n36) 2m: 50.00(n1)
+sandylikesfrog 0m: 20.48(n125) 1m: 15.20(n25) 2m:  0.00(n1)
+US             0m: 19.05(n1910) 1m: 18.30(n547) 2m: 18.57(n42) 3m:  0.00(n1)
+FIELD          0m: 12.49(n15364) 1m: 14.04(n3787) 2m: 15.36(n252) 3m: 20.00(n5)
+
+== SEAT EFFECT (all non-maniac players): mean pts by seat index ==
+s0:12.71 s1:12.35 s2:12.56 s3:13.05 s4:12.91 s5:12.49 s6:13.38 s7:13.20
+US s0:19.76(n330) s1:19.79(n290) s2:18.77(n301) s3:19.00(n290) s4:19.01(n364) s5:17.30(n322) s6:19.69(n292) s7:17.72(n311)

@@ -1,0 +1,21 @@
+== o1: our HU turn/river bets that got CALLED, by caller group: fwd bb per called bet / our showdown-win share
+   nopair    fixed stations  -1.01 win  20% (n 2689) | others  -2.67 win  11% (n 13564)
+   midpair   fixed stations  +7.46 win  37% (n 3162) | others  +1.54 win  22% (n 12751)
+   TP_weak   fixed stations +22.15 win  56% (n  463) | others +12.40 win  42% (n  2070)
+   TP_good   fixed stations +29.42 win  60% (n  835) | others +17.82 win  46% (n  3110)
+   overpair  fixed stations +39.86 win  62% (n  401) | others +32.67 win  54% (n  1902)
+   2pair+    fixed stations +30.93 win  64% (n 5377) | others +21.57 win  51% (n 19464)
+== o2: our HU turn/river bets that got CALLED, by caller group: fwd bb per called bet / our showdown-win share
+   nopair    fixed stations  -0.77 win  11% (n 2685) | others  -1.94 win  11% (n 11335)
+   midpair   fixed stations  +1.40 win  23% (n 2793) | others  +1.18 win  20% (n 11699)
+   TP_weak   fixed stations  +9.76 win  36% (n  353) | others  +7.32 win  34% (n  1490)
+   TP_good   fixed stations +18.45 win  43% (n  591) | others +13.65 win  41% (n  2553)
+   overpair  fixed stations +20.79 win  44% (n  378) | others +30.42 win  53% (n  1686)
+   2pair+    fixed stations +18.22 win  47% (n 3725) | others +21.17 win  49% (n 16627)
+
+bets faced per opponent per table (o2): median 7.4; prior weight w=6 -> after n faced bets the estimate moves n/(n+6) of the way
+   n= 3: 33% of the way from 0.45
+   n= 6: 50% of the way from 0.45
+   n=12: 67% of the way from 0.45
+   n=20: 77% of the way from 0.45
+fixed stations in o2: mean fold-to-bet 44% (prior 45%), bets faced per table 9.5

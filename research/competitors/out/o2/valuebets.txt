@@ -1,0 +1,60 @@
+street HU/MW hand vis | o2: check EV | bet EV (call%) | diff±SE || o1: diff±SE   [bb, forward]
+s2 HU TP_weak  pair bet        chk  +1.23(n  102) bet  -0.43(n  515,87%) diff  -1.66±1.28 || o1  -4.94±1.24
+s2 HU TP_weak  conn bet        chk  +0.01(n   72) bet +10.08(n 1386,59%) diff +10.07±1.14 || o1 +13.01±1.14
+s2 HU TP_good  pair bet        chk  +6.24(n  110) bet  -1.00(n  927,88%) diff  -7.25±2.54 || o1  -4.61±2.11  <== LOSES (o2)  & o1 same sign
+s2 HU TP_good  pair bet<=0.5   chk  +6.24(n  110) bet  -0.93(n  754,91%) diff  -7.17±2.55 || o1  -3.58±2.13  <== LOSES (o2)  & o1 same sign
+s2 HU TP_good  conn bet        chk  +1.89(n  122) bet +15.90(n 2424,54%) diff +14.01±0.86 || o1 +18.80±0.81
+s2 HU overpair conn bet        chk  +1.76(n   86) bet +28.74(n 1543,66%) diff +26.99±2.06 || o1 +27.52±1.75
+s2 HU 2pair+   pair bet        chk  +1.01(n  556) bet +14.02(n 2931,74%) diff +13.00±0.88 || o1 +13.52±0.75
+s2 HU 2pair+   conn bet        chk  +1.50(n  656) bet +16.30(n11068,58%) diff +14.79±0.40 || o1 +14.60±0.76
+s2 HU 2pair+   miss bet        chk  +1.36(n  154) bet +16.39(n 4886,63%) diff +15.03±0.73 || o1 +18.53±0.73
+s2 HU midpair  pair bet        chk  +0.54(n 1578) bet  -2.44(n 2261,89%) diff  -2.98±0.48 || o1  -2.85±0.51  <== LOSES (o2)  & o1 same sign
+s2 HU midpair  pair bet<=0.5   chk  +0.54(n 1578) bet  -1.25(n 1697,92%) diff  -1.80±0.51 || o1  -1.42±0.55  <== LOSES (o2)  & o1 same sign
+s2 HU midpair  pair bet0.5-0.8 chk  +0.54(n 1578) bet  -4.88(n  384,84%) diff  -5.43±0.95 || o1  -8.33±1.16  <== LOSES (o2)  & o1 same sign
+s2 HU midpair  pair bet>0.8    chk  +0.54(n 1578) bet  -8.40(n  180,75%) diff  -8.94±2.66 || o1  -4.47±2.63  <== LOSES (o2)  & o1 same sign
+s2 HU midpair  conn bet        chk  +1.56(n 1902) bet  +4.24(n10254,73%) diff  +2.67±0.26 || o1  +3.52±0.28
+s2 HU midpair  miss bet        chk  +4.71(n  100) bet  +5.22(n 2394,71%) diff  +0.51±1.87 || o1  +6.22±1.06
+s2 HU nopair   pair bet        chk  +0.78(n 2496) bet  -2.20(n 1474,91%) diff  -2.98±0.28 || o1  -3.79±0.40  <== LOSES (o2)  & o1 same sign
+s2 HU nopair   pair bet<=0.5   chk  +0.78(n 2496) bet  -0.92(n  963,94%) diff  -1.70±0.29 || o1  -2.83±0.36  <== LOSES (o2)  & o1 same sign
+s2 HU nopair   pair bet0.5-0.8 chk  +0.78(n 2496) bet  -4.60(n  511,85%) diff  -5.38±0.54 || o1  -5.45±0.87  <== LOSES (o2)  & o1 same sign
+s2 HU nopair   conn bet        chk  +1.45(n 8474) bet  +2.37(n 9581,76%) diff  +0.93±0.17 || o1  -0.00±0.18
+s2 HU nopair   miss bet        chk  +1.14(n 2824) bet  +1.72(n 3932,76%) diff  +0.58±0.27 || o1  -0.64±0.29
+s2 MW TP_good  pair bet        chk  +2.24(n  188) bet  +5.58(n  139,90%) diff  +3.34±2.24 || o1  +5.13±2.53
+s2 MW TP_good  conn bet        chk  +6.76(n   70) bet +17.71(n  243,57%) diff +10.95±3.01 || o1 +16.92±2.94
+s2 MW overpair pair bet        chk  +5.50(n  210) bet  +8.56(n   79,91%) diff  +3.06±5.07 || o1  +6.05±5.43
+s2 MW overpair conn bet        chk  +4.24(n  166) bet +29.94(n  238,82%) diff +25.69±3.66 || o1 +23.59±4.37
+s2 MW 2pair+   pair bet        chk  +3.17(n  318) bet +20.12(n  409,77%) diff +16.94±2.59 || o1 +17.83±2.73
+s2 MW 2pair+   conn bet        chk  +4.03(n  580) bet +18.01(n  956,67%) diff +13.98±1.63 || o1 +22.03±1.60
+s2 MW 2pair+   miss bet        chk  +1.83(n  108) bet +18.04(n  148,74%) diff +16.21±3.30 || o1 +20.28±4.37
+s2 MW midpair  pair bet        chk  +1.59(n 1210) bet  -0.46(n  132,77%) diff  -2.05±1.54 || o1  +1.86±2.26
+s2 MW midpair  conn bet        chk  +1.58(n 1408) bet  +8.31(n  568,82%) diff  +6.73±1.27 || o1  +5.12±1.34
+s2 MW nopair   conn bet        chk  +1.95(n 4102) bet  +3.79(n  154,68%) diff  +1.84±1.33 || o1  +1.16±1.55
+s3 HU TP_weak  pair bet        chk  +2.51(n  226) bet  +2.94(n  134,81%) diff  +0.43±1.99 || o1  -3.34±2.05
+s3 HU TP_weak  conn bet        chk  +1.44(n   74) bet +21.78(n  489,61%) diff +20.35±1.71 || o1 +19.99±2.83
+s3 HU TP_good  pair bet        chk  +4.45(n  430) bet  +6.34(n  288,79%) diff  +1.89±1.41 || o1  -1.43±1.64
+s3 HU TP_good  conn bet        chk  +8.30(n  124) bet +31.45(n  896,51%) diff +23.16±1.96 || o1 +19.65±2.73
+s3 HU overpair pair bet        chk +10.22(n  254) bet +20.16(n   96,77%) diff  +9.94±4.00 || o1  +7.73±5.22
+s3 HU overpair conn bet        chk +12.21(n   98) bet +53.71(n  344,61%) diff +41.51±3.90 || o1 +43.33±5.01
+s3 HU 2pair+   pair bet        chk  +1.74(n 1292) bet +25.87(n 2527,66%) diff +24.13±0.88 || o1 +19.99±0.99
+s3 HU 2pair+   conn bet        chk  +6.52(n 2406) bet +26.83(n 9619,59%) diff +20.31±0.52 || o1 +21.12±0.55
+s3 HU 2pair+   miss bet        chk  +5.11(n  296) bet +25.66(n 1944,66%) diff +20.54±1.25 || o1 +21.37±1.49
+s3 HU midpair  pair bet        chk  +2.22(n 2444) bet  +6.23(n  498,76%) diff  +4.00±1.22 || o1  -1.32±0.74
+s3 HU midpair  conn bet        chk  +3.67(n 3386) bet +11.27(n 3974,67%) diff  +7.61±0.45 || o1  +7.07±0.48
+s3 HU midpair  miss bet        chk  +2.69(n  302) bet  +9.13(n  313,73%) diff  +6.45±1.50 || o1  +8.62±1.47
+s3 HU nopair   conn bet        chk  +1.63(n 9580) bet  +2.47(n 2930,69%) diff  +0.84±0.30 || o1  -0.80±0.26
+s3 HU nopair   miss bet        chk  +1.61(n 1712) bet  +3.23(n  545,70%) diff  +1.62±0.74 || o1  -0.83±0.62
+s3 MW 2pair+   pair bet        chk  +3.85(n  428) bet +23.89(n  279,64%) diff +20.04±2.95 || o1 +24.83±3.28
+s3 MW 2pair+   conn bet        chk  +5.49(n  628) bet +23.49(n  599,57%) diff +18.00±2.01 || o1 +21.40±1.97
+s3 MW midpair  conn bet        chk  +4.00(n  552) bet +10.31(n  177,66%) diff  +6.31±2.12 || o1  +8.66±2.74
+s3 MW nopair   conn bet        chk  +0.88(n 2086) bet  +1.87(n   64,50%) diff  +1.00±1.15 || o1  +0.40±0.95
+
+FLAGGED cells (bet worse than check by >2SE in o2), sorted by bb/table cost:
+  2|HU|midpair|pair            bet        cost -0.334 bb/table  diff -2.98±0.48 n2261  o1 diff -2.85
+  2|HU|TP_good|pair            bet        cost -0.333 bb/table  diff -7.25±2.54 n927  o1 diff -4.61
+  2|HU|TP_good|pair            bet<=0.5   cost -0.268 bb/table  diff -7.17±2.55 n754  o1 diff -3.58
+  2|HU|nopair|pair             bet        cost -0.217 bb/table  diff -2.98±0.28 n1474  o1 diff -3.79
+  2|HU|midpair|pair            bet<=0.5   cost -0.151 bb/table  diff -1.80±0.51 n1697  o1 diff -1.42
+  2|HU|nopair|pair             bet0.5-0.8 cost -0.136 bb/table  diff -5.38±0.54 n511  o1 diff -5.45
+  2|HU|midpair|pair            bet0.5-0.8 cost -0.103 bb/table  diff -5.43±0.95 n384  o1 diff -8.33
+  2|HU|nopair|pair             bet<=0.5   cost -0.081 bb/table  diff -1.70±0.29 n963  o1 diff -2.83
+  2|HU|midpair|pair            bet>0.8    cost -0.080 bb/table  diff -8.94±2.66 n180  o1 diff -4.47

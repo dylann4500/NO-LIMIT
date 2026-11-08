@@ -1,0 +1,35 @@
+our non-jam 3-bet facing a 4-bet: predicted ICM pts of a called 5-bet jam vs folding (no fold equity -> conservative), by our band and action taken
+== o1
+   top5   we fold  eff  0-40 bb n= 226  jam-vs-fold -0.01 pts  >0 in  55%  equity 0.51
+   top5   we fold  eff 40-999bb n=1132  jam-vs-fold +0.23 pts  >0 in  56%  equity 0.53
+   top5   we call  eff  0-40 bb n= 384  jam-vs-fold +2.83 pts  >0 in  79%  equity 0.59
+   top5   we call  eff 40-999bb n= 292  jam-vs-fold +3.17 pts  >0 in  77%  equity 0.65
+   top5   we raise eff  0-40 bb n= 138  jam-vs-fold +5.02 pts  >0 in  91%  equity 0.72
+   top5   we raise eff 40-999bb n= 406  jam-vs-fold +6.28 pts  >0 in  97%  equity 0.79
+   top10  we fold  eff  0-40 bb n=  48  jam-vs-fold -0.74 pts  >0 in  58%  equity 0.52
+   top10  we fold  eff 40-999bb n= 198  jam-vs-fold -1.05 pts  >0 in  52%  equity 0.51
+   10-25  we fold  eff  0-40 bb n=  71  jam-vs-fold +0.23 pts  >0 in  70%  equity 0.57
+   10-25  we fold  eff 40-999bb n= 293  jam-vs-fold +0.11 pts  >0 in  60%  equity 0.55
+   10-25  we call  eff  0-40 bb n=  24  jam-vs-fold +1.98 pts  >0 in  88%  equity 0.54
+== o2
+   top5   we fold  eff  0-40 bb n= 196  jam-vs-fold -0.56 pts  >0 in  49%  equity 0.47
+   top5   we fold  eff 40-999bb n= 931  jam-vs-fold -0.80 pts  >0 in  44%  equity 0.47
+   top5   we call  eff  0-40 bb n= 403  jam-vs-fold +2.74 pts  >0 in  75%  equity 0.57
+   top5   we call  eff 40-999bb n= 259  jam-vs-fold +2.38 pts  >0 in  70%  equity 0.60
+   top5   we raise eff  0-40 bb n= 152  jam-vs-fold +5.14 pts  >0 in  87%  equity 0.70
+   top5   we raise eff 40-999bb n= 267  jam-vs-fold +6.32 pts  >0 in  97%  equity 0.77
+   top10  we fold  eff  0-40 bb n=  21  jam-vs-fold -3.31 pts  >0 in  52%  equity 0.43
+   top10  we fold  eff 40-999bb n=  92  jam-vs-fold -3.43 pts  >0 in  13%  equity 0.35
+   10-25  we fold  eff  0-40 bb n=  34  jam-vs-fold +1.46 pts  >0 in  85%  equity 0.54
+   10-25  we fold  eff 40-999bb n= 117  jam-vs-fold -1.48 pts  >0 in  32%  equity 0.45
+== o3
+   top5   we fold  eff  0-40 bb n= 200  jam-vs-fold -2.07 pts  >0 in  40%  equity 0.41
+   top5   we fold  eff 40-999bb n= 947  jam-vs-fold -1.18 pts  >0 in  38%  equity 0.46
+   top5   we call  eff  0-40 bb n= 447  jam-vs-fold +2.72 pts  >0 in  77%  equity 0.57
+   top5   we call  eff 40-999bb n= 295  jam-vs-fold +2.50 pts  >0 in  73%  equity 0.61
+   top5   we raise eff  0-40 bb n= 134  jam-vs-fold +4.04 pts  >0 in  86%  equity 0.65
+   top5   we raise eff 40-999bb n= 248  jam-vs-fold +6.12 pts  >0 in  98%  equity 0.77
+   top10  we fold  eff  0-40 bb n=  27  jam-vs-fold -4.54 pts  >0 in  22%  equity 0.38
+   top10  we fold  eff 40-999bb n= 100  jam-vs-fold -4.45 pts  >0 in  14%  equity 0.35
+   10-25  we fold  eff  0-40 bb n=  28  jam-vs-fold -1.33 pts  >0 in  46%  equity 0.46
+   10-25  we fold  eff 40-999bb n= 124  jam-vs-fold -2.39 pts  >0 in  19%  equity 0.41

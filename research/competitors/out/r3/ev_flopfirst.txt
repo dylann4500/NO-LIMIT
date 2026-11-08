@@ -1,0 +1,46 @@
+our flop first-in: bet% | forward bb bet vs check, by #opps x villain-visible connect x our hand
+opps 1  vis pair us ALL      bet%  72%  bet  +0.22(n 6529)  check  +0.60(n 2543)  diff  -0.38
+opps 1  vis pair us air      bet%  51%  bet  -1.61(n 1631)  check  +0.73(n 1570)  diff  -2.33
+opps 1  vis pair us fdraw    bet%  76%  bet  +0.87(n  363)  check  -0.11(n  116)  diff  +0.99
+opps 1  vis pair us pair_mid bet%  70%  bet  -3.66(n 1734)  check  +0.55(n  753)  diff  -4.21
+opps 1  vis pair us pair_top bet%  99%  bet  -0.40(n 1760)  check  -0.22(n   24)  diff  -0.18
+opps 1  vis pair us strong   bet%  93%  bet +10.37(n 1041)  check  -0.02(n   80)  diff +10.39
+opps 1  vis draw us ALL      bet%  94%  bet  +4.73(n30040)  check  +0.39(n 1903)  diff  +4.33
+opps 1  vis draw us air      bet%  84%  bet  +1.19(n 8608)  check  +0.45(n 1606)  diff  +0.74
+opps 1  vis draw us fdraw    bet%  94%  bet  +4.41(n 1454)  check  -0.15(n   96)  diff  +4.56
+opps 1  vis draw us pair_mid bet%  98%  bet  +1.84(n 8333)  check  +0.08(n  160)  diff  +1.76
+opps 1  vis draw us pair_top bet%  99%  bet  +9.39(n 6384)  check  +0.87(n   34)  diff  +8.51
+opps 1  vis draw us strong   bet% 100%  bet  +9.51(n 5261)  check  -0.60(n    7)  diff +10.12
+opps 1  vis miss us ALL      bet%  95%  bet  +5.58(n26297)  check  +0.97(n 1340)  diff  +4.61
+opps 1  vis miss us air      bet%  87%  bet  +1.35(n 8471)  check  +0.96(n 1313)  diff  +0.38
+opps 1  vis miss us fdraw    bet%  98%  bet  +4.82(n 1115)  check  +1.34(n   17)  diff  +3.49
+opps 1  vis miss us pair_mid bet% 100%  bet  +2.66(n 5953)  check      -         diff  +2.66
+opps 1  vis miss us pair_top bet% 100%  bet +11.54(n 4852)  check      -         diff +11.54
+opps 1  vis miss us strong   bet% 100%  bet  +9.84(n 5906)  check  +1.02(n   10)  diff  +8.82
+opps 2  vis pair us ALL      bet%  44%  bet  +5.89(n 1327)  check  +1.33(n 1687)  diff  +4.56
+opps 2  vis pair us air      bet%   6%  bet  -1.01(n   55)  check  +1.11(n  834)  diff  -2.12
+opps 2  vis pair us fdraw    bet%  11%  bet  -5.18(n   14)  check  +8.02(n  108)  diff -13.21
+opps 2  vis pair us pair_mid bet%  33%  bet  -4.22(n  278)  check  +0.73(n  554)  diff  -4.95
+opps 2  vis pair us pair_top bet%  85%  bet  +3.41(n  634)  check  +0.62(n  115)  diff  +2.79
+opps 2  vis pair us strong   bet%  82%  bet +20.09(n  346)  check  -0.36(n   76)  diff +20.45
+opps 2  vis draw us ALL      bet%  61%  bet +11.19(n 4061)  check  +1.75(n 2599)  diff  +9.44
+opps 2  vis draw us air      bet%  12%  bet  +0.21(n  233)  check  +1.65(n 1678)  diff  -1.44
+opps 2  vis draw us fdraw    bet%  58%  bet  +5.92(n  163)  check  +8.07(n  118)  diff  -2.15
+opps 2  vis draw us pair_mid bet%  63%  bet  +3.88(n 1068)  check  +0.79(n  617)  diff  +3.09
+opps 2  vis draw us pair_top bet%  92%  bet +15.02(n 1493)  check  +2.51(n  126)  diff +12.51
+opps 2  vis draw us strong   bet%  95%  bet +16.18(n 1104)  check  +0.18(n   60)  diff +16.01
+opps 2  vis miss us ALL      bet%  69%  bet +11.99(n 1560)  check  +1.02(n  708)  diff +10.97
+opps 2  vis miss us air      bet%  18%  bet  +0.12(n  126)  check  +1.39(n  570)  diff  -1.27
+opps 2  vis miss us pair_mid bet%  82%  bet  +3.25(n  332)  check  -1.12(n   75)  diff  +4.37
+opps 2  vis miss us pair_top bet%  99%  bet +14.84(n  407)  check  +6.40(n    4)  diff  +8.44
+opps 2  vis miss us strong   bet%  94%  bet +16.79(n  644)  check  -0.94(n   42)  diff +17.73
+opps 3+ vis pair us ALL      bet%  25%  bet +14.70(n  131)  check  +2.01(n  399)  diff +12.69
+opps 3+ vis pair us air      bet%   0%  bet      -         check  +1.92(n  145)  diff  -1.92
+opps 3+ vis pair us pair_mid bet%   7%  bet  +7.89(n   10)  check  +3.39(n  135)  diff  +4.50
+opps 3+ vis pair us pair_top bet%  43%  bet  +1.58(n   62)  check  -2.43(n   82)  diff  +4.01
+opps 3+ vis draw us ALL      bet%  40%  bet +19.86(n  298)  check  +3.19(n  441)  diff +16.66
+opps 3+ vis draw us air      bet%   0%  bet      -         check  +1.66(n  188)  diff  -1.66
+opps 3+ vis draw us pair_mid bet%  23%  bet  +2.39(n   44)  check  +3.00(n  144)  diff  -0.62
+opps 3+ vis draw us pair_top bet%  74%  bet +22.32(n  136)  check  +6.79(n   48)  diff +15.53
+opps 3+ vis draw us strong   bet%  78%  bet +24.32(n  115)  check  +2.58(n   32)  diff +21.73
+opps 3+ vis miss us ALL      bet%  45%  bet +28.22(n   62)  check  -0.01(n   77)  diff +28.23

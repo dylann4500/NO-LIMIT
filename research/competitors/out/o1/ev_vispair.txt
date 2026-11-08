@@ -1,0 +1,19 @@
+opp visible card pairs board, HU. first-in bet vs check | facing their bet: fold% call raise
+s1 air       bet  55% bet  -1.25bb(n3077) chk  +0.44bb(n2481) | fold  92% call  +0.65bb(n466) raise    -   
+s1 fdraw     bet  75% bet  +1.71bb(n617) chk  +3.71bb(n210) | fold  25% call  +2.95bb(n590) raise    -   
+s1 pair<vis  bet  55% bet  -2.24bb(n1457) chk  +0.38bb(n1201) | fold  96% call  +2.24bb(n131) raise    -   
+s1 pair=vis  bet  89% bet  -4.01bb(n1003) chk  +0.04bb(n122) | fold  35% call  -6.87bb(n684) raise  -3.48bb(n20)
+s1 pair>vis  bet 100% bet  -2.42bb(n3912) chk    -    | fold   7% call  -7.05bb(n3638) raise  -2.76bb(n130)
+s1 strong    bet  93% bet  +7.15bb(n1970) chk  +0.08bb(n139) | fold  26% call  +3.33bb(n685) raise +23.21bb(n866)
+s2 air       bet  53% bet  -3.34bb(n1135) chk  +0.55bb(n1019) | fold  98% call  +0.40bb(n29) raise    -   
+s2 fdraw     bet  46% bet  -2.54bb(n320) chk  +0.83bb(n379) | fold  87% call  +0.83bb(n84) raise    -   
+s2 pair<vis  bet  47% bet  -5.76bb(n727) chk  +0.42bb(n815) | fold  98% call  -1.97bb(n30) raise    -   
+s2 pair=vis  bet  78% bet  -3.48bb(n620) chk  +0.75bb(n172) | fold  58% call  -2.90bb(n298) raise -54.27bb(n1)
+s2 pair>vis  bet  96% bet  +0.38bb(n3051) chk  +4.70bb(n123) | fold  41% call  -2.35bb(n1906) raise -16.71bb(n40)
+s2 strong    bet  92% bet +13.56bb(n3021) chk  +0.04bb(n276) | fold  32% call  +8.45bb(n1209) raise +36.80bb(n608)
+s3 air       bet  52% bet  -3.50bb(n767) chk  +0.06bb(n699) | fold  99% call  -6.43bb(n4) raise    -   
+s3 fdraw     bet   0% bet    -    chk    -    | fold   0% call    -    raise    -   
+s3 pair<vis  bet  49% bet  -4.91bb(n400) chk  +0.13bb(n416) | fold  99% call  +1.66bb(n3) raise    -   
+s3 pair=vis  bet  53% bet  +1.73bb(n198) chk  +3.13bb(n179) | fold  83% call  +5.80bb(n45) raise    -   
+s3 pair>vis  bet  57% bet  +6.82bb(n960) chk  +7.10bb(n738) | fold  76% call  +2.46bb(n341) raise    -   
+s3 strong    bet  88% bet +23.06bb(n3013) chk  +3.07bb(n416) | fold  56% call +22.40bb(n782) raise +52.87bb(n166)

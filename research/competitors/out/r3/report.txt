@@ -1,0 +1,87 @@
+tables=10393 teams=123 maniacs=3: ['Affordance', 'Team 115', 'Team 123']
+
+== POINTS (95% CI) and places ==
+  1 TeamBallHog    22.22±1.76 n=  600 1st  33% 2nd  11% 3rd  12%
+  2 Team 72        21.70±1.72 n=  575 1st  30% 2nd  12% 3rd  16%
+  3 Team 82        20.54±1.64 n=  534 1st  22% 2nd  19% 3rd  19%
+  4 Always Folds   20.48±1.67 n=  538 1st  23% 2nd  20% 3rd  16%
+  5 AZ             20.36±1.72 n=  603 1st  29% 2nd  12% 3rd  12%
+  6 2 Curry        19.95±1.71 n=  612 1st  29% 2nd  10% 3rd  12%
+  7 US             19.02±0.43 n=10000 1st  29% 2nd  10% 3rd   9%
+
+== PREFLOP/POSTFLOP STYLE ==
+                       VPIP       PFR     open%  openJam%     3bet% 3betJam/3b    cbetHU    cbetMW   barrelT   barrelR foldToBet foldToCbet raiseVsBet
+TeamBallHog           39.1%     31.4%     52.4%     11.4%      6.4%     80.4%     86.9%     77.8%     83.3%     84.5%     52.7%     66.4%      9.5%
+Team 72               33.5%     26.6%     46.3%      3.0%      3.0%     23.2%     73.9%     54.0%     76.0%     76.6%     56.7%     62.9%      7.1%
+Team 82               21.5%     19.6%     33.5%      8.2%      2.9%     26.4%     71.5%     33.3%     88.5%     86.7%     37.1%     36.5%     11.2%
+Always Folds          34.0%     27.4%     46.9%      8.7%      4.0%     53.7%     74.0%     41.0%     65.6%     55.9%     49.2%     47.1%      8.8%
+AZ                    35.0%     31.1%     47.3%      9.8%     12.7%     79.2%     81.2%     42.7%     91.2%     78.0%     53.7%     61.1%      3.3%
+2 Curry               48.2%     46.3%     63.1%      9.5%     30.5%      3.7%     99.2%     64.5%     50.3%     75.2%     57.7%     64.1%      6.3%
+US                    29.4%     22.8%     32.0%      6.4%     13.3%     76.9%     97.9%     62.2%     89.6%     79.3%     42.3%     38.6%     11.8%
+TOP6 avg              35.2%     30.4%     48.3%      8.5%      9.9%     33.5%     84.3%     55.9%     68.4%     78.0%     52.3%     58.0%      7.7%
+field(non-maniac)     26.2%     18.2%     28.5%      5.0%      6.4%     39.6%     68.8%     45.3%     77.9%     81.9%     42.7%     47.9%     10.2%
+
+== SIZES: open raise-to (bb) median [p25,p75], 3bet x open, bet/pot by street (median) ==
+TeamBallHog    open  2.9 [ 2.9, 2.9] n=12292 | 8-6  2.9 5-4  2.9 3-2  2.9 | 3bx  3.1 | bet/pot F 0.66 T 0.33 R 0.33 | openJam eff bb med 22.8
+Team 72        open  2.6 [ 2.2, 2.6] n=12240 | 8-6  2.6 5-4  2.6 3-2  2.6 | 3bx  2.8 | bet/pot F 0.75 T 0.75 R 0.75 | openJam eff bb med 18.9
+Team 82        open  2.3 [ 2.0, 2.3] n= 7408 | 8-6  2.3 5-4  2.3 3-2  2.0 | 3bx  3.8 | bet/pot F 0.58 T 0.57 R 0.60 | openJam eff bb med 10.3
+Always Folds   open  2.5 [ 2.5, 3.0] n=10553 | 8-6  2.5 5-4  2.5 3-2  3.0 | 3bx  3.6 | bet/pot F 0.72 T 0.75 R 0.85 | openJam eff bb med 11.4
+AZ             open  2.5 [ 2.5, 2.5] n= 9706 | 8-6  2.5 5-4  2.5 3-2  2.5 | 3bx  3.0 | bet/pot F 0.55 T 0.78 R 0.71 | openJam eff bb med 29.0
+2 Curry        open  2.0 [ 2.0, 2.0] n=15501 | 8-6  2.0 5-4  2.0 3-2  2.0 | 3bx  3.2 | bet/pot F 0.50 T 0.66 R 0.66 | openJam eff bb med 14.0
+US             open  2.2 [ 2.1, 2.5] n=117463 | 8-6  2.2 5-4  2.2 3-2  2.1 | 3bx  3.5 | bet/pot F 0.75 T 0.33 R 0.33 | openJam eff bb med 25.0
+FIELD          open  2.5 [ 2.2, 2.5] n=736290 | 8-6  2.5 5-4  2.5 3-2  2.5 | 3bx  3.0 | bet/pot F 0.60 T 0.60 R 0.58 | openJam eff bb med 11.3
+
+== BY PLAYERS LEFT: VPIP / openJam% of unopened / callJam% ==
+TeamBallHog 8-6: vpip  31% oJam   3% oRaise  41% 3b   3% cJam  12%(n1769) | 5-4: vpip  44% oJam  11% oRaise  46% 3b   8% cJam  12%(n1529) | 3-2: vpip  52% oJam  33% oRaise  34% 3b  16% cJam  21%(n1534)
+Team 72  8-6: vpip  25% oJam   0% oRaise  33% 3b   2% cJam  18%(n1617) | 5-4: vpip  37% oJam   3% oRaise  48% 3b   4% cJam  25%(n1463) | 3-2: vpip  52% oJam  10% oRaise  63% 3b   5% cJam  42%(n1181)
+Team 82  8-6: vpip  16% oJam   1% oRaise  23% 3b   3% cJam  12%(n1589) | 5-4: vpip  22% oJam   8% oRaise  27% 3b   3% cJam   9%(n1738) | 3-2: vpip  35% oJam  26% oRaise  30% 3b   2% cJam  15%(n1664)
+Always Folds 8-6: vpip  27% oJam   1% oRaise  35% 3b   3% cJam   8%(n1636) | 5-4: vpip  36% oJam   6% oRaise  41% 3b   4% cJam   5%(n1654) | 3-2: vpip  50% oJam  30% oRaise  42% 3b   6% cJam   9%(n1779)
+AZ       8-6: vpip  24% oJam   2% oRaise  31% 3b   7% cJam  22%(n1463) | 5-4: vpip  41% oJam  13% oRaise  42% 3b  14% cJam  25%(n1280) | 3-2: vpip  59% oJam  29% oRaise  51% 3b  33% cJam  44%(n1013)
+2 Curry  8-6: vpip  39% oJam   2% oRaise  46% 3b  29% cJam  12%(n2171) | 5-4: vpip  54% oJam   9% oRaise  59% 3b  34% cJam  17%(n1959) | 3-2: vpip  64% oJam  29% oRaise  65% 3b  32% cJam  14%(n2412)
+US       8-6: vpip  23% oJam   1% oRaise  24% 3b   8% cJam  17%(n24606) | 5-4: vpip  33% oJam   6% oRaise  28% 3b  18% cJam  23%(n17863) | 3-2: vpip  42% oJam  23% oRaise  27% 3b  28% cJam  28%(n16992)
+TOP      8-6: vpip  27% oJam   2% oRaise  35% 3b   8% cJam  14%(n10245) | 5-4: vpip  38% oJam   8% oRaise  44% 3b  11% cJam  15%(n9623) | 3-2: vpip  52% oJam  26% oRaise  47% 3b  16% cJam  21%(n9583)
+FIELD    8-6: vpip  23% oJam   1% oRaise  21% 3b   6% cJam  14%(n198548) | 5-4: vpip  27% oJam   5% oRaise  24% 3b   7% cJam  13%(n158320) | 3-2: vpip  36% oJam  16% oRaise  29% 3b  10% cJam  17%(n139054)
+
+== VISIBLE CARD: fold-to-bet by BETTOR's visible class (pair/over/low); HU first-in bet rate by OPP's visible class ==
+TeamBallHog fold[pair: 73%(n1432) over: 49%(n1976) low: 46%(n3084)] | vsOURbet[pair: 81%(n192) over: 40%(n581) low: 40%(n1046)] | HUbetInto[pair: 62% over: 82% low: 81%]
+Team 72  fold[pair: 77%(n1262) over: 62%(n1831) low: 44%(n2881)] | vsOURbet[pair: 83%(n158) over: 62%(n482) low: 38%(n984)] | HUbetInto[pair: 44% over: 66% low: 78%]
+Team 82  fold[pair: 60%(n873) over: 34%(n964) low: 27%(n1698)] | vsOURbet[pair: 73%(n103) over: 27%(n301) low: 18%(n596)] | HUbetInto[pair: 49% over: 61% low: 69%]
+Always Folds fold[pair: 67%(n1545) over: 46%(n2307) low: 44%(n3450)] | vsOURbet[pair: 63%(n225) over: 41%(n745) low: 39%(n1122)] | HUbetInto[pair: 28% over: 44% low: 51%]
+AZ       fold[pair: 78%(n1012) over: 52%(n1289) low: 44%(n2221)] | vsOURbet[pair: 75%(n147) over: 44%(n437) low: 31%(n760)] | HUbetInto[pair: 50% over: 67% low: 75%]
+2 Curry  fold[pair: 63%(n1611) over: 56%(n1986) low: 56%(n3901)] | vsOURbet[pair: 60%(n294) over: 55%(n624) low: 52%(n1595)] | HUbetInto[pair: 67% over: 75% low: 71%]
+US       fold[pair: 61%(n20701) over: 36%(n19583) low: 33%(n30040)] | vsOURbet[pair:nan%(n0) over:nan%(n0) low:nan%(n0)] | HUbetInto[pair: 71% over: 87% low: 90%]
+TOP      fold[pair: 70%(n7735) over: 51%(n10353) low: 45%(n17235)] | vsOURbet[pair: 71%(n1119) over: 46%(n3170) low: 40%(n6103)] | HUbetInto[pair: 50% over: 66% low: 71%]
+FIELD    fold[pair: 56%(n163077) over: 40%(n195428) low: 37%(n305787)] | vsOURbet[pair: 54%(n18096) over: 37%(n45831) low: 32%(n75031)] | HUbetInto[pair: 44% over: 54% low: 55%]
+
+== CHIP FLOW: pairwise transfers (starting stacks, all hands) and HU-flop net bb ==
+US vs TeamBallHog    tables  591 net  -11.4% stack/table | HU-flop hands  1711 our net  -0.84bb/hand total    -1440bb
+US vs Team 72        tables  570 net   -3.3% stack/table | HU-flop hands  1524 our net  -1.00bb/hand total    -1518bb
+US vs Team 82        tables  525 net  +12.3% stack/table | HU-flop hands   965 our net  -1.64bb/hand total    -1583bb
+US vs Always Folds   tables  530 net  +30.4% stack/table | HU-flop hands  1592 our net  +0.37bb/hand total     +594bb
+US vs AZ             tables  588 net   +5.9% stack/table | HU-flop hands  1290 our net  -0.05bb/hand total      -59bb
+US vs 2 Curry        tables  599 net  +15.3% stack/table | HU-flop hands  2185 our net  +0.58bb/hand total    +1261bb
+HU-flop bb/hand vs anyone: TeamBallHog +1.93(n9631) Team 72 +2.10(n8352) Team 82 +3.69(n4931) Always Folds +1.64(n8254) AZ +1.39(n7135) 2 Curry +1.24(n9765) US +1.70(n115176)
+
+== MANIAC EXTRACTION: chips taken from maniacs per table shared (stacks), early(<=15 hands) / late ==
+TeamBallHog    maniac-tables-pairs     89 early +0.216 late +0.104 stacks per maniac-pairing
+Team 72        maniac-tables-pairs     69 early +0.149 late -0.050 stacks per maniac-pairing
+Team 82        maniac-tables-pairs     80 early +0.208 late +0.034 stacks per maniac-pairing
+Always Folds   maniac-tables-pairs     84 early +0.123 late +0.026 stacks per maniac-pairing
+AZ             maniac-tables-pairs     99 early +0.157 late +0.040 stacks per maniac-pairing
+2 Curry        maniac-tables-pairs    101 early +0.105 late +0.077 stacks per maniac-pairing
+US             maniac-tables-pairs   1683 early +0.156 late +0.053 stacks per maniac-pairing
+FIELD          maniac-tables-pairs  11614 early +0.108 late +0.024 stacks per maniac-pairing
+
+== TABLE COMPOSITION: mean points by #maniacs at table ==
+TeamBallHog    0m: 22.41(n514) 1m: 21.81(n83) 2m:  0.00(n3)
+Team 72        0m: 21.28(n506) 1m: 24.78(n69)
+Team 82        0m: 20.78(n462) 1m: 17.19(n64) 2m: 33.75(n8)
+Always Folds   0m: 20.67(n462) 1m: 18.84(n69) 2m: 23.33(n6) 3m: 30.00(n1)
+AZ             0m: 19.59(n509) 1m: 25.06(n89) 2m: 16.00(n5)
+2 Curry        0m: 19.52(n516) 1m: 22.42(n91) 2m: 20.00(n5)
+US             0m: 18.86(n8410) 1m: 19.73(n1499) 2m: 22.70(n89) 3m: 10.00(n2)
+FIELD          0m: 12.52(n67147) 1m: 14.14(n10516) 2m: 16.14(n534) 3m: 20.00(n10)
+
+== SEAT EFFECT (all non-maniac players): mean pts by seat index ==
+s0:12.82 s1:12.78 s2:12.54 s3:12.57 s4:12.87 s5:12.91 s6:12.75 s7:12.87
+US s0:18.65(n1248) s1:19.39(n1249) s2:18.50(n1259) s3:17.74(n1209) s4:19.47(n1248) s5:19.92(n1289) s6:18.95(n1253) s7:19.49(n1245)

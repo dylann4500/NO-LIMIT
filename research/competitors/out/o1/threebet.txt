@@ -1,0 +1,36 @@
+##### o1: facing ONE non-jam open, no cold callers. fwd bb per decision (fold = 0); pts = whole-hand points
+  2 Curry         n=12617 fold  60%  +0.00±0.00 -0.03p | call   2%  +1.00±1.30 +0.05p | 3bet  38%  +2.06±0.18 +0.44p | jam   1%  +2.35±0.56 +0.77p
+                  opener vs its 3bet: fold  79% call  11% 4bet  11% | its reply to 4bet: fold  80% call  17% 5bet   2% (n 681)
+  Lemonade        n=14446 fold  68%  +0.00±0.00 +0.00p | call   8%  +3.76±0.57 +0.50p | 3bet   1%  +3.76±1.80 +0.38p | jam  22%  +2.28±0.20 +0.30p
+                  opener vs its 3bet: fold  62% call  21% 4bet  17% | its reply to 4bet: fold  62% call   8% 5bet  31% (n 26)
+  sandylikesfrogs n=13205 fold  67%  +0.00±0.00 -0.00p | call  16%  +2.49±0.44 +0.14p | 3bet   6%  +3.29±0.60 +0.49p | jam  11%  +2.24±0.21 +0.38p
+                  opener vs its 3bet: fold  63% call  23% 4bet  14% | its reply to 4bet: fold  12% call  74% 5bet  14% (n 127)
+  AZ              n=14115 fold  78%  +0.00±0.00 -0.01p | call   5%  +2.74±0.59 +0.16p | 3bet   3%  +7.24±1.46 +0.78p | jam  14%  +1.94±0.19 +0.40p
+                  opener vs its 3bet: fold  71% call  19% 4bet  10% | its reply to 4bet: fold  11% call  26% 5bet  62% (n 53)
+  TeamBallHog     n=14534 fold  78%  +0.00±0.00 -0.00p | call  14%  +2.59±0.33 +0.28p | 3bet   1%  +8.67±1.52 +1.52p | jam   7%  +2.49±0.22 +0.55p
+                  opener vs its 3bet: fold  74% call  14% 4bet  12% | its reply to 4bet: fold   6% call  42% 5bet  52% (n 31)
+  Team 72         n=14036 fold  81%  +0.00±0.00 -0.03p | call  16%  +1.77±0.31 +0.11p | 3bet   2%  +5.27±1.18 +0.67p | jam   1%  +3.66±0.56 +1.03p
+                  opener vs its 3bet: fold  76% call  13% 4bet  10% | its reply to 4bet: fold  10% call  54% 5bet  37% (n 41)
+  US              n=226826 fold  70%  +0.00±0.00 -0.01p | call  12%  +1.69±0.12 -0.03p | 3bet   4%  +5.65±0.28 +0.77p | jam  15%  +2.46±0.04 +0.61p
+                  opener vs its 3bet: fold  68% call  18% 4bet  14% | its reply to 4bet: fold  62% call  25% 5bet  13% (n 1502)
+  2 Curry 3bet vs fold by players alive / opener pos / IP:  [3bet% , 3bet fwd bb]
+     8-6 open EP  IP  n=3725 3bet  27% ->  +0.36±0.57  call   1% ->  -1.72±6.31
+     8-6 open CO  IP  n=1178 3bet  35% ->  +2.03±0.81  call   0% ->    n<20       
+     8-6 open BTN OOP n=1061 3bet  35% ->  +2.30±0.57  call   0% ->    n<20       
+     8-6 open SB  IP  n= 770 3bet  34% ->  +3.70±0.75  call   6% ->  +1.46±0.84
+     5-4 open EP  IP  n= 573 3bet  32% ->  +2.64±0.62  call   1% ->    n<20       
+     5-4 open CO  IP  n=1105 3bet  41% ->  +1.52±0.43  call   1% ->    n<20       
+     5-4 open BTN OOP n=1053 3bet  42% ->  +2.58±0.43  call   1% ->    n<20       
+     5-4 open SB  IP  n= 729 3bet  42% ->  +2.67±0.43  call   7% ->  +2.44±1.46
+     3-2 open BTN OOP n= 826 3bet  53% ->  +2.29±0.51  call   1% ->    n<20       
+     3-2 open SB  IP  n= 457 3bet  53% ->  +3.06±0.45  call   6% ->  -0.25±1.38
+  FIELD non-jam 3bet  +3.18±0.10 (n 71222)  | FIELD flat call  +0.14±0.05 (n 160617)
+  US by hand strength (our 3 cards), all spots:
+     top15 n= 35191 fold  22%  +0.00±0.00 | call  30%  +1.95±0.21 | 3bet  23%  +5.68±0.28 | jam  25%  +3.23±0.09
+       8-6 IP  n=15412 fold  34%  +0.00±0.00 | call  30%  +2.78±0.35 | 3bet  26%  +6.32±0.46 | jam   9%  +2.86±0.30
+       8-6 OOP n= 3081 fold  17%  +0.00±0.00 | call  44%  +1.70±0.65 | 3bet  27%  +5.62±0.81 | jam  13%  +3.74±0.46
+       5-4 IP  n= 6615 fold  22%  +0.00±0.00 | call  26%  +2.02±0.43 | 3bet  23%  +5.31±0.49 | jam  29%  +2.95±0.20
+       5-4 OOP n= 2970 fold  11%  +0.00±0.00 | call  35%  +0.28±0.61 | 3bet  21%  +5.14±0.76 | jam  34%  +3.36±0.25
+       3-2 IP  n= 1430 fold   5%  +0.00±0.00 | call  25%  +2.11±0.77 | 3bet  17%  +4.52±0.96 | jam  53%  +3.06±0.27
+       3-2 OOP n= 5683 fold   4%  +0.00±0.00 | call  23%  +0.48±0.50 | 3bet  14%  +3.94±0.55 | jam  59%  +3.49±0.13
+     rest  n=191635 fold  79%  +0.00±0.00 | call   8%  +1.52±0.14 | 3bet   0%  -2.30±2.01 | jam  13%  +2.18±0.05

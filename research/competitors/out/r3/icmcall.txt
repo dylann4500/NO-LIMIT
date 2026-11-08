@@ -1,0 +1,60 @@
+== call (facing an all-in or putting us all-in), HU pots, <=5 alive ==
+  ALL                                n=10777  call-minus-fold +1.00 ±0.14 pts
+  preflop                            n= 8328  call-minus-fold +0.93 ±0.12 pts
+    top10                            n= 3182  call-minus-fold +1.63 ±0.23 pts
+    10-25                            n= 3141  call-minus-fold +0.62 ±0.20 pts
+    25-45                            n= 1048  call-minus-fold +0.26 ±0.25 pts
+    45-100                           n=  957  call-minus-fold +0.36 ±0.15 pts
+  postflop                           n= 2449  call-minus-fold +1.25 ±0.43 pts
+ by alive x covered (preflop):
+    alive 5 jammer covers us         n=  191  call-minus-fold +1.33 ±1.74 pts
+    alive 5 we cover jammer          n= 1534  call-minus-fold +0.82 ±0.29 pts
+    alive 4 jammer covers us         n=  148  call-minus-fold -0.73 ±2.39 pts
+    alive 4 we cover jammer          n= 1863  call-minus-fold +0.89 ±0.26 pts
+    alive 3 jammer covers us         n=  156  call-minus-fold +0.15 ±1.36 pts
+    alive 3 we cover jammer          n= 2046  call-minus-fold +0.91 ±0.18 pts
+    alive 2 jammer covers us         n=  278  call-minus-fold +1.81 ±0.79 pts
+    alive 2 we cover jammer          n= 2112  call-minus-fold +1.08 ±0.17 pts
+ bubble (alive 4-5), jammer covers us, by strength x eff stack:
+    top10 eff 0-10bb                 n=   45  call-minus-fold +0.94 ±3.26 pts
+    top10 eff 10-20bb                n=   70  call-minus-fold +1.43 ±3.13 pts
+    top10 eff 20-999bb               n=   99  call-minus-fold -0.06 ±3.00 pts
+    10-25 eff 0-10bb                 n=   38  call-minus-fold +1.55 ±3.67 pts
+    10-25 eff 10-20bb                n=   27  call-minus-fold -2.18 ±5.31 pts
+    10-25 eff 20-999bb               n=   37  call-minus-fold +2.20 ±4.13 pts
+    25-45 eff 0-10bb                 n=   10
+    25-45 eff 10-20bb                n=    2
+    25-45 eff 20-999bb               n=    2
+    45-100 eff 0-10bb                n=    9
+    45-100 eff 10-20bb               n=    0
+    45-100 eff 20-999bb              n=    0
+== rejam (facing an all-in or putting us all-in), HU pots, <=5 alive ==
+  ALL                                n= 6561  call-minus-fold -1.56 ±0.26 pts
+  preflop                            n= 4884  call-minus-fold -2.82 ±0.27 pts
+    top10                            n= 1003  call-minus-fold +0.02 ±0.62 pts
+    10-25                            n= 1073  call-minus-fold -2.68 ±0.59 pts
+    25-45                            n= 1022  call-minus-fold -3.71 ±0.56 pts
+    45-100                           n= 1786  call-minus-fold -4.00 ±0.43 pts
+  postflop                           n= 1677  call-minus-fold +2.12 ±0.61 pts
+ by alive x covered (preflop):
+    alive 5 jammer covers us         n=  772  call-minus-fold -3.46 ±0.84 pts
+    alive 5 we cover jammer          n=  663  call-minus-fold -2.73 ±0.63 pts
+    alive 4 jammer covers us         n=  627  call-minus-fold -7.52 ±1.14 pts
+    alive 4 we cover jammer          n=  491  call-minus-fold -2.53 ±0.74 pts
+    alive 3 jammer covers us         n=  531  call-minus-fold -2.71 ±0.71 pts
+    alive 3 we cover jammer          n=  632  call-minus-fold -1.50 ±0.51 pts
+    alive 2 jammer covers us         n=  553  call-minus-fold -1.16 ±0.54 pts
+    alive 2 we cover jammer          n=  615  call-minus-fold -0.54 ±0.51 pts
+ bubble (alive 4-5), jammer covers us, by strength x eff stack:
+    top10 eff 0-10bb                 n=   48  call-minus-fold +1.13 ±2.23 pts
+    top10 eff 10-20bb                n=  140  call-minus-fold -0.63 ±2.10 pts
+    top10 eff 20-999bb               n=  161  call-minus-fold -1.34 ±2.22 pts
+    10-25 eff 0-10bb                 n=   66  call-minus-fold -1.43 ±2.33 pts
+    10-25 eff 10-20bb                n=  188  call-minus-fold -4.93 ±1.93 pts
+    10-25 eff 20-999bb               n=   93  call-minus-fold -8.41 ±2.78 pts
+    25-45 eff 0-10bb                 n=   43  call-minus-fold -3.07 ±2.80 pts
+    25-45 eff 10-20bb                n=  135  call-minus-fold -6.92 ±2.22 pts
+    25-45 eff 20-999bb               n=   76  call-minus-fold -8.84 ±3.14 pts
+    45-100 eff 0-10bb                n=   77  call-minus-fold -2.10 ±1.89 pts
+    45-100 eff 10-20bb               n=  246  call-minus-fold -9.35 ±1.63 pts
+    45-100 eff 20-999bb              n=  126  call-minus-fold -8.97 ±2.41 pts

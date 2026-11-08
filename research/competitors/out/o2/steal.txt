@@ -1,0 +1,41 @@
+late-position first-in (CO/BTN/SB; SB when heads-up): open freq, realized fwd bb per open (raise / jam), immediate-win %, EV per opportunity
+8-6  sandylikesfr opp   8486 raise  30% ev +1.69 win  45% | jam   2% ev +1.36 | EV/opp +0.53bb
+8-6  AZ           opp   8498 raise  43% ev +1.21 win  47% | jam   2% ev +0.74 | EV/opp +0.53bb
+8-6  2 Curry      opp   8964 raise  55% ev +0.87 win  35% | jam   3% ev +1.13 | EV/opp +0.50bb
+8-6  Lemonade     opp   7738 raise   0% ev +10.31 win  82% | jam   1% ev +1.13 | EV/opp +0.04bb
+8-6  Clippers Cha opp   9285 raise  35% ev +1.63 win  52% | jam   2% ev +1.43 | EV/opp +0.60bb
+8-6  Team 72      opp   8928 raise  52% ev +1.55 win  47% | jam   1% ev +0.61 | EV/opp +0.81bb
+8-6  TOP6         opp  51899 raise  36% ev +1.35 win  45% | jam   2% ev +1.09 | EV/opp +0.51bb
+8-6  US           opp 149924 raise  32% ev +1.49 win  51% | jam   2% ev +0.89 | EV/opp +0.50bb
+8-6  ALL          opp 1135776 raise  36% ev +0.95 win  47% | jam   3% ev +1.01 | EV/opp +0.36bb
+
+5-4  sandylikesfr opp  10588 raise  34% ev +1.08 win  48% | jam  10% ev +0.64 | EV/opp +0.44bb
+5-4  AZ           opp  10051 raise  38% ev +1.10 win  53% | jam   9% ev +1.00 | EV/opp +0.51bb
+5-4  2 Curry      opp  11128 raise  50% ev +0.61 win  38% | jam   8% ev +1.19 | EV/opp +0.40bb
+5-4  Lemonade     opp  10096 raise   0% ev +3.84 win  75% | jam  10% ev +0.87 | EV/opp +0.09bb
+5-4  Clippers Cha opp  12744 raise  29% ev +0.70 win  52% | jam  10% ev +1.22 | EV/opp +0.33bb
+5-4  Team 72      opp  10955 raise  53% ev +0.93 win  51% | jam   4% ev +0.77 | EV/opp +0.53bb
+5-4  TOP6         opp  65562 raise  34% ev +0.87 win  48% | jam   8% ev +0.98 | EV/opp +0.38bb
+5-4  US           opp 171998 raise  30% ev +0.97 win  56% | jam   7% ev +1.03 | EV/opp +0.37bb
+5-4  ALL          opp 1330117 raise  31% ev +0.67 win  51% | jam   7% ev +0.95 | EV/opp +0.28bb
+
+3    sandylikesfr opp   4358 raise  30% ev +1.25 win  47% | jam  27% ev +1.11 | EV/opp +0.67bb
+3    AZ           opp   4388 raise  52% ev +0.93 win  49% | jam  18% ev +0.96 | EV/opp +0.66bb
+3    2 Curry      opp   4743 raise  58% ev +0.31 win  39% | jam  19% ev +0.87 | EV/opp +0.35bb
+3    Lemonade     opp   4204 raise   1% ev +3.14 win  68% | jam  20% ev +0.94 | EV/opp +0.20bb
+3    Clippers Cha opp   4705 raise  27% ev +0.75 win  52% | jam  27% ev +0.92 | EV/opp +0.45bb
+3    Team 72      opp   4400 raise  60% ev +1.18 win  53% | jam   7% ev +1.28 | EV/opp +0.79bb
+3    TOP6         opp  26798 raise  39% ev +0.85 win  48% | jam  20% ev +0.98 | EV/opp +0.52bb
+3    US           opp  70014 raise  32% ev +0.83 win  56% | jam  16% ev +1.02 | EV/opp +0.43bb
+3    ALL          opp 531554 raise  33% ev +0.62 win  52% | jam  15% ev +1.00 | EV/opp +0.35bb
+
+2    sandylikesfr opp     88 raise  34% ev +1.21 win  50% | jam  66% ev +1.37 | EV/opp +1.31bb
+2    AZ           opp    135 raise  77% ev +1.19 win  76% | jam  23% ev +1.80 | EV/opp +1.33bb
+2    2 Curry      opp    225 raise  57% ev +1.02 win  36% | jam  43% ev +1.70 | EV/opp +1.31bb
+2    Lemonade     opp    137 raise  36% ev +1.80 win  32% | jam  64% ev +1.29 | EV/opp +1.48bb
+2    Clippers Cha opp    118 raise  75% ev +2.38 win  67% | jam  25% ev +2.87 | EV/opp +2.51bb
+2    Team 72      opp    137 raise  84% ev +2.04 win  82% | jam  16% ev +1.78 | EV/opp +2.00bb
+2    TOP6         opp    840 raise  61% ev +1.60 win  60% | jam  39% ev +1.65 | EV/opp +1.62bb
+2    US           opp    583 raise  99% ev +2.15 win  86% | jam   1% ev +2.00 | EV/opp +2.15bb
+2    ALL          opp   9016 raise  70% ev +1.83 win  71% | jam  30% ev +1.86 | EV/opp +1.84bb
+

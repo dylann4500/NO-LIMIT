@@ -1,0 +1,21 @@
+# Python / OS
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Official organizer starter kit: download it from the portal into starter-kit/ (tests and reviewer tools expect it there)
+starter-kit/
+
+# Release zips ARE tracked (they're the exact files uploaded during the event)
+*.zip
+!releases/*.zip
+
+# Hand histories: large, and they contain other teams' play
+*.jsonl
+*.jsonl.gz
+hand-history/
+
+# Regenerable analysis output (the human-readable .txt results under research/competitors/out are kept)
+reviewer/out/
+research/competitors/out/**/*.json

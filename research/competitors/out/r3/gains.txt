@@ -1,0 +1,32 @@
+ 0.73 bb/table  BET s1 oppvis pair us pair_mid: bet -3.66 vs check +0.55 n1734
+ 0.71 bb/table  CALL s1 bettorvis pair us pair_top: call -4.87 n1449
+ 0.70 bb/table  CALL s1 bettorvis pair us pair_mid: call -7.95 n885
+ 0.55 bb/table  CALL s1 bettorvis over us pair_mid: call -3.62 n1523
+ 0.52 bb/table  CALL s1 bettorvis low us pair_mid: call -2.07 n2492
+ 0.50 bb/table  BET s2 oppvis pair us pair_mid: bet -3.20 vs check +0.48 n1346
+ 0.49 bb/table  CALL s1 bettorvis low us air: call -1.83 n2676
+ 0.38 bb/table  BET s1 oppvis pair us air: bet -1.61 vs check +0.73 n1631
+ 0.38 bb/table  CALL s2 bettorvis pair us pair_mid: call -7.37 n509
+ 0.37 bb/table  CALL s1 bettorvis over us air: call -1.63 n2264
+ 0.32 bb/table  BET s2 oppvis pair us air: bet -4.46 vs check +0.87 n595
+ 0.25 bb/table  BET s3 oppvis pair us air: bet -6.41 vs check +0.01 n383
+ 0.24 bb/table  BET s3 oppvis low us air: bet +0.41 vs check +2.12 n1384
+ 0.23 bb/table  CALL s2 bettorvis low us air: call -2.69 n855
+ 0.21 bb/table  BET s2 oppvis low us air: bet +0.66 vs check +1.24 n3682
+ 0.20 bb/table  BET s3 oppvis pair us pair_mid: bet +0.45 vs check +4.13 n541
+ 0.16 bb/table  CALL s2 bettorvis pair us pair_top: call -2.17 n722
+ 0.15 bb/table  BET s2 oppvis over us air: bet +0.87 vs check +1.55 n2158
+ 0.13 bb/table  CALL s2 bettorvis over us pair_mid: call -2.31 n570
+ 0.12 bb/table  CALL s2 bettorvis over us air: call -2.46 n477
+ 0.09 bb/table  BET s3 oppvis over us air: bet +1.66 vs check +2.87 n751
+ 0.07 bb/table  BET s1 oppvis pair us pair_top: bet -0.40 vs check +0.00 n1760
+ 0.06 bb/table  BET s2 oppvis pair us fdraw: bet -2.31 vs check +1.17 n186
+ 0.05 bb/table  CALL s3 bettorvis low us air: call -2.02 n265
+ 0.04 bb/table  CALL s3 bettorvis pair us pair_mid: call -3.35 n113
+ 0.03 bb/table  CALL s1 bettorvis pair us air: call -1.39 n250
+ 0.03 bb/table  CALL s2 bettorvis low us pair_mid: call -0.25 n1315
+ 0.03 bb/table  CALL s2 bettorvis low us fdraw: call -0.81 n328
+ 0.02 bb/table  CALL s3 bettorvis over us pair_mid: call -1.95 n105
+ 0.01 bb/table  CALL s3 bettorvis over us air: call -0.99 n109
+ 0.01 bb/table  CALL s1 bettorvis pair us fdraw: call -0.31 n321
+TOTAL bet->check 3.19 bb/table, call->fold 4.57 bb/table

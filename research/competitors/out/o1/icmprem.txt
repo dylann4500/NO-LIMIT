@@ -1,0 +1,25 @@
+calls at <=5 alive (HU pots), by ICM premium = ICM break-even equity - chip pot odds
+premium -1.00..0.02 (all)                    n=12330 call-minus-fold +0.99 ±0.07 pts
+    pre top10                                n= 3256 call-minus-fold +1.53 ±0.14 pts
+    pre 10-25                                n= 4179 call-minus-fold +0.70 ±0.12 pts
+    pre 25-45                                n= 1896 call-minus-fold +0.65 ±0.13 pts
+    pre 45-100                               n= 1655 call-minus-fold +0.38 ±0.09 pts
+    postflop                                 n= 1344 call-minus-fold +1.84 ±0.31 pts
+premium +0.02..0.05 (all)                    n= 3666 call-minus-fold +1.46 ±0.22 pts
+    pre top10                                n= 1373 call-minus-fold +2.10 ±0.34 pts
+    pre 10-25                                n= 1234 call-minus-fold +0.62 ±0.35 pts
+    pre 25-45                                n=  246 call-minus-fold -0.14 ±0.77 pts
+    pre 45-100                               n=   45 call-minus-fold +0.38 ±1.81 pts
+    postflop                                 n=  768 call-minus-fold +2.21 ±0.58 pts
+premium +0.05..0.10 (all)                    n= 1639 call-minus-fold +1.17 ±0.52 pts
+    pre top10                                n=  556 call-minus-fold +2.24 ±0.85 pts
+    pre 10-25                                n=  354 call-minus-fold -0.53 ±1.06 pts
+    pre 25-45                                n=   44 call-minus-fold -2.38 ±2.83 pts
+    pre 45-100                               n=7
+    postflop                                 n=  678 call-minus-fold +1.41 ±0.85 pts
+premium +0.10..1.00 (all)                    n= 2738 call-minus-fold -0.48 ±0.49 pts
+    pre top10                                n=  850 call-minus-fold +1.79 ±0.74 pts
+    pre 10-25                                n=  454 call-minus-fold -0.10 ±1.00 pts
+    pre 25-45                                n=   36 call-minus-fold +1.60 ±2.96 pts
+    pre 45-100                               n=16
+    postflop                                 n= 1382 call-minus-fold -2.07 ±0.77 pts

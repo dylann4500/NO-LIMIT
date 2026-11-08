@@ -1,0 +1,53 @@
+### o1: top6 = TeamBallHog 20.4, Lemonade 20.0, AZ 20.0, Team 72 19.4, WAYS-ER TEAM 19.0, sandylikesfr 18.9
+
+-- headline (open% of unopened, fold facing 1 raise, flop first-in bet%, VPIP 8/3/2-handed, chips w/o vs with showdown, bb/table)
+TeamBallHog  open  54% fold1raise  75% flopFirstBet  69% cbet  76% | VPIP 8h  28% 3h  50% 2h  55% | noSD   +4.9 SD  +27.1 bb/table
+Lemonade     open  12% fold1raise  71% flopFirstBet  48% cbet  64% | VPIP 8h  18% 3h  45% 2h  63% | noSD  +20.1 SD   +5.1 bb/table
+AZ           open  41% fold1raise  78% flopFirstBet  63% cbet  79% | VPIP 8h  18% 3h  56% 2h  57% | noSD  +13.8 SD  +13.7 bb/table
+Team 72      open  49% fold1raise  79% flopFirstBet  65% cbet  69% | VPIP 8h  23% 3h  51% 2h  57% | noSD   +3.6 SD  +26.5 bb/table
+WAYS-ER TEAM open  51% fold1raise  67% flopFirstBet  52% cbet  86% | VPIP 8h  32% 3h  51% 2h  53% | noSD   -2.0 SD  +38.7 bb/table
+sandylikesfr open  57% fold1raise  64% flopFirstBet  76% cbet  83% | VPIP 8h  48% 3h  62% 2h  64% | noSD  +15.3 SD  +23.9 bb/table
+US           open  33% fold1raise  68% flopFirstBet  87% cbet  94% | VPIP 8h  22% 3h  44% 2h  43% | noSD  +13.6 SD  +11.7 bb/table
+TOP6         open  44% fold1raise  73% flopFirstBet  64% cbet  79% | VPIP 8h  27% 3h  52% 2h  58% | noSD   +9.2 SD  +22.6 bb/table
+
+-- open sizes (top 2 bb values) and postflop first-bet size clusters (top 3 pot fractions)
+TeamBallHog  open 2.9bb 79% 2.8bb 18% | bets 0.35pot 44% 0.65pot 26% 1.50pot 12%
+Lemonade     open 2.0bb 59% 2.2bb 29% | bets 0.50pot 43% 1.00pot 18% 2.50pot  0%
+AZ           open 2.5bb 91% 3.4bb  8% | bets 0.80pot 40% 0.55pot 36% 0.50pot 13%
+Team 72      open 2.0bb 38% 2.6bb 34% | bets 0.75pot 36% 0.40pot 25% 1.05pot 18%
+WAYS-ER TEAM open 2.2bb 92% 3.2bb  4% | bets 0.50pot 32% 0.90pot 30% 1.25pot 11%
+sandylikesfr open 2.0bb 54% 3.5bb 16% | bets 0.50pot 21% 0.75pot 19% 0.10pot 11%
+US           open 2.2bb 44% 2.1bb 25% | bets 0.35pot 41% 1.00pot 28% 0.75pot 18%
+
+-- flop FIRST-IN bet% (any player, no bet yet) by #opponents x villain-visible connect (pair/draw/miss)
+                1/pair    1/draw    1/miss    2/pair    2/draw    2/miss   3+/pair   3+/draw   3+/miss
+TeamBallHog        57%       74%       76%       29%       45%       38%        0%        0%        0%
+Lemonade           38%       49%       49%       48%       56%       61%       27%       20%       42%
+AZ                 45%       69%       74%       23%       44%       43%       15%       37%       56%
+Team 72            51%       72%       70%       23%       46%       41%       20%       32%       50%
+WAYS-ER TEAM       47%       67%       66%        4%       14%       15%        2%        7%       11%
+sandylikesfr       52%       80%       83%       54%       76%       77%       53%       71%       90%
+US                 74%       94%       95%       47%       62%       70%       25%       46%       46%
+TOP6               50%       71%       72%       30%       46%       45%       22%       31%       41%
+-- flop C-BET% (preflop aggressor, checked to) same split
+TeamBallHog        66%       82%       83%       38%       48%       40%        0%        0%        0%
+Lemonade           48%       66%       69%       50%       25%        0%        -         -         - 
+AZ                 64%       84%       89%       21%       47%       42%        0%       44%       67%
+Team 72            55%       75%       73%       20%       46%       38%       22%       26%        0%
+WAYS-ER TEAM       94%       97%       96%        5%       17%       22%        0%        7%        0%
+sandylikesfr       67%       86%       89%       62%       76%       80%       43%       67%       82%
+US                 93%       99%      100%       56%       68%       77%       24%       52%       46%
+TOP6               70%       85%       86%       34%       49%       49%       23%       38%       42%
+   opp counts (TOP6 cb): 2292 9802 8401 566 1510 564 90 143 31
+
+-- open% of unopened pots by players left; steal% (CO/BTN/SB first-in) by players left
+                      n8          n7          n6          n5          n4          n3          n2
+TeamBallHog   43%/ 56%  49%/ 63%  52%/ 64%  56%/ 64%  61%/ 61%  68%/ 67%  70%/  - 
+Lemonade       1%/  1%   2%/  1%   2%/  3%   5%/  6%  16%/ 14%  26%/ 24%  72%/  - 
+AZ            25%/ 45%  28%/ 46%  34%/ 46%  41%/ 49%  49%/ 48%  73%/ 72%  80%/  - 
+Team 72       31%/ 51%  37%/ 56%  43%/ 59%  52%/ 61%  59%/ 59%  73%/ 72%  86%/  - 
+WAYS-ER TEAM  34%/ 60%  38%/ 59%  44%/ 58%  51%/ 61%  60%/ 59%  72%/ 71%  86%/  - 
+sandylikesfr  50%/ 58%  53%/ 68%  55%/ 68%  60%/ 66%  61%/ 61%  66%/ 65%  68%/  - 
+US            23%/ 32%  25%/ 34%  28%/ 35%  32%/ 37%  39%/ 39%  49%/ 49%  59%/  - 
+TOP6          31%/ 46%  35%/ 50%  38%/ 50%  45%/ 52%  51%/ 51%  64%/ 63%  77%/  - 
+   (each cell: open%/steal%)

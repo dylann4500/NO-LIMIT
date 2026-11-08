@@ -1,0 +1,19 @@
+opp visible card pairs board, HU. first-in bet vs check | facing their bet: fold% call raise
+s1 air       bet  53% bet  -1.55bb(n2822) chk  +0.19bb(n2512) | fold  92% call  -0.38bb(n462) raise    -   
+s1 fdraw     bet  74% bet  +1.27bb(n552) chk  +1.04bb(n197) | fold  29% call  +0.27bb(n510) raise -15.13bb(n1)
+s1 pair<vis  bet  51% bet  -2.56bb(n1258) chk  +0.10bb(n1195) | fold  97% call  +2.72bb(n101) raise    -   
+s1 pair=vis  bet  90% bet  -3.31bb(n943) chk  +0.07bb(n107) | fold  35% call  -8.36bb(n608) raise  -8.22bb(n15)
+s1 pair>vis  bet 100% bet  -2.89bb(n3680) chk    -    | fold   7% call  -7.61bb(n3565) raise -14.77bb(n135)
+s1 strong    bet  93% bet  +7.08bb(n1869) chk  +0.09bb(n138) | fold  28% call  +3.49bb(n614) raise +18.56bb(n833)
+s2 air       bet  56% bet  -2.70bb(n1130) chk  +0.34bb(n906) | fold  98% call  +2.00bb(n38) raise    -   
+s2 fdraw     bet  50% bet  -0.55bb(n344) chk  +1.95bb(n342) | fold  84% call  +4.87bb(n105) raise    -   
+s2 pair<vis  bet  52% bet  -3.04bb(n724) chk  +0.34bb(n670) | fold  97% call  -0.16bb(n41) raise    -   
+s2 pair=vis  bet  79% bet  -0.32bb(n611) chk  +1.45bb(n160) | fold  56% call  +0.44bb(n275) raise -16.08bb(n1)
+s2 pair>vis  bet  97% bet  -0.10bb(n2852) chk  +8.05bb(n93) | fold  41% call  -4.29bb(n1840) raise -18.79bb(n34)
+s2 strong    bet  91% bet +14.02bb(n2931) chk  +1.01bb(n278) | fold  35% call  +9.08bb(n1108) raise +31.98bb(n527)
+s3 air       bet   0% bet  +3.00bb(n4) chk  +0.01bb(n1332) | fold 100% call -11.60bb(n1) raise    -   
+s3 fdraw     bet   0% bet    -    chk    -    | fold   0% call    -    raise    -   
+s3 pair<vis  bet   1% bet +15.35bb(n5) chk  +0.15bb(n787) | fold 100% call    -    raise    -   
+s3 pair=vis  bet  48% bet  +5.18bb(n187) chk  +2.78bb(n206) | fold  83% call  +0.79bb(n43) raise    -   
+s3 pair>vis  bet  55% bet  +7.54bb(n824) chk  +6.67bb(n684) | fold  78% call  -0.02bb(n297) raise    -   
+s3 strong    bet  80% bet +25.87bb(n2527) chk  +1.74bb(n646) | fold  59% call +23.93bb(n722) raise +47.22bb(n129)

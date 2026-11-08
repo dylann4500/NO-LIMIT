@@ -1,0 +1,29 @@
+111 teams present in all 5 rounds
+
+== pre fold vs 1 raise: 111 teams
+  median |change| per round 1.6 pts  vs median noise SE of a change 0.3 pts
+  sign flips of consecutive changes: 62% (n=322); pure noise ~67%, no structure 50%
+  lag-1 corr of consecutive changes: -0.39 (pure noise -0.50)
+  next-round prediction RMSE (pts): same as last 16.54  oscillate k=0.5 15.63  oscillate k=1 20.37  mean of previous 16.43
+  field aggregate by round: 77.2% -> 79.4% -> 75.9% -> 79.8% -> 78.9%
+
+== open % unopened: 111 teams
+  median |change| per round 2.2 pts  vs median noise SE of a change 0.3 pts
+  sign flips of consecutive changes: 62% (n=321); pure noise ~67%, no structure 50%
+  lag-1 corr of consecutive changes: -0.35 (pure noise -0.50)
+  next-round prediction RMSE (pts): same as last 16.51  oscillate k=0.5 16.04  oscillate k=1 20.94  mean of previous 17.02
+  field aggregate by round: 29.7% -> 29.3% -> 30.5% -> 30.5% -> 32.9%
+
+== flop first-in bet %: 106 teams
+  median |change| per round 3.1 pts  vs median noise SE of a change 0.9 pts
+  sign flips of consecutive changes: 60% (n=306); pure noise ~67%, no structure 50%
+  lag-1 corr of consecutive changes: -0.40 (pure noise -0.50)
+  next-round prediction RMSE (pts): same as last 19.22  oscillate k=0.5 17.75  oscillate k=1 20.97  mean of previous 17.46
+  field aggregate by round: 54.6% -> 52.2% -> 51.0% -> 54.9% -> 59.2%
+
+== VPIP: 111 teams
+  median |change| per round 2.1 pts  vs median noise SE of a change 0.2 pts
+  sign flips of consecutive changes: 57% (n=324); pure noise ~67%, no structure 50%
+  lag-1 corr of consecutive changes: -0.41 (pure noise -0.50)
+  next-round prediction RMSE (pts): same as last 14.31  oscillate k=0.5 13.48  oscillate k=1 17.98  mean of previous 14.39
+  field aggregate by round: 27.5% -> 26.4% -> 28.2% -> 26.0% -> 27.1%

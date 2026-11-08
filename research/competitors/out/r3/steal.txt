@@ -1,0 +1,41 @@
+late-position first-in (CO/BTN/SB; SB when heads-up): open freq, realized fwd bb per open (raise / jam), immediate-win %, EV per opportunity
+8-6  TeamBallHog  opp   5060 raise  50% ev +1.90 win  55% | jam   5% ev +0.57 | EV/opp +0.98bb
+8-6  Team 72      opp   5180 raise  50% ev +1.62 win  53% | jam   1% ev +0.45 | EV/opp +0.81bb
+8-6  Team 82      opp   4919 raise  35% ev +2.75 win  48% | jam   3% ev +1.57 | EV/opp +1.00bb
+8-6  Always Folds opp   4663 raise  49% ev +1.45 win  48% | jam   3% ev +1.42 | EV/opp +0.76bb
+8-6  AZ           opp   5179 raise  53% ev +1.69 win  49% | jam   4% ev +0.65 | EV/opp +0.91bb
+8-6  2 Curry      opp   5354 raise  69% ev +1.18 win  37% | jam   4% ev +1.48 | EV/opp +0.86bb
+8-6  TOP6         opp  30355 raise  51% ev +1.67 win  48% | jam   3% ev +1.01 | EV/opp +0.89bb
+8-6  US           opp  83564 raise  30% ev +1.96 win  53% | jam   2% ev +1.07 | EV/opp +0.62bb
+8-6  ALL          opp 607023 raise  29% ev +1.16 win  48% | jam   3% ev +0.64 | EV/opp +0.35bb
+
+5-4  TeamBallHog  opp   6832 raise  50% ev +0.92 win  58% | jam  13% ev +1.35 | EV/opp +0.63bb
+5-4  Team 72      opp   6454 raise  54% ev +1.33 win  59% | jam   4% ev +1.60 | EV/opp +0.78bb
+5-4  Team 82      opp   7332 raise  29% ev +1.49 win  48% | jam   9% ev +1.04 | EV/opp +0.53bb
+5-4  Always Folds opp   6278 raise  45% ev +0.95 win  49% | jam   7% ev +1.19 | EV/opp +0.52bb
+5-4  AZ           opp   6844 raise  45% ev +1.33 win  51% | jam  15% ev +0.81 | EV/opp +0.72bb
+5-4  2 Curry      opp   6481 raise  64% ev +0.40 win  37% | jam  10% ev +0.83 | EV/opp +0.35bb
+5-4  TOP6         opp  40221 raise  48% ev +1.02 win  50% | jam  10% ev +1.07 | EV/opp +0.59bb
+5-4  US           opp 106622 raise  30% ev +1.45 win  58% | jam   7% ev +1.07 | EV/opp +0.51bb
+5-4  ALL          opp 741486 raise  26% ev +0.86 win  54% | jam   6% ev +0.92 | EV/opp +0.28bb
+
+3    TeamBallHog  opp   3295 raise  44% ev +1.11 win  59% | jam  26% ev +1.09 | EV/opp +0.77bb
+3    Team 72      opp   2802 raise  63% ev +1.50 win  60% | jam   7% ev +1.21 | EV/opp +1.03bb
+3    Team 82      opp   3014 raise  26% ev +1.38 win  47% | jam  19% ev +1.14 | EV/opp +0.58bb
+3    Always Folds opp   2871 raise  43% ev +0.51 win  54% | jam  23% ev +0.97 | EV/opp +0.44bb
+3    AZ           opp   2719 raise  56% ev +0.87 win  50% | jam  26% ev +0.93 | EV/opp +0.73bb
+3    2 Curry      opp   3265 raise  70% ev +0.37 win  39% | jam  22% ev +0.94 | EV/opp +0.47bb
+3    TOP6         opp  17966 raise  50% ev +0.90 win  51% | jam  21% ev +1.02 | EV/opp +0.67bb
+3    US           opp  41766 raise  31% ev +1.09 win  58% | jam  17% ev +1.06 | EV/opp +0.53bb
+3    ALL          opp 281787 raise  28% ev +0.78 win  55% | jam  13% ev +1.03 | EV/opp +0.35bb
+
+2    TeamBallHog  opp     56 raise  32% ev -1.28 win  44% | jam  68% ev +1.01 | EV/opp +0.28bb
+2    Team 72      opp     32 raise  84% ev +2.37 win  81% | jam  16% ev +1.50 | EV/opp +2.23bb
+2    Team 82      opp     32 raise  44% ev +1.47 win  64% | jam  56% ev +2.85 | EV/opp +2.25bb
+2    Always Folds opp     25 raise  64% ev +2.50 win  88% | jam  36% ev +2.00 | EV/opp +2.32bb
+2    AZ           opp    112 raise  72% ev +2.29 win  75% | jam  28% ev +1.67 | EV/opp +2.12bb
+2    2 Curry      opp    167 raise  80% ev +2.45 win  36% | jam  20% ev +2.07 | EV/opp +2.38bb
+2    TOP6         opp    424 raise  68% ev +2.12 win  56% | jam  32% ev +1.76 | EV/opp +2.01bb
+2    US           opp    378 raise  99% ev +2.59 win  78% | jam   1% ev +3.09 | EV/opp +2.60bb
+2    ALL          opp   5590 raise  71% ev +1.96 win  62% | jam  29% ev +1.88 | EV/opp +1.94bb
+

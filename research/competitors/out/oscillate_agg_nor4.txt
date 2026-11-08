@@ -1,0 +1,15 @@
+111 teams present in all 4 rounds
+
+== postflop fold to bet: 104 teams
+  median |change| per round 4.5 pts  vs median noise SE of a change 0.9 pts
+  sign flips of consecutive changes: 58% (n=201); pure noise ~67%, no structure 50%
+  lag-1 corr of consecutive changes: -0.36 (pure noise -0.50)
+  next-round prediction, median abs error (pts): same as last 5.13  oscillate k=0.5 7.36  oscillate k=1 10.27  mean of previous 9.68
+  field aggregate by round: 41.1% -> 42.7% -> 45.1% -> 46.3%
+
+== call jam: 107 teams
+  median |change| per round 2.8 pts  vs median noise SE of a change 0.8 pts
+  sign flips of consecutive changes: 65% (n=207); pure noise ~67%, no structure 50%
+  lag-1 corr of consecutive changes: -0.45 (pure noise -0.50)
+  next-round prediction, median abs error (pts): same as last 3.01  oscillate k=0.5 4.28  oscillate k=1 5.30  mean of previous 4.73
+  field aggregate by round: 16.1% -> 14.7% -> 16.7% -> 16.6%

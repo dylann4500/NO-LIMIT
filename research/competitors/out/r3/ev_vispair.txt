@@ -1,0 +1,19 @@
+opp visible card pairs board, HU. first-in bet vs check | facing their bet: fold% call raise
+s1 air       bet  51% bet  -1.61bb(n1631) chk  +0.73bb(n1570) | fold  92% call  -1.39bb(n250) raise    -   
+s1 fdraw     bet  76% bet  +0.87bb(n363) chk  -0.11bb(n116) | fold  23% call  -0.31bb(n321) raise    -   
+s1 pair<vis  bet  51% bet  -3.08bb(n718) chk  +0.59bb(n695) | fold  96% call  +2.27bb(n66) raise    -   
+s1 pair=vis  bet  87% bet  -2.92bb(n551) chk  -0.00bb(n82) | fold  38% call  -6.35bb(n322) raise -11.56bb(n10)
+s1 pair>vis  bet 100% bet  -1.45bb(n2225) chk    -    | fold   7% call  -6.27bb(n1946) raise -11.74bb(n90)
+s1 strong    bet  93% bet +10.37bb(n1041) chk  -0.02bb(n80) | fold  26% call  +5.09bb(n376) raise +26.42bb(n508)
+s2 air       bet  46% bet  -4.46bb(n595) chk  +0.87bb(n711) | fold  98% call  +1.32bb(n17) raise    -   
+s2 fdraw     bet  43% bet  -2.31bb(n186) chk  +1.17bb(n249) | fold  90% call  -4.73bb(n37) raise    -   
+s2 pair<vis  bet  46% bet  -5.50bb(n405) chk  +0.49bb(n479) | fold  97% call -10.83bb(n20) raise    -   
+s2 pair=vis  bet  75% bet  -1.55bb(n341) chk  +0.13bb(n114) | fold  51% call  -4.09bb(n167) raise +79.06bb(n2)
+s2 pair>vis  bet  96% bet  +1.48bb(n1812) chk  +2.19bb(n66) | fold  40% call  -4.24bb(n1044) raise -11.77bb(n25)
+s2 strong    bet  90% bet +16.39bb(n1773) chk  +0.16bb(n206) | fold  34% call  +8.63bb(n680) raise +43.62bb(n334)
+s3 air       bet  45% bet  -6.41bb(n383) chk  +0.01bb(n473) | fold 100% call  +7.00bb(n1) raise    -   
+s3 fdraw     bet   0% bet    -    chk    -    | fold   0% call    -    raise    -   
+s3 pair<vis  bet  47% bet  -6.54bb(n217) chk  +0.00bb(n247) | fold 100% call    -    raise    -   
+s3 pair=vis  bet  46% bet  +5.76bb(n115) chk  +3.48bb(n134) | fold  86% call +10.58bb(n26) raise    -   
+s3 pair>vis  bet  54% bet  +7.80bb(n533) chk +10.14bb(n459) | fold  76% call  +2.26bb(n204) raise -46.25bb(n2)
+s3 strong    bet  86% bet +26.13bb(n1790) chk  +3.01bb(n298) | fold  55% call +26.48bb(n520) raise +46.46bb(n128)

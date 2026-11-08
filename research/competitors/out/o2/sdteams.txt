@@ -1,0 +1,17 @@
+sum of per-team contributions -6.05 bb/table (total showdown change -7.95)
+worst 20 teams contribute -6.89 bb/table
+team             our HU-SD bb/hand o1->o2 | their foldToBet o1->o2 | their pts o1->o2
+  Hit and Run      +18.92 ->  -0.02 |  23% ->  49% |  3.59 -> 14.11
+  Cal Daddy        +16.16 ->  +1.75 |  17% ->  49% |  8.81 ->  5.93
+  Litmus            +7.92 ->  -6.58 |  40% ->  73% |  8.55 -> 13.07
+  Backtier Labs    +12.15 ->  -0.50 |  19% ->  31% |  6.25 -> 13.88
+  Team 30          +12.74 ->  +1.45 |  28% ->  36% |  5.81 -> 12.76
+  Team_01          +22.52 ->  +9.72 |  35% ->  39% |  4.73 ->  5.26
+  Team Leo         +13.44 ->  +4.71 |  18% ->  34% |  7.72 -> 10.22
+  ATUBETS           +5.55 ->  -2.10 |  21% ->  47% | 11.43 -> 13.99
+  The Bridge Team   +9.41 ->  +2.05 |  22% ->  42% |  9.10 -> 10.67
+  Affordance        +7.41 ->  +0.14 |  17% ->  42% | 10.47 -> 10.68
+  qab               +4.54 ->  -1.64 |  17% ->  29% |  7.71 -> 13.50
+  Wentworth's Fine  +6.60 ->  +0.19 |  31% ->  55% | 10.62 -> 12.57
+worst-20 teams: mean foldToBet change +15.5 pts, pts change +2.80
+other teams:    mean foldToBet change -2.4 pts, pts change -0.29

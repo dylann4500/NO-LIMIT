@@ -1,0 +1,8 @@
+8-6  TOP6         opp  30353 raise  38% ev +1.74 win  48% | jam   2% ev +1.09 | EV/opp +0.68bb
+8-6  ALL          opp 656814 raise  30% ev +1.02 win  43% | jam   2% ev +0.64 | EV/opp +0.32bb
+5-4  TOP6         opp  51907 raise  37% ev +1.22 win  56% | jam   8% ev +0.85 | EV/opp +0.52bb
+5-4  ALL          opp 983015 raise  27% ev +0.82 win  52% | jam   6% ev +1.00 | EV/opp +0.28bb
+3    TOP6         opp  21883 raise  38% ev +1.17 win  57% | jam  20% ev +1.05 | EV/opp +0.65bb
+3    ALL          opp 394470 raise  29% ev +0.82 win  56% | jam  11% ev +1.05 | EV/opp +0.36bb
+2    TOP6         opp    989 raise  74% ev +2.03 win  69% | jam  26% ev +1.72 | EV/opp +1.95bb
+2    ALL          opp  12313 raise  71% ev +1.85 win  65% | jam  29% ev +1.90 | EV/opp +1.87bb

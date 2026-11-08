@@ -1,0 +1,75 @@
+sanity fold fwd (should be 0): [2870, 0.0, -1809.393200000001]
+== facing a preflop jam: call vs fold, fwd bb / whole-hand points ==
+left 6-8 eff <10   pair+    call%  72% call  +3.24bb  +0.46p (n339) | fold  -0.54p (n134)
+left 6-8 eff <10   A-high   call%  63% call  +1.86bb  +0.04p (n286) | fold  -0.56p (n171)
+left 6-8 eff <10   QK-high  call%  27% call  +0.68bb  -0.46p (n140) | fold  -0.43p (n374)
+left 6-8 eff <10   low      call%   8% call  +0.88bb  +0.02p (n46) | fold  -0.37p (n518)
+left 6-8 eff 10-20 pair+    call%  48% call  +6.43bb  +1.49p (n385) | fold  -0.59p (n419)
+left 6-8 eff 10-20 A-high   call%  29% call  +3.11bb  +0.77p (n212) | fold  -0.60p (n513)
+left 6-8 eff 10-20 QK-high  call%   5% call  +1.39bb  +0.52p (n46) | fold  -0.30p (n904)
+left 6-8 eff 10-20 low      call%   1% call  -0.13bb  -0.65p (n5) | fold  -0.20p (n975)
+left 6-8 eff 20+   pair+    call%  38% call +26.48bb  +1.91p (n1595) | fold  -0.17p (n2618)
+left 6-8 eff 20+   A-high   call%  22% call +11.65bb  +0.63p (n870) | fold  -0.12p (n3164)
+left 6-8 eff 20+   QK-high  call%   5% call  +5.68bb  +0.44p (n227) | fold  -0.00p (n4695)
+left 6-8 eff 20+   low      call%   1% call  +0.70bb  +0.00p (n45) | fold  +0.02p (n5925)
+left 45  eff <10   pair+    call%  71% call  +2.63bb  +0.50p (n646) | fold  -0.69p (n268)
+left 45  eff <10   A-high   call%  63% call  +1.21bb  -0.36p (n591) | fold  -0.69p (n347)
+left 45  eff <10   QK-high  call%  25% call  +0.47bb  -0.71p (n336) | fold  -0.56p (n1027)
+left 45  eff <10   low      call%   9% call  +0.26bb  -0.56p (n134) | fold  -0.52p (n1427)
+left 45  eff 10-20 pair+    call%  48% call  +4.34bb  +0.99p (n590) | fold  -0.59p (n649)
+left 45  eff 10-20 A-high   call%  36% call  +2.46bb  +0.04p (n437) | fold  -0.63p (n787)
+left 45  eff 10-20 QK-high  call%   8% call  +1.20bb  -0.25p (n126) | fold  -0.34p (n1516)
+left 45  eff 10-20 low      call%   2% call  -0.17bb  -0.90p (n28) | fold  -0.24p (n1758)
+left 45  eff 20+   pair+    call%  46% call  +7.43bb  +0.41p (n668) | fold  -0.34p (n791)
+left 45  eff 20+   A-high   call%  28% call  +2.43bb  -0.36p (n401) | fold  -0.28p (n1028)
+left 45  eff 20+   QK-high  call%   6% call  +0.27bb  -1.13p (n117) | fold  -0.12p (n1808)
+left 45  eff 20+   low      call%   2% call  -1.16bb  -1.20p (n42) | fold  -0.06p (n2341)
+left 3   eff <10   pair+    call%  71% call  +2.41bb  +0.80p (n1144) | fold  -0.65p (n460)
+left 3   eff <10   A-high   call%  65% call  +1.73bb  +0.34p (n1112) | fold  -0.61p (n610)
+left 3   eff <10   QK-high  call%  28% call  +0.81bb  -0.13p (n735) | fold  -0.57p (n1876)
+left 3   eff <10   low      call%   9% call  +0.44bb  -0.36p (n281) | fold  -0.57p (n2766)
+left 3   eff 10-20 pair+    call%  48% call  +4.21bb  +1.36p (n587) | fold  -0.54p (n628)
+left 3   eff 10-20 A-high   call%  35% call  +1.54bb  -0.04p (n434) | fold  -0.60p (n816)
+left 3   eff 10-20 QK-high  call%   5% call  +0.73bb  -0.53p (n83) | fold  -0.49p (n1684)
+left 3   eff 10-20 low      call%   1% call  +1.52bb  +0.64p (n17) | fold  -0.40p (n1813)
+left 3   eff 20+   pair+    call%  44% call +10.64bb  +1.47p (n166) | fold  -0.52p (n214)
+left 3   eff 20+   A-high   call%  25% call  +2.20bb  +0.12p (n111) | fold  -0.35p (n342)
+left 3   eff 20+   QK-high  call%   9% call  -2.49bb  -1.20p (n48) | fold  -0.26p (n502)
+left 3   eff 20+   low      call%   3% call  -0.00bb  -0.22p (n17) | fold  -0.19p (n546)
+== unopened: action mix and points per hand ==
+left 6-8 eff <10   pair+    fold  14%  +0.00bb +0.04p  limp   3%  +0.54bb +0.45p  raise   6%  +2.00bb +1.00p  jam  76%  +0.92bb +0.40p
+left 6-8 eff <10   A-high   fold  16%  +0.00bb +0.01p  limp   4%  +0.22bb +0.29p  raise   3%  +2.97bb +1.36p  jam  77%  +0.87bb +0.30p
+left 6-8 eff <10   QK-high  fold  32%  +0.00bb +0.01p  limp   4%  -0.04bb -0.08p  raise   0%  +0.00bb +0.00p  jam  64%  +0.46bb +0.20p
+left 6-8 eff <10   low      fold  68%  +0.00bb +0.01p  limp   2%  +0.05bb +0.22p  raise   0%  +0.00bb +0.00p  jam  30%  +0.21bb -0.06p
+left 6-8 eff 10-20 pair+    fold  34%  +0.00bb +0.06p  limp   0%  +0.64bb +0.29p  raise  54%  +1.63bb +0.56p  jam  12%  +1.14bb +0.41p
+left 6-8 eff 10-20 A-high   fold  40%  +0.00bb +0.06p  limp   0%  +0.00bb +0.00p  raise  49%  +0.57bb +0.25p  jam  11%  +0.55bb +0.21p
+left 6-8 eff 10-20 QK-high  fold  81%  +0.00bb +0.04p  limp   0%  +0.00bb +0.00p  raise  11%  +0.44bb +0.13p  jam   7%  +0.38bb +0.22p
+left 6-8 eff 10-20 low      fold  98%  +0.00bb +0.03p  limp   0%  +0.00bb +0.00p  raise   0%  +4.33bb +1.54p  jam   2%  +1.39bb +0.72p
+left 6-8 eff 20+   pair+    fold  36%  +0.00bb +0.04p  limp   0%  +0.34bb +0.05p  raise  63%  +2.94bb +0.38p  jam   0%  +1.71bb +0.70p
+left 6-8 eff 20+   A-high   fold  47%  +0.00bb +0.03p  limp   0%  +0.20bb -0.04p  raise  52%  +1.60bb +0.22p  jam   0%  +1.36bb +0.39p
+left 6-8 eff 20+   QK-high  fold  89%  +0.00bb +0.03p  limp   0%  +0.00bb -0.18p  raise  11%  +1.12bb +0.15p  jam   0%  +1.27bb +0.39p
+left 6-8 eff 20+   low      fold 100%  +0.00bb +0.03p  limp   0%  +0.21bb -0.19p  raise   0%  -0.16bb -0.21p  jam   0%  +1.06bb +0.23p
+left 45  eff <10   pair+    fold   7%  +0.00bb +0.37p  limp   4%  +0.23bb +0.54p  raise   4%  +2.92bb +0.37p  jam  84%  +1.07bb +0.73p
+left 45  eff <10   A-high   fold   2%  +0.00bb -0.12p  limp   4%  +0.18bb +0.09p  raise   2%  +4.12bb +3.26p  jam  92%  +0.93bb +0.60p
+left 45  eff <10   QK-high  fold  16%  +0.00bb +0.01p  limp   3%  +0.27bb +0.52p  raise   0%  -6.69bb -4.10p  jam  81%  +0.72bb +0.26p
+left 45  eff <10   low      fold  52%  +0.00bb +0.05p  limp   2%  +0.18bb +0.49p  raise   0%  +0.00bb +0.00p  jam  45%  +0.58bb +0.09p
+left 45  eff 10-20 pair+    fold  29%  +0.00bb +0.09p  limp   0%  +0.67bb +0.09p  raise  55%  +1.32bb +0.52p  jam  16%  +1.24bb +0.70p
+left 45  eff 10-20 A-high   fold  29%  +0.00bb +0.12p  limp   0%  +0.99bb +0.59p  raise  54%  +0.91bb +0.39p  jam  17%  +0.86bb +0.39p
+left 45  eff 10-20 QK-high  fold  67%  +0.00bb +0.10p  limp   0%  +1.02bb +0.65p  raise  20%  +0.74bb +0.18p  jam  13%  +0.80bb +0.15p
+left 45  eff 10-20 low      fold  95%  +0.00bb +0.12p  limp   0%  +0.60bb +0.01p  raise   0%  +2.02bb +1.54p  jam   5%  +1.16bb +0.69p
+left 45  eff 20+   pair+    fold  30%  +0.00bb +0.05p  limp   0%  +0.76bb +0.09p  raise  65%  +1.77bb +0.31p  jam   4%  +1.17bb +0.41p
+left 45  eff 20+   A-high   fold  34%  +0.00bb +0.04p  limp   0%  +0.64bb +0.07p  raise  62%  +1.30bb +0.25p  jam   4%  +1.25bb +0.44p
+left 45  eff 20+   QK-high  fold  74%  +0.00bb +0.05p  limp   0%  +0.38bb -0.03p  raise  22%  +1.26bb +0.24p  jam   4%  +1.14bb +0.39p
+left 45  eff 20+   low      fold  97%  +0.00bb +0.04p  limp   0%  +0.36bb -0.06p  raise   0%  +0.67bb -0.05p  jam   3%  +1.13bb +0.35p
+left 3   eff <10   pair+    fold   1%  +0.00bb -0.15p  limp   1%  +0.57bb +0.08p  raise   2%  +1.46bb +0.02p  jam  96%  +1.12bb +0.50p
+left 3   eff <10   A-high   fold   1%  +0.00bb -0.22p  limp   2%  +0.37bb +0.14p  raise   1%  +2.17bb +0.59p  jam  96%  +1.30bb +0.73p
+left 3   eff <10   QK-high  fold   1%  +0.00bb -0.03p  limp   3%  +0.42bb +0.03p  raise   0%  +0.00bb +0.00p  jam  97%  +1.07bb +0.48p
+left 3   eff <10   low      fold  33%  +0.00bb -0.22p  limp   1%  +0.43bb +0.14p  raise   0%  +0.00bb +0.00p  jam  66%  +0.72bb +0.19p
+left 3   eff 10-20 pair+    fold  18%  +0.00bb -0.16p  limp   0%  +0.61bb +0.14p  raise  48%  +1.63bb +0.53p  jam  34%  +1.05bb +0.46p
+left 3   eff 10-20 A-high   fold  14%  +0.00bb -0.15p  limp   0%  +0.53bb +0.07p  raise  51%  +0.81bb +0.22p  jam  35%  +1.24bb +0.58p
+left 3   eff 10-20 QK-high  fold  39%  +0.00bb -0.13p  limp   0%  +0.41bb -0.10p  raise  26%  +0.88bb +0.27p  jam  34%  +1.22bb +0.61p
+left 3   eff 10-20 low      fold  78%  +0.00bb -0.17p  limp   0%  +0.28bb -0.25p  raise   0%  +2.38bb +1.51p  jam  21%  +0.80bb +0.25p
+left 3   eff 20+   pair+    fold  19%  +0.00bb -0.07p  limp   1%  +0.59bb +0.05p  raise  58%  +1.66bb +0.32p  jam  21%  +1.29bb +0.39p
+left 3   eff 20+   A-high   fold  16%  +0.00bb -0.06p  limp   1%  +0.58bb +0.06p  raise  60%  +1.13bb +0.22p  jam  23%  +1.23bb +0.36p
+left 3   eff 20+   QK-high  fold  45%  +0.00bb -0.08p  limp   1%  +0.56bb +0.02p  raise  31%  +0.99bb +0.14p  jam  23%  +1.11bb +0.29p
+left 3   eff 20+   low      fold  84%  +0.00bb -0.08p  limp   1%  +0.48bb -0.03p  raise   1%  +0.67bb +0.14p  jam  15%  +1.07bb +0.27p

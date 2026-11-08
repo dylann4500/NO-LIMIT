@@ -1,0 +1,53 @@
+### o2: top6 = sandylikesfr 20.4, AZ 18.9, 2 Curry 18.8, Lemonade 18.7, Clippers Cha 18.2, Team 72 18.0
+
+-- headline (open% of unopened, fold facing 1 raise, flop first-in bet%, VPIP 8/3/2-handed, chips w/o vs with showdown, bb/table)
+sandylikesfr open  36% fold1raise  75% flopFirstBet  75% cbet  82% | VPIP 8h  25% 3h  52% 2h  55% | noSD  +11.9 SD  +17.5 bb/table
+AZ           open  39% fold1raise  78% flopFirstBet  63% cbet  78% | VPIP 8h  17% 3h  55% 2h  57% | noSD  +12.5 SD   +8.0 bb/table
+2 Curry      open  48% fold1raise  61% flopFirstBet  75% cbet  89% | VPIP 8h  29% 3h  61% 2h  62% | noSD   +8.9 SD  +15.2 bb/table
+Lemonade     open  11% fold1raise  72% flopFirstBet  46% cbet  64% | VPIP 8h  17% 3h  45% 2h  63% | noSD  +20.6 SD   -0.0 bb/table
+Clippers Cha open  34% fold1raise  83% flopFirstBet  58% cbet  66% | VPIP 8h  16% 3h  37% 2h  48% | noSD   -3.8 SD  +20.1 bb/table
+Team 72      open  46% fold1raise  79% flopFirstBet  58% cbet  62% | VPIP 8h  21% 3h  49% 2h  60% | noSD   -1.1 SD  +25.8 bb/table
+US           open  32% fold1raise  69% flopFirstBet  87% cbet  93% | VPIP 8h  21% 3h  44% 2h  44% | noSD  +13.9 SD   +4.0 bb/table
+TOP6         open  36% fold1raise  75% flopFirstBet  64% cbet  77% | VPIP 8h  21% 3h  50% 2h  57% | noSD   +8.0 SD  +14.6 bb/table
+
+-- open sizes (top 2 bb values) and postflop first-bet size clusters (top 3 pot fractions)
+sandylikesfr open 2.0bb 58% 3.5bb 14% | bets 0.75pot 19% 0.50pot 18% 0.10pot 11%
+AZ           open 2.5bb 91% 3.4bb  7% | bets 0.80pot 40% 0.55pot 36% 0.50pot 11%
+2 Curry      open 2.0bb 95% 3.0bb  5% | bets 0.50pot 45% 0.65pot 35% 0.55pot 12%
+Lemonade     open 2.0bb 66% 2.2bb 23% | bets 0.50pot 43% 1.00pot 19% 39.60pot  0%
+Clippers Cha open 2.6bb 64% 2.3bb 28% | bets 0.75pot 39% 0.55pot 36% 0.50pot 13%
+Team 72      open 2.0bb 36% 2.6bb 35% | bets 0.75pot 39% 0.40pot 28% 1.05pot 20%
+US           open 2.2bb 46% 2.1bb 25% | bets 0.35pot 41% 1.00pot 29% 0.75pot 18%
+
+-- flop FIRST-IN bet% (any player, no bet yet) by #opponents x villain-visible connect (pair/draw/miss)
+                1/pair    1/draw    1/miss    2/pair    2/draw    2/miss   3+/pair   3+/draw   3+/miss
+sandylikesfr       44%       81%       86%       42%       65%       70%       39%       44%       55%
+AZ                 41%       69%       75%       29%       43%       54%       24%       33%       50%
+2 Curry            44%       84%       83%       36%       60%       58%       24%       38%       47%
+Lemonade           34%       47%       46%       35%       56%       58%       31%       41%       21%
+Clippers Cha       39%       66%       70%       13%       36%       38%        3%       13%        0%
+Team 72            33%       67%       66%       22%       46%       40%       22%       37%       42%
+US                 73%       94%       95%       47%       63%       70%       27%       46%       52%
+TOP6               39%       70%       73%       30%       52%       53%       26%       35%       39%
+-- flop C-BET% (preflop aggressor, checked to) same split
+sandylikesfr       50%       89%       92%       34%       59%       73%       38%       50%       60%
+AZ                 59%       83%       87%       35%       50%       55%       11%       50%        0%
+2 Curry            52%       99%       99%       41%       68%       67%       25%       38%       29%
+Lemonade           44%       68%       72%       17%       22%      100%        -         -         - 
+Clippers Cha       44%       72%       76%       19%       42%       52%        0%       13%        0%
+Team 72            33%       69%       69%       23%       46%       43%       27%       35%       33%
+US                 91%       99%      100%       53%       68%       74%       24%       43%       46%
+TOP6               47%       84%       86%       32%       56%       60%       24%       37%       30%
+   opp counts (TOP6 cb): 1800 7952 6883 516 1381 488 70 103 23
+
+-- open% of unopened pots by players left; steal% (CO/BTN/SB first-in) by players left
+                      n8          n7          n6          n5          n4          n3          n2
+sandylikesfr  27%/ 29%  27%/ 32%  27%/ 32%  28%/ 30%  55%/ 55%  57%/ 57%  56%/  - 
+AZ            24%/ 43%  27%/ 45%  33%/ 47%  38%/ 46%  48%/ 47%  71%/ 71%  80%/  - 
+2 Curry       30%/ 55%  35%/ 58%  41%/ 59%  50%/ 60%  57%/ 57%  78%/ 78%  91%/  - 
+Lemonade       1%/  1%   1%/  1%   2%/  3%   5%/  5%  14%/ 13%  23%/ 20%  73%/  - 
+Clippers Cha  20%/ 36%  24%/ 37%  27%/ 37%  32%/ 39%  40%/ 40%  54%/ 54%  75%/  - 
+Team 72       28%/ 47%  35%/ 55%  41%/ 56%  49%/ 59%  56%/ 56%  67%/ 67%  86%/  - 
+US            23%/ 33%  25%/ 34%  28%/ 35%  32%/ 36%  38%/ 38%  48%/ 48%  57%/  - 
+TOP6          22%/ 36%  25%/ 39%  29%/ 40%  34%/ 40%  45%/ 45%  59%/ 58%  76%/  - 
+   (each cell: open%/steal%)

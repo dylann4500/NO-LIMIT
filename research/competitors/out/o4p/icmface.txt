@@ -1,0 +1,33 @@
+== R2 v5r (mask off): facing an all-in, <=5 alive: call rate | ICM pts of calls vs fold (±SE)
+   2-3 alive: all  call  27% (n 38098)  calls +1.25±0.05
+        top10  call  74% (n  4984)  calls +2.06±0.10
+        10-25  call  54% (n  7053)  calls +0.98±0.09
+        25-45  call  19% (n  7736)  calls +0.67±0.12
+        45+    call   6% (n 18325)  calls +0.30±0.11
+   4-5 alive: all  call  25% (n 39249)  calls +0.76±0.09
+        top10  call  65% (n  6208)  calls +1.53±0.15
+        10-25  call  47% (n  8037)  calls +0.43±0.14
+        25-45  call  17% (n  7170)  calls -0.10±0.24
+        45+    call   5% (n 17834)  calls -0.29±0.28
+== R3 v6 (mask off): facing an all-in, <=5 alive: call rate | ICM pts of calls vs fold (±SE)
+   2-3 alive: all  call  24% (n 50776)  calls +1.48±0.05
+        top10  call  71% (n  6355)  calls +2.32±0.09
+        10-25  call  51% (n  9339)  calls +1.12±0.08
+        25-45  call  15% (n 10307)  calls +0.80±0.11
+        45+    call   5% (n 24775)  calls +0.70±0.09
+   4-5 alive: all  call  22% (n 51802)  calls +1.14±0.08
+        top10  call  63% (n  7522)  calls +2.16±0.13
+        10-25  call  42% (n 10511)  calls +0.38±0.12
+        25-45  call  12% (n  9555)  calls +0.64±0.19
+        45+    call   4% (n 24214)  calls +0.06±0.17
+== R4 first1000 v7 (mask on, bug): facing an all-in, <=5 alive: call rate | ICM pts of calls vs fold (±SE)
+   2-3 alive: all  call  16% (n 2831)  calls +1.21±0.26
+        top10  call  51% (n   375)  calls +1.78±0.45
+        10-25  call  34% (n   513)  calls +0.81±0.42
+        25-45  call  10% (n   606)  calls +0.47±0.56
+        45+    call   3% (n  1337)  calls +1.38±0.56
+   4-5 alive: all  call  17% (n 2916)  calls +1.80±0.33
+        top10  call  53% (n   416)  calls +2.63±0.57
+        10-25  call  27% (n   602)  calls +1.01±0.55
+        25-45  call  10% (n   513)  calls +1.74±0.86
+        45+    call   3% (n  1385)  calls +0.75±0.40
