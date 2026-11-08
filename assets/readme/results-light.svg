@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="940" height="390" viewBox="0 0 940 390" role="img" aria-labelledby="t d" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif">
-<title id="t">Points per table by round</title><desc id="d">P1 m10: 14.61; P2 v3: 18.87; P3 v3b: 19.02; P4 v4: 9.17; S1 ×1 v3b: 18.1; S2 ×2 v5r: 16.73; S3 ×3 v6: 19.05; S4 ×4 v7: 18.26; S5 ×5 v9s: 17.95; S6 ×6 v10: not recorded</desc>
+<title id="t">Points per table by round</title><desc id="d">P1 m10: 14.61; P2 v3: 18.87; P3 v3b: 19.02; P4 v4: 9.17; S1 ×1 v3b: 18.1; S2 ×2 v5r: 16.73; S3 ×3 v6: 19.05; S4 ×4 v7: 18.26; S5 ×5 v9s: 17.95; S6 ×6 v10: 17.53</desc>
 <text x="12.0" y="30.0" font-size="17" font-weight="600" fill="#1f2328" text-anchor="start">Points per table, by round</text>
 <text x="12.0" y="52.0" font-size="13" font-weight="400" fill="#59636e" text-anchor="start">8-seat sit-and-gos paying 50/30/20 points. Final standing: 6th of 148.</text>
 <rect x="724" y="20" width="12" height="12" rx="2" fill="#86b6ef"/>
@@ -45,8 +45,7 @@
 <path d="M774.3,292.0 V116.5 Q774.3,112.5 778.3,112.5 H816.3 Q820.3,112.5 820.3,116.5 V292.0 Z" fill="#2a78d6"/>
 <text x="797.3" y="312.0" font-size="12" font-weight="600" fill="#1f2328" text-anchor="middle">S5 ×5</text>
 <text x="797.3" y="329.0" font-size="12" font-weight="400" fill="#59636e" text-anchor="middle">v9s</text>
-<text x="879.1" y="268.0" font-size="11" font-weight="400" fill="#59636e" text-anchor="middle">not</text>
-<text x="879.1" y="282.0" font-size="11" font-weight="400" fill="#59636e" text-anchor="middle">recorded</text>
+<path d="M856.1,292.0 V120.7 Q856.1,116.7 860.1,116.7 H898.1 Q902.1,116.7 902.1,120.7 V292.0 Z" fill="#2a78d6"/>
 <text x="879.1" y="312.0" font-size="12" font-weight="600" fill="#1f2328" text-anchor="middle">S6 ×6</text>
 <text x="879.1" y="329.0" font-size="12" font-weight="400" fill="#59636e" text-anchor="middle">v10</text>
 <line x1="58" x2="920" y1="292" y2="292" stroke="#818b98" stroke-width="1"/>

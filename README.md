@@ -4,13 +4,13 @@
 
 **Team avalon's pokerbot for No Limit 2026's three-card discard-and-reveal variant, with the release gate and hand-history tooling that took it from 31st in the first practice round to 6th of 148.**
 
-[Results](#results) · [How the bot decides](#how-the-bot-decides) · [How the night was run](#how-the-night-was-run) · [Engineering notes](#engineering-notes) · [Run it](#run-it-locally)
+[Write-up (PDF)](docs/writeup/avalon-writeup.pdf) · [Results](#results) · [How the bot decides](#how-the-bot-decides) · [How the night was run](#how-the-night-was-run) · [Engineering notes](#engineering-notes) · [Run it](#run-it-locally)
 
 <br/>
 
 | **6th / 148** | **3rd** | **0** | **15** |
 | :---: | :---: | :---: | :---: |
-| final standing | best scored round<br/>(round 3, ×3 weight) | failed decisions<br/>in scored rounds 1-5 | release builds<br/>in one night |
+| final standing | best scored round<br/>(round 3, ×3 weight) | failed decisions<br/>in all six scored rounds | release builds<br/>in one night |
 
 </div>
 
@@ -42,7 +42,7 @@ The bot was written from scratch during the event. The only inputs were the know
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/readme/results-dark.svg">
-  <img alt="Points per table by round. Practice: m10 14.61, v3 18.87, v3b 19.02, v4 9.17. Scored: v3b 18.10, v5r 16.73, v6 19.05, v7 18.26, v9s 17.95; round 6 not recorded." src="assets/readme/results-light.svg" width="100%">
+  <img alt="Points per table by round. Practice: m10 14.61, v3 18.87, v3b 19.02, v4 9.17. Scored: v3b 18.10, v5r 16.73, v6 19.05, v7 18.26, v9s 17.95, v10 17.53." src="assets/readme/results-light.svg" width="100%">
 </picture>
 
 | Round | Bot | Points / table | Round rank | Notes |
@@ -56,8 +56,12 @@ The bot was written from scratch during the event. The only inputs were the know
 | **Scored 3** (×3) | v6 | **19.05** | **3** | flop/turn fold rules |
 | **Scored 4** (×4) | v7 | 18.26 | 6 | ICM bug live (unknown at the time) |
 | **Scored 5** (×5) | v9s | 17.95 | 6 | ICM bug still live |
-| **Scored 6** (×6) | v10 | not recorded | | ICM bug fixed |
-| **Final** | | | **6 / 148** | |
+| **Scored 6** (×6) | v10 | 17.53 | 7 | ICM bug fixed |
+| **Final** | | | **6 / 148** | 376.71 weighted points, 4.54 behind 5th |
+
+The [write-up](docs/writeup/avalon-writeup.pdf) has the full post-event analysis of all six rounds. In short:
+- **Rounds 1-2 decided our place.** After round 2 we trailed the teams that finished 3rd-5th by 8.5-11.1 weighted points; over rounds 3-6 we outscored all three.
+- **Round 6's dip came from the field, not v10.** Opponents 3-bet our opens more, and one team switched to a hyper-aggressive bot that cost us 3.8 points per table at its tables.
 
 ## How the bot decides
 
@@ -161,7 +165,7 @@ A missed deadline meant the previous bot stayed live.
 - **Problem:** `poker_agent_sdk.icm()` scores a busted stack as 0 points even when the bust place pays: `icm([0, 4000], [50, 30, 20])` returns `[0.0, 50.0]`, but busting heads-up still pays 30. From v7 on, the bot used it to mask all-in calls. Heads-up, that made the bot demand about 88% equity to call where about 45% is correct, so it folded profitable calls in rounds 4 and 5.
 - **Approach:** Samuel's matched-hand data showed the bot folding heads-up all-in spots. Our study of all-in calls with 2-3 alive ([`hucall.py`](reviewer/hucall.py)) found calling beat folding by +0.3 to +2.3 points per call. Tracing the fold threshold led to the SDK function. v10 limits the mask to 4-5 players alive (`icm_on`), where the bust place is unpaid and the SDK's assumption is correct.
 - **Why:** It was the smallest change that removed the wrong region with minutes to go before the ×6 round. Re-deriving ICM under that time pressure was riskier.
-- **Tradeoff:** At 2-3 alive the bot has no ICM adjustment at all and plays on chip EV. The bug cost about 2-2.5 weighted points while it was live.
+- **Tradeoff:** At 2-3 alive the bot has no ICM adjustment at all and plays on chip EV. The post-event analysis puts the bug's cost at about 1.4 weighted points (0.9-1.7); on the night we guessed 2-2.5.
 
 ## Findings that held up (real field, multiple rounds)
 
@@ -174,10 +178,11 @@ A missed deadline meant the previous bot stayed live.
 
 ## Lessons
 
-1. **Judge changes on real-field hand data from the first practice round.** The flop-calling leak was live through scored round 2. Fixing it earlier would have been worth about 4-7 weighted points, more than our 5.39-point gap to 5th.
+1. **Judge changes on real-field hand data from the first practice round.** The flop-calling leak was live through scored round 2. Fixing it earlier would have been worth about 4-7 weighted points, more than our final 4.54-point gap to 5th.
 2. **Unit-test every library function a decision depends on,** with edge cases such as 2 players, busted stacks and paid places.
 3. **Local wins against your own old bots mean nothing.** Gate on a behavior diff against the last *proven* bot, plus VPIP/PFR bands from the real field.
 4. **1,000-table samples swing by ±2 points.** Practice rounds also ran 1.5-2 points high, so compare same-file or scored results only.
+5. **Track how the field responds to you, not just your own VPIP and PFR.** We folded to 82-87% of 3-bets all night while the field's 3-bet rate nearly doubled. After v6 we also folded to heads-up bets 20-30 points more often than the field. The gate watched neither, so neither got fixed.
 
 ## Repository structure
 
@@ -193,7 +198,7 @@ A missed deadline meant the previous bot stayed live.
 │                            competitors/ (REPORT.md, scripts, outputs)
 ├── rebuild/                 the knowledge-only docs the bot was built from
 ├── docs/                    STEERING.md (decision log), BUILDLOG.md (build agent's test log),
-│                            TUNING.md (v4's value-function dials)
+│                            TUNING.md (v4's value-function dials), writeup/ (the write-up, LaTeX + PDF)
 └── assets/readme/           README images (generated by tools/readme_assets.py)
 ```
 
@@ -228,5 +233,4 @@ To regenerate the README images, run `python3 tools/readme_assets.py`.
 - **Not included:**
   - Hand histories: they're large and contain other teams' play.
   - The starter kit.
-  - Round 6's per-table score, which wasn't recorded.
 - **License.** The repo is private and has no license.

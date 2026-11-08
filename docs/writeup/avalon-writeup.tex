@@ -1,0 +1,336 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\usepackage{enumitem}
+\usepackage[font=small,labelfont=rm,labelsep=colon]{caption}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage[compact]{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{9pt}{3pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+\setlist{itemsep=0pt,parsep=0pt,topsep=1pt,partopsep=0pt,leftmargin=1.2em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3.5pt}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries Folding to the Visible Card}\\[4pt]
+{\large A field-calibrated agent for discard-and-reveal hold'em at No Limit 2026}\\[10pt]
+Dylan Nguyen and Samuel Choi\\[2pt]
+November 8, 2026
+\end{center}
+
+\begin{abstract}
+\noindent No Limit 2026, a one-night poker-bot tournament sponsored by OpenAI, Sequoia and Citadel, was played on a previously undisclosed hold'em variant: each player receives three hole cards and, on the flop, discards one and exposes one of the two retained. Agents had 1\,ms per decision and played 8-seat sit-and-gos over six scored rounds weighted 1 to 6. Our agent, written from scratch during the event, combines precomputed three-card preflop tables, Monte Carlo equity against ranges conditioned on each opponent's exposed card, and a small set of rules, each adopted only when the tournament's own hand histories supported it. It finished 6th of 148 teams, 4.54 weighted points behind 5th, and placed 3rd in scored round 3. A post-event analysis of all six rounds (120,947 tables) shows that the placing was decided in the first two rounds, before a flop over-calling leak was fixed; over rounds 3--6 the agent outscored the teams placed 3rd to 5th. That leak and a defect in the SDK's ICM routine cost an estimated 5 to 9 weighted points. The analysis also identifies two behaviors the agent never corrected: it kept folding to most 3-bets as the field 3-bet more often, and after the round 3 fix it folded to heads-up bets far more often than the field.
+\end{abstract}
+
+\begin{center}
+\fbox{\begin{tabular}{@{\hspace{6pt}}l@{\hspace{18pt}}l@{\hspace{6pt}}}
+\multicolumn{2}{c}{\rule{0pt}{12pt}\bfseries Final result}\\[2pt]
+Final standing & 6th of 148 teams, 376.71 weighted points\\
+Margin to 5th place & 4.54 weighted points\\
+Best scored round & 3rd (round 3, 19.05 points per table)\\
+Final round & 7th of 127 (17.53 points per table)\\
+Final submission & v10 (\texttt{bots/v10/agent.py}), 0.3\,ms decision budget\\
+Failed decisions, all scored rounds & 0\\[3pt]
+\end{tabular}}
+\end{center}
+
+\section{Problem setup}
+
+\textbf{Game rules.} The variant, \texttt{flop\_discard\_reveal}, is no-limit hold'em played from a single 52-card deck.
+\begin{itemize}
+\item Each player is dealt three private cards; preflop betting follows standard rules.
+\item After the flop, each player still in the hand discards one card face down and exposes one of the remaining two, giving six legal choices. All selections are locked before any is revealed.
+\item The exposed card remains public for the rest of the hand, including after its owner folds. The discarded card is out of play and known only to its owner. The remaining card stays hidden until showdown, where each player's best five-card hand is formed from the board and the two retained cards.
+\item A failed selection (timeout, exception or invalid action) discards the last card dealt and exposes the first.
+\end{itemize}
+
+\textbf{Format and scoring.}
+\begin{itemize}
+\item Each table is an 8-player sit-and-go with starting stacks of 2,000 chips (100 big blinds, bb). Blinds start at 10/20 and increase every 20 hands. At a 250-hand cap, the remaining points are divided among the survivors by ICM.
+\item Finishing positions pay 50/30/20 points, so an equal share is 12.5 points per table.
+\item Each round comprises at least 5,000 tables, so sampling variance in a round's average is small. The principal uncertainty is the composition of the field and how it adapts.
+\item Six scored rounds were played at 20-minute intervals with weights $1,\dots,6$, so rounds 4--6 account for 71\% of the total. Practice rounds were interleaved with them.
+\item A round's hand history became available during the following round, so data from round $k$ could first inform the submission for round $k+2$.
+\end{itemize}
+
+\textbf{Constraints.}
+\begin{itemize}
+\item \textbf{Time.} Each decision has a 1\,ms limit plus a 100\,ms reserve per table. The upload test, however, plays 20 heads-up hands with \emph{no} reserve and rejects an agent that fails more than 10\% of its decisions.
+\item \textbf{State.} Per-table state is limited to a \texttt{memory} byte string of at most 64\,KB. Sharing information across tables is prohibited.
+\item \textbf{Environment.} Agents run on Python 3.12 with \texttt{eval7}. The module is imported once and then forked, and any process may serve any table.
+\end{itemize}
+
+\section{Properties of the variant}
+
+\textbf{Option value of the third card.} Let $T$ be the dealt triple, $F$ the flop and $V(K,F)$ the value of retaining the pair $K\subset T$. Because the pair is chosen after the flop is seen,
+\[
+V_{\text{pre}}(T)=\mathbb{E}_F\Big[\max_{K\subset T,\,|K|=2}V(K,F)\Big]\;\ge\;\max_{K}\,\mathbb{E}_F\big[V(K,F)\big].
+\]
+Every player holds this option, so flop holdings are stronger than in standard hold'em and two-card hand-strength intuitions do not transfer. For example, 17.2\% of triples contain a repeated rank, yet trip deuces are among the \emph{weakest} starting hands: only two of the three can be retained, so the hand plays as a pair of deuces with only one deuce left in the deck. By our tables, 99.7\% of triples are at least as strong.
+
+\textbf{Reduced opponent ranges.} After the flop, an opponent's holding is $\{v,h\}$, where $v$ is public. The range therefore contains at most the roughly 45 unseen cards $h$, compared with 1,326 two-card combinations in hold'em. The opponent's minimum hand, $v$ together with the board, is known, and equity can be estimated cheaply against a largely determined range. Conversely, the choice of which card to expose is itself a signal that opponents can read.
+
+\section{Agent design}
+
+\subsection{Architecture and latency control}
+The submitted agent is a single module organized in three layers:
+\begin{itemize}
+\item a \emph{platform} layer: the memory envelope, opponent statistics, the action-legality funnel and exception handling;
+\item a \emph{strategy} layer that returns an action type and amount;
+\item an \emph{evaluation engine} of precomputed tables and \texttt{eval7} hand evaluation.
+\end{itemize}
+
+Five measures enforce the time limit:
+\begin{enumerate}[label=(\roman*)]
+\item All tables are embedded as literals, so the submission is a single 150\,KB file with no external data dependencies.
+\item Every Monte Carlo loop checks a 0.3\,ms deadline measured from the start of \texttt{act()}. Opponents not evaluated in time receive an approximate equity rather than causing a timeout.
+\item At import, the module executes one discarded decision of each type (preflop, selection, postflop), then calls \texttt{gc.freeze()} and raises the garbage-collection thresholds. This eliminated a 2.6\,ms collection pause observed in testing.
+\item Any exception falls back to check or fold, or to the default selection in the selection phase.
+\item \texttt{funnel()} maps the chosen action to the nearest legal action. An all-in becomes the maximum legal raise, and an illegal raise degrades to a call, then a check, then a fold.
+\end{enumerate}
+
+\subsection{Opponent modeling}
+For each opponent, the memory string stores counts of hands, VPIP, PFR, folds to bets, bets and raises. Each frequency is shrunk toward a field prior with a pseudo-count of 6:
+\[
+\hat p=\frac{k+6\,p_0}{n+6}.
+\]
+The fold-to-bet prior is $p_0=0.45$, revised from 0.55 after the first practice round.
+
+\subsection{Preflop strategy}
+Each three-card hand maps to one of 1,755 suit-isomorphism classes. For each class, an offline Monte Carlo simulation deals a flop, lets both players retain their best two of three cards, and completes the board. This yields two quantities per class:
+\begin{itemize}
+\item a percentile: the fraction of the 22,100 triples at least as strong;
+\item equity against an opponent drawn from the top $w$ of that ranking, for $w\in\{5,10,20,35,50,100\}\%$.
+\end{itemize}
+Preflop decisions use these quantities as follows.
+\begin{itemize}
+\item \textbf{Unopened pots.} The agent opens when its percentile is at most a width $w(n)$, where $n$ is the number of players yet to act. The width decreases from 40\% with one player to act to 20\% with six or seven. Open sizes range from 2.1 to 3\,bb.
+\item \textbf{Short stacks.} At an effective stack of 12\,bb or less, the agent plays push/fold. The jam width is interpolated by stack depth and scaled by the number of players yet to act.
+\item \textbf{Facing a raise.} The raiser's range width is estimated from a prior that depends on table size, blended with the seat's observed PFR, and the equity $e$ is read at that width. With $k$ additional players already in the pot, the equity is discounted to $e^{1+0.7k}$.
+  \begin{itemize}
+  \item If stacks are committed, the agent calls or jams when $e$ exceeds pot odds by at least 0.02.
+  \item Otherwise, it 3-bets when $e\ge0.57$, and calls when $0.8\,e$ covers pot odds and the call costs at most 12\% of its stack.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Discard and reveal selection}
+For each of the three candidate pairs, the agent estimates equity with 200 Monte Carlo trials against a board-aware range: the strongest 60\% of a 150-hand sample, ranked on the current flop. It retains the pair with the highest equity and chooses the card to expose by a least-information rule:
+\begin{enumerate}
+\item the retained card that does not pair the board;
+\item otherwise, the card that does not contribute to a flush draw;
+\item otherwise, the lower card.
+\end{enumerate}
+Under this rule, a card that makes top pair remains hidden unless the other retained card also pairs the board.
+
+\subsection{Postflop strategy}
+Let $D$ denote the dead cards: our three dealt cards (including the discard), the board and all exposed cards. Opponent $j$, with exposed card $v_j$, is modeled by the range
+\[
+R_j=\{(v_j,h):h\notin D\}.
+\]
+The range is then narrowed by $j$'s actions in the hand. Each bet, raise or call applies a retention fraction determined by the seat's bet and raise frequencies and the bet size, truncating the range to its strongest holdings while preserving a sparse tail. Multiway equity is approximated as the product
+\[
+e=\prod_j \mathrm{Eq}(H,R_j),
+\]
+with 300 trials per factor against at most two opponents and 120 otherwise.
+
+When not facing a bet, the agent compares checking with betting $B\in\{0.33,0.5,0.75,1\}\cdot P$:
+\[
+\mathrm{EV}_{\text{check}}=e\,\rho P,\qquad
+\mathrm{EV}_{\text{bet}}(B)=F_B P+(1-F_B)\big(e_c(P+2B)-B\big),
+\]
+where:
+\begin{itemize}
+\item $\rho$ is an equity-realization factor: 0.92 in position and 0.82 out of position;
+\item $F_B=\min\!\big(0.97,\;F\,(0.85+0.45\min(1,B/P))\big)$ is the fold probability at size $B$, with $F=\prod_j\hat p_j^{\,\text{fold}}$;
+\item $e_c=e^{\,1+F_B+0.5\min(1.5,B/P)}$ is the equity when called, discounted because calling ranges are stronger;
+\item on the river, the fold probability of any opponent whose exposed card and the board already beat our hand is capped at 0.08 (Table~\ref{tab:evidence}).
+\end{itemize}
+
+When facing a bet heads-up on the flop or turn, two fold rules are applied first. Neither applies when the required equity is below 15\%.
+\begin{itemize}
+\item \textbf{Visible pair.} If the opponent's exposed card pairs the board and we hold at most one pair, the agent neither bets nor calls, except with a flush draw on the flop.
+\item \textbf{Weak holdings.} Otherwise, the agent continues only with top pair or better or a flush draw, folding unpaired hands and middle or bottom pair.
+\end{itemize}
+If neither rule applies, the agent raises for value when $e\ge0.78$ (0.84 on the river), plus 0.05 per additional opponent. It calls when $0.9\,e$ exceeds pot odds by 0.03, or on the river when $e$ exceeds pot odds by 0.02.
+
+\subsection{Tournament equity}
+Tournament equity is computed with the Malmuth--Harville model [1]. With stacks $s_i$ summing to $S$, player $i$ finishes first with probability $s_i/S$; conditional on that outcome, the next place is drawn in the same way from the remaining stacks, and so on. A player's expected points are the sum of each payout weighted by the probability of that place. For an all-in call, let $U_F$, $U_W$ and $U_L$ denote our expected points after folding, after calling and winning, and after calling and losing, each evaluated on the full stack vector. Calling is correct when
+\[
+e > t = \frac{U_F-U_L}{U_W-U_L}.
+\]
+From v7 onward, an \emph{ICM call mask} folded all-in calls with $e<t$ when five or fewer players remained.
+
+\section{Evaluation methodology}
+
+\textbf{Data.} Each round produced 10,000 to 20,000 tables of play by our agent. For each hand, the history records the stacks before and after the hand, the complete event log, each seat's point equity before and after the hand, and our three dealt cards with our private retain and discard choices. Opponents' cards are observed only when exposed or shown at showdown. A parallel analyzer processed a 20,000-table file in about 10 seconds, so results were available before the next submission deadline.
+
+\textbf{Forward-value estimator.} A decision class $d$, for example ``big blind calls a cutoff open with a bottom-60\% hand'', is evaluated against folding at the same point:
+\[
+\Delta_d=\frac1{|d|}\sum_{x\in d}\Big(U\big(s^{\text{after}}_x\big)-U\big(s^{\text{fold}}_x\big)\Big),
+\]
+where $U(s^{\text{after}}_x)$ is our realized point equity at the end of hand $x$, and $s^{\text{fold}}_x$ is the counterfactual stack vector had we folded, with our committed chips awarded to the aggressor. Because $U$ is measured in points, $\Delta_d$ incorporates ICM effects and all subsequent play in the hand. Estimates were stratified by players remaining, position, betting context and hand-strength percentile, and most were replicated across two or more rounds before being adopted as rules.
+
+\textbf{Randomized and matched comparisons.} Versions v3 and v5r exposed one of the two retained cards at random, which made round 2 a randomized experiment on the reveal decision (Table~\ref{tab:evidence}). Independently, S.C. ran matched-hand comparisons of our decisions in rounds 1--4. The heads-up jam rule was adopted only after both methods agreed.
+
+\textbf{Release validation.} Each release candidate was required to pass five checks: (1)~a rules check; (2)~the upload test without a time reserve, on five seeds on a laptop and three on a second machine; (3)~an 8-seat local match; (4)~zero failed decisions across all runs; and (5)~a \emph{behavior diff}. In the behavior diff, the candidate and the last validated version play identical tables against field-proxy opponents (calling stations, a maniac, tight-aggressive agents and earlier builds), and every preflop and first-flop decision frequency is compared. A VPIP outside 22--35\% or a PFR outside 17--27\%, bands derived from the tournament field, blocks the release. Any other frequency that moves by more than 10 percentage points must be attributable to the intended change.
+
+\textbf{Variance control.} Over the first 1,000 tables of a round, the per-table average fluctuates by about $\pm2$ points, and practice rounds scored 1.5--2 points above scored rounds. Versions were therefore compared only on complete files from rounds of the same type.
+
+\textbf{Post-event analysis.} After the event, all six scored-round files (120,947 tables) were re-analyzed with an independent Malmuth--Harville implementation that reproduces the platform's recorded point equities to within $5\times10^{-5}$ on 75,000 hands. Three analyses ran in parallel: performance trends and the ICM defect, decision-class attribution for round 6, and the opposing field. Their headline figures were then recomputed with separate scripts. The post-event estimates also correct $\Delta_d$ for a bias in the in-event version: when we fold and the hand continues, our point equity rises on average (by about 0.05 points per preflop fold in round 6), because the remaining players can eliminate one another. Section~\ref{sec:postevent} reports what this analysis found.
+
+\section{Results}
+
+\subsection{Performance by round}
+
+\begin{table}[!htb]
+\centering\small
+\begin{tabular}{lcclrr l}
+\toprule
+Round & Weight & Version & Principal change & Points/table & Rank & Note\\
+\midrule
+Practice 1 & -- & m10 & first legal submission & 14.61 & 31/92 & \\
+Practice 2 & -- & v3 & field-calibrated priors & 18.87 & 8/116 & \\
+Practice 3 & -- & v3b & least-information reveal & 19.02 & 7/123 & \\
+Practice 4 & -- & v4 & unified value function & 9.17 & 100/125 & withdrawn\\
+\midrule
+Scored 1 & $\times1$ & v3b & -- & 18.10 & 13/127 & \\
+Scored 2 & $\times2$ & v5r & no river bluffs into visible strength & 16.73 & 14 & \\
+Scored 3 & $\times3$ & v6 & heads-up flop/turn fold rules & \textbf{19.05} & \textbf{3} & \\
+Scored 4 & $\times4$ & v7 & hide top pair; ICM call mask & 18.26 & 6 & ICM defect\\
+Scored 5 & $\times5$ & v9s & heads-up and big-blind jams & 17.95 & 6 & ICM defect\\
+Scored 6 & $\times6$ & v10 & ICM defect corrected & 17.53 & 7/127 & \\
+\midrule
+Final & & & & & \textbf{6/148} & \\
+\bottomrule
+\end{tabular}
+\caption{Results by round. Ranks are within each round among the teams that played it. The final weighted total was 376.71 points; 5th place finished on 381.25.}\label{tab:results}
+\end{table}
+
+\begin{table}[!htb]
+\centering\small
+\begin{tabularx}{\textwidth}{L{0.2\textwidth} Y L{0.25\textwidth}}
+\toprule
+Change (version) & Evidence from tournament play & Outcome\\
+\midrule
+Heads-up flop/turn folds (v6) &
+Calls with no pair or draw lost 1.6--1.8\,bb and calls with middle pair 2.1--3.6\,bb ($n\approx9$k). One pair against an exposed card pairing the board lost 6.3\,bb ($n=1{,}946$). Our fold rate to flop bets was 34\%, against a top-12 median of 61\%. &
+Fold rate to flop bets rose from 34\% to 70\%; scored round 3: 19.05, up from 16.73.\\
+No river bluffs into visible strength (v5) &
+Such bets drew folds 10.5\% of the time ($n=1{,}164$) and lost 4.3\,bb each from that point ($n=2{,}437$). &
+$+0.52$\,bb per table; these bluffs were eliminated.\\
+Hide top pair (v7) &
+Randomized reveal: exposing top pair earned $+0.38$ points per hand and hiding it $+0.65$; difference $-0.27\pm0.05$ ($n\approx19.4$k per arm). &
+Adopted; the most precise estimate of the event.\\
+Retain all preflop jams &
+112,894 jams: realized points exceeded folding in every stratum, by $+0.03$ to $+1.42$ points per jam. &
+Proposed removal at 4--6 players rejected.\\
+Heads-up jams (v8); BB jams vs late opens (v9) &
+Matched-hand comparisons: heads-up first-in jams $+0.41$ to $+0.48$; big blind vs open $+0.8$ to $+1.2$; BB jams with two broadway cards $+0.83$ to $+1.18$, with an ace $+0.48$ to $+1.10$. &
+Adopted in v9s.\\
+BB folds vs non-SB opens (v7) &
+Calls returned $-0.15$ to $-0.48$ each before v6. After v6, calls against the button returned $+0.14\pm0.03$ ($n=9.1$k). &
+Disabled in v8b; superseded by v6.\\
+Wider late steals (v8) &
+v8b practice 17.82 vs v7 practice 19.06 ($-1.24\pm0.95$); VPIP rose from 28.5\% to 33\%. &
+Disabled in v9s.\\
+\bottomrule
+\end{tabularx}
+\caption{Evidence behind each change. Values are forward differences in points or big blinds relative to folding (or to the alternative action), estimated from tournament hand histories during the event.}\label{tab:evidence}
+\end{table}
+
+\textbf{Effect of the v6 fold rules.} The largest single improvement came from folding more often. In round 2, the leading teams folded to 59--69\% of flop bets, while our showdown result fell from $+2.9$ to $+0.9$\,bb per hand, indicating that we were calling too often against strong hands. The forward-value estimates, S.C.'s correlational study and Astra's review independently recommended the two v6 rules. In the practice round preceding round 3, v6 scored 19.75 over the first 1,000 tables (4th of 127), against 15.6 for v5r. The full scored round finished at 19.05, 3rd in the round.
+
+\subsection{Final standings}
+
+\begin{table}[!htb]
+\centering\small
+\begin{tabular}{rl rrrrrr rrr}
+\toprule
+& & \multicolumn{6}{c}{Points per table, by round} & \multicolumn{3}{c}{Weighted points}\\
+\cmidrule(lr){3-8}\cmidrule(lr){9-11}
+Place & Team & 1 & 2 & 3 & 4 & 5 & 6 & Rounds 1--2 & Rounds 3--6 & Total\\
+\midrule
+1 & 2 Curry & 20.40 & 20.24 & 21.15 & 20.47 & 20.41 & 20.08 & 60.88 & 367.86 & 428.72\\
+2 & Lemonade & 19.78 & 19.34 & 20.67 & 20.62 & 20.09 & 19.61 & 58.46 & 362.60 & 421.08\\
+3 & AZ & 21.22 & 19.44 & 17.93 & 19.06 & 18.04 & 17.27 & 60.10 & 323.85 & 383.96\\
+4 & sandylikesfrogs & 20.65 & 19.72 & 18.33 & 18.30 & 18.49 & 16.87 & 60.09 & 321.86 & 381.95\\
+5 & Team 72 & 22.19 & 20.23 & 17.89 & 17.86 & 17.83 & 17.39 & 62.65 & 318.60 & 381.25\\
+6 & \textbf{avalon} & 18.10 & 16.73 & 19.05 & 18.26 & 17.95 & 17.53 & \textbf{51.56} & \textbf{325.12} & 376.71\\
+\bottomrule
+\end{tabular}
+\caption{Official results for the six leading teams. Subtotals are computed from the rounded per-round scores and may differ from the official totals by up to 0.03.}\label{tab:standings}
+\end{table}
+
+Table~\ref{tab:standings} lists the six leading teams. 2 Curry and Lemonade scored above 19.3 points per table in every round and were clearly ahead. The teams placed 3rd to 6th finished within 7.25 points of one another, and their order was set in rounds 1 and 2. After round 2 we trailed AZ, sandylikesfrogs and Team 72 by 8.54, 8.53 and 11.09 weighted points; over rounds 3--6 we outscored them by 1.27, 3.26 and 6.52. Our per-round standard error was about 0.15 points per table. If other teams' scores are equally precise, the difference between two weighted totals has a standard error of about 2.0 points. Places 3--5 are therefore within noise ($z=1.0$ and $0.4$ between neighbors), while our deficits to Team 72 ($z=2.3$) and AZ ($z=3.7$) are not.
+
+\subsection{Round 6}
+
+v10 scored 17.53 points per table in round 6, 7th of 127, and 0.43 below v9s in round 5 (95\% CI $-0.83$ to $-0.03$). Because v10 differs from v9s only in the ICM mask, the difference mainly reflects the field. By decision class, opening lost $0.45\pm0.16$ points per table as the share of our opens that faced a 3-bet or all-in rose from 29.6\% to 34.4\%. Big-blind jams against opens lost $0.47\pm0.18$, mostly because such spots were less frequent, and open-jams lost $0.35\pm0.13$. All-in calls gained $0.27\pm0.17$, consistent with the ICM correction (intervals are 95\%). The field also offered less to exploit: each of the ten weakest teams was worth about 1.24 points per table to us when seated, against 1.85 in round 5.
+
+One opponent changed sharply. thepastaway entered a new agent for round 6, with a VPIP of 58\% and a 3-bet rate of 60\% against our opens, up from 33\% and 15\% in round 5. At its 1,081 tables we averaged 13.74 points, 3.78 below our round average; in round 5 the corresponding difference was $+0.22$.
+
+\section{Error analysis}\label{sec:errors}
+
+\textbf{Overfitting to local opponents (v4).} v4 replaced the per-decision heuristics with a single value function and a softmax over all legal actions. Against our earlier versions it gained $+4.4$ points per table; in the tournament it scored 9.17, 100th of 125. Facing a single raise with 6--8 players, it 3-bet 58\% of the time irrespective of hand strength (v3b: 3.6\%) and folded to 96\% of 4-bets. Its 3-bet lines lost 19.1\,bb per table. Our earlier versions fold to aggression, whereas the tournament field called 46\% of the time and held strong hands when it did. v4 was withdrawn after one round, and the behavior diff and field bands were introduced to prevent a recurrence.
+
+\textbf{Delayed correction of flop over-calling.} The fold rules were introduced in round 3. In rounds 1 and 2 we folded to 33\% and 34\% of flop bets; from round 3 onward, to 66--70\%. Applying v6's measured gain of about 2.3 points per table to rounds 1 and 2 (weights 1 and 2) puts the cost at roughly 4--7 weighted points. Table~\ref{tab:standings} shows the same deficit from the other direction: had rounds 1 and 2 been played at round 3's per-table score, the total would have been 382.3, enough for 4th. The field differed between rounds, so this figure is illustrative. The data needed to detect the leak were available after the first practice round.
+
+\textbf{Bust-place scoring defect in the SDK's ICM routine.} \texttt{poker\_agent\_sdk.icm()} assigns a busted stack 0 points even when the bust position is paid: \texttt{icm([0,4000],[50,30,20])} returns \texttt{[0,50]}. With two or three players remaining, the call mask therefore used $U_L=0$ instead of 30 or 20.
+
+\emph{Worked example.} Heads-up with 16,000 chips in play, we hold 4,000, have posted a 400-chip big blind, and the opponent moves all in.
+\begin{itemize}
+\item Folding leaves 3,600 chips: $U_F=30+20\cdot3600/16000=34.5$.
+\item Calling and winning leaves both players with 8,000: $U_W=40$.
+\item Calling and losing finishes us 2nd: $U_L=30$.
+\end{itemize}
+Hence $t=(34.5-30)/(40-30)=0.45$, equal to the chip pot odds $3600/8000$ because heads-up point equity is linear in chips. With $U_L=0$, the threshold becomes $34.5/40=0.86$ (about 0.88 in the audited spots).
+
+The defect is visible in the call rate. With two or three players remaining, we called preflop all-ins 23.8\% of the time in round 3, 17.2\% and 17.4\% in rounds 4 and 5, and 19.7\% in round 6 after the correction. The effect is sharper in the spots where the defective threshold exceeded the correct one by more than 0.10. There, the call rate was 11--13\% in rounds 1--3, before the mask existed, then 1.7--2.0\% in rounds 4 and 5, and 10.9\% in round 6. The round 6 calls in those spots gained $+2.20$ points each (95\% CI 1.87--2.53, $n=1{,}936$). Applying round 6 values to the calls missed in rounds 4 and 5 puts the cost at about 1.4 weighted points (0.9--1.7 across estimation methods), below the 2--2.5 points estimated during the event. The platform's recorded equities are correct; only the SDK function was defective. Our own code was unit-tested; the library function's edge cases were not.
+
+\textbf{Combined cost.} Together the two errors cost an estimated 5 to 9 weighted points. That exceeds the final 4.54-point margin to 5th place and is comparable to the margins of 5.24 points to 4th and 7.25 points to 3rd.
+
+\section{Findings from the post-event analysis}\label{sec:postevent}
+
+The behaviors below were identified only after the event, and no release addressed them. The evidence is observational.
+
+\textbf{Response to 3-bets.} The field 3-bet more often as the night went on: the field-wide 3-bet rate rose from 6.9\% in round 1 to 12.3\% in round 6, and the share of our first-in raises that faced a 3-bet rose from 15.6\% to 28.1\%. Opponents did not single us out; they 3-bet our opens at the same per-player rate as anyone else's. Our response hardly changed: we folded to between 82\% and 87\% of 3-bets in every round, and the net result of our non-all-in opens fell from 14.9 to 9.0 big blinds per table. Folding to most 3-bets is common among strong teams (2 Curry 81\%, Team 82 83\%), and the cost was concentrated against the most aggressive opponents. At thepastaway's tables in round 6, teams that folded to at most 62\% of 3-bets scored no worse than their average ($-0.01\pm0.40$ points), while teams that folded more often lost 1.4--1.7 points. The release gate tracked VPIP and PFR but not the response to 3-bets, so this drift was never flagged.
+
+\textbf{Folding frequency after the v6 rules.} The fold rules removed the over-calling leak but overshot the field. In round 6, facing a first bet heads-up, we folded 73\%, 66\% and 78\% of the time on the flop, turn and river; the field folded 52\%, 45\% and 48\%. Opponents adjusted. After we checked heads-up, they bet the flop 90\% of the time, against 80\% against other players, and we folded to 92\% of those bets. Against bets under 40\% of the pot, which profit as bluffs if they succeed more than about 25\% of the time, we folded 57\%; the round 6 leaders folded 22\%. The flop hands we folded were mostly unpaired (51\%) or weak pairs (38\%). Against the hands these bettors showed down when called, our folded weak pairs held about 54\% equity where 28\% was required ($n=9{,}182$, exposed card not pairing the board). A conservative estimate of the value of calling with these hands is about 0.2 points per table. Comparing value per bet faced with the leaders bounds the total cost of over-folding at roughly 0.9 points per table. The fold rules nonetheless produced the largest single gain of the event, and the evidence supports recalibrating their thresholds rather than removing them.
+
+\textbf{Untested observations.} With no pair on the flop, we exposed the lower of the two retained cards 99\% of the time, while 2 Curry exposed the higher card 97\% of the time. Our bet sizes, 75\% of the pot on the flop and 35\% on the turn and river, also differ from the leaders', who bet about half the pot on the flop and more on later streets. Neither difference was tested.
+
+\section{Limitations}
+\begin{itemize}
+\item \textbf{Heuristic strategy.} The strategy consists of equity thresholds and rules calibrated to a single field on a single night, and makes no claim of unexploitability. The field also adapted during the event; for example, the field-wide 3-bet rate nearly doubled between rounds 1 and 6.
+\item \textbf{Equity approximation.} Multiway equity is approximated as a product of heads-up equities, and Monte Carlo samples are small. With $M$ trials the standard error is at most $1/(2\sqrt M)$, about 3.5 percentage points at $M=200$, so close decisions rest on noisy estimates.
+\item \textbf{Observational estimates.} $\Delta_d$ compares an action with folding only on hands where our policy chose that action, and is therefore subject to selection bias. Stratification, replication across rounds and the single randomized experiment reduce this bias but do not eliminate it. The in-event estimates also omitted the upward drift of a folded player's equity. After that correction, marginal opens (hands in the 10--45\% percentile band, outside the small blind) lose 0.07 points each in round 6 ($n=115{,}039$), where the uncorrected estimate showed a small gain. Rule validity also depends on the rest of the policy: the big-blind fold rule was beneficial before v6 and harmful after it.
+\item \textbf{Partial ICM correction.} The v10 fix restricts the mask rather than correcting the utility function, so with two or three players remaining the agent plays for chip EV.
+\item \textbf{Post-event findings.} The findings in Section~\ref{sec:postevent} come from the same observational data and were never tested in play. The cost estimates in Section~\ref{sec:errors} apply one round's values to other rounds whose fields differed.
+\end{itemize}
+
+\section*{Contributions and acknowledgments}
+S.C. conducted the matched-hand studies behind the heads-up jam, big-blind and reveal rules, and first identified the heads-up ICM symptom. Several AI systems contributed to the work: a Claude build agent implemented each release; a second Claude session reviewed and gated every release and analyzed each round's hand histories; a third Claude session conducted the competitor research; Astra (Codex) provided the variant analysis and the round 2 review; and three further Claude sessions carried out the post-event analysis. Code, release archives, analysis scripts and the time-stamped decision log are available in the team repository.
+
+We thank OpenAI, Sequoia and Citadel for sponsoring No Limit 2026, and the organizers for running the event and making each round's hand histories available, without which none of this analysis would have been possible. Finally, we thank Claude Code, which carried us through the night: it wrote, reviewed and gated every release and analyzed every round, and, unlike the agent it built, it rarely folded under pressure.
+
+\section*{References}
+\small
+\begin{enumerate}[label={[\arabic*]},leftmargin=2em]
+\item D.~A. Harville. Assigning probabilities to the outcomes of multi-entry competitions. \emph{Journal of the American Statistical Association}, 68(342):312--316, 1973.
+\item \texttt{eval7}: a Python poker hand evaluation library (PyPI package \texttt{eval7}).
+\end{enumerate}
+
+\end{document}
