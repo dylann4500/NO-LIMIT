@@ -12,6 +12,11 @@
       "at": "2026-11-11T23:36:42Z",
       "by": "samuel",
       "text": "claimed"
+    },
+    {
+      "at": "2026-11-11T23:44:24Z",
+      "by": "samuel",
+      "text": "emu/tournament.py: 20-entry rounds on the kit engine, real-format per-team downloads (960/960 records pass the kit validator). emu/teams/run_team.py + Modal image ready (Claude Code in 2-vCPU sandboxes, workspace = kit + portal pages only). Waiting on a Modal secret emu-anthropic for agent credentials."
     }
   ],
   "owner": "samuel",
@@ -24,5 +29,5 @@
   "result": "",
   "state": "active",
   "title": "Tournament emulator pilot: mock portal/kit, Modal-sandboxed Claude agent teams (4 teams, build + 2 rounds, regional variant), realism check vs real data",
-  "updated_at": "2026-11-11T23:36:42Z"
+  "updated_at": "2026-11-11T23:44:24Z"
 }

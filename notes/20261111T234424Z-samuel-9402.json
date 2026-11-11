@@ -1,0 +1,8 @@
+{
+  "agent": "Samuels-MacBook-Pro-4",
+  "at": "2026-11-11T23:44:24Z",
+  "by": "samuel",
+  "pin": false,
+  "task": "emu-pilot",
+  "text": "emu/tournament.py: 20-entry rounds on the kit engine, real-format per-team downloads (960/960 records pass the kit validator). emu/teams/run_team.py + Modal image ready (Claude Code in 2-vCPU sandboxes, workspace = kit + portal pages only). Waiting on a Modal secret emu-anthropic for agent credentials."
+}
