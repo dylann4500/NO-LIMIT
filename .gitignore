@@ -29,3 +29,11 @@ research/competitors/out/**/*.json
 
 # Local copies of the tournament hand histories (see data/README.md)
 data/hands/
+
+# prep/ generated output (mirrors the pokerbot repo's own ignores)
+prep/third_party/
+prep/submission/
+prep/league/
+prep/cluster/results/*.tmp.json
+prep/lab/field_bots/*/round*/
+prep/lab/field_bots/_codex_logs/

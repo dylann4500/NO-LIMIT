@@ -2,7 +2,7 @@
 Both cores get the same _rng seed and eval7 xorshift seed before every decision, and a frozen clock, so any difference
 is a code difference. usage (from lab/): ../.venv/bin/python parity.py [tables] [field] [seed]"""
 import importlib.util, os, random, sys, types
-LAB = "/Users/dylan/Documents/GitHub/pokerbot/lab"
+LAB = __import__("os").path.dirname(__import__("os").path.abspath(__file__))
 for p in (LAB, os.path.join(LAB, "fake_sdk"), os.path.join(LAB, "field_kit")):
     sys.path.insert(0, p)
 os.environ.pop("POKER_VARIANT", None)
