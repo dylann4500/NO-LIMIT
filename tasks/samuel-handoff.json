@@ -17,6 +17,11 @@
       "at": "2026-11-11T22:50:02Z",
       "by": "dylann29",
       "text": "committed on branch handoff/samuel-repro; verification (gate + scored-round recount) running"
+    },
+    {
+      "at": "2026-11-11T22:52:26Z",
+      "by": "dylann29",
+      "text": "done: PR dylann4500/NO-LIMIT#1 (branch handoff/samuel-repro): kit-env, hands.sha256 (20 files), practice labels, path fixes + extract.py crash fix, LATEST.txt, build-box doc. Verified: 6 scored rounds recompute exactly, v10 gate SAFE. Kit tarball in Dylan's ~/Downloads/for-samuel, not sent."
     }
   ],
   "owner": "dylann29",
@@ -31,8 +36,8 @@
   "posted_at": "",
   "posted_by": "",
   "priority": 0,
-  "result": "",
-  "state": "active",
+  "result": "PR dylann4500/NO-LIMIT#1 (branch handoff/samuel-repro): kit-env, hands.sha256 (20 files), practice labels, path fixes + extract.py crash fix, LATEST.txt, build-box doc. Verified: 6 scored rounds recompute exactly, v10 gate SAFE. Kit tarball in Dylan's ~/Downloads/for-samuel, not sent.",
+  "state": "done",
   "title": "Repro handoff for Samuel: kit env, hand checksums, practice labels, path fixes, build-box doc",
-  "updated_at": "2026-11-11T22:50:02Z"
+  "updated_at": "2026-11-11T22:52:26Z"
 }
