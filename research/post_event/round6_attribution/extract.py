@@ -163,6 +163,7 @@ def work(pair):
         kc = kept.get(h["hand"])
         com = [0] * N; st = [0] * N; cur = 0; street = 0; board = []; folded = set(); exposed = {}
         lr_street = None; last_aggr = None; pf_raises = 0; limpers = 0; acted_pf = False; checked_street = False
+        last_inc = last_P = 0  # lost in the log recovery: facing only the blinds has no bet fraction (None)
         shown = {}
         for e in ev:
             if e["kind"] == "show" and e.get("cards"):
@@ -352,7 +353,8 @@ def main():
     maxt = int(sys.argv[4]) if len(sys.argv) > 4 else 0
     with gzip.open(path, "rt") as f:
         hdr = json.loads(f.readline())
-    cls = json.load(open("/Users/dylan/Documents/GitHub/nolimit-live/bots/v3/tables_bayarea.json"))["classes"]
+    root = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".."))
+    cls = json.load(open(os.path.join(root, "bots", "v3", "tables_bayarea.json")))["classes"]
     FA = collections.Counter(); FR = collections.defaultdict(lambda: [0, 0.0, 0.0, 0.0]); SD = collections.Counter()
     nt = 0
     with gzip.open(out + "_dec.csv.gz", "wt") as fo, Pool(nproc, initializer=init, initargs=(hdr["you"], cls)) as p:

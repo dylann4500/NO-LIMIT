@@ -9,7 +9,7 @@ import icm
 RANKS = "23456789TJQKA"; SUITS = "shdc"
 from itertools import permutations
 PERMS = [dict(zip(SUITS, p)) for p in permutations(SUITS)]
-TABLES = "/Users/dylan/Documents/GitHub/nolimit-live/tools/tables_bayarea.json"
+TABLES = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "tools", "tables_bayarea.json"))
 CLS = None
 
 

@@ -1,1 +1,1 @@
-v9.zip 20:31  (v8b + bb_jam_widen; stats PASS x2 at PFR<=29/VPIP<=34; no-bank 0 failed x5; fuzz max 574us on rerun, 2.46ms spike in first run did not reproduce)
+v10.zip 20:48  (v9s + ICM fix: icm_min_players 4, so the all-in call mask applies only at 4-5 alive; reviewer-built, gated SAFE; ACTIVE for scored round 6 from 20:59 (STEERING); sha256 e094b1e4752ee93210ca06f64d48738857f5f57a22f4a2cc0b99f4b6b9841ca6)

@@ -1,0 +1,50 @@
+# Starter-kit environment used on 2026-11-06 (flop_discard_reveal), recorded 2026-11-11 on Dylan's Mac.
+# Rebuild: python3.12 -m venv .venv && .venv/bin/pip install -r requirements.txt && .venv/bin/pip install -e ./sdk/agent-protocol -e ./sdk/engine -e ./sdk/agent-sdk
+# The three `-e git+...NO-LIMIT...#subdirectory=starter-kit/sdk/...` lines are pip's way of naming the local editable installs of
+# starter-kit/sdk/*: starter-kit/ is git-ignored, so those paths do NOT exist in the GitHub repo. Install them from your own unpacked kit.
+
+## python -VV
+Python 3.12.13 (main, Mar  3 2026, 12:39:30) [Clang 21.0.0 (clang-2100.0.123.102)]
+
+## pip freeze
+cloudpickle==3.1.2
+eval7==0.1.11
+filelock==4.2.9
+flatbuffers==25.12.19
+fsspec==2026.9.0
+future==1.0.0
+Jinja2==3.1.6
+joblib==1.6.0
+lightgbm==4.7.0
+llvmlite==0.50.0
+MarkupSafe==3.0.4
+mpmath==1.3.0
+narwhals==2.28.0
+networkx==3.7
+numba==0.68.0
+numpy==2.5.3
+onnxruntime==1.30.0
+packaging==26.3
+pandas==3.0.6
+-e git+https://github.com/dylann4500/NO-LIMIT.git@dc75abfe8a143ddddf817101f460d321a44ee0b4#egg=poker_agent_protocol&subdirectory=starter-kit/sdk/agent-protocol
+-e git+https://github.com/dylann4500/NO-LIMIT.git@dc75abfe8a143ddddf817101f460d321a44ee0b4#egg=poker_agent_sdk&subdirectory=starter-kit/sdk/agent-sdk
+-e git+https://github.com/dylann4500/NO-LIMIT.git@dc75abfe8a143ddddf817101f460d321a44ee0b4#egg=poker_engine&subdirectory=starter-kit/sdk/engine
+pokerkit==0.7.6
+protobuf==7.36.2
+pyparsing==3.3.3
+python-dateutil==4.0.0
+scikit-learn==1.9.1
+scipy==1.18.1
+setuptools==84.2.1
+sympy==1.14.0
+threadpoolctl==3.8.0
+torch==2.14.1
+typing_extensions==4.16.0
+tzdata==2026.6
+xgboost==3.4.1
+
+## shasum -a 256 starter-kit/requirements.txt
+3398a63fd9391e6e6def20ff4f9144fafd335ef35594f1eae2d049ec42cc4c9f  starter-kit/requirements.txt
+
+## uname -a
+Darwin Dylans-MacBook-Pro-1228.local 25.5.0 Darwin Kernel Version 25.5.0: Tue Jun  9 22:28:34 PDT 2026; root:xnu-12377.121.10~1/RELEASE_ARM64_T6050 arm64
