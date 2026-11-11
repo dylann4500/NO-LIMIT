@@ -12,6 +12,11 @@
       "at": "2026-11-11T22:46:35Z",
       "by": "dylann29",
       "text": "claimed"
+    },
+    {
+      "at": "2026-11-11T22:50:02Z",
+      "by": "dylann29",
+      "text": "committed on branch handoff/samuel-repro; verification (gate + scored-round recount) running"
     }
   ],
   "owner": "dylann29",
@@ -29,5 +34,5 @@
   "result": "",
   "state": "active",
   "title": "Repro handoff for Samuel: kit env, hand checksums, practice labels, path fixes, build-box doc",
-  "updated_at": "2026-11-11T22:46:35Z"
+  "updated_at": "2026-11-11T22:50:02Z"
 }
