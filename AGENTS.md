@@ -20,6 +20,7 @@ This is team avalon's working repo (Dylan Nguyen and Samuel Choi) for the No Lim
 | `tests/` | Local matches (`match.py`; `--bank 0` = upload-test conditions), fuzzing, field-proxy opponents |
 | `research/` | Variant research, round 2 review, competitor research, and `post_event/` (the analysis behind the write-up) |
 | `prep/` | Snapshot of the pre-event repo `samrocksnature/pokerbot` (branch `prep/adapter-field-cluster` at `17d4f61`, plus the uncommitted `lab/v2_next/`). Training and eval infrastructure: `prep/lab/` (engine, field bots, CMA-ES tuners, league, adapter, v2 bot), `prep/cluster/`, `prep/benchmark/` (Slumbot) |
+| `cloud/` | Batch evals on the kit's real engine, locally (`kit_match.py`) or fanned out on Modal (`nl_modal.py`); see `cloud/README.md`. Modal client: `prep/.venv/bin/modal` |
 | `data/` | `data/README.md` maps every hand-history file to its round. The files themselves are local only (`data/hands/`, git-ignored) |
 | `starter-kit/` | The organizer's kit, local only (git-ignored, not redistributable). Its Python at `starter-kit/.venv/bin/python` has eval7 |
 | `docs/writeup/` | The write-up, LaTeX source and PDF (build with `tectonic`) |

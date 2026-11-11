@@ -37,3 +37,6 @@ prep/league/
 prep/cluster/results/*.tmp.json
 prep/lab/field_bots/*/round*/
 prep/lab/field_bots/_codex_logs/
+
+# Modal eval output (cloud/nl_modal.py)
+cloud/results/
