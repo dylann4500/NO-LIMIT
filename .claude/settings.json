@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/coord/coord.py\" hook-session",
+            "timeout": 20,
+            "statusMessage": "Reading the task board"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/coord/coord.py\" hook-edit",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

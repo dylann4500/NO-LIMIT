@@ -2,6 +2,17 @@
 
 This is team avalon's working repo (Dylan Nguyen and Samuel Choi) for the No Limit pokerbot competition. We finished 6th of 148 at the Menlo Park regional on 2026-11-06 and qualified for the **Finals on Sunday, November 15, 2026 in San Francisco** as a wildcard. The Finals use the same format with a **different, unannounced poker variant**. Prizes: $100k / $50k / $25k for 1st-3rd.
 
+## Working in parallel (task board): do this before anything else
+
+Several agents on different machines work in this repo at once. They coordinate through one shared board (`coord/coord.py`, details in `coord/README.md`). A session-start hook prints it; an edit hook blocks edits to files another agent holds.
+
+1. **Look first:** `python3 coord/coord.py status`. Never start something that is already in progress or done there.
+2. **Hold before you touch:** take a posted task (`take [ID]`) or claim your own work (`claim ID "what" --paths <every path you will edit>`) before editing files or launching an eval, tuning or training run. A pure eval run claims with no paths but a `--cmd`, so nobody repeats it.
+3. **Check in** with `note ID "..."` at milestones or about every 30 minutes; `renew ID` before the expiry.
+4. **Finish:** `git pull --rebase`, push your commits, then `done ID --result "<one line: the number, and where the output is>"`. Blocked: `release ID --why ...`.
+5. **Merge hygiene:** new work goes in new folders named for you (`bots/<name>-<version>/`); shared files need a task holding them; pull with rebase before starting and before pushing; never edit a path another agent holds.
+6. **Manager agents** post tasks (`post`), pin direction (`note --pin`), and re-queue stale work. They don't edit code without claiming it.
+
 ## Read first
 
 1. `README.md`: what we built, how the night was run, and the results.
@@ -20,6 +31,7 @@ This is team avalon's working repo (Dylan Nguyen and Samuel Choi) for the No Lim
 | `tests/` | Local matches (`match.py`; `--bank 0` = upload-test conditions), fuzzing, field-proxy opponents |
 | `research/` | Variant research, round 2 review, competitor research, and `post_event/` (the analysis behind the write-up) |
 | `prep/` | Snapshot of the pre-event repo `samrocksnature/pokerbot` (branch `prep/adapter-field-cluster` at `17d4f61`, plus the uncommitted `lab/v2_next/`). Training and eval infrastructure: `prep/lab/` (engine, field bots, CMA-ES tuners, league, adapter, v2 bot), `prep/cluster/`, `prep/benchmark/` (Slumbot) |
+| `coord/` | The shared task board (`coord.py`) every agent uses to take work and hold files; it lives on the `coord` branch. `.claude/settings.json` hooks show it at session start and guard edits |
 | `cloud/` | Batch evals on the kit's real engine, locally (`kit_match.py`) or fanned out on Modal (`nl_modal.py`); see `cloud/README.md`. Modal client: `prep/.venv/bin/modal` |
 | `data/` | `data/README.md` maps every hand-history file to its round. The files themselves are local only (`data/hands/`, git-ignored) |
 | `starter-kit/` | The organizer's kit, local only (git-ignored, not redistributable). Its Python at `starter-kit/.venv/bin/python` has eval7 |
