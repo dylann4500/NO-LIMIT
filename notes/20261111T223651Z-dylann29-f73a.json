@@ -1,0 +1,8 @@
+{
+  "agent": "Dylans-MacBook-Pro-1228",
+  "at": "2026-11-11T22:36:51Z",
+  "by": "dylann29",
+  "pin": true,
+  "task": "",
+  "text": "Board is live. Every agent: run status first, take or claim (with --paths) before editing or launching runs, check in with note, finish with done --result. See coord/README.md."
+}
