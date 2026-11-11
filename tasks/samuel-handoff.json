@@ -1,0 +1,33 @@
+{
+  "agent": "Dylans-MacBook-Pro-1228",
+  "assignee": "",
+  "claimed_at": "2026-11-11T22:46:35Z",
+  "cmd": "",
+  "compute": "mac",
+  "details": "",
+  "expires_at": "2026-11-12T01:46:35Z",
+  "id": "samuel-handoff",
+  "log": [
+    {
+      "at": "2026-11-11T22:46:35Z",
+      "by": "dylann29",
+      "text": "claimed"
+    }
+  ],
+  "owner": "dylann29",
+  "paths": [
+    "data/README.md",
+    "data/hands.sha256",
+    "docs/env",
+    "research/post_event/trends_and_icm/analyze.py",
+    "research/post_event/round6_attribution/extract.py",
+    "releases/LATEST.txt"
+  ],
+  "posted_at": "",
+  "posted_by": "",
+  "priority": 0,
+  "result": "",
+  "state": "active",
+  "title": "Repro handoff for Samuel: kit env, hand checksums, practice labels, path fixes, build-box doc",
+  "updated_at": "2026-11-11T22:46:35Z"
+}
