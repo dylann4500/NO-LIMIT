@@ -1,0 +1,15 @@
+heads-up win% (mid blinds):
+  vs fold       100.0%
+  vs random      62.4%
+  vs station     74.1%
+  vs maniac      45.7%
+  vs jam20       82.6%
+  vs jam08       96.5%
+  vs tag         94.8%
+  vs nit         99.4%
+  vs lag         78.3%
+  vs mc          66.0%
+  vs shortfold   89.9%
+finish % typical : 1:44.7 2:11.1 3:10.7 4: 9.9 5: 9.2 6: 6.8 7: 5.0 8: 2.7
+finish % strong  : 1:40.3 2:11.0 3:10.9 4: 9.2 5:10.6 6: 7.2 7: 5.8 8: 4.9
+finish % aggro   : 1:37.4 2:18.6 3:13.9 4: 7.9 5: 8.0 6: 5.7 7: 4.5 8: 4.1

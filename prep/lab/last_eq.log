@@ -1,0 +1,15 @@
+== eq field=holdout
+  base           top3:  24.92±0.48 steep:  50.84±0.89 linear:   4.87±0.05 
+  eqcall         top3:  23.46±0.49 steep:  48.68±0.88 linear:   4.82±0.05 
+  eqcall_nobluff top3:  22.53±0.48 steep:  46.69±0.86 linear:   4.75±0.05 
+  nobluff        top3:  23.55±0.47 steep:  48.31±0.85 linear:   4.84±0.05 
+== eq field=mirror
+  base           top3:  18.59±0.44 steep:  38.44±0.78 linear:   4.27±0.05 
+  eqcall         top3:  16.87±0.44 steep:  35.68±0.78 linear:   4.05±0.05 
+  eqcall_nobluff top3:  17.07±0.44 steep:  36.20±0.77 linear:   4.14±0.05 
+  nobluff        top3:  18.65±0.44 steep:  38.60±0.76 linear:   4.32±0.05 
+== eq field=typical
+  base           top3:  27.10±0.49 steep:  55.50±0.90 linear:   5.09±0.05 
+  eqcall         top3:  26.80±0.50 steep:  55.25±0.91 linear:   5.07±0.05 
+  eqcall_nobluff top3:  25.86±0.50 steep:  53.34±0.91 linear:   4.94±0.05 
+  nobluff        top3:  27.87±0.48 steep:  56.60±0.89 linear:   5.15±0.05 

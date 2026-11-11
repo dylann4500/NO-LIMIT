@@ -1,0 +1,37 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 300,
+ "results": {
+  "self": {
+   "mean_points": 12.5,
+   "se": 0.36,
+   "seats": 8,
+   "places_1_to_8": [
+    300,
+    300,
+    300,
+    300,
+    300,
+    300,
+    300,
+    300
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 377949,
+ "failed": {},
+ "latency_us": {
+  "p50": 29.8,
+  "p99": 309.9,
+  "p99.9": 366.8,
+  "max": 13449.0,
+  "over_1ms": 7
+ },
+ "memory_bytes_max": 8816
+}

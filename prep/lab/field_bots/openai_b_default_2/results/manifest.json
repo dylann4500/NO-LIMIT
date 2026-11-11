@@ -1,0 +1,87 @@
+{
+  "agent_sha256": "3ea5d9c583c33fb3d182f730144469135b1d33142c53642e3a355b4d509e42a9",
+  "equity_sha256": "081f2034f22b47c95dfb1286ff2ce8a836db7e4ed78f5c47022ec423867e88d2",
+  "runs": [
+    {
+      "name": "stress_deep_20000_2_5x",
+      "command": [
+        "/Users/dylan/Documents/GitHub/pokerbot/.venv/bin/python",
+        "/private/var/folders/sz/w5ktc2_n4hj_k8bkvzhl8z9m0000gn/T/codex_field/openai_b_default_2/lab/field_bots/openai_b_default_2/test_agent.py",
+        "20000",
+        "2.5"
+      ],
+      "seconds": 3.72
+    },
+    {
+      "name": "stress_short_20000_2_5x",
+      "command": [
+        "/Users/dylan/Documents/GitHub/pokerbot/.venv/bin/python",
+        "/private/var/folders/sz/w5ktc2_n4hj_k8bkvzhl8z9m0000gn/T/codex_field/openai_b_default_2/lab/field_bots/openai_b_default_2/test_agent.py",
+        "20000",
+        "2.5",
+        "short"
+      ],
+      "seconds": 3.94
+    },
+    {
+      "name": "default_500",
+      "command": [
+        "/Users/dylan/Documents/GitHub/pokerbot/.venv/bin/python",
+        "/private/var/folders/sz/w5ktc2_n4hj_k8bkvzhl8z9m0000gn/T/codex_field/openai_b_default_2/lab/field_kit/play.py",
+        "/private/var/folders/sz/w5ktc2_n4hj_k8bkvzhl8z9m0000gn/T/codex_field/openai_b_default_2/lab/field_bots/openai_b_default_2",
+        "--tables",
+        "500",
+        "--seed",
+        "703"
+      ],
+      "seconds": 52.21
+    },
+    {
+      "name": "passive_100",
+      "command": [
+        "/Users/dylan/Documents/GitHub/pokerbot/.venv/bin/python",
+        "/private/var/folders/sz/w5ktc2_n4hj_k8bkvzhl8z9m0000gn/T/codex_field/openai_b_default_2/lab/field_kit/play.py",
+        "/private/var/folders/sz/w5ktc2_n4hj_k8bkvzhl8z9m0000gn/T/codex_field/openai_b_default_2/lab/field_bots/openai_b_default_2",
+        "--tables",
+        "100",
+        "--seed",
+        "704",
+        "--seats",
+        "self,check_or_fold,check_or_fold,check_or_fold,check_or_fold,check_or_fold,check_or_fold,check_or_fold"
+      ],
+      "seconds": 1.43
+    },
+    {
+      "name": "aggressive_100",
+      "command": [
+        "/Users/dylan/Documents/GitHub/pokerbot/.venv/bin/python",
+        "/private/var/folders/sz/w5ktc2_n4hj_k8bkvzhl8z9m0000gn/T/codex_field/openai_b_default_2/lab/field_kit/play.py",
+        "/private/var/folders/sz/w5ktc2_n4hj_k8bkvzhl8z9m0000gn/T/codex_field/openai_b_default_2/lab/field_bots/openai_b_default_2",
+        "--tables",
+        "100",
+        "--seed",
+        "705",
+        "--seats",
+        "self,min_raiser,min_raiser,min_raiser,min_raiser,min_raiser,min_raiser,min_raiser"
+      ],
+      "seconds": 0.77
+    },
+    {
+      "name": "diverse_300",
+      "command": [
+        "/Users/dylan/Documents/GitHub/pokerbot/.venv/bin/python",
+        "/private/var/folders/sz/w5ktc2_n4hj_k8bkvzhl8z9m0000gn/T/codex_field/openai_b_default_2/lab/field_bots/openai_b_default_2/compare.py",
+        "/private/var/folders/sz/w5ktc2_n4hj_k8bkvzhl8z9m0000gn/T/codex_field/openai_b_default_2/lab/field_bots/openai_b_default_2",
+        "--tables",
+        "300",
+        "--seed",
+        "2049",
+        "--seats",
+        "self,self,balanced,balanced,tight,tight,loose,loose"
+      ],
+      "seconds": 39.96
+    }
+  ],
+  "test_sha256": "6a9131ba51a26fd21a0c56c8239bf3aab2fb6e083f6a8fc10491c47d6858a423",
+  "additional_check": "Exact duplicated-combination weighting regression passed after the suite."
+}

@@ -1,0 +1,59 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 1000,
+ "results": {
+  "self": {
+   "mean_points": 13.23,
+   "se": 0.28,
+   "seats": 4,
+   "places_1_to_8": [
+    512,
+    559,
+    526,
+    475,
+    481,
+    486,
+    486,
+    475
+   ]
+  },
+  "v1": {
+   "mean_points": 11.77,
+   "se": 0.28,
+   "seats": 4,
+   "places_1_to_8": [
+    488,
+    441,
+    475,
+    524,
+    519,
+    514,
+    514,
+    525
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 1047414,
+ "failed": {
+  "timeout": 212
+ },
+ "latency_us": {
+  "p50": 37.7,
+  "p99": 5088.5,
+  "p99.9": 32844.3,
+  "max": 166981.0,
+  "over_1ms": 14197
+ },
+ "memory_bytes_max": 521,
+ "first_errors": [
+  "('timeout', 'seat 2 hand 162 cards [\\'Kh\\', \\'3c\\'] board [] pot 1625 to_call 625 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 1750, 6171)] button 6 seats [(0, 0, 0, \\'busted\\'), (1, 0, 0, \\'busted\\'), (2, 5671, 500, \\'active\\'), (3, 0, 0, \\'busted\\'), (4, 0, 0, \\'busted\\'), (5, 0, 0, \\'busted\\'), (6, 8704, 1125, \\'active\\'), (7, 0, 0, \\'busted\\')] events 8 memory_in",
+  "('timeout', 'seat 2 hand 186 cards [\\'Ks\\', \\'4d\\'] board [\\'Ad\\', \\'Td\\', \\'6d\\'] pot 2250 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 500, 5792)] button 6 seats [(0, 0, 0, \\'busted\\'), (1, 0, 0, \\'busted\\'), (2, 5792, 0, \\'active\\'), (3, 0, 0, \\'busted\\'), (4, 0, 0, \\'busted\\'), (5, 0, 0, \\'busted\\'), (6, 7958, 0, \\'active\\'), (7, 0, 0, \\'busted\\')] events 2 memory_in b\\'{\"v\":1",
+  "('timeout', 'seat 1 hand 169 cards [\\'Td\\', \\'Qc\\'] board [\\'Ts\\', \\'Js\\', \\'Jh\\'] pot 2250 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 500, 4100)] button 6 seats [(0, 0, 0, \\'busted\\'), (1, 4100, 0, \\'active\\'), (2, 0, 0, \\'busted\\'), (3, 0, 0, \\'busted\\'), (4, 0, 0, \\'busted\\'), (5, 0, 0, \\'busted\\'), (6, 9650, 0, \\'active\\'), (7, 0, 0, \\'busted\\')] events 2 memory_in b\\'{\"v\":1"
+ ]
+}

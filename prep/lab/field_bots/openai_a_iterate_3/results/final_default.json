@@ -1,0 +1,74 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 1000,
+ "results": {
+  "min_raiser": {
+   "mean_points": 1.27,
+   "se": 0.18,
+   "seats": 2,
+   "places_1_to_8": [
+    51,
+    0,
+    0,
+    48,
+    91,
+    233,
+    689,
+    888
+   ]
+  },
+  "check_or_fold": {
+   "mean_points": 5.89,
+   "se": 0.22,
+   "seats": 2,
+   "places_1_to_8": [
+    0,
+    118,
+    412,
+    709,
+    584,
+    177,
+    0,
+    0
+   ]
+  },
+  "self": {
+   "mean_points": 21.42,
+   "se": 0.31,
+   "seats": 4,
+   "places_1_to_8": [
+    949,
+    882,
+    588,
+    243,
+    325,
+    596,
+    412,
+    5
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 547299,
+ "failed": {
+  "timeout": 6
+ },
+ "latency_us": {
+  "p50": 30.5,
+  "p99": 395.5,
+  "p99.9": 21510.8,
+  "max": 115481.2,
+  "over_1ms": 4098
+ },
+ "memory_bytes_max": 735,
+ "first_errors": [
+  "('timeout', \"seat 2 hand 6 cards ['8s', 'Td'] board [] pot 70 to_call 40 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 60, 3960)] button 2 seats [(0, 0, 0, 'busted'), (1, 0, 0, 'busted'), (2, 3960, 0, 'active'), (3, 1702, 10, 'active'), (4, 1970, 20, 'active'), (5, 1970, 0, 'folded'), (6, 1970, 0, 'folded'), (7, 4358, 40, 'active')] events 25 memory_in b'\\\\x80\\\\x04\\\\x",
+  "('timeout', \"seat 2 hand 102 cards ['Kh', '3c'] board [] pot 730 to_call 330 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 860, 1963)] button 7 seats [(0, 0, 0, 'busted'), (1, 9190, 530, 'active'), (2, 1763, 200, 'active'), (3, 4007, 0, 'folded'), (4, 200, 0, 'folded'), (5, 0, 0, 'busted'), (6, 0, 0, 'busted'), (7, 110, 0, 'folded')] events 18 memory_in b'\\\\x80\\\\x04\\\\",
+  "('timeout', 'seat 6 hand 87 cards [\\'Qh\\', \\'Kc\\'] board [\\'8h\\', \\'5d\\', \\'9h\\'] pot 828 to_call 228 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 456, 5289)] button 4 seats [(0, 935, 0, \\'folded\\'), (1, 1645, 0, \\'folded\\'), (2, 0, 0, \\'busted\\'), (3, 0, 0, \\'busted\\'), (4, 890, 0, \\'folded\\'), (5, 3673, 0, \\'folded\\'), (6, 5289, 0, \\'active\\'), (7, 2740, 228, \\'act"
+ ]
+}

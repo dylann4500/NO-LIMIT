@@ -1,0 +1,2 @@
+{'decisions': 6000, 'illegal': 0, 'memory_bytes_max': 3718, 'slower_cpu_us': {'p50': 240.0, 'p99': 517.5, 'p999': 600.0, 'max': 735.0, 'over_1ms': 0}, 'local_wall_us': {'p99': 218.7, 'max': 1555.6}}
+slowest cases: []

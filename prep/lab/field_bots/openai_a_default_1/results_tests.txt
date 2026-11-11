@@ -1,0 +1,20 @@
+test_board_nuts_cheap_split (__main__.Tests.test_board_nuts_cheap_split) ... ok
+test_board_nuts_large_split (__main__.Tests.test_board_nuts_large_split) ... ok
+test_bubble_risk (__main__.Tests.test_bubble_risk) ... ok
+test_dominated_ace_folds_deep_shove (__main__.Tests.test_dominated_ace_folds_deep_shove) ... ok
+test_folder_exploit (__main__.Tests.test_folder_exploit) ... ok
+test_gc_restored (__main__.Tests.test_gc_restored) ... ok
+test_icm (__main__.Tests.test_icm) ... ok
+test_memory_limits_and_recovery (__main__.Tests.test_memory_limits_and_recovery) ... ok
+test_nuts_call_allin (__main__.Tests.test_nuts_call_allin) ... ok
+test_randomized_legality (__main__.Tests.test_randomized_legality) ... ok
+test_same_board_cache (__main__.Tests.test_same_board_cache) ... ok
+test_short_blind_and_float_icm (__main__.Tests.test_short_blind_and_float_icm) ... ok
+test_short_raise_boundary (__main__.Tests.test_short_raise_boundary) ... ok
+test_trash_folds_deep_shove (__main__.Tests.test_trash_folds_deep_shove) ... ok
+test_unbeatable_hole_cards (__main__.Tests.test_unbeatable_hole_cards) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.517s
+
+OK

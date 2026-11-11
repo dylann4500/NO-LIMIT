@@ -1,0 +1,1500 @@
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "7d"], "board": [], "bot": ["7s", "6d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["Th", "5s"], "board": ["Ks", "8d", "6d", "Qd", "4d"], "bot": ["Qh", "Ts"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4c", "3h"], "board": [], "bot": ["6h", "4s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Tc", "2c"], "board": ["7h", "7d", "6s", "5h", "As"], "bot": ["Qh", "9c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Jc", "2c"], "board": [], "bot": ["7d", "4h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["6s", "5s"], "board": [], "bot": ["Qc", "4c"]}
+{"w": 200, "adj": 200, "action": "b200c/b241f", "pos": 0, "hole": ["Kd", "Jd"], "board": ["Qc", "Td", "9c"], "bot": ["Ad", "5s"]}
+{"w": -844, "adj": -844, "action": "b211c/kb211c/kb422b1178f", "pos": 1, "hole": ["Ac", "Kd"], "board": ["Qc", "9h", "6h", "5h"], "bot": ["Kh", "3c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "4c"], "board": [], "bot": ["Ks", "9s"]}
+{"w": 1200, "adj": 1200, "action": "b211c/kb211c/kk/b778b2075f", "pos": 1, "hole": ["Qh", "Tc"], "board": ["Kh", "9d", "4h", "6c", "Jh"], "bot": ["Ks", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "4c"], "board": [], "bot": ["Tc", "6c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Js", "4d"], "board": [], "bot": ["7h", "6h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["3d", "2c"], "board": [], "bot": ["Ac", "Th"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["Qd", "6h"], "board": ["Kc", "9h", "2c", "Ah", "Ts"], "bot": ["9s", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "6s"], "board": [], "bot": ["9h", "5d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["5d", "2s"], "board": [], "bot": ["8s", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5s", "2c"], "board": [], "bot": ["9h", "5c"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["5d", "4d"], "board": ["Kd", "Qc", "Tc", "3h", "5s"], "bot": ["Th", "4c"]}
+{"w": 200, "adj": 200, "action": "b200c/kk/kk/b200f", "pos": 0, "hole": ["Ad", "8d"], "board": ["5s", "4c", "3d", "5c", "4h"], "bot": ["Qh", "Th"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Jc", "3s"], "board": ["Th", "6h", "4c", "9s"], "bot": ["Qs", "7s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "2h"], "board": [], "bot": ["Ac", "3d"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["6h", "2d"], "board": [], "bot": ["Jh", "7h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["5h", "2h"], "board": [], "bot": ["5c", "2d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["Kd", "Th"], "board": ["8s", "5s", "2c", "7d"], "bot": ["Qh", "Tc"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6s", "3h"], "board": [], "bot": ["Qc", "8s"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["6c", "3h"], "board": [], "bot": ["8s", "2d"]}
+{"w": 1765, "adj": 1765, "action": "b200c/b241b600c/b965c/b2129f", "pos": 0, "hole": ["6h", "6c"], "board": ["Kd", "Kc", "2c", "Kh", "8h"], "bot": ["4c", "3s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["Td", "7h"], "board": ["Kc", "Js", "6s", "Ah", "Ac"], "bot": ["3h", "2c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Tc", "2s"], "board": [], "bot": ["7s", "3h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["4s", "3h"], "board": [], "bot": ["As", "Ac"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "2h"], "board": [], "bot": ["As", "Qs"]}
+{"w": -600, "adj": -600, "action": "b211b600c/kk/b1200f", "pos": 1, "hole": ["Qs", "Qd"], "board": ["Kh", "4h", "2d", "6s"], "bot": ["Js", "Tc"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8d", "3d"], "board": [], "bot": ["9d", "7s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["9h", "5c"], "board": ["Js", "9d", "5h"], "bot": ["As", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "3d"], "board": [], "bot": ["Kh", "6c"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["8s", "2h"], "board": ["Js", "5d", "3h", "Ac", "Kc"], "bot": ["6c", "5s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kc", "6s"], "board": [], "bot": ["Th", "4h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Kd", "6s"], "board": ["Th", "8s", "7d"], "bot": ["Qd", "3h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Js", "6s"], "board": [], "bot": ["7d", "3c"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Qd", "3h"], "board": [], "bot": ["8s", "2c"]}
+{"w": -200, "adj": -200, "action": "b200c/kk/kk/kk", "pos": 0, "hole": ["Ac", "7c"], "board": ["Tc", "9h", "4d", "8h", "4h"], "bot": ["3d", "3c"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211c/kk/b378f", "pos": 1, "hole": ["4c", "3c"], "board": ["Js", "5d", "3h", "8s", "Kc"], "bot": ["Kd", "9d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9c", "6s"], "board": [], "bot": ["As", "Ts"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["4c", "3d"], "board": [], "bot": ["Jc", "9d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "2s"], "board": [], "bot": ["Kd", "7h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["5s", "2d"], "board": [], "bot": ["Qs", "Ts"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7s", "3s"], "board": [], "bot": ["Ac", "7h"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["Qh", "Js"], "board": ["As", "Kd", "9c", "Th"], "bot": ["Jh", "5c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Js", "3s"], "board": [], "bot": ["6d", "2c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["As", "3s"], "board": ["Kc", "Jd", "6s"], "bot": ["5d", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7s", "6h"], "board": [], "bot": ["8d", "3d"]}
+{"w": 100, "adj": 100, "action": "ck/kb100f", "pos": 1, "hole": ["3s", "2c"], "board": ["Tc", "9h", "6c"], "bot": ["Qh", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8h", "2c"], "board": [], "bot": ["Qh", "3s"]}
+{"w": -200, "adj": -200, "action": "ck/kk/kb100b500f", "pos": 1, "hole": ["6s", "2h"], "board": ["Kd", "5h", "5d", "9h"], "bot": ["Js", "Th"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6c", "2d"], "board": [], "bot": ["9h", "2h"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211b989f", "pos": 1, "hole": ["3s", "3d"], "board": ["Jc", "Th", "6h", "5d"], "bot": ["9h", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "6d"], "board": [], "bot": ["Ts", "5d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["7h", "4s"], "board": [], "bot": ["Qd", "Jd"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ac", "2h"], "board": [], "bot": ["6h", "4d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Qc", "6c"], "board": ["Ac", "Td", "3d", "4d"], "bot": ["Ts", "3s"]}
+{"w": -616, "adj": -616, "action": "b200b616b1800f", "pos": 0, "hole": ["Ad", "Kc"], "board": [], "bot": ["As", "Kh"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["8h", "8d"], "board": [], "bot": ["Jc", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "8s"], "board": [], "bot": ["9s", "8d"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Tc", "2s"], "board": ["Ad", "Js", "5d", "Kd", "4d"], "bot": ["9h", "8c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4s", "4h"], "board": [], "bot": ["9c", "6h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Jc", "6h"], "board": ["Jd", "Tc", "5d"], "bot": ["9h", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "6s"], "board": [], "bot": ["6c", "5d"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["4c", "3d"], "board": ["8h", "6d", "2h", "Qh"], "bot": ["9d", "4d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "8c"], "board": [], "bot": ["8d", "5d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["9d", "6h"], "board": [], "bot": ["8s", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "9s"], "board": [], "bot": ["8c", "2c"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["Jd", "3h"], "board": ["3d", "3c", "2h", "4s"], "bot": ["Ad", "7s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Tc", "2c"], "board": [], "bot": ["5s", "5c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Js", "2h"], "board": ["Qs", "Qc", "3d"], "bot": ["4c", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "5d"], "board": [], "bot": ["9h", "8s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Td", "5s"], "board": ["Js", "Jd", "6s", "Qd", "8s"], "bot": ["Ac", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "6c"], "board": [], "bot": ["8d", "6s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Qd", "Td"], "board": ["Th", "8d", "6h"], "bot": ["Kd", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7d", "2d"], "board": [], "bot": ["Th", "8c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Kh", "3d"], "board": [], "bot": ["Kd", "Kc"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "8c"], "board": [], "bot": ["Qs", "9s"]}
+{"w": 2261, "adj": 2261, "action": "b211c/kb254c/kb560c/kb1236c", "pos": 1, "hole": ["Ad", "Td"], "board": ["As", "Tc", "7d", "Kh", "3c"], "bot": ["Kd", "Ts"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ts", "7d"], "board": [], "bot": ["9c", "5c"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["Ad", "Kc"], "board": ["Ks", "5c", "2d", "As"], "bot": ["6h", "2h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Ts", "8s"], "board": [], "bot": ["5d", "2c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["Qc", "2s"], "board": ["Kc", "6c", "5d", "2d"], "bot": ["Kh", "7d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "8d"], "board": [], "bot": ["Ah", "Ad"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["5c", "2h"], "board": ["Kh", "5h", "2s", "7s"], "bot": ["4c", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "3d"], "board": [], "bot": ["Ah", "8s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["8d", "3d"], "board": [], "bot": ["Ad", "Kd"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6s", "5s"], "board": [], "bot": ["7h", "6h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["7h", "5h"], "board": [], "bot": ["As", "5s"]}
+{"w": 2998, "adj": 2998, "action": "b200b616c/b743c/b1639c/b3616f", "pos": 0, "hole": ["As", "Jc"], "board": ["Ah", "5s", "5d", "8c", "2s"], "bot": ["Js", "Jd"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["As", "Tc"], "board": ["Kc", "9c", "6c"], "bot": ["5s", "4d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ts", "8s"], "board": [], "bot": ["7d", "5s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["7s", "7h"], "board": ["Th", "5s", "4c"], "bot": ["Jd", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ts", "7c"], "board": [], "bot": ["Ad", "3d"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Qs", "6d"], "board": ["Qc", "6c", "5c"], "bot": ["8d", "6h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["9h", "4s"], "board": [], "bot": ["7h", "4d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["Qd", "Ts"], "board": ["Ah", "5s", "2h", "9d"], "bot": ["6s", "5h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kh", "8c"], "board": [], "bot": ["Qh", "8d"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["Ac", "Qd"], "board": ["Ah", "Ks", "Ts", "4s"], "bot": ["Qc", "9c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6h", "4c"], "board": [], "bot": ["9c", "7d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["As", "Jd"], "board": ["8c", "6h", "4s", "5c", "3s"], "bot": ["Tc", "4d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "2d"], "board": [], "bot": ["Th", "3s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["9h", "6s"], "board": ["9d", "7c", "6d"], "bot": ["Ac", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "7c"], "board": [], "bot": ["Kc", "2c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ad", "8h"], "board": [], "bot": ["Qs", "Qd"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kh", "7s"], "board": [], "bot": ["Js", "2h"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Kh", "5s"], "board": [], "bot": ["8d", "3c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Td", "6c"], "board": [], "bot": ["9s", "3d"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["3c", "2d"], "board": [], "bot": ["7d", "3d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["8c", "6h"], "board": [], "bot": ["8s", "3h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Jd", "4d"], "board": ["Qc", "7c", "4s", "6d"], "bot": ["Qs", "4h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Th", "4c"], "board": [], "bot": ["9s", "3h"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["9d", "2h"], "board": ["Kh", "8h", "3d", "Kc", "4s"], "bot": ["Qh", "9s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "6d"], "board": [], "bot": ["Jd", "5c"]}
+{"w": 1200, "adj": 1200, "action": "b211c/kb254b989c/kb1447f", "pos": 1, "hole": ["Ad", "Qh"], "board": ["As", "5s", "3h", "Kh"], "bot": ["Qs", "6h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "7c"], "board": [], "bot": ["Qh", "4d"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["9c", "8c"], "board": ["Kh", "Qc", "Js"], "bot": ["3s", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8s", "6d"], "board": [], "bot": ["Jc", "8c"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["8c", "4c"], "board": ["5s", "4d", "3s", "2c"], "bot": ["Kc", "9c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8c", "4s"], "board": [], "bot": ["Qs", "6d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["7d", "2s"], "board": [], "bot": ["Jc", "Tc"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6d", "5c"], "board": [], "bot": ["Kh", "Jc"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["5h", "5c"], "board": ["Ac", "Jd", "8h", "6d"], "bot": ["Qc", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "7h"], "board": [], "bot": ["Qd", "3d"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211c/kk/b778f", "pos": 1, "hole": ["7c", "5c"], "board": ["Ad", "8s", "5d", "Kh", "Qs"], "bot": ["Kd", "Th"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["3d", "2d"], "board": [], "bot": ["Qs", "2s"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["8c", "6d"], "board": [], "bot": ["9c", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "2s"], "board": [], "bot": ["Kc", "4s"]}
+{"w": 0, "adj": 0, "action": "b211c/kb211c/kk/kk", "pos": 1, "hole": ["Js", "4s"], "board": ["Qc", "Jc", "Td", "9d", "8h"], "bot": ["8s", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "7c"], "board": [], "bot": ["Ad", "3d"]}
+{"w": -2261, "adj": -2261, "action": "b211c/kb254c/kb560c/kb1236b6175f", "pos": 1, "hole": ["9d", "9c"], "board": ["Kh", "8s", "8c", "7h", "3d"], "bot": ["Ks", "8h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "3s"], "board": [], "bot": ["7s", "6d"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["Ac", "3c"], "board": ["7d", "6s", "6h", "5s", "Ks"], "bot": ["Qc", "7s"]}
+{"w": 2146, "adj": 2146, "action": "b200c/b241c/b532c/b1173c", "pos": 0, "hole": ["Ad", "8d"], "board": ["As", "6s", "3c", "8h", "7h"], "bot": ["Ac", "5s"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["Qh", "6h"], "board": ["Ad", "8h", "2s", "6s"], "bot": ["Qc", "5h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "8s"], "board": [], "bot": ["Ac", "Qs"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Ks", "4h"], "board": ["Ah", "6d", "2h", "Jc"], "bot": ["Kd", "Jh"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4s", "2s"], "board": [], "bot": ["Ah", "6d"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["4h", "2s"], "board": [], "bot": ["Th", "9s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6c", "4c"], "board": [], "bot": ["Ac", "9d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ks", "6c"], "board": [], "bot": ["Ac", "Qs"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["Ks", "Jc"], "board": ["As", "7s", "4s"], "bot": ["8h", "4c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Qs", "Jh"], "board": ["Ks", "8d", "2h"], "bot": ["4d", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "8c"], "board": [], "bot": ["Ks", "Qs"]}
+{"w": 930, "adj": 930, "action": "b211c/kb254c/kb465c/kb930f", "pos": 1, "hole": ["Jh", "4s"], "board": ["Js", "Th", "3s", "Ts", "3c"], "bot": ["Ah", "5s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "7s"], "board": [], "bot": ["Js", "Th"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kk/kb211c", "pos": 1, "hole": ["Js", "4d"], "board": ["Ah", "Td", "5d", "2d", "9h"], "bot": ["Qs", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8d", "2h"], "board": [], "bot": ["Qc", "Td"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["7d", "2h"], "board": ["6s", "4d", "2d", "6d", "Ah"], "bot": ["Kc", "8h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ts", "3s"], "board": [], "bot": ["Js", "9c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Ah", "Kd"], "board": ["8h", "5d", "4s", "Qd"], "bot": ["Qc", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9c", "4s"], "board": [], "bot": ["Js", "2h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Js", "6c"], "board": ["Kd", "9d", "5c", "3h"], "bot": ["7s", "4h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "3d"], "board": [], "bot": ["6h", "3c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Ah", "5d"], "board": ["Kh", "Jd", "5c"], "bot": ["8s", "6s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "6s"], "board": [], "bot": ["3s", "3d"]}
+{"w": 465, "adj": 465, "action": "b211c/kk/kb254c/kb560f", "pos": 1, "hole": ["Jc", "3d"], "board": ["8c", "5c", "2d", "Js", "9d"], "bot": ["Ah", "3c"]}
+{"w": -1232, "adj": -1232, "action": "b200b616c/b616c/kb2368f", "pos": 0, "hole": ["As", "Jh"], "board": ["Qh", "Tc", "2d", "7h"], "bot": ["Js", "9s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["4s", "2s"], "board": ["Qh", "6s", "3h", "Ah", "3s"], "bot": ["Ks", "5d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6d", "3d"], "board": [], "bot": ["Ad", "2d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Qc", "5c"], "board": [], "bot": ["Kd", "Kc"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8d", "3c"], "board": [], "bot": ["Jd", "2c"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["9d", "7c"], "board": ["7s", "7d", "2s", "Kd"], "bot": ["Qc", "Js"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qd", "5h"], "board": [], "bot": ["As", "4c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Td", "7d"], "board": [], "bot": ["Tc", "9d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "6h"], "board": [], "bot": ["Ks", "6c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Qc", "5c"], "board": ["Ah", "7s", "7c"], "bot": ["6h", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "5d"], "board": [], "bot": ["Ad", "7s"]}
+{"w": 0, "adj": 0, "action": "ck/kk/kk/kk", "pos": 1, "hole": ["3d", "2h"], "board": ["Jh", "Jc", "8c", "Kc", "Ks"], "bot": ["6s", "4h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ad", "3s"], "board": [], "bot": ["Kh", "Qs"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Qs", "8d"], "board": [], "bot": ["8h", "8c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7c", "4h"], "board": [], "bot": ["Kd", "Ts"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["5h", "3d"], "board": [], "bot": ["8d", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8c", "6s"], "board": [], "bot": ["Ad", "6c"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["Ks", "Jd"], "board": [], "bot": ["9c", "8c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4h", "3d"], "board": [], "bot": ["7d", "5c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Th", "6c"], "board": ["4d", "2h", "2c", "3s"], "bot": ["9d", "6s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7c", "2d"], "board": [], "bot": ["Qc", "Ts"]}
+{"w": 422, "adj": 422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["Js", "9d"], "board": ["Qd", "Ts", "9c", "3s", "4h"], "bot": ["Kc", "5h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Jh", "9s"], "board": [], "bot": ["3d", "2s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["8c", "7d"], "board": ["Td", "5c", "3h", "6s", "7c"], "bot": ["4h", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qd", "8h"], "board": [], "bot": ["6c", "3c"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Qs", "6c"], "board": [], "bot": ["8d", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "3s"], "board": [], "bot": ["Js", "2s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Jd", "6h"], "board": ["Ks", "7h", "4h"], "bot": ["6d", "3c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "3h"], "board": [], "bot": ["Qh", "Jh"]}
+{"w": 0, "adj": 0, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Ks", "3h"], "board": ["Ah", "Ac", "Tc", "5s", "4d"], "bot": ["Kh", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4h", "3c"], "board": [], "bot": ["Qc", "9s"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["Ac", "7c"], "board": ["Ah", "Jh", "6s", "Jd"], "bot": ["Kc", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "3s"], "board": [], "bot": ["Kh", "5c"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["Ah", "4s"], "board": ["6d", "4h", "2s", "4c"], "bot": ["9s", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4h", "3h"], "board": [], "bot": ["6d", "3s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["6c", "5d"], "board": ["Jh", "8d", "4h", "Jd", "2d"], "bot": ["Jc", "3h"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["Kc", "Jd"], "board": ["Ac", "4h", "3s"], "bot": ["Kd", "Qc"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["4s", "3s"], "board": [], "bot": ["Ac", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "6d"], "board": [], "bot": ["7c", "6h"]}
+{"w": 1777, "adj": 1777, "action": "b211c/kb211c/kk/b378b1355c", "pos": 1, "hole": ["Ad", "5s"], "board": ["7d", "6d", "4h", "7s", "3h"], "bot": ["8c", "6s"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["As", "Kh"], "board": [], "bot": ["Td", "4h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Ah", "2d"], "board": ["Ad", "5d", "2h"], "bot": ["4c", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "8h"], "board": [], "bot": ["As", "6h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["3c", "2c"], "board": [], "bot": ["Ah", "8h"]}
+{"w": 200, "adj": 200, "action": "b200c/kk/b200f", "pos": 0, "hole": ["Ah", "4h"], "board": ["Jc", "6d", "3c", "2h"], "bot": ["Kh", "8h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b289f", "pos": 1, "hole": ["Kc", "8h"], "board": ["Ac", "Jh", "6s", "2h", "5s"], "bot": ["Ts", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9s", "7d"], "board": [], "bot": ["Tc", "8h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["7s", "4s"], "board": ["Tc", "6d", "2s", "9s"], "bot": ["Jd", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kh", "9d"], "board": [], "bot": ["Ts", "4s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["9d", "6h"], "board": [], "bot": ["8d", "8c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["3d", "2c"], "board": [], "bot": ["Kh", "3c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["6s", "5c"], "board": ["Ac", "Jc", "2d", "4h"], "bot": ["6c", "5s"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["Js", "Jc"], "board": [], "bot": ["Jd", "8h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Qc", "Ts"], "board": ["9h", "6s", "4h", "2h", "Js"], "bot": ["5h", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7h", "6s"], "board": [], "bot": ["Th", "9h"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Ts", "3s"], "board": ["6c", "4h", "2h"], "bot": ["8d", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9c", "5c"], "board": [], "bot": ["9s", "6s"]}
+{"w": -1200, "adj": -1200, "action": "b211c/kk/kk/kb254b989c", "pos": 1, "hole": ["8c", "2s"], "board": ["7d", "6s", "4c", "4h", "2d"], "bot": ["4s", "3c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9c", "2h"], "board": [], "bot": ["Jd", "8d"]}
+{"w": -3971, "adj": -3971, "action": "b211c/kb211c/kb509b1378c/kb2171c", "pos": 1, "hole": ["Ad", "6d"], "board": ["Qh", "8h", "3h", "Ac", "2h"], "bot": ["Jh", "5s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "Tc"], "board": [], "bot": ["Qh", "2c"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["7h", "5c"], "board": [], "bot": ["7s", "6s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kc", "6d"], "board": [], "bot": ["Qs", "Qd"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Th", "Td"], "board": [], "bot": ["6s", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "7d"], "board": [], "bot": ["6s", "6d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["9d", "3s"], "board": ["Qd", "Ts", "2s", "5c", "Tc"], "bot": ["As", "4d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4h", "2h"], "board": [], "bot": ["Kc", "Jd"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["6h", "5d"], "board": [], "bot": ["8h", "2c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Th", "5d"], "board": [], "bot": ["5h", "2d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Jh", "7c"], "board": ["8s", "8h", "4h", "2d"], "bot": ["Ts", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5h", "3s"], "board": [], "bot": ["Ac", "Kh"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["7s", "6c"], "board": [], "bot": ["Ks", "Qc"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "6c"], "board": [], "bot": ["Ac", "5d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["4c", "2c"], "board": ["Js", "Tc", "6d", "9c", "9d"], "bot": ["9s", "4s"]}
+{"w": -616, "adj": -616, "action": "b200b616b1800f", "pos": 0, "hole": ["As", "Jh"], "board": [], "bot": ["Jd", "8d"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["Ks", "3h"], "board": [], "bot": ["Ah", "8d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Jh", "6s"], "board": [], "bot": ["7c", "2d"]}
+{"w": 422, "adj": 422, "action": "b211c/kb211c/kk/kk", "pos": 1, "hole": ["Js", "8h"], "board": ["Td", "9h", "4c", "6h", "Jh"], "bot": ["9s", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4h", "3h"], "board": [], "bot": ["Kd", "2c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["7d", "5c"], "board": [], "bot": ["Ah", "Ac"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ts", "3d"], "board": [], "bot": ["Qs", "Jh"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["9d", "3s"], "board": ["As", "Kh", "8d", "6c", "3h"], "bot": ["Ac", "6s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8h", "6d"], "board": [], "bot": ["Kh", "3h"]}
+{"w": -844, "adj": -844, "action": "b211c/kk/kb211c/kb422b1978f", "pos": 1, "hole": ["Ad", "Jh"], "board": ["Qh", "9s", "5d", "8d", "Qc"], "bot": ["Qs", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "4c"], "board": [], "bot": ["Jd", "3h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["As", "2d"], "board": ["Qc", "Tc", "7s", "7h", "6s"], "bot": ["Qh", "3c"]}
+{"w": -616, "adj": -616, "action": "b200b616b1800f", "pos": 0, "hole": ["9d", "9c"], "board": [], "bot": ["Kd", "Qd"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["9s", "2c"], "board": ["Ah", "Jh", "4c", "6d"], "bot": ["Kc", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "5s"], "board": [], "bot": ["Td", "4h"]}
+{"w": 0, "adj": 0, "action": "ck/kk/kk/kk", "pos": 1, "hole": ["6h", "2d"], "board": ["Ad", "Qh", "7c", "9s", "Qs"], "bot": ["5d", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "2c"], "board": [], "bot": ["Qh", "8d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["2d", "2c"], "board": ["Ad", "Kh", "7h", "Qh"], "bot": ["Ac", "Ts"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "9h"], "board": [], "bot": ["As", "2s"]}
+{"w": 1688, "adj": 1688, "action": "b211c/kb211c/kb422c/kb844c", "pos": 1, "hole": ["8d", "8c"], "board": ["Kh", "Qs", "4d", "3s", "Tc"], "bot": ["Js", "4s"]}
+{"w": -200, "adj": -200, "action": "b200c/kk/kb200f", "pos": 0, "hole": ["Ah", "8h"], "board": ["Kc", "3d", "2d", "Th"], "bot": ["Td", "7d"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["5c", "4d"], "board": ["Ts", "8d", "6s"], "bot": ["Qs", "3c"]}
+{"w": -2146, "adj": -2146, "action": "b200c/b241c/b532c/b1173b6227f", "pos": 0, "hole": ["Qd", "Jc"], "board": ["Qs", "4d", "2h", "Jd", "4s"], "bot": ["Js", "2s"]}
+{"w": 422, "adj": 422, "action": "b211c/kk/kb211c/kb509f", "pos": 1, "hole": ["8s", "3s"], "board": ["As", "Qh", "5c", "Ts", "9s"], "bot": ["Kd", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7c", "5c"], "board": [], "bot": ["Js", "2s"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["7d", "2h"], "board": ["Kh", "Tc", "2s", "8h"], "bot": ["Jd", "4d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["8c", "2h"], "board": [], "bot": ["4c", "2d"]}
+{"w": 2054, "adj": 2054, "action": "b211c/kb211c/kb509c/kb1123c", "pos": 1, "hole": ["Qh", "Td"], "board": ["8d", "4d", "2s", "Qc", "3c"], "bot": ["9c", "8h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4h", "2d"], "board": [], "bot": ["Kc", "9s"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["4c", "2s"], "board": [], "bot": ["5c", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8h", "5c"], "board": [], "bot": ["4c", "3d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Ah", "Jd"], "board": [], "bot": ["6s", "2d"]}
+{"w": 200, "adj": 200, "action": "b200c/kk/kk/kk", "pos": 0, "hole": ["Ah", "9c"], "board": ["Jh", "Jd", "7s", "Tc", "Td"], "bot": ["5d", "5c"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["3h", "3c"], "board": [], "bot": ["Qh", "4h"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["As", "8c"], "board": ["Qd", "7d", "5c"], "bot": ["Qh", "Qc"]}
+{"w": -400, "adj": -400, "action": "b211c/kk/kk/b189c", "pos": 1, "hole": ["As", "3h"], "board": ["9s", "8s", "2h", "Jd", "Ad"], "bot": ["Th", "7d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Qh", "9c"], "board": [], "bot": ["8s", "3c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["3h", "3d"], "board": ["Jd", "9c", "7d", "Ah", "6d"], "bot": ["7c", "5d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8h", "7h"], "board": [], "bot": ["Kc", "7c"]}
+{"w": 400, "adj": 400, "action": "b211c/b189c/kb482f", "pos": 1, "hole": ["Kd", "8s"], "board": ["Ks", "Qs", "4d", "Jh"], "bot": ["4s", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6h", "5c"], "board": [], "bot": ["Jd", "4h"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211b1589f", "pos": 1, "hole": ["Ad", "9c"], "board": ["Kc", "Td", "2h", "Qc"], "bot": ["Jc", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7h", "6s"], "board": [], "bot": ["9h", "8h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Ac", "2c"], "board": ["Ad", "Js", "2d"], "bot": ["8d", "4h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["As", "Ac"], "board": [], "bot": ["3h", "2s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Kc", "Td"], "board": [], "bot": ["Ts", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6d", "4d"], "board": [], "bot": ["Kc", "9d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["9h", "5h"], "board": [], "bot": ["8h", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kh", "3c"], "board": [], "bot": ["7s", "4s"]}
+{"w": -100, "adj": -100, "action": "ck/kk/b100f", "pos": 1, "hole": ["6c", "2s"], "board": ["Qd", "3d", "2h", "5h"], "bot": ["Qc", "6h"]}
+{"w": -200, "adj": -200, "action": "b200c/kk/kk/kk", "pos": 0, "hole": ["Kd", "9d"], "board": ["Jh", "7d", "6c", "8d", "Js"], "bot": ["6s", "3c"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kb211f", "pos": 1, "hole": ["Qs", "6d"], "board": ["Ad", "4c", "2s", "4s", "9d"], "bot": ["Qc", "7d"]}
+{"w": 616, "adj": 616, "action": "b200b616c/kk/kk/b743f", "pos": 0, "hole": ["8h", "8d"], "board": ["As", "9d", "4s", "Tc", "8c"], "bot": ["9h", "6h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["6c", "5s"], "board": ["Ad", "8c", "4h", "Jh"], "bot": ["7h", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "3d"], "board": [], "bot": ["Qs", "9h"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["8s", "8h"], "board": ["Qs", "9c", "4c", "Qd"], "bot": ["Th", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6s", "4s"], "board": [], "bot": ["Qs", "7h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Tc", "5c"], "board": ["As", "Kd", "2d", "6s", "Jc"], "bot": ["Js", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "2c"], "board": [], "bot": ["Js", "Td"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Qh", "Jd"], "board": ["6d", "4s", "2h", "2d"], "bot": ["Tc", "5s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7h", "6s"], "board": [], "bot": ["Jd", "6d"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Td", "Tc"], "board": ["Js", "8h", "4h"], "bot": ["7d", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "2c"], "board": [], "bot": ["Th", "7d"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211c/kk/b378f", "pos": 1, "hole": ["Ah", "2h"], "board": ["Ts", "9s", "7d", "7c", "4s"], "bot": ["Kd", "9c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ah", "5c"], "board": [], "bot": ["Kh", "Qd"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["Kc", "6d"], "board": ["5d", "5c", "3c", "3h"], "bot": ["9d", "5h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ac", "2s"], "board": [], "bot": ["5d", "3h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["8c", "7d"], "board": ["Kh", "8s", "3d"], "bot": ["Ah", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "3h"], "board": [], "bot": ["7s", "4s"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["4c", "2s"], "board": [], "bot": ["5h", "4h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["9s", "4d"], "board": [], "bot": ["7c", "4h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Kh", "8c"], "board": ["As", "Kd", "9c"], "bot": ["Ts", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "9s"], "board": [], "bot": ["Jd", "2s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["8s", "3c"], "board": ["Qd", "Th", "7d"], "bot": ["8h", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kh", "2h"], "board": [], "bot": ["Qs", "6d"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Jd", "4d"], "board": ["5h", "4s", "4h"], "bot": ["5c", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "7c"], "board": [], "bot": ["5s", "4d"]}
+{"w": -20000, "adj": -20000, "action": "b211c/b289c/kb603c/kb1330b7897b18897c", "pos": 1, "hole": ["Ac", "Kc"], "board": ["Ks", "Qd", "3d", "Ts", "Jd"], "bot": ["Td", "9d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "8h"], "board": [], "bot": ["Qd", "8s"]}
+{"w": 2000, "adj": 2000, "action": "b211c/b289c/b500c/b1000c", "pos": 1, "hole": ["Kh", "Th"], "board": ["Kc", "Js", "8s", "6s", "7c"], "bot": ["9s", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4s", "3c"], "board": [], "bot": ["Ah", "6c"]}
+{"w": 465, "adj": 465, "action": "b211c/kk/kb254c/kb560f", "pos": 1, "hole": ["Kd", "2s"], "board": ["Ah", "9h", "2h", "Ks", "Jc"], "bot": ["Qd", "5h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["8c", "7d"], "board": [], "bot": ["6c", "2s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Td", "4d"], "board": [], "bot": ["Kh", "Qs"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kc", "7c"], "board": [], "bot": ["Qc", "7s"]}
+{"w": 1765, "adj": 1765, "action": "b211c/b189c/b400c/kb965c", "pos": 1, "hole": ["Jc", "8s"], "board": ["Jh", "9s", "4s", "Js", "9h"], "bot": ["9d", "4h"]}
+{"w": 1200, "adj": 1200, "action": "b200c/b241b1000c/b1447f", "pos": 0, "hole": ["Ac", "9h"], "board": ["As", "Tc", "2h", "Ad"], "bot": ["Td", "3d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Kd", "5h"], "board": [], "bot": ["Jd", "Tc"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8s", "5c"], "board": [], "bot": ["Qs", "Td"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Qh", "4c"], "board": ["As", "Js", "3c", "Ac", "2c"], "bot": ["Qd", "Ts"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8s", "6d"], "board": [], "bot": ["7s", "5d"]}
+{"w": 400, "adj": 400, "action": "b211c/kk/b189c/kb400f", "pos": 1, "hole": ["5d", "2d"], "board": ["As", "9s", "9h", "2h", "Ad"], "bot": ["4c", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kh", "8c"], "board": [], "bot": ["4s", "4h"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["7c", "3s"], "board": [], "bot": ["Jh", "Jc"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "2d"], "board": [], "bot": ["9d", "8d"]}
+{"w": -844, "adj": -844, "action": "b211c/kb211c/kk/kb422c", "pos": 1, "hole": ["Th", "4s"], "board": ["Kc", "9c", "5s", "Tc", "8c"], "bot": ["8d", "5d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "5c"], "board": [], "bot": ["Tc", "4s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Jd", "6h"], "board": [], "bot": ["Ts", "9c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Jh", "5c"], "board": [], "bot": ["9c", "2h"]}
+{"w": 400, "adj": 400, "action": "b211c/kk/b189c/kb482f", "pos": 1, "hole": ["Ad", "7s"], "board": ["Td", "8c", "2d", "Ah", "Th"], "bot": ["Jc", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "3c"], "board": [], "bot": ["Qd", "Js"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["Th", "6c"], "board": ["Ad", "Js", "3h", "Tc", "7c"], "bot": ["As", "Td"]}
+{"w": 1200, "adj": 1200, "action": "b200b616c/kb584c/b1447f", "pos": 0, "hole": ["8s", "8c"], "board": ["9d", "7h", "4d", "4c"], "bot": ["Ad", "Tc"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Jh", "9c"], "board": ["Ts", "4c", "2c", "3c", "2h"], "bot": ["5d", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "8c"], "board": [], "bot": ["9s", "6s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ad", "9s"], "board": [], "bot": ["7h", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6s", "4d"], "board": [], "bot": ["Tc", "6d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Ts", "3c"], "board": ["5d", "4c", "2h", "3h"], "bot": ["9h", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6d", "4h"], "board": [], "bot": ["Qh", "2d"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["5s", "2d"], "board": [], "bot": ["Jh", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7d", "5c"], "board": [], "bot": ["9s", "8d"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Jh", "4s"], "board": ["Kh", "6d", "6c"], "bot": ["Js", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "9s"], "board": [], "bot": ["Qc", "7s"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Js", "3c"], "board": ["Ac", "7d", "6h"], "bot": ["5c", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "9c"], "board": [], "bot": ["6s", "6h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Jd", "7d"], "board": ["Ad", "5d", "3s", "2c"], "bot": ["Js", "6h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "6h"], "board": [], "bot": ["Jc", "4s"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211b989f", "pos": 1, "hole": ["Jc", "Td"], "board": ["Qd", "9h", "7d", "4s"], "bot": ["Qc", "4d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kh", "8c"], "board": [], "bot": ["Js", "3s"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211b589f", "pos": 1, "hole": ["Qc", "4c"], "board": ["Tc", "7h", "2d"], "bot": ["9d", "8c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8d", "6c"], "board": [], "bot": ["Ah", "9h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Qd", "Ts"], "board": [], "bot": ["Ad", "8d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Qh", "7s"], "board": [], "bot": ["9c", "3h"]}
+{"w": -800, "adj": -800, "action": "b211c/kb254c/b335c/b800f", "pos": 1, "hole": ["Jh", "Jc"], "board": ["7c", "6d", "4c", "7s", "2c"], "bot": ["Ad", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5c", "3d"], "board": [], "bot": ["Qc", "9d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Jh", "5h"], "board": ["Ah", "Ts", "2c", "Qs", "Th"], "bot": ["Td", "9d"]}
+{"w": -800, "adj": -800, "action": "b200c/b200c/kk/b400c", "pos": 0, "hole": ["Kd", "Jh"], "board": ["8h", "5h", "3c", "8d", "5c"], "bot": ["As", "9h"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb465f", "pos": 1, "hole": ["Kd", "6h"], "board": ["7h", "6d", "4s", "3h"], "bot": ["Ah", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5c", "4d"], "board": [], "bot": ["Qd", "7c"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211c/kk/b378f", "pos": 1, "hole": ["9d", "4h"], "board": ["As", "Js", "2c", "9c", "Kc"], "bot": ["Ks", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8s", "6h"], "board": [], "bot": ["7d", "5d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["5c", "2c"], "board": [], "bot": ["Kh", "Th"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "Ts"], "board": [], "bot": ["9d", "6h"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kk/kb211c", "pos": 1, "hole": ["8h", "4c"], "board": ["Ac", "Qc", "2h", "6h", "Ks"], "bot": ["9h", "6d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["2d", "2c"], "board": [], "bot": ["Kh", "7s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["9s", "7d"], "board": ["Jc", "8s", "5d", "3c"], "bot": ["8d", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "8s"], "board": [], "bot": ["Ad", "5h"]}
+{"w": 465, "adj": 465, "action": "b211c/kk/kk/kb254c", "pos": 1, "hole": ["Jd", "9d"], "board": ["Kc", "Th", "5h", "3d", "Qc"], "bot": ["5s", "4d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ad", "6h"], "board": [], "bot": ["Js", "5c"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["Ks", "9s"], "board": [], "bot": ["Ac", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "3s"], "board": [], "bot": ["8c", "4h"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["8d", "8c"], "board": [], "bot": ["7s", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ts", "5s"], "board": [], "bot": ["Ks", "4h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["9h", "3d"], "board": ["Qd", "Tc", "4c"], "bot": ["Ah", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "9h"], "board": [], "bot": ["Js", "4h"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["Qd", "4h"], "board": ["Ah", "Qh", "8d", "4c"], "bot": ["Jd", "7h"]}
+{"w": 200, "adj": 200, "action": "b200c/kk/kk/kk", "pos": 0, "hole": ["6d", "6c"], "board": ["As", "Th", "4s", "7s", "Ad"], "bot": ["Ks", "8c"]}
+{"w": 0, "adj": 0, "action": "b211c/kb254c/kb560c/kb1236c", "pos": 1, "hole": ["As", "Jc"], "board": ["Ad", "Kd", "Qh", "Kh", "2s"], "bot": ["Ac", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qd", "5c"], "board": [], "bot": ["9c", "6s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Ac", "3h"], "board": ["8d", "5h", "4h", "6d"], "bot": ["Th", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "8h"], "board": [], "bot": ["4d", "2d"]}
+{"w": -5400, "adj": -5400, "action": "b211c/kb254b1589c/b3600c/b14600f", "pos": 1, "hole": ["Qd", "7d"], "board": ["7s", "3d", "2d", "6c", "8s"], "bot": ["5d", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "6d"], "board": [], "bot": ["7h", "3h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b289f", "pos": 1, "hole": ["Tc", "7c"], "board": ["Jc", "8c", "6h", "8d", "Kh"], "bot": ["4h", "3h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Ks", "6s"], "board": [], "bot": ["7c", "4d"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["9h", "5h"], "board": [], "bot": ["Ac", "Qs"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "2d"], "board": [], "bot": ["Kd", "5s"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kk/kb211b989f", "pos": 1, "hole": ["8h", "2h"], "board": ["9c", "5s", "2s", "Tc", "6c"], "bot": ["8c", "7s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "3h"], "board": [], "bot": ["7s", "2s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["9s", "2c"], "board": [], "bot": ["Qs", "Qc"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "9h"], "board": [], "bot": ["Jd", "3s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["7c", "6d"], "board": ["9s", "9d", "3h", "Tc"], "bot": ["Jd", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4h", "3s"], "board": [], "bot": ["6s", "5d"]}
+{"w": 1200, "adj": 1200, "action": "b211c/kk/kk/kb254b989b2321f", "pos": 1, "hole": ["Ac", "Kd"], "board": ["Jc", "7c", "6h", "Tc", "Qh"], "bot": ["Ks", "6d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8d", "5h"], "board": [], "bot": ["Jh", "2d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["As", "5c"], "board": ["Qc", "Js", "8s", "8d"], "bot": ["Qh", "2s"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["7s", "5s"], "board": [], "bot": ["3d", "2h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["6h", "5s"], "board": ["As", "Th", "3h", "Ah", "Ad"], "bot": ["Kc", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["3d", "2h"], "board": [], "bot": ["Td", "9h"]}
+{"w": -100, "adj": -100, "action": "ck/kk/kk/b100f", "pos": 1, "hole": ["3s", "2h"], "board": ["As", "Qd", "9s", "Jh", "4h"], "bot": ["Jc", "8h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "7s"], "board": [], "bot": ["6h", "4c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["As", "Jc"], "board": ["Qd", "Qc", "5c", "8c"], "bot": ["Js", "3s"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["5d", "4h"], "board": [], "bot": ["8s", "2h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Kc", "5c"], "board": [], "bot": ["Jd", "9c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kc", "3d"], "board": [], "bot": ["Qd", "4s"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Qs", "6c"], "board": ["Jh", "9s", "3d"], "bot": ["Jd", "3c"]}
+{"w": 800, "adj": 800, "action": "b200c/b200c/b400c/kk", "pos": 0, "hole": ["Kd", "Jh"], "board": ["As", "Th", "5s", "5c", "Js"], "bot": ["3h", "3d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["8s", "3s"], "board": [], "bot": ["9h", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "4d"], "board": [], "bot": ["Qc", "9h"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["Td", "7h"], "board": ["Qs", "Ts", "8h", "Ac"], "bot": ["Kd", "6c"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["7s", "7d"], "board": [], "bot": ["Th", "5c"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["6d", "5s"], "board": ["Ts", "9h", "4s", "Th", "8s"], "bot": ["9s", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qd", "4d"], "board": [], "bot": ["Jd", "7h"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kk/kb211c", "pos": 1, "hole": ["Ad", "4c"], "board": ["8s", "7h", "2s", "6s", "9d"], "bot": ["9c", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5c", "4c"], "board": [], "bot": ["Tc", "7s"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Qd", "8d"], "board": [], "bot": ["Td", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "6h"], "board": [], "bot": ["Kh", "8c"]}
+{"w": -7200, "adj": -7200, "action": "b211c/kb254c/kb560c/kb1236b6175c", "pos": 1, "hole": ["Kh", "4h"], "board": ["Kc", "Qh", "Js", "2h", "7s"], "bot": ["Kd", "Jh"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Js", "6h"], "board": [], "bot": ["7s", "4d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["8s", "3d"], "board": ["Td", "9s", "3s", "Ks"], "bot": ["Kc", "Th"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "8s"], "board": [], "bot": ["9d", "6h"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Jd", "3c"], "board": ["Qc", "7s", "5d", "Ah", "Js"], "bot": ["9c", "4d"]}
+{"w": 800, "adj": 800, "action": "b200c/kb200c/kk/b400c", "pos": 0, "hole": ["Ac", "9s"], "board": ["Kh", "9c", "4c", "Td", "7h"], "bot": ["Ad", "4h"]}
+{"w": -465, "adj": -465, "action": "b211c/kk/kb254b1589f", "pos": 1, "hole": ["7d", "6h"], "board": ["9s", "9d", "4c", "6c"], "bot": ["5s", "3c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Tc", "3h"], "board": [], "bot": ["Qd", "7c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["5h", "4c"], "board": ["Qd", "9c", "8d", "7s", "Th"], "bot": ["Kh", "8h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qd", "2s"], "board": [], "bot": ["Ac", "Qc"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Ks", "9h"], "board": ["8h", "7s", "2h", "Ah"], "bot": ["Ad", "9c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "9c"], "board": [], "bot": ["Kh", "5s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["9s", "8c"], "board": ["Jd", "Tc", "9h", "Ad"], "bot": ["Qs", "5h"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["Ad", "Td"], "board": [], "bot": ["Jc", "2c"]}
+{"w": 844, "adj": 844, "action": "b211c/kb211c/kb422c/kb844f", "pos": 1, "hole": ["Th", "4h"], "board": ["Kd", "Jh", "7d", "7h", "As"], "bot": ["Kh", "4c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["8c", "3h"], "board": [], "bot": ["8d", "3s"]}
+{"w": 0, "adj": 0, "action": "b211c/kb254c/kb560c/kb1236c", "pos": 1, "hole": ["Ah", "3s"], "board": ["Ad", "Th", "9c", "Tc", "Kh"], "bot": ["Ac", "6s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "2d"], "board": [], "bot": ["Td", "6h"]}
+{"w": -800, "adj": -800, "action": "b211c/kb254b589c/b1600f", "pos": 1, "hole": ["Th", "Td"], "board": ["Ac", "7s", "4d", "3h"], "bot": ["As", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Tc", "9d"], "board": [], "bot": ["8d", "4d"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Kc", "Jh"], "board": ["Qh", "6h", "5c"], "bot": ["5h", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "9d"], "board": [], "bot": ["Qc", "5d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["8s", "5h"], "board": ["Js", "Jh", "6d", "Qc"], "bot": ["Ad", "9c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "4d"], "board": [], "bot": ["Kh", "5d"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["9c", "4c"], "board": ["Ks", "Qc", "Td", "7s", "Kh"], "bot": ["Th", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "Th"], "board": [], "bot": ["Tc", "2h"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["4c", "2d"], "board": [], "bot": ["Ah", "7d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "3d"], "board": [], "bot": ["5d", "3h"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["6d", "5d"], "board": [], "bot": ["7s", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "2s"], "board": [], "bot": ["8c", "6s"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["5h", "2d"], "board": [], "bot": ["8d", "7d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "9s"], "board": [], "bot": ["Qc", "9h"]}
+{"w": 1025, "adj": 1025, "action": "b211c/kb254c/kb560c/kb1236f", "pos": 1, "hole": ["Ad", "5d"], "board": ["Ac", "Qh", "2s", "Ah", "Kh"], "bot": ["Qc", "7d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "3s"], "board": [], "bot": ["Qc", "4h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["9d", "3h"], "board": ["Js", "9c", "2s"], "bot": ["Th", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6h", "2c"], "board": [], "bot": ["Jd", "5s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Qh", "9d"], "board": [], "bot": ["Ac", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5d", "2h"], "board": [], "bot": ["Ah", "Js"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["As", "Qd"], "board": ["Tc", "6c", "5c"], "bot": ["9c", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6h", "4d"], "board": [], "bot": ["Td", "7h"]}
+{"w": 0, "adj": 0, "action": "b211c/kk/kb254c/kk", "pos": 1, "hole": ["Qc", "4h"], "board": ["Ad", "Qd", "5h", "6s", "Kd"], "bot": ["Qh", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "9c"], "board": [], "bot": ["Ac", "2s"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["7h", "5d"], "board": [], "bot": ["9d", "3c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "3s"], "board": [], "bot": ["Ks", "Th"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["9c", "5c"], "board": [], "bot": ["9d", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6s", "3c"], "board": [], "bot": ["Js", "7s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Qs", "9h"], "board": [], "bot": ["Ad", "Jc"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5h", "4h"], "board": [], "bot": ["5d", "4c"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["4h", "2h"], "board": ["Td", "5s", "2c", "Tc"], "bot": ["Qs", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "4h"], "board": [], "bot": ["Qs", "6d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Kh", "Jh"], "board": [], "bot": ["3s", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ts", "7c"], "board": [], "bot": ["Qc", "6s"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["4h", "3c"], "board": ["Ks", "9d", "7h", "2c"], "bot": ["Ah", "6h"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["As", "Ts"], "board": [], "bot": ["7s", "5h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["As", "Qc"], "board": [], "bot": ["Ac", "Ks"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5d", "4s"], "board": [], "bot": ["9d", "8d"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["Jc", "9d"], "board": ["Td", "8c", "2s", "Qc"], "bot": ["Ks", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7h", "6h"], "board": [], "bot": ["6s", "4d"]}
+{"w": -211, "adj": -211, "action": "b211c/b289f", "pos": 1, "hole": ["Td", "2h"], "board": ["Jc", "Ts", "6s"], "bot": ["Qs", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4d", "4c"], "board": [], "bot": ["Kh", "9c"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["7h", "4c"], "board": [], "bot": ["7c", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8d", "3s"], "board": [], "bot": ["6h", "2h"]}
+{"w": -400, "adj": -400, "action": "b211c/kk/b189c/b400f", "pos": 1, "hole": ["9h", "3h"], "board": ["Jd", "9c", "2c", "4d", "5s"], "bot": ["Qd", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "2d"], "board": [], "bot": ["Ad", "Ac"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb465f", "pos": 1, "hole": ["Tc", "5c"], "board": ["Td", "8d", "8c", "3d"], "bot": ["Kc", "9d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6s", "3s"], "board": [], "bot": ["As", "Ks"]}
+{"w": 465, "adj": 465, "action": "b211c/kk/kb254c/kk", "pos": 1, "hole": ["Qs", "Qd"], "board": ["As", "9s", "5c", "4c", "Jc"], "bot": ["6d", "5s"]}
+{"w": -616, "adj": -616, "action": "b200b616c/kb584f", "pos": 0, "hole": ["Ad", "Ts"], "board": ["Qh", "8h", "6d"], "bot": ["Ac", "Qs"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["Jc", "Th"], "board": ["9s", "9h", "3c", "Ac", "7s"], "bot": ["9d", "3h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Th", "3c"], "board": [], "bot": ["4s", "2c"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["5h", "4h"], "board": [], "bot": ["7h", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8s", "2c"], "board": [], "bot": ["Kh", "6d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Qh", "7h"], "board": [], "bot": ["Td", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "6d"], "board": [], "bot": ["Qh", "5h"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Jh", "5d"], "board": [], "bot": ["Th", "2s"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Ks", "9c"], "board": [], "bot": ["4s", "2c"]}
+{"w": 400, "adj": 400, "action": "b211c/kk/b189b677f", "pos": 1, "hole": ["5d", "3c"], "board": ["9c", "8c", "6h", "7h"], "bot": ["Ac", "9s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Tc", "4s"], "board": [], "bot": ["Th", "6c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Qh", "7c"], "board": ["Kd", "Kc", "2s", "Jd"], "bot": ["As", "9h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5h", "2d"], "board": [], "bot": ["Ah", "Td"]}
+{"w": 1800, "adj": 1800, "action": "b211c/kk/kb254b1589c/kb2171f", "pos": 1, "hole": ["Jd", "9c"], "board": ["7c", "4c", "2s", "Js", "Ah"], "bot": ["Ks", "8s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7d", "3h"], "board": [], "bot": ["6c", "2c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["8s", "7h"], "board": ["As", "6h", "5h", "Qc"], "bot": ["6s", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8d", "4c"], "board": [], "bot": ["9h", "8h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Kc", "8h"], "board": [], "bot": ["Th", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qh", "6d"], "board": [], "bot": ["Kh", "7d"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["8c", "6c"], "board": ["9s", "9d", "5s"], "bot": ["8s", "4d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9c", "4h"], "board": [], "bot": ["Ks", "Kd"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["9c", "2h"], "board": ["Qh", "Jd", "5c", "3h"], "bot": ["Td", "4h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qh", "9d"], "board": [], "bot": ["Ah", "6h"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["6c", "2c"], "board": [], "bot": ["Qh", "Th"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "7h"], "board": [], "bot": ["Ac", "Qd"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Kd", "3c"], "board": ["Ad", "Qs", "Jc", "5d"], "bot": ["Kh", "2d"]}
+{"w": -616, "adj": -616, "action": "b200b616b1800f", "pos": 0, "hole": ["9s", "9d"], "board": [], "bot": ["Ah", "Qh"]}
+{"w": -400, "adj": -400, "action": "b211c/kk/b189c/b800f", "pos": 1, "hole": ["Kd", "Jd"], "board": ["Ad", "7c", "5d", "Kc", "2s"], "bot": ["Ac", "6h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ac", "7h"], "board": [], "bot": ["Ad", "Kd"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ks", "6h"], "board": [], "bot": ["Jd", "9d"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["Kh", "Kd"], "board": [], "bot": ["Ts", "6h"]}
+{"w": 1025, "adj": 1025, "action": "b211c/kk/kb254c/kb560c", "pos": 1, "hole": ["8d", "6h"], "board": ["Ad", "Qd", "8s", "8h", "Jd"], "bot": ["As", "2d"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["Jc", "Tc"], "board": ["9d", "5d", "3c"], "bot": ["Kh", "Td"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["9d", "2d"], "board": [], "bot": ["Qs", "Js"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Th", "2h"], "board": [], "bot": ["8h", "2s"]}
+{"w": 2261, "adj": 2261, "action": "b211c/kb254c/kb560c/kb1236c", "pos": 1, "hole": ["Jd", "9c"], "board": ["Js", "6c", "5h", "4s", "Jc"], "bot": ["8c", "6h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5h", "3h"], "board": [], "bot": ["9c", "8h"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kk/kb211c", "pos": 1, "hole": ["6d", "3c"], "board": ["Kh", "9d", "7c", "Qh", "Ts"], "bot": ["Ad", "6h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "9s"], "board": [], "bot": ["As", "Td"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b289f", "pos": 1, "hole": ["Td", "3c"], "board": ["Js", "8s", "7h", "2d", "Kh"], "bot": ["5h", "3s"]}
+{"w": 882, "adj": 882, "action": "b200c/b200c/b482c/b1064f", "pos": 0, "hole": ["Ac", "9d"], "board": ["Kd", "8d", "3c", "9s", "5s"], "bot": ["Ah", "Qs"]}
+{"w": 1200, "adj": 1200, "action": "b211c/kk/b189c/b800c", "pos": 1, "hole": ["Ah", "Jd"], "board": ["8d", "3d", "2c", "Ac", "Jc"], "bot": ["6s", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6s", "4s"], "board": [], "bot": ["Ks", "Kh"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["Td", "8s"], "board": ["Qs", "6d", "4s", "Tc"], "bot": ["9d", "4d"]}
+{"w": 882, "adj": 882, "action": "b200c/kb200c/b482c/b1064f", "pos": 0, "hole": ["As", "7s"], "board": ["6c", "4s", "2s", "Ks", "Ad"], "bot": ["8c", "4c"]}
+{"w": 422, "adj": 422, "action": "b211c/kb211c/kb509f", "pos": 1, "hole": ["Jc", "7c"], "board": ["Ac", "Tc", "6d", "Jh"], "bot": ["Qd", "7d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4h", "3s"], "board": [], "bot": ["Ah", "7h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Qs", "Qd"], "board": ["Jc", "7s", "4d"], "bot": ["Th", "3c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4c", "2h"], "board": [], "bot": ["Ks", "4h"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["9d", "4h"], "board": ["Qc", "Js", "9s", "4d"], "bot": ["Ks", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "8d"], "board": [], "bot": ["Jh", "5h"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["9h", "7d"], "board": [], "bot": ["Qd", "Jh"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "8s"], "board": [], "bot": ["Jh", "Jc"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["Qh", "Qd"], "board": ["Qc", "Js", "7d", "Tc"], "bot": ["7s", "5c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Kh", "8c"], "board": [], "bot": ["7h", "3s"]}
+{"w": 600, "adj": 600, "action": "b211b600b20000f", "pos": 1, "hole": ["Ks", "Kh"], "board": [], "bot": ["Jh", "Tc"]}
+{"w": -616, "adj": -616, "action": "b200b616b1800f", "pos": 0, "hole": ["As", "Td"], "board": [], "bot": ["Th", "9h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["Qs", "7h"], "board": ["8d", "5d", "4h", "3d", "7s"], "bot": ["Jh", "8c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6d", "2h"], "board": [], "bot": ["Kc", "9s"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["3d", "2s"], "board": [], "bot": ["Ac", "Kh"]}
+{"w": 2718, "adj": 2718, "action": "b200b616c/b743c/b1359c/b3278f", "pos": 0, "hole": ["Ah", "Td"], "board": ["Ad", "8d", "7d", "8h", "Ac"], "bot": ["4h", "4d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["7d", "2c"], "board": [], "bot": ["Jc", "9s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "8d"], "board": [], "bot": ["Ac", "Qh"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Kd", "Js"], "board": [], "bot": ["9c", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5c", "3c"], "board": [], "bot": ["7s", "6h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["8h", "6d"], "board": ["Js", "Jd", "9s", "3h"], "bot": ["4c", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kh", "5h"], "board": [], "bot": ["Ad", "7s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["Qh", "4d"], "board": ["Js", "8h", "5d", "Ts"], "bot": ["Jh", "6d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["8d", "5d"], "board": [], "bot": ["7h", "2c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["Js", "3c"], "board": ["Ts", "6d", "3s", "4h"], "bot": ["8h", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "5s"], "board": [], "bot": ["Ac", "9s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Jc", "Th"], "board": ["Ks", "7s", "5h", "Qs"], "bot": ["8h", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5d", "3c"], "board": [], "bot": ["Qc", "4c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Qs", "9s"], "board": ["Th", "9d", "7s"], "bot": ["Ac", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5d", "4d"], "board": [], "bot": ["Jc", "6d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["5c", "4h"], "board": ["7h", "7d", "2c", "8d", "Jh"], "bot": ["6s", "4d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ac", "5s"], "board": [], "bot": ["Tc", "2s"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["9d", "4c"], "board": ["Qc", "3h", "2d", "Jc"], "bot": ["Th", "7s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5d", "2d"], "board": [], "bot": ["6d", "4s"]}
+{"w": 1025, "adj": 1025, "action": "b211c/kb254c/kb560c/kb1236f", "pos": 1, "hole": ["9s", "7s"], "board": ["8h", "6c", "5s", "Qc", "7d"], "bot": ["Ts", "5d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qh", "4s"], "board": [], "bot": ["Ks", "7d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["8c", "7h"], "board": [], "bot": ["5c", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qd", "7s"], "board": [], "bot": ["Kd", "Th"]}
+{"w": -211, "adj": -211, "action": "b211c/b289f", "pos": 1, "hole": ["8h", "6s"], "board": ["Td", "4d", "3h"], "bot": ["Qc", "4h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "6d"], "board": [], "bot": ["Kh", "Jh"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["8s", "3d"], "board": ["9d", "8d", "5s", "6c", "Ac"], "bot": ["Jh", "7s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "Td"], "board": [], "bot": ["As", "8d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["8s", "6d"], "board": ["4h", "4c", "2h", "5s"], "bot": ["Ad", "6h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["8s", "5c"], "board": [], "bot": ["6d", "2h"]}
+{"w": 100, "adj": 100, "action": "ck/kb100f", "pos": 1, "hole": ["6h", "2c"], "board": ["Kh", "Kd", "5c"], "bot": ["8h", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kh", "4d"], "board": [], "bot": ["Qc", "3h"]}
+{"w": -844, "adj": -844, "action": "b211c/kb211c/kk/kb422b1978f", "pos": 1, "hole": ["5d", "3c"], "board": ["Jd", "Tc", "9s", "Ad", "5h"], "bot": ["Ac", "Th"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qh", "6s"], "board": [], "bot": ["Jh", "Jd"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["9h", "2s"], "board": ["Qs", "Jd", "3h", "4d"], "bot": ["7d", "6s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "7d"], "board": [], "bot": ["6c", "3s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["8d", "6h"], "board": ["Tc", "7d", "5d"], "bot": ["9h", "6d"]}
+{"w": 2998, "adj": 2998, "action": "b200b616c/b743c/b1639c/b3616f", "pos": 0, "hole": ["Ah", "Qs"], "board": ["Qc", "8d", "6d", "Qd", "8h"], "bot": ["7h", "5h"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["8h", "5h"], "board": ["Js", "8s", "5c", "Kc"], "bot": ["As", "9h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "6c"], "board": [], "bot": ["As", "6s"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Qd", "3h"], "board": [], "bot": ["9s", "2d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Kh", "Kd"], "board": [], "bot": ["3d", "2s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Tc", "2h"], "board": ["Ad", "8c", "3c", "4c", "Js"], "bot": ["Qh", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["As", "3h"], "board": [], "bot": ["8c", "4h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["4s", "4h"], "board": [], "bot": ["Kd", "Qc"]}
+{"w": 441, "adj": 441, "action": "b200c/b241c/b532f", "pos": 0, "hole": ["Kc", "Tc"], "board": ["Qd", "Ts", "9h", "Th"], "bot": ["4h", "4c"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["Js", "2s"], "board": ["Ac", "7c", "3s", "3d"], "bot": ["8s", "6s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9s", "6h"], "board": [], "bot": ["8d", "4s"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Th", "6d"], "board": ["Kd", "Qd", "7s"], "bot": ["9s", "4d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Qs", "5h"], "board": [], "bot": ["8c", "3d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Qc", "5h"], "board": [], "bot": ["6c", "2h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Ts", "9c"], "board": [], "bot": ["5h", "2c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["As", "Kh"], "board": [], "bot": ["7h", "7c"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["Qs", "Qd"], "board": [], "bot": ["5d", "3s"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["Ks", "7d"], "board": [], "bot": ["Jd", "Td"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ac", "4d"], "board": [], "bot": ["Js", "Th"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["9c", "8s"], "board": ["Ad", "Jh", "6d", "Kc"], "bot": ["Tc", "9h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "4d"], "board": [], "bot": ["Qh", "5c"]}
+{"w": 800, "adj": 800, "action": "b211c/kb211c/kk/b378c", "pos": 1, "hole": ["Qc", "Js"], "board": ["7d", "7c", "5h", "9d", "Qs"], "bot": ["9c", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Tc", "9c"], "board": [], "bot": ["Qd", "7d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["8s", "2h"], "board": ["As", "Qc", "8d", "6d"], "bot": ["Ah", "9d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5c", "2h"], "board": [], "bot": ["9c", "6s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Qs", "8c"], "board": ["5s", "4c", "2c", "Ts"], "bot": ["4h", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kh", "7s"], "board": [], "bot": ["Kd", "9c"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Qh", "9d"], "board": ["7c", "3s", "3h"], "bot": ["Jd", "8s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "Td"], "board": [], "bot": ["Qs", "Qh"]}
+{"w": 400, "adj": 400, "action": "b211c/b189b677f", "pos": 1, "hole": ["Ac", "8c"], "board": ["Jd", "8s", "8d"], "bot": ["6d", "3h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Kh", "6d"], "board": [], "bot": ["4s", "2d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["Qd", "9c"], "board": ["Ah", "Kh", "2s", "4c"], "bot": ["7h", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7d", "3d"], "board": [], "bot": ["Ad", "9c"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["8h", "3d"], "board": [], "bot": ["Kd", "6d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["As", "3d"], "board": [], "bot": ["Qh", "9d"]}
+{"w": -844, "adj": -844, "action": "b211c/kb211c/kb422b1178f", "pos": 1, "hole": ["Kh", "5s"], "board": ["Tc", "9s", "2d", "3h"], "bot": ["3d", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "4s"], "board": [], "bot": ["Ac", "2d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["8s", "7s"], "board": ["Kh", "8d", "2h", "Qc"], "bot": ["Th", "5s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "9d"], "board": [], "bot": ["Js", "3c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["7d", "6c"], "board": ["Ad", "Jc", "3h", "9s"], "bot": ["Td", "5d"]}
+{"w": -400, "adj": -400, "action": "b200c/b200c/kk/kk", "pos": 0, "hole": ["Ks", "9s"], "board": ["6s", "6d", "4h", "7d", "3s"], "bot": ["Jc", "6c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["8c", "7c"], "board": ["Ts", "5d", "5c"], "bot": ["Jd", "6s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9c", "2s"], "board": [], "bot": ["6s", "3d"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kb254f", "pos": 1, "hole": ["Ah", "4s"], "board": ["Ks", "Qc", "6s", "9s", "Ac"], "bot": ["6c", "5h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qh", "9s"], "board": [], "bot": ["Qc", "3h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["As", "4c"], "board": [], "bot": ["9d", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4s", "2s"], "board": [], "bot": ["8s", "8c"]}
+{"w": -2400, "adj": -2400, "action": "b211c/kb254c/kb560b1935c/b4800f", "pos": 1, "hole": ["Ah", "9s"], "board": ["9d", "5h", "3s", "8h", "Ks"], "bot": ["6d", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "9h"], "board": [], "bot": ["Kd", "7c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["5s", "3c"], "board": ["Th", "9s", "8d", "7h"], "bot": ["Jc", "9d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "8c"], "board": [], "bot": ["8s", "5h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["5s", "3c"], "board": ["Jd", "8c", "3d", "4h", "Tc"], "bot": ["Qc", "7h"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["As", "Kh"], "board": [], "bot": ["9d", "6s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Kh", "3s"], "board": [], "bot": ["4h", "3h"]}
+{"w": -400, "adj": -400, "action": "b200c/b200c/kk/kb400f", "pos": 0, "hole": ["Kh", "Js"], "board": ["Ad", "5c", "3h", "Qc", "Qd"], "bot": ["5d", "4s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["4c", "3s"], "board": [], "bot": ["Ac", "Kc"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6h", "2c"], "board": [], "bot": ["Jh", "5h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["4c", "3d"], "board": [], "bot": ["Jd", "9d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8s", "7s"], "board": [], "bot": ["9h", "5s"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["5s", "3h"], "board": ["Js", "7d", "6d"], "bot": ["9d", "4h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5h", "3s"], "board": [], "bot": ["Ts", "4c"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["Ts", "7c"], "board": [], "bot": ["8c", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ts", "7s"], "board": [], "bot": ["Qh", "2s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["Kc", "2h"], "board": ["As", "7s", "2s", "8h"], "bot": ["Js", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "6d"], "board": [], "bot": ["Qd", "8h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["4h", "3s"], "board": [], "bot": ["As", "Jh"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ts", "7c"], "board": [], "bot": ["As", "8h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["6h", "6c"], "board": [], "bot": ["7s", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kc", "8h"], "board": [], "bot": ["Tc", "3s"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["Ks", "5c"], "board": ["Ad", "Kc", "2s", "7h"], "bot": ["9h", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6c", "2h"], "board": [], "bot": ["Ks", "6s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["Qd", "5s"], "board": ["Js", "9d", "2s", "3c", "8c"], "bot": ["7d", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "7d"], "board": [], "bot": ["Jc", "4h"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Td", "Tc"], "board": ["Kc", "Qc", "3s"], "bot": ["Th", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9s", "8c"], "board": [], "bot": ["Qc", "2h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["9h", "8d"], "board": ["Ac", "Jh", "4d", "7s"], "bot": ["5s", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "4h"], "board": [], "bot": ["4s", "4d"]}
+{"w": 0, "adj": 0, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["9d", "8h"], "board": ["Qc", "5c", "4c", "4s", "5h"], "bot": ["Td", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "9c"], "board": [], "bot": ["Qh", "9s"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Js", "Tc"], "board": [], "bot": ["9c", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7s", "6d"], "board": [], "bot": ["5d", "3d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ts", "7h"], "board": [], "bot": ["6s", "5s"]}
+{"w": -616, "adj": -616, "action": "b200b616b1800f", "pos": 0, "hole": ["Ad", "Ts"], "board": [], "bot": ["7d", "6d"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211c/kk/b778f", "pos": 1, "hole": ["Ac", "8d"], "board": ["Jc", "Ts", "Td", "3h", "2h"], "bot": ["Qc", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "Th"], "board": [], "bot": ["Ah", "Js"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["Qd", "3c"], "board": ["9h", "8c", "2s", "8h", "4s"], "bot": ["Ah", "5d"]}
+{"w": 200, "adj": 200, "action": "b200c/b200f", "pos": 0, "hole": ["Qc", "Jc"], "board": ["6s", "6c", "5c"], "bot": ["Th", "3d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Kc", "2c"], "board": ["Ah", "Ad", "4d", "5c"], "bot": ["8h", "5h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8h", "4d"], "board": [], "bot": ["Qs", "Qd"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["7s", "4c"], "board": ["Kh", "Jc", "6c", "3c", "9h"], "bot": ["As", "6d"]}
+{"w": -973, "adj": -973, "action": "b200c/b241c/b532b2259f", "pos": 0, "hole": ["Qc", "Jd"], "board": ["Qh", "9d", "7s", "Ah"], "bot": ["8c", "7h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Qd", "Td"], "board": [], "bot": ["As", "Ts"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8s", "2d"], "board": [], "bot": ["8d", "5s"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Js", "5d"], "board": ["Qh", "Ts", "4c", "4s", "Qd"], "bot": ["7h", "6s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "7s"], "board": [], "bot": ["As", "2c"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["Qc", "7s"], "board": [], "bot": ["9c", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8s", "6d"], "board": [], "bot": ["Jd", "6s"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["As", "Qs"], "board": ["Jd", "6c", "2c"], "bot": ["Jc", "6s"]}
+{"w": -1232, "adj": -1232, "action": "b200b616c/kk/b616b1784f", "pos": 0, "hole": ["Ac", "Ts"], "board": ["Kd", "9s", "3h", "6c"], "bot": ["Kh", "Qc"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Ac", "Jc"], "board": ["Ks", "Qs", "7c", "6d", "Kh"], "bot": ["Ad", "3c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Qh", "7h"], "board": [], "bot": ["7s", "3c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["As", "Td"], "board": ["7d", "6d", "4d"], "bot": ["6c", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "5d"], "board": [], "bot": ["8c", "4c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["8d", "8c"], "board": ["Qh", "5h", "3h", "Th"], "bot": ["Kd", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "8c"], "board": [], "bot": ["Ts", "Tc"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["6s", "3h"], "board": ["Js", "8s", "4s", "Ks"], "bot": ["Ac", "7d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "8c"], "board": [], "bot": ["5c", "3d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["Qh", "6s"], "board": ["7d", "5h", "4c", "4h"], "bot": ["8c", "5s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "8d"], "board": [], "bot": ["Ad", "Tc"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["8c", "6h"], "board": [], "bot": ["As", "8h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qh", "3d"], "board": [], "bot": ["Ac", "3c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["9d", "6c"], "board": ["8c", "3h", "3d", "7d", "8h"], "bot": ["Qc", "Jd"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ac", "2s"], "board": [], "bot": ["Kh", "Qh"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211c/kk/kk", "pos": 1, "hole": ["8s", "6h"], "board": ["Kd", "Td", "3d", "5h", "2s"], "bot": ["Qh", "Js"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qd", "7s"], "board": [], "bot": ["9d", "5s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["7c", "5c"], "board": ["9s", "4d", "3d"], "bot": ["Js", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4s", "2d"], "board": [], "bot": ["As", "5h"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["Js", "5d"], "board": ["7s", "6s", "2h", "7d"], "bot": ["Ks", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6d", "3d"], "board": [], "bot": ["Ad", "2s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["7c", "3h"], "board": ["9s", "7s", "2d", "Qh"], "bot": ["Td", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9c", "7c"], "board": [], "bot": ["Kd", "Tc"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["Jh", "6h"], "board": ["Ah", "Qh", "2c", "8d", "Ac"], "bot": ["7h", "5d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5c", "3h"], "board": [], "bot": ["Ah", "7d"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["Jh", "Tc"], "board": [], "bot": ["Ks", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4d", "2s"], "board": [], "bot": ["Td", "6c"]}
+{"w": -465, "adj": -465, "action": "b211c/kb254c/kk/b335f", "pos": 1, "hole": ["9d", "5c"], "board": ["Js", "9h", "6c", "Qd", "Th"], "bot": ["7h", "5s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["2d", "2c"], "board": [], "bot": ["6h", "5h"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211c/b378f", "pos": 1, "hole": ["5s", "5c"], "board": ["Qh", "6s", "4s", "Ks"], "bot": ["8s", "7c"]}
+{"w": -2464, "adj": -2464, "action": "b200b616c/kk/b616c/b1232c", "pos": 0, "hole": ["Ac", "Ts"], "board": ["Jc", "8s", "8h", "5d", "8d"], "bot": ["6h", "6c"]}
+{"w": 2400, "adj": 2400, "action": "b211c/b189c/b400c/b1600c", "pos": 1, "hole": ["Ad", "Qs"], "board": ["Ac", "7s", "5h", "Kc", "Qc"], "bot": ["3c", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8s", "2d"], "board": [], "bot": ["Qs", "3s"]}
+{"w": 465, "adj": 465, "action": "b211c/kk/kb254c/kk", "pos": 1, "hole": ["Ac", "3d"], "board": ["Kh", "9s", "3c", "9c", "5c"], "bot": ["Qd", "Js"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8c", "6s"], "board": [], "bot": ["Kd", "Qd"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Ks", "9s"], "board": ["Kc", "9c", "8c"], "bot": ["Ad", "7h"]}
+{"w": 616, "adj": 616, "action": "b200b616c/kk/b743f", "pos": 0, "hole": ["As", "Qd"], "board": ["Tc", "5h", "4s", "Ah"], "bot": ["Kd", "7c"]}
+{"w": 400, "adj": 400, "action": "b211c/b189c/kk/kb482f", "pos": 1, "hole": ["8d", "7s"], "board": ["9h", "8s", "6h", "Jd", "8h"], "bot": ["Ks", "5h"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["Ac", "Ts"], "board": [], "bot": ["Th", "5c"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["Jc", "5h"], "board": [], "bot": ["Ac", "Qd"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["Ah", "9s"], "board": ["Qd", "Jh", "5d"], "bot": ["Qs", "Qh"]}
+{"w": 100, "adj": 100, "action": "ck/kk/kk/kb100f", "pos": 1, "hole": ["6c", "2h"], "board": ["Qd", "5d", "5c", "7c", "Kh"], "bot": ["Jh", "Tc"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4s", "2c"], "board": [], "bot": ["Jc", "5s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Ad", "6d"], "board": ["Js", "8c", "5d", "8h"], "bot": ["Jd", "4h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "7c"], "board": [], "bot": ["Qh", "Qd"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["5s", "2s"], "board": ["5c", "4h", "4d", "4s"], "bot": ["Ks", "Tc"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Tc", "5s"], "board": [], "bot": ["Th", "8c"]}
+{"w": 400, "adj": 400, "action": "b211c/b189c/kb482f", "pos": 1, "hole": ["Th", "2d"], "board": ["Ks", "Kh", "Ts", "Ac"], "bot": ["Jc", "2s"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Qc", "9s"], "board": [], "bot": ["5d", "2c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Ks", "Js"], "board": ["Ac", "Kc", "4c", "4s", "9d"], "bot": ["8s", "4d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6d", "5c"], "board": [], "bot": ["Qd", "Jd"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Qs", "4d"], "board": [], "bot": ["Qd", "Qc"]}
+{"w": 616, "adj": 616, "action": "b200b616c/kk/kk/kk", "pos": 0, "hole": ["Ah", "Qd"], "board": ["Kd", "Tc", "7d", "Qs", "3d"], "bot": ["8d", "7c"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211c/kk/kk", "pos": 1, "hole": ["9s", "2h"], "board": ["6d", "4d", "3d", "Ts", "Ah"], "bot": ["Kc", "7d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9s", "3d"], "board": [], "bot": ["5s", "5d"]}
+{"w": 800, "adj": 800, "action": "b211c/kb254c/kk/b335c", "pos": 1, "hole": ["7d", "5h"], "board": ["8h", "7c", "4d", "Kh", "4s"], "bot": ["Jc", "Th"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "3c"], "board": [], "bot": ["Qh", "8d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["5s", "3s"], "board": ["Ks", "Jc", "8h", "2c"], "bot": ["Qc", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6c", "2d"], "board": [], "bot": ["Kd", "Jd"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Ks", "3d"], "board": [], "bot": ["8h", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ad", "6h"], "board": [], "bot": ["9s", "7d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Jc", "7c"], "board": ["6h", "2h", "2d", "3s"], "bot": ["Kh", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "8c"], "board": [], "bot": ["Kd", "Jh"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Kh", "9d"], "board": ["Ts", "5d", "4s", "8d"], "bot": ["Qs", "Jh"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5h", "3h"], "board": [], "bot": ["Qh", "9h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["4d", "4c"], "board": [], "bot": ["Ks", "6s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ah", "6c"], "board": [], "bot": ["Th", "5c"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["As", "5d"], "board": ["8c", "6d", "2d", "6s", "Jc"], "bot": ["Kd", "9c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5s", "4s"], "board": [], "bot": ["Ts", "3d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["7d", "4c"], "board": [], "bot": ["9s", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Tc", "3s"], "board": [], "bot": ["Ah", "3c"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["Jc", "4d"], "board": [], "bot": ["9h", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9s", "4h"], "board": [], "bot": ["Ts", "Tc"]}
+{"w": -7200, "adj": -7200, "action": "b211c/kb254c/kb560c/kb1236b6175c", "pos": 1, "hole": ["Ks", "Ts"], "board": ["Kh", "9d", "6c", "Qd", "4s"], "bot": ["Qs", "9s"]}
+{"w": -616, "adj": -616, "action": "b200b616c/kb1184f", "pos": 0, "hole": ["Ah", "Kh"], "board": ["Qc", "8d", "6c"], "bot": ["Ks", "7c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Qs", "9h"], "board": ["8d", "7c", "4s"], "bot": ["Kd", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7h", "2c"], "board": [], "bot": ["5h", "5d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["8s", "3d"], "board": ["9d", "9c", "4s", "Th"], "bot": ["4c", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kc", "7c"], "board": [], "bot": ["9d", "8h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["8h", "4h"], "board": ["Js", "Ts", "2c", "7h", "Jc"], "bot": ["4d", "2d"]}
+{"w": 200, "adj": 200, "action": "b200c/kk/b200f", "pos": 0, "hole": ["5s", "5h"], "board": ["Kc", "8c", "4d", "7h"], "bot": ["Js", "3s"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Qs", "6s"], "board": ["Kd", "Js", "2s"], "bot": ["4d", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5d", "4s"], "board": [], "bot": ["Ad", "4h"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["Qs", "Tc"], "board": ["8h", "5s", "2d", "Kh", "8d"], "bot": ["Ac", "4s"]}
+{"w": -616, "adj": -616, "action": "b200b616c/kb584f", "pos": 0, "hole": ["Ah", "Jc"], "board": ["Tc", "8d", "3c"], "bot": ["Kd", "7d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Jc", "2s"], "board": [], "bot": ["7d", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ad", "4s"], "board": [], "bot": ["7s", "7h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Kh", "6s"], "board": ["Kc", "Qd", "7s"], "bot": ["Jh", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "6h"], "board": [], "bot": ["Ks", "2h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Kd", "9d"], "board": ["Qs", "7h", "3d"], "bot": ["8d", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qd", "3h"], "board": [], "bot": ["Qs", "Jd"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Ah", "Ks"], "board": ["Qs", "Qc", "3d"], "bot": ["Jh", "5h"]}
+{"w": 616, "adj": 616, "action": "b200b616c/b743f", "pos": 0, "hole": ["Kh", "Kc"], "board": ["8s", "6h", "2d"], "bot": ["Qc", "Tc"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["5s", "2h"], "board": [], "bot": ["Jc", "9h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4h", "2c"], "board": [], "bot": ["Qd", "Jd"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Jh", "6s"], "board": ["Ks", "Qc", "3d"], "bot": ["7h", "4s"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["As", "9s"], "board": [], "bot": ["7h", "3c"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Ts", "8c"], "board": ["Ac", "Qc", "8s"], "bot": ["Td", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "6h"], "board": [], "bot": ["Js", "4c"]}
+{"w": -400, "adj": -400, "action": "ck/kk/b100c/b200c", "pos": 1, "hole": ["6c", "2s"], "board": ["4s", "3d", "3c", "2c", "As"], "bot": ["Jh", "5c"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["6h", "6c"], "board": ["Ah", "Qd", "3s"], "bot": ["9c", "2c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Kd", "3s"], "board": ["Kc", "9s", "9c"], "bot": ["5s", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ts", "3d"], "board": [], "bot": ["Qs", "4s"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["7h", "4h"], "board": [], "bot": ["Ah", "Ks"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6c", "5h"], "board": [], "bot": ["Tc", "4h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["7d", "2d"], "board": ["Kc", "Jd", "6c"], "bot": ["9c", "8s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6d", "4d"], "board": [], "bot": ["Td", "6h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Th", "4d"], "board": ["Ac", "8s", "3s", "6c"], "bot": ["Jd", "8h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "9s"], "board": [], "bot": ["8h", "5c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Qh", "3d"], "board": ["Js", "9s", "2d", "2s"], "bot": ["4s", "3c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Ts", "5h"], "board": [], "bot": ["7s", "2h"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["Ah", "7d"], "board": ["Ks", "7s", "3s", "9c"], "bot": ["Jc", "6c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Ks", "2c"], "board": [], "bot": ["9c", "3s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Jc", "6s"], "board": [], "bot": ["5s", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ac", "6s"], "board": [], "bot": ["Jc", "4d"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211b989f", "pos": 1, "hole": ["8d", "2d"], "board": ["Tc", "6h", "4d", "5h"], "bot": ["8s", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "2d"], "board": [], "bot": ["9s", "7s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["As", "Td"], "board": ["Ad", "Tc", "6c"], "bot": ["8d", "5s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "7d"], "board": [], "bot": ["Jd", "2h"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Qh", "Td"], "board": [], "bot": ["7c", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7c", "6h"], "board": [], "bot": ["Ac", "5d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["As", "Qc"], "board": ["8c", "6h", "3h", "Js"], "bot": ["7s", "4s"]}
+{"w": -616, "adj": -616, "action": "b200b616b1800f", "pos": 0, "hole": ["Ac", "Ks"], "board": [], "bot": ["Jd", "8d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Jh", "3c"], "board": [], "bot": ["Ks", "Qd"]}
+{"w": -400, "adj": -400, "action": "b200c/b200b600f", "pos": 0, "hole": ["Kc", "Ts"], "board": ["9d", "6h", "3c"], "bot": ["8h", "7d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Kd", "7c"], "board": [], "bot": ["Js", "9c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Tc", "7s"], "board": [], "bot": ["Qc", "2s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ts", "3d"], "board": [], "bot": ["Th", "8c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7s", "5d"], "board": [], "bot": ["Js", "9c"]}
+{"w": -400, "adj": -400, "action": "b211c/kk/b189c/b400f", "pos": 1, "hole": ["9s", "3c"], "board": ["Ts", "9h", "8s", "6h", "Th"], "bot": ["7c", "5d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["As", "4c"], "board": [], "bot": ["Qc", "8d"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Qc", "9h"], "board": ["Ad", "Ac", "6s", "6d", "3d"], "bot": ["Jh", "8s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "6h"], "board": [], "bot": ["Th", "7s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Qc", "2h"], "board": ["Qh", "5h", "4s"], "bot": ["Jc", "6h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4d", "3d"], "board": [], "bot": ["Jd", "Ts"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Jd", "8h"], "board": [], "bot": ["Tc", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "2d"], "board": [], "bot": ["Qs", "Qh"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["8d", "8c"], "board": ["As", "9c", "8s"], "bot": ["Kh", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "7s"], "board": [], "bot": ["Tc", "9s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["Qd", "3c"], "board": ["7d", "4h", "2c", "9s", "7h"], "bot": ["Ac", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "6s"], "board": [], "bot": ["Kd", "7h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Kd", "Tc"], "board": [], "bot": ["Kh", "4h"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["As", "Jd"], "board": [], "bot": ["Td", "5s"]}
+{"w": 4800, "adj": 4800, "action": "b211c/kk/b189b677c/kb1071b3912b9319f", "pos": 1, "hole": ["Ks", "Qs"], "board": ["As", "8d", "7s", "2s", "Th"], "bot": ["Ah", "Td"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5h", "4h"], "board": [], "bot": ["8d", "6h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["8c", "2d"], "board": [], "bot": ["Qc", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "6c"], "board": [], "bot": ["9h", "4c"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Ks", "3h"], "board": [], "bot": ["Tc", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Tc", "2s"], "board": [], "bot": ["Jh", "6d"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Kc", "8d"], "board": ["7c", "6d", "3c"], "bot": ["9c", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "9h"], "board": [], "bot": ["6d", "3d"]}
+{"w": 1200, "adj": 1200, "action": "b211c/kb254c/b735c/kb1447f", "pos": 1, "hole": ["Kh", "Kd"], "board": ["Jh", "8c", "5d", "7h", "7c"], "bot": ["5h", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "5c"], "board": [], "bot": ["8c", "7c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["Ts", "4h"], "board": ["8d", "7d", "5h", "As", "Tc"], "bot": ["9c", "8h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5c", "3h"], "board": [], "bot": ["Th", "5s"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["Ah", "3h"], "board": ["Ad", "Js", "4h", "Tc"], "bot": ["6d", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "6h"], "board": [], "bot": ["Ah", "Js"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["7h", "3s"], "board": [], "bot": ["9h", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5d", "4h"], "board": [], "bot": ["Td", "2c"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["7c", "4c"], "board": ["As", "Jc", "7d", "Th", "6s"], "bot": ["Kd", "3s"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["As", "7s"], "board": ["Qh", "Qc", "5d"], "bot": ["Ks", "Td"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["6s", "3c"], "board": [], "bot": ["7d", "3h"]}
+{"w": -2998, "adj": -2998, "action": "b200b616c/b743c/b1639c/kk", "pos": 0, "hole": ["Kh", "Kc"], "board": ["Ac", "9c", "6c", "4s", "9h"], "bot": ["Ad", "6h"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Kd", "9h"], "board": [], "bot": ["Tc", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8d", "5c"], "board": [], "bot": ["Jc", "9d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["8d", "3d"], "board": ["Qs", "7c", "4c", "Kc"], "bot": ["3s", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9s", "8s"], "board": [], "bot": ["Kd", "Jh"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Ts", "Tc"], "board": ["8h", "3s", "3c"], "bot": ["9h", "5h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4d", "2d"], "board": [], "bot": ["Td", "8h"]}
+{"w": 800, "adj": 800, "action": "b211c/b189c/b400b1360f", "pos": 1, "hole": ["9c", "7s"], "board": ["8c", "7d", "6c", "5s"], "bot": ["Td", "5h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6d", "5c"], "board": [], "bot": ["Jh", "8c"]}
+{"w": 5780, "adj": 5780, "action": "b211c/kb254c/kb560b2235b5215c/b100b14320f", "pos": 1, "hole": ["9c", "7c"], "board": ["8c", "6d", "5h", "Ah", "4d"], "bot": ["Ac", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "2c"], "board": [], "bot": ["6c", "5s"]}
+{"w": 800, "adj": 800, "action": "b211c/kk/b189c/b400c", "pos": 1, "hole": ["6c", "3d"], "board": ["8c", "4h", "3c", "7c", "6h"], "bot": ["Qc", "8h"]}
+{"w": -800, "adj": -800, "action": "b200c/kk/b200c/b400c", "pos": 0, "hole": ["As", "5s"], "board": ["Kh", "9d", "8h", "3d", "4s"], "bot": ["8c", "6h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["8h", "6c"], "board": ["Kd", "4h", "4c", "9d", "3s"], "bot": ["Qd", "3d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["9d", "8d"], "board": [], "bot": ["6d", "2c"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Jd", "6d"], "board": [], "bot": ["8c", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "4s"], "board": [], "bot": ["Kh", "3d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Ac", "Ts"], "board": [], "bot": ["Th", "2c"]}
+{"w": 200, "adj": 200, "action": "b200c/b241f", "pos": 0, "hole": ["Qd", "Jh"], "board": ["Qh", "7s", "5h"], "bot": ["As", "2d"]}
+{"w": -400, "adj": -400, "action": "b211c/b189c/kk/b800f", "pos": 1, "hole": ["Td", "7h"], "board": ["6d", "5d", "4d", "Ah", "9h"], "bot": ["9c", "4h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9c", "8h"], "board": [], "bot": ["Qc", "2h"]}
+{"w": 220, "adj": 220, "action": "ck/kb120c/kb220f", "pos": 1, "hole": ["4s", "2c"], "board": ["As", "4d", "3d", "Qd"], "bot": ["Jh", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6s", "3c"], "board": [], "bot": ["9d", "8c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Ks", "Td"], "board": ["Kc", "8s", "7d"], "bot": ["Tc", "3c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ad", "6h"], "board": [], "bot": ["Ac", "Kh"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["5s", "5d"], "board": ["Qc", "Js", "Jc"], "bot": ["8c", "7d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "9d"], "board": [], "bot": ["Qc", "8c"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["Qc", "Jh"], "board": ["Th", "9s", "5s", "8c"], "bot": ["Qd", "3d"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["Ks", "Tc"], "board": ["Js", "6d", "5d"], "bot": ["Ac", "2d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["Js", "5h"], "board": ["Ac", "Kh", "4d", "4s"], "bot": ["Ah", "7d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qh", "7s"], "board": [], "bot": ["5h", "4d"]}
+{"w": -465, "adj": -465, "action": "b211c/kk/kb254c/b1035f", "pos": 1, "hole": ["Qd", "8d"], "board": ["Ts", "8h", "3s", "5h", "Ad"], "bot": ["Ah", "5s"]}
+{"w": -2146, "adj": -2146, "action": "b200c/b241c/b532c/b1173c", "pos": 0, "hole": ["Ac", "9s"], "board": ["Ah", "3c", "2h", "Td", "Qh"], "bot": ["Ad", "Ks"]}
+{"w": 422, "adj": 422, "action": "b211c/kk/kk/kb211c", "pos": 1, "hole": ["Ac", "9s"], "board": ["Kh", "Qs", "3c", "4s", "9c"], "bot": ["Ah", "3d"]}
+{"w": -200, "adj": -200, "action": "b200c/kk/kb200f", "pos": 0, "hole": ["Ah", "9d"], "board": ["Qs", "3s", "2s", "5s"], "bot": ["Kh", "Js"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["9c", "8s"], "board": [], "bot": ["Qc", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["As", "2h"], "board": [], "bot": ["Ah", "Kc"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ks", "5d"], "board": [], "bot": ["Qh", "Jh"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kh", "6d"], "board": [], "bot": ["8s", "8h"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["Tc", "2d"], "board": ["Ad", "Jh", "6h", "7d"], "bot": ["Ts", "4h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "6h"], "board": [], "bot": ["Jh", "9c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Td", "3d"], "board": ["Kh", "Jd", "8c"], "bot": ["9s", "6d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "3d"], "board": [], "bot": ["Qs", "Th"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["5c", "4d"], "board": [], "bot": ["9s", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6c", "2s"], "board": [], "bot": ["9d", "5h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["9d", "8h"], "board": ["Qh", "7c", "6h"], "bot": ["Js", "3s"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["7d", "5h"], "board": [], "bot": ["6c", "2h"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["8d", "3s"], "board": [], "bot": ["7d", "5d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "8h"], "board": [], "bot": ["7c", "5c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Ac", "Th"], "board": ["Ts", "4d", "2c"], "bot": ["9h", "5h"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["As", "Td"], "board": [], "bot": ["9h", "3h"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Qh", "Jh"], "board": ["Ah", "Kc", "Qc", "3s", "3c"], "bot": ["8d", "7s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "3h"], "board": [], "bot": ["7s", "5c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["8c", "6c"], "board": ["8h", "8d", "4d"], "bot": ["4h", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8h", "3h"], "board": [], "bot": ["5c", "2c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Jc", "7s"], "board": [], "bot": ["Qd", "6d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["As", "4c"], "board": [], "bot": ["Ts", "7c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["8h", "5s"], "board": ["9h", "8s", "6s"], "bot": ["Ks", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "2d"], "board": [], "bot": ["Qc", "Td"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["9h", "4s"], "board": [], "bot": ["Ad", "Jd"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Qc", "4d"], "board": [], "bot": ["4s", "2d"]}
+{"w": 100, "adj": 100, "action": "ck/kk/kb120f", "pos": 1, "hole": ["4c", "2s"], "board": ["Qs", "Js", "7s", "8s"], "bot": ["5d", "3c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Kd", "Th"], "board": [], "bot": ["8h", "3d"]}
+{"w": -400, "adj": -400, "action": "b211c/kk/b189c/b400f", "pos": 1, "hole": ["Kh", "6d"], "board": ["4s", "4h", "2h", "6h", "5c"], "bot": ["7c", "6s"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Ks", "Td"], "board": [], "bot": ["6s", "2h"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["Jh", "Td"], "board": ["Jc", "8d", "5s", "2d"], "bot": ["8h", "7s"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Th", "4h"], "board": [], "bot": ["7h", "4c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["Ac", "3s"], "board": ["Kd", "7h", "6d", "Qh", "3c"], "bot": ["Td", "2c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["4s", "4c"], "board": [], "bot": ["8s", "2d"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Jh", "7s"], "board": ["As", "4h", "3h"], "bot": ["Jd", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "2s"], "board": [], "bot": ["Qs", "Qd"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["7c", "3s"], "board": ["Kd", "Jh", "3d"], "bot": ["7h", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "5d"], "board": [], "bot": ["7c", "5h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Ad", "4c"], "board": ["9h", "6s", "2s", "2c"], "bot": ["Jh", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "5c"], "board": [], "bot": ["Ac", "9h"]}
+{"w": -211, "adj": -211, "action": "b211c/b289f", "pos": 1, "hole": ["Ts", "5c"], "board": ["6d", "4d", "2h"], "bot": ["Jc", "4h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "6c"], "board": [], "bot": ["Ts", "6d"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["8h", "7c"], "board": ["9d", "5h", "3h", "7s"], "bot": ["Jc", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "6d"], "board": [], "bot": ["2d", "2c"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["4h", "3c"], "board": [], "bot": ["8c", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "8h"], "board": [], "bot": ["Ks", "6s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Kc", "3c"], "board": ["Kd", "Jd", "Ts"], "bot": ["Ac", "5s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "2c"], "board": [], "bot": ["5h", "4h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Js", "2d"], "board": [], "bot": ["Qd", "5d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5h", "3h"], "board": [], "bot": ["Qh", "8h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Kd", "9s"], "board": [], "bot": ["Ad", "Jh"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6c", "3d"], "board": [], "bot": ["Qh", "5c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["Ks", "6s"], "board": ["Qs", "9d", "5c", "Ac", "8h"], "bot": ["Ah", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "8c"], "board": [], "bot": ["Ts", "7c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["8d", "5c"], "board": ["Kc", "Tc", "3h", "Th"], "bot": ["5d", "4c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Th", "9s"], "board": [], "bot": ["3h", "2s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Qc", "Ts"], "board": ["Qs", "9d", "4h"], "bot": ["5c", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6c", "5d"], "board": [], "bot": ["Kd", "3c"]}
+{"w": -211, "adj": -211, "action": "b211c/b289f", "pos": 1, "hole": ["5d", "4d"], "board": ["Ac", "Kc", "3h"], "bot": ["As", "7c"]}
+{"w": 200, "adj": 200, "action": "b200c/kk/b200f", "pos": 0, "hole": ["Kc", "Th"], "board": ["As", "7h", "6d", "6h"], "bot": ["Tc", "5c"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211c/kk/b778f", "pos": 1, "hole": ["Ks", "Th"], "board": ["6h", "4d", "2c", "Ac", "6d"], "bot": ["6c", "5d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5d", "4d"], "board": [], "bot": ["Jc", "6c"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Kd", "4c"], "board": [], "bot": ["8c", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "7s"], "board": [], "bot": ["As", "Qh"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ac", "Qh"], "board": [], "bot": ["Ah", "Qs"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Tc", "6h"], "board": [], "bot": ["7d", "2d"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Jc", "5h"], "board": ["Ac", "Qc", "6h"], "bot": ["Kh", "8d"]}
+{"w": -973, "adj": -973, "action": "b200c/b241c/b532b3159f", "pos": 0, "hole": ["Ad", "7d"], "board": ["9h", "7c", "4d", "2h"], "bot": ["6h", "5c"]}
+{"w": 400, "adj": 400, "action": "b211c/b189c/kb482f", "pos": 1, "hole": ["Th", "5c"], "board": ["Jc", "Tc", "8d", "5h"], "bot": ["Qh", "2c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Js", "7h"], "board": [], "bot": ["7d", "4c"]}
+{"w": 1025, "adj": 1025, "action": "b211c/kb254c/kb560c/kb1236f", "pos": 1, "hole": ["As", "Jh"], "board": ["Js", "8s", "6c", "Ad", "8d"], "bot": ["6h", "4d"]}
+{"w": -616, "adj": -616, "action": "b200b616c/kb984f", "pos": 0, "hole": ["As", "Qc"], "board": ["5d", "3h", "2d"], "bot": ["Ah", "5h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Td", "6s"], "board": ["9d", "3c", "2c"], "bot": ["Js", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Tc", "8c"], "board": [], "bot": ["4h", "2h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Jc", "4h"], "board": [], "bot": ["Ah", "Qc"]}
+{"w": 616, "adj": 616, "action": "b200b616c/b616f", "pos": 0, "hole": ["Ac", "Qh"], "board": ["Kh", "5h", "4s"], "bot": ["As", "8d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Qd", "8s"], "board": ["Ah", "9c", "6d", "6s"], "bot": ["Td", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "7h"], "board": [], "bot": ["7d", "7c"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Td", "6d"], "board": [], "bot": ["8s", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "2h"], "board": [], "bot": ["7c", "6h"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Qd", "Tc"], "board": ["Ac", "Kc", "2s"], "bot": ["As", "6s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8d", "4h"], "board": [], "bot": ["As", "Kc"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Kc", "3s"], "board": ["Qd", "9h", "8s"], "bot": ["Ks", "5d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "2s"], "board": [], "bot": ["Td", "4c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Js", "8c"], "board": ["Qd", "Ts", "5d", "Jd"], "bot": ["9d", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ad", "2s"], "board": [], "bot": ["8c", "4d"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["4s", "4h"], "board": ["Ac", "Js", "Jd"], "bot": ["8s", "3s"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["6s", "4c"], "board": [], "bot": ["7d", "4h"]}
+{"w": -211, "adj": -211, "action": "b211c/b289f", "pos": 1, "hole": ["Qh", "Js"], "board": ["As", "Ah", "9d"], "bot": ["Qs", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["As", "3d"], "board": [], "bot": ["Kc", "3h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Kh", "9c"], "board": ["Tc", "4h", "3d", "8s"], "bot": ["4s", "4d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qd", "9s"], "board": [], "bot": ["5s", "3s"]}
+{"w": -200, "adj": -200, "action": "ck/kk/kk/kb100c", "pos": 1, "hole": ["3s", "2c"], "board": ["Ah", "Jd", "Td", "9c", "Th"], "bot": ["9d", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "4d"], "board": [], "bot": ["7d", "6c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["4h", "3d"], "board": ["Qs", "9s", "2c"], "bot": ["8s", "7c"]}
+{"w": 616, "adj": 616, "action": "b200b616c/kk/b743f", "pos": 0, "hole": ["Js", "Jd"], "board": ["Ah", "Ks", "9h", "Ac"], "bot": ["8h", "7c"]}
+{"w": -400, "adj": -400, "action": "ck/kb100c/kk/b200c", "pos": 1, "hole": ["3c", "2s"], "board": ["Jh", "7s", "2d", "5s", "7d"], "bot": ["7c", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "9h"], "board": [], "bot": ["9s", "6c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Ad", "Qd"], "board": ["7s", "7h", "6s"], "bot": ["Kh", "4c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Jc", "2d"], "board": [], "bot": ["8h", "3s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Kh", "8c"], "board": ["Kd", "7d", "6d"], "bot": ["As", "3c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "5c"], "board": [], "bot": ["Jd", "2s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["Kc", "9h"], "board": ["7c", "5s", "5h", "Ad"], "bot": ["Ts", "7d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["As", "Kd"], "board": [], "bot": ["4c", "2d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Qc", "3c"], "board": [], "bot": ["Th", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "3h"], "board": [], "bot": ["Ah", "7s"]}
+{"w": -100, "adj": -100, "action": "ck/kk/kk/kk", "pos": 1, "hole": ["4d", "2s"], "board": ["Ah", "Ks", "6h", "Kh", "5c"], "bot": ["Qd", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "6d"], "board": [], "bot": ["Qd", "2h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["Qd", "3s"], "board": ["Jc", "5c", "3c", "Ad", "7h"], "bot": ["9h", "5h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6h", "4s"], "board": [], "bot": ["9c", "3c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Ts", "3h"], "board": ["Ks", "Qs", "7s", "8c", "6h"], "bot": ["Kd", "8s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["As", "2s"], "board": [], "bot": ["7d", "6d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Kd", "5s"], "board": [], "bot": ["9s", "9d"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["As", "8h"], "board": ["Td", "4s", "3s"], "bot": ["8d", "4d"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["Kd", "4d"], "board": ["6s", "5d", "3s", "Kh"], "bot": ["Jc", "2c"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["9h", "9d"], "board": [], "bot": ["Td", "7s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["Kc", "Jh"], "board": ["9s", "6d", "2s", "Qd"], "bot": ["8c", "5c"]}
+{"w": -616, "adj": -616, "action": "b200b616b2400f", "pos": 0, "hole": ["8s", "8h"], "board": [], "bot": ["9h", "6h"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["Ad", "2h"], "board": ["As", "Ac", "8h", "4c"], "bot": ["Jh", "9s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ad", "4s"], "board": [], "bot": ["Th", "6d"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["As", "Ah"], "board": ["9s", "5h", "2c", "4s"], "bot": ["Qc", "Jh"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ts", "9h"], "board": [], "bot": ["6d", "2d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["4s", "3s"], "board": ["Tc", "9h", "6h", "Ad", "8h"], "bot": ["Kc", "9s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ad", "3c"], "board": [], "bot": ["Jd", "Tc"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Js", "6h"], "board": ["Ts", "5c", "3c", "4c", "Th"], "bot": ["Kh", "5s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "2s"], "board": [], "bot": ["Jd", "Th"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Jd", "3c"], "board": [], "bot": ["6d", "4d"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["Kc", "Jc"], "board": ["Td", "4d", "2c"], "bot": ["8c", "7h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Jc", "5h"], "board": [], "bot": ["9s", "9c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "3d"], "board": [], "bot": ["Ac", "8d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Ah", "6h"], "board": ["8c", "7h", "7d", "7s"], "bot": ["Tc", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8d", "7h"], "board": [], "bot": ["8s", "6c"]}
+{"w": 422, "adj": 422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["Qh", "4d"], "board": ["Ks", "8c", "7s", "Ad", "7c"], "bot": ["Jd", "9s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4c", "2h"], "board": [], "bot": ["Tc", "3h"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Ts", "3c"], "board": ["8h", "7c", "3h", "Jd", "2d"], "bot": ["9d", "4s"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["Ks", "Kd"], "board": [], "bot": ["Qs", "2d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ts", "4s"], "board": [], "bot": ["Ks", "6s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "6h"], "board": [], "bot": ["5s", "2s"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["6c", "2h"], "board": [], "bot": ["As", "Qs"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["Ah", "Tc"], "board": [], "bot": ["Qc", "3s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Ks", "Kd"], "board": ["Td", "9c", "3h"], "bot": ["Ac", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8s", "6s"], "board": [], "bot": ["9h", "7s"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Js", "2s"], "board": [], "bot": ["8h", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5d", "2s"], "board": [], "bot": ["Kc", "3s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Qc", "6d"], "board": ["Ks", "Kc", "Qh"], "bot": ["8s", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6c", "2c"], "board": [], "bot": ["Jh", "9c"]}
+{"w": 500, "adj": 500, "action": "b211c/kk/kk/b289b857f", "pos": 1, "hole": ["Qs", "5s"], "board": ["8c", "6s", "5d", "Tc", "Qh"], "bot": ["Jd", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8s", "6d"], "board": [], "bot": ["8d", "6s"]}
+{"w": 0, "adj": 0, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Qs", "Td"], "board": ["Kd", "8s", "7s", "8c", "7d"], "bot": ["Jh", "4h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "7c"], "board": [], "bot": ["Kh", "3c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Td", "6c"], "board": ["6s", "5s", "4h"], "bot": ["Kd", "Jh"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7c", "4d"], "board": [], "bot": ["Qc", "Th"]}
+{"w": 5064, "adj": 5064, "action": "b211c/kb211c/kk/kb509b1978b4642c", "pos": 1, "hole": ["8c", "6s"], "board": ["Js", "7d", "4h", "9s", "5s"], "bot": ["6h", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8s", "6d"], "board": [], "bot": ["8c", "7c"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Jc", "Tc"], "board": [], "bot": ["9d", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Tc", "5d"], "board": [], "bot": ["5h", "5c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ad", "7c"], "board": [], "bot": ["3h", "3c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7d", "5d"], "board": [], "bot": ["5c", "2c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ts", "9s"], "board": [], "bot": ["Jc", "9h"]}
+{"w": 616, "adj": 616, "action": "b200b616c/b743f", "pos": 0, "hole": ["Qd", "Qc"], "board": ["Qh", "6s", "6h"], "bot": ["Kh", "9s"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["5c", "4c"], "board": ["6c", "4s", "2h", "5h"], "bot": ["Ks", "4d"]}
+{"w": -616, "adj": -616, "action": "b200b616c/kk/kb584f", "pos": 0, "hole": ["Ah", "Qh"], "board": ["Kc", "7h", "4d", "Jd"], "bot": ["Qd", "Td"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["7s", "3d"], "board": ["Tc", "8c", "5s"], "bot": ["Qd", "6c"]}
+{"w": -1232, "adj": -1232, "action": "b200b616c/b616c/kk/kb2368f", "pos": 0, "hole": ["Ah", "Th"], "board": ["Kc", "Jd", "5c", "3s", "7s"], "bot": ["7h", "7c"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211c/kk/kk", "pos": 1, "hole": ["Qs", "2h"], "board": ["Ac", "6s", "3d", "8s", "5h"], "bot": ["Kh", "9s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "4h"], "board": [], "bot": ["Qc", "5h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Qc", "Td"], "board": ["Jh", "4c", "2d", "6c"], "bot": ["9h", "8c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Th", "2c"], "board": [], "bot": ["3c", "2h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Ah", "7s"], "board": ["Ad", "Qh", "8s"], "bot": ["Jd", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9c", "7d"], "board": [], "bot": ["4d", "3h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Ad", "3c"], "board": ["Ks", "4c", "3s", "Th"], "bot": ["Kd", "7s"]}
+{"w": 20000, "adj": 20000, "action": "b200c/b241b600c/b965b4000c/b15200c", "pos": 0, "hole": ["Qh", "Jh"], "board": ["Js", "8c", "7d", "4s", "3h"], "bot": ["Td", "4c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["7c", "2c"], "board": [], "bot": ["Qd", "Td"]}
+{"w": 200, "adj": 200, "action": "b200c/b241f", "pos": 0, "hole": ["Kc", "Qd"], "board": ["Qs", "8s", "7c"], "bot": ["Ah", "4d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Ts", "7c"], "board": [], "bot": ["7d", "3s"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Jd", "Tc"], "board": [], "bot": ["5d", "2h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Jc", "6d"], "board": ["7s", "7c", "4d", "9c"], "bot": ["5d", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "6c"], "board": [], "bot": ["6h", "3c"]}
+{"w": 1765, "adj": 1765, "action": "b211c/kb254b589c/kb965c/kb2129f", "pos": 1, "hole": ["4s", "3s"], "board": ["Tc", "4h", "3h", "2d", "6d"], "bot": ["Jh", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7h", "5d"], "board": [], "bot": ["9s", "8c"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["Qh", "Jc"], "board": ["7s", "5d", "2s", "Jd"], "bot": ["Ac", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "3h"], "board": [], "bot": ["Js", "Jh"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Js", "5c"], "board": ["Ah", "6h", "3c"], "bot": ["Th", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ad", "5h"], "board": [], "bot": ["6s", "2s"]}
+{"w": 600, "adj": 600, "action": "b211b600b20000f", "pos": 1, "hole": ["As", "Ad"], "board": [], "bot": ["Ac", "Jd"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5c", "3h"], "board": [], "bot": ["Kc", "Jc"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["Td", "2h"], "board": ["Kh", "9h", "8c", "Ks", "6c"], "bot": ["5h", "3s"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Ts", "Td"], "board": [], "bot": ["9c", "2h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["Kh", "8d"], "board": ["Jc", "5h", "5c", "Js", "3d"], "bot": ["Ad", "5s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9s", "8c"], "board": [], "bot": ["As", "Jh"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Jd", "8h"], "board": ["Qd", "8s", "3d"], "bot": ["6c", "5h"]}
+{"w": -616, "adj": -616, "action": "b200b616c/kk/kk/kk", "pos": 0, "hole": ["Ad", "Th"], "board": ["Jd", "9d", "8c", "8h", "8d"], "bot": ["4s", "4d"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["8h", "3h"], "board": [], "bot": ["Ah", "Ks"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["7c", "3s"], "board": [], "bot": ["5d", "2c"]}
+{"w": 422, "adj": 422, "action": "b211c/kb211c/kb422f", "pos": 1, "hole": ["As", "2c"], "board": ["Qc", "3h", "3d", "4d"], "bot": ["Ac", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qd", "8c"], "board": [], "bot": ["9h", "7c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Jc", "Tc"], "board": ["6c", "4s", "2c", "6d"], "bot": ["Th", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "3h"], "board": [], "bot": ["Qs", "7h"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["Kc", "Jd"], "board": ["Ks", "Tc", "5d", "3s"], "bot": ["Jh", "8s"]}
+{"w": 200, "adj": 200, "action": "b200c/kk/b200f", "pos": 0, "hole": ["Ad", "9d"], "board": ["8h", "7d", "5c", "7c"], "bot": ["Ks", "3d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Kd", "8h"], "board": [], "bot": ["7d", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4d", "2d"], "board": [], "bot": ["Ks", "Td"]}
+{"w": 422, "adj": 422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["Td", "7c"], "board": ["Kd", "Js", "2d", "2c", "7d"], "bot": ["As", "8c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4c", "3h"], "board": [], "bot": ["Kd", "8h"]}
+{"w": 2400, "adj": 2400, "action": "b211c/kb254c/b735c/b1200c", "pos": 1, "hole": ["As", "Jh"], "board": ["Ad", "6h", "2h", "3d", "Qh"], "bot": ["Tc", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "3s"], "board": [], "bot": ["6s", "4c"]}
+{"w": 465, "adj": 465, "action": "b211c/kk/kk/kb254c", "pos": 1, "hole": ["8h", "5h"], "board": ["Kd", "9c", "6c", "Qh", "7s"], "bot": ["Ac", "6h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "3h"], "board": [], "bot": ["Ac", "7d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Ac", "Ks"], "board": ["5d", "5c", "3h", "3d", "Kd"], "bot": ["Jd", "5s"]}
+{"w": 0, "adj": 0, "action": "b200b616c/b616c/kk/kk", "pos": 0, "hole": ["Ac", "Qs"], "board": ["9s", "4s", "4d", "3c", "Jh"], "bot": ["Ah", "Qh"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["9h", "4s"], "board": ["Qd", "8s", "8h", "Jc"], "bot": ["Ac", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9c", "6h"], "board": [], "bot": ["Qh", "5c"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Tc", "3h"], "board": ["Kh", "Jc", "9c"], "bot": ["Th", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "4h"], "board": [], "bot": ["6s", "6c"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["8c", "2d"], "board": ["9d", "7h", "5d"], "bot": ["9c", "7s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ad", "4c"], "board": [], "bot": ["Jd", "5d"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["7h", "6c"], "board": ["Jc", "Ts", "3d", "Ks"], "bot": ["Td", "5h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "7h"], "board": [], "bot": ["7s", "4s"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["3s", "2d"], "board": [], "bot": ["As", "8s"]}
+{"w": 616, "adj": 616, "action": "b200b616c/b616f", "pos": 0, "hole": ["Js", "Jc"], "board": ["Qh", "5s", "2h"], "bot": ["9c", "8s"]}
+{"w": -1025, "adj": -1025, "action": "b211c/kk/kb254c/kb560c", "pos": 1, "hole": ["Js", "3s"], "board": ["4s", "4h", "2h", "3d", "6c"], "bot": ["Ks", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9s", "6d"], "board": [], "bot": ["Ad", "Qs"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["9h", "6s"], "board": ["Ad", "Tc", "9d", "8s", "3c"], "bot": ["Jc", "9s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "2c"], "board": [], "bot": ["5s", "5h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Js", "9d"], "board": ["5h", "4d", "3d", "7s", "2h"], "bot": ["Kh", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4c", "3d"], "board": [], "bot": ["Ts", "9d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["8c", "7h"], "board": [], "bot": ["Ac", "Qd"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Ah", "Js"], "board": [], "bot": ["3h", "2d"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["Kd", "4s"], "board": ["Qh", "Ts", "8s", "Kc"], "bot": ["7d", "5s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4c", "3s"], "board": [], "bot": ["6h", "5c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["6h", "3d"], "board": [], "bot": ["Jc", "9c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8s", "2h"], "board": [], "bot": ["Kh", "3s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Th", "8s"], "board": [], "bot": ["Qc", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "5c"], "board": [], "bot": ["8h", "5s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Th", "5s"], "board": [], "bot": ["Jh", "Td"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7d", "3h"], "board": [], "bot": ["Ac", "Kc"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Qh", "8c"], "board": ["Jc", "5h", "3c", "9s"], "bot": ["Jd", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "4h"], "board": [], "bot": ["Ts", "Td"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211c/kk/kk", "pos": 1, "hole": ["7d", "6h"], "board": ["8h", "8d", "4h", "Td", "Ts"], "bot": ["Th", "9c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Ah", "Jd"], "board": [], "bot": ["7h", "4s"]}
+{"w": -211, "adj": -211, "action": "b211c/b289f", "pos": 1, "hole": ["7s", "7c"], "board": ["Ah", "4s", "3s"], "bot": ["9s", "4h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kh", "9s"], "board": [], "bot": ["Ks", "Jc"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["7h", "4d"], "board": ["Tc", "5h", "2c"], "bot": ["7d", "6c"]}
+{"w": 200, "adj": 200, "action": "b200c/kk/b200f", "pos": 0, "hole": ["Ac", "9d"], "board": ["Th", "6d", "4d", "3h"], "bot": ["Jd", "9c"]}
+{"w": 930, "adj": 930, "action": "b211c/kb254c/kb465c/kk", "pos": 1, "hole": ["7s", "3c"], "board": ["Ah", "7d", "6c", "Td", "4d"], "bot": ["9s", "6h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7s", "4h"], "board": [], "bot": ["Jc", "4d"]}
+{"w": 422, "adj": 422, "action": "b211c/kb211c/kb509f", "pos": 1, "hole": ["6s", "3c"], "board": ["9d", "5s", "2h", "4c"], "bot": ["7s", "5c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Qh", "3c"], "board": [], "bot": ["9h", "3s"]}
+{"w": -1800, "adj": -1800, "action": "b211c/kk/kb211c/kb509b1378c", "pos": 1, "hole": ["Qc", "5c"], "board": ["Ks", "Jc", "4c", "Kh", "5s"], "bot": ["Qs", "Jd"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["Ah", "4h"], "board": ["Kh", "Jc", "4d"], "bot": ["Kd", "5c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ks", "Jc"], "board": [], "bot": ["Ad", "Td"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "7c"], "board": [], "bot": ["Ks", "Kc"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["6s", "3c"], "board": ["Jd", "8c", "6h", "5d"], "bot": ["Qc", "Td"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qh", "4h"], "board": [], "bot": ["7s", "6s"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["4s", "4h"], "board": [], "bot": ["Kd", "6d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9s", "2c"], "board": [], "bot": ["9h", "3h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["8d", "4h"], "board": [], "bot": ["Qs", "5s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "4c"], "board": [], "bot": ["Qh", "2s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ad", "4h"], "board": [], "bot": ["9h", "8h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Jh", "2h"], "board": [], "bot": ["8s", "3c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Js", "8c"], "board": ["As", "Kh", "7c"], "bot": ["Tc", "4c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9c", "8d"], "board": [], "bot": ["4d", "3d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["8c", "5h"], "board": [], "bot": ["Td", "8s"]}
+{"w": 616, "adj": 616, "action": "b200b616c/b616f", "pos": 0, "hole": ["Ad", "Qh"], "board": ["Jd", "Td", "7h"], "bot": ["Ks", "8s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Th", "4h"], "board": [], "bot": ["Kd", "Qc"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "5h"], "board": [], "bot": ["Jc", "2d"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["Ks", "Td"], "board": ["Js", "8h", "6c", "Kc"], "bot": ["5c", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "7d"], "board": [], "bot": ["Th", "8d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Ks", "8h"], "board": [], "bot": ["3c", "2s"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["3d", "2d"], "board": [], "bot": ["7s", "4c"]}
+{"w": -465, "adj": -465, "action": "b211c/kk/kb254b1289f", "pos": 1, "hole": ["Qs", "7c"], "board": ["Ac", "Qc", "5s", "3d"], "bot": ["6c", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "2h"], "board": [], "bot": ["Qd", "3s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Jc", "7s"], "board": [], "bot": ["Js", "Jh"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "7s"], "board": [], "bot": ["Qc", "3c"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Th", "2s"], "board": [], "bot": ["7s", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["3s", "2c"], "board": [], "bot": ["Ad", "3c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ts", "9s"], "board": [], "bot": ["Qd", "9d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "8d"], "board": [], "bot": ["Jh", "Th"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Kd", "Jc"], "board": ["Qd", "6s", "4h", "3h"], "bot": ["Js", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4d", "3h"], "board": [], "bot": ["Jc", "9d"]}
+{"w": 1200, "adj": 1200, "action": "b211c/kk/kb254b989c/kb1447f", "pos": 1, "hole": ["Jd", "9d"], "board": ["Ac", "Kc", "9s", "Ad", "2h"], "bot": ["Js", "3h"]}
+{"w": 200, "adj": 200, "action": "b200c/b241f", "pos": 0, "hole": ["Ad", "9c"], "board": ["9s", "5h", "4c"], "bot": ["Jd", "6d"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Kh", "6s"], "board": ["Ac", "4s", "2c"], "bot": ["7c", "4h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "3h"], "board": [], "bot": ["Kd", "3c"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["3d", "2s"], "board": [], "bot": ["8d", "6d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qh", "Ts"], "board": [], "bot": ["9c", "8s"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["9c", "5c"], "board": [], "bot": ["Tc", "3d"]}
+{"w": -200, "adj": -200, "action": "b200c/kk/kk/kb200f", "pos": 0, "hole": ["5h", "5d"], "board": ["Ad", "Kh", "7h", "8d", "9d"], "bot": ["9h", "4d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Td", "6h"], "board": [], "bot": ["Qd", "4d"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["Ks", "Ts"], "board": ["8s", "4c", "2c"], "bot": ["Kd", "6c"]}
+{"w": -2400, "adj": -2400, "action": "b211c/kb254c/kb560b1935c/b4800f", "pos": 1, "hole": ["Ts", "7d"], "board": ["Th", "6s", "3d", "8h", "Jc"], "bot": ["Qc", "9d"]}
+{"w": -616, "adj": -616, "action": "b200b616b1800f", "pos": 0, "hole": ["9h", "9d"], "board": [], "bot": ["Ah", "Qh"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Kc", "4d"], "board": ["Js", "9s", "4h", "5s"], "bot": ["Jh", "6d"]}
+{"w": -400, "adj": -400, "action": "b200c/b200c/kk/kb800f", "pos": 0, "hole": ["Ac", "8s"], "board": ["Jh", "6s", "4c", "6c", "7c"], "bot": ["9h", "5h"]}
+{"w": -100, "adj": -100, "action": "ck/kk/b100f", "pos": 1, "hole": ["3h", "2s"], "board": ["Qc", "7d", "3c", "9d"], "bot": ["Jh", "8s"]}
+{"w": -616, "adj": -616, "action": "b200b616c/kb1184f", "pos": 0, "hole": ["7h", "7d"], "board": ["Qc", "Td", "3s"], "bot": ["As", "4h"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["6d", "2h"], "board": [], "bot": ["Ks", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qh", "Td"], "board": [], "bot": ["Js", "4s"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["7c", "4c"], "board": [], "bot": ["8d", "3c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "4s"], "board": [], "bot": ["Ah", "Ac"]}
+{"w": 500, "adj": 500, "action": "b211c/b289c/kb603f", "pos": 1, "hole": ["Js", "Jd"], "board": ["8h", "8d", "5h", "Ac"], "bot": ["Td", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Tc", "3h"], "board": [], "bot": ["Qh", "2c"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["As", "4s"], "board": ["9c", "8c", "2c"], "bot": ["Jc", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kc", "3d"], "board": [], "bot": ["Js", "8s"]}
+{"w": -3200, "adj": -3200, "action": "b211c/kb254b589c/b800c/b1600c", "pos": 1, "hole": ["Ks", "8d"], "board": ["Kh", "3h", "3d", "Jc", "9c"], "bot": ["3c", "2s"]}
+{"w": 400, "adj": 400, "action": "b200c/b200c/kk/b400f", "pos": 0, "hole": ["As", "9c"], "board": ["8d", "3h", "2d", "7h", "2h"], "bot": ["Qs", "Jh"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["5d", "2s"], "board": ["Qd", "Jc", "7s", "5h", "3s"], "bot": ["8d", "3d"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["7s", "7c"], "board": [], "bot": ["Qc", "6d"]}
+{"w": -882, "adj": -882, "action": "b211c/kk/b189c/kb482c", "pos": 1, "hole": ["Jh", "Th"], "board": ["As", "Kd", "6d", "Qd", "5d"], "bot": ["Ah", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6s", "3c"], "board": [], "bot": ["Jd", "9h"]}
+{"w": 1025, "adj": 1025, "action": "b211c/kb254c/kb560c/kb1236f", "pos": 1, "hole": ["Jd", "9d"], "board": ["Kh", "9c", "3s", "4h", "Kc"], "bot": ["Ad", "Th"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9s", "8s"], "board": [], "bot": ["6h", "5d"]}
+{"w": -844, "adj": -844, "action": "b211c/kk/kb211c/kb422c", "pos": 1, "hole": ["9s", "8c"], "board": ["Kd", "Tc", "3s", "As", "Js"], "bot": ["Qc", "Jd"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qh", "2h"], "board": [], "bot": ["As", "Qs"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Ac", "7d"], "board": ["Ks", "Kh", "6c"], "bot": ["3d", "2d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["3h", "2c"], "board": [], "bot": ["7d", "3c"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["Ac", "9h"], "board": [], "bot": ["Jh", "Jd"]}
+{"w": -2998, "adj": -2998, "action": "b200b616c/b743c/b1639b5841f", "pos": 0, "hole": ["Qs", "Qd"], "board": ["Ad", "Ts", "5h", "9h"], "bot": ["Ac", "5d"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["Ks", "6c"], "board": ["As", "Qh", "5s", "Qd"], "bot": ["Jh", "7c"]}
+{"w": -616, "adj": -616, "action": "b200b616c/kk/kk/kb584f", "pos": 0, "hole": ["Ac", "Qc"], "board": ["Kd", "8s", "3s", "Jd", "3c"], "bot": ["Td", "8h"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["9c", "3d"], "board": ["Jh", "3h", "3c", "6h"], "bot": ["Ad", "7h"]}
+{"w": -20000, "adj": -20000, "action": "b200b616c/b743c/b1639c/b3616b17002c", "pos": 0, "hole": ["Ah", "Ac"], "board": ["Jc", "Td", "6d", "9h", "3c"], "bot": ["Ts", "Tc"]}
+{"w": 0, "adj": 0, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Qd", "7d"], "board": ["Ah", "Ad", "Jh", "6h", "As"], "bot": ["Qc", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "5h"], "board": [], "bot": ["6s", "6d"]}
+{"w": -100, "adj": -100, "action": "ck/kk/kk/b100f", "pos": 1, "hole": ["4h", "2d"], "board": ["Ac", "Qh", "Jc", "6s", "2h"], "bot": ["8h", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "6s"], "board": [], "bot": ["As", "3h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Ks", "2h"], "board": ["Qh", "Td", "Tc", "3h"], "bot": ["Kh", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ts", "6h"], "board": [], "bot": ["Ah", "Tc"]}
+{"w": -211, "adj": -211, "action": "b211c/b289f", "pos": 1, "hole": ["Jd", "2d"], "board": ["Ks", "5h", "2h"], "bot": ["Tc", "4h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Tc", "6s"], "board": [], "bot": ["8s", "7s"]}
+{"w": -1500, "adj": -1500, "action": "b211c/kk/kk/kb254b1289c", "pos": 1, "hole": ["Ac", "9c"], "board": ["Tc", "6h", "6c", "Jd", "Jc"], "bot": ["Js", "5d"]}
+{"w": 800, "adj": 800, "action": "b200c/b200c/b400c/b800f", "pos": 0, "hole": ["Ks", "9s"], "board": ["Ac", "8h", "3c", "8s", "Kc"], "bot": ["4d", "3h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["5d", "4h"], "board": [], "bot": ["Ad", "Qs"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["As", "Kc"], "board": [], "bot": ["9d", "4h"]}
+{"w": 400, "adj": 400, "action": "b211c/kk/b189c/kb400f", "pos": 1, "hole": ["7s", "7d"], "board": ["Js", "6s", "3d", "2d", "8c"], "bot": ["Qh", "4d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "2h"], "board": [], "bot": ["9d", "6c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["9h", "7c"], "board": ["6h", "4h", "3s", "Jh"], "bot": ["Qh", "8s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "6h"], "board": [], "bot": ["Ts", "3c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Kc", "Js"], "board": ["5h", "4c", "3h", "3c", "8h"], "bot": ["Ac", "Ts"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8h", "2c"], "board": [], "bot": ["3s", "3c"]}
+{"w": 422, "adj": 422, "action": "b211c/kb211c/kk/kb422f", "pos": 1, "hole": ["Qh", "Js"], "board": ["Ad", "Th", "3c", "9s", "7s"], "bot": ["Kd", "5d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7d", "3d"], "board": [], "bot": ["As", "5s"]}
+{"w": -20000, "adj": -13636.363636363638, "action": "b211c/kb254b989b2321c/kb3054b17468c/", "pos": 1, "hole": ["Kd", "2d"], "board": ["Ks", "Kc", "5d", "Jd", "7h"], "bot": ["5s", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qd", "3s"], "board": [], "bot": ["Jc", "6h"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["Ks", "Tc"], "board": [], "bot": ["9s", "7d"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["As", "Kh"], "board": [], "bot": ["Tc", "4d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b289f", "pos": 1, "hole": ["Ks", "Jh"], "board": ["Ah", "Qs", "5c", "9s", "2c"], "bot": ["6c", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "2s"], "board": [], "bot": ["Ad", "4c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Jh", "7c"], "board": ["Ac", "9s", "5h", "9d"], "bot": ["Td", "7h"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["Js", "Jd"], "board": [], "bot": ["Kd", "2c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["5s", "3s"], "board": ["Kd", "Js", "4h", "Jh", "8h"], "bot": ["As", "Td"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kc", "2d"], "board": [], "bot": ["Ah", "6h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["As", "7d"], "board": ["Jc", "8d", "4c", "6c"], "bot": ["6d", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["3h", "3c"], "board": [], "bot": ["Ac", "9d"]}
+{"w": 200, "adj": 200, "action": "ck/kb100c/kb241f", "pos": 1, "hole": ["3c", "2h"], "board": ["Ac", "Js", "2d", "Jc"], "bot": ["9c", "8s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7c", "5d"], "board": [], "bot": ["Ac", "4h"]}
+{"w": 7200, "adj": 7200, "action": "b211c/kb211c/kk/b778b2075b6778b19578f", "pos": 1, "hole": ["9h", "3h"], "board": ["Ks", "6s", "3c", "7d", "3d"], "bot": ["Td", "6h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9s", "6h"], "board": [], "bot": ["Ac", "9d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Jd", "Tc"], "board": [], "bot": ["8h", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8s", "3c"], "board": [], "bot": ["Ts", "Tc"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Ac", "6d"], "board": [], "bot": ["7h", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "3h"], "board": [], "bot": ["4h", "3s"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Ah", "Jh"], "board": [], "bot": ["6d", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qd", "8c"], "board": [], "bot": ["7h", "4h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["9d", "2d"], "board": ["As", "5d", "3h", "Ks"], "bot": ["8h", "6s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "8s"], "board": [], "bot": ["Th", "8c"]}
+{"w": -100, "adj": -100, "action": "ck/kk/b100f", "pos": 1, "hole": ["6h", "2d"], "board": ["As", "Jh", "Jd", "3d"], "bot": ["Ks", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "3c"], "board": [], "bot": ["6d", "4c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Qs", "Qh"], "board": ["Ac", "Js", "8d"], "bot": ["Kh", "5h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "3d"], "board": [], "bot": ["8d", "7c"]}
+{"w": -20000, "adj": -20000, "action": "b211c/kb254b989b2321c/kb3054c/kb14414c", "pos": 1, "hole": ["Ks", "Ts"], "board": ["Kd", "Kc", "5s", "7h", "Qc"], "bot": ["5d", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "7s"], "board": [], "bot": ["Tc", "4c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["6d", "3d"], "board": [], "bot": ["As", "9s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "5c"], "board": [], "bot": ["Qh", "7s"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["Th", "9s"], "board": ["Kh", "8s", "4h", "9c"], "bot": ["6s", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5d", "4s"], "board": [], "bot": ["Js", "4h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Ts", "Tc"], "board": ["Qd", "7h", "2s"], "bot": ["Jc", "3h"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["Kd", "9d"], "board": ["4h", "3d", "2c"], "bot": ["Jc", "9h"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["6d", "2h"], "board": [], "bot": ["Ts", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["As", "2h"], "board": [], "bot": ["5s", "5c"]}
+{"w": 422, "adj": 422, "action": "b211c/kb211c/kb509f", "pos": 1, "hole": ["4d", "3h"], "board": ["Ah", "7s", "4h", "4s"], "bot": ["8h", "7d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["3s", "2c"], "board": [], "bot": ["Kc", "5s"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kb254f", "pos": 1, "hole": ["Ks", "Th"], "board": ["Jc", "6d", "3s", "4c", "Kd"], "bot": ["Qh", "3c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "9h"], "board": [], "bot": ["Qc", "Th"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Qh", "3h"], "board": [], "bot": ["Qs", "Qd"]}
+{"w": -400, "adj": -400, "action": "b200c/b200c/kk/kb400f", "pos": 0, "hole": ["Ah", "9d"], "board": ["Ks", "Qh", "Js", "3d", "3c"], "bot": ["Kc", "6d"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["9d", "3s"], "board": ["Jh", "Ts", "4c"], "bot": ["Kh", "2s"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["Ad", "5d"], "board": ["Th", "8h", "7d"], "bot": ["Jd", "9s"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["8h", "4c"], "board": [], "bot": ["9d", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "3c"], "board": [], "bot": ["6h", "5h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b289f", "pos": 1, "hole": ["8c", "3c"], "board": ["Jh", "7s", "6h", "6s"], "bot": ["As", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kc", "5c"], "board": [], "bot": ["Qd", "4c"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Ac", "2h"], "board": ["Qd", "Jc", "6s", "3h", "2c"], "bot": ["Ad", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "6h"], "board": [], "bot": ["Ks", "9s"]}
+{"w": 800, "adj": 800, "action": "b211c/b189c/b400b1360f", "pos": 1, "hole": ["Ad", "7s"], "board": ["As", "Kc", "Js", "Ac"], "bot": ["Jd", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "7c"], "board": [], "bot": ["Jh", "6d"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb465f", "pos": 1, "hole": ["7h", "5h"], "board": ["Ad", "5s", "2h", "6d"], "bot": ["Jh", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8c", "4c"], "board": [], "bot": ["Ts", "7d"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["Th", "5c"], "board": ["9d", "7h", "5h", "Qc", "2h"], "bot": ["Ad", "7c"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["Ah", "Th"], "board": [], "bot": ["9c", "4s"]}
+{"w": -2400, "adj": -2400, "action": "b211c/kb211c/kk/kb509b1978c", "pos": 1, "hole": ["6s", "4h"], "board": ["Js", "Ts", "3h", "Jc", "4d"], "bot": ["Jh", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7c", "3c"], "board": [], "bot": ["Tc", "5c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Td", "8d"], "board": [], "bot": ["As", "5s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["8d", "4h"], "board": [], "bot": ["Ac", "9d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["8h", "5h"], "board": [], "bot": ["9h", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kh", "8c"], "board": [], "bot": ["Th", "6s"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Ks", "9c"], "board": [], "bot": ["7c", "4s"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Kd", "8s"], "board": [], "bot": ["6s", "2h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Jc", "8c"], "board": ["Th", "6d", "4s"], "bot": ["9d", "5h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["3d", "2d"], "board": [], "bot": ["Ac", "Kd"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["Jh", "2s"], "board": ["Kc", "6h", "2h", "Js"], "bot": ["4c", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qd", "3d"], "board": [], "bot": ["Jh", "3c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Qs", "3c"], "board": [], "bot": ["Ts", "9h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7s", "5h"], "board": [], "bot": ["Ts", "8h"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["3c", "2c"], "board": ["9d", "9c", "4c", "Qc"], "bot": ["Ks", "5s"]}
+{"w": 616, "adj": 616, "action": "b200b616c/b743f", "pos": 0, "hole": ["Kh", "Kc"], "board": ["Ts", "7h", "3h"], "bot": ["Qh", "9d"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["As", "Js"], "board": ["6c", "3d", "2s", "5s", "8d"], "bot": ["Kh", "9c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6c", "2d"], "board": [], "bot": ["Ts", "5s"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211c/b378f", "pos": 1, "hole": ["7d", "5h"], "board": ["Kd", "Jc", "9d", "2s", "5d"], "bot": ["Kc", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4h", "2c"], "board": [], "bot": ["9h", "9c"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["Kc", "9s"], "board": [], "bot": ["Ks", "Jd"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Th", "5c"], "board": [], "bot": ["8s", "3c"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211c/kk/b778f", "pos": 1, "hole": ["7h", "3c"], "board": ["8s", "6h", "3s", "Ah", "5h"], "bot": ["As", "7s"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["9d", "9c"], "board": [], "bot": ["Jh", "3d"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Tc", "5h"], "board": ["9d", "7d", "4d"], "bot": ["8h", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "4h"], "board": [], "bot": ["Kd", "6d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Ad", "8h"], "board": ["6c", "4h", "4d", "9d"], "bot": ["8d", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "7c"], "board": [], "bot": ["Kd", "9h"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb211f", "pos": 1, "hole": ["Tc", "3c"], "board": ["Kh", "Qh", "4s", "6s"], "bot": ["9c", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "6h"], "board": [], "bot": ["8d", "7d"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["As", "Js"], "board": ["Qs", "Td", "8s"], "bot": ["Jh", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "7c"], "board": [], "bot": ["Ac", "5d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Td", "3c"], "board": ["As", "Ks", "Kd", "Qc", "4d"], "bot": ["5d", "4h"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["Ks", "Js"], "board": ["9s", "6d", "2s"], "bot": ["Jc", "7h"]}
+{"w": -3200, "adj": -3200, "action": "b211c/kb254c/kb560b1135c/b1600c", "pos": 1, "hole": ["Qs", "3s"], "board": ["Qh", "Js", "4c", "Jd", "8s"], "bot": ["Jc", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6c", "2h"], "board": [], "bot": ["Jc", "3s"]}
+{"w": 844, "adj": 844, "action": "b211c/kb211c/kb422c/kb1018f", "pos": 1, "hole": ["Ac", "Tc"], "board": ["Qd", "Jc", "4d", "Qc", "Ah"], "bot": ["8h", "8c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5c", "2h"], "board": [], "bot": ["Qh", "2s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Ac", "Td"], "board": ["As", "Ah", "Ks"], "bot": ["9c", "5d"]}
+{"w": 616, "adj": 616, "action": "b200b616c/b743f", "pos": 0, "hole": ["Th", "Td"], "board": ["As", "Kh", "Kc"], "bot": ["9s", "6s"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b189f", "pos": 1, "hole": ["Kc", "Th"], "board": ["Qs", "Qd", "9h", "9s", "Qh"], "bot": ["7h", "5s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "4c"], "board": [], "bot": ["6c", "3h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Kh", "8s"], "board": ["Ah", "Tc", "5d"], "bot": ["Jh", "4d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ad", "4c"], "board": [], "bot": ["Kd", "3h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Ad", "8s"], "board": ["As", "Th", "9c"], "bot": ["Kh", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "7h"], "board": [], "bot": ["Jh", "9c"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Kc", "Qs"], "board": ["7h", "6c", "5s", "8c"], "bot": ["8s", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7c", "2d"], "board": [], "bot": ["Qd", "Qc"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Kd", "Qh"], "board": [], "bot": ["9s", "2d"]}
+{"w": -200, "adj": -200, "action": "b200c/kk/kb200f", "pos": 0, "hole": ["Ac", "4c"], "board": ["As", "9s", "5s", "5h"], "bot": ["Qh", "8c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Tc", "3h"], "board": ["3s", "3d", "3c"], "bot": ["8s", "7d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "4s"], "board": [], "bot": ["Ts", "4c"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["4h", "4d"], "board": ["Jd", "Jc", "8c"], "bot": ["Qd", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "6h"], "board": [], "bot": ["Th", "5h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["8d", "5c"], "board": ["Ts", "6h", "5s"], "bot": ["Kc", "7c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["As", "3c"], "board": [], "bot": ["Ts", "9h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["7s", "5c"], "board": [], "bot": ["Td", "6d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "9c"], "board": [], "bot": ["Js", "7c"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211c/kk", "pos": 1, "hole": ["As", "8c"], "board": ["Qh", "Qd", "7d", "Tc", "5c"], "bot": ["Qs", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["3c", "2d"], "board": [], "bot": ["Jh", "7h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["3s", "2s"], "board": [], "bot": ["Ts", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qh", "5h"], "board": [], "bot": ["Ts", "2h"]}
+{"w": -1025, "adj": -1025, "action": "b211c/kb254c/kb560c/kk", "pos": 1, "hole": ["Ad", "Ac"], "board": ["5d", "5c", "2h", "9h", "Th"], "bot": ["Ah", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6d", "2s"], "board": [], "bot": ["Ad", "4h"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["5s", "2c"], "board": ["Jh", "Tc", "9s", "2d"], "bot": ["8c", "7d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["8h", "2d"], "board": [], "bot": ["7c", "3d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["7h", "5s"], "board": [], "bot": ["6c", "2d"]}
+{"w": 200, "adj": 200, "action": "b200c/kk/b241f", "pos": 0, "hole": ["Jh", "Th"], "board": ["Qs", "7s", "3h", "Td"], "bot": ["Ad", "6d"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["6s", "2d"], "board": [], "bot": ["Kh", "6c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Ad", "Js"], "board": [], "bot": ["5h", "2d"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Ah", "8c"], "board": ["Qs", "Qc", "5h", "2c", "Kh"], "bot": ["Tc", "3s"]}
+{"w": -3894, "adj": -3894, "action": "b200c/b241b600c/b965c/b2129c", "pos": 0, "hole": ["Ac", "9d"], "board": ["Ah", "Qd", "9c", "Qs", "Ks"], "bot": ["As", "Kh"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["8s", "4h"], "board": [], "bot": ["Ts", "8d"]}
+{"w": -200, "adj": -200, "action": "b200c/kb200f", "pos": 0, "hole": ["Kc", "Td"], "board": ["5d", "3d", "3c"], "bot": ["Ks", "2d"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Qs", "Qd"], "board": ["Ac", "8d", "6h"], "bot": ["Ks", "2c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Ac", "7h"], "board": [], "bot": ["6h", "2c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Qc", "7c"], "board": [], "bot": ["As", "Kc"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["7c", "3s"], "board": [], "bot": ["7h", "3c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ks", "Qd"], "board": [], "bot": ["9d", "6d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "3h"], "board": [], "bot": ["Th", "4s"]}
+{"w": -3200, "adj": -3200, "action": "b211c/kb254c/kb560b1135c/kb1600c", "pos": 1, "hole": ["Kh", "Kd"], "board": ["8c", "4h", "3s", "Ah", "7h"], "bot": ["Ac", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5h", "3d"], "board": [], "bot": ["Qd", "4d"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["Qs", "Ts"], "board": ["Qh", "6h", "5c", "7c"], "bot": ["Td", "9h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ah", "7c"], "board": [], "bot": ["Qs", "2d"]}
+{"w": 465, "adj": 465, "action": "b211c/kk/kk/kb254c", "pos": 1, "hole": ["8s", "6s"], "board": ["Qs", "5s", "4h", "3d", "7h"], "bot": ["Ac", "9h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4d", "3h"], "board": [], "bot": ["4h", "3d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["5d", "4h"], "board": [], "bot": ["Ac", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ad", "5h"], "board": [], "bot": ["Jd", "5d"]}
+{"w": 1025, "adj": 1025, "action": "b211c/kk/kb254c/kb560c", "pos": 1, "hole": ["Kd", "Jd"], "board": ["8h", "4d", "2s", "Ks", "9d"], "bot": ["Jc", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "2h"], "board": [], "bot": ["Ad", "2d"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211b589f", "pos": 1, "hole": ["Ac", "Js"], "board": ["8d", "4d", "3h"], "bot": ["8h", "4h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qd", "3h"], "board": [], "bot": ["Th", "2d"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211b989f", "pos": 1, "hole": ["8d", "3d"], "board": ["Tc", "4h", "2c"], "bot": ["Qc", "Td"]}
+{"w": 2998, "adj": 2998, "action": "b200b616c/b743c/b1639c/b2998f", "pos": 0, "hole": ["Kh", "Kd"], "board": ["Qh", "Jc", "3d", "Jd", "3s"], "bot": ["Ts", "9c"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Kc", "Ts"], "board": [], "bot": ["9c", "2d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Ks", "5h"], "board": [], "bot": ["7s", "2d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["5c", "3d"], "board": [], "bot": ["4h", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kc", "3s"], "board": [], "bot": ["3h", "3d"]}
+{"w": 1025, "adj": 1025, "action": "b211c/kk/kb254c/kb560c", "pos": 1, "hole": ["Ah", "7s"], "board": ["6s", "5h", "4c", "8s", "8c"], "bot": ["Tc", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9c", "3c"], "board": [], "bot": ["Qc", "6d"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211c/kk/kk", "pos": 1, "hole": ["As", "3s"], "board": ["Kd", "9s", "4c", "2c", "4d"], "bot": ["Kh", "6s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["3c", "2d"], "board": [], "bot": ["As", "Td"]}
+{"w": 422, "adj": 422, "action": "b211c/kb211c/kb509f", "pos": 1, "hole": ["Kh", "Jd"], "board": ["Td", "4c", "2c", "Kd"], "bot": ["Qs", "2h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["9h", "7c"], "board": [], "bot": ["9d", "3h"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211b589f", "pos": 1, "hole": ["8d", "7c"], "board": ["Kh", "Tc", "3h"], "bot": ["Qh", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Td", "4s"], "board": [], "bot": ["5h", "4d"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["6c", "3s"], "board": [], "bot": ["7c", "2d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Ah", "Kc"], "board": [], "bot": ["8s", "3c"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kb211b989f", "pos": 1, "hole": ["7d", "6c"], "board": ["Kh", "Ts", "8c", "4c"], "bot": ["Ac", "3c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qd", "2h"], "board": [], "bot": ["Ac", "Qc"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Js", "8c"], "board": ["Kd", "Kc", "2s"], "bot": ["Kh", "3c"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["8h", "3d"], "board": [], "bot": ["8c", "3h"]}
+{"w": -100, "adj": -100, "action": "ck/kk/b100f", "pos": 1, "hole": ["6s", "2d"], "board": ["As", "Kh", "5d", "Jc"], "bot": ["Qh", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Tc", "5d"], "board": [], "bot": ["9c", "8h"]}
+{"w": 465, "adj": 465, "action": "b211c/kb254c/kb560f", "pos": 1, "hole": ["9c", "4s"], "board": ["9s", "8c", "4d", "2s"], "bot": ["7s", "5d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qh", "4h"], "board": [], "bot": ["Jd", "5s"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kb254f", "pos": 1, "hole": ["Jh", "3c"], "board": ["8s", "8d", "7h", "6h", "Js"], "bot": ["Qs", "4h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jh", "3s"], "board": [], "bot": ["7h", "5s"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["8d", "7d"], "board": ["Ah", "Qs", "Ts"], "bot": ["4c", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6h", "4s"], "board": [], "bot": ["Js", "9h"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["8d", "6d"], "board": [], "bot": ["8s", "8h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ts", "7c"], "board": [], "bot": ["Ad", "8c"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Qc", "5s"], "board": [], "bot": ["7s", "6s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["4s", "4c"], "board": [], "bot": ["Kh", "6s"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["Jh", "5d"], "board": ["Ks", "6s", "5s", "Ac", "9c"], "bot": ["Tc", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "8c"], "board": [], "bot": ["9s", "4s"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["7h", "3c"], "board": [], "bot": ["4s", "4d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["As", "2d"], "board": [], "bot": ["Ac", "5s"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["3c", "2s"], "board": [], "bot": ["Kh", "Js"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9s", "2d"], "board": [], "bot": ["Qd", "8s"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Kc", "4c"], "board": ["8s", "8h", "3h"], "bot": ["9d", "7s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kc", "9d"], "board": [], "bot": ["5c", "3s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["8d", "5c"], "board": [], "bot": ["As", "Qs"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7c", "6h"], "board": [], "bot": ["Ah", "Kc"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["5d", "5c"], "board": ["Td", "7s", "4s", "6s"], "bot": ["9s", "6d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7s", "2d"], "board": [], "bot": ["9d", "5d"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["3d", "2h"], "board": [], "bot": ["4s", "4h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Kc", "9h"], "board": [], "bot": ["8d", "2c"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["6s", "2c"], "board": [], "bot": ["7s", "7d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "7c"], "board": [], "bot": ["8h", "6c"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Qc", "5d"], "board": ["Kd", "Th", "8d"], "bot": ["Ts", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7h", "4h"], "board": [], "bot": ["6c", "3c"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Ah", "Ac"], "board": [], "bot": ["7s", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jd", "9c"], "board": [], "bot": ["Kh", "6c"]}
+{"w": 220, "adj": 220, "action": "ck/kk/kk/kb120c", "pos": 1, "hole": ["4h", "2d"], "board": ["Js", "5d", "2c", "Ac", "2h"], "bot": ["Kd", "3s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9c", "3c"], "board": [], "bot": ["Ad", "2s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ah", "3s"], "board": [], "bot": ["6d", "6c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Th", "2h"], "board": [], "bot": ["Jc", "9s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Kd", "Kc"], "board": ["Ah", "Js", "6d"], "bot": ["3c", "2d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9s", "8c"], "board": [], "bot": ["As", "2d"]}
+{"w": -211, "adj": -211, "action": "b211c/b189f", "pos": 1, "hole": ["Jd", "2d"], "board": ["Qh", "5h", "5c"], "bot": ["8h", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9h", "3h"], "board": [], "bot": ["Kh", "Qd"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Qh", "Td"], "board": ["Tc", "9h", "7c"], "bot": ["5c", "2h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "8h"], "board": [], "bot": ["Tc", "7d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Ad", "7d"], "board": [], "bot": ["9s", "8s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["3c", "2h"], "board": [], "bot": ["7s", "7c"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["Kd", "3s"], "board": [], "bot": ["9c", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5s", "4c"], "board": [], "bot": ["6h", "2h"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211c/kk/b378f", "pos": 1, "hole": ["Kc", "Qd"], "board": ["Js", "5d", "3d", "Ad", "4h"], "bot": ["Ah", "2s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9s", "3d"], "board": [], "bot": ["Ah", "Jc"]}
+{"w": -422, "adj": -422, "action": "b211c/kk/kk/kb211c", "pos": 1, "hole": ["Ad", "3s"], "board": ["Kc", "9c", "8c", "2h", "7d"], "bot": ["Jd", "7h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["As", "2h"], "board": [], "bot": ["9h", "2d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["As", "9s"], "board": [], "bot": ["Ac", "Jc"]}
+{"w": 200, "adj": 200, "action": "b200b616f", "pos": 0, "hole": ["Ac", "Th"], "board": [], "bot": ["9h", "5d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["Qh", "Jd"], "board": ["4s", "4d", "3d", "7s"], "bot": ["Qd", "8h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7d", "2c"], "board": [], "bot": ["8s", "6s"]}
+{"w": 100, "adj": 100, "action": "ck/kk/kk/kb100f", "pos": 1, "hole": ["3s", "2h"], "board": ["Ah", "Ad", "Td", "4d", "4c"], "bot": ["7h", "2c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Jc", "5h"], "board": [], "bot": ["Qh", "8s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb254f", "pos": 1, "hole": ["Qc", "6s"], "board": ["6c", "5d", "5c"], "bot": ["Qs", "3c"]}
+{"w": 6614, "adj": 6614, "action": "b200b616c/b743c/b1639c/b3616c", "pos": 0, "hole": ["Ad", "Ks"], "board": ["Ah", "9c", "4d", "3s", "8c"], "bot": ["Ac", "Jc"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["5d", "4s"], "board": [], "bot": ["Js", "7s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9d", "5d"], "board": [], "bot": ["8s", "6d"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/kk", "pos": 1, "hole": ["8h", "2h"], "board": ["Ah", "Ad", "Js", "5c", "Ac"], "bot": ["Kh", "3c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["6c", "4s"], "board": [], "bot": ["Ad", "Ac"]}
+{"w": 211, "adj": 211, "action": "b211c/kk/kb254f", "pos": 1, "hole": ["Ah", "5c"], "board": ["Kc", "Jd", "5h", "As"], "bot": ["Tc", "4s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["3d", "2c"], "board": [], "bot": ["Ad", "Ts"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/b189f", "pos": 1, "hole": ["8c", "2s"], "board": ["Qh", "7c", "3d", "9s"], "bot": ["8d", "5d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qc", "Th"], "board": [], "bot": ["6c", "3d"]}
+{"w": 844, "adj": 844, "action": "b211c/kb211c/kb422c/kb1018f", "pos": 1, "hole": ["Qd", "7s"], "board": ["Ad", "Ts", "7d", "3h", "7c"], "bot": ["3d", "2d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Jh", "5c"], "board": [], "bot": ["7s", "3d"]}
+{"w": -422, "adj": -422, "action": "b211c/kb211c/kk/kk", "pos": 1, "hole": ["8h", "2d"], "board": ["Ah", "Jd", "5s", "6c", "2c"], "bot": ["Qs", "2s"]}
+{"w": -616, "adj": -616, "action": "b200b616c/kk/kb584f", "pos": 0, "hole": ["7s", "7c"], "board": ["Qd", "4h", "3h", "Tc"], "bot": ["Kc", "9d"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["9h", "9d"], "board": [], "bot": ["Kd", "Kc"]}
+{"w": -200, "adj": -200, "action": "b200c/kk/kb200f", "pos": 0, "hole": ["Kd", "Jd"], "board": ["Jh", "9h", "3h", "9d"], "bot": ["Qs", "5s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Kd", "Qh"], "board": [], "bot": ["9h", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ac", "6h"], "board": [], "bot": ["4d", "3s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["Td", "7s"], "board": [], "bot": ["Jh", "Ts"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["7s", "3d"], "board": [], "bot": ["Qs", "Th"]}
+{"w": -211, "adj": -211, "action": "b211c/kk/kk/b289f", "pos": 1, "hole": ["8h", "8c"], "board": ["Kc", "9c", "3c", "Kh", "4h"], "bot": ["7d", "4d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Td", "8h"], "board": [], "bot": ["9c", "2s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["8s", "4d"], "board": ["Qh", "6c", "5d"], "bot": ["Ac", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Kd", "6c"], "board": [], "bot": ["Kh", "5c"]}
+{"w": 400, "adj": 400, "action": "b211c/kk/b189c/kb482f", "pos": 1, "hole": ["5s", "4h"], "board": ["Jc", "3h", "2s", "5d", "6h"], "bot": ["Ts", "5c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Qs", "9h"], "board": [], "bot": ["5h", "4h"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["6s", "4h"], "board": ["Jd", "Td", "9h"], "bot": ["6c", "5d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ks", "9d"], "board": [], "bot": ["Kh", "Th"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["8d", "5h"], "board": ["Ts", "6d", "2s"], "bot": ["Jh", "3c"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ts", "6d"], "board": [], "bot": ["As", "5h"]}
+{"w": 400, "adj": 400, "action": "b211c/kk/kk/b189c", "pos": 1, "hole": ["Tc", "9c"], "board": ["Ks", "2s", "2d", "Ts", "7h"], "bot": ["5c", "3h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Qd", "7h"], "board": [], "bot": ["8c", "3s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["6h", "5h"], "board": [], "bot": ["Th", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["5s", "2s"], "board": [], "bot": ["Kd", "Td"]}
+{"w": -100, "adj": -100, "action": "cb300f", "pos": 1, "hole": ["6h", "2d"], "board": [], "bot": ["Kc", "7h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["2d", "2c"], "board": [], "bot": ["Kc", "Th"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["7h", "2h"], "board": [], "bot": ["7c", "2d"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Js", "3d"], "board": [], "bot": ["8d", "3s"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["9d", "2s"], "board": ["Jh", "6h", "2h"], "bot": ["Tc", "3d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["As", "4h"], "board": [], "bot": ["Qh", "7d"]}
+{"w": 211, "adj": 211, "action": "b211c/kb211f", "pos": 1, "hole": ["Ad", "2c"], "board": ["9h", "5h", "2d"], "bot": ["As", "8d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "4d"], "board": [], "bot": ["4h", "3c"]}
+{"w": -930, "adj": -930, "action": "b211c/kb254c/kk/kb465b1935f", "pos": 1, "hole": ["Jc", "4s"], "board": ["9c", "4d", "2h", "Qs", "3h"], "bot": ["As", "5h"]}
+{"w": 50, "adj": 50, "action": "f", "pos": 0, "hole": ["Jc", "9s"], "board": [], "bot": ["5h", "2s"]}
+{"w": 1025, "adj": 1025, "action": "b211c/kb254c/kb560c/kb1236f", "pos": 1, "hole": ["Jc", "3s"], "board": ["Jd", "5d", "3d", "8h", "4c"], "bot": ["Kc", "5h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["9s", "4d"], "board": [], "bot": ["Jh", "7s"]}
+{"w": -211, "adj": -211, "action": "b211b600f", "pos": 1, "hole": ["7s", "6d"], "board": [], "bot": ["9d", "7d"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Js", "5c"], "board": [], "bot": ["4s", "3h"]}
+{"w": 2261, "adj": 2261, "action": "b211c/kb254c/kb560c/kb1236c", "pos": 1, "hole": ["Qd", "Th"], "board": ["As", "Td", "Tc", "8s", "Ks"], "bot": ["Ac", "7s"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["Ad", "4s"], "board": [], "bot": ["8h", "7h"]}
+{"w": 100, "adj": 100, "action": "b211f", "pos": 1, "hole": ["Ac", "2d"], "board": [], "bot": ["6s", "3h"]}
+{"w": -100, "adj": -100, "action": "b200f", "pos": 0, "hole": ["As", "4d"], "board": [], "bot": ["Qd", "4h"]}
+{"w": -211, "adj": -211, "action": "b211b750f", "pos": 1, "hole": ["Tc", "4c"], "board": [], "bot": ["Ad", "Jd"]}

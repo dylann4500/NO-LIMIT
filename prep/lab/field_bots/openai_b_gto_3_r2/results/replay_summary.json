@@ -1,0 +1,75 @@
+{
+  "old_street1": {
+    "showdown_labeled_continues": 270,
+    "fixed_hole_call_ev_bb": 557.54,
+    "call_cost_bb": 1085.6
+  },
+  "old_street2": {
+    "showdown_labeled_continues": 169,
+    "fixed_hole_call_ev_bb": 565.37,
+    "call_cost_bb": 1275.82
+  },
+  "old_street3": {
+    "showdown_labeled_continues": 99,
+    "fixed_hole_call_ev_bb": 960.83,
+    "call_cost_bb": 1075.49
+  },
+  "new_street1": {
+    "showdown_labeled_continues": 263,
+    "fixed_hole_call_ev_bb": 559.08,
+    "call_cost_bb": 1062.59
+  },
+  "new_street2": {
+    "showdown_labeled_continues": 160,
+    "fixed_hole_call_ev_bb": 568.63,
+    "call_cost_bb": 1221.92
+  },
+  "new_street3": {
+    "showdown_labeled_continues": 65,
+    "fixed_hole_call_ev_bb": 979.38,
+    "call_cost_bb": 672.8
+  },
+  "actual_action_vs_revised": {
+    "(0, 'call', 'call')": 1071,
+    "(0, 'call', 'fold')": 22,
+    "(0, 'call', 'raise')": 6,
+    "(0, 'check', 'check')": 14,
+    "(0, 'fold', 'call')": 14,
+    "(0, 'fold', 'fold')": 8667,
+    "(0, 'fold', 'raise')": 77,
+    "(0, 'raise', 'call')": 1,
+    "(0, 'raise', 'fold')": 15,
+    "(0, 'raise', 'raise')": 1860,
+    "(1, 'call', 'call')": 403,
+    "(1, 'call', 'fold')": 48,
+    "(1, 'call', 'raise')": 11,
+    "(1, 'check', 'check')": 729,
+    "(1, 'check', 'raise')": 186,
+    "(1, 'fold', 'call')": 42,
+    "(1, 'fold', 'fold')": 285,
+    "(1, 'raise', 'call')": 7,
+    "(1, 'raise', 'check')": 63,
+    "(1, 'raise', 'raise')": 296,
+    "(2, 'call', 'call')": 189,
+    "(2, 'call', 'fold')": 37,
+    "(2, 'call', 'raise')": 9,
+    "(2, 'check', 'check')": 533,
+    "(2, 'check', 'raise')": 131,
+    "(2, 'fold', 'call')": 16,
+    "(2, 'fold', 'fold')": 109,
+    "(2, 'raise', 'call')": 7,
+    "(2, 'raise', 'check')": 62,
+    "(2, 'raise', 'raise')": 152,
+    "(3, 'call', 'call')": 64,
+    "(3, 'call', 'fold')": 44,
+    "(3, 'call', 'raise')": 1,
+    "(3, 'check', 'check')": 418,
+    "(3, 'check', 'raise')": 115,
+    "(3, 'fold', 'call')": 1,
+    "(3, 'fold', 'fold')": 104,
+    "(3, 'raise', 'call')": 1,
+    "(3, 'raise', 'check')": 31,
+    "(3, 'raise', 'raise')": 63
+  },
+  "caveat": "Only observed paths; showdown selection bias; no tournament performance claim. Calling EV includes future free runouts and ignores future bets."
+}

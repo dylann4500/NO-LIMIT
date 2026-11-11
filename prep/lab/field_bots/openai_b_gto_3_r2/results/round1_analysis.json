@@ -1,0 +1,608 @@
+{
+  "groups": {
+    "all": [
+      11522,
+      -80000.0,
+      -1347.248833333337
+    ],
+    "players_8": [
+      4534,
+      -11712.0,
+      -349.53749999999985
+    ],
+    "depth_deep": [
+      7321,
+      -42206.0,
+      -1067.103333333332
+    ],
+    "first_fold": [
+      8482,
+      -178610.0,
+      -1747.0
+    ],
+    "players_7": [
+      2654,
+      -24921.0,
+      -584.8866666666669
+    ],
+    "first_raise_facing_raise": [
+      216,
+      48833.0,
+      663.7149999999999
+    ],
+    "first_open": [
+      1649,
+      60996.0,
+      296.22016666666804
+    ],
+    "post_last_3_check_cat2": [
+      118,
+      19469.0,
+      294.475
+    ],
+    "first_call_raise": [
+      967,
+      -23723.0,
+      -631.3748333333339
+    ],
+    "post_last_3_check_cat1": [
+      201,
+      -4906.0,
+      41.68933333333333
+    ],
+    "post_last_1_raise_cat1": [
+      114,
+      38896.0,
+      367.2683333333332
+    ],
+    "post_last_3_fold_cat1": [
+      56,
+      -29098.0,
+      -437.61916666666673
+    ],
+    "post_last_2_raise_cat1": [
+      50,
+      21159.0,
+      311.0641666666666
+    ],
+    "post_last_1_fold_cat0": [
+      213,
+      -43719.0,
+      -509.6058333333325
+    ],
+    "depth_medium": [
+      3106,
+      -33391.0,
+      -322.95849999999905
+    ],
+    "players_6": [
+      1388,
+      -12770.0,
+      -192.46666666666667
+    ],
+    "players_5": [
+      1296,
+      1474.0,
+      -155.04250000000016
+    ],
+    "depth_short": [
+      1095,
+      -4403.0,
+      42.81300000000003
+    ],
+    "post_last_1_raise_cat0": [
+      46,
+      11537.0,
+      134.88000000000002
+    ],
+    "post_last_3_call_cat1": [
+      42,
+      -41778.0,
+      -487.5338333333334
+    ],
+    "post_last_3_raise_cat2": [
+      20,
+      9840.0,
+      177.17166666666665
+    ],
+    "post_last_1_raise_cat2": [
+      17,
+      6348.0,
+      61.166666666666664
+    ],
+    "post_last_3_fold_cat3": [
+      5,
+      -2293.0,
+      -21.41333333333333
+    ],
+    "post_last_3_check_cat0": [
+      83,
+      -7896.0,
+      -135.6291666666667
+    ],
+    "post_last_3_call_cat2": [
+      41,
+      -13706.0,
+      -211.88666666666668
+    ],
+    "players_4": [
+      750,
+      31236.0,
+      171.6774999999999
+    ],
+    "players_3": [
+      529,
+      -16912.0,
+      -77.48066666666664
+    ],
+    "post_last_3_fold_cat2": [
+      19,
+      -11667.0,
+      -251.63333333333333
+    ],
+    "players_2": [
+      371,
+      -46395.0,
+      -159.51233333333332
+    ],
+    "post_last_2_call_cat0": [
+      9,
+      1302.0,
+      -83.84416666666667
+    ],
+    "post_last_1_fold_cat1": [
+      108,
+      -21583.0,
+      -301.3349999999997
+    ],
+    "post_last_3_raise_cat4": [
+      13,
+      4720.0,
+      85.44
+    ],
+    "first_limp": [
+      43,
+      -3991.0,
+      -10.199166666666667
+    ],
+    "post_last_2_fold_cat1": [
+      48,
+      -13434.0,
+      -202.42333333333337
+    ],
+    "first_check": [
+      14,
+      634.0,
+      6.9399999999999995
+    ],
+    "post_last_2_raise_cat6": [
+      3,
+      1535.0,
+      36.196666666666665
+    ],
+    "post_last_1_call_cat1": [
+      7,
+      -3848.0,
+      -125.22250000000001
+    ],
+    "post_last_2_raise_cat2": [
+      35,
+      11261.0,
+      191.14000000000001
+    ],
+    "post_last_1_raise_cat3": [
+      26,
+      9493.0,
+      148.56916666666672
+    ],
+    "post_last_3_check_cat3": [
+      19,
+      3802.0,
+      44.400000000000006
+    ],
+    "post_last_2_raise_cat0": [
+      32,
+      10787.0,
+      155.75900000000001
+    ],
+    "post_last_2_fold_cat0": [
+      62,
+      -13488.0,
+      -235.52500000000003
+    ],
+    "post_last_3_call_cat7": [
+      1,
+      1689.0,
+      56.3
+    ],
+    "post_last_3_call_cat5": [
+      4,
+      2280.0,
+      3.382500000000002
+    ],
+    "post_last_3_raise_cat3": [
+      14,
+      3609.0,
+      -31.560000000000002
+    ],
+    "post_last_2_raise_cat3": [
+      20,
+      13388.0,
+      178.86083333333337
+    ],
+    "post_last_2_raise_cat4": [
+      14,
+      8944.0,
+      129.60333333333332
+    ],
+    "post_last_3_call_cat4": [
+      6,
+      3512.0,
+      4.959999999999996
+    ],
+    "post_last_3_check_cat5": [
+      9,
+      3758.0,
+      104.74666666666666
+    ],
+    "post_last_2_call_cat2": [
+      10,
+      -5167.0,
+      -114.33083333333335
+    ],
+    "post_last_3_raise_cat1": [
+      15,
+      5049.0,
+      42.18666666666666
+    ],
+    "post_last_2_call_cat1": [
+      19,
+      -23755.0,
+      -242.8478333333333
+    ],
+    "post_last_3_raise_cat0": [
+      17,
+      -601.0,
+      -84.03166666666667
+    ],
+    "post_last_2_raise_cat5": [
+      9,
+      6526.0,
+      104.1075
+    ],
+    "post_last_3_raise_cat6": [
+      6,
+      4496.0,
+      74.05333333333333
+    ],
+    "post_last_3_raise_cat5": [
+      6,
+      6524.0,
+      43.745
+    ],
+    "post_last_1_fold_cat2": [
+      6,
+      -792.0,
+      -19.979999999999997
+    ],
+    "post_last_3_fold_cat0": [
+      25,
+      -10745.0,
+      -152.655
+    ],
+    "post_last_3_call_cat3": [
+      8,
+      15227.0,
+      167.9975
+    ],
+    "post_last_2_fold_cat2": [
+      12,
+      -4073.0,
+      -47.489999999999995
+    ],
+    "post_last_3_check_cat6": [
+      5,
+      2138.0,
+      36.53333333333333
+    ],
+    "post_last_1_raise_cat6": [
+      1,
+      318.0,
+      2.65
+    ],
+    "post_last_1_call_cat2": [
+      2,
+      -3400.0,
+      -20.193333333333335
+    ],
+    "post_last_3_check_cat4": [
+      2,
+      -199.0,
+      9.133333333333333
+    ],
+    "post_last_3_call_cat6": [
+      3,
+      686.0,
+      31.408333333333335
+    ],
+    "post_last_2_call_cat4": [
+      2,
+      4066.0,
+      13.793333333333335
+    ],
+    "post_last_1_call_cat0": [
+      1,
+      -2402.0,
+      -20.016666666666666
+    ],
+    "post_last_3_call_cat0": [
+      4,
+      -11566.0,
+      -53.99766666666667
+    ],
+    "post_last_1_call_cat6": [
+      1,
+      1478.0,
+      12.316666666666666
+    ],
+    "post_last_2_call_cat3": [
+      2,
+      48.0,
+      -47.025
+    ],
+    "post_last_2_fold_cat3": [
+      3,
+      -986.0,
+      -14.375
+    ],
+    "post_last_2_call_cat5": [
+      1,
+      -3090.0,
+      -15.45
+    ]
+  },
+  "field": {
+    "openai_k_default_2": {
+      "actions": 4924,
+      "hands": 3318,
+      "vpip": 969,
+      "pfr": 571,
+      "post_actions": 1529,
+      "facing_bet": 504,
+      "fold_to_bet": 270,
+      "post_raise": 271,
+      "post_bet_pot_sum": 177.06552497628613
+    },
+    "claude_equity": {
+      "actions": 4293,
+      "hands": 3058,
+      "vpip": 1036,
+      "pfr": 890,
+      "post_actions": 1089,
+      "facing_bet": 340,
+      "fold_to_bet": 197,
+      "post_raise": 272,
+      "post_bet_pot_sum": 235.3087065971081
+    },
+    "openai_b_default_2": {
+      "actions": 5397,
+      "post_actions": 1872,
+      "facing_bet": 617,
+      "fold_to_bet": 324,
+      "hands": 3405,
+      "vpip": 1068,
+      "pfr": 555,
+      "post_raise": 340,
+      "post_bet_pot_sum": 221.62560856747783
+    },
+    "openai_a_iterate_3": {
+      "actions": 3999,
+      "hands": 3013,
+      "vpip": 646,
+      "pfr": 458,
+      "post_actions": 911,
+      "facing_bet": 279,
+      "fold_to_bet": 140,
+      "post_raise": 252,
+      "post_bet_pot_sum": 181.06774990598976
+    },
+    "openai_b_gto_3": {
+      "actions": 15904,
+      "hands": 11522,
+      "vpip": 2875,
+      "pfr": 1865,
+      "post_actions": 4157,
+      "post_raise": 682,
+      "post_bet_pot_sum": 462.1793761370229,
+      "facing_bet": 1404,
+      "fold_to_bet": 557
+    },
+    "claude_tuned": {
+      "actions": 4960,
+      "post_actions": 1163,
+      "facing_bet": 381,
+      "fold_to_bet": 178,
+      "hands": 3728,
+      "vpip": 867,
+      "pfr": 588,
+      "post_raise": 361,
+      "post_bet_pot_sum": 255.1684003824674
+    },
+    "claude_icm": {
+      "actions": 3789,
+      "post_actions": 781,
+      "facing_bet": 258,
+      "fold_to_bet": 138,
+      "hands": 2941,
+      "vpip": 682,
+      "pfr": 491,
+      "post_raise": 194,
+      "post_bet_pot_sum": 155.41547800439125
+    },
+    "claude_exploit": {
+      "actions": 3134,
+      "post_actions": 681,
+      "post_raise": 363,
+      "post_bet_pot_sum": 216.59181449543422,
+      "hands": 2418,
+      "vpip": 556,
+      "pfr": 383,
+      "facing_bet": 170,
+      "fold_to_bet": 91
+    },
+    "claude_default_d": {
+      "actions": 5072,
+      "hands": 3699,
+      "vpip": 1014,
+      "pfr": 621,
+      "post_actions": 1305,
+      "post_raise": 660,
+      "post_bet_pot_sum": 395.283042292819,
+      "facing_bet": 341,
+      "fold_to_bet": 179
+    },
+    "openai_a_icm_5": {
+      "actions": 2826,
+      "post_actions": 740,
+      "post_raise": 178,
+      "post_bet_pot_sum": 108.84963978814493,
+      "facing_bet": 221,
+      "fold_to_bet": 91,
+      "hands": 2043,
+      "vpip": 447,
+      "pfr": 324
+    },
+    "openai_a_equity_4": {
+      "actions": 4260,
+      "post_actions": 1556,
+      "post_raise": 341,
+      "post_bet_pot_sum": 234.10208080620774,
+      "facing_bet": 503,
+      "fold_to_bet": 245,
+      "hands": 2446,
+      "vpip": 931,
+      "pfr": 362
+    },
+    "openai_a_default_2": {
+      "actions": 4059,
+      "hands": 2910,
+      "vpip": 727,
+      "pfr": 450,
+      "post_actions": 1081,
+      "post_raise": 252,
+      "post_bet_pot_sum": 196.4905472609178,
+      "facing_bet": 356,
+      "fold_to_bet": 216
+    },
+    "claude_default_a": {
+      "actions": 3419,
+      "hands": 2935,
+      "vpip": 528,
+      "pfr": 499,
+      "post_actions": 435,
+      "post_raise": 138,
+      "post_bet_pot_sum": 94.7778883464084,
+      "facing_bet": 133,
+      "fold_to_bet": 55
+    },
+    "claude_aggro": {
+      "actions": 4438,
+      "hands": 2903,
+      "vpip": 1032,
+      "pfr": 709,
+      "post_actions": 1399,
+      "post_raise": 603,
+      "post_bet_pot_sum": 309.0588765616581,
+      "facing_bet": 359,
+      "fold_to_bet": 253
+    },
+    "claude_gto": {
+      "actions": 3426,
+      "hands": 2476,
+      "vpip": 605,
+      "pfr": 358,
+      "post_actions": 890,
+      "post_raise": 169,
+      "post_bet_pot_sum": 121.71221406934407,
+      "facing_bet": 304,
+      "fold_to_bet": 145
+    },
+    "claude_default_c": {
+      "actions": 4858,
+      "hands": 3806,
+      "vpip": 880,
+      "pfr": 715,
+      "post_actions": 935,
+      "post_raise": 499,
+      "post_bet_pot_sum": 327.578904532852,
+      "facing_bet": 266,
+      "fold_to_bet": 149
+    },
+    "openai_b_default_1": {
+      "actions": 4369,
+      "hands": 3122,
+      "vpip": 769,
+      "pfr": 517,
+      "post_actions": 1156,
+      "facing_bet": 390,
+      "fold_to_bet": 177,
+      "post_raise": 273,
+      "post_bet_pot_sum": 160.54392850039306
+    },
+    "ours": {
+      "actions": 4368,
+      "hands": 3470,
+      "vpip": 841,
+      "pfr": 631,
+      "post_actions": 843,
+      "post_raise": 554,
+      "post_bet_pot_sum": 247.65940580672452,
+      "facing_bet": 200,
+      "fold_to_bet": 109
+    },
+    "openai_a_default_1": {
+      "actions": 4853,
+      "hands": 3700,
+      "vpip": 820,
+      "pfr": 589,
+      "post_actions": 1059,
+      "facing_bet": 345,
+      "fold_to_bet": 202,
+      "post_raise": 241,
+      "post_bet_pot_sum": 133.8378110464386
+    },
+    "claude_default_b": {
+      "actions": 3768,
+      "hands": 2895,
+      "vpip": 719,
+      "pfr": 554,
+      "post_actions": 796,
+      "post_raise": 478,
+      "post_bet_pot_sum": 215.7573618337397,
+      "facing_bet": 165,
+      "fold_to_bet": 88
+    },
+    "claude_iterate": {
+      "actions": 4290,
+      "post_actions": 1166,
+      "hands": 3075,
+      "vpip": 759,
+      "pfr": 436,
+      "facing_bet": 354,
+      "fold_to_bet": 218,
+      "post_raise": 295,
+      "post_bet_pot_sum": 410.7988227080976
+    },
+    "openai_k_default_1": {
+      "actions": 2912,
+      "post_actions": 775,
+      "facing_bet": 256,
+      "fold_to_bet": 145,
+      "hands": 2104,
+      "vpip": 520,
+      "pfr": 319,
+      "post_raise": 166,
+      "post_bet_pot_sum": 102.47817489786584
+    }
+  }
+}

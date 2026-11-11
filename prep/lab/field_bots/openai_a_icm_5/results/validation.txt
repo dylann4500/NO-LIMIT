@@ -1,0 +1,7 @@
+Independent exact ICM comparisons: 640
+Bubble all-in thresholds: 0.6613 0.7788
+Shared royal-flush equity: passed
+Legal randomized SDK decisions: 10000 max memory: 368
+wall_us {'p50': 55.0, 'p99': 285.3, 'p999': 10463.0, 'max': 23436.6}
+cpu_us {'p50': 54.0, 'p99': 237.0, 'p999': 330.0, 'max': 372.0}
+Contribution and side-pot accounting: passed

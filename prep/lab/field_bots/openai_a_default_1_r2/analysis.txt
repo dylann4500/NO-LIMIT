@@ -1,0 +1,302 @@
+{
+ "all": {
+  "hands": 13347,
+  "chips": -112000,
+  "bb": -137.39633333333103,
+  "vpip": 3182,
+  "pfr": 2308,
+  "shows": 824
+ },
+ "players_8": {
+  "hands": 4559,
+  "chips": 7515,
+  "bb": 365.5699999999998,
+  "vpip": 1000,
+  "pfr": 731,
+  "shows": 229
+ },
+ "vpip_False": {
+  "hands": 10165,
+  "chips": -275422,
+  "bb": -2377.809166666667,
+  "vpip": 0,
+  "pfr": 0,
+  "shows": 10
+ },
+ "pfr_False": {
+  "hands": 11039,
+  "chips": -227642,
+  "bb": -2203.467333333334,
+  "vpip": 874,
+  "pfr": 0,
+  "shows": 322
+ },
+ "fold_0": {
+  "hands": 10387,
+  "chips": -355123,
+  "bb": -3365.748333333354,
+  "vpip": 387,
+  "pfr": 357,
+  "shows": 0
+ },
+ "allin_None": {
+  "hands": 12735,
+  "chips": -292519,
+  "bb": -2096.6033333333507,
+  "vpip": 2575,
+  "pfr": 1799,
+  "shows": 539
+ },
+ "show_False": {
+  "hands": 12523,
+  "chips": -234599,
+  "bb": -2344.378000000017,
+  "vpip": 2368,
+  "pfr": 1806,
+  "shows": 0
+ },
+ "fold_None": {
+  "hands": 2234,
+  "chips": 442051,
+  "bb": 5921.621333333326,
+  "vpip": 2076,
+  "pfr": 1623,
+  "shows": 824
+ },
+ "vpip_True": {
+  "hands": 3182,
+  "chips": 163422,
+  "bb": 2240.412833333323,
+  "vpip": 3182,
+  "pfr": 2308,
+  "shows": 814
+ },
+ "pfr_True": {
+  "hands": 2308,
+  "chips": 115642,
+  "bb": 2066.0709999999917,
+  "vpip": 2308,
+  "pfr": 2308,
+  "shows": 502
+ },
+ "pfr_players_8": {
+  "hands": 731,
+  "chips": 19580,
+  "bb": 825.9350000000013,
+  "vpip": 731,
+  "pfr": 731,
+  "shows": 140
+ },
+ "fold_3": {
+  "hands": 411,
+  "chips": -77820,
+  "bb": -1057.102333333332,
+  "vpip": 406,
+  "pfr": 165,
+  "shows": 0
+ },
+ "show_True": {
+  "hands": 824,
+  "chips": 122599,
+  "bb": 2206.981666666668,
+  "vpip": 814,
+  "pfr": 502,
+  "shows": 824
+ },
+ "players_7": {
+  "hands": 2814,
+  "chips": -710,
+  "bb": 33.10083333333318,
+  "vpip": 626,
+  "pfr": 465,
+  "shows": 136
+ },
+ "pfr_players_7": {
+  "hands": 465,
+  "chips": 24620,
+  "bb": 564.9700000000007,
+  "vpip": 465,
+  "pfr": 465,
+  "shows": 89
+ },
+ "players_6": {
+  "hands": 1930,
+  "chips": -11998,
+  "bb": -76.05750000000022,
+  "vpip": 441,
+  "pfr": 319,
+  "shows": 106
+ },
+ "pfr_players_6": {
+  "hands": 319,
+  "chips": 13691,
+  "bb": 236.27416666666642,
+  "vpip": 319,
+  "pfr": 319,
+  "shows": 70
+ },
+ "players_5": {
+  "hands": 1479,
+  "chips": -28966,
+  "bb": -135.97000000000008,
+  "vpip": 315,
+  "pfr": 212,
+  "shows": 97
+ },
+ "pfr_players_5": {
+  "hands": 212,
+  "chips": 21425,
+  "bb": 221.2624999999999,
+  "vpip": 212,
+  "pfr": 212,
+  "shows": 49
+ },
+ "fold_4": {
+  "hands": 197,
+  "chips": -69867,
+  "bb": -877.9329999999995,
+  "vpip": 196,
+  "pfr": 99,
+  "shows": 0
+ },
+ "players_4": {
+  "hands": 1456,
+  "chips": -52904,
+  "bb": -241.89433333333335,
+  "vpip": 306,
+  "pfr": 214,
+  "shows": 97
+ },
+ "allin_0": {
+  "hands": 540,
+  "chips": 118631,
+  "bb": 960.8313333333339,
+  "vpip": 535,
+  "pfr": 481,
+  "shows": 237
+ },
+ "pfr_players_4": {
+  "hands": 214,
+  "chips": 16191,
+  "bb": 109.0146666666667,
+  "vpip": 214,
+  "pfr": 214,
+  "shows": 49
+ },
+ "players_3": {
+  "hands": 707,
+  "chips": -22816,
+  "bb": -67.20866666666667,
+  "vpip": 242,
+  "pfr": 156,
+  "shows": 82
+ },
+ "allin_4": {
+  "hands": 35,
+  "chips": 41155,
+  "bb": 596.0898333333332,
+  "vpip": 35,
+  "pfr": 15,
+  "shows": 19
+ },
+ "fold_5": {
+  "hands": 118,
+  "chips": -51241,
+  "bb": -758.2339999999996,
+  "vpip": 117,
+  "pfr": 64,
+  "shows": 0
+ },
+ "pfr_players_3": {
+  "hands": 156,
+  "chips": 22797,
+  "bb": 109.8393333333333,
+  "vpip": 156,
+  "pfr": 156,
+  "shows": 45
+ },
+ "players_2": {
+  "hands": 402,
+  "chips": -2121,
+  "bb": -14.93666666666662,
+  "vpip": 252,
+  "pfr": 211,
+  "shows": 77
+ },
+ "hu_button_True": {
+  "hands": 206,
+  "chips": -20916,
+  "bb": -53.59266666666664,
+  "vpip": 191,
+  "pfr": 191,
+  "shows": 59
+ },
+ "pfr_players_2": {
+  "hands": 211,
+  "chips": -2662,
+  "bb": -1.2246666666666464,
+  "vpip": 211,
+  "pfr": 211,
+  "shows": 60
+ },
+ "hu_button_False": {
+  "hands": 196,
+  "chips": 18795,
+  "bb": 38.656000000000006,
+  "vpip": 61,
+  "pfr": 20,
+  "shows": 18
+ },
+ "allin_3": {
+  "hands": 23,
+  "chips": 15033,
+  "bb": 327.555,
+  "vpip": 23,
+  "pfr": 6,
+  "shows": 19
+ },
+ "allin_5": {
+  "hands": 14,
+  "chips": 5700,
+  "bb": 74.73083333333334,
+  "vpip": 14,
+  "pfr": 7,
+  "shows": 10
+ }
+}
+FIELD HU
+('openai_a_default_1', 2) {'hands': 402, 'vpip': 252, 'pfr': 211, 'bb': -14.93666666666662}
+('claude_default_c', 2) {'hands': 40, 'vpip': 22, 'pfr': 19, 'bb': -64.30533333333334}
+('openai_k_default_1', 2) {'hands': 28, 'vpip': 18, 'pfr': 11, 'bb': 37.608}
+('ours', 2) {'hands': 56, 'vpip': 41, 'pfr': 30, 'bb': 30.949666666666666}
+('openai_a_iterate_3', 2) {'hands': 40, 'vpip': 28, 'pfr': 17, 'bb': -18.276000000000003}
+('openai_b_gto_3', 2) {'hands': 15, 'vpip': 11, 'pfr': 8, 'bb': -19.844666666666665}
+('openai_k_default_2', 2) {'hands': 51, 'vpip': 36, 'pfr': 23, 'bb': 3.1393333333333366}
+('claude_default_b', 2) {'hands': 47, 'vpip': 29, 'pfr': 19, 'bb': 14.733333333333327}
+('openai_a_equity_4', 2) {'hands': 51, 'vpip': 48, 'pfr': 20, 'bb': 22.732333333333337}
+('claude_exploit', 2) {'hands': 25, 'vpip': 16, 'pfr': 13, 'bb': -5.118}
+('claude_icm', 2) {'hands': 6, 'vpip': 4, 'pfr': 3, 'bb': 7.044}
+('claude_tuned', 2) {'hands': 8, 'vpip': 6, 'pfr': 4, 'bb': -26.68}
+('claude_default_d', 2) {'hands': 16, 'vpip': 13, 'pfr': 7, 'bb': 20.866}
+('claude_aggro', 2) {'hands': 4, 'vpip': 2, 'pfr': 1, 'bb': 4.588}
+LOSSES
+{"table": "s1005i14t0", "hand": 5, "n": 8, "hole": ["3d", "Kd"], "board": ["5d", "Js", "Kh", "6d", "4s"], "delta": -2005, "bb": -100.25, "actions": [[0, "raise", 48, 78, null], [3, "raise", 69, 175, null], [4, "raise", 650, 1069, 2], [5, "call", 1238, 4020, 2]], "reveals": {"2": ["6s", "Ks"], "4": ["3d", "Kd"]}, "names": {"0": "openai_a_icm_5", "1": "openai_b_default_2", "2": "openai_a_default_2", "3": "openai_k_default_1", "4": "openai_a_default_1", "5": "claude_default_b", "6": "claude_default_a", "7": "claude_exploit"}, "stacks": {"0": 2000, "1": 2005, "2": 2005, "3": 2000, "4": 2174, "5": 2020, "6": 1826, "7": 1970}}
+{"table": "s1005i9t1", "hand": 1, "n": 8, "hole": ["Ks", "Ts"], "board": ["Jc", "Qc", "Ad", "5h", "Kc"], "delta": -2000, "bb": -100.0, "actions": [[0, "call", 34, 108, 5], [3, "raise", 87, 219, null], [3, "raise", 1956, 2419, 5]], "reveals": {"0": ["Ks", "Ts"], "5": ["Ac", "7c"]}, "names": {"0": "openai_a_default_1", "1": "openai_k_default_2", "2": "claude_tuned", "3": "openai_a_icm_5", "4": "claude_default_b", "5": "openai_a_default_2", "6": "claude_icm", "7": "openai_b_default_2"}, "stacks": {"7": 2000, "0": 2000, "1": 2000, "2": 2000, "3": 2000, "4": 2000, "5": 2000, "6": 2000}}
+{"table": "s1003i2t0", "hand": 14, "n": 8, "hole": ["Kd", "Kh"], "board": ["Ts", "3s", "Qh", "7h", "3c"], "delta": -1947, "bb": -97.35, "actions": [[0, "raise", 48, 78, null], [0, "raise", 613, 811, 2], [0, "call", 1334, 3924, 2]], "reveals": {"1": ["Kd", "Kh"], "2": ["Ac", "Ad"]}, "names": {"0": "openai_k_default_2", "1": "openai_a_default_1", "2": "ours", "3": "claude_default_a", "4": "claude_equity", "5": "claude_gto", "6": "claude_iterate", "7": "openai_k_default_1"}, "stacks": {"4": 2128, "5": 1940, "6": 1988, "7": 1900, "0": 337, "1": 3940, "2": 1947, "3": 1820}}
+{"table": "s1005i6t1", "hand": 3, "n": 8, "hole": ["As", "Kc"], "board": ["6h", "Kd", "Kh", "4s", "8c"], "delta": -1897, "bb": -94.85, "actions": [[0, "raise", 48, 78, null], [3, "raise", 308, 500, 3], [4, "raise", 1541, 2855, 3]], "reveals": {"3": ["Ks", "8s"], "7": ["As", "Kc"]}, "names": {"0": "openai_a_default_2", "1": "claude_default_c", "2": "openai_b_default_1", "3": "openai_a_icm_5", "4": "claude_default_b", "5": "openai_a_equity_4", "6": "claude_iterate", "7": "openai_a_default_1"}, "stacks": {"1": 1970, "2": 2113, "3": 2000, "4": 2000, "5": 2030, "6": 2000, "7": 1897, "0": 1990}}
+{"table": "s1002i8t1", "hand": 10, "n": 7, "hole": ["4c", "4s"], "board": ["Ad", "Js", "4h", "8h", "Td"], "delta": -1840, "bb": -92.0, "actions": [[0, "call", 46, 122, 1], [3, "call", 1794, 3746, 7]], "reveals": {"6": ["4c", "4s"], "7": ["Jd", "Jh"]}, "names": {"0": "openai_k_default_1", "1": "claude_tuned", "2": "claude_exploit", "3": "openai_b_default_2", "4": "openai_a_default_2", "5": "openai_a_iterate_3", "6": "openai_a_default_1", "7": "claude_iterate"}, "stacks": {"6": 1943, "7": 1840, "0": 1780, "1": 4139, "3": 2234, "4": 2072, "5": 1992}}
+{"table": "s1003i4t0", "hand": 31, "n": 8, "hole": ["6h", "Qh"], "board": ["Th", "6d", "7h", "4d", "5h"], "delta": -2094, "bb": -69.8, "actions": [[0, "call", 38, 151, 7], [3, "raise", 51, 202, null], [4, "check", null, 253, null], [4, "call", 167, 587, 7], [5, "raise", 387, 974, null], [5, "call", 1421, 4420, 7]], "reveals": {"7": ["Jh", "Ah"], "1": ["6h", "Qh"]}, "names": {"0": "claude_default_b", "1": "openai_a_default_1", "2": "claude_equity", "3": "claude_tuned", "4": "claude_aggro", "5": "openai_b_default_1", "6": "claude_exploit", "7": "openai_a_equity_4"}, "stacks": {"7": 2311, "0": 1116, "1": 2094, "2": 2740, "3": 1314, "4": 2683, "5": 1450, "6": 2292}}
+{"table": "s1000i10t1", "hand": 22, "n": 8, "hole": ["Ad", "7s"], "board": ["7h", "7c", "8c", "5c", "3c"], "delta": -1909, "bb": -63.63333333333333, "actions": [[0, "raise", 72, 117, null], [3, "raise", 124, 313, null], [4, "raise", 288, 725, null], [4, "call", 591, 2195, 0], [5, "check", null, 2195, null], [5, "call", 834, 4093, 0]], "reveals": {"0": ["5h", "5s"], "4": ["Ad", "7s"]}, "names": {"0": "claude_aggro", "1": "openai_k_default_2", "2": "openai_b_gto_3", "3": "openai_b_default_1", "4": "openai_a_default_1", "5": "openai_a_iterate_3", "6": "openai_b_default_2", "7": "claude_default_d"}, "stacks": {"0": 2139, "1": 2367, "2": 1980, "3": 2133, "4": 1909, "5": 1781, "6": 1906, "7": 1785}}
+{"table": "s1002i12t1", "hand": 33, "n": 8, "hole": ["Ac", "Kh"], "board": ["4c", "3c", "7s", "7h", "Qh"], "delta": -1889, "bb": -62.96666666666667, "actions": [[0, "raise", 293, 443, 3], [0, "call", 1596, 3853, 3]], "reveals": {"7": ["Ac", "Kh"], "3": ["Kd", "Ks"]}, "names": {"0": "claude_icm", "1": "openai_a_default_2", "2": "claude_default_c", "3": "claude_equity", "4": "openai_b_gto_3", "5": "ours", "6": "openai_b_default_2", "7": "openai_a_default_1"}, "stacks": {"5": 2279, "6": 2097, "7": 2210, "0": 1765, "1": 1717, "2": 2063, "3": 1889, "4": 1980}}
+{"table": "s1003i6t0", "hand": 27, "n": 8, "hole": ["5h", "5d"], "board": ["8c", "5c", "Ts", "Js", "Kc"], "delta": -1692, "bb": -56.4, "actions": [[0, "raise", 72, 117, null], [3, "raise", 262, 473, 7], [4, "call", 225, 1133, 7], [5, "call", 1133, 3399, 7]], "reveals": {"7": ["Jc", "6c"], "1": ["5h", "5d"]}, "names": {"0": "openai_a_iterate_3", "1": "openai_a_default_1", "2": "claude_tuned", "3": "claude_aggro", "4": "openai_b_default_2", "5": "claude_default_a", "6": "openai_b_gto_3", "7": "claude_default_b"}, "stacks": {"5": 1775, "6": 1936, "7": 2238, "0": 1745, "1": 2121, "2": 1793, "3": 1621, "4": 2771}}
+{"table": "s1001i7t0", "hand": 45, "n": 8, "hole": ["Qh", "Qd"], "board": ["4h", "2s", "2d", "4d", "9d"], "delta": -2246, "bb": -44.92, "actions": [[0, "raise", 456, 631, 4], [0, "call", 1790, 4542, 4]], "reveals": {"1": ["Qh", "Qd"], "4": ["Ah", "Ac"]}, "names": {"0": "claude_default_b", "1": "openai_a_default_1", "2": "openai_a_iterate_3", "3": "openai_k_default_1", "4": "claude_default_c", "5": "openai_k_default_2", "6": "claude_gto", "7": "openai_a_icm_5"}, "stacks": {"0": 3012, "1": 2276, "2": 2594, "3": 1645, "4": 2246, "5": 1284, "6": 1707, "7": 1236}}
+{"table": "s1001i8t1", "hand": 9, "n": 8, "hole": ["Ah", "As"], "board": ["3d", "4d", "Th", "2s", "Qd"], "delta": -703, "bb": -35.15, "actions": [[0, "raise", 150, 230, 7], [3, "call", 177, 684, 7], [4, "call", 376, 1436, 7], [5, "fold", null, 2733, 7]], "reveals": {}, "names": {"0": "openai_a_default_1", "1": "openai_a_icm_5", "2": "openai_b_default_1", "3": "ours", "4": "claude_iterate", "5": "claude_icm", "6": "claude_default_a", "7": "claude_default_c"}, "stacks": {"4": 1970, "5": 1554, "6": 2489, "7": 2000, "0": 1922, "1": 1927, "2": 2016, "3": 2122}}
+{"table": "s1006i12t2", "hand": 4, "n": 8, "hole": ["Kc", "Qh"], "board": ["2s", "Kd", "9s", "6d", "2d"], "delta": -681, "bb": -34.05, "actions": [[0, "call", 44, 118, 0], [3, "call", 84, 286, 0], [4, "call", 205, 696, 0], [5, "call", 348, 1392, 0]], "reveals": {"0": ["Ac", "As"], "2": ["Kc", "Qh"]}, "names": {"0": "openai_b_default_2", "1": "claude_default_d", "2": "openai_a_default_1", "3": "openai_k_default_2", "4": "openai_a_default_2", "5": "openai_b_gto_3", "6": "claude_gto", "7": "openai_b_default_1"}, "stacks": {"4": 1970, "5": 1980, "6": 2152, "7": 2054, "0": 2000, "1": 2000, "2": 1898, "3": 1946}}
+{"table": "s1001i4t0", "hand": 51, "n": 7, "hole": ["Kc", "Ac"], "board": ["8h", "Kh", "4d", "Qd", "Qs"], "delta": -1555, "bb": -31.1, "actions": [[0, "raise", 456, 631, 1], [0, "call", 1099, 3160, 1]], "reveals": {"4": ["Kc", "Ac"], "1": ["4s", "4h"]}, "names": {"0": "claude_equity", "1": "claude_icm", "2": "claude_gto", "3": "claude_default_d", "4": "openai_a_default_1", "5": "openai_b_default_2", "6": "claude_exploit", "7": "openai_b_gto_3"}, "stacks": {"3": 1642, "4": 3519, "5": 606, "7": 1542, "0": 4711, "1": 1555, "2": 2425}}
+{"table": "s1004i7t2", "hand": 62, "n": 7, "hole": ["Ks", "As"], "board": ["7c", "Qc", "3s", "5h", "7s"], "delta": -2486, "bb": -31.075, "actions": [[0, "raise", 654, 1158, 6], [0, "call", 1832, 5284, 6]], "reveals": {"1": ["Ks", "As"], "6": ["Qs", "Qh"]}, "names": {"0": "claude_equity", "1": "openai_a_default_1", "2": "claude_gto", "3": "openai_a_iterate_3", "4": "openai_a_default_2", "5": "claude_iterate", "6": "claude_aggro", "7": "openai_b_default_2"}, "stacks": {"1": 3043, "2": 707, "3": 3672, "4": 1735, "6": 2486, "7": 2133, "0": 2224}}
+{"table": "s1001i3t2", "hand": 21, "n": 8, "hole": ["9c", "9d"], "board": ["Ah", "9h", "Qd", "2h", "Kh"], "delta": -894, "bb": -29.8, "actions": [[0, "raise", 72, 117, null], [3, "raise", 357, 644, 6], [4, "call", 465, 1860, 6], [5, "fold", null, 2914, 6]], "reveals": {}, "names": {"0": "openai_a_equity_4", "1": "claude_aggro", "2": "openai_a_default_1", "3": "openai_b_gto_3", "4": "ours", "5": "openai_b_default_2", "6": "claude_iterate", "7": "claude_default_d"}, "stacks": {"4": 1836, "5": 2974, "6": 1948, "7": 2245, "0": 1225, "1": 2101, "2": 1724, "3": 1947}}
+{"table": "s1007i5t1", "hand": 51, "n": 7, "hole": ["Qs", "As"], "board": ["9h", "8h", "Tc", "Js", "4c"], "delta": -1343, "bb": -26.86, "actions": [[0, "raise", 120, 195, null], [3, "raise", 90, 355, null], [4, "call", 320, 1085, 6], [5, "call", 813, 2711, 6]], "reveals": {"6": ["Kh", "Qd"], "1": ["Qs", "As"]}, "names": {"0": "claude_gto", "1": "openai_a_default_1", "2": "claude_aggro", "3": "openai_a_default_2", "4": "claude_icm", "5": "claude_default_a", "6": "openai_b_default_2", "7": "openai_a_iterate_3"}, "stacks": {"4": 1211, "5": 2134, "6": 3008, "7": 1417, "1": 1900, "2": 2150, "3": 4180}}
+{"table": "s1007i6t1", "hand": 45, "n": 4, "hole": ["4s", "As"], "board": ["Ah", "6s", "7d", "5d"], "delta": -1331, "bb": -26.62, "actions": [[0, "raise", 120, 170, null], [3, "raise", 115, 355, null], [3, "call", 399, 1268, 0], [4, "raise", 697, 1965, null], [4, "fold", null, 5757, 0]], "reveals": {}, "names": {"0": "ours", "1": "openai_a_equity_4", "2": "claude_default_a", "3": "claude_iterate", "4": "openai_b_default_1", "5": "claude_aggro", "6": "claude_default_b", "7": "openai_a_default_1"}, "stacks": {"4": 5661, "7": 4060, "0": 4426, "2": 1853}}
+{"table": "s1000i4t1", "hand": 67, "n": 7, "hole": ["Qs", "Qc"], "board": ["5c", "9c", "2s", "Th", "3s"], "delta": -2031, "bb": -25.3875, "actions": [[0, "raise", 2214, 2718, 6]], "reveals": {"1": ["Qs", "Qc"], "6": ["Ad", "As"]}, "names": {"0": "claude_default_a", "1": "openai_a_default_1", "2": "openai_b_default_2", "3": "openai_a_equity_4", "4": "ours", "5": "claude_exploit", "6": "claude_tuned", "7": "openai_b_gto_3"}, "stacks": {"0": 4731, "1": 2214, "2": 1240, "3": 2605, "4": 1405, "6": 2031, "7": 1774}}
+{"table": "s1002i5t0", "hand": 78, "n": 8, "hole": ["Qc", "Qs"], "board": ["9h", "3c", "4d", "Jc", "8c"], "delta": -2011, "bb": -25.1375, "actions": [[0, "raise", 528, 824, 4], [0, "call", 1483, 4142, 4]], "reveals": {"4": ["Kd", "Kh"], "5": ["Qc", "Qs"]}, "names": {"0": "openai_b_gto_3", "1": "claude_default_d", "2": "claude_default_c", "3": "claude_exploit", "4": "claude_equity", "5": "openai_a_default_1", "6": "openai_a_default_2", "7": "claude_gto"}, "stacks": {"0": 3823, "1": 1951, "2": 1426, "3": 2376, "4": 2011, "5": 2372, "6": 1303, "7": 738}}
+{"table": "s1005i0t2", "hand": 40, "n": 8, "hole": ["Kd", "Ad"], "board": ["7c", "4h", "Jc", "Kc", "Jh"], "delta": -721, "bb": -24.033333333333335, "actions": [[0, "raise", 72, 117, null], [3, "raise", 64, 253, null], [4, "raise", 209, 526, null], [4, "call", 376, 1487, 5]], "reveals": {"4": ["Kd", "Ad"], "5": ["Ac", "6c"]}, "names": {"0": "openai_a_iterate_3", "1": "openai_b_default_2", "2": "claude_iterate", "3": "claude_equity", "4": "openai_a_default_1", "5": "openai_a_default_2", "6": "claude_aggro", "7": "openai_a_equity_4"}, "stacks": {"6": 2334, "7": 417, "0": 2099, "1": 2712, "2": 2523, "3": 2076, "4": 3118, "5": 721}}

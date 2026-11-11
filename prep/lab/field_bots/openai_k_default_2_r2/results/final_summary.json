@@ -1,0 +1,17 @@
+{
+  "tables": 3000,
+  "sdk_decisions": 2749605,
+  "failed": {},
+  "all_uploads_passed": true,
+  "maximum_returned_memory_bytes": 1117,
+  "runs": [
+    "head_to_head_1000_final.json",
+    "mixed_1000_final.json",
+    "pressure_field_500_final.json",
+    "slowed_mixed_500_final.json"
+  ],
+  "runtime_sha256": {
+    "agent.py": "f26b09b2617cc4ee616ac07f214a738d00f8ef5a8500fd86ee6b3ea221a81077",
+    "preflop.pkl": "892896727075a25855b6114551e87ab9531b60e222eff8372fde44d45195c794"
+  }
+}

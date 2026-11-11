@@ -1,0 +1,16 @@
+{
+  "name": "openai_k_equity_4",
+  "python": "3.12.13",
+  "agent_sha256": "e08473c59d70ec52f465f0c6a04d8c5351079122534c3ee28be8bba6cf17a5b1",
+  "equity_sha256": "869364b0208cfad60c727b0270d4ef09157deaec6630f1893428e1740e82757f",
+  "decision_ms": 1,
+  "slowdown_factor": 2.5,
+  "slowdown_clock": "thread CPU time",
+  "runs": {
+    "final_default_500": 20261106,
+    "final_slow_200": 876,
+    "final_mostly_self_100": 781,
+    "final_maniacs_100": 782,
+    "final_folders_50": 783
+  }
+}

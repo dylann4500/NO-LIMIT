@@ -1,0 +1,341 @@
+--- lab/field_bots/openai_k_default_1/agent.py	2026-11-06 12:12:32
++++ lab/field_bots/openai_k_default_1_r2/agent.py	2026-11-06 12:34:49
+@@ -13,7 +13,6 @@
+ import time
+ 
+ import eval7
+-import numpy as np
+ import poker_agent_sdk
+ from poker_agent_sdk import Action
+ 
+@@ -57,12 +56,6 @@
+ 
+ _BANKS, _NATIVE = _make_banks()
+ del _DATA
+-_MODEL_PATH = os.path.join(os.path.dirname(__file__), "equity_model.npz")
+-if os.path.exists(_MODEL_PATH):
+-    with np.load(_MODEL_PATH) as _npz:
+-        _MODEL = tuple(_npz[k] for k in ("mean", "scale", "w0", "b0", "w1", "b1", "w2", "b2"))
+-else:
+-    _MODEL = None
+ 
+ 
+ def _kind(k):
+@@ -99,16 +92,16 @@
+     if blob:
+         try:
+             m = pickle.loads(blob)
+-            if m.get("v") != 2:
++            if m.get("v") != 3:
+                 m = None
+         except Exception:
+             m = None
+     else:
+         m = None
+     if m is None:
+-        m = {"v": 2, "s": {}, "live": {}, "h": None}
++        m = {"v": 3, "s": {}, "live": {}, "h": None}
+         for s in state.seats:
+-            m["s"][s.seat] = [0] * 15
++            m["s"][s.seat] = [0] * 21
+             m["live"][s.seat] = _kind(s.status) != "busted"
+     stats = m["s"]
+     h = m["h"]
+@@ -121,7 +114,7 @@
+                  "bb": None, "sb": None, "bl": 0}
+             for seat, live in m["live"].items():
+                 if live:
+-                    stats.setdefault(seat, [0] * 15)[0] += 1
++                    stats.setdefault(seat, [0] * 21)[0] += 1
+             continue
+         if k == "stack":
+             m["live"][sid] = bool(e.amount)
+@@ -136,13 +129,13 @@
+             continue
+         if k in ("win", "show"):
+             if k == "show" and sid != state.seat and e.cards and len(e.cards) == 2:
+-                st = stats.setdefault(sid, [0] * 15)
++                st = stats.setdefault(sid, [0] * 21)
+                 st[12] += 1
+                 st[13] += _PCT.get(_class(*e.cards), 0.5)
+             continue
+         if sid is None:
+             continue
+-        st = stats.setdefault(sid, [0] * 15)
++        st = stats.setdefault(sid, [0] * 21)
+         p = h["p"].setdefault(sid, _new_player())
+         street = h["st"]
+         amount = int(e.amount or 0)
+@@ -226,6 +219,8 @@
+                 st[7] += 1
+             if facing > 0:
+                 st[11] += 1
++                st[15 + street * 2] += 1
++                st[16 + street * 2] += k == "fold"
+     if h is None or h["n"] != state.hand_number:
+         h = {"n": state.hand_number, "st": max(0, len(state.board) - 2), "p": {},
+              "b": list(state.board), "pot": state.pot, "bets": {}, "invest": {}, "mx": 0,
+@@ -285,6 +280,19 @@
+             return _clamp((prof[0] * 0.8 + 0.04) * (0.5 if called_raise >= 2 else 1), 0.08, 0.8)
+         return _clamp(prof[0] * 1.4 + 0.08, 0.2, 0.95)
+     return 1.0
++
++
++def _fold_probability(st, street, prof):
++    """Shrink table-local responses toward the observed field's street rates."""
++    if prof[4]:
++        return 0.08
++    if prof[5]:
++        return 0.95
++    prior = (0.48, 0.54, 0.65)[street]
++    if len(st) < 21:
++        return prior
++    faced, folded = st[15 + 2 * street:17 + 2 * street]
++    return (prior * 7 + folded) / (7 + faced)
+ 
+ 
+ def _icm(stacks, hero, payouts):
+@@ -404,91 +412,19 @@
+     _, _, a, b, sa, sb = combo
+     suits, straight = board
+     return straight[a * 13 + b] or suits[sa] + 1 + (sa == sb) == 4 or suits[sb] + 1 + (sa == sb) == 4
+-
+-
+-def _equity_features(hero, board, idx, hp, prof):
+-    """Suit-invariant, rank-aware inputs for the optional fast range surrogate."""
+-    bi = [_INFO[str(c)] for c in board]
+-    hi = sorted((_INFO[str(c)] for c in hero),
+-                key=lambda c: (c[0], sum(s == c[1] for r, s in bi)), reverse=True)
+-    a, b = sorted((hi[0][0], hi[1][0]), reverse=True)
+-    key = _class(str(hero[0]), str(hero[1]))
+-    features = [a / 12, b / 12, (a - b) / 12, float(a == b), float(hi[0][1] == hi[1][1]),
+-                _PCT[key], _EQUITY[key][idx], _FRACS[idx], math.log(_FRACS[idx]) / 4,
+-                prof[2], prof[3], float(prof[4])]
+-    # Board texture and the exact native made-hand encoding on every street.
+-    for street in range(3):
+-        length = 3 + street
+-        if length > len(board):
+-            features.extend([0.0] * 73)
+-            continue
+-        bc = bi[:length]
+-        br = [r for r, s in bc]
+-        sc = [0, 0, 0, 0]
+-        rc = [0] * 13
+-        rankmask = 0
+-        for r, s in bc:
+-            rc[r] += 1
+-            sc[s] += 1
+-            rankmask |= 1 << r
+-        value = eval7.evaluate(hero + board[:length])
+-        category = value >> 24
+-        code, size = hp[4][street], hp[5][street]
+-        row = [1.0]
+-        row.extend(float(category == k) for k in range(9))
+-        row.extend(((value >> shift) & 15) / 12 for shift in (16, 12, 8, 4, 0))
+-        row.extend([max(br) / 12, min(br) / 12, sum(br) / (12 * length),
+-                    len(set(br)) / length, max(rc) / 4, max(sc) / 5,
+-                    sc[hi[0][1]] / 5, sc[hi[1][1]] / 5,
+-                    rc[a] / 3, rc[b] / 3, float(a > max(br)), float(b > max(br)),
+-                    sum(r < a for r in br) / length, sum(r < b for r in br) / length,
+-                    float(any(rc[r] >= 2 and r > a for r in range(13))),
+-                    float(a == max(br)), float(b == max(br)),
+-                    float(bool(code & 8)), float(bool(code & 4)), float(bool(code & 2)),
+-                    min(2.0, size) / 2,
+-                    float(_STRAIGHT_DRAWS[rankmask * 169 + a * 13 + b]) if length < 5 else 0.0,
+-                    float(sc[hi[0][1]] + 1 + (hi[0][1] == hi[1][1]) == 4),
+-                    float(sc[hi[1][1]] + 1 + (hi[0][1] == hi[1][1]) == 4),
+-                    float(hi[0][0] == 12 and sc[hi[0][1]] >= 2)])
+-        row.extend(float(r in br) for r in range(13))
+-        row.extend((r + 1) / 13 for r in (sorted(br, reverse=True) + [-1] * (5 - length)))
+-        dom = max(range(4), key=lambda s: (sc[s], max((r for r, suit in bc if suit == s), default=-1)))
+-        flushranks = sorted((r for r, s in bc if s == dom), reverse=True)
+-        row.extend((r + 1) / 13 for r in (flushranks + [-1] * 3)[:3])
+-        windows = [((rankmask & (31 << j)).bit_count(), j + 4) for j in range(9)]
+-        windows.append(((rankmask & 0x100F).bit_count(), 3))
+-        row.extend([max(c for c, r in windows) / 5,
+-                    (max((r for c, r in windows if c >= 3), default=-1) + 1) / 13,
+-                    (max((r for c, r in windows if c >= 4), default=-1) + 1) / 13,
+-                    sum(c >= 3 for c, r in windows) / 10,
+-                    float(hi[0][1] == dom), float(hi[1][1] == dom)])
+-        boardvalue = eval7.evaluate(board[:length]) if length == 5 else 0
+-        row.extend([(boardvalue >> 24) / 8] + [((boardvalue >> shift) & 15) / 12 for shift in (16, 12, 8, 4, 0)])
+-        features.extend(row)
+-    return features
+-
+ 
+-def _model_equity(hero, board, idx, hp, prof):
+-    mean, scale, w0, b0, w1, b1, w2, b2 = _MODEL
+-    x = (np.asarray(_equity_features(hero, board, idx, hp, prof), dtype=np.float32) - mean) * scale
+-    x = np.maximum(x @ w0 + b0, 0)
+-    x = np.maximum(x @ w1 + b1, 0)
+-    z = float((x @ w2 + b2)[0])
+-    return 1.0 / (1.0 + math.exp(-_clamp(z, -20, 20)))
+ 
+-
+ def _posterior_eq(state, m, sid, hero, board, limit=160, rollouts=384):
+-    """Bayesian range likelihood on two streets, then native rollout equity."""
++    """Bayesian likelihood on up to three streets, then native equity."""
+     hp = m["h"]["p"].get(sid, _new_player())
+     prof = _profile(m["s"].get(sid, [0] * 15), hp)
+     idx = _range_index(_prior_fraction(sid, m))
+     history = hp[4]
+-    evidence = [i for i in range(min(3, len(board) - 2)) if history[i] & 14]
++    evidence = [i for i in range(min(3, len(board) - 2)) if history[i]]
+     low_bank = state is not None and state.time_bank_ms < max(10, (state.config.time_bank_ms or 0) * 0.5)
+-    if state is not None and _MODEL is not None and evidence and not prof[4]:
+-        category = eval7.evaluate(hero + board) >> 24
+-        if category <= 2:
+-            return _model_equity(hero, board, idx, hp, prof)
++    # Native evaluation incorporates checks, all three streets, and the much
++    # stronger reraising ranges observed in round one. The old neural model was
++    # trained on different likelihoods and must not be used with this model.
+     if prof[4] or not evidence:
+         rr = _NATIVE[idx]
+         if len(board) == 5:
+@@ -501,7 +437,7 @@
+         limit = min(limit, 48)
+         rollouts = min(rollouts, 192)
+     else:
+-        evidence = evidence[-2:]
++        evidence = evidence[-3:]
+         if state is not None:
+             limit = min(limit, 128)
+     dead = hero[0].mask | hero[1].mask
+@@ -531,27 +467,34 @@
+         code, size = history[street], hp[5][street]
+         ag = prof[2]
+         if code & 12:
+-            width = (0.19 + 0.63 * ag) * (1.0 - 0.15 * street)
++            width = (0.22 + 0.65 * ag) * (1.0 - 0.18 * street)
+             if size > 0.55:
+                 width /= 1.0 + 0.35 * (size - 0.55)
+             if code & 8:
+-                width *= 0.48
+-            width = _clamp(width, 0.07, 0.9)
+-            bluff = 0.035 + 0.22 * ag ** 3
++                width *= 0.20 if street == 0 else 0.15
++            width = _clamp(width, 0.035, 0.92)
++            bluff = 0.035 + 0.20 * ag ** 3
+             if code & 8:
+-                bluff *= 0.65
+-        else:
++                bluff *= 0.18 if street == 0 else 0.08
++        elif code & 2:
+             width = _clamp(0.82 - size * 0.55 + (0.4 - prof[3]) * 0.3, 0.22, 0.9)
+             bluff = 0.02
++        else:
++            # A free check by a frequent bettor caps their range. In round one
++            # ignoring checks left prior callers implausibly strong forever.
++            width = _clamp(0.25 + ag * 0.35, 0.25, 0.60)
++            bluff = 0.85
+         cutoff = ordered[min(len(ordered) - 1, int((1 - width) * len(ordered)))]
+         soft = ordered[min(len(ordered) - 1, int(max(0, 0.7 - width) * len(ordered)))]
+         for j, (combo, value) in enumerate(zip(candidates, scores)):
+-            if value >= cutoff:
++            if not code & 14:
++                likelihood = (0.72 - 0.64 * ag) if value >= cutoff else 0.86
++            elif value >= cutoff:
+                 likelihood = 0.88
+             elif street < 2 and _draw(combo, info):
+-                likelihood = 0.65 if size < 0.8 else 0.4
++                likelihood = (0.24 if code & 8 else 0.65) if size < 0.8 else (0.14 if code & 8 else 0.4)
+             elif value >= soft:
+-                likelihood = 0.24
++                likelihood = 0.045 if code & 8 else 0.24
+             else:
+                 likelihood = bluff
+             weights[j] *= likelihood
+@@ -639,10 +582,10 @@
+     profiles = {s.seat: _profile(m["s"].get(s.seat, [0] * 15), h["p"].get(s.seat)) for s in opponents}
+     rocks = sum(p[5] for p in profiles.values())
+     # Opening ranges by players yet to act; short-handed play widens naturally.
+-    opens = [0.75, 0.49, 0.39, 0.30, 0.25, 0.21, 0.18, 0.16]
++    opens = [0.82, 0.58, 0.45, 0.34, 0.28, 0.23, 0.20, 0.18]
+     open_fraction = opens[min(7, later)]
+     if len(live) == 2:
+-        open_fraction = 0.86
++        open_fraction = 0.92
+     if h["sb"] == state.seat and len(live) > 2:
+         open_fraction = 0.60
+     open_fraction += 0.07 * rocks
+@@ -718,7 +661,7 @@
+             return ("call", 0) if eq >= threshold + 0.012 else ("fold", 0)
+         if "raise" in legal and depth <= 15 and eq > 0.52 + risk:
+             return "raise", total
+-    premium = eq >= (0.615 + risk * 0.7) and pct < (0.09 if not prof[4] else 0.28)
++    premium = eq >= ((0.59 if h["nr"] == 1 else 0.615) + risk * 0.7) and pct < (0.105 if not prof[4] else 0.28)
+     if "raise" in legal and premium:
+         size = maxbet * (2.8 if later == 0 else 3.25) + callers * maxbet * 0.6
+         if size >= effective * 0.32 or depth < 18:
+@@ -779,10 +722,10 @@
+             4 if x & 8 else 2 if x & 4 else 1 if x & 2 else 0 for x in p[4]) - 3 * profiles[s.seat][4]
+     ranked = sorted(opponents, key=priority, reverse=True)
+     keyopp = ranked[0]
+-    eq = _posterior_eq(state, m, keyopp.seat, hero, board, 192 if street == 2 else 144)
++    eq = _posterior_eq(state, m, keyopp.seat, hero, board, 160 if street == 2 else 104)
+     n = len(opponents)
+     if n > 1:
+-        eq2 = _posterior_eq(state, m, ranked[1].seat, hero, board, 80)
++        eq2 = _posterior_eq(state, m, ranked[1].seat, hero, board, 64)
+         prod = eq * eq2 ** (n - 1)
+         correlated = min(eq, eq2) ** (1.0 + 0.65 * (n - 1))
+         eq = 0.72 * prod + 0.28 * correlated
+@@ -808,16 +751,6 @@
+         if not in_position and street < 2 and cost < me.stack * 0.5:
+             future_tax += 0.012
+         threshold += future_tax + 0.008 * (n - 1)
+-        # Spend a little of the spare budget on expensive, close decisions.
+-        # Native evaluation remains authoritative for these rather than a
+-        # potentially consequential approximation near the calling boundary.
+-        hp = h["p"].get(keyopp.seat, _new_player())
+-        if (_MODEL is not None and n == 1 and cat <= 2 and not prof[4] and
+-                any(c & 14 for c in hp[4][:street + 1]) and abs(eq - threshold) < 0.075 and
+-                cost > pot * 0.12 and state.time_bank_ms >= 50 and
+-                time.perf_counter_ns() < deadline - 110000):
+-            exact = _posterior_eq(None, m, keyopp.seat, hero, board, 128, 768)
+-            eq = 0.85 * exact + 0.15 * eq
+         if eq < threshold:
+             return "fold", 0
+         if "raise" in legal:
+@@ -864,23 +797,26 @@
+         own_p = h["p"].get(state.seat, _new_player())
+         pfa = h["last"] == state.seat if not any(p[4][0] & 12 for p in h["p"].values()) else own_p[1] > 0
+         highboard = max(_INFO[c][0] for c in state.board) >= 10
+-        foldchance = math.prod(profiles[s.seat][3] for s in can_contest)
++        foldchance = math.prod(_fold_probability(m["s"].get(s.seat, (0,) * 21), street, profiles[s.seat]) for s in can_contest)
+         if street == 0:
+             chance = 0.0
+             if pfa and (highboard or not wet) and n == 1:
+-                chance = 0.65 if in_position else 0.45
++                chance = 0.85 if in_position else 0.58
+             if outs >= 8:
+                 chance = max(chance, 0.8 if nutdraw else 0.55)
+             if in_position and all(not h["p"].get(s.seat, _new_player())[4][0] & 14 for s in can_contest):
+-                chance = max(chance, 0.42)
++                chance = max(chance, 0.68)
+             if noise < chance and (eq > 0.23 or foldchance > 0.5):
+                 return "raise", int(me.bet + max(bb, pot * (0.48 if wet else 0.33)))
+         elif street == 1 and outs >= 8 and n == 1 and noise < 0.65 and prof[3] > 0.3:
+             return "raise", int(me.bet + max(bb, pot * 0.60))
+-        elif street == 2 and n == 1 and not made and eq < 0.22 and in_position:
++        elif (street == 1 and n == 1 and in_position and eq < 0.60 and foldchance > 0.47
++              and not h["p"].get(keyopp.seat, _new_player())[4][street] & 14 and noise < 0.58):
++            return "raise", int(me.bet + max(bb, pot * 0.45))
++        elif street == 2 and n == 1 and eq < 0.32 and in_position:
+             blocker = any(c[0] == "A" for c in state.cards)
+-            if noise < (0.22 if blocker else 0.09) and prof[3] > 0.36:
+-                return "raise", int(me.bet + max(bb, pot * 0.66))
++            if noise < (0.82 if blocker else 0.67) and foldchance > 0.46:
++                return "raise", int(me.bet + max(bb, pot * 0.52))
+     return "check", 0
+ 
+ 
+@@ -889,7 +825,7 @@
+ 
+     Keep the old memory unchanged: the emergency policy reads only accumulated
+     opponent statistics, never a potentially outdated hand ledger. No rollouts,
+-    range filtering, neural inference or ICM recursion run on this path.
++    range filtering or ICM recursion run on this path.
+     """
+     try:
+         stats = pickle.loads(blob).get("s", {}) if blob else {}

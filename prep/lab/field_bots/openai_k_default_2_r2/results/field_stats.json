@@ -1,0 +1,243 @@
+{
+  "teams": {
+    "claude_icm": {
+      "post_actions": 1491,
+      "post_bets": 410,
+      "shown_bets": 109,
+      "shown_weak_bets": 21
+    },
+    "claude_exploit": {
+      "post_actions": 770,
+      "post_bets": 408,
+      "shown_bets": 125,
+      "shown_weak_bets": 82
+    },
+    "openai_b_default_2": {
+      "post_actions": 1734,
+      "post_bets": 312,
+      "shown_bets": 98,
+      "shown_weak_bets": 18
+    },
+    "1_other_large": {
+      "faced": 3742,
+      "fold": 2129,
+      "raise": 199,
+      "call": 1414
+    },
+    "claude_tuned": {
+      "post_actions": 1169,
+      "post_bets": 400,
+      "shown_weak_bets": 39,
+      "shown_bets": 100
+    },
+    "openai_a_iterate_3": {
+      "post_actions": 1608,
+      "post_bets": 413,
+      "shown_bets": 128,
+      "shown_weak_bets": 36
+    },
+    "openai_k_default_2": {
+      "post_actions": 6007,
+      "post_bets": 1058,
+      "shown_weak_bets": 53,
+      "shown_bets": 239
+    },
+    "1_other_small": {
+      "faced": 2136,
+      "fold": 797,
+      "raise": 119,
+      "call": 1220
+    },
+    "2_other_large": {
+      "faced": 1897,
+      "call": 789,
+      "fold": 1027,
+      "raise": 81
+    },
+    "3_other_large": {
+      "faced": 943,
+      "fold": 705,
+      "call": 206,
+      "raise": 32
+    },
+    "1_self_large": {
+      "faced": 458,
+      "fold": 257,
+      "call": 173,
+      "raise": 28
+    },
+    "2_self_large": {
+      "faced": 366,
+      "call": 116,
+      "fold": 238,
+      "raise": 12
+    },
+    "3_self_large": {
+      "faced": 211,
+      "fold": 157,
+      "call": 52,
+      "raise": 2
+    },
+    "openai_b_gto_3": {
+      "post_actions": 1479,
+      "post_bets": 246,
+      "shown_bets": 61,
+      "shown_weak_bets": 18
+    },
+    "claude_equity": {
+      "post_actions": 1683,
+      "post_bets": 431,
+      "shown_bets": 115,
+      "shown_weak_bets": 29
+    },
+    "2_other_small": {
+      "faced": 594,
+      "fold": 203,
+      "call": 355,
+      "raise": 36
+    },
+    "3_other_small": {
+      "faced": 347,
+      "call": 178,
+      "fold": 154,
+      "raise": 15
+    },
+    "openai_a_default_1": {
+      "post_actions": 1592,
+      "post_bets": 385,
+      "shown_bets": 122,
+      "shown_weak_bets": 41
+    },
+    "claude_gto": {
+      "post_actions": 1659,
+      "post_bets": 348,
+      "shown_weak_bets": 19,
+      "shown_bets": 102
+    },
+    "openai_k_default_1": {
+      "post_actions": 1671,
+      "post_bets": 338,
+      "shown_bets": 81,
+      "shown_weak_bets": 16
+    },
+    "claude_default_b": {
+      "post_actions": 1046,
+      "post_bets": 643,
+      "shown_weak_bets": 118,
+      "shown_bets": 211
+    },
+    "claude_default_c": {
+      "post_actions": 1365,
+      "post_bets": 750,
+      "shown_bets": 172,
+      "shown_weak_bets": 67
+    },
+    "openai_a_icm_5": {
+      "post_actions": 1466,
+      "post_bets": 328,
+      "shown_bets": 82,
+      "shown_weak_bets": 22
+    },
+    "openai_a_default_2": {
+      "post_actions": 1356,
+      "post_bets": 294,
+      "shown_bets": 83,
+      "shown_weak_bets": 23
+    },
+    "claude_default_d": {
+      "post_actions": 923,
+      "post_bets": 491,
+      "shown_bets": 131,
+      "shown_weak_bets": 54
+    },
+    "openai_a_equity_4": {
+      "post_actions": 2287,
+      "post_bets": 436,
+      "shown_bets": 103,
+      "shown_weak_bets": 15
+    },
+    "1_self_small": {
+      "faced": 63,
+      "fold": 27,
+      "raise": 8,
+      "call": 28
+    },
+    "claude_iterate": {
+      "post_actions": 1303,
+      "post_bets": 319,
+      "shown_bets": 106,
+      "shown_weak_bets": 32
+    },
+    "2_self_small": {
+      "faced": 9,
+      "call": 7,
+      "fold": 2
+    },
+    "openai_b_default_1": {
+      "post_actions": 1552,
+      "post_bets": 365,
+      "shown_weak_bets": 34,
+      "shown_bets": 103
+    },
+    "ours": {
+      "post_actions": 1161,
+      "post_bets": 733,
+      "shown_weak_bets": 134,
+      "shown_bets": 283
+    },
+    "claude_default_a": {
+      "post_actions": 409,
+      "post_bets": 140,
+      "shown_bets": 34,
+      "shown_weak_bets": 10
+    },
+    "claude_aggro": {
+      "post_actions": 1781,
+      "post_bets": 750,
+      "shown_bets": 232,
+      "shown_weak_bets": 125
+    },
+    "3_self_small": {
+      "faced": 4,
+      "fold": 2,
+      "call": 2
+    }
+  },
+  "revealed_bets": {
+    "1_bet": {
+      "shown": 1333,
+      "medium": 469,
+      "strong": 229,
+      "weak": 635
+    },
+    "1_raise": {
+      "shown": 155,
+      "medium": 52,
+      "strong": 99,
+      "weak": 4
+    },
+    "2_bet": {
+      "shown": 800,
+      "strong": 280,
+      "weak": 258,
+      "medium": 262
+    },
+    "3_bet": {
+      "shown": 438,
+      "weak": 106,
+      "strong": 223,
+      "medium": 109
+    },
+    "2_raise": {
+      "shown": 70,
+      "strong": 54,
+      "medium": 13,
+      "weak": 3
+    },
+    "3_raise": {
+      "shown": 24,
+      "strong": 20,
+      "medium": 4
+    }
+  }
+}

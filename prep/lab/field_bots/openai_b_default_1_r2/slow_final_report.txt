@@ -1,0 +1,90 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 200,
+ "results": {
+  "min_raiser": {
+   "mean_points": 0.62,
+   "se": 0.28,
+   "seats": 2,
+   "places_1_to_8": [
+    5,
+    0,
+    0,
+    7,
+    20,
+    56,
+    179,
+    133
+   ]
+  },
+  "check_or_fold": {
+   "mean_points": 5.6,
+   "se": 0.49,
+   "seats": 2,
+   "places_1_to_8": [
+    0,
+    18,
+    85,
+    148,
+    123,
+    26,
+    0,
+    0
+   ]
+  },
+  "self": {
+   "mean_points": 21.89,
+   "se": 0.7,
+   "seats": 4,
+   "places_1_to_8": [
+    195,
+    182,
+    115,
+    45,
+    57,
+    136,
+    70,
+    0
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 134247,
+ "failed": {},
+ "latency_us": {
+  "p50": 76.4,
+  "p99": 380.8,
+  "p99.9": 492.1,
+  "max": 1089.6,
+  "over_1ms": 2
+ },
+ "memory_bytes_max": 2202,
+ "timing_probe": {
+  "decisions": 134257,
+  "cpu_us": {
+   "p50": 76.0,
+   "p99": 378.0,
+   "max": 932.0,
+   "over_1ms": 0
+  },
+  "thread_cpu_us": {
+   "p99": 378.458,
+   "max": 930.292,
+   "over_1ms": 0
+  },
+  "wall_us": {
+   "p99": 379.583,
+   "max": 1083.417
+  },
+  "over_cpu_examples": []
+ },
+ "seed": 659,
+ "agent_sha256": "4ae6ecb63a0a8242991c7d2ebd011ecab55af9460fbef109040af6d3f4bc74fa",
+ "cpu_scale": 2.5,
+ "exception_guard_disabled": true
+}

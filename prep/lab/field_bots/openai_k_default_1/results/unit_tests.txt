@@ -1,0 +1,9 @@
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 0.206s
+
+OK
+
+360 multi-street decisions: {'cpu_us_p50': 13.2, 'cpu_us_p99': 367.8, 'cpu_us_max': 485.2, 'max_cpu_at_2_5x_ms': 1.213}
+
+2500 randomized decisions: {'cpu_us_p50': 16.0, 'cpu_us_p99': 203.9, 'cpu_us_max': 256.5, 'wall_us_p99': 209.8, 'memory_bytes_max': 699}

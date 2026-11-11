@@ -1,0 +1,91 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {
+   "timeout": 1
+  },
+  "crash": null,
+  "pass": true
+ },
+ "tables": 150,
+ "results": {
+  "balanced": {
+   "mean_points": 10.7,
+   "se": 1.03,
+   "seats": 2,
+   "places_1_to_8": [
+    40,
+    19,
+    32,
+    31,
+    45,
+    46,
+    53,
+    34
+   ]
+  },
+  "loose": {
+   "mean_points": 6.37,
+   "se": 0.89,
+   "seats": 2,
+   "places_1_to_8": [
+    28,
+    9,
+    12,
+    21,
+    32,
+    44,
+    66,
+    88
+   ]
+  },
+  "self": {
+   "mean_points": 19.31,
+   "se": 1.09,
+   "seats": 2,
+   "places_1_to_8": [
+    55,
+    69,
+    49,
+    45,
+    27,
+    30,
+    15,
+    10
+   ]
+  },
+  "tight": {
+   "mean_points": 13.62,
+   "se": 0.96,
+   "seats": 2,
+   "places_1_to_8": [
+    27,
+    53,
+    57,
+    53,
+    46,
+    30,
+    18,
+    16
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 173133,
+ "failed": {
+  "timeout": 213
+ },
+ "latency_us": {
+  "p50": 42.9,
+  "p99": 3579.7,
+  "p99.9": 45021.8,
+  "max": 252908.1,
+  "over_1ms": 2190
+ },
+ "memory_bytes_max": 2013,
+ "first_errors": [
+  "('timeout', \"seat 7 hand 73 cards ['Jd', 'Ah'] board ['3d', 'Kc', 'Ks', 'Qd'] pot 832 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 80, 2627)] button 7 seats [(0, 0, 0, 'busted'), (1, 689, 0, 'active'), (2, 3905, 0, 'active'), (3, 4954, 0, 'folded'), (4, 0, 0, 'busted'), (5, 0, 0, 'busted'), (6, 2993, 0, 'active'), (7, 2627, 0, 'active')] events 5 memory_in b'\\\\xfb\\\\xda\\\\x03ids[\\\\x",
+  "('timeout', \"seat 4 hand 1 cards ['Ah', '9d'] board ['6s', '8d', '6c', '7d', 'Qc'] pot 208 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 20, 1948)] button 2 seats [(0, 1948, 0, 'active'), (1, 1948, 0, 'active'), (2, 2000, 0, 'folded'), (3, 1948, 0, 'active'), (4, 1948, 0, 'active'), (5, 2000, 0, 'folded'), (6, 2000, 0, 'folded'), (7, 2000, 0, 'folded')] events 5 memory_in b'\\\\xfb\\\\",
+  "('timeout', \"seat 4 hand 99 cards ['As', 'Ah'] board [] pot 180 to_call 120 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 240, 10417)] button 5 seats [(0, 0, 0, 'busted'), (1, 1241, 60, 'active'), (2, 2032, 120, 'active'), (3, 0, 0, 'busted'), (4, 10417, 0, 'active'), (5, 2130, 0, 'active'), (6, 0, 0, 'busted'), (7, 0, 0, 'busted')] events 11 memory_in b'\\\\xfb\\\\xda\\\\x"
+ ]
+}

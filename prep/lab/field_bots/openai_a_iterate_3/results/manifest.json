@@ -1,0 +1,16 @@
+{
+  "agent_sha256": "815c5a732dc05a9771c878226562da32d10f9d9da8bdbe62d30f5efbb38404e2",
+  "preflop_sha256": "e5fc84e6f4d8eea81f198da356b8dfeb4b3365acba6f469e7a4ec71d8ac85d2f",
+  "python": "3.12.13 (main, Mar  3 2026, 12:39:30) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "completed_utc": "2026-11-06T19:39:33Z",
+  "upload_seeds": 30,
+  "upload_passes": 30,
+  "sequential_repeat_completed_utc": "2026-11-06T19:42:47Z",
+  "primary_reports": [
+    "final_default.json",
+    "final_slow_2_5x.json",
+    "final_raisers.json",
+    "final_folders.json",
+    "upload_sweep.json"
+  ]
+}

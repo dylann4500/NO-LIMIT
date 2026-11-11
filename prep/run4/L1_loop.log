@@ -1,0 +1,4 @@
+round 0: defender tuned_blend.json: exploiter at a table of 7 defenders gym 83.53 top3 41.30; defender itself 32.23 (fair 31.9); trained in 200s
+round 1: defender tuned_robust1.json: exploiter at a table of 7 defenders gym 53.17 top3 24.19; defender itself 31.59 (fair 31.9); trained in 278s
+round 2: defender tuned_robust2.json: exploiter at a table of 7 defenders gym 64.78 top3 31.05; defender itself 32.03 (fair 31.9); trained in 352s
+round 3: defender tuned_robust3.json: exploiter at a table of 7 defenders gym 44.93 top3 21.13; defender itself 31.64 (fair 31.9); trained in 299s

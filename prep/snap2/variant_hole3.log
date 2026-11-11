@@ -1,0 +1,12 @@
+== variant=hole3 table_from=- field=typical
+  tuned    top3:  26.85±0.40  steep:  54.65±0.74  linear:   5.02±0.04  
+  default  top3:  18.24±0.39  steep:  39.38±0.71  linear:   4.19±0.04  
+  tag      top3:  18.33±0.35  steep:  37.94±0.61  linear:   4.29±0.04  
+  nit      top3:  18.77±0.30  steep:  36.90±0.48  linear:   4.64±0.03  
+  fold     top3:  16.57±0.22  steep:  31.96±0.24  linear:   4.88±0.02  
+== variant=hole3 table_from=- field=holdout
+  tuned    top3:  23.73±0.39  steep:  48.85±0.72  linear:   4.82±0.04  
+  default  top3:  16.76±0.38  steep:  36.25±0.68  linear:   4.05±0.04  
+  tag      top3:  17.48±0.35  steep:  36.52±0.62  linear:   4.24±0.04  
+  nit      top3:  18.09±0.29  steep:  35.70±0.46  linear:   4.63±0.03  
+  fold     top3:  17.53±0.20  steep:  32.50±0.22  linear:   4.97±0.01  

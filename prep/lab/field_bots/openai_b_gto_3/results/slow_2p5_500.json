@@ -1,0 +1,73 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 500,
+ "results": {
+  "min_raiser": {
+   "mean_points": 1.25,
+   "se": 0.25,
+   "seats": 2,
+   "places_1_to_8": [
+    25,
+    0,
+    0,
+    21,
+    49,
+    98,
+    408,
+    399
+   ]
+  },
+  "self": {
+   "mean_points": 21.16,
+   "se": 0.45,
+   "seats": 4,
+   "places_1_to_8": [
+    475,
+    442,
+    266,
+    102,
+    184,
+    346,
+    183,
+    2
+   ]
+  },
+  "check_or_fold": {
+   "mean_points": 6.42,
+   "se": 0.32,
+   "seats": 2,
+   "places_1_to_8": [
+    0,
+    58,
+    235,
+    376,
+    267,
+    64,
+    0,
+    0
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 314592,
+ "failed": {
+  "timeout": 2
+ },
+ "latency_us": {
+  "p50": 70.5,
+  "p99": 1218.1,
+  "p99.9": 12842.3,
+  "max": 174164.0,
+  "over_1ms": 3492
+ },
+ "memory_bytes_max": 1285,
+ "first_errors": [
+  "('timeout', \"seat 6 hand 27 cards ['Kd', 'Th'] board ['Ks', '6c', 'As', 'Qc'] pot 349 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 30, 3512)] button 2 seats [(0, 0, 0, 'busted'), (1, 2262, 0, 'folded'), (2, 1855, 0, 'folded'), (3, 4062, 0, 'folded'), (4, 0, 0, 'busted'), (5, 2095, 0, 'active'), (6, 3512, 0, 'active'), (7, 1865, 0, 'folded')] events 3 memory_in b'\\\\x80\\\\x04\\\\x95{\\\\",
+  "('timeout', \"seat 4 hand 53 cards ['3s', '5h'] board [] pot 195 to_call 120 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 190, 2450)] button 4 seats [(0, 1735, 0, 'folded'), (1, 6632, 120, 'active'), (2, 1783, 0, 'folded'), (3, 0, 0, 'busted'), (4, 2450, 0, 'active'), (5, 1600, 25, 'active'), (6, 1605, 50, 'active'), (7, 0, 0, 'busted')] events 15 memory_in b'\\\\x80\\\\x"
+ ]
+}

@@ -1,0 +1,64 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 1000,
+ "results": {
+  "self": {
+   "mean_points": 14.69,
+   "se": 0.3,
+   "seats": 4,
+   "places_1_to_8": [
+    628,
+    534,
+    568,
+    539,
+    500,
+    473,
+    398,
+    360
+   ]
+  },
+  "baseline": {
+   "mean_points": 10.31,
+   "se": 0.26,
+   "seats": 4,
+   "places_1_to_8": [
+    372,
+    466,
+    432,
+    461,
+    500,
+    527,
+    603,
+    639
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 1061966,
+ "failed": {
+  "timeout": 13
+ },
+ "latency_us": {
+  "p50": 37.3,
+  "p99": 520.5,
+  "p99.9": 19919.3,
+  "max": 125008.8,
+  "over_1ms": 6372
+ },
+ "memory_bytes_max": 695,
+ "first_errors": [
+  "('timeout', 'seat 5 hand 86 cards [\\'6s\\', \\'6h\\'] board [\\'4s\\', \\'7h\\', \\'Ac\\'] pot 1188 to_call 246 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0)] button 4 seats [(0, 2217, 0, \\'folded\\'), (1, 2957, 528, \\'active\\'), (2, 3386, 0, \\'folded\\'), (3, 0, 0, \\'busted\\'), (4, 3626, 0, \\'folded\\'), (5, 246, 0, \\'active\\'), (6, 1474, 0, \\'folded\\'), (7, 906, 0, \\'folded\\')] events 2 memory_in ",
+  "('timeout', 'seat 7 hand 88 cards [\\'2s\\', \\'Kh\\'] board [] pot 180 to_call 120 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 240, 3446)] button 1 seats [(0, 2023, 0, \\'active\\'), (1, 1607, 0, \\'active\\'), (2, 3011, 60, \\'active\\'), (3, 3463, 120, \\'active\\'), (4, 0, 0, \\'busted\\'), (5, 2270, 0, \\'folded\\'), (6, 0, 0, \\'busted\\'), (7, 3446, 0, \\'active\\')] events 21 m",
+  "('timeout', 'seat 7 hand 108 cards [\\'3h\\', \\'9d\\'] board [] pot 750 to_call 250 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 700, 2156)] button 3 seats [(0, 3930, 450, \\'active\\'), (1, 0, 0, \\'busted\\'), (2, 3431, 0, \\'folded\\'), (3, 3873, 0, \\'folded\\'), (4, 0, 0, \\'busted\\'), (5, 2060, 100, \\'folded\\'), (6, 0, 0, \\'busted\\'), (7, 1956, 200, \\'active\\')] events 25 "
+ ],
+ "failures_by_bot": {
+  "self": 1,
+  "baseline": 4
+ },
+ "failures_unattributed": 8
+}

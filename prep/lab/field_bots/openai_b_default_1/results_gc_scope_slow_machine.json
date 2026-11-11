@@ -1,0 +1,117 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 200,
+ "results": {
+  "min_raiser": {
+   "mean_points": 1.25,
+   "se": 0.39,
+   "seats": 2,
+   "places_1_to_8": [
+    10,
+    0,
+    0,
+    6,
+    14,
+    62,
+    184,
+    124
+   ]
+  },
+  "check_or_fold": {
+   "mean_points": 7.33,
+   "se": 0.54,
+   "seats": 2,
+   "places_1_to_8": [
+    0,
+    29,
+    103,
+    132,
+    109,
+    27,
+    0,
+    0
+   ]
+  },
+  "self": {
+   "mean_points": 20.71,
+   "se": 0.71,
+   "seats": 4,
+   "places_1_to_8": [
+    190,
+    171,
+    97,
+    62,
+    77,
+    127,
+    76,
+    0
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 133677,
+ "failed": {
+  "timeout": 20
+ },
+ "latency_us": {
+  "p50": 128.8,
+  "p99": 6760.8,
+  "p99.9": 22626.1,
+  "max": 98694.1,
+  "over_1ms": 2686
+ },
+ "memory_bytes_max": 2034,
+ "first_errors": [
+  "('timeout', \"seat 7 hand 94 cards ['7s', '6s'] board [] pot 444 to_call 204 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 408, 9137)] button 5 seats [(0, 0, 0, 'busted'), (1, 0, 0, 'busted'), (2, 485, 120, 'active'), (3, 0, 0, 'busted'), (4, 775, 0, 'folded'), (5, 5219, 264, 'active'), (6, 0, 0, 'busted'), (7, 9077, 60, 'active')] events 24 memory_in b'\\\\xfb\\\\xda\\\\x01",
+  "('timeout', \"seat 7 hand 135 cards ['2d', 'Ad'] board ['Ts', 'Kh', 'Jd'] pot 1230 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 300, 6033)] button 7 seats [(0, 0, 0, 'busted'), (1, 0, 0, 'busted'), (2, 0, 0, 'busted'), (3, 0, 0, 'busted'), (4, 0, 0, 'busted'), (5, 8737, 0, 'active'), (6, 0, 0, 'busted'), (7, 6033, 0, 'active')] events 4 memory_in b'\\\\xfb\\\\xda\\\\x01v\\\\xe9\\\\x04\\\\x00\\\\",
+  "('timeout', \"seat 6 hand 200 cards ['6c', '5c'] board [] pot 750 to_call 250 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 1000, 4592)] button 6 seats [(0, 0, 0, 'busted'), (1, 0, 0, 'busted'), (2, 0, 0, 'busted'), (3, 0, 0, 'busted'), (4, 10908, 500, 'active'), (5, 0, 0, 'busted'), (6, 4342, 250, 'active'), (7, 0, 0, 'busted')] events 7 memory_in b'\\\\xfb\\\\xda\\\\x01v\\\\"
+ ],
+ "timing_probe": {
+  "decisions": 133687,
+  "cpu_us": {
+   "p50": 126.0,
+   "p99": 573.0,
+   "max": 4325.0,
+   "over_1ms": 3
+  },
+  "wall_us": {
+   "p99": 6667.917,
+   "max": 98690.292
+  },
+  "over_cpu_examples": [
+   {
+    "cpu_us": 1073.0,
+    "wall_us": 8979.958,
+    "hand": 5,
+    "board_n": 3,
+    "events_n": 3,
+    "memory_n": 1578
+   },
+   {
+    "cpu_us": 4325.0,
+    "wall_us": 14073.166,
+    "hand": 10,
+    "board_n": 3,
+    "events_n": 4,
+    "memory_n": 1602
+   },
+   {
+    "cpu_us": 2788.0,
+    "wall_us": 8604.292,
+    "hand": 10,
+    "board_n": 3,
+    "events_n": 4,
+    "memory_n": 1626
+   }
+  ]
+ },
+ "seed": 631,
+ "agent_sha256": "5e863281475892ded204ba2260d589f9e33b72ba3e866aa1cfac40b4589241aa",
+ "cpu_scale": 2.5,
+ "exception_guard_disabled": true
+}

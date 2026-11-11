@@ -1,0 +1,74 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 500,
+ "results": {
+  "check_or_fold": {
+   "mean_points": 10.66,
+   "se": 0.37,
+   "seats": 2,
+   "places_1_to_8": [
+    0,
+    116,
+    359,
+    382,
+    137,
+    6,
+    0,
+    0
+   ]
+  },
+  "self": {
+   "mean_points": 19.12,
+   "se": 0.47,
+   "seats": 4,
+   "places_1_to_8": [
+    478,
+    384,
+    141,
+    90,
+    311,
+    376,
+    217,
+    3
+   ]
+  },
+  "min_raiser": {
+   "mean_points": 1.1,
+   "se": 0.23,
+   "seats": 2,
+   "places_1_to_8": [
+    22,
+    0,
+    0,
+    28,
+    52,
+    120,
+    402,
+    376
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 262760,
+ "failed": {
+  "timeout": 5
+ },
+ "latency_us": {
+  "p50": 56.4,
+  "p99": 508.5,
+  "p99.9": 16634.4,
+  "max": 125923.5,
+  "over_1ms": 1717
+ },
+ "memory_bytes_max": 1435,
+ "first_errors": [
+  "('timeout', 'seat 5 hand 43 cards [\\'4d\\', \\'9d\\'] board [] pot 162 to_call 62 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 174, 2256)] button 2 seats [(0, 0, 0, \\'busted\\'), (1, 0, 0, \\'busted\\'), (2, 1680, 0, \\'folded\\'), (3, 4617, 112, \\'active\\'), (4, 0, 0, \\'busted\\'), (5, 2206, 50, \\'active\\'), (6, 1730, 0, \\'folded\\'), (7, 5605, 0, \\'folded\\')] events 17 memor",
+  "('timeout', 'seat 5 hand 44 cards [\\'Kc\\', \\'6s\\'] board [\\'3h\\', \\'6c\\', \\'Th\\', \\'6d\\'] pot 822 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 50, 1820)] button 3 seats [(0, 0, 0, \\'busted\\'), (1, 0, 0, \\'busted\\'), (2, 1680, 0, \\'folded\\'), (3, 4393, 0, \\'active\\'), (4, 0, 0, \\'busted\\'), (5, 1820, 0, \\'active\\'), (6, 1680, 0, \\'folded\\'), (7, 5605, 0, \\'folded\\')] events 3 memor",
+  "('timeout', 'seat 5 hand 44 cards [\\'Kc\\', \\'6s\\'] board [\\'3h\\', \\'6c\\', \\'Th\\', \\'6d\\'] pot 1644 to_call 822 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 1644, 1820)] button 3 seats [(0, 0, 0, \\'busted\\'), (1, 0, 0, \\'busted\\'), (2, 1680, 0, \\'folded\\'), (3, 3571, 822, \\'active\\'), (4, 0, 0, \\'busted\\'), (5, 1820, 0, \\'active\\'), (6, 1680, 0, \\'folded\\'), (7, 5605,"
+ ]
+}

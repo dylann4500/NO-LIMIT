@@ -1,0 +1,59 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 1000,
+ "results": {
+  "baseline": {
+   "mean_points": 10.4,
+   "se": 0.26,
+   "seats": 4,
+   "places_1_to_8": [
+    364,
+    495,
+    428,
+    451,
+    472,
+    545,
+    595,
+    650
+   ]
+  },
+  "self": {
+   "mean_points": 14.6,
+   "se": 0.3,
+   "seats": 4,
+   "places_1_to_8": [
+    636,
+    505,
+    572,
+    549,
+    528,
+    456,
+    404,
+    350
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 1059130,
+ "failed": {
+  "timeout": 5
+ },
+ "latency_us": {
+  "p50": 36.7,
+  "p99": 514.5,
+  "p99.9": 11748.2,
+  "max": 79879.3,
+  "over_1ms": 6443
+ },
+ "memory_bytes_max": 694,
+ "first_errors": [
+  "('timeout', 'seat 5 hand 95 cards [\\'Ks\\', \\'Js\\'] board [\\'2d\\', \\'9d\\', \\'8s\\'] pot 910 to_call 250 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 500, 4005)] button 4 seats [(0, 0, 0, \\'busted\\'), (1, 4451, 0, \\'folded\\'), (2, 1600, 250, \\'active\\'), (3, 3540, 0, \\'folded\\'), (4, 1494, 0, \\'folded\\'), (5, 4005, 0, \\'active\\'), (6, 0, 0, \\'busted\\'), (7, 0, 0, \\'bust",
+  "('timeout', 'seat 5 hand 110 cards [\\'Ts\\', \\'9s\\'] board [\\'Jd\\', \\'Kd\\', \\'8d\\'] pot 1100 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 200, 3755)] button 4 seats [(0, 0, 0, \\'busted\\'), (1, 2517, 0, \\'folded\\'), (2, 1210, 0, \\'folded\\'), (3, 4770, 0, \\'folded\\'), (4, 2648, 0, \\'active\\'), (5, 3755, 0, \\'active\\'), (6, 0, 0, \\'busted\\'), (7, 0, 0, \\'busted\\')] events 3 memory_in ",
+  "('timeout', 'seat 5 hand 122 cards [\\'6d\\', \\'Jd\\'] board [\\'Jc\\', \\'7s\\', \\'Ah\\', \\'Ts\\'] pot 2734 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 300, 5255)] button 4 seats [(0, 0, 0, \\'busted\\'), (1, 0, 0, \\'busted\\'), (2, 0, 0, \\'busted\\'), (3, 2803, 0, \\'active\\'), (4, 5208, 0, \\'folded\\'), (5, 5255, 0, \\'active\\'), (6, 0, 0, \\'busted\\'), (7, 0, 0, \\'busted\\')] events 3 memory_i"
+ ]
+}

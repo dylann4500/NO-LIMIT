@@ -1,0 +1,9 @@
+{
+  "decisions": 156177,
+  "cpu_us_p50": 57.9,
+  "cpu_us_p99": 283.6,
+  "cpu_us_p99_9": 362.1,
+  "cpu_us_max": 488.6,
+  "over_400us": 39,
+  "at_2_5x_cpu_ms_max": 1.221
+}

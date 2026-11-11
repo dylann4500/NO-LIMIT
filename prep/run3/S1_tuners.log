@@ -1,0 +1,20 @@
+cem seed 1: used 40500 tables in 44s, 9 steps
+cem seed 2: used 40500 tables in 44s, 9 steps
+cem seed 3: used 40500 tables in 45s, 9 steps
+cma seed 1: used 42000 tables in 53s, 20 steps
+cma seed 2: used 42000 tables in 53s, 20 steps
+cma seed 3: used 42000 tables in 55s, 20 steps
+paired seed 1: used 42450 tables in 97s, 17 steps
+paired seed 2: used 42450 tables in 99s, 17 steps
+paired seed 3: used 42450 tables in 100s, 17 steps
+spsa seed 1: used 40200 tables in 149s, 13 steps
+spsa seed 2: used 40200 tables in 151s, 13 steps
+spsa seed 3: used 40200 tables in 150s, 13 steps
+halving seed 1: used 42120 tables in 64s, 13 steps
+halving seed 2: used 42120 tables in 63s, 13 steps
+halving seed 3: used 42120 tables in 62s, 13 steps
+cem      gym(100/60/40..; fair 31.9) mean of holdout+stress:  13k tables  43.98 [44.2, 42.8, 44.9]   40k tables  45.82 [46.1, 44.0, 47.3]
+cma      gym(100/60/40..; fair 31.9) mean of holdout+stress:  13k tables  51.61 [52.7, 50.3, 51.9]   40k tables  53.27 [52.3, 53.8, 53.7]
+paired   gym(100/60/40..; fair 31.9) mean of holdout+stress:  13k tables  45.26 [46.4, 45.3, 44.1]   40k tables  46.88 [42.1, 48.2, 50.3]
+spsa     gym(100/60/40..; fair 31.9) mean of holdout+stress:  13k tables  46.93 [46.9, 50.4, 43.5]   40k tables  47.47 [44.3, 53.4, 44.7]
+halving  gym(100/60/40..; fair 31.9) mean of holdout+stress:  13k tables  47.82 [45.3, 53.6, 44.5]   40k tables  48.29 [49.7, 51.0, 44.2]

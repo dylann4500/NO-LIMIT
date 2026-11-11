@@ -1,0 +1,87 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 300,
+ "results": {
+  "balanced": {
+   "mean_points": 10.57,
+   "se": 0.71,
+   "seats": 2,
+   "places_1_to_8": [
+    70,
+    52,
+    64,
+    60,
+    92,
+    96,
+    99,
+    67
+   ]
+  },
+  "tight": {
+   "mean_points": 13.6,
+   "se": 0.68,
+   "seats": 2,
+   "places_1_to_8": [
+    52,
+    119,
+    100,
+    113,
+    69,
+    69,
+    45,
+    33
+   ]
+  },
+  "loose": {
+   "mean_points": 5.85,
+   "se": 0.59,
+   "seats": 2,
+   "places_1_to_8": [
+    47,
+    22,
+    25,
+    55,
+    73,
+    83,
+    123,
+    172
+   ]
+  },
+  "self": {
+   "mean_points": 19.98,
+   "se": 0.8,
+   "seats": 2,
+   "places_1_to_8": [
+    131,
+    107,
+    111,
+    72,
+    66,
+    52,
+    37,
+    24
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 346437,
+ "failed": {
+  "timeout": 1
+ },
+ "latency_us": {
+  "p50": 42.9,
+  "p99": 311.9,
+  "p99.9": 10310.1,
+  "max": 108083.1,
+  "over_1ms": 1591
+ },
+ "memory_bytes_max": 1635,
+ "first_errors": [
+  "('timeout', \"seat 0 hand 199 cards ['7c', '9h'] board ['Jc', 'Jd', '9c'] pot 2600 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 500, 3632)] button 6 seats [(0, 3632, 0, 'active'), (1, 0, 0, 'busted'), (2, 0, 0, 'busted'), (3, 0, 0, 'busted'), (4, 0, 0, 'busted'), (5, 0, 0, 'busted'), (6, 9768, 0, 'active'), (7, 0, 0, 'busted')] events 2 memory_in b'\\\\xfb\\\\xda\\\\x03ids[\\\\x08\\\\x00\\\\x0"
+ ]
+}

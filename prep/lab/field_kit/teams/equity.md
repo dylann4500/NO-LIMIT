@@ -1,0 +1,1 @@
+Team brief: "Build a strong bot around equity: estimate hand equity against opponents' likely ranges (eval7 is available and fast), compare with pot odds and implied odds, and choose the highest-EV action. Make sure it fits the time limit."

@@ -1,0 +1,291 @@
+{
+ "transitions": {
+  "5_to_8": {
+   "fold -> fold": 8410,
+   "raise -> raise": 1558,
+   "call -> call": 653,
+   "fold -> raise": 51,
+   "check -> check": 19
+  },
+  "3_or_4": {
+   "fold -> fold": 1029,
+   "raise -> raise": 518,
+   "call -> raise": 27,
+   "fold -> call": 145,
+   "call -> call": 191,
+   "fold -> raise": 126,
+   "check -> check": 8,
+   "call -> fold": 2
+  },
+  "heads_up": {
+   "raise -> raise": 168,
+   "fold -> fold": 67,
+   "call -> call": 60,
+   "fold -> raise": 32,
+   "fold -> call": 61,
+   "call -> raise": 28
+  }
+ },
+ "examples": [
+  {
+   "hole": [
+    "8d",
+    "Qc"
+   ],
+   "players": 3,
+   "bb": 200,
+   "stack": 2229,
+   "cost": 1646,
+   "raises": 2,
+   "table": "s1000i3t0",
+   "hand": 109
+  },
+  {
+   "hole": [
+    "6h",
+    "8s"
+   ],
+   "players": 3,
+   "bb": 200,
+   "stack": 7766,
+   "cost": 300,
+   "raises": 1,
+   "table": "s1000i4t2",
+   "hand": 112
+  },
+  {
+   "hole": [
+    "3h",
+    "6s"
+   ],
+   "players": 2,
+   "bb": 300,
+   "stack": 6876,
+   "cost": 360,
+   "raises": 1,
+   "table": "s1000i4t2",
+   "hand": 124
+  },
+  {
+   "hole": [
+    "Tc",
+    "3d"
+   ],
+   "players": 3,
+   "bb": 300,
+   "stack": 6651,
+   "cost": 480,
+   "raises": 1,
+   "table": "s1000i5t1",
+   "hand": 137
+  },
+  {
+   "hole": [
+    "Ks",
+    "2d"
+   ],
+   "players": 3,
+   "bb": 300,
+   "stack": 5676,
+   "cost": 330,
+   "raises": 1,
+   "table": "s1000i5t1",
+   "hand": 139
+  },
+  {
+   "hole": [
+    "Ts",
+    "3s"
+   ],
+   "players": 3,
+   "bb": 300,
+   "stack": 5526,
+   "cost": 480,
+   "raises": 1,
+   "table": "s1000i5t1",
+   "hand": 140
+  },
+  {
+   "hole": [
+    "6h",
+    "Td"
+   ],
+   "players": 3,
+   "bb": 300,
+   "stack": 3891,
+   "cost": 360,
+   "raises": 1,
+   "table": "s1000i6t1",
+   "hand": 122
+  },
+  {
+   "hole": [
+    "Kh",
+    "2d"
+   ],
+   "players": 3,
+   "bb": 300,
+   "stack": 3741,
+   "cost": 510,
+   "raises": 1,
+   "table": "s1000i6t1",
+   "hand": 123
+  },
+  {
+   "hole": [
+    "2s",
+    "Kd"
+   ],
+   "players": 3,
+   "bb": 300,
+   "stack": 3441,
+   "cost": 345,
+   "raises": 1,
+   "table": "s1000i6t1",
+   "hand": 125
+  },
+  {
+   "hole": [
+    "Qd",
+    "5c"
+   ],
+   "players": 3,
+   "bb": 300,
+   "stack": 2481,
+   "cost": 345,
+   "raises": 1,
+   "table": "s1000i6t1",
+   "hand": 128
+  },
+  {
+   "hole": [
+    "7h",
+    "4c"
+   ],
+   "players": 3,
+   "bb": 300,
+   "stack": 2481,
+   "cost": 360,
+   "raises": 1,
+   "table": "s1000i6t1",
+   "hand": 131
+  },
+  {
+   "hole": [
+    "4s",
+    "Qd"
+   ],
+   "players": 3,
+   "bb": 300,
+   "stack": 2331,
+   "cost": 510,
+   "raises": 1,
+   "table": "s1000i6t1",
+   "hand": 132
+  },
+  {
+   "hole": [
+    "Qc",
+    "4h"
+   ],
+   "players": 2,
+   "bb": 500,
+   "stack": 11691,
+   "cost": 3309,
+   "raises": 1,
+   "table": "s1000i6t1",
+   "hand": 149
+  },
+  {
+   "hole": [
+    "6d",
+    "Jd"
+   ],
+   "players": 2,
+   "bb": 500,
+   "stack": 9957,
+   "cost": 5043,
+   "raises": 1,
+   "table": "s1000i6t1",
+   "hand": 157
+  },
+  {
+   "hole": [
+    "Ac",
+    "Ts"
+   ],
+   "players": 3,
+   "bb": 200,
+   "stack": 4282,
+   "cost": 7591,
+   "raises": 2,
+   "table": "s1000i7t2",
+   "hand": 116
+  },
+  {
+   "hole": [
+    "Tc",
+    "Ac"
+   ],
+   "players": 3,
+   "bb": 200,
+   "stack": 3552,
+   "cost": 8461,
+   "raises": 2,
+   "table": "s1000i7t2",
+   "hand": 118
+  },
+  {
+   "hole": [
+    "Qc",
+    "6d"
+   ],
+   "players": 3,
+   "bb": 120,
+   "stack": 4488,
+   "cost": 192,
+   "raises": 1,
+   "table": "s1000i10t1",
+   "hand": 89
+  },
+  {
+   "hole": [
+    "Td",
+    "8s"
+   ],
+   "players": 3,
+   "bb": 120,
+   "stack": 4638,
+   "cost": 144,
+   "raises": 1,
+   "table": "s1000i10t1",
+   "hand": 92
+  },
+  {
+   "hole": [
+    "Jh",
+    "7s"
+   ],
+   "players": 3,
+   "bb": 200,
+   "stack": 4900,
+   "cost": 240,
+   "raises": 1,
+   "table": "s1000i10t1",
+   "hand": 110
+  },
+  {
+   "hole": [
+    "5d",
+    "Kh"
+   ],
+   "players": 3,
+   "bb": 200,
+   "stack": 4800,
+   "cost": 330,
+   "raises": 1,
+   "table": "s1000i10t1",
+   "hand": 114
+  }
+ ]
+}

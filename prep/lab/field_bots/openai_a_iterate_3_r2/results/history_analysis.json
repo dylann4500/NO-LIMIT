@@ -1,0 +1,6310 @@
+{
+  "groups": {
+    "actions pre": {
+      "fold": 9921,
+      "raise": 2243,
+      "call": 962,
+      "check": 27
+    },
+    "all": {
+      "hands": 12869,
+      "net": -96000,
+      "invested": 2886532,
+      "showdown": 820
+    },
+    "no voluntary preflop": {
+      "hands": 9764,
+      "net": -262120,
+      "invested": 315321,
+      "showdown": 14
+    },
+    "players 8": {
+      "hands": 4433,
+      "net": 32759,
+      "invested": 251734,
+      "showdown": 185
+    },
+    "pre last fold": {
+      "hands": 9921,
+      "net": -373543,
+      "invested": 373543
+    },
+    "actions flop": {
+      "check": 708,
+      "fold": 328,
+      "raise": 651,
+      "call": 313
+    },
+    "preflop raise": {
+      "hands": 920,
+      "net": 51965,
+      "invested": 548393,
+      "showdown": 275
+    },
+    "flop last fold": {
+      "hands": 328,
+      "net": -78633,
+      "invested": 78633
+    },
+    "flop last raise": {
+      "hands": 382,
+      "net": 133261,
+      "invested": 254140
+    },
+    "players 7": {
+      "hands": 2936,
+      "net": -17457,
+      "invested": 246043,
+      "showdown": 133
+    },
+    "preflop raise no flop decision": {
+      "hands": 1304,
+      "net": 97052,
+      "invested": 1294144,
+      "showdown": 183
+    },
+    "pre last raise": {
+      "hands": 955,
+      "net": 172544,
+      "invested": 1139925
+    },
+    "actions turn": {
+      "check": 607,
+      "call": 114,
+      "raise": 216,
+      "fold": 170
+    },
+    "actions river": {
+      "check": 461,
+      "call": 32,
+      "fold": 111,
+      "raise": 97
+    },
+    "river last check": {
+      "hands": 404,
+      "net": -7135,
+      "invested": 145672
+    },
+    "showdown calls turn": {
+      "n": 70,
+      "win": 31,
+      "tie": 2,
+      "cost": 39606,
+      "net": 3418
+    },
+    "turn last raise": {
+      "hands": 155,
+      "net": 77724,
+      "invested": 206836
+    },
+    "river last call": {
+      "hands": 32,
+      "net": 5669,
+      "invested": 51111
+    },
+    "river last call category 2": {
+      "hands": 14,
+      "net": -7350,
+      "invested": 22770
+    },
+    "showdown calls flop": {
+      "n": 127,
+      "win": 56,
+      "tie": 5,
+      "cost": 36071,
+      "net": -4616
+    },
+    "showdown calls river": {
+      "n": 32,
+      "win": 18,
+      "tie": 1,
+      "cost": 27795,
+      "net": 5669
+    },
+    "river last fold": {
+      "hands": 111,
+      "net": -50048,
+      "invested": 50048
+    },
+    "players 6": {
+      "hands": 1797,
+      "net": -10107,
+      "invested": 267665,
+      "showdown": 106
+    },
+    "preflop call": {
+      "hands": 756,
+      "net": 17713,
+      "invested": 478050,
+      "showdown": 246
+    },
+    "turn last fold": {
+      "hands": 170,
+      "net": -68047,
+      "invested": 68047
+    },
+    "river last raise": {
+      "hands": 92,
+      "net": 63144,
+      "invested": 129729
+    },
+    "showdown calls pre": {
+      "n": 402,
+      "win": 209,
+      "tie": 18,
+      "cost": 317874,
+      "net": 65627
+    },
+    "players 5": {
+      "hands": 1267,
+      "net": 11299,
+      "invested": 341094,
+      "showdown": 108
+    },
+    "players 4": {
+      "hands": 1105,
+      "net": -19637,
+      "invested": 448285,
+      "showdown": 106
+    },
+    "river last call category 5": {
+      "hands": 2,
+      "net": 2835,
+      "invested": 2725
+    },
+    "players 3": {
+      "hands": 916,
+      "net": -70833,
+      "invested": 651851,
+      "showdown": 110
+    },
+    "preflop call no flop decision": {
+      "hands": 125,
+      "net": -610,
+      "invested": 250624,
+      "showdown": 102
+    },
+    "pre last call": {
+      "hands": 138,
+      "net": 19026,
+      "invested": 309715
+    },
+    "pre last call category -1": {
+      "hands": 138,
+      "net": 19026,
+      "invested": 309715
+    },
+    "flop last call": {
+      "hands": 10,
+      "net": -5232,
+      "invested": 11927
+    },
+    "flop last call category 3": {
+      "hands": 2,
+      "net": 3218,
+      "invested": 3148
+    },
+    "players 2": {
+      "hands": 415,
+      "net": -22024,
+      "invested": 679860,
+      "showdown": 72
+    },
+    "turn last call": {
+      "hands": 19,
+      "net": 354,
+      "invested": 37316
+    },
+    "turn last call category 1": {
+      "hands": 13,
+      "net": 5127,
+      "invested": 27471
+    },
+    "river last call category 1": {
+      "hands": 9,
+      "net": 2605,
+      "invested": 10620
+    },
+    "flop last call category 1": {
+      "hands": 6,
+      "net": -6450,
+      "invested": 6779
+    },
+    "river last call category 3": {
+      "hands": 2,
+      "net": 6918,
+      "invested": 6858
+    },
+    "river last call category 6": {
+      "hands": 4,
+      "net": 601,
+      "invested": 6190
+    },
+    "turn last call category 5": {
+      "hands": 1,
+      "net": 1525,
+      "invested": 1482
+    },
+    "flop last call category 2": {
+      "hands": 2,
+      "net": -2000,
+      "invested": 2000
+    },
+    "turn last call category 2": {
+      "hands": 3,
+      "net": -5729,
+      "invested": 6508
+    },
+    "turn last call category 0": {
+      "hands": 2,
+      "net": -569,
+      "invested": 1855
+    },
+    "river last call category 4": {
+      "hands": 1,
+      "net": 60,
+      "invested": 1948
+    }
+  },
+  "opponents": {
+    "claude_icm": {
+      "post_check": 318,
+      "post_fold": 121,
+      "hands": 2728,
+      "vpip": 691,
+      "pfr": 515,
+      "post_raise": 226,
+      "post_raise_1": 128,
+      "post_raise_2": 65,
+      "post_call": 98,
+      "post_raise_3": 33
+    },
+    "claude_exploit": {
+      "post_raise": 337,
+      "post_raise_1": 243,
+      "hands": 2575,
+      "vpip": 579,
+      "pfr": 394,
+      "post_call": 55,
+      "post_fold": 100,
+      "post_check": 141,
+      "post_raise_2": 69,
+      "post_raise_3": 25
+    },
+    "openai_b_default_2": {
+      "post_fold": 391,
+      "hands": 4155,
+      "vpip": 1296,
+      "pfr": 661,
+      "post_check": 1082,
+      "post_call": 302,
+      "post_raise": 366,
+      "post_raise_2": 113,
+      "post_raise_1": 190,
+      "post_raise_3": 63
+    },
+    "claude_tuned": {
+      "post_fold": 121,
+      "hands": 2850,
+      "vpip": 692,
+      "pfr": 460,
+      "post_raise": 266,
+      "post_raise_1": 166,
+      "post_call": 118,
+      "post_raise_2": 66,
+      "post_raise_3": 34,
+      "post_check": 326
+    },
+    "openai_k_default_2": {
+      "hands": 3865,
+      "vpip": 1199,
+      "pfr": 676,
+      "post_check": 1046,
+      "post_fold": 330,
+      "post_raise": 340,
+      "post_raise_1": 159,
+      "post_raise_2": 113,
+      "post_raise_3": 68,
+      "post_call": 303
+    },
+    "claude_equity": {
+      "hands": 3966,
+      "vpip": 1331,
+      "pfr": 1140,
+      "post_check": 719,
+      "post_fold": 246,
+      "post_call": 114,
+      "post_raise": 318,
+      "post_raise_1": 192,
+      "post_raise_3": 54,
+      "post_raise_2": 72
+    },
+    "openai_a_iterate_3": {
+      "hands": 12869,
+      "vpip": 3105,
+      "pfr": 2224,
+      "post_check": 1776,
+      "post_fold": 609,
+      "post_raise": 964,
+      "post_raise_1": 651,
+      "post_call": 459,
+      "post_raise_2": 216,
+      "post_raise_3": 97
+    },
+    "openai_b_gto_3": {
+      "hands": 2925,
+      "vpip": 663,
+      "pfr": 419,
+      "post_raise": 166,
+      "post_raise_1": 90,
+      "post_raise_2": 58,
+      "post_check": 554,
+      "post_fold": 146,
+      "post_call": 177,
+      "post_raise_3": 18
+    },
+    "openai_a_icm_5": {
+      "post_raise": 236,
+      "post_raise_1": 139,
+      "post_fold": 138,
+      "hands": 3211,
+      "vpip": 655,
+      "pfr": 449,
+      "post_check": 460,
+      "post_raise_3": 37,
+      "post_raise_2": 60,
+      "post_call": 153
+    },
+    "openai_a_equity_4": {
+      "post_raise": 365,
+      "post_raise_1": 185,
+      "hands": 2829,
+      "vpip": 1202,
+      "pfr": 525,
+      "post_check": 984,
+      "post_fold": 321,
+      "post_raise_2": 110,
+      "post_call": 276,
+      "post_raise_3": 70
+    },
+    "openai_a_default_2": {
+      "hands": 3927,
+      "vpip": 992,
+      "pfr": 612,
+      "post_raise": 357,
+      "post_raise_1": 231,
+      "post_check": 668,
+      "post_fold": 296,
+      "post_raise_2": 78,
+      "post_raise_3": 48,
+      "post_call": 193
+    },
+    "claude_default_a": {
+      "hands": 3206,
+      "vpip": 594,
+      "pfr": 545,
+      "post_raise": 132,
+      "post_raise_1": 79,
+      "post_check": 126,
+      "post_fold": 59,
+      "post_call": 64,
+      "post_raise_2": 38,
+      "post_raise_3": 15
+    },
+    "claude_default_d": {
+      "hands": 3196,
+      "vpip": 819,
+      "pfr": 479,
+      "post_raise": 512,
+      "post_raise_1": 310,
+      "post_check": 254,
+      "post_raise_3": 64,
+      "post_call": 135,
+      "post_raise_2": 138,
+      "post_fold": 166
+    },
+    "openai_a_default_1": {
+      "hands": 3358,
+      "vpip": 744,
+      "pfr": 541,
+      "post_fold": 163,
+      "post_check": 425,
+      "post_raise": 245,
+      "post_raise_1": 153,
+      "post_raise_2": 75,
+      "post_call": 106,
+      "post_raise_3": 17
+    },
+    "openai_k_default_1": {
+      "hands": 2973,
+      "vpip": 734,
+      "pfr": 427,
+      "post_call": 162,
+      "post_raise": 242,
+      "post_raise_2": 68,
+      "post_check": 589,
+      "post_fold": 185,
+      "post_raise_1": 151,
+      "post_raise_3": 23
+    },
+    "claude_default_b": {
+      "post_raise": 544,
+      "post_raise_1": 275,
+      "post_raise_2": 180,
+      "hands": 3182,
+      "vpip": 783,
+      "pfr": 609,
+      "post_call": 99,
+      "post_raise_3": 89,
+      "post_check": 131,
+      "post_fold": 104
+    },
+    "claude_gto": {
+      "hands": 3249,
+      "vpip": 875,
+      "pfr": 520,
+      "post_raise": 286,
+      "post_raise_1": 149,
+      "post_raise_2": 88,
+      "post_raise_3": 49,
+      "post_check": 655,
+      "post_fold": 203,
+      "post_call": 198
+    },
+    "claude_aggro": {
+      "hands": 3444,
+      "vpip": 1196,
+      "pfr": 817,
+      "post_raise": 656,
+      "post_raise_1": 501,
+      "post_check": 494,
+      "post_fold": 284,
+      "post_call": 76,
+      "post_raise_2": 115,
+      "post_raise_3": 40
+    },
+    "claude_iterate": {
+      "hands": 3368,
+      "vpip": 935,
+      "pfr": 571,
+      "post_raise": 305,
+      "post_raise_1": 194,
+      "post_call": 106,
+      "post_check": 636,
+      "post_fold": 261,
+      "post_raise_2": 65,
+      "post_raise_3": 46
+    },
+    "openai_b_default_1": {
+      "hands": 2809,
+      "vpip": 682,
+      "pfr": 469,
+      "post_call": 168,
+      "post_check": 500,
+      "post_fold": 162,
+      "post_raise": 225,
+      "post_raise_1": 146,
+      "post_raise_2": 54,
+      "post_raise_3": 25
+    },
+    "claude_default_c": {
+      "hands": 3142,
+      "vpip": 772,
+      "pfr": 609,
+      "post_fold": 106,
+      "post_check": 156,
+      "post_raise": 403,
+      "post_raise_2": 115,
+      "post_call": 88,
+      "post_raise_1": 249,
+      "post_raise_3": 39
+    },
+    "ours": {
+      "hands": 3304,
+      "vpip": 799,
+      "pfr": 612,
+      "post_check": 115,
+      "post_fold": 102,
+      "post_raise": 475,
+      "post_raise_1": 247,
+      "post_raise_2": 142,
+      "post_raise_3": 86,
+      "post_call": 79
+    }
+  },
+  "tables": 120,
+  "hands": 17221,
+  "max_hands": 212,
+  "largest_losses": [
+    {
+      "net": -7035,
+      "table": "s1002i9t1",
+      "hand": 156,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "Ah",
+        "Jc"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          8965,
+          -1
+        ]
+      ],
+      "shown": {
+        "0": [
+          "Jh",
+          "Js"
+        ],
+        "7": [
+          "Ah",
+          "Jc"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          156,
+          null
+        ],
+        [
+          "blind",
+          0,
+          250,
+          null
+        ],
+        [
+          "blind",
+          7,
+          500,
+          null
+        ],
+        [
+          "raise",
+          0,
+          1250,
+          null
+        ],
+        [
+          "raise",
+          7,
+          8965,
+          null
+        ],
+        [
+          "call",
+          0,
+          5785,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "6c",
+            "5s",
+            "Qs"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Kd"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Kc"
+          ]
+        ],
+        [
+          "show",
+          0,
+          null,
+          [
+            "Jh",
+            "Js"
+          ]
+        ],
+        [
+          "show",
+          7,
+          null,
+          [
+            "Ah",
+            "Jc"
+          ]
+        ],
+        [
+          "win",
+          0,
+          14070,
+          null
+        ],
+        [
+          "win",
+          7,
+          1930,
+          null
+        ],
+        [
+          "stack",
+          0,
+          14070,
+          null
+        ],
+        [
+          "stack",
+          7,
+          1930,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -6411,
+      "table": "s1001i0t0",
+      "hand": 142,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "3c",
+        "Kc"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          5911,
+          -1
+        ]
+      ],
+      "shown": {
+        "6": [
+          "As",
+          "5h"
+        ],
+        "2": [
+          "3c",
+          "Kc"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          142,
+          null
+        ],
+        [
+          "blind",
+          6,
+          250,
+          null
+        ],
+        [
+          "blind",
+          2,
+          500,
+          null
+        ],
+        [
+          "raise",
+          6,
+          9589,
+          null
+        ],
+        [
+          "call",
+          2,
+          5911,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "6d",
+            "7c",
+            "2h"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "2d"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "6c"
+          ]
+        ],
+        [
+          "show",
+          6,
+          null,
+          [
+            "As",
+            "5h"
+          ]
+        ],
+        [
+          "show",
+          2,
+          null,
+          [
+            "3c",
+            "Kc"
+          ]
+        ],
+        [
+          "win",
+          6,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          6,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          2,
+          0,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -6258,
+      "table": "s1006i4t0",
+      "hand": 161,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "7d",
+        "7s"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          9742,
+          -1
+        ]
+      ],
+      "shown": {
+        "4": [
+          "Qh",
+          "Ad"
+        ],
+        "5": [
+          "7d",
+          "7s"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          161,
+          null
+        ],
+        [
+          "blind",
+          4,
+          250,
+          null
+        ],
+        [
+          "blind",
+          5,
+          500,
+          null
+        ],
+        [
+          "raise",
+          4,
+          1100,
+          null
+        ],
+        [
+          "raise",
+          5,
+          9742,
+          null
+        ],
+        [
+          "call",
+          4,
+          5158,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "2s",
+            "Ac",
+            "3d"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "2c"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Kc"
+          ]
+        ],
+        [
+          "show",
+          4,
+          null,
+          [
+            "Qh",
+            "Ad"
+          ]
+        ],
+        [
+          "show",
+          5,
+          null,
+          [
+            "7d",
+            "7s"
+          ]
+        ],
+        [
+          "win",
+          4,
+          12516,
+          null
+        ],
+        [
+          "win",
+          5,
+          3484,
+          null
+        ],
+        [
+          "stack",
+          4,
+          12516,
+          null
+        ],
+        [
+          "stack",
+          5,
+          3484,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -5901,
+      "table": "s1000i6t1",
+      "hand": 161,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "6s",
+        "Ah"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          5401,
+          -1
+        ]
+      ],
+      "shown": {
+        "4": [
+          "Js",
+          "Ac"
+        ],
+        "2": [
+          "6s",
+          "Ah"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          161,
+          null
+        ],
+        [
+          "blind",
+          4,
+          250,
+          null
+        ],
+        [
+          "blind",
+          2,
+          500,
+          null
+        ],
+        [
+          "raise",
+          4,
+          10099,
+          null
+        ],
+        [
+          "call",
+          2,
+          5401,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Ts",
+            "7c",
+            "Td"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "3s"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "8c"
+          ]
+        ],
+        [
+          "show",
+          4,
+          null,
+          [
+            "Js",
+            "Ac"
+          ]
+        ],
+        [
+          "show",
+          2,
+          null,
+          [
+            "6s",
+            "Ah"
+          ]
+        ],
+        [
+          "win",
+          4,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          4,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          2,
+          0,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -5853,
+      "table": "s1007i0t0",
+      "hand": 140,
+      "bb": 300,
+      "players": 2,
+      "hole": [
+        "Ad",
+        "3d"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          675,
+          -1
+        ],
+        [
+          "flop",
+          "call",
+          742,
+          0
+        ],
+        [
+          "turn",
+          "raise",
+          8730,
+          5
+        ]
+      ],
+      "shown": {
+        "0": [
+          "Ad",
+          "3d"
+        ],
+        "1": [
+          "Qs",
+          "9c"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          140,
+          null
+        ],
+        [
+          "blind",
+          0,
+          150,
+          null
+        ],
+        [
+          "blind",
+          1,
+          300,
+          null
+        ],
+        [
+          "raise",
+          0,
+          675,
+          null
+        ],
+        [
+          "call",
+          1,
+          375,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Ts",
+            "9d",
+            "4d"
+          ]
+        ],
+        [
+          "raise",
+          1,
+          742,
+          null
+        ],
+        [
+          "call",
+          0,
+          742,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Qd"
+          ]
+        ],
+        [
+          "raise",
+          1,
+          1558,
+          null
+        ],
+        [
+          "raise",
+          0,
+          8730,
+          null
+        ],
+        [
+          "call",
+          1,
+          2878,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "9s"
+          ]
+        ],
+        [
+          "show",
+          0,
+          null,
+          [
+            "Ad",
+            "3d"
+          ]
+        ],
+        [
+          "show",
+          1,
+          null,
+          [
+            "Qs",
+            "9c"
+          ]
+        ],
+        [
+          "win",
+          1,
+          11706,
+          null
+        ],
+        [
+          "win",
+          0,
+          4294,
+          null
+        ],
+        [
+          "stack",
+          0,
+          4294,
+          null
+        ],
+        [
+          "stack",
+          1,
+          11706,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -5794,
+      "table": "s1007i9t2",
+      "hand": 161,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "Ad",
+        "Jc"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          5294,
+          -1
+        ]
+      ],
+      "shown": {
+        "3": [
+          "Qh",
+          "3c"
+        ],
+        "2": [
+          "Ad",
+          "Jc"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          161,
+          null
+        ],
+        [
+          "blind",
+          3,
+          250,
+          null
+        ],
+        [
+          "blind",
+          2,
+          500,
+          null
+        ],
+        [
+          "raise",
+          3,
+          10206,
+          null
+        ],
+        [
+          "call",
+          2,
+          5294,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Qs",
+            "Kc",
+            "8d"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "5c"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "4s"
+          ]
+        ],
+        [
+          "show",
+          3,
+          null,
+          [
+            "Qh",
+            "3c"
+          ]
+        ],
+        [
+          "show",
+          2,
+          null,
+          [
+            "Ad",
+            "Jc"
+          ]
+        ],
+        [
+          "win",
+          3,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          3,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          2,
+          0,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -5776,
+      "table": "s1000i5t1",
+      "hand": 149,
+      "bb": 500,
+      "players": 3,
+      "hole": [
+        "Jh",
+        "Jd"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          5526,
+          -1
+        ]
+      ],
+      "shown": {
+        "7": [
+          "Ac",
+          "Kd"
+        ],
+        "4": [
+          "Jh",
+          "Jd"
+        ],
+        "5": [
+          "Ah",
+          "6c"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          149,
+          null
+        ],
+        [
+          "blind",
+          4,
+          250,
+          null
+        ],
+        [
+          "blind",
+          5,
+          500,
+          null
+        ],
+        [
+          "raise",
+          7,
+          7762,
+          null
+        ],
+        [
+          "call",
+          4,
+          5526,
+          null
+        ],
+        [
+          "call",
+          5,
+          1962,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Tc",
+            "As",
+            "6d"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "8d"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "6s"
+          ]
+        ],
+        [
+          "show",
+          7,
+          null,
+          [
+            "Ac",
+            "Kd"
+          ]
+        ],
+        [
+          "show",
+          4,
+          null,
+          [
+            "Jh",
+            "Jd"
+          ]
+        ],
+        [
+          "show",
+          5,
+          null,
+          [
+            "Ah",
+            "6c"
+          ]
+        ],
+        [
+          "win",
+          5,
+          7386,
+          null
+        ],
+        [
+          "win",
+          7,
+          8614,
+          null
+        ],
+        [
+          "stack",
+          7,
+          8614,
+          null
+        ],
+        [
+          "stack",
+          4,
+          0,
+          null
+        ],
+        [
+          "stack",
+          5,
+          7386,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -5763,
+      "table": "s1001i2t0",
+      "hand": 137,
+      "bb": 300,
+      "players": 2,
+      "hole": [
+        "9d",
+        "9s"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          675,
+          -1
+        ],
+        [
+          "pre",
+          "call",
+          5088,
+          -1
+        ]
+      ],
+      "shown": {
+        "3": [
+          "9d",
+          "9s"
+        ],
+        "1": [
+          "Js",
+          "7c"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          137,
+          null
+        ],
+        [
+          "blind",
+          3,
+          150,
+          null
+        ],
+        [
+          "blind",
+          1,
+          300,
+          null
+        ],
+        [
+          "raise",
+          3,
+          675,
+          null
+        ],
+        [
+          "raise",
+          1,
+          10237,
+          null
+        ],
+        [
+          "call",
+          3,
+          5088,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "7d",
+            "Ad",
+            "5s"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "7s"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Ks"
+          ]
+        ],
+        [
+          "show",
+          3,
+          null,
+          [
+            "9d",
+            "9s"
+          ]
+        ],
+        [
+          "show",
+          1,
+          null,
+          [
+            "Js",
+            "7c"
+          ]
+        ],
+        [
+          "win",
+          1,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          3,
+          0,
+          null
+        ],
+        [
+          "stack",
+          1,
+          16000,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -5720,
+      "table": "s1002i9t1",
+      "hand": 166,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "Ks",
+        "5d"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          5220,
+          -1
+        ]
+      ],
+      "shown": {
+        "0": [
+          "Kh",
+          "Th"
+        ],
+        "7": [
+          "Ks",
+          "5d"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          166,
+          null
+        ],
+        [
+          "blind",
+          0,
+          250,
+          null
+        ],
+        [
+          "blind",
+          7,
+          500,
+          null
+        ],
+        [
+          "raise",
+          0,
+          5720,
+          null
+        ],
+        [
+          "call",
+          7,
+          5220,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Qs",
+            "6c",
+            "Qd"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "8c"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Td"
+          ]
+        ],
+        [
+          "show",
+          0,
+          null,
+          [
+            "Kh",
+            "Th"
+          ]
+        ],
+        [
+          "show",
+          7,
+          null,
+          [
+            "Ks",
+            "5d"
+          ]
+        ],
+        [
+          "win",
+          0,
+          11440,
+          null
+        ],
+        [
+          "stack",
+          0,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          7,
+          0,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -5686,
+      "table": "s1000i6t1",
+      "hand": 145,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "Kc",
+        "7h"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          5186,
+          -1
+        ]
+      ],
+      "shown": {
+        "4": [
+          "Qh",
+          "9h"
+        ],
+        "2": [
+          "Kc",
+          "7h"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          145,
+          null
+        ],
+        [
+          "blind",
+          4,
+          250,
+          null
+        ],
+        [
+          "blind",
+          2,
+          500,
+          null
+        ],
+        [
+          "raise",
+          4,
+          5686,
+          null
+        ],
+        [
+          "call",
+          2,
+          5186,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "8h",
+            "9s",
+            "2d"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "5h"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Jh"
+          ]
+        ],
+        [
+          "show",
+          4,
+          null,
+          [
+            "Qh",
+            "9h"
+          ]
+        ],
+        [
+          "show",
+          2,
+          null,
+          [
+            "Kc",
+            "7h"
+          ]
+        ],
+        [
+          "win",
+          4,
+          11372,
+          null
+        ],
+        [
+          "stack",
+          4,
+          11372,
+          null
+        ],
+        [
+          "stack",
+          2,
+          4628,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -5527,
+      "table": "s1005i3t0",
+      "hand": 162,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "Ah",
+        "3d"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          5027,
+          -1
+        ]
+      ],
+      "shown": {
+        "6": [
+          "2s",
+          "Td"
+        ],
+        "2": [
+          "Ah",
+          "3d"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          162,
+          null
+        ],
+        [
+          "blind",
+          6,
+          250,
+          null
+        ],
+        [
+          "blind",
+          2,
+          500,
+          null
+        ],
+        [
+          "raise",
+          6,
+          5527,
+          null
+        ],
+        [
+          "call",
+          2,
+          5027,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "4s",
+            "8s",
+            "Ac"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "6s"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Ks"
+          ]
+        ],
+        [
+          "show",
+          6,
+          null,
+          [
+            "2s",
+            "Td"
+          ]
+        ],
+        [
+          "show",
+          2,
+          null,
+          [
+            "Ah",
+            "3d"
+          ]
+        ],
+        [
+          "win",
+          6,
+          11054,
+          null
+        ],
+        [
+          "stack",
+          6,
+          11054,
+          null
+        ],
+        [
+          "stack",
+          2,
+          4946,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -5483,
+      "table": "s1003i11t0",
+      "hand": 143,
+      "bb": 500,
+      "players": 4,
+      "hole": [
+        "Tc",
+        "Th"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          5483,
+          -1
+        ]
+      ],
+      "shown": {
+        "6": [
+          "Tc",
+          "Th"
+        ],
+        "3": [
+          "Ac",
+          "5s"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          143,
+          null
+        ],
+        [
+          "blind",
+          7,
+          250,
+          null
+        ],
+        [
+          "blind",
+          0,
+          500,
+          null
+        ],
+        [
+          "raise",
+          3,
+          7221,
+          null
+        ],
+        [
+          "call",
+          6,
+          5483,
+          null
+        ],
+        [
+          "fold",
+          7,
+          null,
+          null
+        ],
+        [
+          "fold",
+          0,
+          null,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "9h",
+            "4d",
+            "5c"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "5d"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Js"
+          ]
+        ],
+        [
+          "show",
+          6,
+          null,
+          [
+            "Tc",
+            "Th"
+          ]
+        ],
+        [
+          "show",
+          3,
+          null,
+          [
+            "Ac",
+            "5s"
+          ]
+        ],
+        [
+          "win",
+          3,
+          13454,
+          null
+        ],
+        [
+          "stack",
+          6,
+          0,
+          null
+        ],
+        [
+          "stack",
+          7,
+          1966,
+          null
+        ],
+        [
+          "stack",
+          0,
+          580,
+          null
+        ],
+        [
+          "stack",
+          3,
+          13454,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -5464,
+      "table": "s1006i10t0",
+      "hand": 149,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "Qc",
+        "Jh"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          4964,
+          -1
+        ]
+      ],
+      "shown": {
+        "1": [
+          "5c",
+          "Qs"
+        ],
+        "0": [
+          "Qc",
+          "Jh"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          149,
+          null
+        ],
+        [
+          "blind",
+          1,
+          250,
+          null
+        ],
+        [
+          "blind",
+          0,
+          500,
+          null
+        ],
+        [
+          "raise",
+          1,
+          10536,
+          null
+        ],
+        [
+          "call",
+          0,
+          4964,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "3c",
+            "7s",
+            "4h"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "5s"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "7h"
+          ]
+        ],
+        [
+          "show",
+          1,
+          null,
+          [
+            "5c",
+            "Qs"
+          ]
+        ],
+        [
+          "show",
+          0,
+          null,
+          [
+            "Qc",
+            "Jh"
+          ]
+        ],
+        [
+          "win",
+          1,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          1,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          0,
+          0,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -5446,
+      "table": "s1005i3t0",
+      "hand": 166,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "3d",
+        "Ah"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          4946,
+          -1
+        ]
+      ],
+      "shown": {
+        "6": [
+          "5s",
+          "Kh"
+        ],
+        "2": [
+          "3d",
+          "Ah"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          166,
+          null
+        ],
+        [
+          "blind",
+          6,
+          250,
+          null
+        ],
+        [
+          "blind",
+          2,
+          500,
+          null
+        ],
+        [
+          "raise",
+          6,
+          10554,
+          null
+        ],
+        [
+          "call",
+          2,
+          4946,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Qh",
+            "3c",
+            "5c"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Qc"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "8h"
+          ]
+        ],
+        [
+          "show",
+          6,
+          null,
+          [
+            "5s",
+            "Kh"
+          ]
+        ],
+        [
+          "show",
+          2,
+          null,
+          [
+            "3d",
+            "Ah"
+          ]
+        ],
+        [
+          "win",
+          6,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          6,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          2,
+          0,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -5004,
+      "table": "s1001i11t0",
+      "hand": 127,
+      "bb": 300,
+      "players": 2,
+      "hole": [
+        "4d",
+        "4h"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          4704,
+          -1
+        ]
+      ],
+      "shown": {
+        "5": [
+          "Qs",
+          "Ac"
+        ],
+        "4": [
+          "4d",
+          "4h"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          127,
+          null
+        ],
+        [
+          "blind",
+          5,
+          150,
+          null
+        ],
+        [
+          "blind",
+          4,
+          300,
+          null
+        ],
+        [
+          "raise",
+          5,
+          10996,
+          null
+        ],
+        [
+          "call",
+          4,
+          4704,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "As",
+            "5s",
+            "Qd"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "9d"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "2c"
+          ]
+        ],
+        [
+          "show",
+          5,
+          null,
+          [
+            "Qs",
+            "Ac"
+          ]
+        ],
+        [
+          "show",
+          4,
+          null,
+          [
+            "4d",
+            "4h"
+          ]
+        ],
+        [
+          "win",
+          5,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          5,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          4,
+          0,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -4950,
+      "table": "s1007i9t2",
+      "hand": 149,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "7s",
+        "8h"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          600,
+          -1
+        ],
+        [
+          "flop",
+          "check",
+          null,
+          1
+        ],
+        [
+          "flop",
+          "call",
+          1650,
+          1
+        ],
+        [
+          "turn",
+          "check",
+          null,
+          1
+        ],
+        [
+          "turn",
+          "call",
+          2200,
+          1
+        ],
+        [
+          "river",
+          "check",
+          null,
+          1
+        ],
+        [
+          "river",
+          "fold",
+          null,
+          1
+        ]
+      ],
+      "shown": {},
+      "events": [
+        [
+          "hand",
+          null,
+          149,
+          null
+        ],
+        [
+          "blind",
+          3,
+          250,
+          null
+        ],
+        [
+          "blind",
+          2,
+          500,
+          null
+        ],
+        [
+          "raise",
+          3,
+          1100,
+          null
+        ],
+        [
+          "call",
+          2,
+          600,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Qh",
+            "9s",
+            "8d"
+          ]
+        ],
+        [
+          "check",
+          2,
+          null,
+          null
+        ],
+        [
+          "raise",
+          3,
+          1650,
+          null
+        ],
+        [
+          "call",
+          2,
+          1650,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "6h"
+          ]
+        ],
+        [
+          "check",
+          2,
+          null,
+          null
+        ],
+        [
+          "raise",
+          3,
+          2200,
+          null
+        ],
+        [
+          "call",
+          2,
+          2200,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "4s"
+          ]
+        ],
+        [
+          "check",
+          2,
+          null,
+          null
+        ],
+        [
+          "raise",
+          3,
+          2173,
+          null
+        ],
+        [
+          "fold",
+          2,
+          null,
+          null
+        ],
+        [
+          "win",
+          3,
+          12073,
+          null
+        ],
+        [
+          "stack",
+          3,
+          12073,
+          null
+        ],
+        [
+          "stack",
+          2,
+          3927,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -4759,
+      "table": "s1007i12t0",
+      "hand": 167,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "7s",
+        "Ks"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          4759,
+          -1
+        ]
+      ],
+      "shown": {
+        "1": [
+          "7s",
+          "Ks"
+        ],
+        "0": [
+          "5s",
+          "5c"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          167,
+          null
+        ],
+        [
+          "blind",
+          1,
+          250,
+          null
+        ],
+        [
+          "blind",
+          0,
+          500,
+          null
+        ],
+        [
+          "raise",
+          1,
+          4759,
+          null
+        ],
+        [
+          "call",
+          0,
+          4259,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "3d",
+            "7h",
+            "Jd"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Jh"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "5d"
+          ]
+        ],
+        [
+          "show",
+          1,
+          null,
+          [
+            "7s",
+            "Ks"
+          ]
+        ],
+        [
+          "show",
+          0,
+          null,
+          [
+            "5s",
+            "5c"
+          ]
+        ],
+        [
+          "win",
+          0,
+          9518,
+          null
+        ],
+        [
+          "stack",
+          1,
+          0,
+          null
+        ],
+        [
+          "stack",
+          0,
+          16000,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -4526,
+      "table": "s1004i12t0",
+      "hand": 161,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "2d",
+        "Kd"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          4526,
+          -1
+        ]
+      ],
+      "shown": {
+        "1": [
+          "2d",
+          "Kd"
+        ],
+        "4": [
+          "Qs",
+          "As"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          161,
+          null
+        ],
+        [
+          "blind",
+          1,
+          250,
+          null
+        ],
+        [
+          "blind",
+          4,
+          500,
+          null
+        ],
+        [
+          "raise",
+          1,
+          4526,
+          null
+        ],
+        [
+          "call",
+          4,
+          4026,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "9s",
+            "2c",
+            "7s"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "8s"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "6c"
+          ]
+        ],
+        [
+          "show",
+          1,
+          null,
+          [
+            "2d",
+            "Kd"
+          ]
+        ],
+        [
+          "show",
+          4,
+          null,
+          [
+            "Qs",
+            "As"
+          ]
+        ],
+        [
+          "win",
+          4,
+          9052,
+          null
+        ],
+        [
+          "stack",
+          1,
+          0,
+          null
+        ],
+        [
+          "stack",
+          4,
+          16000,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -4357,
+      "table": "s1002i11t1",
+      "hand": 144,
+      "bb": 500,
+      "players": 3,
+      "hole": [
+        "Qs",
+        "9d"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          4357,
+          -1
+        ]
+      ],
+      "shown": {
+        "6": [
+          "Qs",
+          "9d"
+        ],
+        "2": [
+          "Ah",
+          "6c"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          144,
+          null
+        ],
+        [
+          "blind",
+          6,
+          250,
+          null
+        ],
+        [
+          "blind",
+          2,
+          500,
+          null
+        ],
+        [
+          "fold",
+          4,
+          null,
+          null
+        ],
+        [
+          "raise",
+          6,
+          4357,
+          null
+        ],
+        [
+          "call",
+          2,
+          3857,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "2s",
+            "6h",
+            "3s"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Jc"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "7c"
+          ]
+        ],
+        [
+          "show",
+          6,
+          null,
+          [
+            "Qs",
+            "9d"
+          ]
+        ],
+        [
+          "show",
+          2,
+          null,
+          [
+            "Ah",
+            "6c"
+          ]
+        ],
+        [
+          "win",
+          2,
+          8714,
+          null
+        ],
+        [
+          "stack",
+          4,
+          4062,
+          null
+        ],
+        [
+          "stack",
+          6,
+          0,
+          null
+        ],
+        [
+          "stack",
+          2,
+          11938,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -4290,
+      "table": "s1000i10t1",
+      "hand": 123,
+      "bb": 300,
+      "players": 3,
+      "hole": [
+        "Ks",
+        "Qh"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          4140,
+          -1
+        ]
+      ],
+      "shown": {
+        "1": [
+          "Ad",
+          "Qs"
+        ],
+        "5": [
+          "Ks",
+          "Qh"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          123,
+          null
+        ],
+        [
+          "blind",
+          5,
+          150,
+          null
+        ],
+        [
+          "blind",
+          6,
+          300,
+          null
+        ],
+        [
+          "raise",
+          1,
+          7229,
+          null
+        ],
+        [
+          "call",
+          5,
+          4140,
+          null
+        ],
+        [
+          "fold",
+          6,
+          null,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Tc",
+            "Jh",
+            "7s"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "3c"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "5h"
+          ]
+        ],
+        [
+          "show",
+          1,
+          null,
+          [
+            "Ad",
+            "Qs"
+          ]
+        ],
+        [
+          "show",
+          5,
+          null,
+          [
+            "Ks",
+            "Qh"
+          ]
+        ],
+        [
+          "win",
+          1,
+          11819,
+          null
+        ],
+        [
+          "stack",
+          1,
+          11819,
+          null
+        ],
+        [
+          "stack",
+          5,
+          0,
+          null
+        ],
+        [
+          "stack",
+          6,
+          4181,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -4044,
+      "table": "s1004i7t2",
+      "hand": 71,
+      "bb": 80,
+      "players": 7,
+      "hole": [
+        "As",
+        "4s"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          176,
+          -1
+        ],
+        [
+          "flop",
+          "call",
+          340,
+          1
+        ],
+        [
+          "turn",
+          "call",
+          998,
+          2
+        ],
+        [
+          "river",
+          "call",
+          2530,
+          2
+        ]
+      ],
+      "shown": {
+        "3": [
+          "As",
+          "4s"
+        ],
+        "6": [
+          "Js",
+          "8c"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          71,
+          null
+        ],
+        [
+          "blind",
+          4,
+          40,
+          null
+        ],
+        [
+          "blind",
+          6,
+          80,
+          null
+        ],
+        [
+          "fold",
+          7,
+          null,
+          null
+        ],
+        [
+          "raise",
+          0,
+          176,
+          null
+        ],
+        [
+          "fold",
+          1,
+          null,
+          null
+        ],
+        [
+          "fold",
+          2,
+          null,
+          null
+        ],
+        [
+          "call",
+          3,
+          176,
+          null
+        ],
+        [
+          "fold",
+          4,
+          null,
+          null
+        ],
+        [
+          "call",
+          6,
+          96,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "8s",
+            "Jc",
+            "8h"
+          ]
+        ],
+        [
+          "raise",
+          6,
+          340,
+          null
+        ],
+        [
+          "fold",
+          0,
+          null,
+          null
+        ],
+        [
+          "call",
+          3,
+          340,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Ad"
+          ]
+        ],
+        [
+          "raise",
+          6,
+          998,
+          null
+        ],
+        [
+          "call",
+          3,
+          998,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "3h"
+          ]
+        ],
+        [
+          "raise",
+          6,
+          3775,
+          null
+        ],
+        [
+          "call",
+          3,
+          2530,
+          null
+        ],
+        [
+          "show",
+          3,
+          null,
+          [
+            "As",
+            "4s"
+          ]
+        ],
+        [
+          "show",
+          6,
+          null,
+          [
+            "Js",
+            "8c"
+          ]
+        ],
+        [
+          "win",
+          6,
+          9549,
+          null
+        ],
+        [
+          "stack",
+          3,
+          0,
+          null
+        ],
+        [
+          "stack",
+          4,
+          1495,
+          null
+        ],
+        [
+          "stack",
+          6,
+          9549,
+          null
+        ],
+        [
+          "stack",
+          7,
+          1604,
+          null
+        ],
+        [
+          "stack",
+          0,
+          1952,
+          null
+        ],
+        [
+          "stack",
+          1,
+          557,
+          null
+        ],
+        [
+          "stack",
+          2,
+          843,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -4043,
+      "table": "s1006i6t0",
+      "hand": 134,
+      "bb": 300,
+      "players": 3,
+      "hole": [
+        "Ad",
+        "Ks"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          675,
+          -1
+        ],
+        [
+          "pre",
+          "call",
+          3368,
+          -1
+        ]
+      ],
+      "shown": {
+        "6": [
+          "Ad",
+          "Ks"
+        ],
+        "3": [
+          "5s",
+          "7d"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          134,
+          null
+        ],
+        [
+          "blind",
+          0,
+          150,
+          null
+        ],
+        [
+          "blind",
+          3,
+          300,
+          null
+        ],
+        [
+          "raise",
+          6,
+          675,
+          null
+        ],
+        [
+          "fold",
+          0,
+          null,
+          null
+        ],
+        [
+          "raise",
+          3,
+          4043,
+          null
+        ],
+        [
+          "call",
+          6,
+          3368,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "8c",
+            "5d",
+            "4s"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "6d"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Jh"
+          ]
+        ],
+        [
+          "show",
+          6,
+          null,
+          [
+            "Ad",
+            "Ks"
+          ]
+        ],
+        [
+          "show",
+          3,
+          null,
+          [
+            "5s",
+            "7d"
+          ]
+        ],
+        [
+          "win",
+          3,
+          8236,
+          null
+        ],
+        [
+          "stack",
+          6,
+          2028,
+          null
+        ],
+        [
+          "stack",
+          0,
+          5736,
+          null
+        ],
+        [
+          "stack",
+          3,
+          8236,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -3984,
+      "table": "s1006i4t0",
+      "hand": 171,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "Ks",
+        "2s"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          3484,
+          -1
+        ]
+      ],
+      "shown": {
+        "4": [
+          "5d",
+          "Qh"
+        ],
+        "5": [
+          "Ks",
+          "2s"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          171,
+          null
+        ],
+        [
+          "blind",
+          4,
+          250,
+          null
+        ],
+        [
+          "blind",
+          5,
+          500,
+          null
+        ],
+        [
+          "raise",
+          4,
+          12016,
+          null
+        ],
+        [
+          "call",
+          5,
+          3484,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "8c",
+            "Qs",
+            "Qc"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Ad"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "9d"
+          ]
+        ],
+        [
+          "show",
+          4,
+          null,
+          [
+            "5d",
+            "Qh"
+          ]
+        ],
+        [
+          "show",
+          5,
+          null,
+          [
+            "Ks",
+            "2s"
+          ]
+        ],
+        [
+          "win",
+          4,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          4,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          5,
+          0,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -3957,
+      "table": "s1007i10t0",
+      "hand": 105,
+      "bb": 200,
+      "players": 3,
+      "hole": [
+        "6c",
+        "Kc"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          300,
+          -1
+        ],
+        [
+          "flop",
+          "call",
+          1080,
+          1
+        ],
+        [
+          "turn",
+          "call",
+          2377,
+          2
+        ]
+      ],
+      "shown": {
+        "6": [
+          "3s",
+          "3h"
+        ],
+        "7": [
+          "6c",
+          "Kc"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          105,
+          null
+        ],
+        [
+          "blind",
+          6,
+          100,
+          null
+        ],
+        [
+          "blind",
+          7,
+          200,
+          null
+        ],
+        [
+          "raise",
+          2,
+          500,
+          null
+        ],
+        [
+          "call",
+          6,
+          400,
+          null
+        ],
+        [
+          "call",
+          7,
+          300,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "3d",
+            "8d",
+            "Ks"
+          ]
+        ],
+        [
+          "raise",
+          6,
+          1080,
+          null
+        ],
+        [
+          "call",
+          7,
+          1080,
+          null
+        ],
+        [
+          "fold",
+          2,
+          null,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "8c"
+          ]
+        ],
+        [
+          "raise",
+          6,
+          3648,
+          null
+        ],
+        [
+          "call",
+          7,
+          2377,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "5h"
+          ]
+        ],
+        [
+          "show",
+          6,
+          null,
+          [
+            "3s",
+            "3h"
+          ]
+        ],
+        [
+          "show",
+          7,
+          null,
+          [
+            "6c",
+            "Kc"
+          ]
+        ],
+        [
+          "win",
+          6,
+          9685,
+          null
+        ],
+        [
+          "stack",
+          2,
+          6315,
+          null
+        ],
+        [
+          "stack",
+          6,
+          9685,
+          null
+        ],
+        [
+          "stack",
+          7,
+          0,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -3932,
+      "table": "s1004i10t1",
+      "hand": 160,
+      "bb": 500,
+      "players": 3,
+      "hole": [
+        "2h",
+        "2c"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          3932,
+          -1
+        ]
+      ],
+      "shown": {
+        "7": [
+          "2h",
+          "2c"
+        ],
+        "4": [
+          "7h",
+          "As"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          160,
+          null
+        ],
+        [
+          "blind",
+          4,
+          250,
+          null
+        ],
+        [
+          "blind",
+          6,
+          500,
+          null
+        ],
+        [
+          "raise",
+          7,
+          3932,
+          null
+        ],
+        [
+          "call",
+          4,
+          3682,
+          null
+        ],
+        [
+          "fold",
+          6,
+          null,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Kh",
+            "3c",
+            "Ah"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "3d"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Jc"
+          ]
+        ],
+        [
+          "show",
+          7,
+          null,
+          [
+            "2h",
+            "2c"
+          ]
+        ],
+        [
+          "show",
+          4,
+          null,
+          [
+            "7h",
+            "As"
+          ]
+        ],
+        [
+          "win",
+          4,
+          8364,
+          null
+        ],
+        [
+          "stack",
+          7,
+          0,
+          null
+        ],
+        [
+          "stack",
+          4,
+          8511,
+          null
+        ],
+        [
+          "stack",
+          6,
+          7489,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -3859,
+      "table": "s1000i5t1",
+      "hand": 136,
+      "bb": 300,
+      "players": 3,
+      "hole": [
+        "Kc",
+        "Jh"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          3559,
+          -1
+        ]
+      ],
+      "shown": {
+        "7": [
+          "Ac",
+          "As"
+        ],
+        "4": [
+          "Kc",
+          "Jh"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          136,
+          null
+        ],
+        [
+          "blind",
+          7,
+          150,
+          null
+        ],
+        [
+          "blind",
+          4,
+          300,
+          null
+        ],
+        [
+          "fold",
+          5,
+          null,
+          null
+        ],
+        [
+          "raise",
+          7,
+          3859,
+          null
+        ],
+        [
+          "call",
+          4,
+          3559,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Kd",
+            "Qd",
+            "Ah"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Ks"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "7s"
+          ]
+        ],
+        [
+          "show",
+          7,
+          null,
+          [
+            "Ac",
+            "As"
+          ]
+        ],
+        [
+          "show",
+          4,
+          null,
+          [
+            "Kc",
+            "Jh"
+          ]
+        ],
+        [
+          "win",
+          7,
+          7718,
+          null
+        ],
+        [
+          "stack",
+          5,
+          1481,
+          null
+        ],
+        [
+          "stack",
+          7,
+          7718,
+          null
+        ],
+        [
+          "stack",
+          4,
+          6801,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -3809,
+      "table": "s1000i6t1",
+      "hand": 153,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "3c",
+        "3d"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          3309,
+          -1
+        ]
+      ],
+      "shown": {
+        "4": [
+          "Td",
+          "8c"
+        ],
+        "2": [
+          "3c",
+          "3d"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          153,
+          null
+        ],
+        [
+          "blind",
+          4,
+          250,
+          null
+        ],
+        [
+          "blind",
+          2,
+          500,
+          null
+        ],
+        [
+          "raise",
+          4,
+          3809,
+          null
+        ],
+        [
+          "call",
+          2,
+          3309,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "9c",
+            "Kd",
+            "Qd"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Tc"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "2c"
+          ]
+        ],
+        [
+          "show",
+          4,
+          null,
+          [
+            "Td",
+            "8c"
+          ]
+        ],
+        [
+          "show",
+          2,
+          null,
+          [
+            "3c",
+            "3d"
+          ]
+        ],
+        [
+          "win",
+          4,
+          7618,
+          null
+        ],
+        [
+          "stack",
+          4,
+          7618,
+          null
+        ],
+        [
+          "stack",
+          2,
+          8382,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -3591,
+      "table": "s1002i8t1",
+      "hand": 84,
+      "bb": 120,
+      "players": 5,
+      "hole": [
+        "Qh",
+        "Th"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          216,
+          -1
+        ],
+        [
+          "flop",
+          "raise",
+          537,
+          1
+        ],
+        [
+          "turn",
+          "raise",
+          1134,
+          1
+        ],
+        [
+          "river",
+          "check",
+          null,
+          2
+        ],
+        [
+          "river",
+          "call",
+          1644,
+          2
+        ]
+      ],
+      "shown": {
+        "5": [
+          "Qh",
+          "Th"
+        ],
+        "1": [
+          "Kd",
+          "Qc"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          84,
+          null
+        ],
+        [
+          "blind",
+          5,
+          60,
+          null
+        ],
+        [
+          "blind",
+          7,
+          120,
+          null
+        ],
+        [
+          "fold",
+          0,
+          null,
+          null
+        ],
+        [
+          "raise",
+          1,
+          276,
+          null
+        ],
+        [
+          "fold",
+          4,
+          null,
+          null
+        ],
+        [
+          "call",
+          5,
+          216,
+          null
+        ],
+        [
+          "fold",
+          7,
+          null,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Qs",
+            "8h",
+            "4h"
+          ]
+        ],
+        [
+          "raise",
+          5,
+          537,
+          null
+        ],
+        [
+          "call",
+          1,
+          537,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "2c"
+          ]
+        ],
+        [
+          "raise",
+          5,
+          1134,
+          null
+        ],
+        [
+          "call",
+          1,
+          1134,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "8d"
+          ]
+        ],
+        [
+          "check",
+          5,
+          null,
+          null
+        ],
+        [
+          "raise",
+          1,
+          3795,
+          null
+        ],
+        [
+          "call",
+          5,
+          1644,
+          null
+        ],
+        [
+          "show",
+          5,
+          null,
+          [
+            "Qh",
+            "Th"
+          ]
+        ],
+        [
+          "show",
+          1,
+          null,
+          [
+            "Kd",
+            "Qc"
+          ]
+        ],
+        [
+          "win",
+          1,
+          9453,
+          null
+        ],
+        [
+          "stack",
+          4,
+          2812,
+          null
+        ],
+        [
+          "stack",
+          5,
+          0,
+          null
+        ],
+        [
+          "stack",
+          7,
+          3045,
+          null
+        ],
+        [
+          "stack",
+          0,
+          690,
+          null
+        ],
+        [
+          "stack",
+          1,
+          9453,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -3520,
+      "table": "s1004i0t0",
+      "hand": 125,
+      "bb": 300,
+      "players": 3,
+      "hole": [
+        "Js",
+        "Qh"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          3520,
+          -1
+        ]
+      ],
+      "shown": {
+        "6": [
+          "Js",
+          "Qh"
+        ],
+        "7": [
+          "Qd",
+          "Kc"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          125,
+          null
+        ],
+        [
+          "blind",
+          7,
+          150,
+          null
+        ],
+        [
+          "blind",
+          2,
+          300,
+          null
+        ],
+        [
+          "raise",
+          6,
+          3520,
+          null
+        ],
+        [
+          "call",
+          7,
+          3370,
+          null
+        ],
+        [
+          "fold",
+          2,
+          null,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "8c",
+            "Kd",
+            "9c"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "7c"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "As"
+          ]
+        ],
+        [
+          "show",
+          6,
+          null,
+          [
+            "Js",
+            "Qh"
+          ]
+        ],
+        [
+          "show",
+          7,
+          null,
+          [
+            "Qd",
+            "Kc"
+          ]
+        ],
+        [
+          "win",
+          7,
+          7340,
+          null
+        ],
+        [
+          "stack",
+          6,
+          0,
+          null
+        ],
+        [
+          "stack",
+          7,
+          13721,
+          null
+        ],
+        [
+          "stack",
+          2,
+          2279,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -3358,
+      "table": "s1003i2t1",
+      "hand": 143,
+      "bb": 500,
+      "players": 3,
+      "hole": [
+        "Ah",
+        "Tc"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          3108,
+          -1
+        ]
+      ],
+      "shown": {
+        "7": [
+          "5s",
+          "7h"
+        ],
+        "1": [
+          "Ah",
+          "Tc"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          143,
+          null
+        ],
+        [
+          "blind",
+          1,
+          250,
+          null
+        ],
+        [
+          "blind",
+          4,
+          500,
+          null
+        ],
+        [
+          "raise",
+          7,
+          9705,
+          null
+        ],
+        [
+          "call",
+          1,
+          3108,
+          null
+        ],
+        [
+          "fold",
+          4,
+          null,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "2d",
+            "Ac",
+            "3d"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "4c"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Qd"
+          ]
+        ],
+        [
+          "show",
+          7,
+          null,
+          [
+            "5s",
+            "7h"
+          ]
+        ],
+        [
+          "show",
+          1,
+          null,
+          [
+            "Ah",
+            "Tc"
+          ]
+        ],
+        [
+          "win",
+          7,
+          13563,
+          null
+        ],
+        [
+          "stack",
+          7,
+          13563,
+          null
+        ],
+        [
+          "stack",
+          1,
+          0,
+          null
+        ],
+        [
+          "stack",
+          4,
+          2437,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -3290,
+      "table": "s1004i10t1",
+      "hand": 147,
+      "bb": 500,
+      "players": 3,
+      "hole": [
+        "6d",
+        "6c"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          3040,
+          -1
+        ]
+      ],
+      "shown": {
+        "6": [
+          "Ah",
+          "9h"
+        ],
+        "7": [
+          "6d",
+          "6c"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          147,
+          null
+        ],
+        [
+          "blind",
+          7,
+          250,
+          null
+        ],
+        [
+          "blind",
+          4,
+          500,
+          null
+        ],
+        [
+          "raise",
+          6,
+          3290,
+          null
+        ],
+        [
+          "call",
+          7,
+          3040,
+          null
+        ],
+        [
+          "fold",
+          4,
+          null,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "5c",
+            "3h",
+            "Ad"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "5d"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Jd"
+          ]
+        ],
+        [
+          "show",
+          6,
+          null,
+          [
+            "Ah",
+            "9h"
+          ]
+        ],
+        [
+          "show",
+          7,
+          null,
+          [
+            "6d",
+            "6c"
+          ]
+        ],
+        [
+          "win",
+          6,
+          7080,
+          null
+        ],
+        [
+          "stack",
+          6,
+          7080,
+          null
+        ],
+        [
+          "stack",
+          7,
+          5216,
+          null
+        ],
+        [
+          "stack",
+          4,
+          3704,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -2998,
+      "table": "s1004i9t2",
+      "hand": 132,
+      "bb": 300,
+      "players": 4,
+      "hole": [
+        "4d",
+        "4h"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          2998,
+          -1
+        ]
+      ],
+      "shown": {
+        "7": [
+          "Qc",
+          "Qh"
+        ],
+        "5": [
+          "4d",
+          "4h"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          132,
+          null
+        ],
+        [
+          "blind",
+          0,
+          150,
+          null
+        ],
+        [
+          "blind",
+          1,
+          300,
+          null
+        ],
+        [
+          "raise",
+          5,
+          2998,
+          null
+        ],
+        [
+          "call",
+          7,
+          2998,
+          null
+        ],
+        [
+          "fold",
+          0,
+          null,
+          null
+        ],
+        [
+          "fold",
+          1,
+          null,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Ts",
+            "Ac",
+            "Tc"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "6c"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "2h"
+          ]
+        ],
+        [
+          "show",
+          7,
+          null,
+          [
+            "Qc",
+            "Qh"
+          ]
+        ],
+        [
+          "show",
+          5,
+          null,
+          [
+            "4d",
+            "4h"
+          ]
+        ],
+        [
+          "win",
+          7,
+          6446,
+          null
+        ],
+        [
+          "stack",
+          7,
+          7095,
+          null
+        ],
+        [
+          "stack",
+          0,
+          5725,
+          null
+        ],
+        [
+          "stack",
+          1,
+          3180,
+          null
+        ],
+        [
+          "stack",
+          5,
+          0,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -2987,
+      "table": "s1003i5t0",
+      "hand": 126,
+      "bb": 300,
+      "players": 5,
+      "hole": [
+        "Jc",
+        "As"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          2687,
+          -1
+        ]
+      ],
+      "shown": {
+        "6": [
+          "Ah",
+          "Ks"
+        ],
+        "0": [
+          "Jc",
+          "As"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          126,
+          null
+        ],
+        [
+          "blind",
+          6,
+          150,
+          null
+        ],
+        [
+          "blind",
+          0,
+          300,
+          null
+        ],
+        [
+          "fold",
+          1,
+          null,
+          null
+        ],
+        [
+          "fold",
+          4,
+          null,
+          null
+        ],
+        [
+          "fold",
+          5,
+          null,
+          null
+        ],
+        [
+          "raise",
+          6,
+          2987,
+          null
+        ],
+        [
+          "call",
+          0,
+          2687,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "7d",
+            "4s",
+            "3d"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "5c"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "3s"
+          ]
+        ],
+        [
+          "show",
+          6,
+          null,
+          [
+            "Ah",
+            "Ks"
+          ]
+        ],
+        [
+          "show",
+          0,
+          null,
+          [
+            "Jc",
+            "As"
+          ]
+        ],
+        [
+          "win",
+          6,
+          5974,
+          null
+        ],
+        [
+          "stack",
+          5,
+          3150,
+          null
+        ],
+        [
+          "stack",
+          6,
+          5974,
+          null
+        ],
+        [
+          "stack",
+          0,
+          1650,
+          null
+        ],
+        [
+          "stack",
+          1,
+          1595,
+          null
+        ],
+        [
+          "stack",
+          4,
+          3631,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -2985,
+      "table": "s1007i5t1",
+      "hand": 165,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "Ad",
+        "Kd"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          2485,
+          -1
+        ]
+      ],
+      "shown": {
+        "2": [
+          "7d",
+          "2s"
+        ],
+        "7": [
+          "Ad",
+          "Kd"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          165,
+          null
+        ],
+        [
+          "blind",
+          2,
+          250,
+          null
+        ],
+        [
+          "blind",
+          7,
+          500,
+          null
+        ],
+        [
+          "raise",
+          2,
+          13015,
+          null
+        ],
+        [
+          "call",
+          7,
+          2485,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "5d",
+            "6s",
+            "4s"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "8d"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Tc"
+          ]
+        ],
+        [
+          "show",
+          2,
+          null,
+          [
+            "7d",
+            "2s"
+          ]
+        ],
+        [
+          "show",
+          7,
+          null,
+          [
+            "Ad",
+            "Kd"
+          ]
+        ],
+        [
+          "win",
+          2,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          2,
+          16000,
+          null
+        ],
+        [
+          "stack",
+          7,
+          0,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -2876,
+      "table": "s1002i12t2",
+      "hand": 144,
+      "bb": 500,
+      "players": 3,
+      "hole": [
+        "Qc",
+        "5s"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          2876,
+          -1
+        ]
+      ],
+      "shown": {
+        "0": [
+          "Qc",
+          "5s"
+        ],
+        "5": [
+          "6d",
+          "6h"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          144,
+          null
+        ],
+        [
+          "blind",
+          2,
+          250,
+          null
+        ],
+        [
+          "blind",
+          5,
+          500,
+          null
+        ],
+        [
+          "raise",
+          0,
+          2876,
+          null
+        ],
+        [
+          "fold",
+          2,
+          null,
+          null
+        ],
+        [
+          "call",
+          5,
+          2376,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Jd",
+            "3s",
+            "As"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "9c"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "6s"
+          ]
+        ],
+        [
+          "show",
+          0,
+          null,
+          [
+            "Qc",
+            "5s"
+          ]
+        ],
+        [
+          "show",
+          5,
+          null,
+          [
+            "6d",
+            "6h"
+          ]
+        ],
+        [
+          "win",
+          5,
+          6002,
+          null
+        ],
+        [
+          "stack",
+          0,
+          0,
+          null
+        ],
+        [
+          "stack",
+          2,
+          3994,
+          null
+        ],
+        [
+          "stack",
+          5,
+          12006,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -2836,
+      "table": "s1002i7t0",
+      "hand": 144,
+      "bb": 500,
+      "players": 2,
+      "hole": [
+        "5s",
+        "Ts"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          2836,
+          -1
+        ]
+      ],
+      "shown": {
+        "4": [
+          "5s",
+          "Ts"
+        ],
+        "5": [
+          "7c",
+          "Jd"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          144,
+          null
+        ],
+        [
+          "blind",
+          4,
+          250,
+          null
+        ],
+        [
+          "blind",
+          5,
+          500,
+          null
+        ],
+        [
+          "raise",
+          4,
+          2836,
+          null
+        ],
+        [
+          "call",
+          5,
+          2336,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "9c",
+            "8d",
+            "Ah"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "3c"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "4d"
+          ]
+        ],
+        [
+          "show",
+          4,
+          null,
+          [
+            "5s",
+            "Ts"
+          ]
+        ],
+        [
+          "show",
+          5,
+          null,
+          [
+            "7c",
+            "Jd"
+          ]
+        ],
+        [
+          "win",
+          5,
+          5672,
+          null
+        ],
+        [
+          "stack",
+          4,
+          0,
+          null
+        ],
+        [
+          "stack",
+          5,
+          16000,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -2834,
+      "table": "s1005i3t0",
+      "hand": 118,
+      "bb": 200,
+      "players": 4,
+      "hole": [
+        "As",
+        "Kd"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          730,
+          -1
+        ],
+        [
+          "pre",
+          "call",
+          2104,
+          -1
+        ]
+      ],
+      "shown": {
+        "2": [
+          "As",
+          "Kd"
+        ],
+        "6": [
+          "Ac",
+          "Ad"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          118,
+          null
+        ],
+        [
+          "blind",
+          2,
+          100,
+          null
+        ],
+        [
+          "blind",
+          6,
+          200,
+          null
+        ],
+        [
+          "fold",
+          7,
+          null,
+          null
+        ],
+        [
+          "call",
+          0,
+          200,
+          null
+        ],
+        [
+          "raise",
+          2,
+          730,
+          null
+        ],
+        [
+          "raise",
+          6,
+          2834,
+          null
+        ],
+        [
+          "fold",
+          0,
+          null,
+          null
+        ],
+        [
+          "call",
+          2,
+          2104,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Td",
+            "3s",
+            "6s"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "9d"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Ah"
+          ]
+        ],
+        [
+          "show",
+          2,
+          null,
+          [
+            "As",
+            "Kd"
+          ]
+        ],
+        [
+          "show",
+          6,
+          null,
+          [
+            "Ac",
+            "Ad"
+          ]
+        ],
+        [
+          "win",
+          6,
+          5868,
+          null
+        ],
+        [
+          "stack",
+          0,
+          2994,
+          null
+        ],
+        [
+          "stack",
+          2,
+          1707,
+          null
+        ],
+        [
+          "stack",
+          6,
+          5868,
+          null
+        ],
+        [
+          "stack",
+          7,
+          5431,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -2716,
+      "table": "s1002i12t2",
+      "hand": 142,
+      "bb": 500,
+      "players": 3,
+      "hole": [
+        "Js",
+        "Kh"
+      ],
+      "acts": [
+        [
+          "pre",
+          "call",
+          2216,
+          -1
+        ]
+      ],
+      "shown": {
+        "2": [
+          "7h",
+          "Ac"
+        ],
+        "0": [
+          "Js",
+          "Kh"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          142,
+          null
+        ],
+        [
+          "blind",
+          5,
+          250,
+          null
+        ],
+        [
+          "blind",
+          0,
+          500,
+          null
+        ],
+        [
+          "raise",
+          2,
+          2716,
+          null
+        ],
+        [
+          "fold",
+          5,
+          null,
+          null
+        ],
+        [
+          "call",
+          0,
+          2216,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "7c",
+            "8h",
+            "Qh"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "2c"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "3c"
+          ]
+        ],
+        [
+          "show",
+          2,
+          null,
+          [
+            "7h",
+            "Ac"
+          ]
+        ],
+        [
+          "show",
+          0,
+          null,
+          [
+            "Js",
+            "Kh"
+          ]
+        ],
+        [
+          "win",
+          2,
+          5682,
+          null
+        ],
+        [
+          "stack",
+          2,
+          5682,
+          null
+        ],
+        [
+          "stack",
+          5,
+          8880,
+          null
+        ],
+        [
+          "stack",
+          0,
+          1438,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -2708,
+      "table": "s1001i1t0",
+      "hand": 51,
+      "bb": 50,
+      "players": 6,
+      "hole": [
+        "Kh",
+        "Qh"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          112,
+          -1
+        ],
+        [
+          "flop",
+          "raise",
+          234,
+          1
+        ],
+        [
+          "flop",
+          "call",
+          704,
+          1
+        ],
+        [
+          "turn",
+          "raise",
+          2783,
+          1
+        ]
+      ],
+      "shown": {
+        "2": [
+          "Kh",
+          "Qh"
+        ],
+        "5": [
+          "7s",
+          "7h"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          51,
+          null
+        ],
+        [
+          "blind",
+          0,
+          25,
+          null
+        ],
+        [
+          "blind",
+          1,
+          50,
+          null
+        ],
+        [
+          "raise",
+          2,
+          112,
+          null
+        ],
+        [
+          "call",
+          5,
+          112,
+          null
+        ],
+        [
+          "fold",
+          6,
+          null,
+          null
+        ],
+        [
+          "fold",
+          7,
+          null,
+          null
+        ],
+        [
+          "fold",
+          0,
+          null,
+          null
+        ],
+        [
+          "call",
+          1,
+          62,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "9c",
+            "7d",
+            "Qd"
+          ]
+        ],
+        [
+          "check",
+          1,
+          null,
+          null
+        ],
+        [
+          "raise",
+          2,
+          234,
+          null
+        ],
+        [
+          "raise",
+          5,
+          938,
+          null
+        ],
+        [
+          "fold",
+          1,
+          null,
+          null
+        ],
+        [
+          "call",
+          2,
+          704,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "5h"
+          ]
+        ],
+        [
+          "raise",
+          2,
+          2783,
+          null
+        ],
+        [
+          "call",
+          5,
+          1658,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "8d"
+          ]
+        ],
+        [
+          "show",
+          2,
+          null,
+          [
+            "Kh",
+            "Qh"
+          ]
+        ],
+        [
+          "show",
+          5,
+          null,
+          [
+            "7s",
+            "7h"
+          ]
+        ],
+        [
+          "win",
+          5,
+          5553,
+          null
+        ],
+        [
+          "win",
+          2,
+          1125,
+          null
+        ],
+        [
+          "stack",
+          7,
+          1861,
+          null
+        ],
+        [
+          "stack",
+          0,
+          1905,
+          null
+        ],
+        [
+          "stack",
+          1,
+          3944,
+          null
+        ],
+        [
+          "stack",
+          2,
+          1125,
+          null
+        ],
+        [
+          "stack",
+          5,
+          5553,
+          null
+        ],
+        [
+          "stack",
+          6,
+          1612,
+          null
+        ]
+      ]
+    },
+    {
+      "net": -2642,
+      "table": "s1005i11t1",
+      "hand": 131,
+      "bb": 300,
+      "players": 4,
+      "hole": [
+        "Ad",
+        "9h"
+      ],
+      "acts": [
+        [
+          "pre",
+          "raise",
+          2642,
+          -1
+        ]
+      ],
+      "shown": {
+        "4": [
+          "Qc",
+          "Qd"
+        ],
+        "0": [
+          "Ad",
+          "9h"
+        ]
+      },
+      "events": [
+        [
+          "hand",
+          null,
+          131,
+          null
+        ],
+        [
+          "blind",
+          5,
+          150,
+          null
+        ],
+        [
+          "blind",
+          7,
+          300,
+          null
+        ],
+        [
+          "raise",
+          0,
+          2642,
+          null
+        ],
+        [
+          "raise",
+          4,
+          7523,
+          null
+        ],
+        [
+          "fold",
+          5,
+          null,
+          null
+        ],
+        [
+          "fold",
+          7,
+          null,
+          null
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Qh",
+            "4s",
+            "7h"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Qs"
+          ]
+        ],
+        [
+          "board",
+          null,
+          null,
+          [
+            "Tc"
+          ]
+        ],
+        [
+          "show",
+          4,
+          null,
+          [
+            "Qc",
+            "Qd"
+          ]
+        ],
+        [
+          "show",
+          0,
+          null,
+          [
+            "Ad",
+            "9h"
+          ]
+        ],
+        [
+          "win",
+          4,
+          10615,
+          null
+        ],
+        [
+          "stack",
+          4,
+          10615,
+          null
+        ],
+        [
+          "stack",
+          5,
+          970,
+          null
+        ],
+        [
+          "stack",
+          7,
+          4415,
+          null
+        ],
+        [
+          "stack",
+          0,
+          0,
+          null
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+== field=holdout cand=-
+  r0_weakfield top3:  24.31±0.34 steep:  49.83±0.62 linear:   4.86±0.03 wta:  36.11±0.70 
+  r1_selfplay  top3:  22.86±0.35 steep:  48.04±0.64 linear:   4.71±0.03 wta:  36.22±0.73 
+  r3_selfplay  top3:  21.11±0.35 steep:  44.94±0.64 linear:   4.53±0.04 wta:  33.22±0.73 
+  blend        top3:  24.81±0.35 steep:  51.42±0.64 linear:   4.90±0.03 wta:  39.35±0.74 
+  tag          top3:  18.00±0.30 steep:  37.32±0.53 linear:   4.29±0.03 wta:  20.10±0.55
+== field=typical cand=-
+  r0_weakfield top3:  30.04±0.34 steep:  60.78±0.63 linear:   5.34±0.03 wta:  49.59±0.73 
+  r1_selfplay  top3:  27.29±0.36 steep:  56.10±0.66 linear:   5.04±0.04 wta:  45.92±0.76 
+  r3_selfplay  top3:  26.61±0.36 steep:  55.07±0.66 linear:   5.01±0.04 wta:  44.90±0.76 
+  blend        top3:  29.72±0.35 steep:  60.66±0.64 linear:   5.30±0.03 wta:  50.56±0.75 
+  tag          top3:  18.78±0.30 steep:  38.56±0.53 linear:   4.37±0.03 wta:  20.88±0.54
+== field=all_mirror cand=r0
+  r0_weakfield top3:  13.00±0.27 steep:  28.14±0.45 linear:   3.60±0.04 wta:  12.99±0.36 
+  r1_selfplay  top3:  15.28±0.31 steep:  32.24±0.55 linear:   3.59±0.04 wta:  20.30±0.51 
+  r3_selfplay  top3:  15.63±0.31 steep:  32.99±0.56 linear:   3.60±0.04 wta:  21.24±0.50 
+  blend        top3:  15.73±0.30 steep:  32.98±0.53 linear:   3.72±0.04 wta:  19.39±0.45 
+  tag          top3:   5.67±0.18 steep:  14.36±0.30 linear:   2.46±0.03 wta:   2.90±0.16
+== field=all_mirror cand=r1
+  r0_weakfield top3:  10.77±0.23 steep:  23.59±0.37 linear:   3.52±0.03 wta:   6.32±0.27 
+  r1_selfplay  top3:  12.90±0.27 steep:  27.66±0.47 linear:   3.55±0.04 wta:  12.47±0.42 
+  r3_selfplay  top3:  13.03±0.28 steep:  28.23±0.49 linear:   3.56±0.04 wta:  14.01±0.45 
+  blend        top3:  12.86±0.26 steep:  27.48±0.44 linear:   3.65±0.03 wta:  10.90±0.37 
+  tag          top3:   5.92±0.18 steep:  14.63±0.28 linear:   2.61±0.03 wta:   1.18±0.11
+== field=all_mirror cand=r3
+  r0_weakfield top3:  10.09±0.23 steep:  22.26±0.37 linear:   3.35±0.03 wta:   5.73±0.26 
+  r1_selfplay  top3:  11.96±0.27 steep:  26.11±0.47 linear:   3.44±0.04 wta:  11.48±0.41 
+  r3_selfplay  top3:  12.51±0.28 steep:  27.15±0.48 linear:   3.50±0.04 wta:  12.48±0.43 
+  blend        top3:  12.43±0.26 steep:  26.68±0.44 linear:   3.56±0.04 wta:  10.36±0.36 
+  tag          top3:   6.25±0.18 steep:  14.60±0.29 linear:   2.51±0.03 wta:   1.56±0.15
+== field=mirror cand=r1
+  r0_weakfield top3:  17.08±0.29 steep:  35.22±0.50 linear:   4.23±0.03 wta:  17.11±0.51 
+  r1_selfplay  top3:  17.66±0.32 steep:  37.50±0.58 linear:   4.15±0.04 wta:  23.40±0.61 
+  r3_selfplay  top3:  17.87±0.32 steep:  37.69±0.58 linear:   4.14±0.04 wta:  23.64±0.61 
+  blend        top3:  18.25±0.31 steep:  37.72±0.55 linear:   4.24±0.04 wta:  21.54±0.56 
+  tag          top3:   8.91±0.22 steep:  19.79±0.36 linear:   3.06±0.03 wta:   4.12±0.25
+== field=stress_mix cand=-
+  r0_weakfield top3:  25.48±0.35 steep:  51.91±0.64 linear:   4.83±0.04 wta:  39.75±0.71 
+  r1_selfplay  top3:  21.34±0.36 steep:  44.88±0.66 linear:   4.38±0.04 wta:  34.51±0.73 
+  r3_selfplay  top3:  19.08±0.35 steep:  40.50±0.64 linear:   4.13±0.04 wta:  29.93±0.71 
+  blend        top3:  24.12±0.36 steep:  49.73±0.66 linear:   4.64±0.04 wta:  39.07±0.74 
+  tag          top3:  17.62±0.31 steep:  36.33±0.55 linear:   4.11±0.04 wta:  20.25±0.56
+== field=all_mirror cand=blend
+  r0_weakfield top3:  10.34±0.24 steep:  23.43±0.39 linear:   3.38±0.03 wta:   8.21±0.28 
+  r1_selfplay  top3:  13.04±0.28 steep:  28.16±0.49 linear:   3.49±0.04 wta:  14.54±0.43 
+  r3_selfplay  top3:  12.81±0.28 steep:  27.94±0.50 linear:   3.44±0.04 wta:  14.83±0.43 
+  blend        top3:  12.71±0.27 steep:  27.44±0.46 linear:   3.51±0.04 wta:  12.70±0.37 
+  tag          top3:   5.27±0.17 steep:  13.64±0.28 linear:   2.44±0.03 wta:   1.89±0.14

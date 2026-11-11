@@ -1,0 +1,74 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 1000,
+ "results": {
+  "check_or_fold": {
+   "mean_points": 7.62,
+   "se": 0.24,
+   "seats": 2,
+   "places_1_to_8": [
+    0,
+    131,
+    564,
+    750,
+    464,
+    91,
+    0,
+    0
+   ]
+  },
+  "min_raiser": {
+   "mean_points": 0.68,
+   "se": 0.13,
+   "seats": 2,
+   "places_1_to_8": [
+    27,
+    0,
+    0,
+    43,
+    115,
+    290,
+    912,
+    613
+   ]
+  },
+  "self": {
+   "mean_points": 20.85,
+   "se": 0.32,
+   "seats": 4,
+   "places_1_to_8": [
+    973,
+    869,
+    436,
+    207,
+    427,
+    677,
+    404,
+    7
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 660881,
+ "failed": {
+  "timeout": 108
+ },
+ "latency_us": {
+  "p50": 50.8,
+  "p99": 3171.1,
+  "p99.9": 30260.1,
+  "max": 168187.6,
+  "over_1ms": 8767
+ },
+ "memory_bytes_max": 2100,
+ "first_errors": [
+  "('timeout', \"seat 3 hand 1 cards ['9d', '9s'] board [] pot 2086 to_call 48 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 740, 2000)] button 5 seats [(0, 2000, 0, 'folded'), (1, 2000, 0, 'folded'), (2, 2000, 0, 'folded'), (3, 1332, 668, 'active'), (4, 1308, 692, 'active'), (5, 2000, 0, 'folded'), (6, 1990, 10, 'folded'), (7, 1284, 716, 'active')] events 3 memory_in b'\\",
+  "('timeout', \"seat 3 hand 17 cards ['Kd', '6d'] board ['7d', 'Ad', '8s', 'Jc'] pot 506 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 20, 728)] button 1 seats [(0, 3477, 0, 'active'), (1, 3310, 0, 'folded'), (2, 1910, 0, 'folded'), (3, 728, 0, 'active'), (4, 0, 0, 'busted'), (5, 4139, 0, 'folded'), (6, 1930, 0, 'folded'), (7, 0, 0, 'busted')] events 2 memory_in b'\\\\xfb\\\\xda\\\\x01v\\\\xe",
+  "('timeout', \"seat 3 hand 20 cards ['Ah', '7d'] board [] pot 30 to_call 20 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 40, 718)] button 5 seats [(0, 3993, 20, 'active'), (1, 3430, 0, 'folded'), (2, 1910, 0, 'folded'), (3, 718, 0, 'active'), (4, 0, 0, 'busted'), (5, 4019, 0, 'active'), (6, 1900, 10, 'active'), (7, 0, 0, 'busted')] events 23 memory_in b'\\\\xfb\\\\xda\\\\x01"
+ ]
+}

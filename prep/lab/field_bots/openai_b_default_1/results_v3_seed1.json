@@ -1,0 +1,74 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 200,
+ "results": {
+  "check_or_fold": {
+   "mean_points": 8.23,
+   "se": 0.55,
+   "seats": 2,
+   "places_1_to_8": [
+    0,
+    31,
+    118,
+    143,
+    92,
+    16,
+    0,
+    0
+   ]
+  },
+  "self": {
+   "mean_points": 20.57,
+   "se": 0.72,
+   "seats": 4,
+   "places_1_to_8": [
+    195,
+    169,
+    82,
+    46,
+    90,
+    140,
+    77,
+    1
+   ]
+  },
+  "min_raiser": {
+   "mean_points": 0.62,
+   "se": 0.28,
+   "seats": 2,
+   "places_1_to_8": [
+    5,
+    0,
+    0,
+    11,
+    18,
+    66,
+    200,
+    100
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 137536,
+ "failed": {
+  "timeout": 45
+ },
+ "latency_us": {
+  "p50": 49.0,
+  "p99": 6472.4,
+  "p99.9": 33103.2,
+  "max": 104058.8,
+  "over_1ms": 2086
+ },
+ "memory_bytes_max": 1902,
+ "first_errors": [
+  "('timeout', \"seat 3 hand 98 cards ['7h', '6h'] board ['4s', '8h', '7c', 'Kd'] pot 1080 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 120, 5811)] button 4 seats [(0, 0, 0, 'busted'), (1, 0, 0, 'busted'), (2, 50, 0, 'folded'), (3, 5811, 0, 'active'), (4, 9059, 0, 'active'), (5, 0, 0, 'busted'), (6, 0, 0, 'busted'), (7, 0, 0, 'busted')] events 3 memory_in b'\\\\xfb\\\\xda\\\\x01v\\\\xe9\\\\x03\\",
+  "('timeout', \"seat 3 hand 104 cards ['Tc', 'Ts'] board ['3s', 'Qh', 'Td'] pot 1337 to_call 457 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 914, 4672)] button 3 seats [(0, 0, 0, 'busted'), (1, 0, 0, 'busted'), (2, 0, 0, 'busted'), (3, 4672, 0, 'active'), (4, 9991, 457, 'active'), (5, 0, 0, 'busted'), (6, 0, 0, 'busted'), (7, 0, 0, 'busted')] events 4 memory_in b'\\\\xfb",
+  "('timeout', \"seat 3 hand 137 cards ['8c', '5c'] board ['5s', '3s', 'Jh'] pot 2006 to_call 686 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 1372, 5554)] button 4 seats [(0, 0, 0, 'busted'), (1, 0, 0, 'busted'), (2, 0, 0, 'busted'), (3, 5554, 0, 'active'), (4, 8440, 686, 'active'), (5, 0, 0, 'busted'), (6, 0, 0, 'busted'), (7, 0, 0, 'busted')] events 2 memory_in b'\\\\xf"
+ ]
+}

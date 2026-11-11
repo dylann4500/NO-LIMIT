@@ -1,0 +1,77 @@
+OUR RESPONSE {(1, 'small'): Counter({'fold': 313, 'call': 284, 'raise': 23}), (2, 'medium'): Counter({'fold': 142, 'call': 61, 'raise': 15}), (1, 'free'): Counter({'check': 956, 'raise': 654}), (2, 'free'): Counter({'check': 705, 'raise': 196}), (3, 'free'): Counter({'check': 489, 'raise': 132}), (3, 'medium'): Counter({'fold': 101, 'call': 19, 'raise': 4}), (1, 'medium'): Counter({'fold': 354, 'call': 132, 'raise': 19}), (2, 'small'): Counter({'call': 108, 'fold': 74, 'raise': 13}), (3, 'small'): Counter({'fold': 45, 'call': 39, 'raise': 1}), (3, 'large'): Counter({'fold': 1}), (1, 'large'): Counter({'fold': 1}), (2, 'large'): Counter({'fold': 1})}
+FIELD RESPONSE
+('FIELD', 1, 'free') Counter({'check': 5792, 'raise': 5682})
+('FIELD', 1, 'small') Counter({'call': 1778, 'fold': 1445, 'raise': 218})
+('FIELD', 1, 'medium') Counter({'fold': 1893, 'call': 1026, 'raise': 194})
+('FIELD', 2, 'free') Counter({'check': 4539, 'raise': 2468})
+('FIELD', 2, 'medium') Counter({'fold': 977, 'call': 562, 'raise': 74})
+('FIELD', 2, 'small') Counter({'call': 626, 'fold': 419, 'raise': 61})
+('FIELD', 3, 'free') Counter({'check': 3432, 'raise': 1262})
+('FIELD', 3, 'medium') Counter({'fold': 613, 'call': 156, 'raise': 27})
+('FIELD', 3, 'small') Counter({'fold': 310, 'call': 262, 'raise': 17})
+('FIELD', 1, 'large') Counter({'fold': 14, 'call': 1})
+('FIELD', 2, 'large') Counter({'fold': 4, 'call': 2})
+('FIELD', 3, 'large') Counter({'fold': 3, 'call': 1})
+CALIBRATION ON SHOWDOWNS (selection biased)
+(1, 'call', 0.2) 34 0.263 0.533 178.9
+(1, 'call', 0.4) 95 0.389 0.525 265.3
+(1, 'call', 0.6) 37 0.576 0.603 389.6
+(1, 'call', 0.8) 4 0.783 0.34 481.2
+(1, 'check', 0.0) 2 0.087 0.142 0.0
+(1, 'check', 0.2) 71 0.228 0.355 0.0
+(1, 'check', 0.4) 88 0.398 0.466 0.0
+(1, 'check', 0.6) 39 0.568 0.627 0.0
+(1, 'raise', 0.2) 4 0.227 0.13 0.0
+(1, 'raise', 0.4) 32 0.436 0.408 0.0
+(1, 'raise', 0.6) 56 0.601 0.513 1.6
+(1, 'raise', 0.8) 54 0.778 0.656 64.0
+(1, 'raise', 1.0) 5 0.943 0.888 44.8
+(2, 'call', 0.2) 11 0.262 0.446 212.1
+(2, 'call', 0.4) 56 0.4 0.557 507.0
+(2, 'call', 0.6) 27 0.611 0.507 518.7
+(2, 'call', 0.8) 4 0.766 0.714 884.8
+(2, 'call', 1.0) 3 0.943 0.962 811.3
+(2, 'check', 0.0) 15 0.074 0.148 0.0
+(2, 'check', 0.2) 118 0.215 0.371 0.0
+(2, 'check', 0.4) 110 0.394 0.548 0.0
+(2, 'check', 0.6) 64 0.587 0.708 0.0
+(2, 'check', 0.8) 12 0.777 0.827 0.0
+(2, 'check', 1.0) 1 0.94 1.0 0.0
+(2, 'raise', 0.2) 1 0.167 0.161 0.0
+(2, 'raise', 0.4) 8 0.395 0.339 0.0
+(2, 'raise', 0.6) 14 0.631 0.579 0.0
+(2, 'raise', 0.8) 31 0.789 0.77 160.1
+(2, 'raise', 1.0) 17 0.948 0.853 98.8
+(3, 'call', 0.2) 9 0.257 0.778 412.3
+(3, 'call', 0.4) 27 0.394 0.667 484.4
+(3, 'call', 0.6) 12 0.596 0.625 679.1
+(3, 'call', 0.8) 5 0.787 0.5 1479.4
+(3, 'call', 1.0) 1 1.0 1.0 1376.0
+(3, 'check', 0.0) 53 0.038 0.151 0.0
+(3, 'check', 0.2) 107 0.193 0.416 0.0
+(3, 'check', 0.4) 81 0.402 0.519 0.0
+(3, 'check', 0.6) 57 0.596 0.772 0.0
+(3, 'check', 0.8) 34 0.801 0.926 0.0
+(3, 'check', 1.0) 5 0.924 1.0 0.0
+(3, 'raise', 0.0) 1 0.0 0.0 0.0
+(3, 'raise', 0.6) 6 0.662 0.25 0.0
+(3, 'raise', 0.8) 14 0.799 0.607 82.2
+(3, 'raise', 1.0) 9 0.949 1.0 0.0
+OPTIMISTIC VALUE RAISES
+{'table': 's1000i3t0', 'hand': 18, 'st': 3, 'eq': 0.862500011920929, 'true': 0.0, 'hole': ['Ts', 'Qs'], 'board': ['7s', '9s', '3s', '9d', '2d'], 'villain': '(Card("Js"), Card("As"))', 'pot': 1188, 'call': 528, 'amount': 1470}
+{'table': 's1000i4t0', 'hand': 28, 'st': 2, 'eq': 0.7124999761581421, 'true': 0.13233333826065063, 'hole': ['Kd', 'As'], 'board': ['Qd', '4c', '7s', 'Ad'], 'villain': '(Card("7h"), Card("Ac"))', 'pot': 226, 'call': 0, 'amount': 162}
+{'table': 's1000i4t0', 'hand': 28, 'st': 3, 'eq': 0.75, 'true': 0.0, 'hole': ['Kd', 'As'], 'board': ['Qd', '4c', '7s', 'Ad', '9h'], 'villain': '(Card("7h"), Card("Ac"))', 'pot': 1430, 'call': 0, 'amount': 1966}
+{'table': 's1002i3t0', 'hand': 3, 'st': 3, 'eq': 0.8062499761581421, 'true': 0.0, 'hole': ['Tc', '8c'], 'board': ['4s', 'Qc', '7c', '6s', '6c'], 'villain': '(Card("Kc"), Card("5c"))', 'pot': 377, 'call': 173, 'amount': 664}
+{'table': 's1002i12t1', 'hand': 73, 'st': 3, 'eq': 0.8374999761581421, 'true': 0.0, 'hole': ['Jd', '9d'], 'board': ['6h', '8c', 'As', 'Qc', 'Td'], 'villain': '(Card("Jc"), Card("Kc"))', 'pot': 756, 'call': 324, 'amount': 1584}
+{'table': 's1003i9t1', 'hand': 26, 'st': 2, 'eq': 0.8265625238418579, 'true': 0.0, 'hole': ['Kh', 'As'], 'board': ['2s', '7d', 'Ad', 'Th'], 'villain': '(Card("2h"), Card("2c"))', 'pot': 1535, 'call': 0, 'amount': 1266}
+{'table': 's1003i12t2', 'hand': 81, 'st': 2, 'eq': 0.7203124761581421, 'true': 0.1616666615009308, 'hole': ['5s', 'Ad'], 'board': ['3d', '2d', '9c', 'Ac'], 'villain': '(Card("As"), Card("Jc"))', 'pot': 1184, 'call': 0, 'amount': 244}
+{'table': 's1004i0t0', 'hand': 118, 'st': 1, 'eq': 0.7601562738418579, 'true': 0.23499999940395355, 'hole': ['Js', 'Qd'], 'board': ['Jh', '4c', '4s'], 'villain': '(Card("Jd"), Card("Ks"))', 'pot': 1040, 'call': 0, 'amount': 748}
+{'table': 's1005i1t1', 'hand': 24, 'st': 1, 'eq': 0.793749988079071, 'true': 0.0403333343565464, 'hole': ['2d', '2c'], 'board': ['8h', '2h', 'Tc'], 'villain': '(Card("8s"), Card("8c"))', 'pot': 439, 'call': 217, 'amount': 1831}
+{'table': 's1005i3t1', 'hand': 167, 'st': 1, 'eq': 0.76171875, 'true': 0.23549999296665192, 'hole': ['3d', '8d'], 'board': ['3c', '3h', '6d'], 'villain': '(Card("Kd"), Card("3s"))', 'pot': 3784, 'call': 1584, 'amount': 8074}
+{'table': 's1005i12t1', 'hand': 6, 'st': 1, 'eq': 0.8140624761581421, 'true': 0.018666666001081467, 'hole': ['Kc', 'Jh'], 'board': ['2s', '6h', 'Js'], 'villain': '(Card("6d"), Card("6c"))', 'pot': 118, 'call': 0, 'amount': 84}
+{'table': 's1005i12t1', 'hand': 6, 'st': 1, 'eq': 0.727343738079071, 'true': 0.01600000075995922, 'hole': ['Kc', 'Jh'], 'board': ['2s', '6h', 'Js'], 'villain': '(Card("6d"), Card("6c"))', 'pot': 486, 'call': 200, 'amount': 1986}
+{'table': 's1006i4t0', 'hand': 33, 'st': 1, 'eq': 0.75390625, 'true': 0.06933332979679108, 'hole': ['Ac', '7h'], 'board': ['6c', 'Ah', '3c'], 'villain': '(Card("6d"), Card("6s"))', 'pot': 147, 'call': 0, 'amount': 105}
+{'table': 's1006i4t0', 'hand': 75, 'st': 1, 'eq': 0.75, 'true': 0.21799999475479126, 'hole': ['As', '8s'], 'board': ['9d', 'Ac', '7s'], 'villain': '(Card("Qs"), Card("Ah"))', 'pot': 376, 'call': 0, 'amount': 270}
+{'table': 's1006i10t1', 'hand': 68, 'st': 1, 'eq': 0.8101562261581421, 'true': 0.25433334708213806, 'hole': ['2s', 'As'], 'board': ['Ac', '4h', '5d'], 'villain': '(Card("Jh"), Card("Ah"))', 'pot': 472, 'call': 0, 'amount': 339}
+{'table': 's1007i12t2', 'hand': 27, 'st': 1, 'eq': 0.770312488079071, 'true': 0.09033333510160446, 'hole': ['Kd', 'Kc'], 'board': ['5h', '8s', '3s'], 'villain': '(Card("5d"), Card("5c"))', 'pot': 630, 'call': 0, 'amount': 453}
+{'table': 's1007i13t2', 'hand': 91, 'st': 1, 'eq': 0.7203124761581421, 'true': 0.13066667318344116, 'hole': ['8s', 'Kd'], 'board': ['2d', '6s', 'Kh'], 'villain': '(Card("As"), Card("Ks"))', 'pot': 600, 'call': 0, 'amount': 432}

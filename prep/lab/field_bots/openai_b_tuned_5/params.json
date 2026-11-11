@@ -1,0 +1,19 @@
+{
+  "open": 1.0,
+  "threebet": 0.615,
+  "call_edge": 0.04,
+  "risk": 0.12,
+  "value": 0.62,
+  "cbet": 0.5,
+  "bluff": 0.2,
+  "dry_size": 0.3,
+  "wet_size": 0.55,
+  "raise_size": 3.1,
+  "samples": 224,
+  "iterations": 512,
+  "range_filter": 1.0,
+  "range_weight": 0.35,
+  "history_filter": 0.84,
+  "adaptive_open": 0.16,
+  "hu_call_scale": 0.6
+}

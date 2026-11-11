@@ -1,0 +1,74 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 30,
+ "results": {
+  "self": {
+   "mean_points": 21.08,
+   "se": 1.85,
+   "seats": 4,
+   "places_1_to_8": [
+    29,
+    28,
+    12,
+    4,
+    13,
+    17,
+    17,
+    0
+   ]
+  },
+  "min_raiser": {
+   "mean_points": 0.83,
+   "se": 0.83,
+   "seats": 2,
+   "places_1_to_8": [
+    1,
+    0,
+    0,
+    0,
+    4,
+    12,
+    16,
+    27
+   ]
+  },
+  "check_or_fold": {
+   "mean_points": 7.0,
+   "se": 1.3,
+   "seats": 2,
+   "places_1_to_8": [
+    0,
+    2,
+    18,
+    26,
+    13,
+    1,
+    0,
+    0
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 17460,
+ "failed": {
+  "timeout": 14
+ },
+ "latency_us": {
+  "p50": 34.2,
+  "p99": 10216.9,
+  "p99.9": 45238.1,
+  "max": 105018.2,
+  "over_1ms": 297
+ },
+ "memory_bytes_max": 1434,
+ "first_errors": [
+  "('timeout', 'seat 0 hand 208 cards [\\'Jc\\', \\'8c\\'] board [\\'Ac\\', \\'6d\\', \\'9c\\', \\'Ts\\'] pot 6160 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 500, 6460)] button 2 seats [(0, 6460, 0, \\'active\\'), (1, 0, 0, \\'busted\\'), (2, 3380, 0, \\'active\\'), (3, 0, 0, \\'busted\\'), (4, 0, 0, \\'busted\\'), (5, 0, 0, \\'busted\\'), (6, 0, 0, \\'busted\\'), (7, 0, 0, \\'busted\\')] events 2 memory_in b",
+  "('timeout', 'seat 0 hand 3 cards [\\'7s\\', \\'4d\\'] board [] pot 154 to_call 76 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 104, 1970)] button 0 seats [(0, 1970, 0, \\'active\\'), (1, 0, 0, \\'busted\\'), (2, 1970, 10, \\'active\\'), (3, 1980, 20, \\'active\\'), (4, 1912, 48, \\'active\\'), (5, 2000, 0, \\'folded\\'), (6, 4024, 76, \\'active\\'), (7, 1990, 0, \\'folded\\')] events 17",
+  "('timeout', 'seat 0 hand 43 cards [\\'Jc\\', \\'Kh\\'] board [\\'Ad\\', \\'2c\\', \\'8h\\', \\'Qc\\'] pot 265 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 50, 3504)] button 4 seats [(0, 3504, 0, \\'active\\'), (1, 0, 0, \\'busted\\'), (2, 1462, 0, \\'folded\\'), (3, 1810, 0, \\'folded\\'), (4, 3604, 0, \\'folded\\'), (5, 1745, 0, \\'folded\\'), (6, 0, 0, \\'busted\\'), (7, 3610, 0, \\'active\\')] events 3 me"
+ ]
+}

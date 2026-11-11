@@ -1,0 +1,41 @@
+gen 0 t=11s best_z=1.46 mean_elite_top3=27.35
+gen 1 t=22s best_z=1.32 mean_elite_top3=27.83
+gen 2 t=34s best_z=1.43 mean_elite_top3=30.13
+gen 3 t=45s best_z=1.39 mean_elite_top3=31.60
+gen 4 t=57s best_z=1.40 mean_elite_top3=32.59
+gen 5 t=68s best_z=1.01 mean_elite_top3=30.61
+gen 6 t=79s best_z=1.42 mean_elite_top3=31.40
+gen 7 t=90s best_z=0.91 mean_elite_top3=30.33
+gen 8 t=101s best_z=1.11 mean_elite_top3=31.92
+gen 9 t=112s best_z=1.49 mean_elite_top3=32.51
+gen 10 t=125s best_z=1.23 mean_elite_top3=31.56
+gen 11 t=137s best_z=1.17 mean_elite_top3=34.32
+{
+ "open_a": 0.14238773068973787,
+ "open_b": 0.7199322248780492,
+ "hu_open": 0.9153471753428459,
+ "hu_jam": 0.937870050126824,
+ "sh_widen": 0.3654280097596124,
+ "sh_range": 0.20001373429618746,
+ "jam_scale": 0.8542306895767785,
+ "call_open": 0.08925365492473075,
+ "threebet": 0.02103540602000383,
+ "fourbet": 0.011064768530941436,
+ "open_size": 2.3900580382930983,
+ "threebet_mult": 2.9627669425852217,
+ "steal_fold_bonus": 0.19004682233068032,
+ "jam_m": 5.635624705183206,
+ "jam_slope": 0.04484267081049468,
+ "call_jam": 0.03841165475127828,
+ "call_jam_short": 0.02173450898411933,
+ "range_unraised": 0.45772833267278346,
+ "range_bet": 0.1559626758456601,
+ "range_raise": 0.1376620103339142,
+ "value_eq": 0.6835337613000688,
+ "bluff_freq": 0.17982979724407955,
+ "bet_frac": 0.6161758982409045,
+ "call_margin": 0.14614516239652442,
+ "raise_eq": 0.8509587362916482,
+ "commit_spr": 2.1603319848445923,
+ "icm_margin": 0.12065536124273069
+}

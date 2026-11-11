@@ -1,0 +1,33 @@
+[  0.0m] start tuners
+[  0.7m] tuner cem 1 44s
+[  1.5m] tuner cem 2 44s
+[  2.2m] tuner cem 3 45s
+[  3.1m] tuner cma 1 53s
+[  4.0m] tuner cma 2 53s
+[  4.9m] tuner cma 3 55s
+[  6.5m] tuner paired 1 97s
+[  8.2m] tuner paired 2 99s
+[  9.8m] tuner paired 3 100s
+[ 12.3m] tuner spsa 1 149s
+[ 14.8m] tuner spsa 2 151s
+[ 17.3m] tuner spsa 3 150s
+[ 18.4m] tuner halving 1 64s
+[ 19.5m] tuner halving 2 63s
+[ 20.5m] tuner halving 3 62s
+[ 23.3m] finished tuners
+[ 23.3m] start policies
+[ 25.7m] policy ctx 121500 tables 143s
+[ 29.6m] policy ctxall 202500 tables 232s
+[ 31.9m] policy ev 121500 tables 142s
+[ 36.1m] policy evall 202500 tables 252s
+[ 39.8m] policy resid 153000 tables 220s
+[ 46.0m] policy scratch 301500 tables 374s
+[ 46.0m] finished policies
+[ 46.0m] start q
+[ 46.0m] q training
+[ 50.5m] q done
+[ 50.5m] finished q
+[ 50.5m] start compare
+[ 59.1m] finished compare
+[ 59.1m] start protocols
+[ 59.6m] protocol frozen seed 1 weighted 47.23

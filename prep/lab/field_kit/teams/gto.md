@@ -1,0 +1,1 @@
+Team brief: "Build an approximately game-theory-optimal bot: precomputed ranges by position and stack depth, balanced value bets and bluffs, mixed strategies, and sizing that's hard to exploit. Precompute what you can at import time."

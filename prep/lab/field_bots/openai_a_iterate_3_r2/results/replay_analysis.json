@@ -1,0 +1,8795 @@
+{
+  "summary": {
+    "n8 deep": {
+      "fold": 3433,
+      "raise": 565,
+      "call": 223,
+      "check": 8
+    },
+    "n8 deep unopened": {
+      "raise": 503,
+      "fold": 1563,
+      "check": 8
+    },
+    "n7 deep": {
+      "fold": 1713,
+      "raise": 289,
+      "call": 119,
+      "check": 3
+    },
+    "n7 deep unopened": {
+      "fold": 789,
+      "raise": 267,
+      "check": 3
+    },
+    "n7 short": {
+      "raise": 27,
+      "fold": 186,
+      "call": 16
+    },
+    "n7 short unopened": {
+      "raise": 25,
+      "fold": 79
+    },
+    "n7 medium": {
+      "fold": 519,
+      "raise": 93,
+      "call": 43,
+      "check": 1
+    },
+    "n7 medium unopened": {
+      "raise": 83,
+      "fold": 224,
+      "check": 1
+    },
+    "n7 medium facing jam": {
+      "fold": 44,
+      "width_sum": 5.58163163944614,
+      "call": 5
+    },
+    "n6 deep": {
+      "fold": 673,
+      "call": 69,
+      "raise": 140
+    },
+    "n6 deep unopened": {
+      "fold": 302,
+      "raise": 123
+    },
+    "n6 medium": {
+      "fold": 452,
+      "raise": 100,
+      "check": 2,
+      "call": 31
+    },
+    "n6 medium unopened": {
+      "fold": 210,
+      "raise": 91,
+      "check": 2
+    },
+    "n6 short": {
+      "fold": 299,
+      "check": 1,
+      "raise": 52,
+      "call": 17
+    },
+    "n6 short unopened": {
+      "fold": 125,
+      "check": 1,
+      "raise": 50
+    },
+    "n5 medium": {
+      "check": 2,
+      "fold": 329,
+      "raise": 79,
+      "call": 47
+    },
+    "n5 medium unopened": {
+      "check": 2,
+      "raise": 71,
+      "fold": 156
+    },
+    "n4 short": {
+      "fold": 290,
+      "raise": 86,
+      "call": 37,
+      "check": 2
+    },
+    "n4 short unopened": {
+      "fold": 131,
+      "raise": 81,
+      "check": 2
+    },
+    "n4 medium": {
+      "call": 48,
+      "fold": 278,
+      "raise": 106,
+      "check": 1
+    },
+    "n4 short facing jam": {
+      "fold": 59,
+      "width_sum": 16.25947528833724,
+      "call": 3
+    },
+    "n8 medium": {
+      "fold": 216,
+      "call": 29,
+      "raise": 44
+    },
+    "n8 medium unopened": {
+      "fold": 99,
+      "raise": 41
+    },
+    "n5 short": {
+      "fold": 283,
+      "raise": 68,
+      "check": 1,
+      "call": 27
+    },
+    "n5 short unopened": {
+      "fold": 125,
+      "raise": 62,
+      "check": 1
+    },
+    "n5 deep": {
+      "fold": 325,
+      "raise": 99,
+      "call": 30,
+      "check": 1
+    },
+    "n5 deep unopened": {
+      "fold": 137,
+      "raise": 86,
+      "check": 1
+    },
+    "n3 short": {
+      "fold": 283,
+      "raise": 131,
+      "call": 44,
+      "check": 3
+    },
+    "n3 short unopened": {
+      "fold": 110,
+      "raise": 128,
+      "check": 3,
+      "call": 1
+    },
+    "n3 short facing jam": {
+      "fold": 112,
+      "width_sum": 47.212094149401466,
+      "call": 19
+    },
+    "n4 medium unopened": {
+      "fold": 112,
+      "raise": 100,
+      "check": 1
+    },
+    "n4 deep": {
+      "fold": 172,
+      "raise": 72,
+      "call": 26,
+      "check": 2
+    },
+    "n4 deep unopened": {
+      "fold": 68,
+      "raise": 67,
+      "check": 2
+    },
+    "n4 medium facing jam": {
+      "fold": 40,
+      "width_sum": 8.556337324017875,
+      "call": 9
+    },
+    "n3 deep": {
+      "raise": 44,
+      "fold": 98,
+      "call": 24
+    },
+    "n3 deep unopened": {
+      "raise": 37,
+      "fold": 53
+    },
+    "n3 deep facing jam": {
+      "call": 6,
+      "width_sum": 4.966724838830065,
+      "fold": 10
+    },
+    "n3 medium": {
+      "fold": 179,
+      "call": 42,
+      "raise": 78
+    },
+    "n3 medium unopened": {
+      "fold": 77,
+      "raise": 74
+    },
+    "n2 deep": {
+      "raise": 39,
+      "fold": 42,
+      "call": 22
+    },
+    "n2 deep unopened": {
+      "raise": 36,
+      "fold": 14
+    },
+    "n2 medium": {
+      "fold": 64,
+      "raise": 67,
+      "call": 43
+    },
+    "n2 medium unopened": {
+      "fold": 24,
+      "raise": 60
+    },
+    "n2 deep facing jam": {
+      "call": 2,
+      "width_sum": 2.4145058153572707,
+      "fold": 12
+    },
+    "n8 deep facing jam": {
+      "call": 7,
+      "width_sum": 5.768682243297493,
+      "fold": 36
+    },
+    "n7 deep facing jam": {
+      "fold": 44,
+      "width_sum": 5.737277220658912,
+      "call": 6
+    },
+    "n6 deep facing jam": {
+      "fold": 38,
+      "width_sum": 5.884838935443444,
+      "call": 7
+    },
+    "n5 medium facing jam": {
+      "call": 8,
+      "width_sum": 8.919768865196703,
+      "fold": 36
+    },
+    "n4 deep facing jam": {
+      "fold": 10,
+      "width_sum": 2.881617796275461,
+      "call": 1
+    },
+    "n6 medium facing jam": {
+      "fold": 35,
+      "width_sum": 5.0464854522269205,
+      "call": 5
+    },
+    "n6 short facing jam": {
+      "fold": 48,
+      "width_sum": 8.95897633448655,
+      "call": 4
+    },
+    "n2 medium facing jam": {
+      "call": 10,
+      "width_sum": 14.662921086853329,
+      "fold": 20
+    },
+    "n2 short": {
+      "raise": 62,
+      "call": 23,
+      "fold": 54
+    },
+    "n2 short unopened": {
+      "raise": 60,
+      "fold": 12
+    },
+    "n2 short facing jam": {
+      "call": 16,
+      "width_sum": 25.518241610636828,
+      "fold": 24
+    },
+    "n5 deep facing jam": {
+      "fold": 32,
+      "width_sum": 4.850560609847756,
+      "call": 2
+    },
+    "n3 medium facing jam": {
+      "fold": 42,
+      "width_sum": 15.0925782378026,
+      "call": 9
+    },
+    "n7 short facing jam": {
+      "fold": 27,
+      "width_sum": 5.329449825517968,
+      "call": 5
+    },
+    "n5 short facing jam": {
+      "fold": 55,
+      "width_sum": 15.464991734122584,
+      "call": 8
+    },
+    "n8 medium facing jam": {
+      "fold": 16,
+      "width_sum": 2.728170962738405,
+      "call": 7
+    },
+    "n8 short": {
+      "fold": 33,
+      "call": 2,
+      "raise": 2
+    },
+    "n8 short unopened": {
+      "fold": 15,
+      "raise": 2
+    },
+    "n8 short facing jam": {
+      "fold": 4,
+      "width_sum": 0.5989230774951659
+    }
+  },
+  "examples": {
+    "n7 medium facing jam": [
+      {
+        "hole": [
+          "Qs",
+          "Js"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.076,
+        "equity": 0.377,
+        "odds": 0.412,
+        "risk": 0.038,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          67,
+          16,
+          10,
+          10,
+          11,
+          3,
+          3,
+          8
+        ],
+        "depth": 16.4
+      },
+      {
+        "hole": [
+          "9h",
+          "Th"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.088,
+        "equity": 0.351,
+        "odds": 0.413,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          61,
+          20,
+          18,
+          18,
+          4,
+          0,
+          7,
+          4
+        ],
+        "depth": 20.3
+      },
+      {
+        "hole": [
+          "9d",
+          "3s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.089,
+        "equity": 0.246,
+        "odds": 0.421,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          72,
+          25,
+          22,
+          22,
+          4,
+          1,
+          11,
+          8
+        ],
+        "depth": 21.2
+      },
+      {
+        "hole": [
+          "Ad",
+          "Tc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.089,
+        "equity": 0.398,
+        "odds": 0.397,
+        "risk": 0.026,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          76,
+          27,
+          23,
+          23,
+          4,
+          1,
+          12,
+          9
+        ],
+        "depth": 18.5
+      },
+      {
+        "hole": [
+          "Qc",
+          "3s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.175,
+        "equity": 0.305,
+        "odds": 0.342,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          68,
+          25,
+          18,
+          18,
+          4,
+          10,
+          11,
+          12
+        ],
+        "depth": 17.6
+      },
+      {
+        "hole": [
+          "3s",
+          "Qd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.078,
+        "equity": 0.268,
+        "odds": 0.425,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          67,
+          16,
+          12,
+          12,
+          7,
+          7,
+          4,
+          5
+        ],
+        "depth": 28.1
+      },
+      {
+        "hole": [
+          "Td",
+          "Kh"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.139,
+        "equity": 0.368,
+        "odds": 0.472,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          72,
+          14,
+          8,
+          8,
+          7,
+          6,
+          3,
+          2
+        ],
+        "depth": 25.4
+      },
+      {
+        "hole": [
+          "2s",
+          "8c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.073,
+        "equity": 0.217,
+        "odds": 0.378,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "Js",
+          "9s"
+        ],
+        "villain_stats": [
+          77,
+          16,
+          9,
+          9,
+          8,
+          6,
+          4,
+          2
+        ],
+        "depth": 26.9
+      },
+      {
+        "hole": [
+          "Ks",
+          "Jh"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.074,
+        "equity": 0.351,
+        "odds": 0.436,
+        "risk": 0.071,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          86,
+          13,
+          11,
+          11,
+          3,
+          0,
+          2,
+          1
+        ],
+        "depth": 19.3
+      },
+      {
+        "hole": [
+          "Ah",
+          "Js"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.08,
+        "equity": 0.415,
+        "odds": 0.413,
+        "risk": 0.015,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          40,
+          15,
+          8,
+          8,
+          4,
+          8,
+          5,
+          9
+        ],
+        "depth": 16.4
+      },
+      {
+        "hole": [
+          "9c",
+          "8d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.165,
+        "equity": 0.333,
+        "odds": 0.249,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "Kc",
+          "6d"
+        ],
+        "villain_stats": [
+          63,
+          18,
+          14,
+          15,
+          11,
+          5,
+          3,
+          9
+        ],
+        "depth": 26.4
+      },
+      {
+        "hole": [
+          "Kc",
+          "Ks"
+        ],
+        "actual": [
+          "call",
+          980
+        ],
+        "width": 0.071,
+        "equity": 0.719,
+        "odds": 0.366,
+        "risk": 0.038,
+        "raises": 2,
+        "villain_revealed": [
+          "Th",
+          "Ts"
+        ],
+        "villain_stats": [
+          76,
+          11,
+          7,
+          7,
+          3,
+          3,
+          1,
+          3
+        ],
+        "depth": 15.5
+      },
+      {
+        "hole": [
+          "2c",
+          "Ks"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.139,
+        "equity": 0.302,
+        "odds": 0.456,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          66,
+          11,
+          7,
+          7,
+          3,
+          0,
+          3,
+          0
+        ],
+        "depth": 28.7
+      },
+      {
+        "hole": [
+          "Th",
+          "4d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.072,
+        "equity": 0.242,
+        "odds": 0.347,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          77,
+          12,
+          8,
+          8,
+          3,
+          0,
+          3,
+          0
+        ],
+        "depth": 24.7
+      },
+      {
+        "hole": [
+          "4c",
+          "Ad"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.232,
+        "equity": 0.411,
+        "odds": 0.444,
+        "risk": 0.035,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          84,
+          23,
+          15,
+          15,
+          6,
+          6,
+          8,
+          17
+        ],
+        "depth": 16.9
+      }
+    ],
+    "n4 short facing jam": [
+      {
+        "hole": [
+          "Js",
+          "9c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.328,
+        "equity": 0.368,
+        "odds": 0.443,
+        "risk": 0.127,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          96,
+          23,
+          10,
+          10,
+          21,
+          5,
+          3,
+          8
+        ],
+        "depth": 8.8
+      },
+      {
+        "hole": [
+          "3h",
+          "6d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.265,
+        "equity": 0.305,
+        "odds": 0.412,
+        "risk": 0.062,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          101,
+          43,
+          27,
+          29,
+          17,
+          10,
+          18,
+          31
+        ],
+        "depth": 6.0
+      },
+      {
+        "hole": [
+          "5d",
+          "6c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.228,
+        "equity": 0.331,
+        "odds": 0.255,
+        "risk": 0.041,
+        "raises": 1,
+        "villain_revealed": [
+          "5h",
+          "4d"
+        ],
+        "villain_stats": [
+          107,
+          37,
+          18,
+          18,
+          24,
+          8,
+          8,
+          29
+        ],
+        "depth": 14.9
+      },
+      {
+        "hole": [
+          "6h",
+          "As"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.082,
+        "equity": 0.31,
+        "odds": 0.401,
+        "risk": 0.152,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          112,
+          43,
+          25,
+          25,
+          30,
+          4,
+          6,
+          26
+        ],
+        "depth": 12.4
+      },
+      {
+        "hole": [
+          "9s",
+          "Qc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.083,
+        "equity": 0.315,
+        "odds": 0.374,
+        "risk": 0.261,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          104,
+          33,
+          24,
+          25,
+          15,
+          8,
+          12,
+          15
+        ],
+        "depth": 10.5
+      },
+      {
+        "hole": [
+          "9s",
+          "2h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.201,
+        "equity": 0.28,
+        "odds": 0.422,
+        "risk": 0.039,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          105,
+          19,
+          10,
+          10,
+          4,
+          4,
+          7,
+          12
+        ],
+        "depth": 7.9
+      },
+      {
+        "hole": [
+          "4s",
+          "8c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.341,
+        "equity": 0.311,
+        "odds": 0.456,
+        "risk": 0.062,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          120,
+          30,
+          14,
+          14,
+          14,
+          11,
+          6,
+          29
+        ],
+        "depth": 11.1
+      },
+      {
+        "hole": [
+          "Qd",
+          "2s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.212,
+        "equity": 0.306,
+        "odds": 0.452,
+        "risk": 0.062,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          121,
+          31,
+          15,
+          15,
+          14,
+          11,
+          6,
+          29
+        ],
+        "depth": 7.1
+      },
+      {
+        "hole": [
+          "Js",
+          "2h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.349,
+        "equity": 0.313,
+        "odds": 0.438,
+        "risk": 0.062,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          124,
+          33,
+          16,
+          16,
+          14,
+          11,
+          6,
+          32
+        ],
+        "depth": 7.6
+      },
+      {
+        "hole": [
+          "2s",
+          "Kd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.342,
+        "equity": 0.365,
+        "odds": 0.443,
+        "risk": 0.101,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          131,
+          34,
+          17,
+          17,
+          14,
+          11,
+          6,
+          32
+        ],
+        "depth": 10.1
+      },
+      {
+        "hole": [
+          "Ad",
+          "Tc"
+        ],
+        "actual": [
+          "call",
+          1870
+        ],
+        "width": 0.348,
+        "equity": 0.57,
+        "odds": 0.431,
+        "risk": 0.036,
+        "raises": 1,
+        "villain_revealed": [
+          "Kh",
+          "Ts"
+        ],
+        "villain_stats": [
+          140,
+          35,
+          18,
+          18,
+          14,
+          11,
+          6,
+          32
+        ],
+        "depth": 13.6
+      },
+      {
+        "hole": [
+          "8s",
+          "9d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.487,
+        "equity": 0.377,
+        "odds": 0.392,
+        "risk": 0.039,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          87,
+          36,
+          33,
+          33,
+          17,
+          5,
+          8,
+          24
+        ],
+        "depth": 4.6
+      },
+      {
+        "hole": [
+          "As",
+          "6c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.079,
+        "equity": 0.308,
+        "odds": 0.409,
+        "risk": 0.11,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          120,
+          27,
+          22,
+          22,
+          11,
+          2,
+          5,
+          2
+        ],
+        "depth": 13.5
+      },
+      {
+        "hole": [
+          "4s",
+          "Tc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.38,
+        "equity": 0.317,
+        "odds": 0.282,
+        "risk": 0.031,
+        "raises": 1,
+        "villain_revealed": [
+          "9s",
+          "Ah"
+        ],
+        "villain_stats": [
+          139,
+          58,
+          25,
+          25,
+          16,
+          7,
+          24,
+          44
+        ],
+        "depth": 14.4
+      },
+      {
+        "hole": [
+          "7d",
+          "6c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.218,
+        "equity": 0.333,
+        "odds": 0.351,
+        "risk": 0.034,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          141,
+          31,
+          20,
+          20,
+          9,
+          3,
+          11,
+          11
+        ],
+        "depth": 12.5
+      }
+    ],
+    "n3 short facing jam": [
+      {
+        "hole": [
+          "8d",
+          "Qc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.071,
+        "equity": 0.289,
+        "odds": 0.375,
+        "risk": 0.014,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          109,
+          15,
+          11,
+          11,
+          8,
+          1,
+          3,
+          13
+        ],
+        "depth": 13.4
+      },
+      {
+        "hole": [
+          "4h",
+          "Kd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.344,
+        "equity": 0.37,
+        "odds": 0.447,
+        "risk": 0.088,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          113,
+          27,
+          15,
+          15,
+          11,
+          4,
+          6,
+          23
+        ],
+        "depth": 9.4
+      },
+      {
+        "hole": [
+          "Kd",
+          "3h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.352,
+        "equity": 0.371,
+        "odds": 0.437,
+        "risk": 0.067,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          116,
+          29,
+          17,
+          17,
+          11,
+          5,
+          7,
+          23
+        ],
+        "depth": 7.9
+      },
+      {
+        "hole": [
+          "2s",
+          "7s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.36,
+        "equity": 0.327,
+        "odds": 0.422,
+        "risk": 0.09,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          119,
+          32,
+          19,
+          19,
+          13,
+          5,
+          7,
+          23
+        ],
+        "depth": 6.4
+      },
+      {
+        "hole": [
+          "As",
+          "3c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.362,
+        "equity": 0.463,
+        "odds": 0.413,
+        "risk": 0.117,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          122,
+          33,
+          20,
+          20,
+          13,
+          5,
+          7,
+          23
+        ],
+        "depth": 5.8
+      },
+      {
+        "hole": [
+          "8d",
+          "7h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.365,
+        "equity": 0.357,
+        "odds": 0.413,
+        "risk": 0.117,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          125,
+          34,
+          21,
+          21,
+          13,
+          5,
+          7,
+          23
+        ],
+        "depth": 5.8
+      },
+      {
+        "hole": [
+          "7s",
+          "Kh"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.367,
+        "equity": 0.405,
+        "odds": 0.431,
+        "risk": 0.145,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          128,
+          35,
+          22,
+          22,
+          13,
+          5,
+          7,
+          23
+        ],
+        "depth": 7.3
+      },
+      {
+        "hole": [
+          "5d",
+          "8s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.402,
+        "equity": 0.333,
+        "odds": 0.426,
+        "risk": 0.045,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          129,
+          36,
+          23,
+          23,
+          13,
+          5,
+          7,
+          23
+        ],
+        "depth": 6.3
+      },
+      {
+        "hole": [
+          "Tc",
+          "3d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.374,
+        "equity": 0.308,
+        "odds": 0.413,
+        "risk": 0.165,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          131,
+          37,
+          24,
+          24,
+          13,
+          5,
+          7,
+          23
+        ],
+        "depth": 5.8
+      },
+      {
+        "hole": [
+          "Tc",
+          "8s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.409,
+        "equity": 0.363,
+        "odds": 0.405,
+        "risk": 0.045,
+        "raises": 1,
+        "villain_revealed": [
+          "Ks",
+          "6s"
+        ],
+        "villain_stats": [
+          132,
+          38,
+          25,
+          25,
+          13,
+          5,
+          7,
+          23
+        ],
+        "depth": 4.8
+      },
+      {
+        "hole": [
+          "4s",
+          "5h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.349,
+        "equity": 0.34,
+        "odds": 0.362,
+        "risk": 0.01,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          134,
+          21,
+          13,
+          13,
+          11,
+          1,
+          5,
+          17
+        ],
+        "depth": 4.3
+      },
+      {
+        "hole": [
+          "4h",
+          "4c"
+        ],
+        "actual": [
+          "call",
+          604
+        ],
+        "width": 0.352,
+        "equity": 0.485,
+        "odds": 0.308,
+        "risk": 0.008,
+        "raises": 1,
+        "villain_revealed": [
+          "As",
+          "2c"
+        ],
+        "villain_stats": [
+          137,
+          22,
+          14,
+          14,
+          11,
+          1,
+          5,
+          17
+        ],
+        "depth": 3.0
+      },
+      {
+        "hole": [
+          "8s",
+          "6d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.399,
+        "equity": 0.347,
+        "odds": 0.459,
+        "risk": 0.045,
+        "raises": 1,
+        "villain_revealed": [
+          "Ah",
+          "9c"
+        ],
+        "villain_stats": [
+          143,
+          37,
+          25,
+          25,
+          11,
+          6,
+          7,
+          19
+        ],
+        "depth": 11.6
+      },
+      {
+        "hole": [
+          "7s",
+          "6h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.369,
+        "equity": 0.354,
+        "odds": 0.46,
+        "risk": 0.124,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          148,
+          39,
+          26,
+          26,
+          12,
+          6,
+          7,
+          19
+        ],
+        "depth": 12.6
+      },
+      {
+        "hole": [
+          "Jh",
+          "Jd"
+        ],
+        "actual": [
+          "call",
+          5526
+        ],
+        "width": 0.404,
+        "equity": 0.69,
+        "odds": 0.459,
+        "risk": 0.045,
+        "raises": 1,
+        "villain_revealed": [
+          "Ac",
+          "Kd"
+        ],
+        "villain_stats": [
+          149,
+          40,
+          27,
+          27,
+          12,
+          6,
+          7,
+          19
+        ],
+        "depth": 11.6
+      }
+    ],
+    "n4 medium facing jam": [
+      {
+        "hole": [
+          "9h",
+          "Jh"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.083,
+        "equity": 0.352,
+        "odds": 0.387,
+        "risk": 0.032,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          86,
+          26,
+          20,
+          20,
+          8,
+          3,
+          7,
+          22
+        ],
+        "depth": 17.3
+      },
+      {
+        "hole": [
+          "Ts",
+          "Ad"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.082,
+        "equity": 0.395,
+        "odds": 0.382,
+        "risk": 0.03,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          94,
+          28,
+          21,
+          21,
+          8,
+          3,
+          8,
+          23
+        ],
+        "depth": 28.4
+      },
+      {
+        "hole": [
+          "9h",
+          "Th"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.078,
+        "equity": 0.347,
+        "odds": 0.353,
+        "risk": 0.046,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          104,
+          26,
+          18,
+          18,
+          3,
+          2,
+          8,
+          12
+        ],
+        "depth": 22.4
+      },
+      {
+        "hole": [
+          "4s",
+          "5d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.374,
+        "equity": 0.342,
+        "odds": 0.417,
+        "risk": 0.03,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          112,
+          27,
+          19,
+          19,
+          3,
+          2,
+          8,
+          12
+        ],
+        "depth": 27.9
+      },
+      {
+        "hole": [
+          "2h",
+          "8h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.38,
+        "equity": 0.335,
+        "odds": 0.431,
+        "risk": 0.04,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          116,
+          29,
+          21,
+          21,
+          3,
+          2,
+          8,
+          12
+        ],
+        "depth": 26.4
+      },
+      {
+        "hole": [
+          "Ks",
+          "7s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.082,
+        "equity": 0.318,
+        "odds": 0.439,
+        "risk": 0.228,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          101,
+          26,
+          22,
+          22,
+          13,
+          2,
+          4,
+          7
+        ],
+        "depth": 21.8
+      },
+      {
+        "hole": [
+          "Js",
+          "Td"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.083,
+        "equity": 0.333,
+        "odds": 0.437,
+        "risk": 0.296,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          109,
+          29,
+          25,
+          25,
+          17,
+          2,
+          4,
+          7
+        ],
+        "depth": 21.1
+      },
+      {
+        "hole": [
+          "Jd",
+          "Ah"
+        ],
+        "actual": [
+          "call",
+          417
+        ],
+        "width": 0.34,
+        "equity": 0.591,
+        "odds": 0.338,
+        "risk": 0.021,
+        "raises": 1,
+        "villain_revealed": [
+          "7s",
+          "Qs"
+        ],
+        "villain_stats": [
+          112,
+          28,
+          14,
+          14,
+          7,
+          7,
+          5,
+          32
+        ],
+        "depth": 18.5
+      },
+      {
+        "hole": [
+          "2c",
+          "Kh"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.24,
+        "equity": 0.332,
+        "odds": 0.45,
+        "risk": 0.034,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          105,
+          31,
+          21,
+          21,
+          20,
+          1,
+          8,
+          12
+        ],
+        "depth": 20.6
+      },
+      {
+        "hole": [
+          "5h",
+          "5d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.244,
+        "equity": 0.484,
+        "odds": 0.31,
+        "risk": 0.051,
+        "raises": 1,
+        "villain_revealed": [
+          "Qs",
+          "Qd"
+        ],
+        "villain_stats": [
+          109,
+          33,
+          23,
+          23,
+          20,
+          1,
+          8,
+          12
+        ],
+        "depth": 16.8
+      },
+      {
+        "hole": [
+          "Kh",
+          "7s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.083,
+        "equity": 0.282,
+        "odds": 0.42,
+        "risk": 0.263,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          137,
+          36,
+          32,
+          32,
+          9,
+          5,
+          6,
+          13
+        ],
+        "depth": 15.4
+      },
+      {
+        "hole": [
+          "Jh",
+          "Qh"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.076,
+        "equity": 0.377,
+        "odds": 0.431,
+        "risk": 0.111,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          129,
+          23,
+          20,
+          20,
+          8,
+          0,
+          2,
+          1
+        ],
+        "depth": 25.7
+      },
+      {
+        "hole": [
+          "7d",
+          "Qd"
+        ],
+        "actual": [
+          "call",
+          183
+        ],
+        "width": 0.255,
+        "equity": 0.366,
+        "odds": 0.159,
+        "risk": 0.011,
+        "raises": 1,
+        "villain_revealed": [
+          "Kd",
+          "Ts"
+        ],
+        "villain_stats": [
+          104,
+          43,
+          25,
+          26,
+          9,
+          10,
+          14,
+          28
+        ],
+        "depth": 15.7
+      },
+      {
+        "hole": [
+          "Js",
+          "3s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.218,
+        "equity": 0.336,
+        "odds": 0.394,
+        "risk": 0.036,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          107,
+          20,
+          15,
+          15,
+          11,
+          2,
+          5,
+          2
+        ],
+        "depth": 18.3
+      },
+      {
+        "hole": [
+          "7h",
+          "Jh"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.075,
+        "equity": 0.308,
+        "odds": 0.29,
+        "risk": 0.024,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          108,
+          21,
+          16,
+          16,
+          11,
+          2,
+          5,
+          2
+        ],
+        "depth": 17.8
+      }
+    ],
+    "n3 deep facing jam": [
+      {
+        "hole": [
+          "6c",
+          "As"
+        ],
+        "actual": [
+          "call",
+          1378
+        ],
+        "width": 0.402,
+        "equity": 0.485,
+        "odds": 0.437,
+        "risk": 0.012,
+        "raises": 1,
+        "villain_revealed": [
+          "Ah",
+          "4d"
+        ],
+        "villain_stats": [
+          107,
+          35,
+          19,
+          19,
+          18,
+          8,
+          6,
+          33
+        ],
+        "depth": 31.0
+      },
+      {
+        "hole": [
+          "8h",
+          "6s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.398,
+        "equity": 0.347,
+        "odds": 0.426,
+        "risk": 0.009,
+        "raises": 1,
+        "villain_revealed": [
+          "Ah",
+          "Qd"
+        ],
+        "villain_stats": [
+          116,
+          37,
+          20,
+          20,
+          19,
+          8,
+          7,
+          34
+        ],
+        "depth": 35.8
+      },
+      {
+        "hole": [
+          "Kc",
+          "Jh"
+        ],
+        "actual": [
+          "call",
+          3559
+        ],
+        "width": 0.352,
+        "equity": 0.497,
+        "odds": 0.461,
+        "risk": 0.013,
+        "raises": 1,
+        "villain_revealed": [
+          "Ac",
+          "As"
+        ],
+        "villain_stats": [
+          136,
+          32,
+          20,
+          20,
+          11,
+          6,
+          7,
+          19
+        ],
+        "depth": 35.5
+      },
+      {
+        "hole": [
+          "3s",
+          "9h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.33,
+        "equity": 0.295,
+        "odds": 0.442,
+        "risk": 0.009,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          102,
+          18,
+          11,
+          11,
+          13,
+          0,
+          4,
+          8
+        ],
+        "depth": 45.6
+      },
+      {
+        "hole": [
+          "Qd",
+          "6s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.33,
+        "equity": 0.347,
+        "odds": 0.429,
+        "risk": 0.008,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          111,
+          19,
+          12,
+          12,
+          13,
+          0,
+          4,
+          8
+        ],
+        "depth": 44.1
+      },
+      {
+        "hole": [
+          "Qh",
+          "7h"
+        ],
+        "actual": [
+          "call",
+          560
+        ],
+        "width": 0.072,
+        "equity": 0.306,
+        "odds": 0.264,
+        "risk": 0.004,
+        "raises": 2,
+        "villain_revealed": [
+          "Ts",
+          "Tc"
+        ],
+        "villain_stats": [
+          119,
+          20,
+          13,
+          13,
+          13,
+          0,
+          4,
+          8
+        ],
+        "depth": 37.3
+      },
+      {
+        "hole": [
+          "9s",
+          "Kc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.08,
+        "equity": 0.3,
+        "odds": 0.405,
+        "risk": 0.009,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          105,
+          23,
+          21,
+          21,
+          1,
+          2,
+          0,
+          1
+        ],
+        "depth": 55.4
+      },
+      {
+        "hole": [
+          "6h",
+          "7d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.407,
+        "equity": 0.357,
+        "odds": 0.427,
+        "risk": 0.006,
+        "raises": 1,
+        "villain_revealed": [
+          "Ah",
+          "6s"
+        ],
+        "villain_stats": [
+          108,
+          29,
+          20,
+          20,
+          12,
+          10,
+          10,
+          14
+        ],
+        "depth": 53.9
+      },
+      {
+        "hole": [
+          "Qd",
+          "8d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.37,
+        "equity": 0.409,
+        "odds": 0.395,
+        "risk": 0.006,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          125,
+          32,
+          22,
+          22,
+          13,
+          3,
+          4,
+          21
+        ],
+        "depth": 37.7
+      },
+      {
+        "hole": [
+          "7s",
+          "7c"
+        ],
+        "actual": [
+          "call",
+          1135
+        ],
+        "width": 0.372,
+        "equity": 0.559,
+        "odds": 0.395,
+        "risk": 0.006,
+        "raises": 1,
+        "villain_revealed": [
+          "3h",
+          "Kc"
+        ],
+        "villain_stats": [
+          128,
+          33,
+          23,
+          23,
+          13,
+          3,
+          4,
+          21
+        ],
+        "depth": 37.7
+      },
+      {
+        "hole": [
+          "8c",
+          "9h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.079,
+        "equity": 0.294,
+        "odds": 0.458,
+        "risk": 0.014,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          89,
+          23,
+          17,
+          17,
+          10,
+          2,
+          6,
+          5
+        ],
+        "depth": 86.6
+      },
+      {
+        "hole": [
+          "Ts",
+          "Ad"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.084,
+        "equity": 0.396,
+        "odds": 0.341,
+        "risk": 0.005,
+        "raises": 2,
+        "villain_revealed": [
+          "5h",
+          "As"
+        ],
+        "villain_stats": [
+          107,
+          32,
+          26,
+          26,
+          11,
+          2,
+          6,
+          5
+        ],
+        "depth": 52.7
+      },
+      {
+        "hole": [
+          "7h",
+          "8s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.411,
+        "equity": 0.361,
+        "odds": 0.4,
+        "risk": 0.004,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          110,
+          33,
+          27,
+          27,
+          11,
+          2,
+          6,
+          5
+        ],
+        "depth": 52.7
+      },
+      {
+        "hole": [
+          "Kc",
+          "Ad"
+        ],
+        "actual": [
+          "call",
+          799
+        ],
+        "width": 0.412,
+        "equity": 0.652,
+        "odds": 0.4,
+        "risk": 0.004,
+        "raises": 1,
+        "villain_revealed": [
+          "8s",
+          "Qh"
+        ],
+        "villain_stats": [
+          113,
+          34,
+          28,
+          28,
+          11,
+          2,
+          6,
+          5
+        ],
+        "depth": 51.2
+      },
+      {
+        "hole": [
+          "Kd",
+          "Ks"
+        ],
+        "actual": [
+          "call",
+          696
+        ],
+        "width": 0.418,
+        "equity": 0.785,
+        "odds": 0.349,
+        "risk": 0.004,
+        "raises": 1,
+        "villain_revealed": [
+          "2s",
+          "Qs"
+        ],
+        "villain_stats": [
+          133,
+          62,
+          27,
+          27,
+          11,
+          12,
+          17,
+          42
+        ],
+        "depth": 32.6
+      }
+    ],
+    "n2 deep facing jam": [
+      {
+        "hole": [
+          "Jd",
+          "Ac"
+        ],
+        "actual": [
+          "call",
+          3334
+        ],
+        "width": 0.837,
+        "equity": 0.627,
+        "odds": 0.459,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": [
+          "As",
+          "Tc"
+        ],
+        "villain_stats": [
+          132,
+          63,
+          58,
+          59,
+          21,
+          4,
+          14,
+          39
+        ],
+        "depth": 41.2
+      },
+      {
+        "hole": [
+          "4h",
+          "4c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.082,
+        "equity": 0.343,
+        "odds": 0.435,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          121,
+          30,
+          27,
+          27,
+          3,
+          2,
+          0,
+          1
+        ],
+        "depth": 36.0
+      },
+      {
+        "hole": [
+          "Ah",
+          "Jc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.083,
+        "equity": 0.419,
+        "odds": 0.434,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          123,
+          32,
+          29,
+          29,
+          3,
+          2,
+          0,
+          1
+        ],
+        "depth": 36.2
+      },
+      {
+        "hole": [
+          "7c",
+          "7h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.084,
+        "equity": 0.403,
+        "odds": 0.44,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          125,
+          33,
+          30,
+          30,
+          3,
+          2,
+          0,
+          1
+        ],
+        "depth": 34.5
+      },
+      {
+        "hole": [
+          "6d",
+          "8h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.085,
+        "equity": 0.266,
+        "odds": 0.449,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          127,
+          35,
+          32,
+          32,
+          3,
+          2,
+          0,
+          1
+        ],
+        "depth": 31.2
+      },
+      {
+        "hole": [
+          "Jh",
+          "Ts"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.085,
+        "equity": 0.334,
+        "odds": 0.447,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          131,
+          37,
+          34,
+          34,
+          3,
+          2,
+          1,
+          1
+        ],
+        "depth": 31.9
+      },
+      {
+        "hole": [
+          "Jh",
+          "As"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.086,
+        "equity": 0.422,
+        "odds": 0.451,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          133,
+          38,
+          35,
+          35,
+          3,
+          2,
+          1,
+          1
+        ],
+        "depth": 30.2
+      },
+      {
+        "hole": [
+          "Jc",
+          "2s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.092,
+        "equity": 0.258,
+        "odds": 0.411,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          140,
+          57,
+          46,
+          46,
+          18,
+          2,
+          7,
+          31
+        ],
+        "depth": 40.7
+      },
+      {
+        "hole": [
+          "Kc",
+          "Ts"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.073,
+        "equity": 0.328,
+        "odds": 0.431,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          135,
+          27,
+          17,
+          17,
+          9,
+          4,
+          5,
+          18
+        ],
+        "depth": 37.0
+      },
+      {
+        "hole": [
+          "Kh",
+          "5d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.077,
+        "equity": 0.27,
+        "odds": 0.397,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          129,
+          25,
+          21,
+          21,
+          7,
+          3,
+          5,
+          12
+        ],
+        "depth": 42.5
+      },
+      {
+        "hole": [
+          "Kc",
+          "4d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.579,
+        "equity": 0.448,
+        "odds": 0.462,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          130,
+          26,
+          22,
+          22,
+          7,
+          3,
+          5,
+          12
+        ],
+        "depth": 40.2
+      },
+      {
+        "hole": [
+          "Th",
+          "5h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.078,
+        "equity": 0.287,
+        "odds": 0.42,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          131,
+          27,
+          23,
+          23,
+          7,
+          3,
+          5,
+          12
+        ],
+        "depth": 39.2
+      },
+      {
+        "hole": [
+          "Ad",
+          "Kc"
+        ],
+        "actual": [
+          "call",
+          5369
+        ],
+        "width": 0.084,
+        "equity": 0.513,
+        "odds": 0.444,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": [
+          "Tc",
+          "Ac"
+        ],
+        "villain_stats": [
+          136,
+          46,
+          33,
+          33,
+          38,
+          3,
+          5,
+          10
+        ],
+        "depth": 33.2
+      },
+      {
+        "hole": [
+          "5d",
+          "Ad"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.091,
+        "equity": 0.362,
+        "odds": 0.438,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          122,
+          48,
+          40,
+          41,
+          7,
+          6,
+          5,
+          19
+        ],
+        "depth": 35.2
+      }
+    ],
+    "n8 deep facing jam": [
+      {
+        "hole": [
+          "Kh",
+          "Ks"
+        ],
+        "actual": [
+          "call",
+          1440
+        ],
+        "width": 0.054,
+        "equity": 0.712,
+        "odds": 0.343,
+        "risk": 0.058,
+        "raises": 4,
+        "villain_revealed": [
+          "Ts",
+          "Th"
+        ],
+        "villain_stats": [
+          8,
+          3,
+          3,
+          4,
+          1,
+          0,
+          0,
+          0
+        ],
+        "depth": 100.2
+      },
+      {
+        "hole": [
+          "Qc",
+          "Kh"
+        ],
+        "actual": [
+          "call",
+          55
+        ],
+        "width": 0.086,
+        "equity": 0.386,
+        "odds": 0.262,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "6h",
+          "Ah"
+        ],
+        "villain_stats": [
+          12,
+          4,
+          4,
+          5,
+          1,
+          0,
+          0,
+          0
+        ],
+        "depth": 231.4
+      },
+      {
+        "hole": [
+          "Qd",
+          "Kh"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.147,
+        "equity": 0.42,
+        "odds": 0.468,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "Tc",
+          "Qc"
+        ],
+        "villain_stats": [
+          56,
+          14,
+          8,
+          9,
+          4,
+          5,
+          1,
+          9
+        ],
+        "depth": 37.4
+      },
+      {
+        "hole": [
+          "Jd",
+          "Jc"
+        ],
+        "actual": [
+          "call",
+          1446
+        ],
+        "width": 0.05,
+        "equity": 0.556,
+        "odds": 0.372,
+        "risk": 0.053,
+        "raises": 4,
+        "villain_revealed": [
+          "Ks",
+          "Kd"
+        ],
+        "villain_stats": [
+          6,
+          1,
+          1,
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        "depth": 96.6
+      },
+      {
+        "hole": [
+          "7c",
+          "Tc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.088,
+        "equity": 0.321,
+        "odds": 0.254,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "Ks",
+          "Kh"
+        ],
+        "villain_stats": [
+          42,
+          16,
+          13,
+          13,
+          8,
+          0,
+          4,
+          3
+        ],
+        "depth": 39.9
+      },
+      {
+        "hole": [
+          "4s",
+          "6h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.152,
+        "equity": 0.299,
+        "odds": 0.323,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "Js",
+          "Jh"
+        ],
+        "villain_stats": [
+          20,
+          5,
+          3,
+          3,
+          3,
+          2,
+          0,
+          3
+        ],
+        "depth": 92.5
+      },
+      {
+        "hole": [
+          "9s",
+          "Ah"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.051,
+        "equity": 0.316,
+        "odds": 0.298,
+        "risk": 0.025,
+        "raises": 3,
+        "villain_revealed": [
+          "6h",
+          "6d"
+        ],
+        "villain_stats": [
+          47,
+          14,
+          10,
+          12,
+          8,
+          3,
+          3,
+          2
+        ],
+        "depth": 37.2
+      },
+      {
+        "hole": [
+          "8d",
+          "6s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.084,
+        "equity": 0.265,
+        "odds": 0.387,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "Ad",
+          "Ks"
+        ],
+        "villain_stats": [
+          52,
+          17,
+          13,
+          15,
+          8,
+          3,
+          3,
+          2
+        ],
+        "depth": 35.0
+      },
+      {
+        "hole": [
+          "5s",
+          "9d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.236,
+        "equity": 0.301,
+        "odds": 0.444,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "4h",
+          "Ac"
+        ],
+        "villain_stats": [
+          27,
+          8,
+          5,
+          5,
+          1,
+          5,
+          3,
+          6
+        ],
+        "depth": 88.6
+      },
+      {
+        "hole": [
+          "5d",
+          "Th"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.05,
+        "equity": 0.221,
+        "odds": 0.455,
+        "risk": 0.025,
+        "raises": 3,
+        "villain_revealed": null,
+        "villain_stats": [
+          23,
+          4,
+          3,
+          3,
+          1,
+          1,
+          2,
+          3
+        ],
+        "depth": 63.2
+      },
+      {
+        "hole": [
+          "3c",
+          "2d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.201,
+        "equity": 0.28,
+        "odds": 0.434,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "9d",
+          "8s"
+        ],
+        "villain_stats": [
+          16,
+          5,
+          4,
+          5,
+          0,
+          1,
+          0,
+          3
+        ],
+        "depth": 108.5
+      },
+      {
+        "hole": [
+          "8c",
+          "Kd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.082,
+        "equity": 0.285,
+        "odds": 0.356,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "9c",
+          "8d"
+        ],
+        "villain_stats": [
+          43,
+          11,
+          10,
+          11,
+          6,
+          4,
+          2,
+          0
+        ],
+        "depth": 78.0
+      },
+      {
+        "hole": [
+          "7h",
+          "8c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.051,
+        "equity": 0.237,
+        "odds": 0.312,
+        "risk": 0.025,
+        "raises": 3,
+        "villain_revealed": [
+          "Qc",
+          "Ad"
+        ],
+        "villain_stats": [
+          48,
+          12,
+          11,
+          12,
+          6,
+          4,
+          2,
+          0
+        ],
+        "depth": 77.0
+      },
+      {
+        "hole": [
+          "9h",
+          "5s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.083,
+        "equity": 0.254,
+        "odds": 0.448,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          71,
+          18,
+          17,
+          18,
+          6,
+          4,
+          4,
+          0
+        ],
+        "depth": 47.4
+      },
+      {
+        "hole": [
+          "4h",
+          "3s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.148,
+        "equity": 0.291,
+        "odds": 0.452,
+        "risk": 0.009,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          36,
+          6,
+          5,
+          5,
+          4,
+          2,
+          2,
+          2
+        ],
+        "depth": 47.1
+      }
+    ],
+    "n7 deep facing jam": [
+      {
+        "hole": [
+          "6d",
+          "9d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.07,
+        "equity": 0.294,
+        "odds": 0.4,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "Js",
+          "Ah"
+        ],
+        "villain_stats": [
+          64,
+          13,
+          3,
+          3,
+          11,
+          1,
+          4,
+          1
+        ],
+        "depth": 50.0
+      },
+      {
+        "hole": [
+          "5d",
+          "8h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.072,
+        "equity": 0.246,
+        "odds": 0.456,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          78,
+          20,
+          8,
+          8,
+          12,
+          1,
+          6,
+          1
+        ],
+        "depth": 52.1
+      },
+      {
+        "hole": [
+          "Ac",
+          "2c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.079,
+        "equity": 0.344,
+        "odds": 0.432,
+        "risk": 0.046,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          73,
+          16,
+          14,
+          14,
+          8,
+          1,
+          3,
+          4
+        ],
+        "depth": 37.1
+      },
+      {
+        "hole": [
+          "9h",
+          "Jh"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.076,
+        "equity": 0.348,
+        "odds": 0.448,
+        "risk": 0.031,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          60,
+          11,
+          9,
+          9,
+          5,
+          4,
+          3,
+          3
+        ],
+        "depth": 34.7
+      },
+      {
+        "hole": [
+          "Td",
+          "Th"
+        ],
+        "actual": [
+          "call",
+          1023
+        ],
+        "width": 0.07,
+        "equity": 0.523,
+        "odds": 0.405,
+        "risk": 0.03,
+        "raises": 2,
+        "villain_revealed": [
+          "Kd",
+          "Jh"
+        ],
+        "villain_stats": [
+          69,
+          11,
+          5,
+          5,
+          4,
+          3,
+          3,
+          9
+        ],
+        "depth": 38.0
+      },
+      {
+        "hole": [
+          "As",
+          "Jh"
+        ],
+        "actual": [
+          "call",
+          689
+        ],
+        "width": 0.081,
+        "equity": 0.416,
+        "odds": 0.371,
+        "risk": 0.02,
+        "raises": 2,
+        "villain_revealed": [
+          "Kh",
+          "Ks"
+        ],
+        "villain_stats": [
+          80,
+          26,
+          17,
+          17,
+          8,
+          1,
+          11,
+          15
+        ],
+        "depth": 39.8
+      },
+      {
+        "hole": [
+          "Kh",
+          "Qd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.076,
+        "equity": 0.381,
+        "odds": 0.382,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          65,
+          17,
+          10,
+          10,
+          3,
+          2,
+          7,
+          11
+        ],
+        "depth": 31.5
+      },
+      {
+        "hole": [
+          "2d",
+          "Th"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.153,
+        "equity": 0.275,
+        "odds": 0.439,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          65,
+          19,
+          11,
+          11,
+          4,
+          8,
+          5,
+          21
+        ],
+        "depth": 60.5
+      },
+      {
+        "hole": [
+          "Qd",
+          "Ts"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.074,
+        "equity": 0.332,
+        "odds": 0.446,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "7d",
+          "7h"
+        ],
+        "villain_stats": [
+          48,
+          7,
+          6,
+          6,
+          6,
+          1,
+          1,
+          0
+        ],
+        "depth": 37.2
+      },
+      {
+        "hole": [
+          "8h",
+          "7s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.158,
+        "equity": 0.327,
+        "odds": 0.31,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "4c",
+          "Ah"
+        ],
+        "villain_stats": [
+          82,
+          9,
+          5,
+          5,
+          1,
+          2,
+          3,
+          11
+        ],
+        "depth": 37.1
+      },
+      {
+        "hole": [
+          "8c",
+          "8d"
+        ],
+        "actual": [
+          "call",
+          471
+        ],
+        "width": 0.085,
+        "equity": 0.445,
+        "odds": 0.366,
+        "risk": 0.014,
+        "raises": 2,
+        "villain_revealed": [
+          "2s",
+          "Qd"
+        ],
+        "villain_stats": [
+          52,
+          15,
+          14,
+          14,
+          10,
+          3,
+          1,
+          9
+        ],
+        "depth": 38.4
+      },
+      {
+        "hole": [
+          "Jh",
+          "5c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.142,
+        "equity": 0.284,
+        "odds": 0.393,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "9h",
+          "9s"
+        ],
+        "villain_stats": [
+          22,
+          4,
+          2,
+          2,
+          2,
+          3,
+          1,
+          3
+        ],
+        "depth": 69.2
+      },
+      {
+        "hole": [
+          "Qd",
+          "Kc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.05,
+        "equity": 0.362,
+        "odds": 0.415,
+        "risk": 0.025,
+        "raises": 3,
+        "villain_revealed": null,
+        "villain_stats": [
+          56,
+          10,
+          6,
+          6,
+          10,
+          3,
+          1,
+          6
+        ],
+        "depth": 47.4
+      },
+      {
+        "hole": [
+          "8d",
+          "Ad"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.077,
+        "equity": 0.367,
+        "odds": 0.422,
+        "risk": 0.018,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          49,
+          10,
+          8,
+          8,
+          7,
+          1,
+          0,
+          4
+        ],
+        "depth": 45.1
+      },
+      {
+        "hole": [
+          "Qc",
+          "8h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.08,
+        "equity": 0.298,
+        "odds": 0.466,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          54,
+          13,
+          11,
+          11,
+          8,
+          1,
+          0,
+          4
+        ],
+        "depth": 41.3
+      }
+    ],
+    "n6 deep facing jam": [
+      {
+        "hole": [
+          "7h",
+          "3d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.074,
+        "equity": 0.224,
+        "odds": 0.453,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "Qd",
+          "Qs"
+        ],
+        "villain_stats": [
+          86,
+          23,
+          11,
+          11,
+          12,
+          1,
+          6,
+          1
+        ],
+        "depth": 32.9
+      },
+      {
+        "hole": [
+          "9d",
+          "Qc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.179,
+        "equity": 0.339,
+        "odds": 0.274,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "Ad",
+          "7d"
+        ],
+        "villain_stats": [
+          91,
+          20,
+          14,
+          15,
+          2,
+          4,
+          8,
+          9
+        ],
+        "depth": 37.2
+      },
+      {
+        "hole": [
+          "As",
+          "Ah"
+        ],
+        "actual": [
+          "call",
+          1339
+        ],
+        "width": 0.073,
+        "equity": 0.825,
+        "odds": 0.424,
+        "risk": 0.041,
+        "raises": 2,
+        "villain_revealed": [
+          "8c",
+          "Ac"
+        ],
+        "villain_stats": [
+          79,
+          14,
+          9,
+          9,
+          2,
+          1,
+          4,
+          9
+        ],
+        "depth": 33.3
+      },
+      {
+        "hole": [
+          "9s",
+          "Js"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.079,
+        "equity": 0.351,
+        "odds": 0.43,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "Tc",
+          "Td"
+        ],
+        "villain_stats": [
+          63,
+          16,
+          12,
+          12,
+          8,
+          4,
+          4,
+          19
+        ],
+        "depth": 60.9
+      },
+      {
+        "hole": [
+          "8c",
+          "6d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.08,
+        "equity": 0.262,
+        "odds": 0.436,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          70,
+          18,
+          14,
+          14,
+          20,
+          5,
+          0,
+          3
+        ],
+        "depth": 54.5
+      },
+      {
+        "hole": [
+          "Kh",
+          "Js"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.225,
+        "equity": 0.438,
+        "odds": 0.295,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "9s",
+          "9d"
+        ],
+        "villain_stats": [
+          83,
+          13,
+          13,
+          13,
+          7,
+          0,
+          1,
+          5
+        ],
+        "depth": 38.2
+      },
+      {
+        "hole": [
+          "As",
+          "Js"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.077,
+        "equity": 0.449,
+        "odds": 0.408,
+        "risk": 0.042,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          87,
+          14,
+          14,
+          14,
+          7,
+          0,
+          1,
+          5
+        ],
+        "depth": 37.0
+      },
+      {
+        "hole": [
+          "Th",
+          "9d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.082,
+        "equity": 0.32,
+        "odds": 0.457,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          88,
+          25,
+          20,
+          20,
+          24,
+          5,
+          0,
+          3
+        ],
+        "depth": 34.7
+      },
+      {
+        "hole": [
+          "2d",
+          "As"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.075,
+        "equity": 0.309,
+        "odds": 0.461,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          80,
+          15,
+          11,
+          11,
+          12,
+          0,
+          2,
+          0
+        ],
+        "depth": 30.4
+      },
+      {
+        "hole": [
+          "2c",
+          "2s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.08,
+        "equity": 0.333,
+        "odds": 0.416,
+        "risk": 0.031,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          75,
+          25,
+          15,
+          15,
+          5,
+          8,
+          7,
+          27
+        ],
+        "depth": 63.9
+      },
+      {
+        "hole": [
+          "6s",
+          "Kd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.331,
+        "equity": 0.379,
+        "odds": 0.281,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "5d",
+          "7d"
+        ],
+        "villain_stats": [
+          83,
+          20,
+          11,
+          11,
+          8,
+          3,
+          6,
+          15
+        ],
+        "depth": 30.6
+      },
+      {
+        "hole": [
+          "Ah",
+          "Ts"
+        ],
+        "actual": [
+          "call",
+          210
+        ],
+        "width": 0.077,
+        "equity": 0.389,
+        "odds": 0.249,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "8c",
+          "8s"
+        ],
+        "villain_stats": [
+          73,
+          15,
+          12,
+          12,
+          6,
+          5,
+          3,
+          12
+        ],
+        "depth": 63.3
+      },
+      {
+        "hole": [
+          "Jh",
+          "Th"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.083,
+        "equity": 0.373,
+        "odds": 0.357,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          65,
+          20,
+          15,
+          15,
+          10,
+          2,
+          5,
+          6
+        ],
+        "depth": 54.2
+      },
+      {
+        "hole": [
+          "Td",
+          "4c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.077,
+        "equity": 0.247,
+        "odds": 0.45,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          92,
+          23,
+          15,
+          15,
+          16,
+          3,
+          3,
+          2
+        ],
+        "depth": 34.0
+      },
+      {
+        "hole": [
+          "Ad",
+          "As"
+        ],
+        "actual": [
+          "call",
+          1716
+        ],
+        "width": 0.05,
+        "equity": 0.813,
+        "odds": 0.436,
+        "risk": 0.062,
+        "raises": 3,
+        "villain_revealed": [
+          "Kc",
+          "Kh"
+        ],
+        "villain_stats": [
+          24,
+          6,
+          3,
+          4,
+          4,
+          1,
+          3,
+          0
+        ],
+        "depth": 83.5
+      }
+    ],
+    "n5 medium facing jam": [
+      {
+        "hole": [
+          "7s",
+          "7c"
+        ],
+        "actual": [
+          "call",
+          2025
+        ],
+        "width": 0.353,
+        "equity": 0.556,
+        "odds": 0.445,
+        "risk": 0.066,
+        "raises": 1,
+        "villain_revealed": [
+          "Ad",
+          "Jd"
+        ],
+        "villain_stats": [
+          110,
+          28,
+          19,
+          20,
+          11,
+          3,
+          6,
+          3
+        ],
+        "depth": 17.4
+      },
+      {
+        "hole": [
+          "4s",
+          "4d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.08,
+        "equity": 0.339,
+        "odds": 0.353,
+        "risk": 0.023,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          92,
+          27,
+          18,
+          18,
+          19,
+          1,
+          8,
+          12
+        ],
+        "depth": 21.6
+      },
+      {
+        "hole": [
+          "7d",
+          "6s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.194,
+        "equity": 0.331,
+        "odds": 0.463,
+        "risk": 0.035,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          96,
+          29,
+          20,
+          20,
+          19,
+          1,
+          8,
+          12
+        ],
+        "depth": 19.9
+      },
+      {
+        "hole": [
+          "6d",
+          "Th"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.201,
+        "equity": 0.311,
+        "odds": 0.473,
+        "risk": 0.037,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          97,
+          26,
+          9,
+          9,
+          8,
+          10,
+          11,
+          22
+        ],
+        "depth": 19.4
+      },
+      {
+        "hole": [
+          "4s",
+          "Td"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.311,
+        "equity": 0.309,
+        "odds": 0.389,
+        "risk": 0.013,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          101,
+          29,
+          10,
+          10,
+          8,
+          11,
+          13,
+          23
+        ],
+        "depth": 15.1
+      },
+      {
+        "hole": [
+          "4d",
+          "4c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.379,
+        "equity": 0.492,
+        "odds": 0.46,
+        "risk": 0.042,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          94,
+          28,
+          18,
+          18,
+          5,
+          5,
+          12,
+          20
+        ],
+        "depth": 17.1
+      },
+      {
+        "hole": [
+          "3d",
+          "5h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.346,
+        "equity": 0.322,
+        "odds": 0.441,
+        "risk": 0.036,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          104,
+          19,
+          14,
+          14,
+          6,
+          5,
+          4,
+          17
+        ],
+        "depth": 27.0
+      },
+      {
+        "hole": [
+          "Ah",
+          "6h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.216,
+        "equity": 0.443,
+        "odds": 0.457,
+        "risk": 0.015,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          111,
+          20,
+          15,
+          15,
+          6,
+          5,
+          4,
+          17
+        ],
+        "depth": 29.2
+      },
+      {
+        "hole": [
+          "3s",
+          "5d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.076,
+        "equity": 0.246,
+        "odds": 0.436,
+        "risk": 0.03,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          114,
+          19,
+          17,
+          17,
+          4,
+          0,
+          2,
+          1
+        ],
+        "depth": 29.2
+      },
+      {
+        "hole": [
+          "2s",
+          "Jc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.072,
+        "equity": 0.246,
+        "odds": 0.435,
+        "risk": 0.045,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          83,
+          16,
+          9,
+          9,
+          7,
+          8,
+          2,
+          11
+        ],
+        "depth": 16.9
+      },
+      {
+        "hole": [
+          "Js",
+          "Qh"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.084,
+        "equity": 0.348,
+        "odds": 0.41,
+        "risk": 0.045,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          93,
+          30,
+          23,
+          25,
+          21,
+          3,
+          4,
+          11
+        ],
+        "depth": 15.4
+      },
+      {
+        "hole": [
+          "4c",
+          "Td"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.17,
+        "equity": 0.288,
+        "odds": 0.456,
+        "risk": 0.015,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          90,
+          13,
+          11,
+          11,
+          1,
+          3,
+          3,
+          7
+        ],
+        "depth": 27.6
+      },
+      {
+        "hole": [
+          "5h",
+          "As"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.072,
+        "equity": 0.314,
+        "odds": 0.403,
+        "risk": 0.045,
+        "raises": 2,
+        "villain_revealed": [
+          "Kd",
+          "Ks"
+        ],
+        "villain_stats": [
+          101,
+          17,
+          11,
+          11,
+          7,
+          1,
+          2,
+          0
+        ],
+        "depth": 18.6
+      },
+      {
+        "hole": [
+          "As",
+          "Qd"
+        ],
+        "actual": [
+          "call",
+          2390
+        ],
+        "width": 0.364,
+        "equity": 0.619,
+        "odds": 0.461,
+        "risk": 0.067,
+        "raises": 1,
+        "villain_revealed": [
+          "3c",
+          "6c"
+        ],
+        "villain_stats": [
+          102,
+          22,
+          17,
+          17,
+          9,
+          4,
+          5,
+          4
+        ],
+        "depth": 24.3
+      },
+      {
+        "hole": [
+          "6c",
+          "8h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.239,
+        "equity": 0.329,
+        "odds": 0.363,
+        "risk": 0.008,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          102,
+          37,
+          20,
+          20,
+          8,
+          15,
+          4,
+          45
+        ],
+        "depth": 23.5
+      }
+    ],
+    "n4 deep facing jam": [
+      {
+        "hole": [
+          "2d",
+          "8c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.354,
+        "equity": 0.3,
+        "odds": 0.346,
+        "risk": 0.012,
+        "raises": 1,
+        "villain_revealed": [
+          "Tc",
+          "Ts"
+        ],
+        "villain_stats": [
+          123,
+          32,
+          17,
+          17,
+          13,
+          1,
+          9,
+          5
+        ],
+        "depth": 34.3
+      },
+      {
+        "hole": [
+          "5d",
+          "5h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.084,
+        "equity": 0.352,
+        "odds": 0.456,
+        "risk": 0.182,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          77,
+          27,
+          19,
+          20,
+          10,
+          2,
+          4,
+          17
+        ],
+        "depth": 41.9
+      },
+      {
+        "hole": [
+          "Ad",
+          "2c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.358,
+        "equity": 0.452,
+        "odds": 0.438,
+        "risk": 0.024,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          98,
+          19,
+          14,
+          14,
+          11,
+          2,
+          5,
+          2
+        ],
+        "depth": 43.8
+      },
+      {
+        "hole": [
+          "9s",
+          "4c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.445,
+        "equity": 0.315,
+        "odds": 0.448,
+        "risk": 0.028,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          71,
+          30,
+          22,
+          22,
+          21,
+          2,
+          9,
+          10
+        ],
+        "depth": 30.1
+      },
+      {
+        "hole": [
+          "9s",
+          "7s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.079,
+        "equity": 0.318,
+        "odds": 0.436,
+        "risk": 0.035,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          96,
+          29,
+          18,
+          18,
+          21,
+          0,
+          10,
+          12
+        ],
+        "depth": 34.2
+      },
+      {
+        "hole": [
+          "Jd",
+          "Qd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.084,
+        "equity": 0.381,
+        "odds": 0.415,
+        "risk": 0.072,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          108,
+          35,
+          26,
+          26,
+          11,
+          10,
+          8,
+          24
+        ],
+        "depth": 32.5
+      },
+      {
+        "hole": [
+          "7c",
+          "6c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.4,
+        "equity": 0.386,
+        "odds": 0.407,
+        "risk": 0.017,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          115,
+          28,
+          26,
+          26,
+          3,
+          1,
+          1,
+          9
+        ],
+        "depth": 47.2
+      },
+      {
+        "hole": [
+          "Th",
+          "Js"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.407,
+        "equity": 0.416,
+        "odds": 0.407,
+        "risk": 0.015,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          120,
+          29,
+          27,
+          27,
+          3,
+          1,
+          1,
+          9
+        ],
+        "depth": 51.4
+      },
+      {
+        "hole": [
+          "Ks",
+          "As"
+        ],
+        "actual": [
+          "call",
+          1051
+        ],
+        "width": 0.401,
+        "equity": 0.667,
+        "odds": 0.389,
+        "risk": 0.02,
+        "raises": 1,
+        "villain_revealed": [
+          "4d",
+          "2h"
+        ],
+        "villain_stats": [
+          123,
+          31,
+          28,
+          28,
+          3,
+          1,
+          1,
+          9
+        ],
+        "depth": 31.7
+      },
+      {
+        "hole": [
+          "Qs",
+          "3c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.198,
+        "equity": 0.31,
+        "odds": 0.431,
+        "risk": 0.026,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          95,
+          6,
+          6,
+          7,
+          1,
+          0,
+          1,
+          3
+        ],
+        "depth": 32.3
+      },
+      {
+        "hole": [
+          "Qc",
+          "Ac"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.073,
+        "equity": 0.47,
+        "odds": 0.441,
+        "risk": 0.098,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          95,
+          12,
+          11,
+          11,
+          3,
+          0,
+          1,
+          1
+        ],
+        "depth": 36.2
+      }
+    ],
+    "n6 medium facing jam": [
+      {
+        "hole": [
+          "8s",
+          "Qc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.075,
+        "equity": 0.293,
+        "odds": 0.454,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          63,
+          9,
+          9,
+          10,
+          8,
+          1,
+          3,
+          1
+        ],
+        "depth": 21.0
+      },
+      {
+        "hole": [
+          "2c",
+          "4h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.184,
+        "equity": 0.283,
+        "odds": 0.412,
+        "risk": 0.019,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          99,
+          19,
+          17,
+          17,
+          7,
+          4,
+          3,
+          6
+        ],
+        "depth": 24.0
+      },
+      {
+        "hole": [
+          "4d",
+          "5d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.197,
+        "equity": 0.355,
+        "odds": 0.472,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          101,
+          37,
+          22,
+          22,
+          26,
+          4,
+          6,
+          24
+        ],
+        "depth": 16.5
+      },
+      {
+        "hole": [
+          "6c",
+          "5d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.08,
+        "equity": 0.263,
+        "odds": 0.44,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "Ks",
+          "Ah"
+        ],
+        "villain_stats": [
+          72,
+          18,
+          14,
+          14,
+          8,
+          7,
+          4,
+          5
+        ],
+        "depth": 27.6
+      },
+      {
+        "hole": [
+          "Ac",
+          "Ah"
+        ],
+        "actual": [
+          "call",
+          2221
+        ],
+        "width": 0.076,
+        "equity": 0.826,
+        "odds": 0.44,
+        "risk": 0.076,
+        "raises": 2,
+        "villain_revealed": [
+          "Kh",
+          "4h"
+        ],
+        "villain_stats": [
+          96,
+          15,
+          15,
+          15,
+          6,
+          0,
+          2,
+          0
+        ],
+        "depth": 23.7
+      },
+      {
+        "hole": [
+          "5h",
+          "As"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.081,
+        "equity": 0.319,
+        "odds": 0.4,
+        "risk": 0.046,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          70,
+          27,
+          15,
+          16,
+          8,
+          10,
+          6,
+          17
+        ],
+        "depth": 22.3
+      },
+      {
+        "hole": [
+          "8s",
+          "9c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.074,
+        "equity": 0.288,
+        "odds": 0.447,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          73,
+          13,
+          9,
+          9,
+          12,
+          0,
+          2,
+          0
+        ],
+        "depth": 28.6
+      },
+      {
+        "hole": [
+          "4d",
+          "4h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.075,
+        "equity": 0.33,
+        "odds": 0.445,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "Ad",
+          "2h"
+        ],
+        "villain_stats": [
+          85,
+          16,
+          12,
+          12,
+          12,
+          0,
+          2,
+          0
+        ],
+        "depth": 17.3
+      },
+      {
+        "hole": [
+          "5h",
+          "Ks"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.078,
+        "equity": 0.27,
+        "odds": 0.419,
+        "risk": 0.108,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          82,
+          25,
+          14,
+          16,
+          7,
+          4,
+          9,
+          17
+        ],
+        "depth": 15.1
+      },
+      {
+        "hole": [
+          "Qd",
+          "Qs"
+        ],
+        "actual": [
+          "call",
+          271
+        ],
+        "width": 0.071,
+        "equity": 0.641,
+        "odds": 0.215,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "Ad",
+          "Jd"
+        ],
+        "villain_stats": [
+          83,
+          12,
+          8,
+          8,
+          3,
+          3,
+          1,
+          3
+        ],
+        "depth": 25.0
+      },
+      {
+        "hole": [
+          "Ah",
+          "2c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.075,
+        "equity": 0.309,
+        "odds": 0.43,
+        "risk": 0.044,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          66,
+          10,
+          9,
+          9,
+          1,
+          2,
+          0,
+          1
+        ],
+        "depth": 19.1
+      },
+      {
+        "hole": [
+          "9h",
+          "Qh"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.073,
+        "equity": 0.346,
+        "odds": 0.427,
+        "risk": 0.055,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          68,
+          15,
+          8,
+          8,
+          8,
+          3,
+          7,
+          8
+        ],
+        "depth": 16.8
+      },
+      {
+        "hole": [
+          "Kh",
+          "Qd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.081,
+        "equity": 0.384,
+        "odds": 0.383,
+        "risk": 0.036,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          83,
+          21,
+          18,
+          18,
+          12,
+          2,
+          0,
+          5
+        ],
+        "depth": 16.6
+      },
+      {
+        "hole": [
+          "9d",
+          "Td"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.077,
+        "equity": 0.347,
+        "odds": 0.425,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "Ac",
+          "Kc"
+        ],
+        "villain_stats": [
+          54,
+          20,
+          9,
+          9,
+          5,
+          8,
+          5,
+          21
+        ],
+        "depth": 18.1
+      },
+      {
+        "hole": [
+          "Ac",
+          "7h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.079,
+        "equity": 0.32,
+        "odds": 0.425,
+        "risk": 0.127,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          101,
+          22,
+          19,
+          19,
+          15,
+          1,
+          3,
+          2
+        ],
+        "depth": 18.9
+      }
+    ],
+    "n6 short facing jam": [
+      {
+        "hole": [
+          "8s",
+          "4s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.155,
+        "equity": 0.321,
+        "odds": 0.466,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          78,
+          15,
+          14,
+          14,
+          8,
+          2,
+          0,
+          6
+        ],
+        "depth": 11.8
+      },
+      {
+        "hole": [
+          "3d",
+          "2h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.076,
+        "equity": 0.222,
+        "odds": 0.383,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          81,
+          13,
+          12,
+          13,
+          10,
+          1,
+          4,
+          3
+        ],
+        "depth": 7.8
+      },
+      {
+        "hole": [
+          "Qh",
+          "3d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.261,
+        "equity": 0.32,
+        "odds": 0.179,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "6d",
+          "5s"
+        ],
+        "villain_stats": [
+          105,
+          32,
+          27,
+          27,
+          4,
+          1,
+          14,
+          10
+        ],
+        "depth": 13.9
+      },
+      {
+        "hole": [
+          "9c",
+          "2d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.153,
+        "equity": 0.271,
+        "odds": 0.375,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          106,
+          20,
+          18,
+          18,
+          7,
+          4,
+          3,
+          6
+        ],
+        "depth": 12.9
+      },
+      {
+        "hole": [
+          "9s",
+          "Ac"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.206,
+        "equity": 0.461,
+        "odds": 0.435,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          97,
+          29,
+          24,
+          24,
+          25,
+          5,
+          0,
+          3
+        ],
+        "depth": 14.8
+      },
+      {
+        "hole": [
+          "Kh",
+          "As"
+        ],
+        "actual": [
+          "call",
+          755
+        ],
+        "width": 0.381,
+        "equity": 0.651,
+        "odds": 0.35,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "6s",
+          "Qd"
+        ],
+        "villain_stats": [
+          67,
+          20,
+          15,
+          15,
+          16,
+          0,
+          3,
+          6
+        ],
+        "depth": 10.4
+      },
+      {
+        "hole": [
+          "9s",
+          "6d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.133,
+        "equity": 0.3,
+        "odds": 0.419,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "As",
+          "Kd"
+        ],
+        "villain_stats": [
+          71,
+          21,
+          6,
+          6,
+          2,
+          6,
+          6,
+          26
+        ],
+        "depth": 9.9
+      },
+      {
+        "hole": [
+          "6d",
+          "Jc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.393,
+        "equity": 0.335,
+        "odds": 0.439,
+        "risk": 0.032,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          73,
+          24,
+          18,
+          18,
+          17,
+          0,
+          3,
+          6
+        ],
+        "depth": 9.9
+      },
+      {
+        "hole": [
+          "4s",
+          "6c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.314,
+        "equity": 0.326,
+        "odds": 0.464,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "7d",
+          "Qc"
+        ],
+        "villain_stats": [
+          62,
+          11,
+          6,
+          6,
+          16,
+          2,
+          2,
+          2
+        ],
+        "depth": 13.3
+      },
+      {
+        "hole": [
+          "Ts",
+          "Ks"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.078,
+        "equity": 0.365,
+        "odds": 0.352,
+        "risk": 0.029,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          69,
+          23,
+          12,
+          12,
+          5,
+          11,
+          8,
+          19
+        ],
+        "depth": 11.3
+      },
+      {
+        "hole": [
+          "Qs",
+          "Js"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.076,
+        "equity": 0.377,
+        "odds": 0.307,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "Tc",
+          "7d"
+        ],
+        "villain_stats": [
+          102,
+          23,
+          16,
+          17,
+          17,
+          6,
+          4,
+          16
+        ],
+        "depth": 13.4
+      },
+      {
+        "hole": [
+          "6d",
+          "2c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.078,
+        "equity": 0.223,
+        "odds": 0.419,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          88,
+          30,
+          16,
+          16,
+          9,
+          3,
+          11,
+          28
+        ],
+        "depth": 13.9
+      },
+      {
+        "hole": [
+          "As",
+          "6h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.356,
+        "equity": 0.47,
+        "odds": 0.438,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          101,
+          35,
+          18,
+          18,
+          9,
+          5,
+          13,
+          34
+        ],
+        "depth": 7.5
+      },
+      {
+        "hole": [
+          "9c",
+          "7h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.235,
+        "equity": 0.333,
+        "odds": 0.452,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "Qd",
+          "9h"
+        ],
+        "villain_stats": [
+          102,
+          36,
+          19,
+          19,
+          9,
+          5,
+          13,
+          34
+        ],
+        "depth": 7.0
+      },
+      {
+        "hole": [
+          "3c",
+          "3s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.19,
+        "equity": 0.437,
+        "odds": 0.452,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "Ts",
+          "Th"
+        ],
+        "villain_stats": [
+          103,
+          37,
+          20,
+          20,
+          9,
+          5,
+          13,
+          34
+        ],
+        "depth": 7.0
+      }
+    ],
+    "n2 medium facing jam": [
+      {
+        "hole": [
+          "Kc",
+          "7h"
+        ],
+        "actual": [
+          "call",
+          5186
+        ],
+        "width": 0.581,
+        "equity": 0.48,
+        "odds": 0.456,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": [
+          "Qh",
+          "9h"
+        ],
+        "villain_stats": [
+          145,
+          32,
+          25,
+          25,
+          12,
+          4,
+          3,
+          11
+        ],
+        "depth": 20.6
+      },
+      {
+        "hole": [
+          "Qc",
+          "4h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.59,
+        "equity": 0.4,
+        "odds": 0.434,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          149,
+          35,
+          27,
+          27,
+          12,
+          5,
+          3,
+          14
+        ],
+        "depth": 24.4
+      },
+      {
+        "hole": [
+          "5h",
+          "2c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.594,
+        "equity": 0.318,
+        "odds": 0.434,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          151,
+          36,
+          28,
+          28,
+          12,
+          5,
+          3,
+          14
+        ],
+        "depth": 24.4
+      },
+      {
+        "hole": [
+          "3c",
+          "3d"
+        ],
+        "actual": [
+          "call",
+          3309
+        ],
+        "width": 0.598,
+        "equity": 0.504,
+        "odds": 0.434,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": [
+          "Td",
+          "8c"
+        ],
+        "villain_stats": [
+          153,
+          37,
+          29,
+          29,
+          12,
+          5,
+          3,
+          14
+        ],
+        "depth": 24.4
+      },
+      {
+        "hole": [
+          "6d",
+          "Jd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.606,
+        "equity": 0.415,
+        "odds": 0.455,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          157,
+          39,
+          31,
+          31,
+          12,
+          5,
+          4,
+          14
+        ],
+        "depth": 20.9
+      },
+      {
+        "hole": [
+          "9d",
+          "9s"
+        ],
+        "actual": [
+          "call",
+          5088
+        ],
+        "width": 0.078,
+        "equity": 0.481,
+        "odds": 0.441,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": [
+          "Js",
+          "7c"
+        ],
+        "villain_stats": [
+          137,
+          30,
+          25,
+          25,
+          13,
+          0,
+          2,
+          4
+        ],
+        "depth": 19.2
+      },
+      {
+        "hole": [
+          "4d",
+          "4h"
+        ],
+        "actual": [
+          "call",
+          4704
+        ],
+        "width": 0.672,
+        "equity": 0.531,
+        "odds": 0.47,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": [
+          "Qs",
+          "Ac"
+        ],
+        "villain_stats": [
+          127,
+          54,
+          34,
+          35,
+          9,
+          14,
+          8,
+          63
+        ],
+        "depth": 16.7
+      },
+      {
+        "hole": [
+          "5h",
+          "Qd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.086,
+        "equity": 0.275,
+        "odds": 0.455,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          139,
+          40,
+          37,
+          37,
+          3,
+          2,
+          1,
+          1
+        ],
+        "depth": 28.4
+      },
+      {
+        "hole": [
+          "2d",
+          "6c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.71,
+        "equity": 0.314,
+        "odds": 0.454,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          154,
+          52,
+          47,
+          47,
+          4,
+          2,
+          1,
+          2
+        ],
+        "depth": 21.2
+      },
+      {
+        "hole": [
+          "Td",
+          "4s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.09,
+        "equity": 0.257,
+        "odds": 0.405,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          155,
+          53,
+          48,
+          48,
+          4,
+          2,
+          1,
+          2
+        ],
+        "depth": 20.2
+      },
+      {
+        "hole": [
+          "8c",
+          "4s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.617,
+        "equity": 0.333,
+        "odds": 0.424,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          143,
+          51,
+          30,
+          30,
+          17,
+          8,
+          11,
+          30
+        ],
+        "depth": 25.4
+      },
+      {
+        "hole": [
+          "2d",
+          "6s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.621,
+        "equity": 0.311,
+        "odds": 0.438,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          145,
+          52,
+          31,
+          31,
+          17,
+          8,
+          11,
+          30
+        ],
+        "depth": 23.9
+      },
+      {
+        "hole": [
+          "Qh",
+          "5d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.625,
+        "equity": 0.42,
+        "odds": 0.404,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          147,
+          54,
+          32,
+          32,
+          17,
+          9,
+          11,
+          33
+        ],
+        "depth": 26.8
+      },
+      {
+        "hole": [
+          "Ks",
+          "8d"
+        ],
+        "actual": [
+          "call",
+          2863
+        ],
+        "width": 0.629,
+        "equity": 0.503,
+        "odds": 0.426,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": [
+          "Th",
+          "8c"
+        ],
+        "villain_stats": [
+          149,
+          55,
+          33,
+          33,
+          17,
+          9,
+          11,
+          33
+        ],
+        "depth": 25.3
+      },
+      {
+        "hole": [
+          "Kc",
+          "6s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.09,
+        "equity": 0.281,
+        "odds": 0.444,
+        "risk": 0.0,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          130,
+          50,
+          40,
+          40,
+          17,
+          2,
+          5,
+          26
+        ],
+        "depth": 19.9
+      }
+    ],
+    "n2 short facing jam": [
+      {
+        "hole": [
+          "Qh",
+          "Tc"
+        ],
+        "actual": [
+          "call",
+          4628
+        ],
+        "width": 0.586,
+        "equity": 0.495,
+        "odds": 0.451,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": [
+          "9c",
+          "Ts"
+        ],
+        "villain_stats": [
+          147,
+          33,
+          26,
+          26,
+          12,
+          4,
+          3,
+          11
+        ],
+        "depth": 10.3
+      },
+      {
+        "hole": [
+          "6s",
+          "Ah"
+        ],
+        "actual": [
+          "call",
+          5401
+        ],
+        "width": 0.613,
+        "equity": 0.534,
+        "odds": 0.458,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": [
+          "Js",
+          "Ac"
+        ],
+        "villain_stats": [
+          161,
+          43,
+          33,
+          33,
+          14,
+          5,
+          4,
+          19
+        ],
+        "depth": 11.8
+      },
+      {
+        "hole": [
+          "3c",
+          "Kc"
+        ],
+        "actual": [
+          "call",
+          5911
+        ],
+        "width": 0.646,
+        "equity": 0.484,
+        "odds": 0.461,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": [
+          "As",
+          "5h"
+        ],
+        "villain_stats": [
+          142,
+          39,
+          34,
+          34,
+          9,
+          5,
+          6,
+          13
+        ],
+        "depth": 12.8
+      },
+      {
+        "hole": [
+          "8d",
+          "3c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.651,
+        "equity": 0.317,
+        "odds": 0.425,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          143,
+          41,
+          35,
+          35,
+          7,
+          0,
+          0,
+          9
+        ],
+        "depth": 6.7
+      },
+      {
+        "hole": [
+          "As",
+          "Qc"
+        ],
+        "actual": [
+          "call",
+          2318
+        ],
+        "width": 0.677,
+        "equity": 0.639,
+        "odds": 0.46,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": [
+          "6h",
+          "9c"
+        ],
+        "villain_stats": [
+          117,
+          41,
+          32,
+          32,
+          16,
+          2,
+          4,
+          22
+        ],
+        "depth": 12.6
+      },
+      {
+        "hole": [
+          "5c",
+          "4c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.609,
+        "equity": 0.388,
+        "odds": 0.454,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          164,
+          46,
+          33,
+          33,
+          14,
+          4,
+          6,
+          20
+        ],
+        "depth": 10.9
+      },
+      {
+        "hole": [
+          "3d",
+          "Ah"
+        ],
+        "actual": [
+          "call",
+          4946
+        ],
+        "width": 0.613,
+        "equity": 0.513,
+        "odds": 0.454,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": [
+          "5s",
+          "Kh"
+        ],
+        "villain_stats": [
+          166,
+          47,
+          34,
+          34,
+          14,
+          4,
+          6,
+          20
+        ],
+        "depth": 10.9
+      },
+      {
+        "hole": [
+          "4c",
+          "9h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.622,
+        "equity": 0.334,
+        "odds": 0.428,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          149,
+          45,
+          32,
+          33,
+          10,
+          3,
+          10,
+          15
+        ],
+        "depth": 6.9
+      },
+      {
+        "hole": [
+          "8s",
+          "9h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.626,
+        "equity": 0.402,
+        "odds": 0.408,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          151,
+          46,
+          33,
+          34,
+          10,
+          3,
+          10,
+          15
+        ],
+        "depth": 5.4
+      },
+      {
+        "hole": [
+          "Qs",
+          "9d"
+        ],
+        "actual": [
+          "call",
+          1454
+        ],
+        "width": 0.63,
+        "equity": 0.481,
+        "odds": 0.372,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": [
+          "Kd",
+          "Jh"
+        ],
+        "villain_stats": [
+          153,
+          47,
+          34,
+          35,
+          10,
+          3,
+          10,
+          15
+        ],
+        "depth": 3.9
+      },
+      {
+        "hole": [
+          "Jd",
+          "Kh"
+        ],
+        "actual": [
+          "call",
+          2039
+        ],
+        "width": 0.643,
+        "equity": 0.569,
+        "odds": 0.436,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": [
+          "7s",
+          "6d"
+        ],
+        "villain_stats": [
+          131,
+          44,
+          31,
+          31,
+          36,
+          3,
+          5,
+          10
+        ],
+        "depth": 7.8
+      },
+      {
+        "hole": [
+          "7d",
+          "8d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.62,
+        "equity": 0.415,
+        "odds": 0.447,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          141,
+          47,
+          30,
+          30,
+          31,
+          12,
+          9,
+          26
+        ],
+        "depth": 9.5
+      },
+      {
+        "hole": [
+          "2d",
+          "8h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.621,
+        "equity": 0.313,
+        "odds": 0.455,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          145,
+          48,
+          31,
+          31,
+          31,
+          12,
+          9,
+          26
+        ],
+        "depth": 11.0
+      },
+      {
+        "hole": [
+          "9h",
+          "3h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.625,
+        "equity": 0.365,
+        "odds": 0.455,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          147,
+          49,
+          32,
+          32,
+          31,
+          12,
+          9,
+          26
+        ],
+        "depth": 11.0
+      },
+      {
+        "hole": [
+          "9c",
+          "3d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.633,
+        "equity": 0.331,
+        "odds": 0.446,
+        "risk": 0.0,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          155,
+          53,
+          35,
+          35,
+          32,
+          12,
+          9,
+          27
+        ],
+        "depth": 9.2
+      }
+    ],
+    "n5 deep facing jam": [
+      {
+        "hole": [
+          "Jd",
+          "Ah"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.082,
+        "equity": 0.418,
+        "odds": 0.385,
+        "risk": 0.016,
+        "raises": 2,
+        "villain_revealed": [
+          "9d",
+          "9c"
+        ],
+        "villain_stats": [
+          98,
+          34,
+          22,
+          22,
+          9,
+          2,
+          6,
+          28
+        ],
+        "depth": 39.6
+      },
+      {
+        "hole": [
+          "5d",
+          "Ah"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.079,
+        "equity": 0.318,
+        "odds": 0.282,
+        "risk": 0.008,
+        "raises": 2,
+        "villain_revealed": [
+          "9d",
+          "Kh"
+        ],
+        "villain_stats": [
+          79,
+          31,
+          15,
+          15,
+          17,
+          1,
+          14,
+          18
+        ],
+        "depth": 82.0
+      },
+      {
+        "hole": [
+          "4c",
+          "Ah"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.338,
+        "equity": 0.456,
+        "odds": 0.46,
+        "risk": 0.074,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          109,
+          18,
+          16,
+          16,
+          4,
+          0,
+          2,
+          1
+        ],
+        "depth": 30.7
+      },
+      {
+        "hole": [
+          "9c",
+          "Ac"
+        ],
+        "actual": [
+          "call",
+          1804
+        ],
+        "width": 0.345,
+        "equity": 0.555,
+        "odds": 0.45,
+        "risk": 0.041,
+        "raises": 1,
+        "villain_revealed": [
+          "Kc",
+          "Qs"
+        ],
+        "villain_stats": [
+          119,
+          23,
+          16,
+          16,
+          6,
+          6,
+          5,
+          20
+        ],
+        "depth": 30.5
+      },
+      {
+        "hole": [
+          "5c",
+          "Jd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.171,
+        "equity": 0.293,
+        "odds": 0.301,
+        "risk": 0.011,
+        "raises": 1,
+        "villain_revealed": [
+          "As",
+          "Js"
+        ],
+        "villain_stats": [
+          87,
+          18,
+          11,
+          11,
+          4,
+          4,
+          6,
+          14
+        ],
+        "depth": 48.5
+      },
+      {
+        "hole": [
+          "9c",
+          "Ad"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.218,
+        "equity": 0.47,
+        "odds": 0.453,
+        "risk": 0.007,
+        "raises": 1,
+        "villain_revealed": [
+          "Tc",
+          "7c"
+        ],
+        "villain_stats": [
+          94,
+          19,
+          13,
+          13,
+          7,
+          6,
+          8,
+          11
+        ],
+        "depth": 54.1
+      },
+      {
+        "hole": [
+          "5h",
+          "4d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.185,
+        "equity": 0.317,
+        "odds": 0.447,
+        "risk": 0.012,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          74,
+          19,
+          13,
+          13,
+          4,
+          6,
+          5,
+          18
+        ],
+        "depth": 38.1
+      },
+      {
+        "hole": [
+          "Jd",
+          "8d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.233,
+        "equity": 0.372,
+        "odds": 0.432,
+        "risk": 0.016,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          78,
+          20,
+          14,
+          14,
+          4,
+          6,
+          5,
+          18
+        ],
+        "depth": 40.4
+      },
+      {
+        "hole": [
+          "8d",
+          "8h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.077,
+        "equity": 0.43,
+        "odds": 0.414,
+        "risk": 0.034,
+        "raises": 2,
+        "villain_revealed": [
+          "Ks",
+          "Kc"
+        ],
+        "villain_stats": [
+          98,
+          25,
+          16,
+          16,
+          12,
+          10,
+          9,
+          13
+        ],
+        "depth": 45.8
+      },
+      {
+        "hole": [
+          "Kc",
+          "2c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.18,
+        "equity": 0.352,
+        "odds": 0.468,
+        "risk": 0.014,
+        "raises": 1,
+        "villain_revealed": [
+          "Ah",
+          "8s"
+        ],
+        "villain_stats": [
+          100,
+          21,
+          16,
+          16,
+          9,
+          4,
+          5,
+          4
+        ],
+        "depth": 40.5
+      },
+      {
+        "hole": [
+          "6c",
+          "5h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.183,
+        "equity": 0.325,
+        "odds": 0.446,
+        "risk": 0.021,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          77,
+          20,
+          13,
+          14,
+          13,
+          4,
+          5,
+          22
+        ],
+        "depth": 43.6
+      },
+      {
+        "hole": [
+          "Ah",
+          "4s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.075,
+        "equity": 0.313,
+        "odds": 0.399,
+        "risk": 0.014,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          81,
+          17,
+          11,
+          11,
+          6,
+          4,
+          3,
+          11
+        ],
+        "depth": 33.5
+      },
+      {
+        "hole": [
+          "Jc",
+          "2d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.075,
+        "equity": 0.248,
+        "odds": 0.408,
+        "risk": 0.013,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          87,
+          21,
+          12,
+          12,
+          6,
+          6,
+          5,
+          14
+        ],
+        "depth": 39.6
+      },
+      {
+        "hole": [
+          "4d",
+          "5h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.076,
+        "equity": 0.258,
+        "odds": 0.43,
+        "risk": 0.02,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          92,
+          23,
+          14,
+          14,
+          6,
+          6,
+          5,
+          14
+        ],
+        "depth": 35.9
+      },
+      {
+        "hole": [
+          "8d",
+          "As"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.076,
+        "equity": 0.333,
+        "odds": 0.428,
+        "risk": 0.052,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          95,
+          24,
+          15,
+          15,
+          6,
+          6,
+          5,
+          14
+        ],
+        "depth": 36.9
+      }
+    ],
+    "n3 medium facing jam": [
+      {
+        "hole": [
+          "Ac",
+          "Ts"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.084,
+        "equity": 0.396,
+        "odds": 0.443,
+        "risk": 0.118,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          116,
+          33,
+          29,
+          29,
+          19,
+          2,
+          4,
+          7
+        ],
+        "depth": 23.7
+      },
+      {
+        "hole": [
+          "Tc",
+          "Ac"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.086,
+        "equity": 0.428,
+        "odds": 0.435,
+        "risk": 0.122,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          118,
+          35,
+          31,
+          31,
+          19,
+          2,
+          4,
+          7
+        ],
+        "depth": 20.4
+      },
+      {
+        "hole": [
+          "4h",
+          "Ks"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.44,
+        "equity": 0.406,
+        "odds": 0.454,
+        "risk": 0.044,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          122,
+          55,
+          29,
+          29,
+          25,
+          12,
+          14,
+          60
+        ],
+        "depth": 15.3
+      },
+      {
+        "hole": [
+          "4h",
+          "2h"
+        ],
+        "actual": [
+          "call",
+          299
+        ],
+        "width": 0.393,
+        "equity": 0.342,
+        "odds": 0.166,
+        "risk": 0.002,
+        "raises": 1,
+        "villain_revealed": [
+          "3c",
+          "Ad"
+        ],
+        "villain_stats": [
+          133,
+          31,
+          22,
+          22,
+          12,
+          2,
+          9,
+          18
+        ],
+        "depth": 25.2
+      },
+      {
+        "hole": [
+          "Js",
+          "Kd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.079,
+        "equity": 0.355,
+        "odds": 0.428,
+        "risk": 0.039,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          114,
+          27,
+          21,
+          21,
+          6,
+          5,
+          7,
+          9
+        ],
+        "depth": 22.0
+      },
+      {
+        "hole": [
+          "Ks",
+          "4c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.078,
+        "equity": 0.269,
+        "odds": 0.437,
+        "risk": 0.146,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          122,
+          25,
+          21,
+          21,
+          7,
+          0,
+          0,
+          6
+        ],
+        "depth": 21.3
+      },
+      {
+        "hole": [
+          "2d",
+          "7c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.332,
+        "equity": 0.289,
+        "odds": 0.413,
+        "risk": 0.011,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          123,
+          21,
+          14,
+          14,
+          13,
+          0,
+          4,
+          8
+        ],
+        "depth": 19.1
+      },
+      {
+        "hole": [
+          "Kh",
+          "7s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.078,
+        "equity": 0.278,
+        "odds": 0.427,
+        "risk": 0.146,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          124,
+          26,
+          22,
+          22,
+          7,
+          0,
+          0,
+          6
+        ],
+        "depth": 18.1
+      },
+      {
+        "hole": [
+          "8c",
+          "Td"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.41,
+        "equity": 0.363,
+        "odds": 0.46,
+        "risk": 0.162,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          126,
+          28,
+          24,
+          24,
+          7,
+          0,
+          0,
+          6
+        ],
+        "depth": 15.4
+      },
+      {
+        "hole": [
+          "6s",
+          "3c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.383,
+        "equity": 0.315,
+        "odds": 0.423,
+        "risk": 0.02,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          116,
+          37,
+          23,
+          23,
+          17,
+          9,
+          7,
+          33
+        ],
+        "depth": 22.8
+      },
+      {
+        "hole": [
+          "4s",
+          "Qd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.416,
+        "equity": 0.354,
+        "odds": 0.444,
+        "risk": 0.016,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          120,
+          39,
+          24,
+          24,
+          17,
+          9,
+          8,
+          34
+        ],
+        "depth": 27.9
+      },
+      {
+        "hole": [
+          "Js",
+          "9c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.387,
+        "equity": 0.383,
+        "odds": 0.411,
+        "risk": 0.01,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          122,
+          40,
+          25,
+          25,
+          17,
+          9,
+          8,
+          34
+        ],
+        "depth": 18.3
+      },
+      {
+        "hole": [
+          "8h",
+          "3s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.389,
+        "equity": 0.298,
+        "odds": 0.411,
+        "risk": 0.01,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          125,
+          41,
+          26,
+          26,
+          17,
+          9,
+          8,
+          34
+        ],
+        "depth": 19.8
+      },
+      {
+        "hole": [
+          "3s",
+          "Jc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.425,
+        "equity": 0.327,
+        "odds": 0.43,
+        "risk": 0.018,
+        "raises": 1,
+        "villain_revealed": [
+          "As",
+          "8c"
+        ],
+        "villain_stats": [
+          126,
+          42,
+          27,
+          27,
+          17,
+          9,
+          8,
+          34
+        ],
+        "depth": 18.8
+      },
+      {
+        "hole": [
+          "3h",
+          "8s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.394,
+        "equity": 0.299,
+        "odds": 0.438,
+        "risk": 0.017,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          134,
+          45,
+          29,
+          29,
+          19,
+          9,
+          8,
+          41
+        ],
+        "depth": 17.0
+      }
+    ],
+    "n7 short facing jam": [
+      {
+        "hole": [
+          "Qd",
+          "4c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.278,
+        "equity": 0.323,
+        "odds": 0.42,
+        "risk": 0.023,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          85,
+          31,
+          26,
+          26,
+          4,
+          1,
+          14,
+          10
+        ],
+        "depth": 12.3
+      },
+      {
+        "hole": [
+          "6c",
+          "Jc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.154,
+        "equity": 0.328,
+        "odds": 0.432,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          86,
+          17,
+          15,
+          15,
+          7,
+          4,
+          3,
+          6
+        ],
+        "depth": 11.3
+      },
+      {
+        "hole": [
+          "Kh",
+          "4h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.073,
+        "equity": 0.306,
+        "odds": 0.412,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          92,
+          20,
+          11,
+          11,
+          8,
+          5,
+          6,
+          13
+        ],
+        "depth": 10.8
+      },
+      {
+        "hole": [
+          "5h",
+          "Qd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.075,
+        "equity": 0.268,
+        "odds": 0.418,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          88,
+          14,
+          12,
+          12,
+          3,
+          0,
+          2,
+          1
+        ],
+        "depth": 12.9
+      },
+      {
+        "hole": [
+          "9h",
+          "Tc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.076,
+        "equity": 0.315,
+        "odds": 0.386,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          73,
+          19,
+          11,
+          11,
+          3,
+          2,
+          8,
+          12
+        ],
+        "depth": 9.4
+      },
+      {
+        "hole": [
+          "5c",
+          "3h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.074,
+        "equity": 0.244,
+        "odds": 0.365,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "Ac",
+          "As"
+        ],
+        "villain_stats": [
+          85,
+          25,
+          11,
+          11,
+          2,
+          5,
+          8,
+          24
+        ],
+        "depth": 7.8
+      },
+      {
+        "hole": [
+          "Td",
+          "Ts"
+        ],
+        "actual": [
+          "call",
+          752
+        ],
+        "width": 0.322,
+        "equity": 0.642,
+        "odds": 0.431,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "7c",
+          "Qc"
+        ],
+        "villain_stats": [
+          86,
+          21,
+          10,
+          10,
+          13,
+          3,
+          5,
+          10
+        ],
+        "depth": 6.8
+      },
+      {
+        "hole": [
+          "8c",
+          "9c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.085,
+        "equity": 0.335,
+        "odds": 0.319,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "Qc",
+          "Kd"
+        ],
+        "villain_stats": [
+          41,
+          11,
+          11,
+          11,
+          4,
+          3,
+          1,
+          1
+        ],
+        "depth": 10.1
+      },
+      {
+        "hole": [
+          "Ts",
+          "Kd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.322,
+        "equity": 0.464,
+        "odds": 0.445,
+        "risk": 0.014,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          47,
+          8,
+          5,
+          6,
+          2,
+          3,
+          0,
+          2
+        ],
+        "depth": 11.1
+      },
+      {
+        "hole": [
+          "Kh",
+          "Qc"
+        ],
+        "actual": [
+          "call",
+          852
+        ],
+        "width": 0.357,
+        "equity": 0.521,
+        "odds": 0.438,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "Qs",
+          "3d"
+        ],
+        "villain_stats": [
+          83,
+          29,
+          15,
+          15,
+          9,
+          3,
+          11,
+          28
+        ],
+        "depth": 7.6
+      },
+      {
+        "hole": [
+          "6d",
+          "Js"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.383,
+        "equity": 0.333,
+        "odds": 0.429,
+        "risk": 0.035,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          86,
+          24,
+          17,
+          18,
+          17,
+          2,
+          4,
+          8
+        ],
+        "depth": 7.1
+      },
+      {
+        "hole": [
+          "As",
+          "Kd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.081,
+        "equity": 0.507,
+        "odds": 0.363,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "5c",
+          "Kc"
+        ],
+        "villain_stats": [
+          87,
+          25,
+          18,
+          19,
+          17,
+          2,
+          4,
+          8
+        ],
+        "depth": 6.1
+      },
+      {
+        "hole": [
+          "Kh",
+          "2s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.076,
+        "equity": 0.26,
+        "odds": 0.445,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          61,
+          15,
+          9,
+          10,
+          6,
+          7,
+          4,
+          7
+        ],
+        "depth": 14.8
+      },
+      {
+        "hole": [
+          "Kh",
+          "Js"
+        ],
+        "actual": [
+          "call",
+          249
+        ],
+        "width": 0.357,
+        "equity": 0.498,
+        "odds": 0.378,
+        "risk": 0.014,
+        "raises": 1,
+        "villain_revealed": [
+          "6s",
+          "Ah"
+        ],
+        "villain_stats": [
+          73,
+          18,
+          11,
+          12,
+          6,
+          9,
+          5,
+          10
+        ],
+        "depth": 4.1
+      },
+      {
+        "hole": [
+          "6d",
+          "Kd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.22,
+        "equity": 0.378,
+        "odds": 0.454,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "9h",
+          "Qh"
+        ],
+        "villain_stats": [
+          83,
+          24,
+          12,
+          12,
+          8,
+          6,
+          7,
+          25
+        ],
+        "depth": 13.3
+      }
+    ],
+    "n5 short facing jam": [
+      {
+        "hole": [
+          "4s",
+          "5c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.307,
+        "equity": 0.336,
+        "odds": 0.323,
+        "risk": 0.03,
+        "raises": 1,
+        "villain_revealed": [
+          "Ad",
+          "2s"
+        ],
+        "villain_stats": [
+          99,
+          18,
+          9,
+          9,
+          4,
+          4,
+          7,
+          12
+        ],
+        "depth": 14.8
+      },
+      {
+        "hole": [
+          "Qd",
+          "Qc"
+        ],
+        "actual": [
+          "call",
+          782
+        ],
+        "width": 0.396,
+        "equity": 0.726,
+        "odds": 0.433,
+        "risk": 0.027,
+        "raises": 1,
+        "villain_revealed": [
+          "Jd",
+          "Kc"
+        ],
+        "villain_stats": [
+          100,
+          31,
+          25,
+          25,
+          25,
+          5,
+          0,
+          3
+        ],
+        "depth": 13.8
+      },
+      {
+        "hole": [
+          "3s",
+          "Qd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.236,
+        "equity": 0.316,
+        "odds": 0.458,
+        "risk": 0.045,
+        "raises": 1,
+        "villain_revealed": [
+          "Ah",
+          "8h"
+        ],
+        "villain_stats": [
+          101,
+          31,
+          19,
+          19,
+          6,
+          5,
+          13,
+          23
+        ],
+        "depth": 9.3
+      },
+      {
+        "hole": [
+          "7s",
+          "Tc"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.076,
+        "equity": 0.273,
+        "odds": 0.332,
+        "risk": 0.027,
+        "raises": 2,
+        "villain_revealed": [
+          "Ad",
+          "Ks"
+        ],
+        "villain_stats": [
+          85,
+          17,
+          13,
+          13,
+          7,
+          1,
+          5,
+          10
+        ],
+        "depth": 13.5
+      },
+      {
+        "hole": [
+          "5s",
+          "3h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.188,
+        "equity": 0.305,
+        "odds": 0.209,
+        "risk": 0.018,
+        "raises": 1,
+        "villain_revealed": [
+          "Kd",
+          "Jc"
+        ],
+        "villain_stats": [
+          102,
+          32,
+          19,
+          21,
+          10,
+          7,
+          10,
+          21
+        ],
+        "depth": 5.9
+      },
+      {
+        "hole": [
+          "Qh",
+          "3c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.354,
+        "equity": 0.338,
+        "odds": 0.408,
+        "risk": 0.045,
+        "raises": 1,
+        "villain_revealed": [
+          "2s",
+          "Kh"
+        ],
+        "villain_stats": [
+          103,
+          20,
+          18,
+          19,
+          18,
+          0,
+          2,
+          4
+        ],
+        "depth": 4.9
+      },
+      {
+        "hole": [
+          "5s",
+          "Qd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.239,
+        "equity": 0.322,
+        "odds": 0.401,
+        "risk": 0.047,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          121,
+          36,
+          24,
+          26,
+          10,
+          3,
+          9,
+          23
+        ],
+        "depth": 14.0
+      },
+      {
+        "hole": [
+          "7c",
+          "Js"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.45,
+        "equity": 0.36,
+        "odds": 0.263,
+        "risk": 0.045,
+        "raises": 1,
+        "villain_revealed": [
+          "Ts",
+          "8h"
+        ],
+        "villain_stats": [
+          86,
+          36,
+          30,
+          30,
+          12,
+          6,
+          4,
+          10
+        ],
+        "depth": 4.7
+      },
+      {
+        "hole": [
+          "4h",
+          "3c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.452,
+        "equity": 0.324,
+        "odds": 0.413,
+        "risk": 0.067,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          91,
+          39,
+          32,
+          32,
+          13,
+          7,
+          4,
+          10
+        ],
+        "depth": 6.9
+      },
+      {
+        "hole": [
+          "2s",
+          "Qs"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.471,
+        "equity": 0.389,
+        "odds": 0.433,
+        "risk": 0.093,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          96,
+          44,
+          37,
+          37,
+          14,
+          7,
+          5,
+          11
+        ],
+        "depth": 9.1
+      },
+      {
+        "hole": [
+          "Js",
+          "Ac"
+        ],
+        "actual": [
+          "call",
+          1204
+        ],
+        "width": 0.378,
+        "equity": 0.597,
+        "odds": 0.429,
+        "risk": 0.058,
+        "raises": 1,
+        "villain_revealed": [
+          "5h",
+          "Qd"
+        ],
+        "villain_stats": [
+          105,
+          35,
+          20,
+          20,
+          21,
+          9,
+          13,
+          29
+        ],
+        "depth": 7.0
+      },
+      {
+        "hole": [
+          "Qh",
+          "7s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.19,
+        "equity": 0.318,
+        "odds": 0.418,
+        "risk": 0.015,
+        "raises": 1,
+        "villain_revealed": [
+          "Ah",
+          "8c"
+        ],
+        "villain_stats": [
+          108,
+          36,
+          21,
+          21,
+          21,
+          9,
+          13,
+          29
+        ],
+        "depth": 13.5
+      },
+      {
+        "hole": [
+          "3d",
+          "4d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.379,
+        "equity": 0.351,
+        "odds": 0.418,
+        "risk": 0.06,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          125,
+          43,
+          24,
+          24,
+          22,
+          11,
+          15,
+          33
+        ],
+        "depth": 8.8
+      },
+      {
+        "hole": [
+          "Ks",
+          "8d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.191,
+        "equity": 0.348,
+        "odds": 0.461,
+        "risk": 0.045,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          127,
+          37,
+          25,
+          25,
+          27,
+          2,
+          5,
+          19
+        ],
+        "depth": 8.8
+      },
+      {
+        "hole": [
+          "Ah",
+          "Ks"
+        ],
+        "actual": [
+          "call",
+          1525
+        ],
+        "width": 0.379,
+        "equity": 0.651,
+        "odds": 0.418,
+        "risk": 0.061,
+        "raises": 1,
+        "villain_revealed": [
+          "4c",
+          "Ts"
+        ],
+        "villain_stats": [
+          130,
+          44,
+          25,
+          25,
+          22,
+          11,
+          15,
+          33
+        ],
+        "depth": 10.3
+      }
+    ],
+    "n8 medium facing jam": [
+      {
+        "hole": [
+          "Ac",
+          "9s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.073,
+        "equity": 0.346,
+        "odds": 0.392,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          56,
+          7,
+          6,
+          6,
+          1,
+          0,
+          1,
+          0
+        ],
+        "depth": 15.3
+      },
+      {
+        "hole": [
+          "As",
+          "Ac"
+        ],
+        "actual": [
+          "call",
+          793
+        ],
+        "width": 0.078,
+        "equity": 0.827,
+        "odds": 0.432,
+        "risk": 0.022,
+        "raises": 2,
+        "villain_revealed": [
+          "Kd",
+          "Qc"
+        ],
+        "villain_stats": [
+          42,
+          8,
+          7,
+          7,
+          3,
+          2,
+          4,
+          7
+        ],
+        "depth": 27.8
+      },
+      {
+        "hole": [
+          "Jc",
+          "Js"
+        ],
+        "actual": [
+          "call",
+          1737
+        ],
+        "width": 0.078,
+        "equity": 0.589,
+        "odds": 0.439,
+        "risk": 0.062,
+        "raises": 2,
+        "villain_revealed": [
+          "Ks",
+          "Kh"
+        ],
+        "villain_stats": [
+          64,
+          19,
+          11,
+          11,
+          10,
+          5,
+          8,
+          8
+        ],
+        "depth": 24.0
+      },
+      {
+        "hole": [
+          "8h",
+          "2c"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.153,
+        "equity": 0.272,
+        "odds": 0.301,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "Jd",
+          "Kc"
+        ],
+        "villain_stats": [
+          53,
+          13,
+          9,
+          9,
+          2,
+          0,
+          3,
+          2
+        ],
+        "depth": 25.2
+      },
+      {
+        "hole": [
+          "Ks",
+          "5h"
+        ],
+        "actual": [
+          "call",
+          80
+        ],
+        "width": 0.355,
+        "equity": 0.383,
+        "odds": 0.308,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "8h",
+          "9h"
+        ],
+        "villain_stats": [
+          46,
+          10,
+          8,
+          8,
+          2,
+          3,
+          3,
+          6
+        ],
+        "depth": 19.1
+      },
+      {
+        "hole": [
+          "2s",
+          "Kh"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.237,
+        "equity": 0.332,
+        "odds": 0.437,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "Qd",
+          "Ac"
+        ],
+        "villain_stats": [
+          47,
+          11,
+          9,
+          9,
+          2,
+          3,
+          3,
+          6
+        ],
+        "depth": 17.0
+      },
+      {
+        "hole": [
+          "6d",
+          "2d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.161,
+        "equity": 0.308,
+        "odds": 0.469,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "Qh",
+          "As"
+        ],
+        "villain_stats": [
+          49,
+          12,
+          10,
+          10,
+          2,
+          3,
+          3,
+          6
+        ],
+        "depth": 17.0
+      },
+      {
+        "hole": [
+          "6c",
+          "4h"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.076,
+        "equity": 0.246,
+        "odds": 0.436,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          61,
+          15,
+          9,
+          9,
+          5,
+          2,
+          6,
+          6
+        ],
+        "depth": 21.5
+      },
+      {
+        "hole": [
+          "Ac",
+          "Qc"
+        ],
+        "actual": [
+          "call",
+          320
+        ],
+        "width": 0.152,
+        "equity": 0.564,
+        "odds": 0.421,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "7c",
+          "Kh"
+        ],
+        "villain_stats": [
+          61,
+          28,
+          10,
+          10,
+          9,
+          11,
+          12,
+          22
+        ],
+        "depth": 23.7
+      },
+      {
+        "hole": [
+          "Jh",
+          "Jc"
+        ],
+        "actual": [
+          "call",
+          487
+        ],
+        "width": 0.076,
+        "equity": 0.587,
+        "odds": 0.354,
+        "risk": 0.015,
+        "raises": 2,
+        "villain_revealed": [
+          "Tc",
+          "Qc"
+        ],
+        "villain_stats": [
+          62,
+          19,
+          9,
+          9,
+          15,
+          2,
+          5,
+          2
+        ],
+        "depth": 22.9
+      },
+      {
+        "hole": [
+          "Qd",
+          "Kd"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.08,
+        "equity": 0.413,
+        "odds": 0.279,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "7h",
+          "7d"
+        ],
+        "villain_stats": [
+          61,
+          18,
+          12,
+          12,
+          9,
+          5,
+          6,
+          19
+        ],
+        "depth": 20.8
+      },
+      {
+        "hole": [
+          "7c",
+          "5d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.081,
+        "equity": 0.26,
+        "odds": 0.456,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          63,
+          14,
+          13,
+          14,
+          2,
+          1,
+          3,
+          1
+        ],
+        "depth": 22.9
+      },
+      {
+        "hole": [
+          "2d",
+          "8s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.08,
+        "equity": 0.226,
+        "odds": 0.448,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          64,
+          22,
+          13,
+          13,
+          11,
+          0,
+          7,
+          7
+        ],
+        "depth": 21.9
+      },
+      {
+        "hole": [
+          "Jd",
+          "Qh"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.074,
+        "equity": 0.344,
+        "odds": 0.449,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          61,
+          10,
+          8,
+          8,
+          7,
+          0,
+          0,
+          4
+        ],
+        "depth": 22.4
+      },
+      {
+        "hole": [
+          "Ks",
+          "Jh"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.078,
+        "equity": 0.354,
+        "odds": 0.422,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "6d",
+          "Qd"
+        ],
+        "villain_stats": [
+          69,
+          14,
+          12,
+          12,
+          7,
+          0,
+          0,
+          4
+        ],
+        "depth": 20.9
+      }
+    ],
+    "n8 short facing jam": [
+      {
+        "hole": [
+          "3c",
+          "6d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.076,
+        "equity": 0.232,
+        "odds": 0.427,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": null,
+        "villain_stats": [
+          66,
+          15,
+          10,
+          10,
+          4,
+          0,
+          4,
+          17
+        ],
+        "depth": 13.2
+      },
+      {
+        "hole": [
+          "7d",
+          "6d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.317,
+        "equity": 0.378,
+        "odds": 0.416,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": null,
+        "villain_stats": [
+          68,
+          9,
+          7,
+          7,
+          11,
+          0,
+          0,
+          2
+        ],
+        "depth": 13.7
+      },
+      {
+        "hole": [
+          "2h",
+          "6d"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.07,
+        "equity": 0.212,
+        "odds": 0.424,
+        "risk": 0.025,
+        "raises": 2,
+        "villain_revealed": [
+          "Ah",
+          "Ad"
+        ],
+        "villain_stats": [
+          75,
+          9,
+          6,
+          6,
+          3,
+          2,
+          0,
+          5
+        ],
+        "depth": 14.7
+      },
+      {
+        "hole": [
+          "2s",
+          "7s"
+        ],
+        "actual": [
+          "fold",
+          null
+        ],
+        "width": 0.136,
+        "equity": 0.295,
+        "odds": 0.369,
+        "risk": 0.025,
+        "raises": 1,
+        "villain_revealed": [
+          "6c",
+          "6d"
+        ],
+        "villain_stats": [
+          81,
+          11,
+          8,
+          8,
+          11,
+          0,
+          1,
+          2
+        ],
+        "depth": 8.8
+      }
+    ]
+  },
+  "decisions": 16961,
+  "mismatch": 101
+}

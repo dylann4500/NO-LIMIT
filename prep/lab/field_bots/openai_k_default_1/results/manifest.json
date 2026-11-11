@@ -1,0 +1,18 @@
+{
+  "agent.py": {
+    "sha256": "be61fd843db3642b36fe2e11603ef9af49b8e54e3a684bfb6a7ac891903b28c6",
+    "bytes": 45354
+  },
+  "preflop.json": {
+    "sha256": "9a46813da1b1ed451caae63a75970449780a266456ec3558e4df5674bbc4e2f3",
+    "bytes": 77564
+  },
+  "draws.bin": {
+    "sha256": "577d14939f22015fc231d912a7d37f6a40002f059d84d4d5e3d4b16547930022",
+    "bytes": 1384448
+  },
+  "equity_model.npz": {
+    "sha256": "e38b8aa8d857e4e56608cac7effdf06acf45ba839a4215966e0e34c2a19cff37",
+    "bytes": 256444
+  }
+}

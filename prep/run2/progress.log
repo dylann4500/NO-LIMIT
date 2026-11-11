@@ -1,0 +1,29 @@
+[  0.0m] start A_tune_lookup
+[  2.3m] done A_tune_lookup in 2.3m
+[  2.3m] start B_compare
+[  6.2m] done B_compare in 3.9m
+[  6.2m] start G_sensitivity
+[ 11.8m] done G_sensitivity in 5.6m
+[ 11.8m] start C_tune_top3
+[ 13.8m] done C_tune_top3 in 2.0m
+[ 13.8m] start C_tune_linear
+[ 15.9m] done C_tune_linear in 2.1m
+[ 15.9m] start C_tune_steep
+[ 17.9m] done C_tune_steep in 2.1m
+[ 17.9m] start C_tune_wta
+[ 19.7m] done C_tune_wta in 1.8m
+[ 19.7m] start C_specific
+[ 22.1m] done C_specific in 2.4m
+[ 22.1m] start D_tune_v3
+[ 24.0m] done D_tune_v3 in 1.8m
+[ 24.0m] start D_v3
+[ 26.3m] done D_v3 in 2.4m
+[ 26.3m] start E_tune_meta1
+[ 27.2m] done E_tune_meta1 in 0.9m
+[ 27.2m] start E_tune_meta2
+[ 28.0m] done E_tune_meta2 in 0.8m
+[ 28.0m] start E_tune_meta3
+[ 28.8m] done E_tune_meta3 in 0.8m
+[ 28.8m] start E_meta
+[ 32.9m] done E_meta in 4.1m
+[ 32.9m] ALL DONE

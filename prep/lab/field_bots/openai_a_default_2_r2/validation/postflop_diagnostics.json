@@ -1,0 +1,1643 @@
+{
+  "response": {
+    "('claude_exploit', 1, 'free')": {
+      "raise": 382,
+      "check": 47
+    },
+    "('FIELD', 1, 'free')": {
+      "raise": 5682,
+      "check": 5792
+    },
+    "('openai_a_default_2', 1, 'small')": {
+      "fold": 313,
+      "call": 284,
+      "raise": 23
+    },
+    "('FIELD', 1, 'small')": {
+      "fold": 1445,
+      "call": 1778,
+      "raise": 218
+    },
+    "('openai_a_equity_4', 1, 'free')": {
+      "check": 445,
+      "raise": 180
+    },
+    "('claude_equity', 1, 'free')": {
+      "raise": 156,
+      "check": 324
+    },
+    "('openai_a_equity_4', 1, 'medium')": {
+      "fold": 108,
+      "call": 60,
+      "raise": 8
+    },
+    "('FIELD', 1, 'medium')": {
+      "fold": 1893,
+      "call": 1026,
+      "raise": 194
+    },
+    "('claude_default_c', 1, 'free')": {
+      "raise": 363,
+      "check": 110
+    },
+    "('claude_equity', 1, 'small')": {
+      "fold": 62,
+      "call": 52,
+      "raise": 22
+    },
+    "('claude_default_c', 2, 'free')": {
+      "raise": 180,
+      "check": 85
+    },
+    "('FIELD', 2, 'free')": {
+      "raise": 2468,
+      "check": 4539
+    },
+    "('openai_a_default_2', 2, 'medium')": {
+      "fold": 142,
+      "call": 61,
+      "raise": 15
+    },
+    "('FIELD', 2, 'medium')": {
+      "fold": 977,
+      "call": 562,
+      "raise": 74
+    },
+    "('openai_a_default_1', 1, 'small')": {
+      "call": 58,
+      "fold": 46,
+      "raise": 5
+    },
+    "('claude_exploit', 2, 'free')": {
+      "check": 107,
+      "raise": 122
+    },
+    "('openai_a_default_1', 2, 'free')": {
+      "raise": 74,
+      "check": 143
+    },
+    "('claude_exploit', 2, 'small')": {
+      "fold": 14,
+      "call": 16,
+      "raise": 3
+    },
+    "('FIELD', 2, 'small')": {
+      "fold": 419,
+      "call": 626,
+      "raise": 61
+    },
+    "('openai_a_icm_5', 1, 'free')": {
+      "check": 289,
+      "raise": 204
+    },
+    "('openai_a_default_1', 1, 'free')": {
+      "check": 196,
+      "raise": 166
+    },
+    "('openai_a_icm_5', 2, 'free')": {
+      "check": 251,
+      "raise": 96
+    },
+    "('openai_a_icm_5', 2, 'medium')": {
+      "fold": 33,
+      "call": 42,
+      "raise": 3
+    },
+    "('claude_default_b', 1, 'free')": {
+      "raise": 299,
+      "check": 70
+    },
+    "('openai_a_default_2', 1, 'free')": {
+      "check": 956,
+      "raise": 654
+    },
+    "('openai_a_equity_4', 2, 'free')": {
+      "check": 313,
+      "raise": 85
+    },
+    "('claude_equity', 2, 'free')": {
+      "check": 203,
+      "raise": 78
+    },
+    "('openai_a_equity_4', 3, 'free')": {
+      "check": 231,
+      "raise": 71
+    },
+    "('FIELD', 3, 'free')": {
+      "check": 3432,
+      "raise": 1262
+    },
+    "('claude_equity', 3, 'free')": {
+      "check": 143,
+      "raise": 43
+    },
+    "('openai_a_default_2', 2, 'free')": {
+      "check": 705,
+      "raise": 196
+    },
+    "('openai_a_default_2', 3, 'free')": {
+      "check": 489,
+      "raise": 132
+    },
+    "('claude_equity', 3, 'medium')": {
+      "fold": 23,
+      "raise": 2,
+      "call": 1
+    },
+    "('FIELD', 3, 'medium')": {
+      "fold": 613,
+      "call": 156,
+      "raise": 27
+    },
+    "('openai_a_default_2', 3, 'medium')": {
+      "fold": 101,
+      "raise": 4,
+      "call": 19
+    },
+    "('claude_equity', 2, 'medium')": {
+      "fold": 48,
+      "call": 15,
+      "raise": 1
+    },
+    "('claude_default_b', 1, 'medium')": {
+      "call": 23,
+      "fold": 37,
+      "raise": 5
+    },
+    "('claude_default_b', 2, 'free')": {
+      "raise": 174,
+      "check": 60
+    },
+    "('claude_exploit', 3, 'free')": {
+      "check": 92,
+      "raise": 55
+    },
+    "('claude_default_b', 3, 'free')": {
+      "raise": 112,
+      "check": 44
+    },
+    "('claude_exploit', 3, 'small')": {
+      "fold": 9,
+      "call": 10,
+      "raise": 1
+    },
+    "('FIELD', 3, 'small')": {
+      "fold": 310,
+      "call": 262,
+      "raise": 17
+    },
+    "('claude_equity', 1, 'medium')": {
+      "raise": 10,
+      "call": 28,
+      "fold": 77
+    },
+    "('claude_exploit', 1, 'medium')": {
+      "raise": 18,
+      "call": 21,
+      "fold": 42
+    },
+    "('openai_a_equity_4', 1, 'small')": {
+      "fold": 90,
+      "call": 125,
+      "raise": 7
+    },
+    "('openai_a_default_1', 3, 'free')": {
+      "check": 120,
+      "raise": 18
+    },
+    "('openai_a_default_2', 1, 'medium')": {
+      "fold": 354,
+      "call": 132,
+      "raise": 19
+    },
+    "('claude_default_c', 3, 'free')": {
+      "raise": 57,
+      "check": 76
+    },
+    "('openai_a_equity_4', 2, 'small')": {
+      "call": 48,
+      "fold": 14,
+      "raise": 3
+    },
+    "('openai_a_equity_4', 3, 'medium')": {
+      "fold": 41,
+      "call": 10,
+      "raise": 1
+    },
+    "('openai_a_icm_5', 3, 'medium')": {
+      "fold": 26,
+      "call": 10,
+      "raise": 1
+    },
+    "('claude_default_b', 3, 'medium')": {
+      "fold": 13,
+      "raise": 2,
+      "call": 6
+    },
+    "('claude_default_c', 1, 'medium')": {
+      "raise": 16,
+      "call": 44,
+      "fold": 80
+    },
+    "('claude_default_b', 1, 'small')": {
+      "call": 33,
+      "raise": 3,
+      "fold": 30
+    },
+    "('claude_default_b', 2, 'small')": {
+      "raise": 5,
+      "fold": 10,
+      "call": 7
+    },
+    "('claude_exploit', 2, 'medium')": {
+      "raise": 1,
+      "fold": 43,
+      "call": 5
+    },
+    "('claude_default_b', 2, 'medium')": {
+      "call": 17,
+      "fold": 24,
+      "raise": 2
+    },
+    "('openai_a_icm_5', 1, 'small')": {
+      "call": 94,
+      "raise": 4,
+      "fold": 54
+    },
+    "('openai_a_icm_5', 2, 'small')": {
+      "fold": 15,
+      "call": 42,
+      "raise": 1
+    },
+    "('openai_a_default_2', 2, 'small')": {
+      "call": 108,
+      "fold": 74,
+      "raise": 13
+    },
+    "('openai_a_default_2', 3, 'small')": {
+      "fold": 45,
+      "call": 39,
+      "raise": 1
+    },
+    "('claude_exploit', 1, 'small')": {
+      "raise": 23,
+      "call": 38,
+      "fold": 23
+    },
+    "('openai_a_default_1', 1, 'medium')": {
+      "call": 21,
+      "fold": 68,
+      "raise": 3
+    },
+    "('openai_a_default_1', 2, 'medium')": {
+      "fold": 37,
+      "call": 17,
+      "raise": 4
+    },
+    "('openai_a_icm_5', 1, 'medium')": {
+      "fold": 59,
+      "call": 63,
+      "raise": 3
+    },
+    "('claude_default_d', 1, 'free')": {
+      "raise": 531,
+      "check": 117
+    },
+    "('openai_a_iterate_3', 1, 'small')": {
+      "call": 82,
+      "fold": 56,
+      "raise": 18
+    },
+    "('claude_default_d', 2, 'free')": {
+      "check": 141,
+      "raise": 211
+    },
+    "('openai_a_iterate_3', 2, 'free')": {
+      "check": 263,
+      "raise": 96
+    },
+    "('claude_default_d', 3, 'free')": {
+      "raise": 87,
+      "check": 115
+    },
+    "('openai_a_iterate_3', 3, 'small')": {
+      "fold": 14,
+      "call": 9
+    },
+    "('claude_tuned', 1, 'medium')": {
+      "call": 39,
+      "fold": 38,
+      "raise": 2
+    },
+    "('claude_default_a', 1, 'free')": {
+      "raise": 95,
+      "check": 67
+    },
+    "('claude_default_d', 1, 'small')": {
+      "call": 66,
+      "fold": 49,
+      "raise": 4
+    },
+    "('claude_default_a', 2, 'free')": {
+      "check": 65,
+      "raise": 38
+    },
+    "('claude_default_a', 2, 'small')": {
+      "fold": 4,
+      "call": 9
+    },
+    "('openai_b_gto_3', 1, 'free')": {
+      "raise": 123,
+      "check": 296
+    },
+    "('openai_a_iterate_3', 1, 'medium')": {
+      "fold": 73,
+      "call": 55,
+      "raise": 11
+    },
+    "('openai_a_icm_5', 3, 'free')": {
+      "raise": 64,
+      "check": 195
+    },
+    "('claude_default_a', 3, 'medium')": {
+      "fold": 7,
+      "call": 2
+    },
+    "('claude_default_d', 3, 'medium')": {
+      "call": 8,
+      "fold": 31,
+      "raise": 1
+    },
+    "('openai_a_iterate_3', 1, 'free')": {
+      "raise": 255,
+      "check": 290
+    },
+    "('openai_b_gto_3', 1, 'medium')": {
+      "call": 57,
+      "fold": 55,
+      "raise": 3
+    },
+    "('openai_b_gto_3', 2, 'free')": {
+      "check": 222,
+      "raise": 78
+    },
+    "('openai_b_gto_3', 2, 'medium')": {
+      "call": 33,
+      "fold": 25,
+      "raise": 1
+    },
+    "('openai_b_gto_3', 3, 'free')": {
+      "check": 181,
+      "raise": 28
+    },
+    "('openai_b_gto_3', 3, 'small')": {
+      "call": 30,
+      "fold": 14,
+      "raise": 1
+    },
+    "('claude_default_d', 2, 'medium')": {
+      "call": 27,
+      "fold": 50,
+      "raise": 4
+    },
+    "('claude_default_d', 1, 'medium')": {
+      "fold": 76,
+      "call": 54,
+      "raise": 9
+    },
+    "('openai_a_iterate_3', 3, 'free')": {
+      "check": 202,
+      "raise": 31
+    },
+    "('claude_default_a', 1, 'medium')": {
+      "call": 22,
+      "fold": 23,
+      "raise": 3
+    },
+    "('claude_default_a', 2, 'medium')": {
+      "fold": 8,
+      "call": 12,
+      "raise": 1
+    },
+    "('openai_a_iterate_3', 2, 'medium')": {
+      "fold": 44,
+      "call": 24,
+      "raise": 4
+    },
+    "('claude_default_a', 3, 'free')": {
+      "check": 52,
+      "raise": 12
+    },
+    "('openai_a_equity_4', 2, 'medium')": {
+      "fold": 47,
+      "call": 48,
+      "raise": 5
+    },
+    "('openai_a_iterate_3', 3, 'medium')": {
+      "fold": 38,
+      "call": 9,
+      "raise": 1
+    },
+    "('openai_a_equity_4', 3, 'small')": {
+      "call": 18,
+      "fold": 16,
+      "raise": 2
+    },
+    "('claude_tuned', 1, 'free')": {
+      "raise": 187,
+      "check": 117
+    },
+    "('claude_default_d', 2, 'small')": {
+      "call": 39,
+      "fold": 20,
+      "raise": 2
+    },
+    "('openai_a_default_1', 3, 'small')": {
+      "fold": 13,
+      "call": 3,
+      "raise": 1
+    },
+    "('claude_default_d', 3, 'small')": {
+      "call": 11,
+      "fold": 16,
+      "raise": 1
+    },
+    "('openai_k_default_2', 1, 'medium')": {
+      "call": 59,
+      "fold": 115,
+      "raise": 4
+    },
+    "('openai_k_default_2', 2, 'medium')": {
+      "call": 51,
+      "fold": 35
+    },
+    "('openai_k_default_2', 3, 'free')": {
+      "raise": 57,
+      "check": 228
+    },
+    "('openai_a_default_1', 3, 'medium')": {
+      "call": 9,
+      "fold": 19
+    },
+    "('openai_k_default_2', 1, 'free')": {
+      "raise": 155,
+      "check": 449
+    },
+    "('openai_k_default_2', 1, 'small')": {
+      "call": 122,
+      "fold": 95,
+      "raise": 5
+    },
+    "('openai_k_default_2', 2, 'small')": {
+      "call": 44,
+      "fold": 11,
+      "raise": 5
+    },
+    "('openai_k_default_2', 3, 'small')": {
+      "fold": 26,
+      "call": 20
+    },
+    "('claude_tuned', 2, 'free')": {
+      "raise": 63,
+      "check": 116
+    },
+    "('openai_k_default_2', 2, 'free')": {
+      "check": 298,
+      "raise": 93
+    },
+    "('openai_a_default_1', 2, 'small')": {
+      "call": 17,
+      "fold": 20
+    },
+    "('openai_a_iterate_3', 2, 'small')": {
+      "call": 26,
+      "fold": 23,
+      "raise": 2
+    },
+    "('claude_tuned', 2, 'medium')": {
+      "fold": 49,
+      "call": 9
+    },
+    "('openai_k_default_2', 3, 'medium')": {
+      "fold": 43,
+      "call": 5
+    },
+    "('claude_tuned', 3, 'small')": {
+      "call": 5,
+      "fold": 6,
+      "raise": 1
+    },
+    "('claude_equity', 2, 'small')": {
+      "call": 16,
+      "fold": 19,
+      "raise": 1
+    },
+    "('claude_equity', 3, 'small')": {
+      "call": 15,
+      "fold": 6
+    },
+    "('openai_k_default_1', 1, 'medium')": {
+      "call": 48,
+      "fold": 80,
+      "raise": 6
+    },
+    "('openai_k_default_1', 2, 'medium')": {
+      "raise": 3,
+      "fold": 38,
+      "call": 29
+    },
+    "('claude_tuned', 3, 'free')": {
+      "raise": 31,
+      "check": 80
+    },
+    "('openai_k_default_1', 1, 'free')": {
+      "check": 275,
+      "raise": 149
+    },
+    "('openai_k_default_1', 2, 'free')": {
+      "check": 182,
+      "raise": 58
+    },
+    "('openai_k_default_1', 3, 'free')": {
+      "check": 138,
+      "raise": 33
+    },
+    "('openai_k_default_1', 3, 'medium')": {
+      "fold": 21,
+      "call": 7,
+      "raise": 1
+    },
+    "('openai_k_default_1', 1, 'small')": {
+      "fold": 75,
+      "call": 85,
+      "raise": 7
+    },
+    "('claude_tuned', 1, 'small')": {
+      "call": 72,
+      "fold": 14,
+      "raise": 3
+    },
+    "('claude_tuned', 3, 'medium')": {
+      "call": 8,
+      "fold": 6,
+      "raise": 1
+    },
+    "('openai_b_default_1', 1, 'free')": {
+      "check": 187,
+      "raise": 112
+    },
+    "('claude_iterate', 1, 'free')": {
+      "raise": 248,
+      "check": 340
+    },
+    "('openai_b_default_1', 1, 'small')": {
+      "fold": 41,
+      "call": 62,
+      "raise": 6
+    },
+    "('claude_iterate', 2, 'free')": {
+      "raise": 93,
+      "check": 249
+    },
+    "('claude_iterate', 2, 'medium')": {
+      "call": 7,
+      "fold": 78,
+      "raise": 3
+    },
+    "('claude_iterate', 3, 'free')": {
+      "check": 168,
+      "raise": 60
+    },
+    "('claude_iterate', 3, 'medium')": {
+      "fold": 26,
+      "call": 2,
+      "raise": 2
+    },
+    "('claude_iterate', 1, 'medium')": {
+      "call": 52,
+      "fold": 116,
+      "raise": 20
+    },
+    "('claude_iterate', 1, 'small')": {
+      "raise": 22,
+      "fold": 79,
+      "call": 66
+    },
+    "('claude_icm', 1, 'free')": {
+      "check": 257,
+      "raise": 233
+    },
+    "('claude_icm', 1, 'medium')": {
+      "call": 45,
+      "fold": 66,
+      "raise": 1
+    },
+    "('claude_icm', 2, 'free')": {
+      "check": 175,
+      "raise": 112
+    },
+    "('claude_icm', 2, 'medium')": {
+      "fold": 38,
+      "call": 35,
+      "raise": 7
+    },
+    "('claude_icm', 1, 'small')": {
+      "call": 77,
+      "fold": 58,
+      "raise": 3
+    },
+    "('claude_icm', 3, 'free')": {
+      "raise": 56,
+      "check": 140
+    },
+    "('claude_default_c', 3, 'medium')": {
+      "fold": 22,
+      "call": 7
+    },
+    "('claude_gto', 1, 'free')": {
+      "raise": 163,
+      "check": 324
+    },
+    "('openai_b_default_1', 2, 'free')": {
+      "check": 165,
+      "raise": 47
+    },
+    "('openai_b_default_1', 3, 'free')": {
+      "check": 123,
+      "raise": 22
+    },
+    "('openai_b_default_1', 3, 'small')": {
+      "fold": 15,
+      "call": 9
+    },
+    "('openai_k_default_1', 2, 'small')": {
+      "fold": 22,
+      "call": 28
+    },
+    "('claude_icm', 3, 'medium')": {
+      "call": 15,
+      "fold": 19,
+      "raise": 3
+    },
+    "('claude_gto', 2, 'free')": {
+      "check": 234,
+      "raise": 86
+    },
+    "('claude_gto', 3, 'free')": {
+      "check": 184,
+      "raise": 46
+    },
+    "('claude_default_c', 1, 'small')": {
+      "call": 50,
+      "fold": 47,
+      "raise": 12
+    },
+    "('claude_gto', 2, 'medium')": {
+      "call": 29,
+      "fold": 39,
+      "raise": 3
+    },
+    "('claude_gto', 3, 'medium')": {
+      "fold": 23,
+      "call": 5,
+      "raise": 1
+    },
+    "('claude_gto', 1, 'medium')": {
+      "call": 55,
+      "raise": 13,
+      "fold": 78
+    },
+    "('openai_k_default_1', 3, 'small')": {
+      "call": 6,
+      "fold": 18,
+      "raise": 1
+    },
+    "('claude_gto', 1, 'small')": {
+      "call": 95,
+      "raise": 14,
+      "fold": 63
+    },
+    "('claude_default_c', 2, 'medium')": {
+      "fold": 40,
+      "call": 13,
+      "raise": 2
+    },
+    "('claude_gto', 2, 'small')": {
+      "call": 32,
+      "fold": 18,
+      "raise": 5
+    },
+    "('claude_icm', 2, 'small')": {
+      "call": 28,
+      "fold": 14,
+      "raise": 2
+    },
+    "('openai_b_default_1', 1, 'large')": {
+      "fold": 1
+    },
+    "('FIELD', 1, 'large')": {
+      "fold": 14,
+      "call": 1
+    },
+    "('openai_b_default_1', 1, 'medium')": {
+      "fold": 52,
+      "call": 45,
+      "raise": 4
+    },
+    "('claude_iterate', 2, 'small')": {
+      "fold": 23,
+      "call": 17,
+      "raise": 4
+    },
+    "('openai_b_default_1', 2, 'small')": {
+      "call": 26,
+      "fold": 10,
+      "raise": 1
+    },
+    "('claude_iterate', 3, 'small')": {
+      "fold": 14,
+      "call": 2
+    },
+    "('claude_aggro', 1, 'small')": {
+      "fold": 45,
+      "call": 22,
+      "raise": 11
+    },
+    "('claude_aggro', 1, 'free')": {
+      "raise": 407,
+      "check": 74
+    },
+    "('claude_aggro', 2, 'free')": {
+      "check": 190,
+      "raise": 98
+    },
+    "('claude_aggro', 3, 'free')": {
+      "check": 141,
+      "raise": 30
+    },
+    "('claude_aggro', 3, 'medium')": {
+      "fold": 26,
+      "call": 1
+    },
+    "('claude_default_a', 1, 'small')": {
+      "call": 32,
+      "fold": 20
+    },
+    "('claude_aggro', 1, 'large')": {
+      "fold": 2
+    },
+    "('claude_aggro', 2, 'medium')": {
+      "fold": 63,
+      "raise": 6,
+      "call": 8
+    },
+    "('claude_default_c', 2, 'small')": {
+      "call": 17,
+      "fold": 17,
+      "raise": 6
+    },
+    "('claude_default_a', 3, 'small')": {
+      "call": 8,
+      "fold": 2,
+      "raise": 1
+    },
+    "('claude_aggro', 1, 'medium')": {
+      "fold": 86,
+      "call": 16,
+      "raise": 20
+    },
+    "('claude_default_b', 3, 'small')": {
+      "call": 8,
+      "raise": 1,
+      "fold": 3
+    },
+    "('claude_aggro', 2, 'small')": {
+      "fold": 25,
+      "call": 7,
+      "raise": 3
+    },
+    "('claude_default_c', 3, 'small')": {
+      "fold": 7,
+      "call": 10,
+      "raise": 1
+    },
+    "('claude_tuned', 2, 'small')": {
+      "fold": 17,
+      "call": 7,
+      "raise": 1
+    },
+    "('openai_a_icm_5', 2, 'large')": {
+      "fold": 1
+    },
+    "('FIELD', 2, 'large')": {
+      "fold": 4,
+      "call": 2
+    },
+    "('ours', 1, 'free')": {
+      "raise": 446,
+      "check": 69
+    },
+    "('ours', 2, 'free')": {
+      "raise": 283,
+      "check": 65
+    },
+    "('ours', 2, 'medium')": {
+      "fold": 27,
+      "call": 19,
+      "raise": 2
+    },
+    "('ours', 3, 'free')": {
+      "raise": 151,
+      "check": 53
+    },
+    "('openai_a_icm_5', 3, 'small')": {
+      "call": 14,
+      "fold": 19
+    },
+    "('ours', 2, 'small')": {
+      "call": 17,
+      "fold": 8,
+      "raise": 1
+    },
+    "('ours', 3, 'small')": {
+      "fold": 14,
+      "call": 13,
+      "raise": 1
+    },
+    "('ours', 1, 'medium')": {
+      "fold": 72,
+      "call": 30,
+      "raise": 8
+    },
+    "('openai_b_default_1', 3, 'medium')": {
+      "fold": 20,
+      "call": 7,
+      "raise": 1
+    },
+    "('openai_b_default_1', 2, 'medium')": {
+      "fold": 38,
+      "call": 21,
+      "raise": 3
+    },
+    "('ours', 1, 'small')": {
+      "fold": 35,
+      "call": 42,
+      "raise": 9
+    },
+    "('claude_exploit', 1, 'large')": {
+      "fold": 1
+    },
+    "('openai_a_default_1', 1, 'large')": {
+      "fold": 1,
+      "call": 1
+    },
+    "('openai_b_default_2', 1, 'medium')": {
+      "fold": 138,
+      "call": 57,
+      "raise": 8
+    },
+    "('openai_b_default_2', 1, 'free')": {
+      "check": 493,
+      "raise": 174
+    },
+    "('openai_b_default_2', 1, 'small')": {
+      "fold": 104,
+      "call": 122,
+      "raise": 10
+    },
+    "('claude_gto', 3, 'small')": {
+      "call": 10,
+      "fold": 14
+    },
+    "('openai_b_default_2', 2, 'free')": {
+      "check": 307,
+      "raise": 107
+    },
+    "('openai_b_default_2', 3, 'free')": {
+      "check": 237,
+      "raise": 66
+    },
+    "('openai_b_default_2', 3, 'medium')": {
+      "fold": 50,
+      "call": 6,
+      "raise": 5
+    },
+    "('openai_b_default_2', 2, 'small')": {
+      "fold": 28,
+      "call": 30,
+      "raise": 2
+    },
+    "('openai_b_default_2', 3, 'small')": {
+      "fold": 22,
+      "raise": 2,
+      "call": 9
+    },
+    "('ours', 3, 'medium')": {
+      "fold": 15,
+      "call": 8,
+      "raise": 1
+    },
+    "('openai_b_gto_3', 1, 'small')": {
+      "call": 99,
+      "raise": 7,
+      "fold": 46
+    },
+    "('openai_b_gto_3', 2, 'small')": {
+      "fold": 13,
+      "call": 45,
+      "raise": 1
+    },
+    "('openai_b_gto_3', 3, 'medium')": {
+      "fold": 30,
+      "call": 11
+    },
+    "('claude_aggro', 3, 'small')": {
+      "fold": 8,
+      "call": 3
+    },
+    "('openai_b_default_2', 2, 'medium')": {
+      "call": 40,
+      "fold": 31,
+      "raise": 4
+    },
+    "('claude_icm', 3, 'small')": {
+      "fold": 9,
+      "call": 10,
+      "raise": 2
+    },
+    "('claude_default_d', 1, 'large')": {
+      "fold": 1
+    },
+    "('claude_exploit', 3, 'medium')": {
+      "fold": 13
+    },
+    "('claude_tuned', 1, 'large')": {
+      "fold": 1
+    },
+    "('openai_k_default_2', 2, 'large')": {
+      "fold": 1
+    },
+    "('claude_default_c', 1, 'large')": {
+      "fold": 2
+    },
+    "('openai_k_default_2', 3, 'large')": {
+      "fold": 1
+    },
+    "('FIELD', 3, 'large')": {
+      "fold": 3,
+      "call": 1
+    },
+    "('openai_b_gto_3', 2, 'large')": {
+      "call": 1
+    },
+    "('openai_a_iterate_3', 3, 'large')": {
+      "fold": 1
+    },
+    "('claude_default_a', 3, 'large')": {
+      "call": 1
+    },
+    "('openai_a_default_2', 3, 'large')": {
+      "fold": 1
+    },
+    "('openai_a_default_2', 1, 'large')": {
+      "fold": 1
+    },
+    "('openai_a_default_2', 2, 'large')": {
+      "fold": 1
+    },
+    "('claude_default_d', 2, 'large')": {
+      "fold": 1
+    },
+    "('ours', 1, 'large')": {
+      "fold": 1
+    },
+    "('ours', 2, 'large')": {
+      "call": 1
+    },
+    "('openai_a_iterate_3', 1, 'large')": {
+      "fold": 2
+    },
+    "('openai_b_gto_3', 1, 'large')": {
+      "fold": 1
+    }
+  },
+  "calibration": {
+    "(1, 'check', 0.4)": [
+      88,
+      35.04375001788139,
+      41.01283332705498,
+      0.0
+    ],
+    "(1, 'call', 0.4)": [
+      95,
+      36.9593750834465,
+      49.899999897927046,
+      25206.0
+    ],
+    "(2, 'check', 0.4)": [
+      110,
+      43.3921874165535,
+      60.23550007119775,
+      0.0
+    ],
+    "(3, 'check', 0.2)": [
+      107,
+      20.59815315157175,
+      44.5,
+      0.0
+    ],
+    "(1, 'check', 0.2)": [
+      71,
+      16.15390633046627,
+      25.21516664326191,
+      0.0
+    ],
+    "(2, 'check', 0.2)": [
+      118,
+      25.423437520861626,
+      43.82583326473832,
+      0.0
+    ],
+    "(3, 'check', 0.0)": [
+      53,
+      1.9969296655617654,
+      8.0,
+      0.0
+    ],
+    "(1, 'raise', 0.4)": [
+      32,
+      13.964843720197678,
+      13.058333359658718,
+      0.0
+    ],
+    "(1, 'raise', 0.8)": [
+      54,
+      42.027343451976776,
+      35.40816651843488,
+      3456.0
+    ],
+    "(2, 'raise', 0.8)": [
+      31,
+      24.445312440395355,
+      23.879333317279816,
+      4964.0
+    ],
+    "(3, 'raise', 1.0)": [
+      9,
+      8.543749988079071,
+      9.0,
+      0.0
+    ],
+    "(3, 'raise', 0.6)": [
+      6,
+      3.969485282897949,
+      1.5,
+      0.0
+    ],
+    "(3, 'check', 0.4)": [
+      81,
+      32.571957260370255,
+      42.0,
+      0.0
+    ],
+    "(1, 'call', 0.2)": [
+      34,
+      8.943750083446503,
+      18.12383335083723,
+      6082.0
+    ],
+    "(2, 'check', 0.8)": [
+      12,
+      9.321093738079071,
+      9.928499966859818,
+      0.0
+    ],
+    "(3, 'check', 0.6)": [
+      57,
+      33.99594432115555,
+      44.0,
+      0.0
+    ],
+    "(1, 'call', 0.6)": [
+      37,
+      21.317968606948853,
+      22.31683334475383,
+      14414.0
+    ],
+    "(2, 'call', 0.6)": [
+      27,
+      16.490624964237213,
+      13.686166629195213,
+      14005.0
+    ],
+    "(2, 'raise', 0.4)": [
+      8,
+      3.1562500298023224,
+      2.710166707634926,
+      0.0
+    ],
+    "(3, 'raise', 0.8)": [
+      14,
+      11.1875,
+      8.5,
+      1151.0
+    ],
+    "(1, 'raise', 0.6)": [
+      56,
+      33.673437654972076,
+      28.74883322790265,
+      87.0
+    ],
+    "(2, 'call', 0.8)": [
+      4,
+      3.065625011920929,
+      2.857999935746193,
+      3539.0
+    ],
+    "(2, 'check', 0.6)": [
+      64,
+      37.59687513113022,
+      45.31000006198883,
+      0.0
+    ],
+    "(3, 'check', 0.8)": [
+      34,
+      27.24687498807907,
+      31.5,
+      0.0
+    ],
+    "(1, 'check', 0.6)": [
+      39,
+      22.17031228542328,
+      24.465833246707916,
+      0.0
+    ],
+    "(3, 'call', 0.4)": [
+      27,
+      10.646874994039536,
+      18.0,
+      13078.0
+    ],
+    "(2, 'call', 0.2)": [
+      11,
+      2.8835937082767487,
+      4.911499958485365,
+      2333.0
+    ],
+    "(3, 'call', 0.8)": [
+      5,
+      3.934375047683716,
+      2.5,
+      7397.0
+    ],
+    "(2, 'raise', 1.0)": [
+      17,
+      16.11015611886978,
+      14.493500024080276,
+      1680.0
+    ],
+    "(2, 'check', 0.0)": [
+      15,
+      1.106249999254942,
+      2.2188333347439766,
+      0.0
+    ],
+    "(2, 'call', 0.4)": [
+      56,
+      22.39375013113022,
+      31.165833294391632,
+      28393.0
+    ],
+    "(3, 'call', 0.6)": [
+      12,
+      7.149999976158142,
+      7.5,
+      8149.0
+    ],
+    "(3, 'check', 1.0)": [
+      5,
+      4.618749976158142,
+      5.0,
+      0.0
+    ],
+    "(2, 'raise', 0.6)": [
+      14,
+      8.839062452316284,
+      8.105666689574718,
+      0.0
+    ],
+    "(1, 'check', 0.0)": [
+      2,
+      0.17499999701976776,
+      0.28316666930913925,
+      0.0
+    ],
+    "(1, 'raise', 1.0)": [
+      5,
+      4.715624988079071,
+      4.4383333921432495,
+      224.0
+    ],
+    "(1, 'call', 0.8)": [
+      4,
+      3.133593738079071,
+      1.3586666770279408,
+      1925.0
+    ],
+    "(1, 'raise', 0.2)": [
+      4,
+      0.909375011920929,
+      0.5196666792035103,
+      0.0
+    ],
+    "(3, 'call', 0.2)": [
+      9,
+      2.312499985098839,
+      7.0,
+      3711.0
+    ],
+    "(2, 'raise', 0.2)": [
+      1,
+      0.16718749701976776,
+      0.1613333374261856,
+      0.0
+    ],
+    "(3, 'raise', 0.0)": [
+      1,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "(2, 'call', 1.0)": [
+      3,
+      2.8281250596046448,
+      2.8863333463668823,
+      2434.0
+    ],
+    "(3, 'call', 1.0)": [
+      1,
+      1.0,
+      1.0,
+      1376.0
+    ],
+    "(2, 'check', 1.0)": [
+      1,
+      0.9398437738418579,
+      1.0,
+      0.0
+    ]
+  },
+  "optimistic_raises": [
+    {
+      "table": "s1000i3t0",
+      "hand": 18,
+      "st": 3,
+      "eq": 0.862500011920929,
+      "true": 0.0,
+      "hole": [
+        "Ts",
+        "Qs"
+      ],
+      "board": [
+        "7s",
+        "9s",
+        "3s",
+        "9d",
+        "2d"
+      ],
+      "villain": "(Card(\"Js\"), Card(\"As\"))",
+      "pot": 1188,
+      "call": 528,
+      "amount": 1470
+    },
+    {
+      "table": "s1000i4t0",
+      "hand": 28,
+      "st": 2,
+      "eq": 0.7124999761581421,
+      "true": 0.13233333826065063,
+      "hole": [
+        "Kd",
+        "As"
+      ],
+      "board": [
+        "Qd",
+        "4c",
+        "7s",
+        "Ad"
+      ],
+      "villain": "(Card(\"7h\"), Card(\"Ac\"))",
+      "pot": 226,
+      "call": 0,
+      "amount": 162
+    },
+    {
+      "table": "s1000i4t0",
+      "hand": 28,
+      "st": 3,
+      "eq": 0.75,
+      "true": 0.0,
+      "hole": [
+        "Kd",
+        "As"
+      ],
+      "board": [
+        "Qd",
+        "4c",
+        "7s",
+        "Ad",
+        "9h"
+      ],
+      "villain": "(Card(\"7h\"), Card(\"Ac\"))",
+      "pot": 1430,
+      "call": 0,
+      "amount": 1966
+    },
+    {
+      "table": "s1002i3t0",
+      "hand": 3,
+      "st": 3,
+      "eq": 0.8062499761581421,
+      "true": 0.0,
+      "hole": [
+        "Tc",
+        "8c"
+      ],
+      "board": [
+        "4s",
+        "Qc",
+        "7c",
+        "6s",
+        "6c"
+      ],
+      "villain": "(Card(\"Kc\"), Card(\"5c\"))",
+      "pot": 377,
+      "call": 173,
+      "amount": 664
+    },
+    {
+      "table": "s1002i12t1",
+      "hand": 73,
+      "st": 3,
+      "eq": 0.8374999761581421,
+      "true": 0.0,
+      "hole": [
+        "Jd",
+        "9d"
+      ],
+      "board": [
+        "6h",
+        "8c",
+        "As",
+        "Qc",
+        "Td"
+      ],
+      "villain": "(Card(\"Jc\"), Card(\"Kc\"))",
+      "pot": 756,
+      "call": 324,
+      "amount": 1584
+    },
+    {
+      "table": "s1003i9t1",
+      "hand": 26,
+      "st": 2,
+      "eq": 0.8265625238418579,
+      "true": 0.0,
+      "hole": [
+        "Kh",
+        "As"
+      ],
+      "board": [
+        "2s",
+        "7d",
+        "Ad",
+        "Th"
+      ],
+      "villain": "(Card(\"2h\"), Card(\"2c\"))",
+      "pot": 1535,
+      "call": 0,
+      "amount": 1266
+    },
+    {
+      "table": "s1003i12t2",
+      "hand": 81,
+      "st": 2,
+      "eq": 0.7203124761581421,
+      "true": 0.1616666615009308,
+      "hole": [
+        "5s",
+        "Ad"
+      ],
+      "board": [
+        "3d",
+        "2d",
+        "9c",
+        "Ac"
+      ],
+      "villain": "(Card(\"As\"), Card(\"Jc\"))",
+      "pot": 1184,
+      "call": 0,
+      "amount": 244
+    },
+    {
+      "table": "s1004i0t0",
+      "hand": 118,
+      "st": 1,
+      "eq": 0.7601562738418579,
+      "true": 0.23499999940395355,
+      "hole": [
+        "Js",
+        "Qd"
+      ],
+      "board": [
+        "Jh",
+        "4c",
+        "4s"
+      ],
+      "villain": "(Card(\"Jd\"), Card(\"Ks\"))",
+      "pot": 1040,
+      "call": 0,
+      "amount": 748
+    },
+    {
+      "table": "s1005i1t1",
+      "hand": 24,
+      "st": 1,
+      "eq": 0.793749988079071,
+      "true": 0.0403333343565464,
+      "hole": [
+        "2d",
+        "2c"
+      ],
+      "board": [
+        "8h",
+        "2h",
+        "Tc"
+      ],
+      "villain": "(Card(\"8s\"), Card(\"8c\"))",
+      "pot": 439,
+      "call": 217,
+      "amount": 1831
+    },
+    {
+      "table": "s1005i3t1",
+      "hand": 167,
+      "st": 1,
+      "eq": 0.76171875,
+      "true": 0.23549999296665192,
+      "hole": [
+        "3d",
+        "8d"
+      ],
+      "board": [
+        "3c",
+        "3h",
+        "6d"
+      ],
+      "villain": "(Card(\"Kd\"), Card(\"3s\"))",
+      "pot": 3784,
+      "call": 1584,
+      "amount": 8074
+    },
+    {
+      "table": "s1005i12t1",
+      "hand": 6,
+      "st": 1,
+      "eq": 0.8140624761581421,
+      "true": 0.018666666001081467,
+      "hole": [
+        "Kc",
+        "Jh"
+      ],
+      "board": [
+        "2s",
+        "6h",
+        "Js"
+      ],
+      "villain": "(Card(\"6d\"), Card(\"6c\"))",
+      "pot": 118,
+      "call": 0,
+      "amount": 84
+    },
+    {
+      "table": "s1005i12t1",
+      "hand": 6,
+      "st": 1,
+      "eq": 0.727343738079071,
+      "true": 0.01600000075995922,
+      "hole": [
+        "Kc",
+        "Jh"
+      ],
+      "board": [
+        "2s",
+        "6h",
+        "Js"
+      ],
+      "villain": "(Card(\"6d\"), Card(\"6c\"))",
+      "pot": 486,
+      "call": 200,
+      "amount": 1986
+    },
+    {
+      "table": "s1006i4t0",
+      "hand": 33,
+      "st": 1,
+      "eq": 0.75390625,
+      "true": 0.06933332979679108,
+      "hole": [
+        "Ac",
+        "7h"
+      ],
+      "board": [
+        "6c",
+        "Ah",
+        "3c"
+      ],
+      "villain": "(Card(\"6d\"), Card(\"6s\"))",
+      "pot": 147,
+      "call": 0,
+      "amount": 105
+    },
+    {
+      "table": "s1006i4t0",
+      "hand": 75,
+      "st": 1,
+      "eq": 0.75,
+      "true": 0.21799999475479126,
+      "hole": [
+        "As",
+        "8s"
+      ],
+      "board": [
+        "9d",
+        "Ac",
+        "7s"
+      ],
+      "villain": "(Card(\"Qs\"), Card(\"Ah\"))",
+      "pot": 376,
+      "call": 0,
+      "amount": 270
+    },
+    {
+      "table": "s1006i10t1",
+      "hand": 68,
+      "st": 1,
+      "eq": 0.8101562261581421,
+      "true": 0.25433334708213806,
+      "hole": [
+        "2s",
+        "As"
+      ],
+      "board": [
+        "Ac",
+        "4h",
+        "5d"
+      ],
+      "villain": "(Card(\"Jh\"), Card(\"Ah\"))",
+      "pot": 472,
+      "call": 0,
+      "amount": 339
+    },
+    {
+      "table": "s1007i12t2",
+      "hand": 27,
+      "st": 1,
+      "eq": 0.770312488079071,
+      "true": 0.09033333510160446,
+      "hole": [
+        "Kd",
+        "Kc"
+      ],
+      "board": [
+        "5h",
+        "8s",
+        "3s"
+      ],
+      "villain": "(Card(\"5d\"), Card(\"5c\"))",
+      "pot": 630,
+      "call": 0,
+      "amount": 453
+    },
+    {
+      "table": "s1007i13t2",
+      "hand": 91,
+      "st": 1,
+      "eq": 0.7203124761581421,
+      "true": 0.13066667318344116,
+      "hole": [
+        "8s",
+        "Kd"
+      ],
+      "board": [
+        "2d",
+        "6s",
+        "Kh"
+      ],
+      "villain": "(Card(\"As\"), Card(\"Ks\"))",
+      "pot": 600,
+      "call": 0,
+      "amount": 432
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "agent.py": {
+    "sha256": "49c5cb301feead6ced33af1723a6c693e24f49500a5c171db3954464d7336e70",
+    "bytes": 41855
+  },
+  "preflop.json": {
+    "sha256": "9a46813da1b1ed451caae63a75970449780a266456ec3558e4df5674bbc4e2f3",
+    "bytes": 77564
+  },
+  "draws.bin": {
+    "sha256": "577d14939f22015fc231d912a7d37f6a40002f059d84d4d5e3d4b16547930022",
+    "bytes": 1384448
+  }
+}

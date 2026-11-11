@@ -1,0 +1,151 @@
+{
+ "counts": {
+  "recorded_hands": 17232,
+  "hero_live_hands": 13200,
+  "tables_in_histories": 120
+ },
+ "decisions": {
+  "field_facing_s0": {
+   "fold": 60061,
+   "raise": 16472,
+   "call": 8262
+  },
+  "hero_facing_s0": {
+   "fold": 9712,
+   "raise": 2179,
+   "call": 1554
+  },
+  "field_free_s1": {
+   "check": 4915,
+   "raise": 5140
+  },
+  "field_free_s2": {
+   "check": 4035,
+   "raise": 2314
+  },
+  "field_free_s3": {
+   "raise": 1117,
+   "check": 3139
+  },
+  "field_facing_s3": {
+   "fold": 746,
+   "call": 358,
+   "raise": 46
+  },
+  "hero_free_s1": {
+   "check": 1147,
+   "raise": 658
+  },
+  "hero_facing_s1": {
+   "fold": 562,
+   "call": 493,
+   "raise": 45
+  },
+  "field_facing_s1": {
+   "call": 2494,
+   "fold": 2775,
+   "raise": 365
+  },
+  "field_facing_s2": {
+   "call": 1011,
+   "raise": 113,
+   "fold": 1294
+  },
+  "hero_free_s2": {
+   "check": 766,
+   "raise": 310
+  },
+  "hero_facing_s2": {
+   "fold": 204,
+   "call": 220,
+   "raise": 11
+  },
+  "hero_free_s3": {
+   "check": 612,
+   "raise": 128
+  },
+  "hero_facing_s3": {
+   "fold": 175,
+   "call": 56,
+   "raise": 5
+  },
+  "field_free_s0": {
+   "check": 155,
+   "raise": 103,
+   "call": 2
+  },
+  "hero_free_s0": {
+   "raise": 11,
+   "check": 16
+  }
+ },
+ "net": {
+  "no_voluntary_entry": {
+   "hands": 9515,
+   "chips": -218305,
+   "big_blinds": -1792.6808333333336
+  },
+  "players_8": {
+   "hands": 4780,
+   "chips": -7086,
+   "big_blinds": -116.42249999999969
+  },
+  "raised_preflop": {
+   "hands": 2181,
+   "chips": 190156,
+   "big_blinds": 1328.342333333333
+  },
+  "called_preflop": {
+   "hands": 1504,
+   "chips": -3851,
+   "big_blinds": 63.914666666666605
+  },
+  "players_7": {
+   "hands": 2638,
+   "chips": 6014,
+   "big_blinds": 57.77499999999996
+  },
+  "players_6": {
+   "hands": 1739,
+   "chips": 2723,
+   "big_blinds": -77.19500000000006
+  },
+  "players_5": {
+   "hands": 1441,
+   "chips": 13108,
+   "big_blinds": 29.488333333333287
+  },
+  "players_4": {
+   "hands": 1258,
+   "chips": -31559,
+   "big_blinds": -211.40366666666668
+  },
+  "players_3": {
+   "hands": 725,
+   "chips": -31415,
+   "big_blinds": -183.9163333333333
+  },
+  "players_2": {
+   "hands": 619,
+   "chips": 16215,
+   "big_blinds": 101.2503333333333
+  }
+ },
+ "revealed_reraise_strength": {
+  "1": {
+   "n": 160,
+   "mean_percentile": 0.942150259745515,
+   "median_percentile": 0.9729724245683096
+  },
+  "2": {
+   "n": 59,
+   "mean_percentile": 0.9412948021763113,
+   "median_percentile": 0.9689119170984456
+  },
+  "3": {
+   "n": 28,
+   "mean_percentile": 0.9320156008617282,
+   "median_percentile": 0.9493347772277227
+  }
+ }
+}

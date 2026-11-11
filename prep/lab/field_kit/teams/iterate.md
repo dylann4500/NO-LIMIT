@@ -1,0 +1,1 @@
+Team brief: "Here's the starter kit. Build the strongest bot you can. We have 60 minutes, so get a safe bot passing first, then keep testing and improving it against the local simulator until it's as strong as you can make it."

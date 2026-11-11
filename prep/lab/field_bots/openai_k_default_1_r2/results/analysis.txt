@@ -1,0 +1,458 @@
+{
+ "s1_fold": {
+  "n": 20,
+  "estimate": 0.31,
+  "revealed": 0.183,
+  "cost": 256.7
+ },
+ "s1_fold_cat1": {
+  "n": 11,
+  "estimate": 0.367,
+  "revealed": 0.213,
+  "cost": 161.545
+ },
+ "s1_check": {
+  "n": 420,
+  "estimate": 0.392,
+  "revealed": 0.491,
+  "cost": 0.0
+ },
+ "s1_check_cat0": {
+  "n": 212,
+  "estimate": 0.315,
+  "revealed": 0.418,
+  "cost": 0.0
+ },
+ "s1_call": {
+  "n": 214,
+  "estimate": 0.479,
+  "revealed": 0.535,
+  "cost": 265.537
+ },
+ "s1_call_cat0": {
+  "n": 59,
+  "estimate": 0.364,
+  "revealed": 0.443,
+  "cost": 193.017
+ },
+ "s2_check": {
+  "n": 480,
+  "estimate": 0.341,
+  "revealed": 0.48,
+  "cost": 0.0
+ },
+ "s2_check_cat0": {
+  "n": 158,
+  "estimate": 0.232,
+  "revealed": 0.384,
+  "cost": 0.0
+ },
+ "s3_check": {
+  "n": 521,
+  "estimate": 0.298,
+  "revealed": 0.502,
+  "cost": 0.0
+ },
+ "s3_check_cat1": {
+  "n": 272,
+  "estimate": 0.283,
+  "revealed": 0.463,
+  "cost": 0.0
+ },
+ "s1_check_cat1": {
+  "n": 190,
+  "estimate": 0.46,
+  "revealed": 0.549,
+  "cost": 0.0
+ },
+ "s1_call_cat1": {
+  "n": 134,
+  "estimate": 0.505,
+  "revealed": 0.561,
+  "cost": 261.067
+ },
+ "s2_call": {
+  "n": 130,
+  "estimate": 0.509,
+  "revealed": 0.486,
+  "cost": 520.562
+ },
+ "s2_call_cat2": {
+  "n": 33,
+  "estimate": 0.563,
+  "revealed": 0.49,
+  "cost": 525.909
+ },
+ "s3_call": {
+  "n": 56,
+  "estimate": 0.505,
+  "revealed": 0.536,
+  "cost": 563.393
+ },
+ "s3_call_cat2": {
+  "n": 28,
+  "estimate": 0.495,
+  "revealed": 0.589,
+  "cost": 529.929
+ },
+ "s3_check_cat0": {
+  "n": 91,
+  "estimate": 0.109,
+  "revealed": 0.319,
+  "cost": 0.0
+ },
+ "s2_check_cat1": {
+  "n": 268,
+  "estimate": 0.378,
+  "revealed": 0.496,
+  "cost": 0.0
+ },
+ "s1_raise": {
+  "n": 161,
+  "estimate": 0.67,
+  "revealed": 0.58,
+  "cost": 55.708
+ },
+ "s1_raise_cat1": {
+  "n": 84,
+  "estimate": 0.673,
+  "revealed": 0.529,
+  "cost": 0.0
+ },
+ "s2_raise": {
+  "n": 95,
+  "estimate": 0.707,
+  "revealed": 0.591,
+  "cost": 32.305
+ },
+ "s2_raise_cat2": {
+  "n": 27,
+  "estimate": 0.752,
+  "revealed": 0.587,
+  "cost": 30.481
+ },
+ "s3_raise": {
+  "n": 38,
+  "estimate": 0.814,
+  "revealed": 0.579,
+  "cost": 42.579
+ },
+ "s3_raise_cat2": {
+  "n": 11,
+  "estimate": 0.772,
+  "revealed": 0.682,
+  "cost": 0.0
+ },
+ "s2_raise_cat1": {
+  "n": 40,
+  "estimate": 0.649,
+  "revealed": 0.503,
+  "cost": 0.0
+ },
+ "s3_call_cat1": {
+  "n": 20,
+  "estimate": 0.453,
+  "revealed": 0.45,
+  "cost": 575.6
+ },
+ "s3_check_cat2": {
+  "n": 132,
+  "estimate": 0.443,
+  "revealed": 0.686,
+  "cost": 0.0
+ },
+ "s1_raise_cat6": {
+  "n": 2,
+  "estimate": 0.917,
+  "revealed": 0.874,
+  "cost": 0.0
+ },
+ "s2_call_cat1": {
+  "n": 78,
+  "estimate": 0.506,
+  "revealed": 0.481,
+  "cost": 487.436
+ },
+ "s1_raise_cat0": {
+  "n": 30,
+  "estimate": 0.424,
+  "revealed": 0.468,
+  "cost": 0.0
+ },
+ "s2_raise_cat5": {
+  "n": 4,
+  "estimate": 0.837,
+  "revealed": 0.702,
+  "cost": 137.75
+ },
+ "s2_call_cat5": {
+  "n": 1,
+  "estimate": 0.753,
+  "revealed": 0.845,
+  "cost": 1152.0
+ },
+ "s1_raise_cat3": {
+  "n": 17,
+  "estimate": 0.889,
+  "revealed": 0.779,
+  "cost": 294.941
+ },
+ "s1_raise_cat2": {
+  "n": 24,
+  "estimate": 0.75,
+  "revealed": 0.683,
+  "cost": 92.25
+ },
+ "s2_check_cat2": {
+  "n": 46,
+  "estimate": 0.471,
+  "revealed": 0.687,
+  "cost": 0.0
+ },
+ "s2_call_cat0": {
+  "n": 14,
+  "estimate": 0.318,
+  "revealed": 0.425,
+  "cost": 470.214
+ },
+ "s3_raise_cat4": {
+  "n": 8,
+  "estimate": 0.917,
+  "revealed": 0.875,
+  "cost": 48.0
+ },
+ "s1_raise_cat4": {
+  "n": 3,
+  "estimate": 0.939,
+  "revealed": 0.845,
+  "cost": 215.0
+ },
+ "s1_check_cat3": {
+  "n": 2,
+  "estimate": 0.726,
+  "revealed": 0.865,
+  "cost": 0.0
+ },
+ "s1_call_cat3": {
+  "n": 4,
+  "estimate": 0.791,
+  "revealed": 0.859,
+  "cost": 932.5
+ },
+ "s2_check_cat3": {
+  "n": 7,
+  "estimate": 0.476,
+  "revealed": 0.63,
+  "cost": 0.0
+ },
+ "s2_call_cat3": {
+  "n": 3,
+  "estimate": 0.674,
+  "revealed": 0.564,
+  "cost": 703.333
+ },
+ "s3_raise_cat6": {
+  "n": 5,
+  "estimate": 0.873,
+  "revealed": 0.6,
+  "cost": 108.6
+ },
+ "s3_check_cat4": {
+  "n": 2,
+  "estimate": 0.352,
+  "revealed": 0.5,
+  "cost": 0.0
+ },
+ "s3_check_cat3": {
+  "n": 14,
+  "estimate": 0.286,
+  "revealed": 0.571,
+  "cost": 0.0
+ },
+ "s2_raise_cat4": {
+  "n": 7,
+  "estimate": 0.867,
+  "revealed": 0.898,
+  "cost": 133.714
+ },
+ "s3_check_cat5": {
+  "n": 3,
+  "estimate": 0.486,
+  "revealed": 0.833,
+  "cost": 0.0
+ },
+ "s3_check_cat6": {
+  "n": 7,
+  "estimate": 0.56,
+  "revealed": 0.643,
+  "cost": 0.0
+ },
+ "s2_raise_cat0": {
+  "n": 7,
+  "estimate": 0.303,
+  "revealed": 0.312,
+  "cost": 0.0
+ },
+ "s1_fold_cat0": {
+  "n": 9,
+  "estimate": 0.241,
+  "revealed": 0.147,
+  "cost": 373.0
+ },
+ "s2_fold": {
+  "n": 7,
+  "estimate": 0.249,
+  "revealed": 0.081,
+  "cost": 906.286
+ },
+ "s2_fold_cat1": {
+  "n": 5,
+  "estimate": 0.226,
+  "revealed": 0.037,
+  "cost": 1114.6
+ },
+ "s3_call_cat4": {
+  "n": 2,
+  "estimate": 0.408,
+  "revealed": 0.0,
+  "cost": 486.5
+ },
+ "s1_call_cat2": {
+  "n": 17,
+  "estimate": 0.596,
+  "revealed": 0.579,
+  "cost": 395.529
+ },
+ "s3_call_cat6": {
+  "n": 4,
+  "estimate": 0.686,
+  "revealed": 0.625,
+  "cost": 755.5
+ },
+ "s1_check_cat2": {
+  "n": 16,
+  "estimate": 0.578,
+  "revealed": 0.723,
+  "cost": 0.0
+ },
+ "s3_raise_cat1": {
+  "n": 9,
+  "estimate": 0.714,
+  "revealed": 0.167,
+  "cost": 0.0
+ },
+ "s3_fold": {
+  "n": 7,
+  "estimate": 0.106,
+  "revealed": 0.0,
+  "cost": 141.0
+ },
+ "s3_fold_cat2": {
+  "n": 2,
+  "estimate": 0.15,
+  "revealed": 0.0,
+  "cost": 169.5
+ },
+ "s2_fold_cat0": {
+  "n": 2,
+  "estimate": 0.309,
+  "revealed": 0.189,
+  "cost": 385.5
+ },
+ "s2_check_cat6": {
+  "n": 1,
+  "estimate": 0.764,
+  "revealed": 0.942,
+  "cost": 0.0
+ },
+ "s2_raise_cat6": {
+  "n": 4,
+  "estimate": 0.946,
+  "revealed": 0.836,
+  "cost": 162.0
+ },
+ "s3_call_cat5": {
+  "n": 2,
+  "estimate": 0.891,
+  "revealed": 1.0,
+  "cost": 602.5
+ },
+ "s3_fold_cat1": {
+  "n": 3,
+  "estimate": 0.134,
+  "revealed": 0.0,
+  "cost": 103.333
+ },
+ "s3_raise_cat3": {
+  "n": 4,
+  "estimate": 0.831,
+  "revealed": 0.5,
+  "cost": 172.75
+ },
+ "s2_call_cat6": {
+  "n": 1,
+  "estimate": 0.949,
+  "revealed": 0.961,
+  "cost": 2453.0
+ },
+ "s3_fold_cat0": {
+  "n": 2,
+  "estimate": 0.022,
+  "revealed": 0.0,
+  "cost": 169.0
+ },
+ "s2_raise_cat3": {
+  "n": 6,
+  "estimate": 0.934,
+  "revealed": 0.927,
+  "cost": 18.5
+ },
+ "s3_raise_cat5": {
+  "n": 1,
+  "estimate": 1.0,
+  "revealed": 1.0,
+  "cost": 0.0
+ },
+ "s1_raise_cat5": {
+  "n": 1,
+  "estimate": 0.906,
+  "revealed": 0.956,
+  "cost": 1096.0
+ }
+}
+EXPENSIVE
+{"table": "s1003i10t1", "hand": 133, "hole": ["Th", "Qs"], "board": ["9s", "Qd", "9h", "As"], "action": "call", "amount": 3220, "cost": 3220, "pot": 10962, "stack": 5038, "eq": 0.291, "threshold": 0.227, "opponent": "openai_a_equity_4", "shown": ["9d", "8d"], "prof": [0.399, 0.14, 0.185, 0.562, 0, 0], "hp": [2, 1, 2.25, 0, [8, 4, 0], [1.0786465477823504, 0.4159132007233273, 0.0], 1, 0], "cat": 2, "made": true, "n": 1, "range": 0.508, "revealed_equity": 0.049}
+{"table": "s1007i5t0", "hand": 90, "hole": ["Ks", "Ad"], "board": ["9s", "6d", "2h", "As"], "action": "call", "amount": 2751, "cost": 2751, "pot": 4701, "stack": 2878, "eq": 0.686, "threshold": 0.529, "opponent": "claude_equity", "shown": ["2c", "2s"], "prof": [0.37, 0.35, 0.324, 0.318, 0, 0], "hp": [2, 1, 2.5, 0, [4, 4, 0], [0.75, 1.4107692307692308, 0.0], 1, 0], "cat": 1, "made": true, "n": 1, "range": 0.376, "revealed_equity": 0.0}
+{"table": "s1007i10t0", "hand": 76, "hole": ["Js", "Ad"], "board": ["2d", "2c", "Ah", "Jh", "Qh"], "action": "call", "amount": 2648, "cost": 2648, "pot": 6648, "stack": 2914, "eq": 0.586, "threshold": 0.475, "opponent": "claude_default_d", "shown": ["Jd", "Ac"], "prof": [0.233, 0.163, 0.524, 0.272, 0, 0], "hp": [2, 1, 2.5, 0, [4, 4, 4], [0.75, 0.75, 0.662], 1, 0], "cat": 2, "made": true, "n": 1, "range": 0.166, "revealed_equity": 0.5}
+{"table": "s1003i8t0", "hand": 142, "hole": ["3h", "7h"], "board": ["3s", "Kh", "2c", "Ac"], "action": "call", "amount": 2574, "cost": 2574, "pot": 6534, "stack": 5872, "eq": 0.342, "threshold": 0.283, "opponent": "openai_a_iterate_3", "shown": ["Qc", "Ad"], "prof": [0.283, 0.217, 0.467, 0.453, 0, 0], "hp": [2, 1, 2.25, 0, [2, 4, 0], [0.2753623188405797, 0.65, 0.0], 1, 0], "cat": 1, "made": true, "n": 1, "range": 0.717, "revealed_equity": 0.111}
+{"table": "s1004i3t0", "hand": 89, "hole": ["5d", "4d"], "board": ["4s", "5c", "4h", "6d"], "action": "call", "amount": 2453, "cost": 2453, "pot": 5951, "stack": 2453, "eq": 0.949, "threshold": 0.471, "opponent": "claude_gto", "shown": ["Js", "Jd"], "prof": [0.293, 0.202, 0.314, 0.267, 0, 0], "hp": [2, 1, 2.2, 0, [2, 8, 0], [0.41839762611275966, 1.3430656934306568, 0.0], 1, 0], "cat": 6, "made": true, "n": 1, "range": 0.307, "revealed_equity": 0.961}
+{"table": "s1003i10t1", "hand": 133, "hole": ["Th", "Qs"], "board": ["9s", "Qd", "9h"], "action": "call", "amount": 2359, "cost": 2359, "pot": 5383, "stack": 7397, "eq": 0.525, "threshold": 0.305, "opponent": "openai_a_equity_4", "shown": ["9d", "8d"], "prof": [0.399, 0.14, 0.175, 0.569, 0, 0], "hp": [2, 1, 2.25, 0, [8, 0, 0], [1.0786465477823504, 0.0, 0.0], 1, 0], "cat": 2, "made": true, "n": 1, "range": 0.508, "revealed_equity": 0.109}
+{"table": "s1006i1t2", "hand": 125, "hole": ["Qc", "Kc"], "board": ["6c", "2s", "Kh"], "action": "call", "amount": 2323, "cost": 2323, "pot": 5057, "stack": 6077, "eq": 0.724, "threshold": 0.343, "opponent": "claude_default_c", "shown": ["Ks", "Ac"], "prof": [0.296, 0.237, 0.724, 0.435, 0, 0], "hp": [2, 1, 2.2, 0, [8, 0, 0], [1.1051379638439582, 0.0, 0.0], 1, 0], "cat": 1, "made": true, "n": 1, "range": 0.35, "revealed_equity": 0.164}
+{"table": "s1004i12t1", "hand": 124, "hole": ["Qh", "Jh"], "board": ["Jc", "Js", "7h"], "action": "raise", "amount": 3492, "cost": 2305, "pot": 5017, "stack": 2736, "eq": 0.833, "threshold": 0.482, "opponent": "claude_default_b", "shown": ["Th", "Jd"], "prof": [0.246, 0.201, 0.818, 0.234, 0, 0], "hp": [1, 0, 0, 1, [8, 0, 0], [1.1784253578732107, 0.0, 0.0], 0, 1], "cat": 3, "made": true, "n": 1, "range": 0.237, "revealed_equity": 0.766}
+{"table": "s1001i3t1", "hand": 76, "hole": ["Ks", "Js"], "board": ["Jh", "4s", "Tc", "Kh"], "action": "call", "amount": 2041, "cost": 2041, "pot": 3783, "stack": 3233, "eq": 0.603, "threshold": 0.443, "opponent": "openai_a_icm_5", "shown": ["Qs", "Ac"], "prof": [0.267, 0.128, 0.226, 0.364, 0, 0], "hp": [2, 1, 2.15, 0, [2, 8, 0], [0.3005464480874317, 1.6620521172638436, 0.0], 1, 0], "cat": 2, "made": true, "n": 1, "range": 0.216, "revealed_equity": 0.09}
+{"table": "s1003i9t0", "hand": 102, "hole": ["6d", "6s"], "board": ["6c", "Jc", "3s"], "action": "call", "amount": 2022, "cost": 2022, "pot": 4656, "stack": 2456, "eq": 0.922, "threshold": 0.439, "opponent": "claude_default_c", "shown": ["Ac", "Js"], "prof": [0.295, 0.214, 0.613, 0.519, 0, 0], "hp": [2, 1, 2.2, 0, [8, 0, 0], [1.0888529886914378, 0.0, 0.0], 1, 0], "cat": 3, "made": true, "n": 1, "range": 0.322, "revealed_equity": 0.947}
+{"table": "s1004i3t0", "hand": 68, "hole": ["Kh", "Ah"], "board": ["9s", "Ac", "5h"], "action": "call", "amount": 1915, "cost": 1915, "pot": 2777, "stack": 1915, "eq": 0.663, "threshold": 0.482, "opponent": "claude_iterate", "shown": ["Ad", "5d"], "prof": [0.269, 0.128, 0.409, 0.559, 0, 0], "hp": [1, 0, 0, 1, [8, 0, 0], [3.0120663650075414, 0.0, 0.0], 0, 1], "cat": 1, "made": true, "n": 1, "range": 0.255, "revealed_equity": 0.296}
+{"table": "s1007i1t1", "hand": 42, "hole": ["Ah", "Qs"], "board": ["2s", "Qh", "Ks", "Ad", "As"], "action": "call", "amount": 1913, "cost": 1913, "pot": 3714, "stack": 1913, "eq": 0.968, "threshold": 0.431, "opponent": "claude_aggro", "shown": ["Jd", "Tc"], "prof": [0.385, 0.288, 0.545, 0.368, 0, 0], "hp": [2, 1, 2.4, 0, [4, 4, 4], [0.6, 0.7994227994227994, 1.317046085508051], 1, 0], "cat": 6, "made": true, "n": 1, "range": 0.222, "revealed_equity": 1.0}
+{"table": "s1004i12t1", "hand": 134, "hole": ["9s", "Tc"], "board": ["8h", "Jh", "6d"], "action": "call", "amount": 1800, "cost": 1800, "pot": 3600, "stack": 7539, "eq": 0.438, "threshold": 0.333, "opponent": "claude_default_b", "shown": null, "prof": [0.278, 0.236, 0.826, 0.213, 0, 0], "hp": [2, 1, 3.0, 0, [4, 0, 0], [1.0, 0.0, 0.0], 1, 0], "cat": 0, "made": false, "n": 1, "range": 0.768}
+{"table": "s1001i11t1", "hand": 75, "hole": ["Qs", "Ad"], "board": ["4c", "Qc", "8h", "Th"], "action": "call", "amount": 1777, "cost": 1777, "pot": 4147, "stack": 2115, "eq": 0.518, "threshold": 0.422, "opponent": "claude_default_d", "shown": ["Qh", "Ac"], "prof": [0.235, 0.129, 0.421, 0.473, 0, 0], "hp": [2, 1, 2.5, 0, [8, 4, 0], [0.833976833976834, 0.749789029535865, 0.0], 1, 0], "cat": 1, "made": true, "n": 1, "range": 0.167, "revealed_equity": 0.5}
+{"table": "s1003i8t0", "hand": 68, "hole": ["Jc", "Js"], "board": ["6c", "2d", "9d"], "action": "call", "amount": 1702, "cost": 1702, "pot": 3182, "stack": 1995, "eq": 0.492, "threshold": 0.419, "opponent": "claude_equity", "shown": ["Td", "Th"], "prof": [0.346, 0.256, 0.5, 0.427, 0, 0], "hp": [2, 1, 7.875, 0, [4, 0, 0], [1.15, 0.0, 0.0], 2, 0], "cat": 1, "made": true, "n": 1, "range": 0.076, "revealed_equity": 0.848}
+{"table": "s1004i3t0", "hand": 114, "hole": ["Kd", "7s"], "board": ["2d", "Td", "9d", "Th"], "action": "call", "amount": 1560, "cost": 1560, "pot": 3960, "stack": 5717, "eq": 0.334, "threshold": 0.306, "opponent": "claude_icm", "shown": null, "prof": [0.315, 0.234, 0.5, 0.497, 0, 0], "hp": [2, 1, 3.0, 0, [4, 4, 0], [0.5, 0.65, 0.0], 1, 0], "cat": 1, "made": false, "n": 1, "range": 0.532}
+{"table": "s1005i1t0", "hand": 115, "hole": ["6s", "As"], "board": ["2c", "Kd", "5h", "Ad"], "action": "call", "amount": 1426, "cost": 1426, "pot": 2852, "stack": 4654, "eq": 0.657, "threshold": 0.333, "opponent": "claude_default_b", "shown": ["Ac", "5d"], "prof": [0.304, 0.24, 0.935, 0.284, 0, 0], "hp": [1, 0, 0, 1, [4, 4, 0], [0.32906976744186045, 1.0, 0.0], 0, 1], "cat": 1, "made": true, "n": 1, "range": 0.283, "revealed_equity": 0.141}
+{"table": "s1005i1t0", "hand": 115, "hole": ["6s", "As"], "board": ["2c", "Kd", "5h", "Ad", "Kh"], "action": "call", "amount": 1411, "cost": 1411, "pot": 5689, "stack": 3228, "eq": 0.506, "threshold": 0.199, "opponent": "claude_default_b", "shown": ["Ac", "5d"], "prof": [0.304, 0.24, 0.938, 0.28, 0, 0], "hp": [1, 0, 0, 1, [4, 4, 4], [0.32906976744186045, 1.0, 0.32982702197288455], 0, 1], "cat": 2, "made": true, "n": 1, "range": 0.283, "revealed_equity": 1.0}
+{"table": "s1003i14t1", "hand": 116, "hole": ["9h", "6h"], "board": ["9s", "Qc", "8d", "7h"], "action": "call", "amount": 1406, "cost": 1406, "pot": 3078, "stack": 3648, "eq": 0.443, "threshold": 0.371, "opponent": "claude_default_c", "shown": ["3d", "Ad"], "prof": [0.238, 0.198, 0.71, 0.368, 0, 0], "hp": [2, 1, 2.2, 0, [4, 4, 0], [0.45, 0.8409090909090909, 0.0], 1, 0], "cat": 1, "made": true, "n": 1, "range": 0.465, "revealed_equity": 0.935}
+{"table": "s1006i3t0", "hand": 45, "hole": ["Th", "Ac"], "board": ["5h", "Ad", "9h"], "action": "call", "amount": 1392, "cost": 1392, "pot": 2039, "stack": 2271, "eq": 0.55, "threshold": 0.45, "opponent": "claude_equity", "shown": ["5c", "5d"], "prof": [0.236, 0.2, 0.571, 0.526, 0, 0], "hp": [1, 0, 0, 1, [8, 0, 0], [2.9743589743589745, 0.0, 0.0], 0, 1], "cat": 1, "made": true, "n": 1, "range": 0.229, "revealed_equity": 0.046}
+{"table": "s1003i2t0", "hand": 55, "hole": ["Ad", "As"], "board": ["4h", "6d", "3s", "7h", "8c"], "action": "call", "amount": 1353, "cost": 1353, "pot": 2945, "stack": 2128, "eq": 0.541, "threshold": 0.389, "opponent": "openai_k_default_2", "shown": ["Ah", "5h"], "prof": [0.369, 0.231, 0.524, 0.365, 0, 0], "hp": [1, 0, 0, 1, [3, 4, 4], [0.38173302107728335, 0.8491525423728814, 0.8498743718592965], 0, 1], "cat": 1, "made": true, "n": 1, "range": 0.335, "revealed_equity": 0.0}
+{"table": "s1001i4t1", "hand": 133, "hole": ["Ks", "8d"], "board": ["4c", "Js", "Kd", "Jh"], "action": "call", "amount": 1347, "cost": 1347, "pot": 3797, "stack": 6185, "eq": 0.685, "threshold": 0.262, "opponent": "claude_default_c", "shown": null, "prof": [0.392, 0.308, 0.795, 0.35, 0, 0], "hp": [1, 0, 0, 1, [4, 4, 0], [0.4496124031007752, 0.549795918367347, 0.0], 0, 1], "cat": 2, "made": true, "n": 1, "range": 0.353}
+{"table": "s1001i5t2", "hand": 63, "hole": ["Qd", "Ad"], "board": ["5d", "Ts", "Kh", "6d"], "action": "call", "amount": 1318, "cost": 1318, "pot": 3002, "stack": 2466, "eq": 0.302, "threshold": 0.358, "opponent": "openai_a_iterate_3", "shown": ["Th", "Td"], "prof": [0.151, 0.082, 0.667, 0.341, 0, 0], "hp": [1, 0, 0, 1, [4, 4, 0], [0.7993827160493827, 0.7826603325415677, 0.0], 0, 1], "cat": 0, "made": false, "n": 1, "range": 0.161, "revealed_equity": 0.223}
+{"table": "s1002i13t1", "hand": 17, "hole": ["Ks", "Ah"], "board": ["3c", "As", "5d", "9c"], "action": "call", "amount": 1314, "cost": 1314, "pot": 2536, "stack": 1407, "eq": 0.558, "threshold": 0.394, "opponent": "claude_aggro", "shown": ["Ac", "Ad"], "prof": [0.333, 0.222, 0.538, 0.4, 0, 0], "hp": [2, 1, 2.4, 0, [8, 8, 0], [0.6829268292682927, 1.4864253393665159, 0.0], 1, 0], "cat": 1, "made": true, "n": 1, "range": 0.181, "revealed_equity": 0.0}
+{"table": "s1000i8t0", "hand": 92, "hole": ["3s", "3h"], "board": ["Qc", "3d", "Jd", "Kh"], "action": "call", "amount": 1296, "cost": 1296, "pot": 3148, "stack": 4689, "eq": 0.812, "threshold": 0.345, "opponent": "claude_exploit", "shown": ["Qd", "Js"], "prof": [0.176, 0.118, 0.789, 0.367, 0, 0], "hp": [1, 0, 0, 1, [4, 4, 0], [0.6994818652849741, 0.6997840172786177, 0.0], 0, 1], "cat": 3, "made": true, "n": 2, "range": 0.181, "revealed_equity": 0.914}
+{"table": "s1004i9t2", "hand": 99, "hole": ["Kc", "Ah"], "board": ["Ad", "9h", "3s", "5s"], "action": "call", "amount": 1292, "cost": 1292, "pot": 2744, "stack": 2013, "eq": 0.765, "threshold": 0.373, "opponent": "claude_aggro", "shown": ["9c", "As"], "prof": [0.312, 0.229, 0.591, 0.349, 0, 0], "hp": [2, 1, 2.0, 0, [4, 4, 0], [0.6, 0.8898071625344353, 0.0], 1, 0], "cat": 1, "made": true, "n": 1, "range": 0.183, "revealed_equity": 0.067}
+{"table": "s1002i14t2", "hand": 138, "hole": ["As", "3s"], "board": ["Qd", "6h", "Ah"], "action": "call", "amount": 1287, "cost": 1287, "pot": 3298, "stack": 2422, "eq": 0.55, "threshold": 0.302, "opponent": "openai_a_default_1", "shown": ["6c", "6d"], "prof": [0.203, 0.155, 0.484, 0.377, 0, 0], "hp": [1, 0, 0, 1, [4, 0, 0], [0.66, 0.0, 0.0], 0, 1], "cat": 1, "made": true, "n": 2, "range": 0.202, "revealed_equity": 0.018}
+{"table": "s1005i14t0", "hand": 120, "hole": ["Ah", "Jd"], "board": ["Jc", "Qh", "6d"], "action": "call", "amount": 1257, "cost": 1257, "pot": 2981, "stack": 1788, "eq": 0.528, "threshold": 0.346, "opponent": "claude_exploit", "shown": null, "prof": [0.254, 0.215, 0.684, 0.211, 0, 0], "hp": [2, 1, 2.2, 0, [8, 0, 0], [0.9297337278106509, 0.0, 0.0], 1, 0], "cat": 1, "made": true, "n": 1, "range": 0.323}
+{"table": "s1001i9t0", "hand": 24, "hole": ["Jc", "Js"], "board": ["Qd", "8h", "Qh"], "action": "call", "amount": 1228, "cost": 1228, "pot": 2036, "stack": 2638, "eq": 0.618, "threshold": 0.416, "opponent": "claude_aggro", "shown": ["8d", "8c"], "prof": [0.559, 0.353, 0.458, 0.472, 0, 0], "hp": [1, 0, 0, 2, [4, 0, 0], [1.5198019801980198, 0.0, 0.0], 0, 1], "cat": 2, "made": true, "n": 1, "range": 0.487, "revealed_equity": 0.181}
+{"table": "s1007i10t0", "hand": 76, "hole": ["Js", "Ad"], "board": ["2d", "2c", "Ah", "Jh"], "action": "call", "amount": 1200, "cost": 1200, "pot": 2800, "stack": 4114, "eq": 0.669, "threshold": 0.358, "opponent": "claude_default_d", "shown": ["Jd", "Ac"], "prof": [0.233, 0.163, 0.5, 0.278, 0, 0], "hp": [2, 1, 2.5, 0, [4, 4, 0], [0.75, 0.75, 0.0], 1, 0], "cat": 2, "made": true, "n": 1, "range": 0.166, "revealed_equity": 0.5}
+{"table": "s1004i10t2", "hand": 100, "hole": ["Kc", "Th"], "board": ["6d", "Jc", "9c", "8h", "Kd"], "action": "call", "amount": 1189, "cost": 1189, "pot": 2775, "stack": 2356, "eq": 0.433, "threshold": 0.378, "opponent": "ours", "shown": ["Ks", "8s"], "prof": [0.227, 0.118, 0.774, 0.294, 0, 0], "hp": [1, 0, 0, 1, [4, 4, 4], [0.3298611111111111, 0.3294979079497908, 0.7496847414880202], 0, 1], "cat": 1, "made": true, "n": 1, "range": 0.222, "revealed_equity": 0.0}
+{"table": "s1002i0t2", "hand": 45, "hole": ["Qh", "Ad"], "board": ["7c", "Ac", "Td", "8c"], "action": "call", "amount": 1166, "cost": 1166, "pot": 2712, "stack": 1964, "eq": 0.471, "threshold": 0.348, "opponent": "openai_a_default_2", "shown": ["7s", "7d"], "prof": [0.273, 0.2, 0.471, 0.337, 0, 0], "hp": [2, 1, 2.2, 0, [8, 4, 0], [1.0778032036613272, 0.7542043984476067, 0.0], 1, 0], "cat": 1, "made": true, "n": 1, "range": 0.14, "revealed_equity": 0.0}
+{"table": "s1000i5t0", "hand": 17, "hole": ["Jh", "Th"], "board": ["9h", "Kd", "3h", "6h"], "action": "call", "amount": 1152, "cost": 1152, "pot": 2556, "stack": 1152, "eq": 0.753, "threshold": 0.36, "opponent": "claude_gto", "shown": ["As", "Kh"], "prof": [0.37, 0.185, 0.533, 0.37, 0, 0], "hp": [2, 1, 2.5, 0, [8, 8, 0], [1.117283950617284, 1.5323232323232323, 0.0], 1, 0], "cat": 5, "made": false, "n": 1, "range": 0.159, "revealed_equity": 0.845}
+{"table": "s1001i10t0", "hand": 63, "hole": ["Ad", "Tc"], "board": ["Th", "2h", "6s", "7c"], "action": "call", "amount": 1148, "cost": 1148, "pot": 2008, "stack": 1148, "eq": 0.476, "threshold": 0.41, "opponent": "openai_a_iterate_3", "shown": ["7d", "7s"], "prof": [0.164, 0.068, 0.267, 0.397, 0, 0], "hp": [1, 0, 0, 1, [3, 4, 0], [0.38263665594855306, 1.8395348837209302, 0.0], 0, 1], "cat": 1, "made": true, "n": 1, "range": 0.172, "revealed_equity": 0.0}
+{"table": "s1002i9t1", "hand": 94, "hole": ["Js", "Jh"], "board": ["6h", "2c", "5c"], "action": "call", "amount": 1123, "cost": 1123, "pot": 2851, "stack": 4597, "eq": 0.441, "threshold": 0.328, "opponent": "openai_a_iterate_3", "shown": null, "prof": [0.173, 0.135, 0.308, 0.472, 0, 0], "hp": [2, 1, 6.45, 0, [4, 0, 0], [0.6498842592592593, 0.0, 0.0], 2, 0], "cat": 1, "made": true, "n": 1, "range": 0.045}

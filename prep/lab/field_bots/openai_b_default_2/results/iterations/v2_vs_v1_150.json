@@ -1,0 +1,59 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 150,
+ "results": {
+  "v1": {
+   "mean_points": 12.42,
+   "se": 0.72,
+   "seats": 4,
+   "places_1_to_8": [
+    72,
+    75,
+    80,
+    79,
+    72,
+    73,
+    79,
+    70
+   ]
+  },
+  "self": {
+   "mean_points": 12.58,
+   "se": 0.74,
+   "seats": 4,
+   "places_1_to_8": [
+    78,
+    75,
+    70,
+    71,
+    78,
+    77,
+    71,
+    80
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 197465,
+ "failed": {
+  "timeout": 345
+ },
+ "latency_us": {
+  "p50": 62.8,
+  "p99": 11770.4,
+  "p99.9": 42250.8,
+  "max": 208154.0,
+  "over_1ms": 4179
+ },
+ "memory_bytes_max": 1507,
+ "first_errors": [
+  "('timeout', 'seat 7 hand 111 cards [\\'Kd\\', \\'Tc\\'] board [\\'Kh\\', \\'5h\\', \\'7h\\'] pot 1180 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 200, 2797)] button 3 seats [(0, 0, 0, \\'busted\\'), (1, 4111, 0, \\'folded\\'), (2, 0, 0, \\'busted\\'), (3, 2505, 0, \\'active\\'), (4, 1248, 0, \\'folded\\'), (5, 4159, 0, \\'folded\\'), (6, 0, 0, \\'busted\\'), (7, 2797, 0, \\'active\\')] events 6 memory_in ",
+  "('timeout', \"seat 5 hand 130 cards ['As', '5c'] board [] pot 930 to_call 330 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 960, 5344)] button 0 seats [(0, 10026, 630, 'active'), (1, 0, 0, 'busted'), (2, 0, 0, 'busted'), (3, 0, 0, 'busted'), (4, 0, 0, 'busted'), (5, 5044, 300, 'active'), (6, 0, 0, 'busted'), (7, 0, 0, 'busted')] events 9 memory_in b'\\\\xfb\\\\xda\\\\x03ids[",
+  "('timeout', \"seat 5 hand 131 cards ['4h', 'Jd'] board [] pot 450 to_call 150 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 600, 5044)] button 5 seats [(0, 10656, 300, 'active'), (1, 0, 0, 'busted'), (2, 0, 0, 'busted'), (3, 0, 0, 'busted'), (4, 0, 0, 'busted'), (5, 4894, 150, 'active'), (6, 0, 0, 'busted'), (7, 0, 0, 'busted')] events 16 memory_in b'\\\\xfb\\\\xda\\\\x03ids"
+ ]
+}

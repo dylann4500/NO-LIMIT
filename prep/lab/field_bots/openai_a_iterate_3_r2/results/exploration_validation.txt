@@ -1,0 +1,21 @@
+Exploratory suite: the 1,200-table comparison used v4. The single-live-opponent guard was tightened while that match was running. Later matches used the final runtime files. The source-consistency assertion therefore fired as intended. SDK tests and the eight-seat comparison were rerun on the final files; see final_validation.txt and manifest.json.
+
+sdk_normal.txt wall_us {'p50': 84.0, 'p99': 253.2, 'p999': 314.1, 'max': 356.1}
+cpu_us {'p50': 83.0, 'p99': 247.0, 'p999': 285.0, 'max': 321.0}
+PASS: 10,000 diverse SDK states, strict decision path, legality, ICM, board texture, memory
+sdk_slow_clock.txt wall_us {'p50': 84.4, 'p99': 222.8, 'p999': 283.0, 'max': 969.6}
+cpu_us {'p50': 83.0, 'p99': 220.0, 'p999': 263.0, 'max': 284.0}
+PASS: 10,000 diverse SDK states, strict decision path, legality, ICM, board texture, memory
+adaptation.txt PASS: short-handed reraises, stage isolation, showdown learning, effective-stack opening
+final_vs_original.json seconds 100.9 score 12.88 failed {} upload True
+final_heads_up.json seconds 13.6 score 40.0 failed {} upload True
+final_default.json seconds 26.3 score 20.78 failed {} upload True
+final_slow_2_5x.json seconds 22.5 score 20.61 failed {} upload True
+final_raisers.json seconds 0.5 score 34.87 failed {} upload True
+final_folders.json seconds 0.6 score 50.0 failed {} upload True
+Traceback (most recent call last):
+  File "/private/var/folders/sz/w5ktc2_n4hj_k8bkvzhl8z9m0000gn/T/codex_field/openai_a_iterate_3_r2/lab/field_bots/openai_a_iterate_3_r2/validate.py", line 55, in <module>
+  File "/private/var/folders/sz/w5ktc2_n4hj_k8bkvzhl8z9m0000gn/T/codex_field/openai_a_iterate_3_r2/lab/field_bots/openai_a_iterate_3_r2/validate.py", line 50, in main
+    assert all(r['upload_test']['pass'] and not r['failed'] for r in reports)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

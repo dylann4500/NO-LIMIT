@@ -1,0 +1,19 @@
+{
+ "agent_sha256": "4ae6ecb63a0a8242991c7d2ebd011ecab55af9460fbef109040af6d3f4bc74fa",
+ "preflop_sha256": "36f9b434fbb3f154738f42870ff2af6cb82e90d2ad1bb0c6ebafa2ebdd4aaffa",
+ "reports": [
+  "results_final_mixed.json",
+  "results_final_7_self.json",
+  "results_final_7_raisers.json",
+  "results_final_7_passive.json",
+  "results_release_slow_machine.json"
+ ],
+ "tables": 1300,
+ "table_decisions": 781561,
+ "report_upload_decisions": 50,
+ "failed": 0,
+ "max_memory_bytes": 2214,
+ "additional_upload_tests": 32,
+ "additional_upload_decisions": 320,
+ "additional_upload_failed": 0
+}

@@ -1,0 +1,74 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 1000,
+ "results": {
+  "min_raiser": {
+   "mean_points": 0.95,
+   "se": 0.15,
+   "seats": 2,
+   "places_1_to_8": [
+    38,
+    0,
+    0,
+    67,
+    144,
+    379,
+    1110,
+    262
+   ]
+  },
+  "check_or_fold": {
+   "mean_points": 7.37,
+   "se": 0.24,
+   "seats": 2,
+   "places_1_to_8": [
+    0,
+    143,
+    523,
+    741,
+    497,
+    96,
+    0,
+    0
+   ]
+  },
+  "self": {
+   "mean_points": 20.84,
+   "se": 0.32,
+   "seats": 4,
+   "places_1_to_8": [
+    962,
+    857,
+    478,
+    194,
+    366,
+    674,
+    456,
+    13
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 699185,
+ "failed": {
+  "timeout": 42
+ },
+ "latency_us": {
+  "p50": 41.8,
+  "p99": 2174.8,
+  "p99.9": 23448.7,
+  "max": 169114.5,
+  "over_1ms": 8519
+ },
+ "memory_bytes_max": 1638,
+ "first_errors": [
+  "('timeout', \"seat 0 hand 20 cards ['3d', '3h'] board ['Ks', '5c', '7s'] pot 88 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 20, 7412)] button 6 seats [(0, 7412, 0, 'active'), (1, 0, 0, 'busted'), (2, 1910, 0, 'folded'), (3, 0, 0, 'busted'), (4, 0, 0, 'busted'), (5, 884, 0, 'folded'), (6, 1880, 0, 'folded'), (7, 3826, 0, 'active')] events 3 memory_in b'\\\\xfb\\\\xda\\\\x01s{\\\\xe9\\\\x00\\\\",
+  "('timeout', 'seat 0 hand 78 cards [\\'6s\\', \\'9s\\'] board [\\'8d\\', \\'Js\\', \\'5c\\'] pot 669 to_call 237 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 474, 5338)] button 2 seats [(0, 5338, 0, \\'active\\'), (1, 0, 0, \\'busted\\'), (2, 950, 0, \\'folded\\'), (3, 0, 0, \\'busted\\'), (4, 0, 0, \\'busted\\'), (5, 2843, 237, \\'active\\'), (6, 1005, 0, \\'folded\\'), (7, 5195, 0, \\'folde",
+  "('timeout', \"seat 0 hand 82 cards ['Qd', 'Kd'] board ['3h', '2d', 'Js'] pot 1217 to_call 509 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 1018, 5190)] button 0 seats [(0, 5190, 0, 'active'), (1, 0, 0, 'busted'), (2, 770, 0, 'folded'), (3, 0, 0, 'busted'), (4, 0, 0, 'busted'), (5, 3572, 0, 'folded'), (6, 965, 0, 'folded'), (7, 4286, 509, 'active')] events 5 memory_in "
+ ]
+}

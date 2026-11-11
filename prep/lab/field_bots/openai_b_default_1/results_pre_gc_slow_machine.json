@@ -1,0 +1,173 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 200,
+ "results": {
+  "check_or_fold": {
+   "mean_points": 8.26,
+   "se": 0.55,
+   "seats": 2,
+   "places_1_to_8": [
+    0,
+    32,
+    117,
+    136,
+    94,
+    21,
+    0,
+    0
+   ]
+  },
+  "min_raiser": {
+   "mean_points": 1.0,
+   "se": 0.35,
+   "seats": 2,
+   "places_1_to_8": [
+    8,
+    0,
+    0,
+    11,
+    25,
+    58,
+    180,
+    118
+   ]
+  },
+  "self": {
+   "mean_points": 20.37,
+   "se": 0.72,
+   "seats": 4,
+   "places_1_to_8": [
+    192,
+    168,
+    83,
+    53,
+    87,
+    131,
+    85,
+    1
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 127531,
+ "failed": {
+  "timeout": 16
+ },
+ "latency_us": {
+  "p50": 128.1,
+  "p99": 4046.8,
+  "p99.9": 16567.4,
+  "max": 134566.5,
+  "over_1ms": 2331
+ },
+ "memory_bytes_max": 2055,
+ "first_errors": [
+  "('timeout', 'seat 2 hand 40 cards [\\'As\\', \\'9d\\'] board [\\'3d\\', \\'Qs\\', \\'9s\\', \\'Tc\\'] pot 434 to_call 148 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 296, 2088)] button 1 seats [(0, 0, 0, \\'busted\\'), (1, 1715, 0, \\'folded\\'), (2, 2088, 0, \\'active\\'), (3, 0, 0, \\'busted\\'), (4, 0, 0, \\'busted\\'), (5, 10018, 148, \\'active\\'), (6, 1745, 0, \\'folded\\'), (7, 0, 0, ",
+  "('timeout', \"seat 2 hand 132 cards ['9d', '4h'] board [] pot 450 to_call 150 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 600, 9222)] button 2 seats [(0, 0, 0, 'busted'), (1, 0, 0, 'busted'), (2, 9072, 150, 'active'), (3, 0, 0, 'busted'), (4, 0, 0, 'busted'), (5, 6478, 300, 'active'), (6, 0, 0, 'busted'), (7, 0, 0, 'busted')] events 14 memory_in b'\\\\xfb\\\\xda\\\\x01v\\\\x",
+  "('timeout', \"seat 0 hand 123 cards ['6s', 'Ts'] board [] pot 915 to_call 315 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 930, 10487)] button 6 seats [(0, 10187, 300, 'active'), (1, 0, 0, 'busted'), (2, 0, 0, 'busted'), (3, 0, 0, 'busted'), (4, 0, 0, 'busted'), (5, 0, 0, 'busted'), (6, 4898, 615, 'active'), (7, 0, 0, 'busted')] events 8 memory_in b'\\\\xfb\\\\xda\\\\x01v\\\\"
+ ],
+ "timing_probe": {
+  "decisions": 127541,
+  "cpu_us": {
+   "p50": 126.0,
+   "p99": 578.0,
+   "max": 15540.0,
+   "over_1ms": 10
+  },
+  "wall_us": {
+   "p99": 4027.0,
+   "max": 134562.334
+  },
+  "over_cpu_examples": [
+   {
+    "cpu_us": 1041.0,
+    "wall_us": 1378.25,
+    "hand": 61,
+    "board_n": 3,
+    "events_n": 2,
+    "memory_n": 1574
+   },
+   {
+    "cpu_us": 8421.0,
+    "wall_us": 17206.25,
+    "hand": 23,
+    "board_n": 4,
+    "events_n": 3,
+    "memory_n": 1590
+   },
+   {
+    "cpu_us": 1098.0,
+    "wall_us": 1754.833,
+    "hand": 2,
+    "board_n": 3,
+    "events_n": 3,
+    "memory_n": 1594
+   },
+   {
+    "cpu_us": 7652.0,
+    "wall_us": 7652.25,
+    "hand": 85,
+    "board_n": 3,
+    "events_n": 6,
+    "memory_n": 1570
+   },
+   {
+    "cpu_us": 1026.0,
+    "wall_us": 4039.417,
+    "hand": 76,
+    "board_n": 4,
+    "events_n": 4,
+    "memory_n": 1640
+   },
+   {
+    "cpu_us": 9096.0,
+    "wall_us": 28113.375,
+    "hand": 56,
+    "board_n": 4,
+    "events_n": 3,
+    "memory_n": 1590
+   },
+   {
+    "cpu_us": 1092.0,
+    "wall_us": 35759.208,
+    "hand": 58,
+    "board_n": 3,
+    "events_n": 6,
+    "memory_n": 1570
+   },
+   {
+    "cpu_us": 9091.0,
+    "wall_us": 18508.125,
+    "hand": 27,
+    "board_n": 0,
+    "events_n": 9,
+    "memory_n": 1570
+   },
+   {
+    "cpu_us": 15540.0,
+    "wall_us": 16831.25,
+    "hand": 111,
+    "board_n": 0,
+    "events_n": 19,
+    "memory_n": 1667
+   },
+   {
+    "cpu_us": 10036.0,
+    "wall_us": 10059.5,
+    "hand": 32,
+    "board_n": 0,
+    "events_n": 6,
+    "memory_n": 1570
+   }
+  ]
+ },
+ "seed": 619,
+ "agent_sha256": "866e06056a5c02bee7a47466840c4268d72c19e226b00144066fab640f7e9b1f",
+ "cpu_scale": 2.5,
+ "exception_guard_disabled": true
+}

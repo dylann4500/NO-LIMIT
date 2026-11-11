@@ -1,0 +1,12 @@
+== variant=shortdeck table_from=holdem field=typical
+  tuned    top3:  24.37±0.40  steep:  49.92±0.73  linear:   4.86±0.04  
+  default  top3:  16.34±0.38  steep:  35.50±0.69  linear:   4.00±0.04  
+  tag      top3:  15.79±0.36  steep:  33.92±0.64  linear:   3.98±0.04  
+  nit      top3:  18.08±0.32  steep:  36.03±0.53  linear:   4.47±0.04  
+  fold     top3:  22.70±0.18  steep:  38.98±0.22  linear:   5.38±0.01  
+== variant=shortdeck table_from=holdem field=holdout
+  tuned    top3:  20.59±0.37  steep:  41.81±0.68  linear:   4.50±0.04  
+  default  top3:  13.66±0.35  steep:  30.27±0.63  linear:   3.71±0.04  
+  tag      top3:  16.97±0.37  steep:  36.23±0.66  linear:   4.12±0.04  
+  nit      top3:  19.36±0.32  steep:  38.34±0.55  linear:   4.64±0.03  
+  fold     top3:  25.03±0.14  steep:  41.66±0.20  linear:   5.55±0.01  

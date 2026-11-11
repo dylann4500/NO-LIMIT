@@ -1,0 +1,74 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 200,
+ "results": {
+  "min_raiser": {
+   "mean_points": 1.75,
+   "se": 0.46,
+   "seats": 2,
+   "places_1_to_8": [
+    14,
+    0,
+    0,
+    16,
+    27,
+    40,
+    164,
+    139
+   ]
+  },
+  "check_or_fold": {
+   "mean_points": 12.18,
+   "se": 0.59,
+   "seats": 2,
+   "places_1_to_8": [
+    0,
+    61,
+    152,
+    137,
+    46,
+    4,
+    0,
+    0
+   ]
+  },
+  "self": {
+   "mean_points": 18.04,
+   "se": 0.74,
+   "seats": 4,
+   "places_1_to_8": [
+    186,
+    139,
+    48,
+    47,
+    127,
+    160,
+    90,
+    3
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 96313,
+ "failed": {
+  "timeout": 14
+ },
+ "latency_us": {
+  "p50": 174.7,
+  "p99": 5414.7,
+  "p99.9": 17050.2,
+  "max": 190098.6,
+  "over_1ms": 5280
+ },
+ "memory_bytes_max": 1489,
+ "first_errors": [
+  "('timeout', 'seat 7 hand 55 cards [\\'4s\\', \\'4h\\'] board [\\'Tc\\', \\'3d\\', \\'2c\\', \\'7c\\'] pot 1808 to_call 0 legal [LegalAction(check, 0, 0), LegalAction(raise, 50, 711)] button 6 seats [(0, 1485, 0, \\'folded\\'), (1, 0, 0, \\'busted\\'), (2, 0, 0, \\'busted\\'), (3, 0, 0, \\'busted\\'), (4, 7215, 0, \\'folded\\'), (5, 1475, 0, \\'folded\\'), (6, 3306, 0, \\'active\\'), (7, 711, 0, \\'active\\')] events 3 memory",
+  "('timeout', 'seat 7 hand 55 cards [\\'4s\\', \\'4h\\'] board [\\'Tc\\', \\'3d\\', \\'2c\\', \\'7c\\'] pot 2519 to_call 711 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0)] button 6 seats [(0, 1485, 0, \\'folded\\'), (1, 0, 0, \\'busted\\'), (2, 0, 0, \\'busted\\'), (3, 0, 0, \\'busted\\'), (4, 7215, 0, \\'folded\\'), (5, 1475, 0, \\'folded\\'), (6, 2595, 711, \\'active\\'), (7, 711, 0, \\'active\\')] events 5 memory_",
+  "('timeout', 'seat 7 hand 56 cards [\\'6c\\', \\'6s\\'] board [] pot 187 to_call 112 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 174, 711)] button 7 seats [(0, 1460, 25, \\'active\\'), (1, 0, 0, \\'busted\\'), (2, 0, 0, \\'busted\\'), (3, 0, 0, \\'busted\\'), (4, 7165, 50, \\'active\\'), (5, 1475, 0, \\'folded\\'), (6, 5002, 112, \\'active\\'), (7, 711, 0, \\'active\\')] events 17 memor"
+ ]
+}

@@ -1,0 +1,29 @@
+{
+  "decisions": 30000,
+  "legal_failures": 0,
+  "icm_checks": 280,
+  "sidepot_checks": 2,
+  "bust_order_checks": 2,
+  "seat_order_checks": 1016,
+  "position_range_checks": 4,
+  "actions": {
+    "raise": 1634,
+    "fold": 10143,
+    "check": 10872,
+    "call": 7351
+  },
+  "memory_max": 377,
+  "wall_us": {
+    "p50": 136.3,
+    "p99": 405.6,
+    "p999": 10653.5,
+    "max": 24264.9
+  },
+  "cpu_us": {
+    "p50": 135.0,
+    "p99": 234.2,
+    "p999": 276.2,
+    "max": 333.7
+  },
+  "cpu_over_1ms_at_2_5x": 0
+}

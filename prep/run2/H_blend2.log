@@ -1,0 +1,20 @@
+== field=holdout
+  lookup_blend top3:  24.09±0.40 steep:  50.12±0.74 linear:   4.83±0.04 wta:  37.95±0.85 
+  mc40_blend   top3:  25.05±0.40 steep:  51.37±0.74 linear:   4.88±0.04 wta:  38.88±0.84 
+  mc15_blend   top3:  25.31±0.39 steep:  51.52±0.73 linear:   4.91±0.04 wta:  38.50±0.84 
+  mc40_warm    top3:  24.62±0.40 steep:  50.57±0.73 linear:   4.86±0.04 wta:  37.90±0.83 
+== field=stress_mix
+  lookup_blend top3:  23.60±0.41 steep:  48.99±0.76 linear:   4.60±0.04 wta:  38.66±0.85 
+  mc40_blend   top3:  25.60±0.41 steep:  52.25±0.76 linear:   4.76±0.04 wta:  41.97±0.85 
+  mc15_blend   top3:  24.65±0.41 steep:  50.81±0.76 linear:   4.67±0.04 wta:  40.46±0.85 
+  mc40_warm    top3:  25.91±0.41 steep:  52.91±0.75 linear:   4.83±0.04 wta:  42.09±0.84 
+== field=typical
+  lookup_blend top3:  29.96±0.40 steep:  61.01±0.74 linear:   5.32±0.04 wta:  50.81±0.86 
+  mc40_blend   top3:  30.81±0.40 steep:  62.74±0.74 linear:   5.37±0.04 wta:  53.35±0.86 
+  mc15_blend   top3:  31.02±0.40 steep:  62.94±0.73 linear:   5.40±0.04 wta:  53.08±0.86 
+  mc40_warm    top3:  31.41±0.40 steep:  63.67±0.74 linear:   5.41±0.04 wta:  54.12±0.86 
+== field=mirror
+  lookup_blend top3:  18.45±0.36 steep:  38.12±0.64 linear:   4.24±0.04 wta:  22.48±0.66 
+  mc40_blend   top3:  18.94±0.36 steep:  39.01±0.63 linear:   4.36±0.04 wta:  22.04±0.66 
+  mc15_blend   top3:  19.08±0.35 steep:  39.12±0.62 linear:   4.39±0.04 wta:  21.78±0.65 
+  mc40_warm    top3:  17.88±0.35 steep:  37.14±0.61 linear:   4.30±0.04 wta:  19.81±0.62 

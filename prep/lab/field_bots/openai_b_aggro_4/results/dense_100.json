@@ -1,0 +1,53 @@
+{
+  "upload_test": {
+    "decisions": 10,
+    "failed": {},
+    "crash": null,
+    "pass": true
+  },
+  "tables": 100,
+  "results": {
+    "self": {
+      "mean_points": 14.29,
+      "se": 0.7,
+      "seats": 7,
+      "places_1_to_8": [
+        100,
+        100,
+        100,
+        100,
+        99,
+        99,
+        89,
+        13
+      ]
+    },
+    "min_raiser": {
+      "mean_points": 0.0,
+      "se": 0.0,
+      "seats": 1,
+      "places_1_to_8": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        13,
+        85
+      ]
+    }
+  },
+  "fair_share": 12.5,
+  "decisions": 113376,
+  "failed": {},
+  "latency_us": {
+    "p50": 22.5,
+    "p99": 225.7,
+    "p99.9": 3549.3,
+    "max": 26932.4,
+    "over_1ms": 201
+  },
+  "memory_bytes_max": 337,
+  "test_command": "/Users/dylan/Documents/GitHub/pokerbot/.venv/bin/python lab/field_kit/play.py lab/field_bots/openai_b_aggro_4 --tables 100 --seed 313 --seats self,self,self,self,self,self,self,min_raiser"
+}

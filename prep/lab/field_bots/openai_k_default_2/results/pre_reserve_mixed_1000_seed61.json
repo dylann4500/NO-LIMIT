@@ -1,0 +1,72 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 1000,
+ "results": {
+  "min_raiser": {
+   "mean_points": 0.17,
+   "se": 0.07,
+   "seats": 2,
+   "places_1_to_8": [
+    7,
+    0,
+    0,
+    35,
+    139,
+    479,
+    1029,
+    311
+   ]
+  },
+  "self": {
+   "mean_points": 22.3,
+   "se": 0.31,
+   "seats": 4,
+   "places_1_to_8": [
+    993,
+    933,
+    578,
+    134,
+    252,
+    690,
+    408,
+    12
+   ]
+  },
+  "check_or_fold": {
+   "mean_points": 5.22,
+   "se": 0.21,
+   "seats": 2,
+   "places_1_to_8": [
+    0,
+    67,
+    422,
+    831,
+    618,
+    62,
+    0,
+    0
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 659301,
+ "failed": {
+  "timeout": 1
+ },
+ "latency_us": {
+  "p50": 49.3,
+  "p99": 288.8,
+  "p99.9": 11604.0,
+  "max": 91449.2,
+  "over_1ms": 3206
+ },
+ "memory_bytes_max": 964,
+ "first_errors": [
+  "('timeout', \"seat 7 hand 129 cards ['2d', '3d'] board ['9d', '8h', '7s', 'Qc', 'Kd'] pot 1999 to_call 709 legal [LegalAction(fold, 0, 0), LegalAction(call, 0, 0), LegalAction(raise, 1418, 10127)] button 3 seats [(0, 0, 0, 'busted'), (1, 0, 0, 'busted'), (2, 0, 0, 'busted'), (3, 3874, 709, 'active'), (4, 0, 0, 'busted'), (5, 0, 0, 'busted'), (6, 0, 0, 'busted'), (7, 10127, 0, 'active')] events 2 me"
+ ]
+}

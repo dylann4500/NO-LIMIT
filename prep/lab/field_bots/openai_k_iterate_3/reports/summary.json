@@ -1,0 +1,290 @@
+{
+  "normal_tables": 2500,
+  "normal_decisions": 1459624,
+  "scaled_tables": 300,
+  "scaled_decisions": 153717,
+  "failed_decisions": 0,
+  "max_memory": 2497,
+  "normal": [
+    {
+      "case": "default_1000",
+      "upload": {
+        "decisions": 10,
+        "failed": {},
+        "crash": null,
+        "pass": true
+      },
+      "self": {
+        "mean_points": 23.63,
+        "se": 0.3,
+        "seats": 4,
+        "places_1_to_8": [
+          999,
+          981,
+          757,
+          245,
+          216,
+          573,
+          224,
+          5
+        ]
+      },
+      "decisions": 734971,
+      "failed": {},
+      "latency_us": {
+        "p50": 50.2,
+        "p99": 245.6,
+        "p99.9": 4347.5,
+        "max": 34320.6,
+        "over_1ms": 1812
+      },
+      "memory_bytes_max": 2497
+    },
+    {
+      "case": "passive_200",
+      "upload": {
+        "decisions": 10,
+        "failed": {},
+        "crash": null,
+        "pass": true
+      },
+      "self": {
+        "mean_points": 50.0,
+        "se": 0.0,
+        "seats": 1,
+        "places_1_to_8": [
+          200,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "decisions": 23110,
+      "failed": {},
+      "latency_us": {
+        "p50": 35.4,
+        "p99": 87.0,
+        "p99.9": 3031.4,
+        "max": 11359.8,
+        "over_1ms": 43
+      },
+      "memory_bytes_max": 393
+    },
+    {
+      "case": "aggressive_300",
+      "upload": {
+        "decisions": 10,
+        "failed": {},
+        "crash": null,
+        "pass": true
+      },
+      "self": {
+        "mean_points": 41.66,
+        "se": 0.58,
+        "seats": 1,
+        "places_1_to_8": [
+          176,
+          124,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "decisions": 18665,
+      "failed": {},
+      "latency_us": {
+        "p50": 144.4,
+        "p99": 630.9,
+        "p99.9": 8260.5,
+        "max": 20759.0,
+        "over_1ms": 140
+      },
+      "memory_bytes_max": 2360
+    },
+    {
+      "case": "dense_300",
+      "upload": {
+        "decisions": 10,
+        "failed": {},
+        "crash": null,
+        "pass": true
+      },
+      "self": {
+        "mean_points": 14.29,
+        "se": 0.4,
+        "seats": 7,
+        "places_1_to_8": [
+          300,
+          300,
+          300,
+          300,
+          299,
+          293,
+          275,
+          33
+        ]
+      },
+      "decisions": 355460,
+      "failed": {},
+      "latency_us": {
+        "p50": 46.8,
+        "p99": 206.1,
+        "p99.9": 371.0,
+        "max": 10159.3,
+        "over_1ms": 151
+      },
+      "memory_bytes_max": 689
+    },
+    {
+      "case": "selfplay_200",
+      "upload": {
+        "decisions": 10,
+        "failed": {},
+        "crash": null,
+        "pass": true
+      },
+      "self": {
+        "mean_points": 12.5,
+        "se": 0.45,
+        "seats": 8,
+        "places_1_to_8": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      },
+      "decisions": 259127,
+      "failed": {},
+      "latency_us": {
+        "p50": 45.8,
+        "p99": 193.4,
+        "p99.9": 282.7,
+        "max": 8940.9,
+        "over_1ms": 42
+      },
+      "memory_bytes_max": 591
+    },
+    {
+      "case": "solo_mixed_500",
+      "upload": {
+        "decisions": 10,
+        "failed": {},
+        "crash": null,
+        "pass": true
+      },
+      "self": {
+        "mean_points": 42.1,
+        "se": 0.82,
+        "seats": 1,
+        "places_1_to_8": [
+          421,
+          0,
+          0,
+          0,
+          0,
+          79,
+          0,
+          0
+        ]
+      },
+      "decisions": 68291,
+      "failed": {},
+      "latency_us": {
+        "p50": 44.0,
+        "p99": 262.0,
+        "p99.9": 652.6,
+        "max": 5791.0,
+        "over_1ms": 37
+      },
+      "memory_bytes_max": 2428
+    }
+  ],
+  "cpu_padded": [
+    {
+      "case": "slow_default_200",
+      "factor": 2.5,
+      "upload": {
+        "decisions": 10,
+        "failed": {},
+        "crash": null,
+        "pass": true
+      },
+      "self": {
+        "mean_points": 23.62,
+        "se": 0.67,
+        "seats": 4,
+        "places_1_to_8": [
+          199,
+          195,
+          155,
+          54,
+          41,
+          104,
+          52,
+          0
+        ]
+      },
+      "decisions": 147348,
+      "failed": {},
+      "latency_us": {
+        "p50": 119.1,
+        "p99": 556.3,
+        "p99.9": 691.2,
+        "max": 2107.1,
+        "over_1ms": 7
+      },
+      "memory_bytes_max": 2443
+    },
+    {
+      "case": "slow_aggressive_100",
+      "factor": 2.5,
+      "upload": {
+        "decisions": 10,
+        "failed": {},
+        "crash": null,
+        "pass": true
+      },
+      "self": {
+        "mean_points": 41.7,
+        "se": 1.0,
+        "seats": 1,
+        "places_1_to_8": [
+          59,
+          40,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "decisions": 6369,
+      "failed": {},
+      "latency_us": {
+        "p50": 359.9,
+        "p99": 643.4,
+        "p99.9": 730.0,
+        "max": 1886.8,
+        "over_1ms": 1
+      },
+      "memory_bytes_max": 2345
+    }
+  ],
+  "sha256": {
+    "agent.py": "95f8189c14b45387b84f77b0a6c0578abfb5eed92659e1f3c6f879204926bf50",
+    "equity.json": "6c8ff30ec3d23191b09f3b8683c01183cf095d1c5507767e84eba7c2c3ece5ec"
+  }
+}

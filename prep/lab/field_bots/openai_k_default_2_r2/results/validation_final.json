@@ -1,0 +1,35 @@
+{
+  "decisions": 6000,
+  "illegal_or_exception": 0,
+  "cpu_us": {
+    "p50": 115.5,
+    "p99": 193.2,
+    "max": 410.6
+  },
+  "cpu_us_by_board": {
+    "0": {
+      "p50": 28.5,
+      "p99": 43.2,
+      "max": 58.4
+    },
+    "3": {
+      "p50": 141.1,
+      "p99": 214.6,
+      "max": 410.6
+    },
+    "4": {
+      "p50": 143.5,
+      "p99": 208.6,
+      "max": 328.0
+    },
+    "5": {
+      "p50": 121.4,
+      "p99": 175.2,
+      "max": 270.6
+    }
+  },
+  "memory_bytes_max": 1250,
+  "exhaustive_icm_schedules": 42,
+  "semantic_checks": "passed",
+  "multiway_payout_cases": 4
+}

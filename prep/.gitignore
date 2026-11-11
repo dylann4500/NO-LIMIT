@@ -1,0 +1,24 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Separate upstream repo: git clone https://github.com/mack-dot/poker-gym.git third_party/poker-gym
+third_party/
+
+# Abandoned runs and the scripts that drove them
+snap4/
+snap5/
+snap6/
+lab/chain4.sh
+lab/chain5.sh
+lab/chain6.sh
+
+# Generated on event day by make_submission.sh
+submission/
+
+# Cluster scratch
+cluster/results/*.tmp.json
+league/
+lab/field_bots/*/round*/
+lab/field_bots/_codex_logs/

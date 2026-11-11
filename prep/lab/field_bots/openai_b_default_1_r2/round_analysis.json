@@ -1,0 +1,7601 @@
+{
+ "hands_hero": 11797,
+ "tables": 120,
+ "groups": {
+  "all": [
+   11797,
+   -80000,
+   -679.3855000000002
+  ],
+  "players_8": [
+   4728,
+   -11166,
+   -151.7225
+  ],
+  "depth_25+": [
+   8175,
+   -31271,
+   -254.8096666666647
+  ],
+  "no_showdown": [
+   10959,
+   -146989,
+   -1410.8373333333373
+  ],
+  "pf_fold": [
+   8589,
+   -210000,
+   -1930.5
+  ],
+  "showdown": [
+   838,
+   66989,
+   731.4518333333336
+  ],
+  "pf_call": [
+   959,
+   25018,
+   -63.85833333333352
+  ],
+  "pf_raise": [
+   1643,
+   168381,
+   1973.9903333333336
+  ],
+  "pf_raise_call": [
+   58,
+   8463,
+   -110.79300000000003
+  ],
+  "pf_": [
+   149,
+   16526,
+   72.12466666666667
+  ],
+  "pf_raise_fold": [
+   316,
+   -85293,
+   -714.6000000000003
+  ],
+  "players_7": [
+   2450,
+   -20722,
+   -155.1858333333332
+  ],
+  "players_6": [
+   1560,
+   -10285,
+   -170.67833333333337
+  ],
+  "depth_10-25": [
+   3019,
+   -48411,
+   -389.7050000000008
+  ],
+  "players_5": [
+   1257,
+   -7156,
+   -124.46416666666681
+  ],
+  "players_4": [
+   934,
+   1261,
+   26.909833333333346
+  ],
+  "players_3": [
+   457,
+   -17328,
+   -28.919166666666662
+  ],
+  "players_2": [
+   411,
+   -14604,
+   -75.32533333333335
+  ],
+  "pf_call_fold": [
+   35,
+   -5134,
+   -73.22333333333334
+  ],
+  "depth_0-10": [
+   603,
+   -318,
+   -34.87083333333333
+  ],
+  "pf_raise_raise": [
+   13,
+   826,
+   100.90833333333333
+  ],
+  "pf_call_call": [
+   10,
+   1218,
+   65.4825
+  ],
+  "pf_check": [
+   25,
+   -5,
+   1.083333333333333
+  ]
+ },
+ "last_post_call": {
+  "1:small": [
+   320,
+   -119.26083333333334,
+   140,
+   1024.3725000000002
+  ],
+  "2:small": [
+   135,
+   -376.9143333333332,
+   40,
+   887.4483333333337
+  ],
+  "3:small": [
+   61,
+   -416.8825,
+   29,
+   696.0808333333335
+  ],
+  "1:large": [
+   7,
+   -144.76999999999998,
+   3,
+   162.57666666666665
+  ],
+  "3:large": [
+   2,
+   -164.5,
+   0,
+   117.6
+  ],
+  "2:large": [
+   5,
+   -121.58666666666667,
+   2,
+   148.50833333333333
+  ]
+ },
+ "opponents": {
+  "claude_default_d": {
+   "actions0": 4649,
+   "hands": 4596,
+   "vp": 1362,
+   "pr": 829,
+   "faced_pf": 2274,
+   "fold_pf": 1613,
+   "actions1": 821,
+   "post_check": 359,
+   "actions2": 442,
+   "actions3": 236,
+   "post_fold": 244,
+   "faced_post": 435,
+   "fold_post": 244,
+   "post_raise": 726,
+   "bet_pot_sum": 427.09537588515775,
+   "bets": 726,
+   "post_call": 170
+  },
+  "claude_gto": {
+   "actions0": 3790,
+   "hands": 3713,
+   "vp": 1016,
+   "pr": 621,
+   "faced_pf": 1853,
+   "fold_pf": 1314,
+   "actions1": 736,
+   "post_call": 212,
+   "faced_post": 460,
+   "fold_post": 222,
+   "actions2": 454,
+   "actions3": 299,
+   "post_check": 745,
+   "post_fold": 222,
+   "post_raise": 310,
+   "bet_pot_sum": 190.694379441328,
+   "bets": 310
+  },
+  "claude_iterate": {
+   "actions0": 4759,
+   "faced_pf": 2321,
+   "fold_pf": 1693,
+   "hands": 4705,
+   "vp": 1394,
+   "pr": 908,
+   "actions1": 933,
+   "post_raise": 493,
+   "bet_pot_sum": 590.6729898627564,
+   "bets": 493,
+   "actions2": 519,
+   "post_check": 822,
+   "actions3": 303,
+   "post_call": 130,
+   "faced_post": 506,
+   "fold_post": 310,
+   "post_fold": 310
+  },
+  "openai_k_default_1": {
+   "actions0": 4907,
+   "faced_pf": 2479,
+   "fold_pf": 1920,
+   "hands": 4817,
+   "vp": 1292,
+   "pr": 771,
+   "actions1": 999,
+   "post_check": 893,
+   "post_fold": 316,
+   "faced_post": 585,
+   "fold_post": 316,
+   "actions2": 503,
+   "post_raise": 366,
+   "bet_pot_sum": 205.52528510278887,
+   "bets": 366,
+   "post_call": 258,
+   "actions3": 331
+  },
+  "claude_aggro": {
+   "actions0": 4998,
+   "faced_pf": 2472,
+   "fold_pf": 1615,
+   "hands": 4853,
+   "vp": 1778,
+   "pr": 1232,
+   "actions1": 1097,
+   "post_raise": 896,
+   "bet_pot_sum": 434.5927402572496,
+   "bets": 896,
+   "actions2": 680,
+   "post_fold": 433,
+   "faced_post": 600,
+   "fold_post": 433,
+   "post_call": 116,
+   "post_check": 694,
+   "actions3": 362
+  },
+  "ours": {
+   "actions0": 4365,
+   "faced_pf": 2148,
+   "fold_pf": 1602,
+   "hands": 4318,
+   "vp": 1252,
+   "pr": 977,
+   "actions1": 504,
+   "post_raise": 626,
+   "bet_pot_sum": 257.6483471509178,
+   "bets": 626,
+   "actions2": 313,
+   "actions3": 192,
+   "post_check": 171,
+   "post_fold": 125,
+   "faced_post": 225,
+   "fold_post": 125,
+   "post_call": 87
+  },
+  "claude_default_a": {
+   "actions0": 5386,
+   "faced_pf": 2749,
+   "fold_pf": 2392,
+   "hands": 5274,
+   "vp": 1084,
+   "pr": 986,
+   "actions1": 394,
+   "post_check": 319,
+   "actions2": 231,
+   "actions3": 153,
+   "post_call": 120,
+   "faced_post": 217,
+   "fold_post": 91,
+   "post_raise": 248,
+   "bet_pot_sum": 155.2880288265608,
+   "bets": 248,
+   "post_fold": 91
+  },
+  "openai_b_default_1": {
+   "actions0": 12080,
+   "faced_pf": 6076,
+   "fold_pf": 4786,
+   "hands": 11797,
+   "vp": 3034,
+   "pr": 2030,
+   "actions1": 2150,
+   "post_check": 2038,
+   "actions2": 1329,
+   "actions3": 868,
+   "post_raise": 925,
+   "bet_pot_sum": 530.2902131904256,
+   "bets": 925,
+   "post_call": 701,
+   "faced_post": 1436,
+   "fold_post": 683,
+   "post_fold": 683
+  },
+  "claude_icm": {
+   "actions0": 4350,
+   "actions1": 617,
+   "post_raise": 340,
+   "bet_pot_sum": 220.589053824562,
+   "bets": 340,
+   "actions2": 356,
+   "post_check": 481,
+   "actions3": 228,
+   "hands": 4280,
+   "vp": 1121,
+   "pr": 857,
+   "faced_pf": 2223,
+   "fold_pf": 1758,
+   "post_call": 182,
+   "faced_post": 396,
+   "fold_post": 198,
+   "post_fold": 198
+  },
+  "claude_exploit": {
+   "actions0": 4094,
+   "faced_pf": 2013,
+   "fold_pf": 1520,
+   "actions1": 564,
+   "post_call": 91,
+   "faced_post": 289,
+   "fold_post": 156,
+   "actions2": 313,
+   "post_check": 203,
+   "actions3": 170,
+   "hands": 4034,
+   "vp": 1071,
+   "pr": 764,
+   "post_fold": 156,
+   "post_raise": 597,
+   "bet_pot_sum": 330.37136314590674,
+   "bets": 597
+  },
+  "claude_equity": {
+   "actions0": 3480,
+   "faced_pf": 1764,
+   "fold_pf": 1293,
+   "hands": 3322,
+   "vp": 1182,
+   "pr": 998,
+   "actions1": 668,
+   "post_check": 570,
+   "post_fold": 220,
+   "faced_post": 396,
+   "fold_post": 220,
+   "actions2": 343,
+   "actions3": 208,
+   "post_raise": 288,
+   "bet_pot_sum": 223.85936507448884,
+   "bets": 288,
+   "post_call": 141
+  },
+  "openai_b_gto_3": {
+   "actions0": 4579,
+   "hands": 4478,
+   "vp": 1137,
+   "pr": 740,
+   "faced_pf": 2336,
+   "fold_pf": 1852,
+   "actions1": 794,
+   "post_fold": 206,
+   "faced_post": 515,
+   "fold_post": 206,
+   "post_check": 818,
+   "post_call": 287,
+   "actions2": 468,
+   "actions3": 313,
+   "post_raise": 264,
+   "bet_pot_sum": 167.45146951565843,
+   "bets": 264
+  },
+  "claude_default_c": {
+   "actions0": 4407,
+   "hands": 4263,
+   "vp": 1131,
+   "pr": 888,
+   "faced_pf": 2248,
+   "fold_pf": 1884,
+   "actions1": 640,
+   "post_raise": 581,
+   "bet_pot_sum": 392.7348507769457,
+   "bets": 581,
+   "actions2": 345,
+   "actions3": 159,
+   "post_check": 245,
+   "post_fold": 202,
+   "faced_post": 342,
+   "fold_post": 202,
+   "post_call": 116
+  },
+  "openai_a_equity_4": {
+   "actions0": 3761,
+   "faced_pf": 1992,
+   "fold_pf": 1294,
+   "actions1": 1244,
+   "post_check": 1276,
+   "post_fold": 365,
+   "faced_post": 756,
+   "fold_post": 365,
+   "hands": 3436,
+   "vp": 1460,
+   "pr": 599,
+   "post_raise": 463,
+   "bet_pot_sum": 307.3908932344996,
+   "bets": 463,
+   "post_call": 342,
+   "actions2": 699,
+   "actions3": 503
+  },
+  "openai_b_default_2": {
+   "actions0": 3977,
+   "faced_pf": 1949,
+   "fold_pf": 1296,
+   "hands": 3863,
+   "vp": 1338,
+   "pr": 704,
+   "actions1": 1164,
+   "post_raise": 354,
+   "bet_pot_sum": 215.44152714266198,
+   "bets": 354,
+   "actions2": 575,
+   "post_call": 293,
+   "faced_post": 730,
+   "fold_post": 401,
+   "actions3": 381,
+   "post_check": 1072,
+   "post_fold": 401
+  },
+  "openai_a_icm_5": {
+   "actions0": 3416,
+   "faced_pf": 1654,
+   "fold_pf": 1370,
+   "hands": 3343,
+   "vp": 799,
+   "pr": 581,
+   "actions1": 564,
+   "post_check": 527,
+   "actions2": 344,
+   "actions3": 210,
+   "post_raise": 245,
+   "bet_pot_sum": 141.68112571245527,
+   "bets": 245,
+   "post_call": 171,
+   "faced_post": 353,
+   "fold_post": 175,
+   "post_fold": 175
+  },
+  "openai_a_default_2": {
+   "actions0": 3089,
+   "faced_pf": 1520,
+   "fold_pf": 1167,
+   "hands": 3034,
+   "vp": 800,
+   "pr": 509,
+   "actions1": 606,
+   "post_call": 147,
+   "faced_post": 395,
+   "fold_post": 235,
+   "actions2": 301,
+   "post_raise": 213,
+   "bet_pot_sum": 152.01883530290695,
+   "bets": 213,
+   "actions3": 182,
+   "post_fold": 235,
+   "post_check": 494
+  },
+  "openai_a_iterate_3": {
+   "actions0": 4086,
+   "hands": 4011,
+   "vp": 961,
+   "pr": 674,
+   "faced_pf": 2052,
+   "fold_pf": 1681,
+   "actions1": 632,
+   "post_raise": 299,
+   "bet_pot_sum": 194.47837202095485,
+   "bets": 299,
+   "actions2": 353,
+   "post_check": 577,
+   "post_call": 159,
+   "faced_post": 366,
+   "fold_post": 185,
+   "actions3": 235,
+   "post_fold": 185
+  },
+  "claude_default_b": {
+   "actions0": 4331,
+   "hands": 4311,
+   "vp": 1190,
+   "pr": 925,
+   "faced_pf": 2110,
+   "fold_pf": 1560,
+   "actions1": 537,
+   "post_call": 102,
+   "faced_post": 248,
+   "fold_post": 131,
+   "actions2": 321,
+   "post_raise": 623,
+   "bet_pot_sum": 260.61256490495583,
+   "bets": 623,
+   "actions3": 190,
+   "post_check": 192,
+   "post_fold": 131
+  },
+  "openai_k_default_2": {
+   "actions0": 3907,
+   "hands": 3848,
+   "vp": 1297,
+   "pr": 779,
+   "faced_pf": 1933,
+   "fold_pf": 1236,
+   "actions1": 986,
+   "post_check": 984,
+   "actions2": 554,
+   "post_raise": 323,
+   "bet_pot_sum": 201.5853643691512,
+   "bets": 323,
+   "post_fold": 320,
+   "faced_post": 631,
+   "fold_post": 320,
+   "actions3": 386,
+   "post_call": 299
+  },
+  "openai_a_default_1": {
+   "actions0": 4427,
+   "hands": 4323,
+   "vp": 1002,
+   "pr": 724,
+   "faced_pf": 2232,
+   "fold_pf": 1857,
+   "actions1": 631,
+   "post_check": 517,
+   "post_fold": 228,
+   "faced_post": 390,
+   "fold_post": 228,
+   "post_raise": 293,
+   "bet_pot_sum": 157.84403241394193,
+   "bets": 293,
+   "actions2": 352,
+   "post_call": 145,
+   "actions3": 200
+  },
+  "claude_tuned": {
+   "actions0": 3336,
+   "hands": 3278,
+   "vp": 876,
+   "pr": 594,
+   "faced_pf": 1678,
+   "fold_pf": 1273,
+   "actions1": 530,
+   "post_raise": 314,
+   "faced_post": 343,
+   "fold_post": 151,
+   "bet_pot_sum": 217.33345976478375,
+   "bets": 314,
+   "post_check": 380,
+   "actions2": 333,
+   "actions3": 164,
+   "post_fold": 151,
+   "post_call": 182
+  }
+ },
+ "largest_losses_bb": [
+  {
+   "net": -2045,
+   "net_bb": -102.25,
+   "h": {
+    "table": "s1004i12t2",
+    "seat": 2,
+    "names": {
+     "0": "openai_b_default_2",
+     "1": "ours",
+     "2": "openai_b_default_1",
+     "3": "openai_a_iterate_3",
+     "4": "claude_default_b",
+     "5": "openai_b_gto_3",
+     "6": "claude_default_d",
+     "7": "openai_a_default_2"
+    },
+    "hand": 8,
+    "button": 1,
+    "blinds": [
+     10,
+     20
+    ],
+    "stacks": {
+     "1": 2000,
+     "2": 2054,
+     "3": 1901,
+     "4": 2000,
+     "5": 1922,
+     "6": 2000,
+     "7": 2045,
+     "0": 2078
+    },
+    "hole": [
+     "Qd",
+     "Qc"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      8,
+      null
+     ],
+     [
+      "blind",
+      2,
+      10,
+      null
+     ],
+     [
+      "blind",
+      3,
+      20,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "raise",
+      7,
+      44,
+      null
+     ],
+     [
+      "call",
+      0,
+      44,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "raise",
+      2,
+      162,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "call",
+      7,
+      118,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "6d",
+       "2d",
+       "Td"
+      ]
+     ],
+     [
+      "raise",
+      2,
+      201,
+      null
+     ],
+     [
+      "call",
+      7,
+      201,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "7s"
+      ]
+     ],
+     [
+      "raise",
+      2,
+      513,
+      null
+     ],
+     [
+      "call",
+      7,
+      513,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "8c"
+      ]
+     ],
+     [
+      "check",
+      2,
+      null,
+      null
+     ],
+     [
+      "raise",
+      7,
+      1169,
+      null
+     ],
+     [
+      "call",
+      2,
+      1169,
+      null
+     ],
+     [
+      "show",
+      2,
+      null,
+      [
+       "Qd",
+       "Qc"
+      ]
+     ],
+     [
+      "show",
+      7,
+      null,
+      [
+       "9d",
+       "9s"
+      ]
+     ],
+     [
+      "win",
+      7,
+      4154,
+      null
+     ],
+     [
+      "stack",
+      1,
+      2000,
+      null
+     ],
+     [
+      "stack",
+      2,
+      9,
+      null
+     ],
+     [
+      "stack",
+      3,
+      1881,
+      null
+     ],
+     [
+      "stack",
+      4,
+      2000,
+      null
+     ],
+     [
+      "stack",
+      5,
+      1922,
+      null
+     ],
+     [
+      "stack",
+      6,
+      2000,
+      null
+     ],
+     [
+      "stack",
+      7,
+      4154,
+      null
+     ],
+     [
+      "stack",
+      0,
+      2034,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -2000,
+   "net_bb": -100.0,
+   "h": {
+    "table": "s1007i1t1",
+    "seat": 4,
+    "names": {
+     "0": "claude_default_d",
+     "1": "claude_equity",
+     "2": "claude_tuned",
+     "3": "openai_a_default_1",
+     "4": "openai_b_default_1",
+     "5": "claude_aggro",
+     "6": "openai_b_gto_3",
+     "7": "openai_k_default_1"
+    },
+    "hand": 2,
+    "button": 2,
+    "blinds": [
+     10,
+     20
+    ],
+    "stacks": {
+     "2": 2170,
+     "3": 1980,
+     "4": 2000,
+     "5": 2000,
+     "6": 2000,
+     "7": 2000,
+     "0": 2000,
+     "1": 1850
+    },
+    "hole": [
+     "Kc",
+     "9s"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      2,
+      null
+     ],
+     [
+      "blind",
+      3,
+      10,
+      null
+     ],
+     [
+      "blind",
+      4,
+      20,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "raise",
+      0,
+      50,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "call",
+      4,
+      30,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "6d",
+       "Qc",
+       "Jd"
+      ]
+     ],
+     [
+      "check",
+      4,
+      null,
+      null
+     ],
+     [
+      "raise",
+      0,
+      55,
+      null
+     ],
+     [
+      "call",
+      4,
+      55,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Th"
+      ]
+     ],
+     [
+      "raise",
+      4,
+      180,
+      null
+     ],
+     [
+      "raise",
+      0,
+      552,
+      null
+     ],
+     [
+      "raise",
+      4,
+      1895,
+      null
+     ],
+     [
+      "call",
+      0,
+      1343,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "2d"
+      ]
+     ],
+     [
+      "show",
+      4,
+      null,
+      [
+       "Kc",
+       "9s"
+      ]
+     ],
+     [
+      "show",
+      0,
+      null,
+      [
+       "Ks",
+       "As"
+      ]
+     ],
+     [
+      "win",
+      0,
+      4010,
+      null
+     ],
+     [
+      "stack",
+      2,
+      2170,
+      null
+     ],
+     [
+      "stack",
+      3,
+      1970,
+      null
+     ],
+     [
+      "stack",
+      4,
+      0,
+      null
+     ],
+     [
+      "stack",
+      5,
+      2000,
+      null
+     ],
+     [
+      "stack",
+      6,
+      2000,
+      null
+     ],
+     [
+      "stack",
+      7,
+      2000,
+      null
+     ],
+     [
+      "stack",
+      0,
+      4010,
+      null
+     ],
+     [
+      "stack",
+      1,
+      1850,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1970,
+   "net_bb": -98.5,
+   "h": {
+    "table": "s1002i2t1",
+    "seat": 5,
+    "names": {
+     "0": "claude_aggro",
+     "1": "openai_a_default_1",
+     "2": "openai_b_default_2",
+     "3": "claude_default_b",
+     "4": "claude_icm",
+     "5": "openai_b_default_1",
+     "6": "claude_default_a",
+     "7": "openai_a_equity_4"
+    },
+    "hand": 14,
+    "button": 4,
+    "blinds": [
+     10,
+     20
+    ],
+    "stacks": {
+     "4": 1795,
+     "5": 2034,
+     "6": 1870,
+     "7": 4058,
+     "0": 1754,
+     "1": 1970,
+     "2": 2182,
+     "3": 337
+    },
+    "hole": [
+     "Ks",
+     "Ac"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      14,
+      null
+     ],
+     [
+      "blind",
+      5,
+      10,
+      null
+     ],
+     [
+      "blind",
+      6,
+      20,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "raise",
+      1,
+      48,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "raise",
+      5,
+      160,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "call",
+      1,
+      112,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "7c",
+       "8s",
+       "Ah"
+      ]
+     ],
+     [
+      "raise",
+      5,
+      176,
+      null
+     ],
+     [
+      "raise",
+      1,
+      1810,
+      null
+     ],
+     [
+      "call",
+      5,
+      1634,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Qs"
+      ]
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Qd"
+      ]
+     ],
+     [
+      "show",
+      5,
+      null,
+      [
+       "Ks",
+       "Ac"
+      ]
+     ],
+     [
+      "show",
+      1,
+      null,
+      [
+       "7h",
+       "7d"
+      ]
+     ],
+     [
+      "win",
+      1,
+      3960,
+      null
+     ],
+     [
+      "stack",
+      4,
+      1795,
+      null
+     ],
+     [
+      "stack",
+      5,
+      64,
+      null
+     ],
+     [
+      "stack",
+      6,
+      1850,
+      null
+     ],
+     [
+      "stack",
+      7,
+      4058,
+      null
+     ],
+     [
+      "stack",
+      0,
+      1754,
+      null
+     ],
+     [
+      "stack",
+      1,
+      3960,
+      null
+     ],
+     [
+      "stack",
+      2,
+      2182,
+      null
+     ],
+     [
+      "stack",
+      3,
+      337,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1810,
+   "net_bb": -90.5,
+   "h": {
+    "table": "s1002i1t1",
+    "seat": 3,
+    "names": {
+     "0": "claude_icm",
+     "1": "claude_iterate",
+     "2": "claude_gto",
+     "3": "openai_b_default_1",
+     "4": "openai_k_default_2",
+     "5": "claude_default_c",
+     "6": "claude_default_b",
+     "7": "claude_exploit"
+    },
+    "hand": 8,
+    "button": 1,
+    "blinds": [
+     10,
+     20
+    ],
+    "stacks": {
+     "1": 4014,
+     "2": 1970,
+     "3": 4025,
+     "4": 1810,
+     "6": 2170,
+     "7": 2011
+    },
+    "hole": [
+     "8h",
+     "Ad"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      8,
+      null
+     ],
+     [
+      "blind",
+      2,
+      10,
+      null
+     ],
+     [
+      "blind",
+      3,
+      20,
+      null
+     ],
+     [
+      "raise",
+      4,
+      43,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "call",
+      3,
+      23,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "3c",
+       "Ah",
+       "3d"
+      ]
+     ],
+     [
+      "raise",
+      3,
+      49,
+      null
+     ],
+     [
+      "call",
+      4,
+      49,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Jc"
+      ]
+     ],
+     [
+      "raise",
+      3,
+      126,
+      null
+     ],
+     [
+      "call",
+      4,
+      126,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "8s"
+      ]
+     ],
+     [
+      "raise",
+      3,
+      330,
+      null
+     ],
+     [
+      "raise",
+      4,
+      1592,
+      null
+     ],
+     [
+      "call",
+      3,
+      1262,
+      null
+     ],
+     [
+      "show",
+      3,
+      null,
+      [
+       "8h",
+       "Ad"
+      ]
+     ],
+     [
+      "show",
+      4,
+      null,
+      [
+       "8c",
+       "8d"
+      ]
+     ],
+     [
+      "win",
+      4,
+      3630,
+      null
+     ],
+     [
+      "stack",
+      1,
+      4014,
+      null
+     ],
+     [
+      "stack",
+      2,
+      1960,
+      null
+     ],
+     [
+      "stack",
+      3,
+      2215,
+      null
+     ],
+     [
+      "stack",
+      4,
+      3630,
+      null
+     ],
+     [
+      "stack",
+      6,
+      2170,
+      null
+     ],
+     [
+      "stack",
+      7,
+      2011,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1480,
+   "net_bb": -74.0,
+   "h": {
+    "table": "s1003i1t0",
+    "seat": 7,
+    "names": {
+     "0": "openai_b_gto_3",
+     "1": "openai_a_default_2",
+     "2": "claude_equity",
+     "3": "claude_gto",
+     "4": "claude_default_d",
+     "5": "claude_exploit",
+     "6": "claude_icm",
+     "7": "openai_b_default_1"
+    },
+    "hand": 10,
+    "button": 1,
+    "blinds": [
+     10,
+     20
+    ],
+    "stacks": {
+     "1": 2103,
+     "2": 1956,
+     "3": 1972,
+     "4": 1480,
+     "5": 1970,
+     "6": 2100,
+     "7": 2317,
+     "0": 2102
+    },
+    "hole": [
+     "Ac",
+     "Jd"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      10,
+      null
+     ],
+     [
+      "blind",
+      2,
+      10,
+      null
+     ],
+     [
+      "blind",
+      3,
+      20,
+      null
+     ],
+     [
+      "raise",
+      4,
+      50,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "call",
+      7,
+      50,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "As",
+       "7d",
+       "5h"
+      ]
+     ],
+     [
+      "raise",
+      4,
+      97,
+      null
+     ],
+     [
+      "call",
+      7,
+      97,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "5c"
+      ]
+     ],
+     [
+      "raise",
+      4,
+      243,
+      null
+     ],
+     [
+      "call",
+      7,
+      243,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Ts"
+      ]
+     ],
+     [
+      "raise",
+      4,
+      1090,
+      null
+     ],
+     [
+      "call",
+      7,
+      1090,
+      null
+     ],
+     [
+      "show",
+      4,
+      null,
+      [
+       "5d",
+       "5s"
+      ]
+     ],
+     [
+      "show",
+      7,
+      null,
+      [
+       "Ac",
+       "Jd"
+      ]
+     ],
+     [
+      "win",
+      4,
+      2990,
+      null
+     ],
+     [
+      "stack",
+      1,
+      2103,
+      null
+     ],
+     [
+      "stack",
+      2,
+      1946,
+      null
+     ],
+     [
+      "stack",
+      3,
+      1952,
+      null
+     ],
+     [
+      "stack",
+      4,
+      2990,
+      null
+     ],
+     [
+      "stack",
+      5,
+      1970,
+      null
+     ],
+     [
+      "stack",
+      6,
+      2100,
+      null
+     ],
+     [
+      "stack",
+      7,
+      837,
+      null
+     ],
+     [
+      "stack",
+      0,
+      2102,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -2153,
+   "net_bb": -71.76666666666667,
+   "h": {
+    "table": "s1007i8t0",
+    "seat": 5,
+    "names": {
+     "0": "claude_exploit",
+     "1": "claude_tuned",
+     "2": "ours",
+     "3": "openai_a_default_1",
+     "4": "openai_b_gto_3",
+     "5": "openai_b_default_1",
+     "6": "claude_default_d",
+     "7": "claude_default_c"
+    },
+    "hand": 29,
+    "button": 3,
+    "blinds": [
+     15,
+     30
+    ],
+    "stacks": {
+     "3": 1917,
+     "4": 1682,
+     "5": 2211,
+     "6": 1944,
+     "7": 2153,
+     "0": 1385,
+     "1": 1902,
+     "2": 2806
+    },
+    "hole": [
+     "Ah",
+     "3h"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      29,
+      null
+     ],
+     [
+      "blind",
+      4,
+      15,
+      null
+     ],
+     [
+      "blind",
+      5,
+      30,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "raise",
+      7,
+      75,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "call",
+      5,
+      45,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "4h",
+       "4d",
+       "Ad"
+      ]
+     ],
+     [
+      "raise",
+      5,
+      85,
+      null
+     ],
+     [
+      "call",
+      7,
+      85,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Jh"
+      ]
+     ],
+     [
+      "raise",
+      5,
+      217,
+      null
+     ],
+     [
+      "raise",
+      7,
+      870,
+      null
+     ],
+     [
+      "call",
+      5,
+      653,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "3s"
+      ]
+     ],
+     [
+      "check",
+      5,
+      null,
+      null
+     ],
+     [
+      "raise",
+      7,
+      1123,
+      null
+     ],
+     [
+      "call",
+      5,
+      1123,
+      null
+     ],
+     [
+      "show",
+      5,
+      null,
+      [
+       "Ah",
+       "3h"
+      ]
+     ],
+     [
+      "show",
+      7,
+      null,
+      [
+       "Ac",
+       "Jd"
+      ]
+     ],
+     [
+      "win",
+      7,
+      4321,
+      null
+     ],
+     [
+      "stack",
+      3,
+      1917,
+      null
+     ],
+     [
+      "stack",
+      4,
+      1667,
+      null
+     ],
+     [
+      "stack",
+      5,
+      58,
+      null
+     ],
+     [
+      "stack",
+      6,
+      1944,
+      null
+     ],
+     [
+      "stack",
+      7,
+      4321,
+      null
+     ],
+     [
+      "stack",
+      0,
+      1385,
+      null
+     ],
+     [
+      "stack",
+      1,
+      1902,
+      null
+     ],
+     [
+      "stack",
+      2,
+      2806,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1990,
+   "net_bb": -66.33333333333333,
+   "h": {
+    "table": "s1005i3t0",
+    "seat": 1,
+    "names": {
+     "0": "openai_a_equity_4",
+     "1": "openai_b_default_1",
+     "2": "openai_a_iterate_3",
+     "3": "openai_b_gto_3",
+     "4": "claude_default_b",
+     "5": "openai_a_default_1",
+     "6": "claude_tuned",
+     "7": "openai_k_default_2"
+    },
+    "hand": 32,
+    "button": 0,
+    "blinds": [
+     15,
+     30
+    ],
+    "stacks": {
+     "0": 1743,
+     "1": 3781,
+     "2": 1990,
+     "3": 1938,
+     "5": 1535,
+     "6": 1741,
+     "7": 3272
+    },
+    "hole": [
+     "9c",
+     "As"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      32,
+      null
+     ],
+     [
+      "blind",
+      1,
+      15,
+      null
+     ],
+     [
+      "blind",
+      2,
+      30,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "raise",
+      7,
+      64,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "call",
+      1,
+      49,
+      null
+     ],
+     [
+      "call",
+      2,
+      34,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "5c",
+       "4c",
+       "Ac"
+      ]
+     ],
+     [
+      "check",
+      1,
+      null,
+      null
+     ],
+     [
+      "raise",
+      2,
+      153,
+      null
+     ],
+     [
+      "call",
+      7,
+      153,
+      null
+     ],
+     [
+      "call",
+      1,
+      153,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "3c"
+      ]
+     ],
+     [
+      "check",
+      1,
+      null,
+      null
+     ],
+     [
+      "raise",
+      2,
+      520,
+      null
+     ],
+     [
+      "call",
+      7,
+      520,
+      null
+     ],
+     [
+      "call",
+      1,
+      520,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "5h"
+      ]
+     ],
+     [
+      "check",
+      1,
+      null,
+      null
+     ],
+     [
+      "raise",
+      2,
+      1253,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "call",
+      1,
+      1253,
+      null
+     ],
+     [
+      "show",
+      1,
+      null,
+      [
+       "9c",
+       "As"
+      ]
+     ],
+     [
+      "show",
+      2,
+      null,
+      [
+       "Kc",
+       "Tc"
+      ]
+     ],
+     [
+      "win",
+      2,
+      4717,
+      null
+     ],
+     [
+      "stack",
+      0,
+      1743,
+      null
+     ],
+     [
+      "stack",
+      1,
+      1791,
+      null
+     ],
+     [
+      "stack",
+      2,
+      4717,
+      null
+     ],
+     [
+      "stack",
+      3,
+      1938,
+      null
+     ],
+     [
+      "stack",
+      5,
+      1535,
+      null
+     ],
+     [
+      "stack",
+      6,
+      1741,
+      null
+     ],
+     [
+      "stack",
+      7,
+      2535,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1949,
+   "net_bb": -64.96666666666667,
+   "h": {
+    "table": "s1006i0t0",
+    "seat": 2,
+    "names": {
+     "0": "claude_equity",
+     "1": "openai_k_default_1",
+     "2": "openai_b_default_1",
+     "3": "openai_k_default_2",
+     "4": "claude_iterate",
+     "5": "ours",
+     "6": "openai_a_equity_4",
+     "7": "openai_b_gto_3"
+    },
+    "hand": 22,
+    "button": 7,
+    "blinds": [
+     15,
+     30
+    ],
+    "stacks": {
+     "7": 1817,
+     "1": 1815,
+     "2": 2025,
+     "3": 2059,
+     "4": 1949,
+     "5": 1890,
+     "6": 4445
+    },
+    "hole": [
+     "Kh",
+     "Qs"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      22,
+      null
+     ],
+     [
+      "blind",
+      1,
+      15,
+      null
+     ],
+     [
+      "blind",
+      2,
+      30,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "raise",
+      4,
+      75,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "call",
+      6,
+      75,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "call",
+      2,
+      45,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Ks",
+       "8h",
+       "Qh"
+      ]
+     ],
+     [
+      "raise",
+      2,
+      124,
+      null
+     ],
+     [
+      "raise",
+      4,
+      506,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "call",
+      2,
+      382,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Ad"
+      ]
+     ],
+     [
+      "check",
+      2,
+      null,
+      null
+     ],
+     [
+      "raise",
+      4,
+      1368,
+      null
+     ],
+     [
+      "call",
+      2,
+      1368,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Jc"
+      ]
+     ],
+     [
+      "show",
+      2,
+      null,
+      [
+       "Kh",
+       "Qs"
+      ]
+     ],
+     [
+      "show",
+      4,
+      null,
+      [
+       "Ac",
+       "As"
+      ]
+     ],
+     [
+      "win",
+      4,
+      3988,
+      null
+     ],
+     [
+      "stack",
+      7,
+      1817,
+      null
+     ],
+     [
+      "stack",
+      1,
+      1800,
+      null
+     ],
+     [
+      "stack",
+      2,
+      76,
+      null
+     ],
+     [
+      "stack",
+      3,
+      2059,
+      null
+     ],
+     [
+      "stack",
+      4,
+      3988,
+      null
+     ],
+     [
+      "stack",
+      5,
+      1890,
+      null
+     ],
+     [
+      "stack",
+      6,
+      4370,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1948,
+   "net_bb": -64.93333333333334,
+   "h": {
+    "table": "s1006i4t1",
+    "seat": 1,
+    "names": {
+     "0": "openai_b_gto_3",
+     "1": "openai_b_default_1",
+     "2": "claude_icm",
+     "3": "claude_gto",
+     "4": "claude_aggro",
+     "5": "claude_default_a",
+     "6": "openai_k_default_2",
+     "7": "openai_a_equity_4"
+    },
+    "hand": 27,
+    "button": 1,
+    "blinds": [
+     15,
+     30
+    ],
+    "stacks": {
+     "1": 1948,
+     "2": 1143,
+     "3": 3037,
+     "4": 1938,
+     "5": 2181,
+     "6": 2106,
+     "7": 1969,
+     "0": 1678
+    },
+    "hole": [
+     "Ah",
+     "As"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      27,
+      null
+     ],
+     [
+      "blind",
+      2,
+      15,
+      null
+     ],
+     [
+      "blind",
+      3,
+      30,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "raise",
+      1,
+      66,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "raise",
+      3,
+      237,
+      null
+     ],
+     [
+      "raise",
+      1,
+      1948,
+      null
+     ],
+     [
+      "call",
+      3,
+      1711,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Ks",
+       "7s",
+       "4d"
+      ]
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "2s"
+      ]
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "5c"
+      ]
+     ],
+     [
+      "show",
+      1,
+      null,
+      [
+       "Ah",
+       "As"
+      ]
+     ],
+     [
+      "show",
+      3,
+      null,
+      [
+       "Kc",
+       "Kh"
+      ]
+     ],
+     [
+      "win",
+      3,
+      3911,
+      null
+     ],
+     [
+      "stack",
+      1,
+      0,
+      null
+     ],
+     [
+      "stack",
+      2,
+      1128,
+      null
+     ],
+     [
+      "stack",
+      3,
+      5000,
+      null
+     ],
+     [
+      "stack",
+      4,
+      1938,
+      null
+     ],
+     [
+      "stack",
+      5,
+      2181,
+      null
+     ],
+     [
+      "stack",
+      6,
+      2106,
+      null
+     ],
+     [
+      "stack",
+      7,
+      1969,
+      null
+     ],
+     [
+      "stack",
+      0,
+      1678,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1288,
+   "net_bb": -64.4,
+   "h": {
+    "table": "s1003i5t2",
+    "seat": 3,
+    "names": {
+     "0": "claude_default_d",
+     "1": "claude_default_b",
+     "2": "openai_a_equity_4",
+     "3": "openai_b_default_1",
+     "4": "ours",
+     "5": "claude_gto",
+     "6": "claude_iterate",
+     "7": "openai_a_default_2"
+    },
+    "hand": 14,
+    "button": 5,
+    "blinds": [
+     10,
+     20
+    ],
+    "stacks": {
+     "5": 2168,
+     "6": 1920,
+     "7": 1634,
+     "1": 2036,
+     "2": 3846,
+     "3": 2431,
+     "4": 1965
+    },
+    "hole": [
+     "Kh",
+     "Ac"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      14,
+      null
+     ],
+     [
+      "blind",
+      6,
+      10,
+      null
+     ],
+     [
+      "blind",
+      7,
+      20,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "call",
+      2,
+      20,
+      null
+     ],
+     [
+      "raise",
+      3,
+      64,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "call",
+      7,
+      44,
+      null
+     ],
+     [
+      "call",
+      2,
+      44,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "2s",
+       "6s",
+       "Ks"
+      ]
+     ],
+     [
+      "check",
+      7,
+      null,
+      null
+     ],
+     [
+      "raise",
+      2,
+      133,
+      null
+     ],
+     [
+      "call",
+      3,
+      133,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "4h"
+      ]
+     ],
+     [
+      "raise",
+      2,
+      309,
+      null
+     ],
+     [
+      "call",
+      3,
+      309,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "7d"
+      ]
+     ],
+     [
+      "raise",
+      2,
+      782,
+      null
+     ],
+     [
+      "call",
+      3,
+      782,
+      null
+     ],
+     [
+      "show",
+      2,
+      null,
+      [
+       "Qs",
+       "3s"
+      ]
+     ],
+     [
+      "show",
+      3,
+      null,
+      [
+       "Kh",
+       "Ac"
+      ]
+     ],
+     [
+      "win",
+      2,
+      2650,
+      null
+     ],
+     [
+      "stack",
+      5,
+      2168,
+      null
+     ],
+     [
+      "stack",
+      6,
+      1910,
+      null
+     ],
+     [
+      "stack",
+      7,
+      1570,
+      null
+     ],
+     [
+      "stack",
+      1,
+      2036,
+      null
+     ],
+     [
+      "stack",
+      2,
+      5208,
+      null
+     ],
+     [
+      "stack",
+      3,
+      1143,
+      null
+     ],
+     [
+      "stack",
+      4,
+      1965,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1913,
+   "net_bb": -63.766666666666666,
+   "h": {
+    "table": "s1000i12t1",
+    "seat": 4,
+    "names": {
+     "0": "claude_aggro",
+     "1": "claude_icm",
+     "2": "openai_k_default_2",
+     "3": "openai_b_gto_3",
+     "4": "openai_b_default_1",
+     "5": "openai_k_default_1",
+     "6": "claude_tuned",
+     "7": "claude_default_c"
+    },
+    "hand": 27,
+    "button": 4,
+    "blinds": [
+     15,
+     30
+    ],
+    "stacks": {
+     "4": 1913,
+     "5": 1940,
+     "6": 1928,
+     "7": 2124,
+     "0": 1914,
+     "1": 1990,
+     "2": 2225,
+     "3": 1966
+    },
+    "hole": [
+     "Ks",
+     "Qs"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      27,
+      null
+     ],
+     [
+      "blind",
+      5,
+      15,
+      null
+     ],
+     [
+      "blind",
+      6,
+      30,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "raise",
+      0,
+      72,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "call",
+      4,
+      72,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Qd",
+       "5s",
+       "2c"
+      ]
+     ],
+     [
+      "raise",
+      0,
+      113,
+      null
+     ],
+     [
+      "call",
+      4,
+      113,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Kc"
+      ]
+     ],
+     [
+      "raise",
+      0,
+      332,
+      null
+     ],
+     [
+      "raise",
+      4,
+      1173,
+      null
+     ],
+     [
+      "raise",
+      0,
+      1729,
+      null
+     ],
+     [
+      "call",
+      4,
+      555,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "As"
+      ]
+     ],
+     [
+      "show",
+      4,
+      null,
+      [
+       "Ks",
+       "Qs"
+      ]
+     ],
+     [
+      "show",
+      0,
+      null,
+      [
+       "5h",
+       "5d"
+      ]
+     ],
+     [
+      "win",
+      0,
+      3872,
+      null
+     ],
+     [
+      "stack",
+      4,
+      0,
+      null
+     ],
+     [
+      "stack",
+      5,
+      1925,
+      null
+     ],
+     [
+      "stack",
+      6,
+      1898,
+      null
+     ],
+     [
+      "stack",
+      7,
+      2124,
+      null
+     ],
+     [
+      "stack",
+      0,
+      3872,
+      null
+     ],
+     [
+      "stack",
+      1,
+      1990,
+      null
+     ],
+     [
+      "stack",
+      2,
+      2225,
+      null
+     ],
+     [
+      "stack",
+      3,
+      1966,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1857,
+   "net_bb": -61.9,
+   "h": {
+    "table": "s1004i3t1",
+    "seat": 6,
+    "names": {
+     "0": "openai_b_gto_3",
+     "1": "openai_b_default_2",
+     "2": "openai_a_default_2",
+     "3": "openai_a_iterate_3",
+     "4": "claude_equity",
+     "5": "claude_default_d",
+     "6": "openai_b_default_1",
+     "7": "openai_a_icm_5"
+    },
+    "hand": 23,
+    "button": 3,
+    "blinds": [
+     15,
+     30
+    ],
+    "stacks": {
+     "3": 1592,
+     "4": 2031,
+     "5": 1857,
+     "6": 2514,
+     "7": 1986,
+     "0": 2034,
+     "1": 2302,
+     "2": 1684
+    },
+    "hole": [
+     "Kc",
+     "Kh"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      23,
+      null
+     ],
+     [
+      "blind",
+      4,
+      15,
+      null
+     ],
+     [
+      "blind",
+      5,
+      30,
+      null
+     ],
+     [
+      "raise",
+      6,
+      66,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "call",
+      5,
+      36,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "5d",
+       "Js",
+       "4d"
+      ]
+     ],
+     [
+      "raise",
+      5,
+      73,
+      null
+     ],
+     [
+      "raise",
+      6,
+      254,
+      null
+     ],
+     [
+      "call",
+      5,
+      181,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "8d"
+      ]
+     ],
+     [
+      "raise",
+      5,
+      491,
+      null
+     ],
+     [
+      "call",
+      6,
+      491,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "6s"
+      ]
+     ],
+     [
+      "raise",
+      5,
+      1046,
+      null
+     ],
+     [
+      "call",
+      6,
+      1046,
+      null
+     ],
+     [
+      "show",
+      5,
+      null,
+      [
+       "8h",
+       "Jc"
+      ]
+     ],
+     [
+      "show",
+      6,
+      null,
+      [
+       "Kc",
+       "Kh"
+      ]
+     ],
+     [
+      "win",
+      5,
+      3729,
+      null
+     ],
+     [
+      "stack",
+      3,
+      1592,
+      null
+     ],
+     [
+      "stack",
+      4,
+      2016,
+      null
+     ],
+     [
+      "stack",
+      5,
+      3729,
+      null
+     ],
+     [
+      "stack",
+      6,
+      657,
+      null
+     ],
+     [
+      "stack",
+      7,
+      1986,
+      null
+     ],
+     [
+      "stack",
+      0,
+      2034,
+      null
+     ],
+     [
+      "stack",
+      1,
+      2302,
+      null
+     ],
+     [
+      "stack",
+      2,
+      1684,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1601,
+   "net_bb": -53.36666666666667,
+   "h": {
+    "table": "s1007i2t1",
+    "seat": 1,
+    "names": {
+     "0": "claude_iterate",
+     "1": "openai_b_default_1",
+     "2": "claude_icm",
+     "3": "openai_a_iterate_3",
+     "4": "openai_a_default_1",
+     "5": "openai_a_equity_4",
+     "6": "claude_equity",
+     "7": "openai_k_default_2"
+    },
+    "hand": 31,
+    "button": 6,
+    "blinds": [
+     15,
+     30
+    ],
+    "stacks": {
+     "6": 2253,
+     "7": 712,
+     "0": 1601,
+     "1": 2066,
+     "2": 2914,
+     "3": 2076,
+     "4": 1560,
+     "5": 2818
+    },
+    "hole": [
+     "Ad",
+     "Qd"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      31,
+      null
+     ],
+     [
+      "blind",
+      7,
+      15,
+      null
+     ],
+     [
+      "blind",
+      0,
+      30,
+      null
+     ],
+     [
+      "raise",
+      1,
+      66,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "call",
+      0,
+      36,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Ah",
+       "9s",
+       "8c"
+      ]
+     ],
+     [
+      "raise",
+      0,
+      147,
+      null
+     ],
+     [
+      "call",
+      1,
+      147,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "8s"
+      ]
+     ],
+     [
+      "raise",
+      0,
+      1388,
+      null
+     ],
+     [
+      "call",
+      1,
+      1388,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "4c"
+      ]
+     ],
+     [
+      "show",
+      0,
+      null,
+      [
+       "As",
+       "9d"
+      ]
+     ],
+     [
+      "show",
+      1,
+      null,
+      [
+       "Ad",
+       "Qd"
+      ]
+     ],
+     [
+      "win",
+      0,
+      3217,
+      null
+     ],
+     [
+      "stack",
+      6,
+      2253,
+      null
+     ],
+     [
+      "stack",
+      7,
+      697,
+      null
+     ],
+     [
+      "stack",
+      0,
+      3217,
+      null
+     ],
+     [
+      "stack",
+      1,
+      465,
+      null
+     ],
+     [
+      "stack",
+      2,
+      2914,
+      null
+     ],
+     [
+      "stack",
+      3,
+      2076,
+      null
+     ],
+     [
+      "stack",
+      4,
+      1560,
+      null
+     ],
+     [
+      "stack",
+      5,
+      2818,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1546,
+   "net_bb": -51.53333333333333,
+   "h": {
+    "table": "s1001i4t2",
+    "seat": 3,
+    "names": {
+     "0": "claude_default_a",
+     "1": "claude_tuned",
+     "2": "openai_a_icm_5",
+     "3": "openai_b_default_1",
+     "4": "claude_default_b",
+     "5": "openai_b_default_2",
+     "6": "openai_a_iterate_3",
+     "7": "claude_gto"
+    },
+    "hand": 34,
+    "button": 0,
+    "blinds": [
+     15,
+     30
+    ],
+    "stacks": {
+     "0": 1880,
+     "1": 3877,
+     "2": 4285,
+     "3": 1546,
+     "4": 1968,
+     "5": 1799,
+     "6": 645
+    },
+    "hole": [
+     "Kc",
+     "Ks"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      34,
+      null
+     ],
+     [
+      "blind",
+      1,
+      15,
+      null
+     ],
+     [
+      "blind",
+      2,
+      30,
+      null
+     ],
+     [
+      "raise",
+      3,
+      66,
+      null
+     ],
+     [
+      "raise",
+      4,
+      231,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "raise",
+      3,
+      1546,
+      null
+     ],
+     [
+      "call",
+      4,
+      1315,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Jd",
+       "Qs",
+       "5h"
+      ]
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "5c"
+      ]
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Th"
+      ]
+     ],
+     [
+      "show",
+      3,
+      null,
+      [
+       "Kc",
+       "Ks"
+      ]
+     ],
+     [
+      "show",
+      4,
+      null,
+      [
+       "Ah",
+       "Ac"
+      ]
+     ],
+     [
+      "win",
+      4,
+      3137,
+      null
+     ],
+     [
+      "stack",
+      0,
+      1880,
+      null
+     ],
+     [
+      "stack",
+      1,
+      3862,
+      null
+     ],
+     [
+      "stack",
+      2,
+      4255,
+      null
+     ],
+     [
+      "stack",
+      3,
+      0,
+      null
+     ],
+     [
+      "stack",
+      4,
+      3559,
+      null
+     ],
+     [
+      "stack",
+      5,
+      1799,
+      null
+     ],
+     [
+      "stack",
+      6,
+      645,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1010,
+   "net_bb": -50.5,
+   "h": {
+    "table": "s1000i8t1",
+    "seat": 1,
+    "names": {
+     "0": "openai_a_iterate_3",
+     "1": "openai_b_default_1",
+     "2": "openai_a_default_1",
+     "3": "claude_default_b",
+     "4": "claude_default_a",
+     "5": "claude_aggro",
+     "6": "openai_a_equity_4",
+     "7": "openai_b_gto_3"
+    },
+    "hand": 9,
+    "button": 2,
+    "blinds": [
+     10,
+     20
+    ],
+    "stacks": {
+     "2": 1954,
+     "3": 2048,
+     "4": 1970,
+     "5": 2164,
+     "6": 2047,
+     "7": 1970,
+     "0": 1925,
+     "1": 1922
+    },
+    "hole": [
+     "Js",
+     "Jd"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      9,
+      null
+     ],
+     [
+      "blind",
+      3,
+      10,
+      null
+     ],
+     [
+      "blind",
+      4,
+      20,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "raise",
+      0,
+      45,
+      null
+     ],
+     [
+      "call",
+      1,
+      45,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "raise",
+      3,
+      177,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "call",
+      1,
+      132,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "9d",
+       "Ks",
+       "3h"
+      ]
+     ],
+     [
+      "raise",
+      3,
+      419,
+      null
+     ],
+     [
+      "call",
+      1,
+      419,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Qc"
+      ]
+     ],
+     [
+      "raise",
+      3,
+      414,
+      null
+     ],
+     [
+      "call",
+      1,
+      414,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "As"
+      ]
+     ],
+     [
+      "raise",
+      3,
+      1038,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "win",
+      3,
+      3123,
+      null
+     ],
+     [
+      "stack",
+      2,
+      1954,
+      null
+     ],
+     [
+      "stack",
+      3,
+      3123,
+      null
+     ],
+     [
+      "stack",
+      4,
+      1950,
+      null
+     ],
+     [
+      "stack",
+      5,
+      2164,
+      null
+     ],
+     [
+      "stack",
+      6,
+      2047,
+      null
+     ],
+     [
+      "stack",
+      7,
+      1970,
+      null
+     ],
+     [
+      "stack",
+      0,
+      1880,
+      null
+     ],
+     [
+      "stack",
+      1,
+      912,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -2344,
+   "net_bb": -46.88,
+   "h": {
+    "table": "s1001i8t1",
+    "seat": 2,
+    "names": {
+     "0": "openai_a_default_1",
+     "1": "openai_a_icm_5",
+     "2": "openai_b_default_1",
+     "3": "ours",
+     "4": "claude_iterate",
+     "5": "claude_icm",
+     "6": "claude_default_a",
+     "7": "claude_default_c"
+    },
+    "hand": 55,
+    "button": 4,
+    "blinds": [
+     25,
+     50
+    ],
+    "stacks": {
+     "4": 2344,
+     "5": 2065,
+     "6": 2615,
+     "7": 1907,
+     "0": 383,
+     "2": 2662,
+     "3": 4024
+    },
+    "hole": [
+     "Qd",
+     "Qc"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      55,
+      null
+     ],
+     [
+      "blind",
+      5,
+      25,
+      null
+     ],
+     [
+      "blind",
+      6,
+      50,
+      null
+     ],
+     [
+      "raise",
+      7,
+      110,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "raise",
+      2,
+      368,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "raise",
+      4,
+      2344,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "call",
+      2,
+      1976,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "3h",
+       "3c",
+       "2c"
+      ]
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "5d"
+      ]
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "8d"
+      ]
+     ],
+     [
+      "show",
+      4,
+      null,
+      [
+       "Kh",
+       "Kc"
+      ]
+     ],
+     [
+      "show",
+      2,
+      null,
+      [
+       "Qd",
+       "Qc"
+      ]
+     ],
+     [
+      "win",
+      4,
+      4873,
+      null
+     ],
+     [
+      "stack",
+      4,
+      4873,
+      null
+     ],
+     [
+      "stack",
+      5,
+      2040,
+      null
+     ],
+     [
+      "stack",
+      6,
+      2565,
+      null
+     ],
+     [
+      "stack",
+      7,
+      1797,
+      null
+     ],
+     [
+      "stack",
+      0,
+      383,
+      null
+     ],
+     [
+      "stack",
+      2,
+      318,
+      null
+     ],
+     [
+      "stack",
+      3,
+      4024,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1354,
+   "net_bb": -45.13333333333333,
+   "h": {
+    "table": "s1007i13t2",
+    "seat": 5,
+    "names": {
+     "0": "claude_default_a",
+     "1": "ours",
+     "2": "openai_a_default_2",
+     "3": "openai_a_iterate_3",
+     "4": "claude_default_b",
+     "5": "openai_b_default_1",
+     "6": "openai_a_icm_5",
+     "7": "openai_b_default_2"
+    },
+    "hand": 40,
+    "button": 7,
+    "blinds": [
+     15,
+     30
+    ],
+    "stacks": {
+     "7": 1483,
+     "0": 2028,
+     "1": 2045,
+     "2": 2179,
+     "3": 2113,
+     "4": 1935,
+     "5": 2327,
+     "6": 1890
+    },
+    "hole": [
+     "4s",
+     "Ah"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      40,
+      null
+     ],
+     [
+      "blind",
+      0,
+      15,
+      null
+     ],
+     [
+      "blind",
+      1,
+      30,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "raise",
+      5,
+      66,
+      null
+     ],
+     [
+      "call",
+      6,
+      66,
+      null
+     ],
+     [
+      "call",
+      7,
+      66,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "3s",
+       "As",
+       "4c"
+      ]
+     ],
+     [
+      "raise",
+      5,
+      126,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "call",
+      7,
+      126,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Qs"
+      ]
+     ],
+     [
+      "raise",
+      5,
+      321,
+      null
+     ],
+     [
+      "call",
+      7,
+      321,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "9s"
+      ]
+     ],
+     [
+      "raise",
+      5,
+      841,
+      null
+     ],
+     [
+      "call",
+      7,
+      841,
+      null
+     ],
+     [
+      "show",
+      7,
+      null,
+      [
+       "8s",
+       "8h"
+      ]
+     ],
+     [
+      "show",
+      5,
+      null,
+      [
+       "4s",
+       "Ah"
+      ]
+     ],
+     [
+      "win",
+      7,
+      2819,
+      null
+     ],
+     [
+      "stack",
+      7,
+      2948,
+      null
+     ],
+     [
+      "stack",
+      0,
+      2013,
+      null
+     ],
+     [
+      "stack",
+      1,
+      2015,
+      null
+     ],
+     [
+      "stack",
+      2,
+      2179,
+      null
+     ],
+     [
+      "stack",
+      3,
+      2113,
+      null
+     ],
+     [
+      "stack",
+      4,
+      1935,
+      null
+     ],
+     [
+      "stack",
+      5,
+      973,
+      null
+     ],
+     [
+      "stack",
+      6,
+      1824,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1168,
+   "net_bb": -38.93333333333333,
+   "h": {
+    "table": "s1003i9t2",
+    "seat": 1,
+    "names": {
+     "0": "claude_default_a",
+     "1": "openai_b_default_1",
+     "2": "ours",
+     "3": "openai_a_equity_4",
+     "4": "claude_default_b",
+     "5": "claude_default_d",
+     "6": "claude_aggro",
+     "7": "openai_b_default_2"
+    },
+    "hand": 23,
+    "button": 2,
+    "blinds": [
+     15,
+     30
+    ],
+    "stacks": {
+     "2": 1851,
+     "3": 3556,
+     "4": 1602,
+     "5": 1168,
+     "6": 1850,
+     "7": 1816,
+     "0": 2653,
+     "1": 1504
+    },
+    "hole": [
+     "Js",
+     "Ac"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      23,
+      null
+     ],
+     [
+      "blind",
+      3,
+      15,
+      null
+     ],
+     [
+      "blind",
+      4,
+      30,
+      null
+     ],
+     [
+      "raise",
+      5,
+      75,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "call",
+      1,
+      75,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "2h",
+       "4h",
+       "3s"
+      ]
+     ],
+     [
+      "raise",
+      5,
+      146,
+      null
+     ],
+     [
+      "call",
+      1,
+      146,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "5h"
+      ]
+     ],
+     [
+      "raise",
+      5,
+      947,
+      null
+     ],
+     [
+      "call",
+      1,
+      947,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Tc"
+      ]
+     ],
+     [
+      "show",
+      5,
+      null,
+      [
+       "8h",
+       "Ah"
+      ]
+     ],
+     [
+      "show",
+      1,
+      null,
+      [
+       "Js",
+       "Ac"
+      ]
+     ],
+     [
+      "win",
+      5,
+      2381,
+      null
+     ],
+     [
+      "stack",
+      2,
+      1851,
+      null
+     ],
+     [
+      "stack",
+      3,
+      3541,
+      null
+     ],
+     [
+      "stack",
+      4,
+      1572,
+      null
+     ],
+     [
+      "stack",
+      5,
+      2381,
+      null
+     ],
+     [
+      "stack",
+      6,
+      1850,
+      null
+     ],
+     [
+      "stack",
+      7,
+      1816,
+      null
+     ],
+     [
+      "stack",
+      0,
+      2653,
+      null
+     ],
+     [
+      "stack",
+      1,
+      336,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -757,
+   "net_bb": -37.85,
+   "h": {
+    "table": "s1006i10t0",
+    "seat": 6,
+    "names": {
+     "0": "openai_a_iterate_3",
+     "1": "claude_aggro",
+     "2": "claude_default_d",
+     "3": "claude_equity",
+     "4": "claude_icm",
+     "5": "claude_gto",
+     "6": "openai_b_default_1",
+     "7": "openai_a_equity_4"
+    },
+    "hand": 7,
+    "button": 1,
+    "blinds": [
+     10,
+     20
+    ],
+    "stacks": {
+     "1": 2242,
+     "2": 2202,
+     "3": 2000,
+     "4": 1952,
+     "5": 2074,
+     "6": 1628,
+     "7": 1932,
+     "0": 1970
+    },
+    "hole": [
+     "Kh",
+     "Ts"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      7,
+      null
+     ],
+     [
+      "blind",
+      2,
+      10,
+      null
+     ],
+     [
+      "blind",
+      3,
+      20,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "raise",
+      6,
+      44,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "call",
+      3,
+      24,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "5h",
+       "7h",
+       "8c"
+      ]
+     ],
+     [
+      "raise",
+      3,
+      73,
+      null
+     ],
+     [
+      "call",
+      6,
+      73,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "3h"
+      ]
+     ],
+     [
+      "raise",
+      3,
+      183,
+      null
+     ],
+     [
+      "call",
+      6,
+      183,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Tc"
+      ]
+     ],
+     [
+      "raise",
+      3,
+      457,
+      null
+     ],
+     [
+      "call",
+      6,
+      457,
+      null
+     ],
+     [
+      "show",
+      3,
+      null,
+      [
+       "6c",
+       "9s"
+      ]
+     ],
+     [
+      "show",
+      6,
+      null,
+      [
+       "Kh",
+       "Ts"
+      ]
+     ],
+     [
+      "win",
+      3,
+      1524,
+      null
+     ],
+     [
+      "stack",
+      1,
+      2242,
+      null
+     ],
+     [
+      "stack",
+      2,
+      2192,
+      null
+     ],
+     [
+      "stack",
+      3,
+      2767,
+      null
+     ],
+     [
+      "stack",
+      4,
+      1952,
+      null
+     ],
+     [
+      "stack",
+      5,
+      2074,
+      null
+     ],
+     [
+      "stack",
+      6,
+      871,
+      null
+     ],
+     [
+      "stack",
+      7,
+      1932,
+      null
+     ],
+     [
+      "stack",
+      0,
+      1970,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1714,
+   "net_bb": -34.28,
+   "h": {
+    "table": "s1005i1t2",
+    "seat": 7,
+    "names": {
+     "0": "claude_gto",
+     "1": "claude_default_a",
+     "2": "claude_tuned",
+     "3": "openai_b_gto_3",
+     "4": "ours",
+     "5": "openai_a_icm_5",
+     "6": "claude_icm",
+     "7": "openai_b_default_1"
+    },
+    "hand": 47,
+    "button": 5,
+    "blinds": [
+     25,
+     50
+    ],
+    "stacks": {
+     "5": 1267,
+     "6": 1714,
+     "7": 2471,
+     "0": 1922,
+     "1": 1974,
+     "2": 2128,
+     "3": 2699,
+     "4": 1825
+    },
+    "hole": [
+     "9h",
+     "9c"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      47,
+      null
+     ],
+     [
+      "blind",
+      6,
+      25,
+      null
+     ],
+     [
+      "blind",
+      7,
+      50,
+      null
+     ],
+     [
+      "raise",
+      0,
+      110,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "call",
+      6,
+      85,
+      null
+     ],
+     [
+      "call",
+      7,
+      60,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "8s",
+       "Td",
+       "6s"
+      ]
+     ],
+     [
+      "raise",
+      6,
+      181,
+      null
+     ],
+     [
+      "call",
+      7,
+      181,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "6c"
+      ]
+     ],
+     [
+      "raise",
+      6,
+      449,
+      null
+     ],
+     [
+      "call",
+      7,
+      449,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Tc"
+      ]
+     ],
+     [
+      "raise",
+      6,
+      974,
+      null
+     ],
+     [
+      "call",
+      7,
+      974,
+      null
+     ],
+     [
+      "show",
+      6,
+      null,
+      [
+       "Th",
+       "Ad"
+      ]
+     ],
+     [
+      "show",
+      7,
+      null,
+      [
+       "9h",
+       "9c"
+      ]
+     ],
+     [
+      "win",
+      6,
+      3538,
+      null
+     ],
+     [
+      "stack",
+      5,
+      1267,
+      null
+     ],
+     [
+      "stack",
+      6,
+      3538,
+      null
+     ],
+     [
+      "stack",
+      7,
+      757,
+      null
+     ],
+     [
+      "stack",
+      0,
+      1812,
+      null
+     ],
+     [
+      "stack",
+      1,
+      1974,
+      null
+     ],
+     [
+      "stack",
+      2,
+      2128,
+      null
+     ],
+     [
+      "stack",
+      3,
+      2699,
+      null
+     ],
+     [
+      "stack",
+      4,
+      1825,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -651,
+   "net_bb": -32.55,
+   "h": {
+    "table": "s1003i9t2",
+    "seat": 1,
+    "names": {
+     "0": "claude_default_a",
+     "1": "openai_b_default_1",
+     "2": "ours",
+     "3": "openai_a_equity_4",
+     "4": "claude_default_b",
+     "5": "claude_default_d",
+     "6": "claude_aggro",
+     "7": "openai_b_default_2"
+    },
+    "hand": 4,
+    "button": 7,
+    "blinds": [
+     10,
+     20
+    ],
+    "stacks": {
+     "7": 1640,
+     "0": 2566,
+     "1": 2000,
+     "2": 2000,
+     "3": 2084,
+     "4": 2000,
+     "5": 1990,
+     "6": 1720
+    },
+    "hole": [
+     "Qc",
+     "Ad"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      4,
+      null
+     ],
+     [
+      "blind",
+      0,
+      10,
+      null
+     ],
+     [
+      "blind",
+      1,
+      20,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "raise",
+      3,
+      45,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "call",
+      1,
+      25,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "9h",
+       "8c",
+       "9d"
+      ]
+     ],
+     [
+      "check",
+      1,
+      null,
+      null
+     ],
+     [
+      "raise",
+      3,
+      66,
+      null
+     ],
+     [
+      "call",
+      1,
+      66,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Qh"
+      ]
+     ],
+     [
+      "check",
+      1,
+      null,
+      null
+     ],
+     [
+      "raise",
+      3,
+      153,
+      null
+     ],
+     [
+      "call",
+      1,
+      153,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "6d"
+      ]
+     ],
+     [
+      "check",
+      1,
+      null,
+      null
+     ],
+     [
+      "raise",
+      3,
+      387,
+      null
+     ],
+     [
+      "call",
+      1,
+      387,
+      null
+     ],
+     [
+      "show",
+      1,
+      null,
+      [
+       "Qc",
+       "Ad"
+      ]
+     ],
+     [
+      "show",
+      3,
+      null,
+      [
+       "Ac",
+       "As"
+      ]
+     ],
+     [
+      "win",
+      3,
+      1312,
+      null
+     ],
+     [
+      "stack",
+      7,
+      1640,
+      null
+     ],
+     [
+      "stack",
+      0,
+      2556,
+      null
+     ],
+     [
+      "stack",
+      1,
+      1349,
+      null
+     ],
+     [
+      "stack",
+      2,
+      2000,
+      null
+     ],
+     [
+      "stack",
+      3,
+      2745,
+      null
+     ],
+     [
+      "stack",
+      4,
+      2000,
+      null
+     ],
+     [
+      "stack",
+      5,
+      1990,
+      null
+     ],
+     [
+      "stack",
+      6,
+      1720,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1620,
+   "net_bb": -32.4,
+   "h": {
+    "table": "s1007i0t1",
+    "seat": 4,
+    "names": {
+     "0": "ours",
+     "1": "claude_tuned",
+     "2": "claude_icm",
+     "3": "claude_default_d",
+     "4": "openai_b_default_1",
+     "5": "openai_b_gto_3",
+     "6": "claude_aggro",
+     "7": "claude_default_c"
+    },
+    "hand": 59,
+    "button": 1,
+    "blinds": [
+     25,
+     50
+    ],
+    "stacks": {
+     "1": 5216,
+     "2": 1620,
+     "3": 2836,
+     "4": 1790,
+     "5": 1837,
+     "7": 1448,
+     "0": 1253
+    },
+    "hole": [
+     "Kh",
+     "Ac"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      59,
+      null
+     ],
+     [
+      "blind",
+      2,
+      25,
+      null
+     ],
+     [
+      "blind",
+      3,
+      50,
+      null
+     ],
+     [
+      "raise",
+      4,
+      110,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "raise",
+      2,
+      446,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "call",
+      4,
+      336,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "As",
+       "5d",
+       "Jh"
+      ]
+     ],
+     [
+      "raise",
+      2,
+      1174,
+      null
+     ],
+     [
+      "call",
+      4,
+      1174,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "4h"
+      ]
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "6d"
+      ]
+     ],
+     [
+      "show",
+      2,
+      null,
+      [
+       "Jd",
+       "Js"
+      ]
+     ],
+     [
+      "show",
+      4,
+      null,
+      [
+       "Kh",
+       "Ac"
+      ]
+     ],
+     [
+      "win",
+      2,
+      3290,
+      null
+     ],
+     [
+      "stack",
+      1,
+      5216,
+      null
+     ],
+     [
+      "stack",
+      2,
+      3290,
+      null
+     ],
+     [
+      "stack",
+      3,
+      2786,
+      null
+     ],
+     [
+      "stack",
+      4,
+      170,
+      null
+     ],
+     [
+      "stack",
+      5,
+      1837,
+      null
+     ],
+     [
+      "stack",
+      7,
+      1448,
+      null
+     ],
+     [
+      "stack",
+      0,
+      1253,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1612,
+   "net_bb": -32.24,
+   "h": {
+    "table": "s1003i11t0",
+    "seat": 1,
+    "names": {
+     "0": "openai_a_default_1",
+     "1": "openai_b_default_1",
+     "2": "openai_b_gto_3",
+     "3": "claude_aggro",
+     "4": "openai_b_default_2",
+     "5": "openai_k_default_2",
+     "6": "openai_a_iterate_3",
+     "7": "openai_a_default_2"
+    },
+    "hand": 53,
+    "button": 3,
+    "blinds": [
+     25,
+     50
+    ],
+    "stacks": {
+     "3": 3106,
+     "4": 2004,
+     "5": 2112,
+     "6": 1755,
+     "7": 1707,
+     "0": 1776,
+     "1": 1708,
+     "2": 1832
+    },
+    "hole": [
+     "As",
+     "9s"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      53,
+      null
+     ],
+     [
+      "blind",
+      4,
+      25,
+      null
+     ],
+     [
+      "blind",
+      5,
+      50,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "raise",
+      1,
+      110,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "call",
+      3,
+      110,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "call",
+      5,
+      60,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Ks",
+       "9c",
+       "4s"
+      ]
+     ],
+     [
+      "check",
+      5,
+      null,
+      null
+     ],
+     [
+      "check",
+      1,
+      null,
+      null
+     ],
+     [
+      "raise",
+      3,
+      213,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "call",
+      1,
+      213,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "7h"
+      ]
+     ],
+     [
+      "raise",
+      1,
+      406,
+      null
+     ],
+     [
+      "raise",
+      3,
+      1289,
+      null
+     ],
+     [
+      "call",
+      1,
+      883,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Jh"
+      ]
+     ],
+     [
+      "check",
+      1,
+      null,
+      null
+     ],
+     [
+      "check",
+      3,
+      null,
+      null
+     ],
+     [
+      "show",
+      3,
+      null,
+      [
+       "Kd",
+       "9h"
+      ]
+     ],
+     [
+      "show",
+      1,
+      null,
+      [
+       "As",
+       "9s"
+      ]
+     ],
+     [
+      "win",
+      3,
+      3359,
+      null
+     ],
+     [
+      "stack",
+      3,
+      4853,
+      null
+     ],
+     [
+      "stack",
+      4,
+      1979,
+      null
+     ],
+     [
+      "stack",
+      5,
+      2002,
+      null
+     ],
+     [
+      "stack",
+      6,
+      1755,
+      null
+     ],
+     [
+      "stack",
+      7,
+      1707,
+      null
+     ],
+     [
+      "stack",
+      0,
+      1776,
+      null
+     ],
+     [
+      "stack",
+      1,
+      96,
+      null
+     ],
+     [
+      "stack",
+      2,
+      1832,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1594,
+   "net_bb": -31.88,
+   "h": {
+    "table": "s1007i11t2",
+    "seat": 7,
+    "names": {
+     "0": "claude_default_c",
+     "1": "claude_equity",
+     "2": "openai_a_equity_4",
+     "3": "openai_k_default_1",
+     "4": "openai_a_iterate_3",
+     "5": "claude_iterate",
+     "6": "claude_exploit",
+     "7": "openai_b_default_1"
+    },
+    "hand": 44,
+    "button": 1,
+    "blinds": [
+     25,
+     50
+    ],
+    "stacks": {
+     "1": 1815,
+     "2": 3148,
+     "3": 3930,
+     "4": 1855,
+     "5": 1639,
+     "7": 1594,
+     "0": 2019
+    },
+    "hole": [
+     "Ad",
+     "As"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      44,
+      null
+     ],
+     [
+      "blind",
+      2,
+      25,
+      null
+     ],
+     [
+      "blind",
+      3,
+      50,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "raise",
+      7,
+      110,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "call",
+      1,
+      110,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "5d",
+       "Jd",
+       "8h"
+      ]
+     ],
+     [
+      "raise",
+      7,
+      153,
+      null
+     ],
+     [
+      "raise",
+      1,
+      786,
+      null
+     ],
+     [
+      "call",
+      7,
+      633,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "3c"
+      ]
+     ],
+     [
+      "raise",
+      7,
+      698,
+      null
+     ],
+     [
+      "call",
+      1,
+      698,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "4c"
+      ]
+     ],
+     [
+      "show",
+      1,
+      null,
+      [
+       "5c",
+       "5s"
+      ]
+     ],
+     [
+      "show",
+      7,
+      null,
+      [
+       "Ad",
+       "As"
+      ]
+     ],
+     [
+      "win",
+      1,
+      3263,
+      null
+     ],
+     [
+      "stack",
+      1,
+      3484,
+      null
+     ],
+     [
+      "stack",
+      2,
+      3123,
+      null
+     ],
+     [
+      "stack",
+      3,
+      3880,
+      null
+     ],
+     [
+      "stack",
+      4,
+      1855,
+      null
+     ],
+     [
+      "stack",
+      5,
+      1639,
+      null
+     ],
+     [
+      "stack",
+      7,
+      0,
+      null
+     ],
+     [
+      "stack",
+      0,
+      2019,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1555,
+   "net_bb": -31.1,
+   "h": {
+    "table": "s1000i4t0",
+    "seat": 2,
+    "names": {
+     "0": "openai_k_default_1",
+     "1": "claude_default_c",
+     "2": "openai_b_default_1",
+     "3": "claude_iterate",
+     "4": "claude_gto",
+     "5": "claude_default_d",
+     "6": "openai_a_default_2",
+     "7": "claude_icm"
+    },
+    "hand": 49,
+    "button": 5,
+    "blinds": [
+     25,
+     50
+    ],
+    "stacks": {
+     "5": 2466,
+     "6": 364,
+     "7": 4755,
+     "0": 1632,
+     "1": 2381,
+     "2": 1555,
+     "4": 2847
+    },
+    "hole": [
+     "Kd",
+     "Kc"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      49,
+      null
+     ],
+     [
+      "blind",
+      6,
+      25,
+      null
+     ],
+     [
+      "blind",
+      7,
+      50,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "raise",
+      2,
+      110,
+      null
+     ],
+     [
+      "raise",
+      4,
+      330,
+      null
+     ],
+     [
+      "raise",
+      5,
+      758,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "raise",
+      2,
+      1555,
+      null
+     ],
+     [
+      "fold",
+      4,
+      null,
+      null
+     ],
+     [
+      "call",
+      5,
+      797,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Qd",
+       "3h",
+       "Qc"
+      ]
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "7d"
+      ]
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Jc"
+      ]
+     ],
+     [
+      "show",
+      5,
+      null,
+      [
+       "Ac",
+       "As"
+      ]
+     ],
+     [
+      "show",
+      2,
+      null,
+      [
+       "Kd",
+       "Kc"
+      ]
+     ],
+     [
+      "win",
+      5,
+      3515,
+      null
+     ],
+     [
+      "stack",
+      5,
+      4426,
+      null
+     ],
+     [
+      "stack",
+      6,
+      339,
+      null
+     ],
+     [
+      "stack",
+      7,
+      4705,
+      null
+     ],
+     [
+      "stack",
+      0,
+      1632,
+      null
+     ],
+     [
+      "stack",
+      1,
+      2381,
+      null
+     ],
+     [
+      "stack",
+      2,
+      0,
+      null
+     ],
+     [
+      "stack",
+      4,
+      2517,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -1401,
+   "net_bb": -28.02,
+   "h": {
+    "table": "s1002i5t1",
+    "seat": 2,
+    "names": {
+     "0": "claude_iterate",
+     "1": "claude_icm",
+     "2": "openai_b_default_1",
+     "3": "openai_a_icm_5",
+     "4": "openai_k_default_1",
+     "5": "claude_default_a",
+     "6": "claude_tuned",
+     "7": "openai_b_default_2"
+    },
+    "hand": 57,
+    "button": 1,
+    "blinds": [
+     25,
+     50
+    ],
+    "stacks": {
+     "1": 2306,
+     "2": 2688,
+     "3": 2140,
+     "5": 4337,
+     "6": 1651,
+     "7": 2878
+    },
+    "hole": [
+     "Ad",
+     "4c"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      57,
+      null
+     ],
+     [
+      "blind",
+      2,
+      25,
+      null
+     ],
+     [
+      "blind",
+      3,
+      50,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "raise",
+      2,
+      130,
+      null
+     ],
+     [
+      "call",
+      3,
+      80,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Qd",
+       "3s",
+       "4h"
+      ]
+     ],
+     [
+      "raise",
+      2,
+      88,
+      null
+     ],
+     [
+      "raise",
+      3,
+      401,
+      null
+     ],
+     [
+      "call",
+      2,
+      313,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "2c"
+      ]
+     ],
+     [
+      "check",
+      2,
+      null,
+      null
+     ],
+     [
+      "raise",
+      3,
+      870,
+      null
+     ],
+     [
+      "call",
+      2,
+      870,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Td"
+      ]
+     ],
+     [
+      "check",
+      2,
+      null,
+      null
+     ],
+     [
+      "raise",
+      3,
+      739,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "win",
+      3,
+      3541,
+      null
+     ],
+     [
+      "stack",
+      1,
+      2306,
+      null
+     ],
+     [
+      "stack",
+      2,
+      1287,
+      null
+     ],
+     [
+      "stack",
+      3,
+      3541,
+      null
+     ],
+     [
+      "stack",
+      5,
+      4337,
+      null
+     ],
+     [
+      "stack",
+      6,
+      1651,
+      null
+     ],
+     [
+      "stack",
+      7,
+      2878,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -2214,
+   "net_bb": -27.675,
+   "h": {
+    "table": "s1001i3t0",
+    "seat": 5,
+    "names": {
+     "0": "claude_default_b",
+     "1": "openai_a_default_2",
+     "2": "claude_gto",
+     "3": "claude_icm",
+     "4": "openai_b_default_2",
+     "5": "openai_b_default_1",
+     "6": "claude_default_c",
+     "7": "claude_default_a"
+    },
+    "hand": 67,
+    "button": 7,
+    "blinds": [
+     40,
+     80
+    ],
+    "stacks": {
+     "7": 2109,
+     "1": 1925,
+     "2": 2325,
+     "3": 4697,
+     "4": 2730,
+     "5": 2214
+    },
+    "hole": [
+     "Jd",
+     "Js"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      67,
+      null
+     ],
+     [
+      "blind",
+      1,
+      40,
+      null
+     ],
+     [
+      "blind",
+      2,
+      80,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "raise",
+      4,
+      176,
+      null
+     ],
+     [
+      "call",
+      5,
+      176,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Kd",
+       "6s",
+       "6c"
+      ]
+     ],
+     [
+      "raise",
+      4,
+      188,
+      null
+     ],
+     [
+      "call",
+      5,
+      188,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "6h"
+      ]
+     ],
+     [
+      "raise",
+      4,
+      339,
+      null
+     ],
+     [
+      "call",
+      5,
+      339,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "8s"
+      ]
+     ],
+     [
+      "raise",
+      4,
+      2027,
+      null
+     ],
+     [
+      "call",
+      5,
+      1511,
+      null
+     ],
+     [
+      "show",
+      4,
+      null,
+      [
+       "Kh",
+       "Jh"
+      ]
+     ],
+     [
+      "show",
+      5,
+      null,
+      [
+       "Jd",
+       "Js"
+      ]
+     ],
+     [
+      "win",
+      4,
+      5064,
+      null
+     ],
+     [
+      "stack",
+      7,
+      2109,
+      null
+     ],
+     [
+      "stack",
+      1,
+      1885,
+      null
+     ],
+     [
+      "stack",
+      2,
+      2245,
+      null
+     ],
+     [
+      "stack",
+      3,
+      4697,
+      null
+     ],
+     [
+      "stack",
+      4,
+      5064,
+      null
+     ],
+     [
+      "stack",
+      5,
+      0,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -3317,
+   "net_bb": -27.641666666666666,
+   "h": {
+    "table": "s1003i10t0",
+    "seat": 0,
+    "names": {
+     "0": "openai_b_default_1",
+     "1": "ours",
+     "2": "openai_k_default_2",
+     "3": "openai_b_gto_3",
+     "4": "openai_a_icm_5",
+     "5": "claude_iterate",
+     "6": "claude_default_b",
+     "7": "claude_tuned"
+    },
+    "hand": 82,
+    "button": 3,
+    "blinds": [
+     60,
+     120
+    ],
+    "stacks": {
+     "3": 1702,
+     "6": 3317,
+     "0": 5746,
+     "1": 2732,
+     "2": 2503
+    },
+    "hole": [
+     "Ts",
+     "Jd"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      82,
+      null
+     ],
+     [
+      "blind",
+      6,
+      60,
+      null
+     ],
+     [
+      "blind",
+      0,
+      120,
+      null
+     ],
+     [
+      "raise",
+      1,
+      252,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "call",
+      6,
+      192,
+      null
+     ],
+     [
+      "call",
+      0,
+      132,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "5c",
+       "9d",
+       "8c"
+      ]
+     ],
+     [
+      "raise",
+      6,
+      249,
+      null
+     ],
+     [
+      "call",
+      0,
+      249,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Qc"
+      ]
+     ],
+     [
+      "raise",
+      6,
+      1254,
+      null
+     ],
+     [
+      "call",
+      0,
+      1254,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "5d"
+      ]
+     ],
+     [
+      "raise",
+      6,
+      1562,
+      null
+     ],
+     [
+      "call",
+      0,
+      1562,
+      null
+     ],
+     [
+      "show",
+      6,
+      null,
+      [
+       "Ac",
+       "7c"
+      ]
+     ],
+     [
+      "show",
+      0,
+      null,
+      [
+       "Ts",
+       "Jd"
+      ]
+     ],
+     [
+      "win",
+      6,
+      6886,
+      null
+     ],
+     [
+      "stack",
+      3,
+      1702,
+      null
+     ],
+     [
+      "stack",
+      6,
+      6886,
+      null
+     ],
+     [
+      "stack",
+      0,
+      2429,
+      null
+     ],
+     [
+      "stack",
+      1,
+      2480,
+      null
+     ],
+     [
+      "stack",
+      2,
+      2503,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -539,
+   "net_bb": -26.95,
+   "h": {
+    "table": "s1001i7t2",
+    "seat": 0,
+    "names": {
+     "0": "openai_b_default_1",
+     "1": "claude_default_a",
+     "2": "openai_b_default_2",
+     "3": "claude_exploit",
+     "4": "openai_k_default_1",
+     "5": "claude_aggro",
+     "6": "claude_icm",
+     "7": "claude_equity"
+    },
+    "hand": 19,
+    "button": 6,
+    "blinds": [
+     10,
+     20
+    ],
+    "stacks": {
+     "6": 2292,
+     "7": 1780,
+     "0": 2017,
+     "1": 2130,
+     "2": 1770,
+     "3": 2066,
+     "4": 2006,
+     "5": 1939
+    },
+    "hole": [
+     "Tc",
+     "As"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      19,
+      null
+     ],
+     [
+      "blind",
+      7,
+      10,
+      null
+     ],
+     [
+      "blind",
+      0,
+      20,
+      null
+     ],
+     [
+      "fold",
+      1,
+      null,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "raise",
+      4,
+      43,
+      null
+     ],
+     [
+      "fold",
+      5,
+      null,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "call",
+      0,
+      23,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Jc",
+       "Th",
+       "Ad"
+      ]
+     ],
+     [
+      "raise",
+      0,
+      49,
+      null
+     ],
+     [
+      "call",
+      4,
+      49,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "6h"
+      ]
+     ],
+     [
+      "raise",
+      0,
+      126,
+      null
+     ],
+     [
+      "call",
+      4,
+      126,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "4h"
+      ]
+     ],
+     [
+      "check",
+      0,
+      null,
+      null
+     ],
+     [
+      "raise",
+      4,
+      321,
+      null
+     ],
+     [
+      "call",
+      0,
+      321,
+      null
+     ],
+     [
+      "show",
+      0,
+      null,
+      [
+       "Tc",
+       "As"
+      ]
+     ],
+     [
+      "show",
+      4,
+      null,
+      [
+       "2h",
+       "Ah"
+      ]
+     ],
+     [
+      "win",
+      4,
+      1088,
+      null
+     ],
+     [
+      "stack",
+      6,
+      2292,
+      null
+     ],
+     [
+      "stack",
+      7,
+      1770,
+      null
+     ],
+     [
+      "stack",
+      0,
+      1478,
+      null
+     ],
+     [
+      "stack",
+      1,
+      2130,
+      null
+     ],
+     [
+      "stack",
+      2,
+      1770,
+      null
+     ],
+     [
+      "stack",
+      3,
+      2066,
+      null
+     ],
+     [
+      "stack",
+      4,
+      2555,
+      null
+     ],
+     [
+      "stack",
+      5,
+      1939,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  },
+  {
+   "net": -777,
+   "net_bb": -25.9,
+   "h": {
+    "table": "s1001i12t2",
+    "seat": 1,
+    "names": {
+     "0": "claude_default_a",
+     "1": "openai_b_default_1",
+     "2": "claude_equity",
+     "3": "claude_exploit",
+     "4": "claude_tuned",
+     "5": "claude_gto",
+     "6": "openai_b_default_2",
+     "7": "ours"
+    },
+    "hand": 25,
+    "button": 1,
+    "blinds": [
+     15,
+     30
+    ],
+    "stacks": {
+     "1": 777,
+     "2": 2402,
+     "3": 3741,
+     "5": 3454,
+     "6": 2047,
+     "7": 2160,
+     "0": 1419
+    },
+    "hole": [
+     "9c",
+     "9h"
+    ],
+    "events": [
+     [
+      "hand",
+      null,
+      25,
+      null
+     ],
+     [
+      "blind",
+      2,
+      15,
+      null
+     ],
+     [
+      "blind",
+      3,
+      30,
+      null
+     ],
+     [
+      "raise",
+      5,
+      75,
+      null
+     ],
+     [
+      "call",
+      6,
+      75,
+      null
+     ],
+     [
+      "fold",
+      7,
+      null,
+      null
+     ],
+     [
+      "fold",
+      0,
+      null,
+      null
+     ],
+     [
+      "call",
+      1,
+      75,
+      null
+     ],
+     [
+      "fold",
+      2,
+      null,
+      null
+     ],
+     [
+      "fold",
+      3,
+      null,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "4h",
+       "Kc",
+       "7c"
+      ]
+     ],
+     [
+      "raise",
+      5,
+      135,
+      null
+     ],
+     [
+      "fold",
+      6,
+      null,
+      null
+     ],
+     [
+      "call",
+      1,
+      135,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "2h"
+      ]
+     ],
+     [
+      "raise",
+      5,
+      297,
+      null
+     ],
+     [
+      "call",
+      1,
+      297,
+      null
+     ],
+     [
+      "board",
+      null,
+      null,
+      [
+       "Qs"
+      ]
+     ],
+     [
+      "raise",
+      5,
+      567,
+      null
+     ],
+     [
+      "call",
+      1,
+      270,
+      null
+     ],
+     [
+      "show",
+      1,
+      null,
+      [
+       "9c",
+       "9h"
+      ]
+     ],
+     [
+      "show",
+      5,
+      null,
+      [
+       "Kh",
+       "Ts"
+      ]
+     ],
+     [
+      "win",
+      5,
+      1971,
+      null
+     ],
+     [
+      "stack",
+      1,
+      0,
+      null
+     ],
+     [
+      "stack",
+      2,
+      2387,
+      null
+     ],
+     [
+      "stack",
+      3,
+      3711,
+      null
+     ],
+     [
+      "stack",
+      5,
+      4351,
+      null
+     ],
+     [
+      "stack",
+      6,
+      1972,
+      null
+     ],
+     [
+      "stack",
+      7,
+      2160,
+      null
+     ],
+     [
+      "stack",
+      0,
+      1419,
+      null
+     ]
+    ],
+    "failed": []
+   }
+  }
+ ]
+}

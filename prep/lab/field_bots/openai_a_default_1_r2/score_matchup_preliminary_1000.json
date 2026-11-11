@@ -1,0 +1,9 @@
+{
+  "tables": 1000,
+  "new_mean": 14.691526727309574,
+  "old_mean": 10.308473272690335,
+  "paired_difference": 4.383053454619239,
+  "difference_se": 0.3982774588371529,
+  "unresolved_final_runouts": 982,
+  "method": "Official play.py, four original / four revised bots. Payouts inferred from final public SDK decision, averaging 1000 unknown final runouts; not simulator result labels."
+}

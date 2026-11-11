@@ -1,0 +1,10 @@
+{
+  "decisions": 153449,
+  "multiplier": 2.5,
+  "cpu_us_p50": 46.9,
+  "cpu_us_p99": 226.4,
+  "cpu_us_p99_9": 299.3,
+  "cpu_us_max": 482.3,
+  "over_400us": 7,
+  "scaled_cpu_ms_max": 1.206
+}

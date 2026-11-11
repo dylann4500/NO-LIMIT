@@ -19,3 +19,13 @@ hand-history/
 # Regenerable analysis output (the human-readable .txt results under research/competitors/out are kept)
 reviewer/out/
 research/competitors/out/**/*.json
+
+# prep/ is the pre-event training repo (samrocksnature/pokerbot), imported whole: keep its own
+# self-play logs and field-bot data even though they match the patterns above
+!prep/**/*.jsonl
+!prep/**/*.jsonl.gz
+!prep/**/*.json.gz
+!prep/**/*.zip
+
+# Local copies of the tournament hand histories (see data/README.md)
+data/hands/

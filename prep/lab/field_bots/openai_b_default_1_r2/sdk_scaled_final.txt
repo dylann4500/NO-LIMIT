@@ -1,0 +1,1 @@
+{'cpu_scale': 2.5, 'cases': 2500, 'p50_us': 99.041, 'p99_us': 224.875, 'max_us': 246.75, 'max_memory': 2031, 'cpu_p50_us': 98.0, 'cpu_p99_us': 224.0, 'cpu_max_us': 245.0, 'cpu_p99_at_2_5x_us': 560.0}

@@ -1,0 +1,84 @@
+iter 0  n=24000  intercept=16.02  (93s)
+  cbet             0.7000  beta=+0.409 se=0.128 t=+3.2 -> 0.7750
+  steal_adapt      0.6000  beta=+0.328 se=0.128 t=+2.6 -> 0.8000
+  sc_base          0.1700  beta=+0.311 se=0.128 t=+2.4 -> 0.1913
+  open_ep          0.0975  beta=-0.309 se=0.128 t=-2.4 -> 0.0853
+  bf1              0.6000  beta=+0.303 se=0.128 t=+2.4 -> 0.6600
+  call_margin      0.0600  beta=+0.230 se=0.128 t=+1.8
+  iso_pct          0.1200  beta=-0.222 se=0.128 t=-1.7
+  cm3             -0.0100  beta=+0.222 se=0.128 t=+1.7
+  fold_adapt       1.4000  beta=+0.204 se=0.128 t=+1.6
+iter 1  n=48000  intercept=16.14  (163s)
+  fold_adapt       1.4000  beta=+0.261 se=0.090 t=+2.9 -> 1.6000
+  raise_f          0.5500  beta=-0.214 se=0.090 t=-2.4 -> 0.4950
+  cm3             -0.0100  beta=+0.214 se=0.090 t=+2.4 -> 0.0050
+  bf1              0.6600  beta=+0.214 se=0.092 t=+2.3 -> 0.7260
+  cbet             0.7750  beta=+0.202 se=0.088 t=+2.3 -> 0.8500
+  call_margin      0.0600  beta=+0.181 se=0.090 t=+2.0
+  jam_spr          0.6000  beta=-0.177 se=0.090 t=-2.0
+  bf2              0.4000  beta=-0.161 se=0.090 t=-1.8
+  reshove_bb      25.0000  beta=-0.157 se=0.090 t=-1.7
+  rz3              0.8600  beta=-0.153 se=0.090 t=-1.7
+  bf3              0.4500  beta=-0.141 se=0.090 t=-1.6
+  open_bb          2.3000  beta=+0.158 se=0.103 t=+1.5
+iter 2  n=72000  intercept=16.13  (227s)
+  jam_spr          0.6000  beta=-0.202 se=0.074 t=-2.7 -> 0.4750
+  call_margin      0.0600  beta=+0.195 se=0.074 t=+2.6 -> 0.0750
+  bf2              0.4000  beta=-0.165 se=0.074 t=-2.2 -> 0.3600
+  bl2              0.1000  beta=+0.145 se=0.074 t=+2.0
+  cm3              0.0050  beta=+0.131 se=0.072 t=+1.8
+  bf3              0.4500  beta=-0.115 se=0.074 t=-1.6
+  rz3              0.8600  beta=-0.114 se=0.074 t=-1.6
+iter 3  n=72000  intercept=16.13  (306s)
+  sv_base          0.2800  beta=+0.200 se=0.073 t=+2.7 -> 0.3150
+  bf2              0.3600  beta=-0.161 se=0.067 t=-2.4 -> 0.3240
+  rr_mult          0.3800  beta=-0.172 se=0.074 t=-2.3 -> 0.3325
+  call_margin      0.0750  beta=+0.166 se=0.072 t=+2.3 -> 0.0900
+  bl2              0.1000  beta=+0.159 se=0.073 t=+2.2
+  jam_spr          0.4750  beta=-0.149 se=0.072 t=-2.1
+  commit_frac      0.4600  beta=+0.148 se=0.073 t=+2.0
+  bf1              0.7260  beta=+0.132 se=0.074 t=+1.8
+  open_bb          2.3000  beta=+0.132 se=0.084 t=+1.6
+  bf3              0.4500  beta=-0.112 se=0.073 t=-1.5
+  bb_raise_pct     0.0700  beta=+0.111 se=0.073 t=+1.5
+iter 4  n=72000  intercept=16.14  (415s)
+  bl2              0.1000  beta=+0.242 se=0.073 t=+3.3 -> 0.1300
+  bf1              0.7260  beta=+0.219 se=0.073 t=+3.0 -> 0.7986
+  commit_frac      0.4600  beta=+0.190 se=0.073 t=+2.6 -> 0.5000
+  jam_spr          0.4750  beta=-0.168 se=0.072 t=-2.3 -> 0.3500
+  bf2              0.3240  beta=-0.120 se=0.061 t=-2.0
+  af_adapt         0.7000  beta=-0.129 se=0.073 t=-1.8
+  rr_mult          0.3325  beta=-0.114 se=0.065 t=-1.7
+  shove_margin     0.0000  beta=-0.127 se=0.073 t=-1.7
+  cbet             0.8500  beta=+0.127 se=0.073 t=+1.7
+  raise_f          0.4950  beta=+0.127 se=0.073 t=+1.7
+  sc_base          0.1913  beta=+0.116 se=0.073 t=+1.6
+  behind_pen       0.1500  beta=+0.113 se=0.073 t=+1.5
+iter 5  n=72000  intercept=16.29  (500s)
+  bf1              0.7986  beta=+0.278 se=0.077 t=+3.6 -> 0.8785
+  open_sb          0.5250  beta=+0.254 se=0.073 t=+3.5 -> 0.5906
+  bl2              0.1300  beta=+0.200 se=0.072 t=+2.8 -> 0.1600
+  iso_pct          0.1200  beta=-0.179 se=0.073 t=-2.4 -> 0.1020
+  bs2              0.6500  beta=-0.166 se=0.073 t=-2.3 -> 0.5750
+  raise_f          0.4950  beta=+0.160 se=0.073 t=+2.2
+  sc_base          0.1913  beta=+0.154 se=0.073 t=+2.1
+  af_adapt         0.7000  beta=-0.137 se=0.073 t=-1.9
+  bb_call_mult     1.3500  beta=-0.129 se=0.073 t=-1.8
+  open_mp          0.1700  beta=-0.127 se=0.073 t=-1.7
+  bs_exp           0.3500  beta=+0.118 se=0.073 t=+1.6
+  fold_tax         0.5000  beta=+0.117 se=0.073 t=+1.6
+iter 6  n=72000  intercept=16.26  (595s)
+  bf1              0.8785  beta=+0.202 se=0.082 t=+2.5 -> 0.9664
+  fold_tax         0.5000  beta=+0.176 se=0.073 t=+2.4 -> 0.7000
+  open_sb          0.5906  beta=+0.176 se=0.078 t=+2.3 -> 0.6644
+  af_adapt         0.7000  beta=-0.157 se=0.073 t=-2.1
+  call_3b_frac     0.4500  beta=-0.146 se=0.073 t=-2.0
+  shove_margin     0.0000  beta=-0.143 se=0.073 t=-1.9
+  sc_base          0.1913  beta=+0.130 se=0.073 t=+1.8
+  fb_eq            0.5900  beta=+0.130 se=0.073 t=+1.8
+  bs_exp           0.3500  beta=+0.129 se=0.073 t=+1.8
+  bs2              0.5750  beta=-0.125 se=0.072 t=-1.7
+  open_co          0.2500  beta=-0.126 se=0.073 t=-1.7
+  steal_adapt      0.8000  beta=+0.124 se=0.073 t=+1.7
+  adapt            0.8000  beta=-0.117 se=0.073 t=-1.6
+  bl2              0.1600  beta=+0.104 se=0.069 t=+1.5

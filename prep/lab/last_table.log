@@ -1,0 +1,12 @@
+== table field=holdout
+  mc_r40         top3:  24.23±0.48 steep:  49.62±0.88 linear:   4.84±0.05 
+  table          top3:  24.09±0.48 steep:  49.33±0.86 linear:   4.88±0.05 
+  mc_r15         top3:  23.29±0.48 steep:  47.91±0.88 linear:   4.77±0.05 
+== table field=mirror
+  mc_r40         top3:  17.71±0.44 steep:  37.02±0.77 linear:   4.19±0.05 
+  table          top3:  17.81±0.43 steep:  37.17±0.74 linear:   4.27±0.05 
+  mc_r15         top3:  17.06±0.43 steep:  35.85±0.76 linear:   4.11±0.05 
+== table field=typical
+  mc_r40         top3:  27.48±0.49 steep:  56.10±0.90 linear:   5.13±0.05 
+  table          top3:  26.87±0.48 steep:  54.77±0.89 linear:   5.10±0.05 
+  mc_r15         top3:  27.46±0.49 steep:  55.94±0.90 linear:   5.11±0.05 

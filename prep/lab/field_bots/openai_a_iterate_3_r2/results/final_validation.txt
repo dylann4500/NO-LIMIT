@@ -1,0 +1,28 @@
+sdk_normal.txt wall_us {'p50': 66.6, 'p99': 224.0, 'p999': 238.1, 'max': 278.5}
+cpu_us {'p50': 66.0, 'p99': 223.0, 'p999': 236.0, 'max': 278.0}
+PASS: 10,000 diverse SDK states, strict decision path, legality, ICM, board texture, memory
+sdk_slow_clock.txt wall_us {'p50': 66.4, 'p99': 183.5, 'p999': 221.3, 'max': 286.9}
+cpu_us {'p50': 66.0, 'p99': 181.0, 'p999': 212.0, 'max': 286.0}
+PASS: 10,000 diverse SDK states, strict decision path, legality, ICM, board texture, memory
+adaptation.txt PASS: short-handed reraises, stage isolation, showdown learning, effective-stack opening, multiway resteal guard
+final_vs_original.json seconds 71.1 score 12.6 failed {} upload True
+{
+  "hashes": {
+    "agent.py": "c7bf9ac131070a5d2402cef24506de60c1e99a7a82e5a22d55b859c7c45f11a4",
+    "preflop.json": "e5fc84e6f4d8eea81f198da356b8dfeb4b3365acba6f469e7a4ec71d8ac85d2f"
+  },
+  "upload_passes": 30,
+  "upload_decisions": 300,
+  "upload_failures": 0,
+  "total_match_decisions": 1752268,
+  "total_match_failures": 0,
+  "reports": [
+    "final_vs_original.json",
+    "final_heads_up.json",
+    "final_default.json",
+    "final_slow_2_5x.json",
+    "final_raisers.json",
+    "final_folders.json"
+  ],
+  "completed_utc": "2026-11-06T21:18:26Z"
+}

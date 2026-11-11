@@ -1,0 +1,102 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 200,
+ "results": {
+  "min_raiser": {
+   "mean_points": 0.88,
+   "se": 0.33,
+   "seats": 2,
+   "places_1_to_8": [
+    7,
+    0,
+    0,
+    14,
+    31,
+    52,
+    182,
+    114
+   ]
+  },
+  "self": {
+   "mean_points": 20.88,
+   "se": 0.71,
+   "seats": 4,
+   "places_1_to_8": [
+    193,
+    168,
+    101,
+    50,
+    65,
+    133,
+    87,
+    3
+   ]
+  },
+  "check_or_fold": {
+   "mean_points": 7.36,
+   "se": 0.54,
+   "seats": 2,
+   "places_1_to_8": [
+    0,
+    32,
+    99,
+    140,
+    103,
+    26,
+    0,
+    0
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 128704,
+ "failed": {},
+ "latency_us": {
+  "p50": 79.2,
+  "p99": 386.6,
+  "p99.9": 490.5,
+  "max": 1099.2,
+  "over_1ms": 1
+ },
+ "memory_bytes_max": 2092,
+ "timing_probe": {
+  "decisions": 128714,
+  "cpu_us": {
+   "p50": 79.0,
+   "p99": 385.0,
+   "max": 1080.0,
+   "over_1ms": 1
+  },
+  "thread_cpu_us": {
+   "p99": 385.209,
+   "max": 1079.958,
+   "over_1ms": 1
+  },
+  "wall_us": {
+   "p99": 385.417,
+   "max": 1096.0
+  },
+  "over_cpu_examples": [
+   {
+    "cpu_us": 1080.0,
+    "work_cpu_us": 431.0,
+    "thread_us": 1079.958,
+    "gc_in_core_us": 0.0,
+    "wall_us": 1096.0,
+    "hand": 186,
+    "board_n": 4,
+    "events_n": 4,
+    "memory_n": 1694
+   }
+  ]
+ },
+ "seed": 659,
+ "agent_sha256": "900b2c1bc2f92cdf0f3033517e46ff3967c84ea79db31695a65f805157423112",
+ "cpu_scale": 2.5,
+ "exception_guard_disabled": true
+}

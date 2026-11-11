@@ -1,0 +1,25 @@
+== field=holdout
+  lookup_tuned  top3:  24.61±0.30 steep:  49.93±0.55 linear:   4.88±0.03 wta:  35.53±0.62 
+  mc_warm_r40   top3:  24.99±0.31 steep:  51.15±0.56 linear:   4.90±0.03 wta:  38.09±0.65 
+  mc_warm_r15   top3:  24.68±0.31 steep:  50.62±0.56 linear:   4.88±0.03 wta:  37.38±0.64 
+  mc_warm_r100  top3:  25.34±0.31 steep:  51.68±0.56 linear:   4.93±0.03 wta:  38.56±0.64 
+== field=holdout_soft
+  lookup_tuned  top3:  29.76±0.28 steep:  59.10±0.50 linear:   5.57±0.02 wta:  41.41±0.65 
+  mc_warm_r40   top3:  29.81±0.29 steep:  59.82±0.53 linear:   5.53±0.02 wta:  44.36±0.67 
+  mc_warm_r15   top3:  29.27±0.29 steep:  58.77±0.52 linear:   5.53±0.02 wta:  42.28±0.67 
+  mc_warm_r100  top3:  30.78±0.28 steep:  61.68±0.52 linear:   5.63±0.02 wta:  46.08±0.67 
+== field=mirror
+  lookup_tuned  top3:  20.34±0.28 steep:  41.54±0.49 linear:   4.48±0.03 wta:  24.92±0.50 
+  mc_warm_r40   top3:  21.58±0.29 steep:  44.06±0.52 linear:   4.55±0.03 wta:  28.76±0.54 
+  mc_warm_r15   top3:  20.80±0.29 steep:  42.54±0.51 linear:   4.48±0.03 wta:  27.07±0.52 
+  mc_warm_r100  top3:  21.52±0.29 steep:  44.00±0.51 linear:   4.55±0.03 wta:  28.61±0.53 
+== field=typical
+  lookup_tuned  top3:  30.21±0.30 steep:  61.02±0.56 linear:   5.36±0.03 wta:  49.62±0.66 
+  mc_warm_r40   top3:  31.36±0.31 steep:  63.74±0.57 linear:   5.43±0.03 wta:  54.26±0.66 
+  mc_warm_r15   top3:  30.49±0.31 steep:  62.07±0.57 linear:   5.36±0.03 wta:  52.14±0.67 
+  mc_warm_r100  top3:  31.48±0.31 steep:  63.82±0.57 linear:   5.44±0.03 wta:  54.22±0.66 
+== field=strong
+  lookup_tuned  top3:  28.12±0.30 steep:  57.02±0.56 linear:   5.13±0.03 wta:  45.40±0.62 
+  mc_warm_r40   top3:  28.40±0.31 steep:  57.96±0.58 linear:   5.10±0.03 wta:  47.94±0.64 
+  mc_warm_r15   top3:  28.48±0.31 steep:  57.98±0.57 linear:   5.12±0.03 wta:  47.56±0.64 
+  mc_warm_r100  top3:  29.21±0.31 steep:  59.41±0.57 linear:   5.20±0.03 wta:  49.06±0.64 

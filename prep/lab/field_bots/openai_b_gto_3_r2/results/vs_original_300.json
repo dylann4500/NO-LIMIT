@@ -1,0 +1,52 @@
+{
+ "upload_test": {
+  "decisions": 10,
+  "failed": {},
+  "crash": null,
+  "pass": true
+ },
+ "tables": 300,
+ "results": {
+  "old": {
+   "mean_points": 10.88,
+   "se": 0.48,
+   "seats": 4,
+   "places_1_to_8": [
+    116,
+    135,
+    160,
+    152,
+    160,
+    148,
+    168,
+    161
+   ]
+  },
+  "self": {
+   "mean_points": 14.12,
+   "se": 0.54,
+   "seats": 4,
+   "places_1_to_8": [
+    184,
+    165,
+    140,
+    148,
+    140,
+    152,
+    132,
+    139
+   ]
+  }
+ },
+ "fair_share": 12.5,
+ "decisions": 359966,
+ "failed": {},
+ "latency_us": {
+  "p50": 18.3,
+  "p99": 137.7,
+  "p99.9": 166.1,
+  "max": 5225.1,
+  "over_1ms": 11
+ },
+ "memory_bytes_max": 799
+}

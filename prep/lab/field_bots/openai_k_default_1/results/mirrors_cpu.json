@@ -1,0 +1,249 @@
+{
+  "decisions": 259148,
+  "cpu_us_p50": 59.9,
+  "cpu_us_p99": 280.0,
+  "cpu_us_p99_9": 356.8,
+  "cpu_us_max": 566.3,
+  "tail_decisions": [
+    {
+      "wall_ms": 71.01,
+      "cpu_us": 374.0,
+      "bank_ms": 100,
+      "hand": 6,
+      "board_cards": 5,
+      "events": 2
+    },
+    {
+      "wall_ms": 64.016,
+      "cpu_us": 109.7,
+      "bank_ms": 98,
+      "hand": 53,
+      "board_cards": 3,
+      "events": 2
+    },
+    {
+      "wall_ms": 41.877,
+      "cpu_us": 297.6,
+      "bank_ms": 100,
+      "hand": 80,
+      "board_cards": 4,
+      "events": 5
+    },
+    {
+      "wall_ms": 38.04,
+      "cpu_us": 145.3,
+      "bank_ms": 95,
+      "hand": 69,
+      "board_cards": 4,
+      "events": 3
+    },
+    {
+      "wall_ms": 37.709,
+      "cpu_us": 138.6,
+      "bank_ms": 93,
+      "hand": 115,
+      "board_cards": 4,
+      "events": 3
+    },
+    {
+      "wall_ms": 34.765,
+      "cpu_us": 118.5,
+      "bank_ms": 92,
+      "hand": 89,
+      "board_cards": 0,
+      "events": 15
+    },
+    {
+      "wall_ms": 31.967,
+      "cpu_us": 411.4,
+      "bank_ms": 79,
+      "hand": 78,
+      "board_cards": 3,
+      "events": 2
+    },
+    {
+      "wall_ms": 31.53,
+      "cpu_us": 395.6,
+      "bank_ms": 85,
+      "hand": 22,
+      "board_cards": 4,
+      "events": 2
+    },
+    {
+      "wall_ms": 30.863,
+      "cpu_us": 272.2,
+      "bank_ms": 100,
+      "hand": 41,
+      "board_cards": 5,
+      "events": 3
+    },
+    {
+      "wall_ms": 30.226,
+      "cpu_us": 104.0,
+      "bank_ms": 100,
+      "hand": 15,
+      "board_cards": 4,
+      "events": 2
+    },
+    {
+      "wall_ms": 29.368,
+      "cpu_us": 154.0,
+      "bank_ms": 83,
+      "hand": 117,
+      "board_cards": 3,
+      "events": 2
+    },
+    {
+      "wall_ms": 29.165,
+      "cpu_us": 150.8,
+      "bank_ms": 100,
+      "hand": 82,
+      "board_cards": 4,
+      "events": 3
+    },
+    {
+      "wall_ms": 27.875,
+      "cpu_us": 282.1,
+      "bank_ms": 99,
+      "hand": 11,
+      "board_cards": 3,
+      "events": 7
+    },
+    {
+      "wall_ms": 26.725,
+      "cpu_us": 143.3,
+      "bank_ms": 100,
+      "hand": 33,
+      "board_cards": 3,
+      "events": 2
+    },
+    {
+      "wall_ms": 25.5,
+      "cpu_us": 175.7,
+      "bank_ms": 100,
+      "hand": 30,
+      "board_cards": 3,
+      "events": 3
+    },
+    {
+      "wall_ms": 25.379,
+      "cpu_us": 213.8,
+      "bank_ms": 96,
+      "hand": 40,
+      "board_cards": 3,
+      "events": 3
+    },
+    {
+      "wall_ms": 25.312,
+      "cpu_us": 72.8,
+      "bank_ms": 100,
+      "hand": 14,
+      "board_cards": 0,
+      "events": 23
+    },
+    {
+      "wall_ms": 24.654,
+      "cpu_us": 225.8,
+      "bank_ms": 100,
+      "hand": 110,
+      "board_cards": 4,
+      "events": 3
+    },
+    {
+      "wall_ms": 24.63,
+      "cpu_us": 200.9,
+      "bank_ms": 100,
+      "hand": 24,
+      "board_cards": 4,
+      "events": 4
+    },
+    {
+      "wall_ms": 24.446,
+      "cpu_us": 185.3,
+      "bank_ms": 100,
+      "hand": 30,
+      "board_cards": 3,
+      "events": 5
+    },
+    {
+      "wall_ms": 23.425,
+      "cpu_us": 163.8,
+      "bank_ms": 100,
+      "hand": 8,
+      "board_cards": 0,
+      "events": 20
+    },
+    {
+      "wall_ms": 23.237,
+      "cpu_us": 180.3,
+      "bank_ms": 100,
+      "hand": 26,
+      "board_cards": 3,
+      "events": 2
+    },
+    {
+      "wall_ms": 23.217,
+      "cpu_us": 343.8,
+      "bank_ms": 100,
+      "hand": 115,
+      "board_cards": 3,
+      "events": 3
+    },
+    {
+      "wall_ms": 22.484,
+      "cpu_us": 304.4,
+      "bank_ms": 100,
+      "hand": 2,
+      "board_cards": 4,
+      "events": 2
+    },
+    {
+      "wall_ms": 22.326,
+      "cpu_us": 171.9,
+      "bank_ms": 97,
+      "hand": 80,
+      "board_cards": 3,
+      "events": 5
+    },
+    {
+      "wall_ms": 22.305,
+      "cpu_us": 93.7,
+      "bank_ms": 97,
+      "hand": 150,
+      "board_cards": 0,
+      "events": 8
+    },
+    {
+      "wall_ms": 21.914,
+      "cpu_us": 108.0,
+      "bank_ms": 100,
+      "hand": 6,
+      "board_cards": 0,
+      "events": 27
+    },
+    {
+      "wall_ms": 21.87,
+      "cpu_us": 166.4,
+      "bank_ms": 100,
+      "hand": 13,
+      "board_cards": 3,
+      "events": 2
+    },
+    {
+      "wall_ms": 21.31,
+      "cpu_us": 62.6,
+      "bank_ms": 89,
+      "hand": 135,
+      "board_cards": 0,
+      "events": 12
+    },
+    {
+      "wall_ms": 21.268,
+      "cpu_us": 270.9,
+      "bank_ms": 95,
+      "hand": 55,
+      "board_cards": 3,
+      "events": 2
+    }
+  ]
+}

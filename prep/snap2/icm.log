@@ -1,0 +1,16 @@
+typical  top3    plain=  27.94±0.31  icm=  27.83±0.30
+typical  linear  plain=   5.09±0.03  icm=   5.19±0.03
+typical  steep   plain=  56.70±0.57  icm=  55.34±0.57
+typical  wta     plain=  44.24±0.67  icm=  41.27±0.67
+strong   top3    plain=  24.57±0.31  icm=  25.84±0.31
+strong   linear  plain=   4.81±0.03  icm=   4.93±0.03
+strong   steep   plain=  50.24±0.57  icm=  50.90±0.56
+strong   wta     plain=  39.55±0.63  icm=  35.57±0.63
+aggro    top3    plain=  27.34±0.29  icm=  25.22±0.28
+aggro    linear  plain=   5.16±0.03  icm=   5.18±0.03
+aggro    steep   plain=  53.99±0.54  icm=  48.50±0.51
+aggro    wta     plain=  36.47±0.65  icm=  27.45±0.62
+passive  top3    plain=  33.85±0.30  icm=  34.89±0.29
+passive  linear  plain=   5.63±0.03  icm=   5.71±0.03
+passive  steep   plain=  69.24±0.56  icm=  70.62±0.55
+passive  wta     plain=  61.65±0.66  icm=  60.95±0.66

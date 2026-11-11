@@ -1,0 +1,14 @@
+{
+  "sdk_contract_cases": 6000,
+  "all_169_hands": true,
+  "ICM_checks": "passed",
+  "side_pot_check": "passed",
+  "memory_retry_checks": "passed",
+  "max_memory_bytes": 337,
+  "cpu_us": {
+    "p50": 118.375,
+    "p99": 248.292,
+    "p999": 272.333,
+    "max": 308.25
+  }
+}

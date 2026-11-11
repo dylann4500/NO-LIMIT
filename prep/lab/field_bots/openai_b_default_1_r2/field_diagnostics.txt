@@ -1,0 +1,62 @@
+call_1 n 202 trueEQ 0.486 odds 0.241 EVbb 601.0 costbb 828.0
+call_1_Two Pair n 19 trueEQ 0.667 odds 0.245 EVbb 120.3 costbb 91.5
+barrels_1 n 249 trueEQ 0.455 odds 0.244 EVbb 450.8 costbb 1182.9
+terminal_False n 300 trueEQ 0.476 odds 0.243 EVbb 907.2 costbb 1565.1
+call_1_High Card n 66 trueEQ 0.414 odds 0.229 EVbb 135.2 costbb 189.1
+call_2 n 107 trueEQ 0.441 odds 0.243 EVbb 480.5 costbb 907.8
+call_2_Pair n 51 trueEQ 0.452 odds 0.243 EVbb 206.9 costbb 330.4
+call_1_Pair n 111 trueEQ 0.482 odds 0.245 EVbb 166.9 costbb 475.8
+call_2_Two Pair n 29 trueEQ 0.499 odds 0.251 EVbb 61.1 costbb 312.2
+barrels_2 n 89 trueEQ 0.453 odds 0.24 EVbb 437.3 costbb 850.5
+call_3 n 63 trueEQ 0.421 odds 0.234 EVbb 129.3 costbb 813.7
+call_3_Two Pair n 24 trueEQ 0.458 odds 0.247 EVbb 0.6 costbb 332.4
+barrels_3 n 34 trueEQ 0.54 odds 0.216 EVbb 322.7 costbb 516.0
+terminal_True n 72 trueEQ 0.406 odds 0.228 EVbb 303.6 costbb 984.3
+call_3_Pair n 19 trueEQ 0.237 odds 0.222 EVbb -148.7 costbb 249.5
+call_2_High Card n 17 trueEQ 0.276 odds 0.213 EVbb 20.6 costbb 81.6
+call_3_Full House n 5 trueEQ 0.7 odds 0.267 EVbb 142.2 costbb 76.6
+call_3_Trips n 5 trueEQ 0.6 odds 0.178 EVbb 67.7 costbb 28.9
+call_3_Straight n 5 trueEQ 0.5 odds 0.239 EVbb 46.5 costbb 45.8
+call_2_Full House n 3 trueEQ 0.668 odds 0.277 EVbb 37.7 costbb 24.5
+call_3_Flush n 4 trueEQ 0.5 odds 0.292 EVbb 21.8 costbb 79.7
+call_2_Straight n 4 trueEQ 0.32 odds 0.284 EVbb 145.3 costbb 129.3
+call_3_Quads n 1 trueEQ 0.0 odds 0.031 EVbb -0.8 costbb 0.8
+call_1_Trips n 6 trueEQ 0.794 odds 0.266 EVbb 178.5 costbb 71.6
+call_2_Flush n 2 trueEQ 0.403 odds 0.266 EVbb -0.0 costbb 27.1
+call_2_Trips n 1 trueEQ 0.833 odds 0.199 EVbb 8.9 costbb 2.8
+FOLD3BET {'fold3b': [3390, 2542], 'fold3b_claude_iterate': [136, 118], 'fold3b_ours': [137, 115], 'fold3b_openai_k_default_1': [145, 125], 'fold3b_claude_default_d': [138, 84], 'fold3b_claude_aggro': [209, 151], 'fold3b_claude_default_a': [160, 129], 'fold3b_openai_b_default_1': [423, 345], 'fold3b_claude_exploit': [123, 86], 'fold3b_claude_icm': [142, 95], 'fold3b_claude_gto': [117, 69], 'fold3b_claude_equity': [198, 168], 'fold3b_claude_default_c': [201, 153], 'fold3b_openai_a_equity_4': [145, 68], 'fold3b_openai_b_gto_3': [151, 115], 'fold3b_openai_b_default_2': [157, 137], 'fold3b_openai_a_icm_5': [120, 75], 'fold3b_openai_a_iterate_3': [131, 98], 'fold3b_openai_a_default_2': [91, 68], 'fold3b_claude_default_b': [100, 86], 'fold3b_openai_k_default_2': [124, 74], 'fold3b_openai_a_default_1': [147, 114], 'fold3b_claude_tuned': [95, 69]}
+(-77.80600009933114, 's1002i2t1', 14, ['Ks', 'Ac'], ['7c', '8s', 'Ah'], 'Pair', [(1, ['7h', '7d'])], 0.02, 0.413, 1, 'call')
+(-63.1, 's1002i1t1', 8, ['8h', 'Ad'], ['3c', 'Ah', '3d', 'Jc', '8s'], 'Two Pair', [(4, ['8c', '8d'])], 0, 0.348, 1, 'call')
+(-58.45, 's1004i12t2', 8, ['Qd', 'Qc'], ['6d', '2d', 'Td', '7s', '8c'], 'Pair', [(7, ['9d', '9s'])], 0, 0.281, 1, 'call')
+(-54.5, 's1003i1t0', 10, ['Ac', 'Jd'], ['As', '7d', '5h', '5c', 'Ts'], 'Two Pair', [(4, ['5d', '5s'])], 0, 0.365, 3, 'call')
+(-45.6, 's1006i0t0', 22, ['Kh', 'Qs'], ['Ks', '8h', 'Qh', 'Ad'], 'Two Pair', [(4, ['Ac', 'As'])], 0.0, 0.343, 2, 'call')
+(-41.766666666666666, 's1005i3t0', 32, ['9c', 'As'], ['5c', '4c', 'Ac', '3c', '5h'], 'Flush', [(2, ['Kc', 'Tc'])], 0, 0.266, 3, 'call')
+(-39.1, 's1003i5t2', 14, ['Kh', 'Ac'], ['2s', '6s', 'Ks', '4h', '7d'], 'Pair', [(2, ['Qs', '3s'])], 0, 0.295, 3, 'call')
+(-37.43333333333333, 's1007i8t0', 29, ['Ah', '3h'], ['4h', '4d', 'Ad', 'Jh', '3s'], 'Two Pair', [(7, ['Ac', 'Jd'])], 0, 0.26, 2, 'call')
+(-36.16886115372181, 's1007i2t1', 31, ['Ad', 'Qd'], ['Ah', '9s', '8c', '8s'], 'Two Pair', [(0, ['As', '9d'])], 0.094, 0.431, 2, 'call')
+(-34.86666666666667, 's1004i3t1', 23, ['Kc', 'Kh'], ['5d', 'Js', '4d', '8d', '6s'], 'Pair', [(5, ['8h', 'Jc'])], 0, 0.281, 3, 'call')
+(-31.566666666666666, 's1003i9t2', 23, ['Js', 'Ac'], ['2h', '4h', '3s', '5h'], 'Straight', [(5, ['8h', 'Ah'])], 0.0, 0.398, 2, 'call')
+(-22.85, 's1006i10t0', 7, ['Kh', 'Ts'], ['5h', '7h', '8c', '3h', 'Tc'], 'Pair', [(3, ['6c', '9s'])], 0, 0.3, 3, 'call')
+(-21.571800054907797, 's1007i0t1', 59, ['Kh', 'Ac'], ['As', '5d', 'Jh'], 'Pair', [(2, ['Jd', 'Js'])], 0.029, 0.357, 1, 'call')
+(-19.594166519244514, 's1005i1t2', 32, ['Qh', 'As'], ['8d', 'Td', 'Ac', '8h'], 'Two Pair', [(4, ['Tc', 'Ah'])], 0.093, 0.251, 2, 'call')
+(-19.48, 's1005i1t2', 47, ['9h', '9c'], ['8s', 'Td', '6s', '6c', 'Tc'], 'Two Pair', [(6, ['Th', 'Ad'])], 0, 0.275, 3, 'call')
+(-19.35, 's1003i9t2', 4, ['Qc', 'Ad'], ['9h', '8c', '9d', 'Qh', '6d'], 'Two Pair', [(3, ['Ac', 'As'])], 0, 0.295, 3, 'call')
+(-18.8875, 's1001i3t0', 67, ['Jd', 'Js'], ['Kd', '6s', '6c', '6h', '8s'], 'Full House', [(4, ['Kh', 'Jh'])], 0, 0.298, 3, 'call')
+(-16.436649990299095, 's1005i3t0', 32, ['9c', 'As'], ['5c', '4c', 'Ac', '3c'], 'Flush', [(2, ['Kc', 'Tc'])], 0.012, 0.235, 2, 'call')
+(-16.05, 's1001i7t2', 19, ['Tc', 'As'], ['Jc', 'Th', 'Ad', '6h', '4h'], 'Two Pair', [(4, ['2h', 'Ah'])], 0, 0.295, 1, 'call')
+(-15.45, 's1003i5t2', 14, ['Kh', 'Ac'], ['2s', '6s', 'Ks', '4h'], 'Pair', [(2, ['Qs', '3s'])], 0.0, 0.285, 2, 'call')
+(-14.15, 's1006i14t0', 13, ['Kc', '9c'], ['Th', '8d', 'Kh', 'Js', '5c'], 'Pair', [(0, ['Jc', 'Tc'])], 0, 0.295, 1, 'call')
+(-13.074999867752194, 's1001i14t2', 77, ['Ks', 'Kh'], ['5d', '5s', 'Qh'], 'Two Pair', [(0, ['5c', 'As'])], 0.083, 0.329, 1, 'call')
+(-13.016666666666667, 's1003i10t0', 82, ['Ts', 'Jd'], ['5c', '9d', '8c', 'Qc', '5d'], 'Straight', [(6, ['Ac', '7c'])], 0, 0.227, 3, 'call')
+(-12.866666666666667, 's1004i1t1', 29, ['As', '8h'], ['4d', 'Ah', '2h', '5d', '4c'], 'Two Pair', [(3, ['9d', 'Ac'])], 0, 0.262, 2, 'call')
+(-12.775, 's1002i4t1', 74, ['Ac', 'Js'], ['3d', 'Jh', '3c', 'Qh', '8c'], 'Two Pair', [(6, ['Qd', 'Ah'])], 0, 0.25, 2, 'call')
+(-12.15, 's1003i1t0', 10, ['Ac', 'Jd'], ['As', '7d', '5h', '5c'], 'Two Pair', [(4, ['5d', '5s'])], 0.0, 0.3, 2, 'call')
+(-11.733090074881911, 's1004i0t2', 111, ['Th', 'Td'], ['6s', '3h', '8c', '4s'], 'Pair', [(5, ['Qs', 'Qh'])], 0.047, 0.299, 2, 'call')
+(-10.45, 's1003i10t0', 82, ['Ts', 'Jd'], ['5c', '9d', '8c', 'Qc'], 'Straight', [(6, ['Ac', '7c'])], 0.0, 0.333, 2, 'call')
+(-10.14, 's1005i1t2', 55, ['4h', 'As'], ['6s', '8s', '8d', 'Jh'], 'Pair', [(6, ['Ah', '8c'])], 0.0, 0.125, 2, 'call')
+(-10.12, 's1002i3t1', 53, ['Ks', 'Ac'], ['7h', 'Ah', 'Jd', '8h', 'Jc'], 'Two Pair', [(7, ['Js', 'Qh'])], 0, 0.25, 1, 'call')
+(-9.83796663718919, 's1007i6t1', 32, ['8c', '8h'], ['7d', '5h', '5c', '7s'], 'Two Pair', [(5, ['7h', 'As'])], 0.039, 0.308, 1, 'call')
+(-9.35, 's1005i1t2', 1, ['Jh', 'Ad'], ['2d', '4h', '9h', '6h', '3h'], 'Flush', [(0, ['7c', 'Ah'])], 0, 0.315, 1, 'call')
+(-9.175, 's1004i13t1', 66, ['Qc', 'Kc'], ['8h', 'Kd', '4d', '3d', '7c'], 'Pair', [(1, ['Ks', '7d'])], 0, 0.216, 3, 'call')
+(-9.14, 's1000i8t1', 42, ['Ad', 'Jh'], ['5s', '6c', 'Js', '8c'], 'Pair', [(6, ['Jc', 'Jd'])], 0.0, 0.284, 2, 'call')
+(-9.0, 's1001i12t2', 25, ['9c', '9h'], ['4h', 'Kc', '7c', '2h', 'Qs'], 'Pair', [(5, ['Kh', 'Ts'])], 0, 0.137, 3, 'call')

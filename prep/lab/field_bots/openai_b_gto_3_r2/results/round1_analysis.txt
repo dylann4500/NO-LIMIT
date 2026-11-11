@@ -1,0 +1,151 @@
+GROUPS n chips bb
+all [11522, -80000.0, -1347.25]
+depth_deep [7321, -42206.0, -1067.1]
+depth_medium [3106, -33391.0, -322.96]
+depth_short [1095, -4403.0, 42.81]
+first_call_raise [967, -23723.0, -631.37]
+first_check [14, 634.0, 6.94]
+first_fold [8482, -178610.0, -1747.0]
+first_limp [43, -3991.0, -10.2]
+first_open [1649, 60996.0, 296.22]
+first_raise_facing_raise [216, 48833.0, 663.71]
+players_2 [371, -46395.0, -159.51]
+players_3 [529, -16912.0, -77.48]
+players_4 [750, 31236.0, 171.68]
+players_5 [1296, 1474.0, -155.04]
+players_6 [1388, -12770.0, -192.47]
+players_7 [2654, -24921.0, -584.89]
+players_8 [4534, -11712.0, -349.54]
+post_last_1_call_cat0 [1, -2402.0, -20.02]
+post_last_1_call_cat1 [7, -3848.0, -125.22]
+post_last_1_call_cat2 [2, -3400.0, -20.19]
+post_last_1_call_cat6 [1, 1478.0, 12.32]
+post_last_1_fold_cat0 [213, -43719.0, -509.61]
+post_last_1_fold_cat1 [108, -21583.0, -301.33]
+post_last_1_fold_cat2 [6, -792.0, -19.98]
+post_last_1_raise_cat0 [46, 11537.0, 134.88]
+post_last_1_raise_cat1 [114, 38896.0, 367.27]
+post_last_1_raise_cat2 [17, 6348.0, 61.17]
+post_last_1_raise_cat3 [26, 9493.0, 148.57]
+post_last_1_raise_cat6 [1, 318.0, 2.65]
+post_last_2_call_cat0 [9, 1302.0, -83.84]
+post_last_2_call_cat1 [19, -23755.0, -242.85]
+post_last_2_call_cat2 [10, -5167.0, -114.33]
+post_last_2_call_cat3 [2, 48.0, -47.02]
+post_last_2_call_cat4 [2, 4066.0, 13.79]
+post_last_2_call_cat5 [1, -3090.0, -15.45]
+post_last_2_fold_cat0 [62, -13488.0, -235.53]
+post_last_2_fold_cat1 [48, -13434.0, -202.42]
+post_last_2_fold_cat2 [12, -4073.0, -47.49]
+post_last_2_fold_cat3 [3, -986.0, -14.38]
+post_last_2_raise_cat0 [32, 10787.0, 155.76]
+post_last_2_raise_cat1 [50, 21159.0, 311.06]
+post_last_2_raise_cat2 [35, 11261.0, 191.14]
+post_last_2_raise_cat3 [20, 13388.0, 178.86]
+post_last_2_raise_cat4 [14, 8944.0, 129.6]
+post_last_2_raise_cat5 [9, 6526.0, 104.11]
+post_last_2_raise_cat6 [3, 1535.0, 36.2]
+post_last_3_call_cat0 [4, -11566.0, -54.0]
+post_last_3_call_cat1 [42, -41778.0, -487.53]
+post_last_3_call_cat2 [41, -13706.0, -211.89]
+post_last_3_call_cat3 [8, 15227.0, 168.0]
+post_last_3_call_cat4 [6, 3512.0, 4.96]
+post_last_3_call_cat5 [4, 2280.0, 3.38]
+post_last_3_call_cat6 [3, 686.0, 31.41]
+post_last_3_call_cat7 [1, 1689.0, 56.3]
+post_last_3_check_cat0 [83, -7896.0, -135.63]
+post_last_3_check_cat1 [201, -4906.0, 41.69]
+post_last_3_check_cat2 [118, 19469.0, 294.48]
+post_last_3_check_cat3 [19, 3802.0, 44.4]
+post_last_3_check_cat4 [2, -199.0, 9.13]
+post_last_3_check_cat5 [9, 3758.0, 104.75]
+post_last_3_check_cat6 [5, 2138.0, 36.53]
+post_last_3_fold_cat0 [25, -10745.0, -152.66]
+post_last_3_fold_cat1 [56, -29098.0, -437.62]
+post_last_3_fold_cat2 [19, -11667.0, -251.63]
+post_last_3_fold_cat3 [5, -2293.0, -21.41]
+post_last_3_raise_cat0 [17, -601.0, -84.03]
+post_last_3_raise_cat1 [15, 5049.0, 42.19]
+post_last_3_raise_cat2 [20, 9840.0, 177.17]
+post_last_3_raise_cat3 [14, 3609.0, -31.56]
+post_last_3_raise_cat4 [13, 4720.0, 85.44]
+post_last_3_raise_cat5 [6, 6524.0, 43.74]
+post_last_3_raise_cat6 [6, 4496.0, 74.05]
+FIELD
+claude_aggro hands 2903 vpip 0.355 pfr 0.244 agg 0.431 fold_bet 0.705
+claude_default_a hands 2935 vpip 0.18 pfr 0.17 agg 0.317 fold_bet 0.414
+claude_default_b hands 2895 vpip 0.248 pfr 0.191 agg 0.601 fold_bet 0.533
+claude_default_c hands 3806 vpip 0.231 pfr 0.188 agg 0.534 fold_bet 0.56
+claude_default_d hands 3699 vpip 0.274 pfr 0.168 agg 0.506 fold_bet 0.525
+claude_equity hands 3058 vpip 0.339 pfr 0.291 agg 0.25 fold_bet 0.579
+claude_exploit hands 2418 vpip 0.23 pfr 0.158 agg 0.533 fold_bet 0.535
+claude_gto hands 2476 vpip 0.244 pfr 0.145 agg 0.19 fold_bet 0.477
+claude_icm hands 2941 vpip 0.232 pfr 0.167 agg 0.248 fold_bet 0.535
+claude_iterate hands 3075 vpip 0.247 pfr 0.142 agg 0.253 fold_bet 0.616
+claude_tuned hands 3728 vpip 0.233 pfr 0.158 agg 0.31 fold_bet 0.467
+openai_a_default_1 hands 3700 vpip 0.222 pfr 0.159 agg 0.228 fold_bet 0.586
+openai_a_default_2 hands 2910 vpip 0.25 pfr 0.155 agg 0.233 fold_bet 0.607
+openai_a_equity_4 hands 2446 vpip 0.381 pfr 0.148 agg 0.219 fold_bet 0.487
+openai_a_icm_5 hands 2043 vpip 0.219 pfr 0.159 agg 0.241 fold_bet 0.412
+openai_a_iterate_3 hands 3013 vpip 0.214 pfr 0.152 agg 0.277 fold_bet 0.502
+openai_b_default_1 hands 3122 vpip 0.246 pfr 0.166 agg 0.236 fold_bet 0.454
+openai_b_default_2 hands 3405 vpip 0.314 pfr 0.163 agg 0.182 fold_bet 0.525
+openai_b_gto_3 hands 11522 vpip 0.25 pfr 0.162 agg 0.164 fold_bet 0.397
+openai_k_default_1 hands 2104 vpip 0.247 pfr 0.152 agg 0.214 fold_bet 0.566
+openai_k_default_2 hands 3318 vpip 0.292 pfr 0.172 agg 0.177 fold_bet 0.536
+ours hands 3470 vpip 0.242 pfr 0.182 agg 0.657 fold_bet 0.545
+LARGEST LOSSES
+s1000i11t2 150 net -7489 -15.0 hole ['Qd', 'Tc'] players 2
+actions [(0, 'call', 550, 550, 1550, None), (1, 'check', None, 0, 2100, 1), (1, 'call', 1852, 1852, 3952, 1), (2, 'check', None, 0, 5804, 1), (2, 'call', 4482, 4482, 10286, 1), (3, 'check', None, 0, 14768, 1), (3, 'call', 105, 105, 15895, 1)]
+events [['hand', None, 150, None], ['blind', 1, 250, None], ['blind', 5, 500, None], ['raise', 1, 1050, None], ['call', 5, 550, None], ['board', None, None, ['Qc', 'Kd', '8s']], ['check', 5, None, None], ['raise', 1, 1852, None], ['call', 5, 1852, None], ['board', None, None, ['5s']], ['check', 5, None, None], ['raise', 1, 4482, None], ['call', 5, 4482, None], ['board', None, None, ['2d']], ['check', 5, None, None], ['raise', 1, 1127, None], ['call', 5, 105, None], ['show', 1, None, ['3h', 'Kc']], ['show', 5, None, ['Qd', 'Tc']], ['win', 1, 16000, None]]
+s1005i1t2 108 net -7261 -36.3 hole ['Ad', '6d'] players 2
+actions [(0, 'call', 400, 400, 800, None), (1, 'raise', 720, 0, 1200, 1), (2, 'raise', 1768, 0, 2640, 2), (3, 'check', None, 0, 6176, 2), (3, 'call', 4173, 4173, 10349, 2)]
+events [['hand', None, 108, None], ['blind', 4, 100, None], ['blind', 3, 200, None], ['raise', 4, 600, None], ['call', 3, 400, None], ['board', None, None, ['Qs', 'Ah', '8s']], ['raise', 3, 720, None], ['call', 4, 720, None], ['board', None, None, ['8h']], ['raise', 3, 1768, None], ['call', 4, 1768, None], ['board', None, None, ['7d']], ['check', 3, None, None], ['raise', 4, 4173, None], ['call', 3, 4173, None], ['show', 4, None, ['Ac', 'Kc']], ['show', 3, None, ['Ad', '6d']], ['win', 4, 14522, None]]
+s1000i14t0 134 net -6854 -22.8 hole ['Ts', 'Th'] players 2
+actions [(0, 'raise', 690, 150, 450, None), (0, 'call', 6164, 6164, 7544, None)]
+events [['hand', None, 134, None], ['blind', 2, 150, None], ['blind', 6, 300, None], ['raise', 2, 690, None], ['raise', 6, 6854, None], ['call', 2, 6164, None], ['board', None, None, ['As', '7s', '8d']], ['board', None, None, ['Tc']], ['board', None, None, ['3s']], ['show', 2, None, ['Ts', 'Th']], ['show', 6, None, ['9s', '4s']], ['win', 6, 13708, None]]
+s1000i8t1 141 net -6834 -13.7 hole ['5h', 'As'] players 2
+actions [(0, 'raise', 1150, 250, 750, None), (0, 'call', 5684, 5684, 10316, None)]
+events [['hand', None, 141, None], ['blind', 7, 250, None], ['blind', 2, 500, None], ['raise', 7, 1150, None], ['raise', 2, 9166, None], ['call', 7, 5684, None], ['board', None, None, ['6d', 'Jh', '4h']], ['board', None, None, ['Th']], ['board', None, None, ['7h']], ['show', 7, None, ['5h', 'As']], ['show', 2, None, ['Qc', 'Ah']], ['win', 2, 16000, None]]
+s1007i6t0 194 net -6538 -13.1 hole ['Ad', 'Jh'] players 2
+actions [(0, 'raise', 1150, 250, 750, None), (1, 'call', 1150, 1150, 3450, 0), (2, 'raise', 3082, 0, 4600, 0), (3, 'call', 1156, 1156, 11920, 0)]
+events [['hand', None, 194, None], ['blind', 1, 250, None], ['blind', 3, 500, None], ['raise', 1, 1150, None], ['call', 3, 650, None], ['board', None, None, ['Kh', '4h', 'Tc']], ['raise', 3, 1150, None], ['call', 1, 1150, None], ['board', None, None, ['7h']], ['check', 3, None, None], ['raise', 1, 3082, None], ['call', 3, 3082, None], ['board', None, None, ['6s']], ['raise', 3, 1156, None], ['call', 1, 1156, None], ['show', 1, None, ['Ad', 'Jh']], ['show', 3, None, ['9s', 'Ks']], ['win', 3, 13076, None]]
+s1002i5t0 121 net -6188 -20.6 hole ['Ac', 'Td'] players 3
+actions [(0, 'raise', 645, 300, 450, None), (1, 'call', 795, 795, 2385, 0), (2, 'call', 1590, 1590, 4770, 0), (3, 'call', 3158, 3158, 11242, 1)]
+events [['hand', None, 121, None], ['blind', 1, 150, None], ['blind', 4, 300, None], ['raise', 0, 645, None], ['call', 1, 495, None], ['fold', 4, None, None], ['board', None, None, ['Kh', '8c', '7c']], ['raise', 1, 795, None], ['call', 0, 795, None], ['board', None, None, ['4h']], ['raise', 1, 1590, None], ['call', 0, 1590, None], ['board', None, None, ['Ah']], ['raise', 1, 4882, None], ['call', 0, 3158, None], ['show', 0, None, ['Ac', 'Td']], ['show', 1, None, ['Jh', 'Qh']], ['win', 1, 14400, None]]
+s1006i13t2 133 net -6176 -20.6 hole ['As', 'Jd'] players 2
+actions [(0, 'raise', 840, 150, 450, None), (0, 'call', 5336, 5336, 7016, None)]
+events [['hand', None, 133, None], ['blind', 0, 150, None], ['blind', 3, 300, None], ['raise', 0, 840, None], ['raise', 3, 6176, None], ['call', 0, 5336, None], ['board', None, None, ['3h', '4h', '2h']], ['board', None, None, ['Qd']], ['board', None, None, ['5c']], ['show', 0, None, ['As', 'Jd']], ['show', 3, None, ['6d', '6c']], ['win', 3, 12352, None]]
+s1006i8t0 125 net -5969 -19.9 hole ['5s', 'Kc'] players 2
+actions [(0, 'raise', 690, 150, 450, None), (1, 'call', 552, 552, 1932, 1), (2, 'call', 1863, 1863, 4347, 1), (3, 'call', 2864, 2864, 10867, 2)]
+events [['hand', None, 125, None], ['blind', 3, 150, None], ['blind', 2, 300, None], ['raise', 3, 690, None], ['call', 2, 390, None], ['board', None, None, ['4h', 'Td', '5d']], ['raise', 2, 552, None], ['call', 3, 552, None], ['board', None, None, ['3s']], ['raise', 2, 1863, None], ['call', 3, 1863, None], ['board', None, None, ['Ts']], ['raise', 2, 4657, None], ['call', 3, 2864, None], ['show', 3, None, ['5s', 'Kc']], ['show', 2, None, ['3c', '3d']], ['win', 2, 13731, None]]
+s1005i13t1 144 net -5872 -11.7 hole ['Qs', 'Tc'] players 2
+actions [(0, 'call', 5372, 5372, 6372, None)]
+events [['hand', None, 144, None], ['blind', 5, 250, None], ['blind', 6, 500, None], ['raise', 5, 5872, None], ['call', 6, 5372, None], ['board', None, None, ['3h', '4c', 'Ac']], ['board', None, None, ['6h']], ['board', None, None, ['9d']], ['show', 5, None, ['9h', '3d']], ['show', 6, None, ['Qs', 'Tc']], ['win', 5, 11744, None]]
+s1005i5t1 170 net -5856 -11.7 hole ['Kc', '7d'] players 2
+actions [(0, 'call', 500, 500, 1500, None), (1, 'check', None, 0, 2000, 1), (1, 'call', 1440, 1440, 3440, 1), (2, 'check', None, 0, 4880, 1), (2, 'call', 3416, 3416, 8296, 1)]
+events [['hand', None, 170, None], ['blind', 4, 250, None], ['blind', 3, 500, None], ['raise', 4, 1000, None], ['call', 3, 500, None], ['board', None, None, ['6c', '7c', '5d']], ['check', 3, None, None], ['raise', 4, 1440, None], ['call', 3, 1440, None], ['board', None, None, ['8s']], ['check', 3, None, None], ['raise', 4, 3416, None], ['call', 3, 3416, None], ['board', None, None, ['Jc']], ['show', 4, None, ['8h', '9c']], ['show', 3, None, ['Kc', '7d']], ['win', 4, 11712, None]]
+s1007i14t2 131 net -5735 -19.1 hole ['4h', 'Ac'] players 2
+actions [(0, 'call', 300, 300, 900, None), (1, 'check', None, 0, 1200, 1), (1, 'call', 840, 840, 2040, 1), (2, 'check', None, 0, 2880, 1), (2, 'call', 2015, 2015, 4895, 1), (3, 'check', None, 0, 6910, 1), (3, 'call', 2280, 2280, 9190, 1)]
+events [['hand', None, 131, None], ['blind', 1, 150, None], ['blind', 5, 300, None], ['raise', 1, 600, None], ['call', 5, 300, None], ['board', None, None, ['8c', '7h', '4d']], ['check', 5, None, None], ['raise', 1, 840, None], ['call', 5, 840, None], ['board', None, None, ['3d']], ['check', 5, None, None], ['raise', 1, 2015, None], ['call', 5, 2015, None], ['board', None, None, ['Qs']], ['check', 5, None, None], ['raise', 1, 2280, None], ['call', 5, 2280, None], ['show', 1, None, ['7s', 'Qc']], ['show', 5, None, ['4h', 'Ac']], ['win', 1, 11470, None]]
+s1002i9t0 144 net -5638 -11.3 hole ['Kc', '8s'] players 2
+actions [(0, 'call', 5138, 5138, 10862, None)]
+events [['hand', None, 144, None], ['blind', 1, 250, None], ['blind', 2, 500, None], ['raise', 1, 10362, None], ['call', 2, 5138, None], ['board', None, None, ['9d', '5c', '6h']], ['board', None, None, ['2s']], ['board', None, None, ['5d']], ['show', 1, None, ['Qs', '6d']], ['show', 2, None, ['Kc', '8s']], ['win', 1, 16000, None]]
+s1007i2t0 125 net -5408 -18.0 hole ['As', 'Kh'] players 2
+actions [(0, 'raise', 690, 150, 450, None), (1, 'call', 1035, 1035, 2415, 1), (2, 'call', 2587, 2587, 6037, 1), (3, 'call', 1096, 1096, 14904, 1)]
+events [['hand', None, 125, None], ['blind', 3, 150, None], ['blind', 1, 300, None], ['raise', 3, 690, None], ['call', 1, 390, None], ['board', None, None, ['3c', 'Th', '3s']], ['raise', 1, 1035, None], ['call', 3, 1035, None], ['board', None, None, ['9s']], ['raise', 1, 2587, None], ['call', 3, 2587, None], ['board', None, None, ['5c']], ['raise', 1, 6280, None], ['call', 3, 1096, None], ['show', 3, None, ['As', 'Kh']], ['show', 1, None, ['8s', 'Td']], ['win', 1, 16000, None]]
+s1007i2t0 124 net -5296 -17.7 hole ['8c', '8h'] players 2
+actions [(0, 'raise', 10704, 600, 1200, None)]
+events [['hand', None, 124, None], ['blind', 1, 150, None], ['blind', 3, 300, None], ['raise', 1, 900, None], ['raise', 3, 10704, None], ['call', 1, 4396, None], ['board', None, None, ['Kc', 'Qc', '9d']], ['board', None, None, ['Ah']], ['board', None, None, ['Jd']], ['show', 1, None, ['Ac', 'Kh']], ['show', 3, None, ['8c', '8h']], ['win', 1, 10592, None], ['win', 3, 5408, None]]
+s1002i6t0 152 net -4858 -9.7 hole ['Js', '9c'] players 2
+actions [(0, 'raise', 4858, 250, 750, None)]
+events [['hand', None, 152, None], ['blind', 3, 250, None], ['blind', 7, 500, None], ['raise', 3, 4858, None], ['call', 7, 4358, None], ['board', None, None, ['Kc', 'Td', '8d']], ['board', None, None, ['Ks']], ['board', None, None, ['3h']], ['show', 3, None, ['Js', '9c']], ['show', 7, None, ['2c', '2h']], ['win', 7, 9716, None]]
+s1005i13t1 148 net -4756 -9.5 hole ['7s', 'As'] players 2
+actions [(0, 'call', 4256, 4256, 11744, None)]
+events [['hand', None, 148, None], ['blind', 5, 250, None], ['blind', 6, 500, None], ['raise', 5, 11244, None], ['call', 6, 4256, None], ['board', None, None, ['6h', '2s', '6d']], ['board', None, None, ['6c']], ['board', None, None, ['Qd']], ['show', 5, None, ['Qh', 'Jh']], ['show', 6, None, ['7s', 'As']], ['win', 5, 16000, None]]
+s1001i7t1 133 net -4578 -15.3 hole ['Kh', 'Qs'] players 3
+actions [(0, 'call', 4428, 4428, 6854, None)]
+events [['hand', None, 133, None], ['blind', 7, 150, None], ['blind', 0, 300, None], ['raise', 3, 6404, None], ['call', 7, 4428, None], ['fold', 0, None, None], ['board', None, None, ['7c', '5s', '6d']], ['board', None, None, ['3c']], ['board', None, None, ['Ac']], ['show', 3, None, ['3d', 'Ah']], ['show', 7, None, ['Kh', 'Qs']], ['win', 3, 11282, None]]
+s1001i11t0 94 net -4394 -36.6 hole ['Tc', 'Td'] players 3
+actions [(0, 'raise', 936, 192, 432, None), (0, 'call', 3458, 3458, 5816, None)]
+events [['hand', None, 94, None], ['blind', 5, 60, None], ['blind', 2, 120, None], ['fold', 4, None, None], ['raise', 5, 312, None], ['raise', 2, 936, None], ['raise', 5, 4880, None], ['call', 2, 3458, None], ['board', None, None, ['4s', 'Qh', '9c']], ['board', None, None, ['5h']], ['board', None, None, ['4c']], ['show', 5, None, ['As', 'Ad']], ['show', 2, None, ['Tc', 'Td']], ['win', 5, 9274, None]]

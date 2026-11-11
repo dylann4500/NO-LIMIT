@@ -1,0 +1,12 @@
+== variant=flushfh table_from=- field=typical
+  tuned    top3:  27.21±0.40  steep:  55.90±0.74  linear:   5.11±0.04  
+  default  top3:  18.40±0.39  steep:  39.59±0.71  linear:   4.24±0.04  
+  tag      top3:  18.29±0.35  steep:  37.80±0.61  linear:   4.33±0.04  
+  nit      top3:  18.74±0.30  steep:  36.80±0.48  linear:   4.63±0.03  
+  fold     top3:  16.96±0.22  steep:  32.24±0.24  linear:   4.91±0.02  
+== variant=flushfh table_from=- field=holdout
+  tuned    top3:  24.52±0.39  steep:  50.16±0.71  linear:   4.88±0.04  
+  default  top3:  18.09±0.39  steep:  38.89±0.71  linear:   4.19±0.04  
+  tag      top3:  18.01±0.35  steep:  37.37±0.62  linear:   4.28±0.04  
+  nit      top3:  18.68±0.29  steep:  36.38±0.46  linear:   4.67±0.03  
+  fold     top3:  16.77±0.21  steep:  31.81±0.22  linear:   4.92±0.01  

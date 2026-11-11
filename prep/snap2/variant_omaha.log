@@ -1,0 +1,12 @@
+== variant=omaha table_from=- field=typical
+  tuned    top3:  25.44±0.79  steep:  52.35±1.46  linear:   4.86±0.08  
+  default  top3:  17.65±0.74  steep:  37.81±1.35  linear:   4.14±0.08  
+  tag      top3:  17.52±0.66  steep:  35.92±1.16  linear:   4.18±0.08  
+  nit      top3:  16.34±0.57  steep:  33.23±0.88  linear:   4.40±0.06  
+  fold     top3:  16.36±0.43  steep:  31.85±0.48  linear:   4.86±0.03  
+== variant=omaha table_from=- field=holdout
+  tuned    top3:  23.83±0.76  steep:  49.12±1.37  linear:   4.84±0.08  
+  default  top3:  17.55±0.75  steep:  38.06±1.36  linear:   4.12±0.08  
+  tag      top3:  16.73±0.66  steep:  34.52±1.15  linear:   4.12±0.08  
+  nit      top3:  17.77±0.56  steep:  35.01±0.88  linear:   4.59±0.06  
+  fold     top3:  17.39±0.41  steep:  32.69±0.45  linear:   4.96±0.03  

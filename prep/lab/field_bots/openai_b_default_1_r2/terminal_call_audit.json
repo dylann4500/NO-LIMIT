@@ -1,0 +1,1025 @@
+{
+ "groups": {
+  "5:call->fold": [
+   26,
+   195.40333333333336,
+   18
+  ]
+ },
+ "examples": [
+  {
+   "table": "s1000i1t0",
+   "hand": 3,
+   "i": 25,
+   "cards": [
+    "6s",
+    "6h"
+   ],
+   "board": [
+    "3s",
+    "4d",
+    "8c",
+    "8d",
+    "5s"
+   ],
+   "pot": 892,
+   "cost": 221,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": -44.6,
+   "eq": 1.0,
+   "vs": [
+    [
+     0,
+     [
+      "Ah",
+      "Kh"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1000i1t0",
+   "hand": 8,
+   "i": 19,
+   "cards": [
+    "9c",
+    "9h"
+   ],
+   "board": [
+    "2h",
+    "3c",
+    "Jc",
+    "5h",
+    "6d"
+   ],
+   "pot": 356,
+   "cost": 88,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 4.4,
+   "eq": 0,
+   "vs": [
+    [
+     4,
+     [
+      "8s",
+      "Js"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1000i2t1",
+   "hand": 117,
+   "i": 14,
+   "cards": [
+    "6s",
+    "Jd"
+   ],
+   "board": [
+    "Js",
+    "Qd",
+    "Qc",
+    "8h",
+    "4s"
+   ],
+   "pot": 2931,
+   "cost": 727,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": -14.655,
+   "eq": 1.0,
+   "vs": [
+    [
+     4,
+     [
+      "5d",
+      "3c"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1000i2t1",
+   "hand": 119,
+   "i": 14,
+   "cards": [
+    "Kh",
+    "Jc"
+   ],
+   "board": [
+    "Td",
+    "8h",
+    "9s",
+    "Js",
+    "3c"
+   ],
+   "pot": 3588,
+   "cost": 890,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": -17.94,
+   "eq": 1.0,
+   "vs": [
+    [
+     4,
+     [
+      "Ah",
+      "4d"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1000i7t2",
+   "hand": 9,
+   "i": 20,
+   "cards": [
+    "3d",
+    "3c"
+   ],
+   "board": [
+    "4c",
+    "9s",
+    "7c",
+    "5h",
+    "7h"
+   ],
+   "pot": 226,
+   "cost": 110,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 5.5,
+   "eq": 0,
+   "vs": [
+    [
+     7,
+     [
+      "As",
+      "7s"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1000i8t1",
+   "hand": 42,
+   "i": 19,
+   "cards": [
+    "Ad",
+    "Jh"
+   ],
+   "board": [
+    "5s",
+    "6c",
+    "Js",
+    "8c",
+    "Kc"
+   ],
+   "pot": 2539,
+   "cost": 932,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 18.64,
+   "eq": 0,
+   "vs": [
+    [
+     6,
+     [
+      "Jc",
+      "Jd"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1000i11t1",
+   "hand": 25,
+   "i": 20,
+   "cards": [
+    "9d",
+    "9s"
+   ],
+   "board": [
+    "4s",
+    "5d",
+    "Qd",
+    "8s",
+    "Ts"
+   ],
+   "pot": 197,
+   "cost": 54,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": -6.566666666666666,
+   "eq": 1.0,
+   "vs": [
+    [
+     0,
+     [
+      "Ad",
+      "6h"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1000i11t1",
+   "hand": 103,
+   "i": 18,
+   "cards": [
+    "8s",
+    "Ah"
+   ],
+   "board": [
+    "6s",
+    "6h",
+    "5c",
+    "3c",
+    "6d"
+   ],
+   "pot": 3995,
+   "cost": 667,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 3.335,
+   "eq": 0,
+   "vs": [
+    [
+     6,
+     [
+      "As",
+      "Jc"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1001i3t0",
+   "hand": 67,
+   "i": 17,
+   "cards": [
+    "Jd",
+    "Js"
+   ],
+   "board": [
+    "Kd",
+    "6s",
+    "6c",
+    "6h",
+    "8s"
+   ],
+   "pot": 3553,
+   "cost": 2027,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 25.3375,
+   "eq": 0,
+   "vs": [
+    [
+     4,
+     [
+      "Kh",
+      "Jh"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1001i12t2",
+   "hand": 25,
+   "i": 19,
+   "cards": [
+    "9c",
+    "9h"
+   ],
+   "board": [
+    "4h",
+    "Kc",
+    "7c",
+    "2h",
+    "Qs"
+   ],
+   "pot": 1701,
+   "cost": 567,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 18.9,
+   "eq": 0,
+   "vs": [
+    [
+     5,
+     [
+      "Kh",
+      "Ts"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1002i1t1",
+   "hand": 8,
+   "i": 18,
+   "cards": [
+    "8h",
+    "Ad"
+   ],
+   "board": [
+    "3c",
+    "Ah",
+    "3d",
+    "Jc",
+    "8s"
+   ],
+   "pot": 2368,
+   "cost": 1262,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 63.1,
+   "eq": 0,
+   "vs": [
+    [
+     4,
+     [
+      "8c",
+      "8d"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1002i4t1",
+   "hand": 74,
+   "i": 19,
+   "cards": [
+    "Ac",
+    "Js"
+   ],
+   "board": [
+    "3d",
+    "Jh",
+    "3c",
+    "Qh",
+    "8c"
+   ],
+   "pot": 3064,
+   "cost": 1022,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 12.775,
+   "eq": 0,
+   "vs": [
+    [
+     6,
+     [
+      "Qd",
+      "Ah"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1002i13t1",
+   "hand": 38,
+   "i": 20,
+   "cards": [
+    "Jc",
+    "Kd"
+   ],
+   "board": [
+    "Qd",
+    "Qs",
+    "3s",
+    "Js",
+    "4c"
+   ],
+   "pot": 645,
+   "cost": 160,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": -21.5,
+   "eq": 1.0,
+   "vs": [
+    [
+     7,
+     [
+      "As",
+      "7c"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1003i1t0",
+   "hand": 10,
+   "i": 19,
+   "cards": [
+    "Ac",
+    "Jd"
+   ],
+   "board": [
+    "As",
+    "7d",
+    "5h",
+    "5c",
+    "Ts"
+   ],
+   "pot": 1900,
+   "cost": 1090,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 54.5,
+   "eq": 0,
+   "vs": [
+    [
+     4,
+     [
+      "5d",
+      "5s"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1003i9t2",
+   "hand": 4,
+   "i": 22,
+   "cards": [
+    "Qc",
+    "Ad"
+   ],
+   "board": [
+    "9h",
+    "8c",
+    "9d",
+    "Qh",
+    "6d"
+   ],
+   "pot": 925,
+   "cost": 387,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 19.35,
+   "eq": 0,
+   "vs": [
+    [
+     3,
+     [
+      "Ac",
+      "As"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1004i1t1",
+   "hand": 29,
+   "i": 20,
+   "cards": [
+    "As",
+    "8h"
+   ],
+   "board": [
+    "4d",
+    "Ah",
+    "2h",
+    "5d",
+    "4c"
+   ],
+   "pot": 1089,
+   "cost": 386,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 12.866666666666667,
+   "eq": 0,
+   "vs": [
+    [
+     3,
+     [
+      "9d",
+      "Ac"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1005i1t2",
+   "hand": 47,
+   "i": 20,
+   "cards": [
+    "9h",
+    "9c"
+   ],
+   "board": [
+    "8s",
+    "Td",
+    "6s",
+    "6c",
+    "Tc"
+   ],
+   "pot": 2564,
+   "cost": 974,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 19.48,
+   "eq": 0,
+   "vs": [
+    [
+     6,
+     [
+      "Th",
+      "Ad"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1005i8t1",
+   "hand": 86,
+   "i": 19,
+   "cards": [
+    "Qd",
+    "Qs"
+   ],
+   "board": [
+    "3h",
+    "Th",
+    "Kc",
+    "6s",
+    "Jc"
+   ],
+   "pot": 5462,
+   "cost": 1809,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 15.075,
+   "eq": 0,
+   "vs": [
+    [
+     5,
+     [
+      "Ks",
+      "Ad"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1006i14t0",
+   "hand": 13,
+   "i": 20,
+   "cards": [
+    "Kc",
+    "9c"
+   ],
+   "board": [
+    "Th",
+    "8d",
+    "Kh",
+    "Js",
+    "5c"
+   ],
+   "pot": 677,
+   "cost": 283,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 14.15,
+   "eq": 0,
+   "vs": [
+    [
+     0,
+     [
+      "Jc",
+      "Tc"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1007i3t1",
+   "hand": 76,
+   "i": 21,
+   "cards": [
+    "Jh",
+    "Tc"
+   ],
+   "board": [
+    "Kc",
+    "8d",
+    "Qh",
+    "Jd",
+    "2c"
+   ],
+   "pot": 2186,
+   "cost": 682,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 8.525,
+   "eq": 0,
+   "vs": [
+    [
+     3,
+     [
+      "As",
+      "Js"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1007i7t1",
+   "hand": 57,
+   "i": 20,
+   "cards": [
+    "Jh",
+    "Js"
+   ],
+   "board": [
+    "Kh",
+    "Qd",
+    "9s",
+    "5s",
+    "4c"
+   ],
+   "pot": 509,
+   "cost": 126,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 2.52,
+   "eq": 0,
+   "vs": [
+    [
+     6,
+     [
+      "5d",
+      "Qh"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1007i8t0",
+   "hand": 29,
+   "i": 21,
+   "cards": [
+    "Ah",
+    "3h"
+   ],
+   "board": [
+    "4h",
+    "4d",
+    "Ad",
+    "Jh",
+    "3s"
+   ],
+   "pot": 3198,
+   "cost": 1123,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 37.43333333333333,
+   "eq": 0,
+   "vs": [
+    [
+     7,
+     [
+      "Ac",
+      "Jd"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1007i10t1",
+   "hand": 113,
+   "i": 19,
+   "cards": [
+    "5h",
+    "Kd"
+   ],
+   "board": [
+    "Qc",
+    "8h",
+    "6d",
+    "2h",
+    "5d"
+   ],
+   "pot": 2508,
+   "cost": 1188,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": 5.94,
+   "eq": 0,
+   "vs": [
+    [
+     6,
+     [
+      "7c",
+      "4c"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1007i11t2",
+   "hand": 18,
+   "i": 18,
+   "cards": [
+    "Ks",
+    "Qs"
+   ],
+   "board": [
+    "Ah",
+    "2h",
+    "Kc",
+    "7d",
+    "4d"
+   ],
+   "pot": 147,
+   "cost": 49,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": -7.35,
+   "eq": 1.0,
+   "vs": [
+    [
+     5,
+     [
+      "8c",
+      "5c"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1007i13t2",
+   "hand": 64,
+   "i": 19,
+   "cards": [
+    "As",
+    "8d"
+   ],
+   "board": [
+    "3c",
+    "7d",
+    "Ah",
+    "5h",
+    "4d"
+   ],
+   "pot": 1345,
+   "cost": 333,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": -16.8125,
+   "eq": 1.0,
+   "vs": [
+    [
+     1,
+     [
+      "9c",
+      "Kh"
+     ]
+    ]
+   ]
+  },
+  {
+   "table": "s1007i14t0",
+   "hand": 2,
+   "i": 21,
+   "cards": [
+    "8h",
+    "8d"
+   ],
+   "board": [
+    "4d",
+    "Qc",
+    "3c",
+    "5h",
+    "Qs"
+   ],
+   "pot": 340,
+   "cost": 110,
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "delta_bb": -17.0,
+   "eq": 1.0,
+   "vs": [
+    [
+     6,
+     [
+      "7s",
+      "7d"
+     ]
+    ]
+   ]
+  }
+ ]
+}

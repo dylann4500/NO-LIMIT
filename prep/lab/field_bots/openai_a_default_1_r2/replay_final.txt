@@ -1,0 +1,14 @@
+decisions 17524 action agreement 0.9291828349691851
+8 6148 {(0, 'fold'): 3683, (0, 'raise'): 742, (3, 'call'): 130, (4, 'raise'): 114, (0, 'call'): 294, (3, 'check'): 235, (3, 'fold'): 139, (3, 'raise'): 225, (4, 'check'): 186, (5, 'check'): 184, (5, 'raise'): 24, (4, 'fold'): 77, (5, 'fold'): 42, (5, 'call'): 21, (4, 'call'): 49, (0, 'check'): 3}
+7 3683 {(0, 'fold'): 2272, (0, 'raise'): 469, (3, 'fold'): 100, (0, 'call'): 189, (3, 'check'): 131, (3, 'call'): 52, (4, 'check'): 104, (5, 'check'): 95, (5, 'fold'): 26, (3, 'raise'): 125, (4, 'call'): 25, (5, 'raise'): 11, (4, 'raise'): 49, (5, 'call'): 7, (4, 'fold'): 27, (0, 'check'): 1}
+6 2548 {(0, 'fold'): 1533, (0, 'raise'): 320, (3, 'raise'): 93, (3, 'check'): 104, (4, 'check'): 76, (5, 'check'): 64, (3, 'call'): 36, (4, 'fold'): 23, (0, 'call'): 134, (3, 'fold'): 70, (4, 'raise'): 41, (4, 'call'): 19, (5, 'call'): 6, (5, 'raise'): 10, (5, 'fold'): 16, (0, 'check'): 3}
+5 1889 {(0, 'fold'): 1174, (0, 'raise'): 214, (0, 'call'): 108, (3, 'raise'): 51, (4, 'raise'): 22, (3, 'check'): 86, (3, 'call'): 30, (4, 'check'): 70, (4, 'fold'): 23, (5, 'check'): 51, (3, 'fold'): 33, (0, 'check'): 2, (5, 'raise'): 4, (5, 'fold'): 13, (4, 'call'): 5, (5, 'call'): 3}
+4 1752 {(0, 'fold'): 1139, (0, 'raise'): 219, (3, 'fold'): 34, (0, 'call'): 94, (3, 'check'): 57, (4, 'check'): 47, (5, 'check'): 35, (3, 'raise'): 57, (5, 'fold'): 7, (3, 'call'): 20, (4, 'raise'): 14, (4, 'fold'): 18, (5, 'call'): 1, (4, 'call'): 7, (5, 'raise'): 2, (0, 'check'): 1}
+3 914 {(0, 'fold'): 450, (0, 'call'): 88, (0, 'raise'): 156, (3, 'check'): 52, (4, 'check'): 30, (5, 'check'): 20, (3, 'raise'): 27, (4, 'raise'): 18, (3, 'fold'): 23, (4, 'fold'): 15, (3, 'call'): 17, (4, 'call'): 8, (5, 'raise'): 4, (5, 'fold'): 5, (5, 'call'): 1}
+2 590 {(0, 'raise'): 211, (0, 'fold'): 136, (0, 'call'): 44, (3, 'check'): 36, (4, 'check'): 36, (5, 'check'): 24, (4, 'fold'): 14, (3, 'call'): 21, (4, 'call'): 7, (5, 'fold'): 9, (3, 'raise'): 25, (3, 'fold'): 12, (4, 'raise'): 7, (5, 'call'): 2, (5, 'raise'): 4, (0, 'check'): 2}
+shown 3 call 112 estimate 0.48 actual 0.556
+shown 3 raise 9 estimate 0.854 actual 0.864
+shown 4 call 74 estimate 0.458 actual 0.612
+shown 4 raise 4 estimate 0.778 actual 0.756
+shown 5 call 41 estimate 0.338 actual 0.622
+shown 5 raise 1 estimate 0.762 actual 1.0
