@@ -1,0 +1,28 @@
+{
+  "agent": "Samuels-MacBook-Pro-4",
+  "assignee": "",
+  "claimed_at": "2026-11-11T23:36:42Z",
+  "cmd": "",
+  "compute": "modal nguyennalyd3 + mac",
+  "details": "",
+  "expires_at": "2026-11-12T03:36:42Z",
+  "id": "emu-pilot",
+  "log": [
+    {
+      "at": "2026-11-11T23:36:42Z",
+      "by": "samuel",
+      "text": "claimed"
+    }
+  ],
+  "owner": "samuel",
+  "paths": [
+    "emu"
+  ],
+  "posted_at": "",
+  "posted_by": "",
+  "priority": 0,
+  "result": "",
+  "state": "active",
+  "title": "Tournament emulator pilot: mock portal/kit, Modal-sandboxed Claude agent teams (4 teams, build + 2 rounds, regional variant), realism check vs real data",
+  "updated_at": "2026-11-11T23:36:42Z"
+}
