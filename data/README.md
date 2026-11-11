@@ -17,20 +17,22 @@ Format: line 1 is a header (`tournament_id`, `you` = our entry id, `entries` = e
 
 The mapping was verified by recomputing our points per table from each file (all within 0.03 of the official score). Each scored file also has a `-first-1000` sample downloaded a few minutes earlier, except round 6.
 
-## Other files (practice rounds and other tournaments, not labeled)
+## Practice rounds (30,850 tables, avalon at every table)
 
-Listed by download time on 2026-11-06. The competitor research (`research/competitors/REPORT.md`) notes that two of the 148-entry 1,000-table files are other tournaments, not ours.
+All eight files list the same 148 entries, avalon included, so they are practice rounds of our tournament. (An earlier note in `research/competitors/REPORT.md` guessed two of them were other tournaments; the entry lists say otherwise.) Listed by download time on 2026-11-06; which practice round each one is was not recorded.
 
-| Downloaded | Size | File |
+| Downloaded | Tables | File |
 |---|---|---|
-| 18:42 | 13 MB | `hands-5da6d631-2bcf-4fe2-9e7a-01b9e8ecac75.jsonl.gz` |
-| 18:53 | 32 MB | `hands-af2a0969-cd0a-4124-875b-84ff690a2a6d.jsonl.gz` |
-| 19:08 | 134 MB | `hands-bd8406dc-0f95-4cd3-8015-7ef8acf3898c.jsonl.gz` |
-| 19:18 | 161 MB | `hands-4d1fe6fb-7336-4745-bfb4-cd0e565fb552.jsonl.gz` (+ `-first-1000`) |
-| 19:55 | 14 MB | `hands-74eb2fd7-8ade-46fb-8e6a-6a099170b812.jsonl.gz` |
-| 20:15 | 13 MB | `hands-4acb36cf-7869-47d6-b4e7-e5de8e634956.jsonl.gz` |
-| 20:35 | 13 MB | `hands-925e7be1-31e3-4101-af96-fcb2f78bad37.jsonl.gz` |
-| 20:57 | 13 MB | `hands-13040f56-85d7-4be5-9421-d929abd48da8.jsonl.gz` |
+| 18:42 | 1,042 | `hands-5da6d631-2bcf-4fe2-9e7a-01b9e8ecac75.jsonl.gz` |
+| 18:53 | 2,589 | `hands-af2a0969-cd0a-4124-875b-84ff690a2a6d.jsonl.gz` |
+| 19:08 | 10,393 | `hands-bd8406dc-0f95-4cd3-8015-7ef8acf3898c.jsonl.gz` |
+| 19:18 | 12,797 | `hands-4d1fe6fb-7336-4745-bfb4-cd0e565fb552.jsonl.gz` (+ `-first-1000`) |
+| 19:55 | 1,004 | `hands-74eb2fd7-8ade-46fb-8e6a-6a099170b812.jsonl.gz` |
+| 20:15 | 1,007 | `hands-4acb36cf-7869-47d6-b4e7-e5de8e634956.jsonl.gz` |
+| 20:35 | 1,005 | `hands-925e7be1-31e3-4101-af96-fcb2f78bad37.jsonl.gz` |
+| 20:57 | 1,013 | `hands-13040f56-85d7-4be5-9421-d929abd48da8.jsonl.gz` |
+
+**Total:** 120,947 scored-round tables + 30,850 practice tables = 151,797 tables (the `-first-1000` files are subsets and not counted). Each table runs about 90 hands; the scored rounds alone hold about 10.9 million hands dealt to us.
 
 ## Other local data not in git
 
