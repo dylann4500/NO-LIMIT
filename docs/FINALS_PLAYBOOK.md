@@ -81,9 +81,26 @@ its first hour decided its result. Its style, measured from our tables:
 | **Dylan** | the coding agents that build and change bots (the main bot and the style tracks), packing, uploads, confirming the active bot |
 | **Samuel** | the clock and deadlines; the manager agent and every analysis under it; the live dashboard; the one-page recommendation each window |
 
-**Per-round deadlines** (a missed deadline means the previous bot stays live):
-T-15 change chosen · T-8 packed · T-6 tested under upload-test conditions (no time bank) · T-3 uploaded and
-the active bot confirmed on the team page.
+**Per-round deadlines.** A practice round starts 10 minutes before every scored round and plays whatever
+bot is active, so each 20-minute window has two uploads: the challenger for the practice round, then the
+live bot for the scored round.
+
+| Time to scored round | Deadline |
+|---|---|
+| T-20 | Scored round starts. The challenger is already packed and tested from the last window. |
+| T-15 | Live bot's change chosen |
+| T-12 | Challenger uploaded and confirmed active |
+| T-10 | Practice round starts and plays the challenger |
+| T-9 | Live bot put back as active straight away (re-upload the current one) |
+| T-8 | New live bot packed |
+| T-6 | Tested under upload-test conditions (no time bank) |
+| T-3 | New live bot uploaded and confirmed active on the team page |
+
+Once the live bot is back at T-9, a missed deadline means the previous live bot plays. If the challenger
+isn't ready by T-12, skip it that window: a challenger left active at T-0 plays the scored round. The
+practice result arrives too late for the round it precedes; it decides the swap for the round after.
+Confirm on the day that the Finals keeps this schedule (Format page) and that a practice round takes the
+bot active at its start.
 
 **Before the start (about 2 hours):** four research agents in parallel (prompt pack Part 0), merged into a
 plan. Sign in to Modal.
