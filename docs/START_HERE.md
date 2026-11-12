@@ -1,0 +1,149 @@
+# Finals: start here
+
+For Dylan and Samuel. This assumes you remember the regional and nothing since. Read this first (about
+ten minutes), then the rehearsal sheet for tonight. Everything else is reference.
+
+## 1. What we learned since the regional
+
+The Finals are on Sunday 15 November in San Francisco. Confirmed: 20 teams and no house bots. The
+variant is announced at the start. We may bring prompts and notes but no code.
+
+At the regional we finished 6th (376.71). 2 Curry won with 428.72, about 2.5 points per table per round
+more than us.
+
+- **Our own mistakes cost about 22-25 points; fixing them alone would have put us about 3rd.** They were:
+  - over-calling flop and turn bets early;
+  - over-folding after v6;
+  - the SDK's ICM function scoring a busted stack as 0;
+  - folding 82-89% to re-raises.
+
+  v10 also had two counting bugs: the raise-frequency stat was inverted, and folds to our own bets were
+  never counted.
+- **The rest was style, and one rule in particular.** 2 Curry opened about 40% of hands and re-raised
+  wide. Its bot also tracked each seat at the table: it re-raised a fresh opener 18% of the time, 43%
+  after that seat had folded to one re-raise, and 62% after two folds. We folded to most re-raises, so it
+  kept re-raising us. Ten of the other 19 top teams had some per-seat rule like this.
+- **Almost everyone changed their bot every round (78-90% of teams).** For strong teams, changing only
+  kept them level: top-20 teams lost about 0.65 points per table per round whether they changed or not.
+  So the bot at the end of the build matters a lot, and you still have to keep improving.
+- **The field gets harder at the Finals.** Every finalist knows wide re-raising won. By round 5 at
+  Boston, the top teams already folded only 58% to re-raises and re-raised back 23% of the time.
+- **Big jumps come from rewrites, mostly for teams far behind.** 81 of 92 big gains came from rewrites,
+  but only 3 of those were by a top-20 team. For top-20 teams, rewrites lost 0.68 points on average.
+- **Bet sizes identify a team quickly.** With last round's data, the right team is named 73% of the time
+  by hand 20. We used the same sizes all night and were identifiable by about hand 7. Hiding our sizes
+  works for one round at most and costs value, so we don't hide them. Instead we avoid big exploitable
+  gaps, such as folding 89% to re-raises when the field folds 65%.
+
+## 2. The game plan
+
+1. **Before the start (about 2 hours):** four research agents work in parallel on likely twists, what
+   wins, a build plan and a test plan. Then one agent merges their notes into a plan.
+2. **Build hour:**
+   - by minute 10: a minimal legal bot is uploaded;
+   - then **one shared platform** (rules, equity, per-seat counters, memory, safety) with **three
+     styles** on top as parameter sets: balanced, wide-pressure and shove-heavy;
+   - practice rounds at minutes 20, 30 and 40 each play a different style, and minute 50 re-plays the
+     leader;
+   - the best real score goes live for scored round 1, and the runner-up becomes the **challenger**.
+3. **Every 20-minute window:**
+   1. download the hand history;
+   2. five analysis agents look for our leaks;
+   3. six to ten candidate changes are built and tested;
+   4. **one** tested change goes into the live bot;
+   5. the challenger plays the practice round.
+
+   We swap the two if the challenger clearly scores better.
+4. **Adapt to individual seats, not to the "table mood".** Each seat's live counts are blended with what
+   we know about its team, and every adjustment is capped. Against seats that raise a lot, call off and
+   re-raise wider; folding more is the wrong answer to aggression.
+5. **Evidence before shipping.** Every finding is graded (`docs/EVIDENCE_TABLE.md`). An analysis that
+   sounds convincing is a *candidate* until it is tested, and only tested changes go into the live bot.
+
+## 3. Who does what
+
+| | Dylan | Samuel |
+|---|---|---|
+| Owns | The bot: building, changing, packing, uploading, confirming the active bot | The clock and deadlines; the analysis; the one-page recommendation each window |
+| Agents (own Claude account) | Main bot session; 3-5 candidate builders | Manager; extraction + 5 area analyses; team profiles; test rig; poller; 2-5 more candidate builders |
+| Other compute | | Codex (the team's $250) for 2 bug hunters; Modal for the test rig |
+
+The decision at each deadline is made together. Details: `docs/Compute_and_Roles.pdf`.
+
+## 4. Before Sunday
+
+- [ ] **Tonight, 8 PM: the rehearsal** (`docs/REHEARSAL_TONIGHT.md`).
+- [ ] Decide who claims the $250 Codex credit before anyone opens the link (suggested: Samuel). It
+      goes to whichever account opens it first.
+- [ ] Get the friend's $170 into the team Modal workspace (Dylan's). Set the spend limit there.
+- [ ] Cap auto-reload on the Stanford VRITS Anthropic org (about $138 left, auto-reload is on).
+- [ ] Find out Pittsburgh's variant and results (it ran 12 November).
+- [ ] Both laptops: Claude Code, GitHub and Modal signed in; Codex installed and signed in.
+- [ ] Make a fresh private repo for Sunday containing only `docs/FIRST_PROMPT.md`, the playbook and
+      notes. No code.
+- [ ] Read `docs/FIRST_PROMPT.md` once all the way through, so you know what each prompt does.
+
+## 5. On the day
+
+**Build hour** (minutes from the announcement):
+
+| Minute | What happens | Who |
+|---|---|---|
+| 0-5 | Fetch the kit (setup skill). Paste the first prompt (prompt pack Part 1). Read the Format page: round weights, payouts, anything unusual | Both |
+| by 10 | Minimal legal bot uploaded; read the active bot's name out loud | Dylan |
+| 10-50 | Shared platform first, then three styles in parallel. Test rig starts at about minute 15 (Part 3) | Dylan builds, Samuel measures |
+| 20, 30, 40 | Each practice round plays a different style | Dylan uploads |
+| 50 | Practice round re-plays the leader | |
+| 50-60 | Hands off. The best real-field scorer is active for scored round 1 | Dylan |
+
+**Every window after that.** A practice round starts 10 minutes before each scored round and plays
+whatever bot is active, so each window has two uploads.
+
+| Time to scored round | What happens | Who |
+|---|---|---|
+| T-20 | Scored round starts. The challenger is already packed and tested | |
+| T-13 | Scored result and download land. Samuel starts the manager (Part 5) | Samuel |
+| T-12 | Challenger uploaded and confirmed active | Dylan |
+| T-10 | Practice round starts and plays the challenger | |
+| T-9 | Live bot put back as active straight away | Dylan |
+| T-8 | Practice result lands. **Decide together:** live bot, live bot plus this window's change, or the challenger | Both |
+| T-6 | Chosen bot tested under upload-test conditions (no time bank) | Dylan |
+| T-3 | Uploaded; read the active bot out loud from the team page | Dylan |
+
+If the challenger isn't ready by T-12, skip it that window. Once the live bot is back at T-9, a missed
+deadline just means the previous live bot plays. Never rush an untested upload.
+
+## 6. How we decide
+
+- **Live bot:** one change per round (two only if they touch unrelated situations), and only a tested
+  one.
+- **Challenger:** two to four changes, or a redesign. It only plays practice rounds.
+- **Outside the top 3:** take the bolder option when the evidence is roughly even. A challenger ahead by
+  about one standard error is worth playing.
+- **Inside the top 3:** protect what works, more so in the heavy late rounds.
+- **Stuck mid-table after two rounds:** put a fresh rewrite in the challenger slot.
+- **What counts as evidence, in order:** real-field results (practice and scored), then replay testing,
+  then the cloned field. The cloned field is a warning light, not a ranking. Beating our own bots proves
+  nothing.
+- **Never block a change because it makes us look unusual.** The regional winner looked nothing like the
+  average team.
+
+## 7. The documents, in reading order
+
+| Document | When you need it |
+|---|---|
+| `docs/START_HERE.md` (this) | Now |
+| `docs/REHEARSAL_TONIGHT.md` | Tonight |
+| `docs/Finals_Game_Plan.pdf` | Printable version of the plan; keep it open on the day |
+| `docs/Compute_and_Roles.pdf` | What compute we have and whose agents run where |
+| `docs/FIRST_PROMPT.md` | Every prompt you will paste, in order (Parts 0-5), with the evidence (Part 6) |
+| `docs/FINALS_PLAYBOOK.md` | The longer reasoning: what went wrong, the format, the operating model |
+| `docs/EVIDENCE_TABLE.md` | How sure we are of each finding, and the test each proposed change needs |
+
+## 8. Not settled yet
+
+- Pittsburgh's variant.
+- Whether the cloned field ranks candidates reliably. A test is running; until it reports, use the
+  cloned field only to catch disasters.
+- Whether this many agents is manageable for two people, whether either Claude account gets throttled,
+  and whether Modal queues. Tonight answers these.
