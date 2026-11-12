@@ -167,13 +167,13 @@ rerun on fresh deals before either ships.
 Split the agents across both our Claude accounts so neither hits a burst limit, with an API key as
 overflow. Don't hold agents back to save usage: an untested idea costs more.
 
-**Budget beyond Claude** (as of 2026-11-11). The organizers cover no compute or tools; each participant
-gets $250 in Codex credits ($500 between us). Samuel's OpenAI organization also has $1,000 in API credits.
+**Budget beyond Claude** (as of 2026-11-11). The organizers cover no compute or tools; the team gets
+$250 in Codex credits in total. Samuel's OpenAI organization also has $1,000 in API credits.
 Modal is on us.
 
 | Money | Use it for |
 |---|---|
-| Codex credits ($250 each) | the two bug hunters and one candidate builder per window, and one of the three style bots in the build hour: a different model makes different mistakes, so its review and its design are more independent than another Claude agent's |
+| Codex credits ($250 for the team) | the two bug hunters and one candidate builder per window, and one of the three style bots in the build hour: a different model makes different mistakes, so its review and its design are more independent than another Claude agent's |
 | OpenAI API credits ($1,000) | overflow for the same Codex jobs once the event credits run out or a Claude limit hits; rehearsal runs before Sunday |
 | Claude (both subscriptions) | everything else: the main bot, the manager, the analyses |
 
