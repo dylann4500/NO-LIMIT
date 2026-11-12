@@ -1,0 +1,45 @@
+
+### design a: last third vs first third of the table; same players-left and own-stack(bb) bucket (blind level not controlled)
+| tendency | teams | field median drift (pp) | IQR | share of teams |z|>3 | teams with BH q<0.01 drift different from the field median and |dev|>=3pp |
+|---|---|---|---|---|---|
+| open | 184 | +4.4 | +1.8..+8.2 | 49% | 65 |
+| 3bet | 100 | +2.3 | +0.1..+5.6 | 27% | 19 |
+| f3b | 1 | -10.9 | -10.9..-10.9 | 100% | 0 |
+| calljam | 1 | +5.4 | +5.4..+5.4 | 100% | 0 |
+| btc1 | 1 | -2.9 | -2.9..-2.9 | 0% | 0 |
+| btc2 | 1 | -4.9 | -4.9..-4.9 | 100% | 0 |
+| fold1 | 1 | -2.1 | -2.1..-2.1 | 0% | 0 |
+| fold2 | 1 | +1.4 | +1.4..+1.4 | 0% | 0 |
+| fold3 | 1 | +12.5 | +12.5..+12.5 | 100% | 0 |
+
+### design b: adjacent thirds within the same blind level, players-left and stack bucket (blind level controlled; identified by table length)
+| tendency | teams | field median drift (pp) | IQR | share of teams |z|>3 | teams with BH q<0.01 drift different from the field median and |dev|>=3pp |
+|---|---|---|---|---|---|
+| open | 192 | +0.3 | -0.1..+0.7 | 3% | 0 |
+| 3bet | 192 | +0.1 | -0.1..+0.5 | 4% | 0 |
+| f3b | 116 | -0.5 | -2.0..+1.0 | 3% | 0 |
+| calljam | 191 | +1.0 | +0.3..+1.6 | 7% | 0 |
+| btc1 | 5 | -1.6 | -1.6..+0.4 | 0% | 0 |
+| btc2 | 1 | +2.9 | +2.9..+2.9 | 100% | 0 |
+| fold1 | 65 | -1.4 | -2.9..-0.2 | 2% | 0 |
+| fold2 | 1 | -3.2 | -3.2..-3.2 | 100% | 0 |
+| fold3 | 1 | -4.2 | -4.2..-4.2 | 100% | 0 |
+
+### design c: second half vs first half of each 20-hand blind level; same level, third, players-left, stack bucket
+| tendency | teams | field median drift (pp) | IQR | share of teams |z|>3 | teams with BH q<0.01 drift different from the field median and |dev|>=3pp |
+|---|---|---|---|---|---|
+| open | 192 | +0.4 | +0.1..+0.7 | 21% | 2 |
+| 3bet | 192 | +0.0 | -0.1..+0.2 | 9% | 1 |
+| f3b | 181 | +0.3 | -0.4..+1.1 | 4% | 5 |
+| calljam | 193 | -0.1 | -0.6..+0.3 | 1% | 0 |
+| btc1 | 176 | +0.2 | -0.8..+1.4 | 1% | 0 |
+| btc2 | 90 | +0.1 | -1.7..+1.7 | 1% | 0 |
+| fold1 | 190 | +0.3 | -0.7..+1.1 | 2% | 3 |
+| fold2 | 124 | -0.0 | -1.3..+1.3 | 0% | 0 |
+| fold3 | 30 | +0.0 | -1.4..+1.5 | 0% | 0 |
+
+### teams whose drift differs from the field's in design a AND design b (same sign), by tendency
+| tendency | team | final rank | drift a (pp) | field median a | drift b (pp) | field median b | drift c (pp) | drift a by round |
+|---|---|---|---|---|---|---|---|---|
+| open | Red Panda Bot |  | -1.3 | +4.4 | -0.0 | +0.3 | -0.1 | {'188fa79b': -1.3} |
+| 3bet | big little sharks |  | +9.5 | +2.3 | +2.8 | +0.1 | +3.0 | {'690def26': 15.8, 'de7ac5d3': 6.8, '188fa79b': 5.4} |

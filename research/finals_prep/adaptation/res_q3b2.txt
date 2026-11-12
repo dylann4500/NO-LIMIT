@@ -1,0 +1,157 @@
+effect = change in the action's probability (pp) per +10pp deviation of the faced seat's in-table rate from its team's norm (shrunk with 4 pseudo-observations); controls: the seat's team norm, rest-of-table history, blind level, players left, own and faced-seat stack buckets, who covers, situation dummies
+| test | teams | field median effect (pp) | share of team-rounds |z|>3 | placebo: rest-of-table |z|>3 | teams: q<0.01, expected sign, |effect|>=1pp and >=1pp beyond field median |
+|---|---|---|---|---|---|
+| re-raise more against an opener who has folded to re-raises at this table | 122 | +0.03 | 8% | 3% | 7 |
+| re-raise more against an opener who has opened often at this table | 122 | +0.09 | 21% | 3% | 17 |
+| open SB/BTN more when the big blind has folded to opens at this table | 122 | +0.15 | 14% | 10% | 16 |
+| bet when checked to (heads-up) more against a seat that has folded to bets at this table | 123 | -0.74 | 40% | 2% | 27 |
+| fold less to a bet (heads-up) from a seat that has bet often at this table | 123 | -1.70 | 43% | 4% | 20 |
+| call a shove more from a seat that has shoved often at this table | 123 | -0.20 | 13% | 1% | 28 |
+
+positive control, avalon (its bots tracked each seat's raise frequency, fold-to-bet and bet frequency in memory):
+  tb:f3b_hist: R1 +0.7pp (z +9), R2 +0.6pp (z +7), R3 +0.8pp (z +10), R4 +0.9pp (z +12), R5 +0.7pp (z +10), R6 +0.6pp (z +8)
+  tb:open_hist: R1 +3.6pp (z +36), R2 +3.4pp (z +35), R3 +3.4pp (z +36), R4 +3.1pp (z +34), R5 +2.6pp (z +29), R6 +2.8pp (z +32)
+  steal:bbfold_hist: R1 -0.1pp (z -0), R2 -0.0pp (z -0), R3 +0.2pp (z +2), R4 -0.1pp (z -1), R5 -0.0pp (z -0), R6 -0.1pp (z -1)
+  btc:fold_hist: R1 +6.4pp (z +75), R2 +5.9pp (z +66), R3 +1.9pp (z +21), R4 +1.6pp (z +16), R5 +2.0pp (z +23), R6 +2.1pp (z +24)
+  fb:bet_hist: R1 -2.1pp (z -14), R2 -2.1pp (z -13), R3 -0.9pp (z -6), R4 -1.2pp (z -7), R5 -1.0pp (z -6), R6 -1.1pp (z -7)
+  cj:jam_hist: R1 -0.9pp (z -2), R2 -0.2pp (z -0), R3 +0.6pp (z +2), R4 +0.8pp (z +3), R5 -0.4pp (z -1), R6 +0.6pp (z +2)
+
+| test | team | final rank | effect per +10pp (pp) | base rate | z | n | effect by round |
+|---|---|---|---|---|---|---|---|
+| tb:f3b_hist | 2 Curry | 1 | +31.9 | 43% | +145 | 152960 | {'R1': 35.3, 'R2': 37.8, 'R3': 27.7, 'R4': 32.0, 'R5': 34.5, 'R6': 26.6} |
+| tb:f3b_hist | Team 123 | 7 | +15.7 | 34% | +74 | 120475 | {'R1': 0.1, 'R2': -0.2, 'R3': 20.5, 'R4': 19.9, 'R5': 19.6, 'R6': 20.6} |
+| tb:f3b_hist | stanford deviants | 11 | +15.3 | 35% | +83 | 137247 | {'R1': 10.0, 'R2': 18.7, 'R3': 13.6, 'R4': 17.0, 'R5': 15.0, 'R6': 14.1} |
+| tb:f3b_hist | Spectre | 33 | +2.0 | 14% | +18 | 129188 | {'R1': 1.1, 'R2': 1.4, 'R3': 1.4, 'R4': 1.4, 'R5': 3.1, 'R6': 3.2} |
+| tb:f3b_hist | AZ | 3 | +1.5 | 24% | +10 | 135631 | {'R1': 1.1, 'R2': 2.6, 'R3': 1.3, 'R4': 0.8, 'R5': 2.0, 'R6': 1.1} |
+| tb:f3b_hist | the twins | 37 | +1.2 | 18% | +7 | 103656 | {'R1': 0.2, 'R2': -0.0, 'R3': 1.7, 'R4': 0.7, 'R5': 2.0, 'R6': 1.7} |
+| tb:f3b_hist | Lemonade | 2 | +1.1 | 22% | +8 | 154530 | {'R1': 1.7, 'R2': 1.6, 'R3': 0.6, 'R4': 0.9, 'R5': 0.6, 'R6': 1.1} |
+| tb:open_hist | AZ | 3 | +6.2 | 24% | +35 | 135631 | {'R1': 7.1, 'R2': 8.0, 'R3': 7.0, 'R4': 5.6, 'R5': 6.2, 'R6': 2.9} |
+| tb:open_hist | Team 123 | 7 | +3.4 | 34% | +16 | 120475 | {'R1': 0.1, 'R2': 0.3, 'R3': 2.9, 'R4': 3.7, 'R5': 4.8, 'R6': 4.8} |
+| tb:open_hist | Clippers Championship | 19 | +2.4 | 9% | +23 | 136577 | {'R1': 0.3, 'R2': 4.0, 'R3': 4.4, 'R4': 5.0, 'R5': 0.4, 'R6': 0.6} |
+| tb:open_hist | all vibes | 59 | +2.4 | 13% | +21 | 131726 | {'R1': 2.0, 'R2': 2.2, 'R3': 3.0, 'R4': 3.0, 'R5': 2.9, 'R6': 1.1} |
+| tb:open_hist | Maniac | 13 | +2.3 | 11% | +20 | 129644 | {'R1': 1.3, 'R2': 2.0, 'R3': 2.4, 'R4': 2.6, 'R5': 2.4, 'R6': 2.9} |
+| tb:open_hist | Parth&Mrid | 17 | +2.0 | 14% | +15 | 125451 | {'R1': 2.3, 'R2': 2.3, 'R3': 1.9, 'R4': 1.4, 'R5': 1.2, 'R6': 2.0} |
+| tb:open_hist | Chikerbot | 35 | +1.9 | 12% | +15 | 131033 | {'R1': 0.8, 'R2': 1.0, 'R3': 0.9, 'R4': 2.5, 'R5': 2.8, 'R6': 2.6} |
+| tb:open_hist | the twins | 37 | +1.9 | 18% | +10 | 103656 | {'R1': 0.2, 'R2': -0.2, 'R3': 5.8, 'R4': 3.4, 'R5': 1.7, 'R6': 1.2} |
+| tb:open_hist | YeziShanYang | 60 | +1.8 | 10% | +17 | 127038 | {'R1': 0.1, 'R2': 0.2, 'R3': -0.5, 'R4': 1.5, 'R5': 4.3, 'R6': 4.3} |
+| tb:open_hist | sandylikesfrogs | 4 | +1.7 | 16% | +13 | 143097 | {'R1': 2.3, 'R2': 2.3, 'R3': 1.6, 'R4': 1.9, 'R5': 1.6, 'R6': 0.7} |
+| tb:open_hist | QKV | 23 | +1.5 | 14% | +14 | 135526 | {'R1': 0.6, 'R2': 0.6, 'R3': 2.4, 'R4': 1.5, 'R5': 1.9, 'R6': 2.0} |
+| tb:open_hist | TeamBallHog | 12 | +1.5 | 11% | +11 | 127790 | {'R1': 1.5, 'R2': 1.7, 'R3': 1.6, 'R4': 2.2, 'R5': 1.2, 'R6': 0.8} |
+| tb:open_hist | nik airball | 29 | +1.5 | 15% | +12 | 132456 | {'R1': 0.1, 'R2': 3.0, 'R3': 0.5, 'R4': 1.7, 'R5': 1.6, 'R6': 1.5} |
+| tb:open_hist | Spectre | 33 | +1.4 | 14% | +12 | 129188 | {'R1': 0.9, 'R2': 1.4, 'R3': 1.3, 'R4': 1.6, 'R5': 1.6, 'R6': 1.6} |
+| tb:open_hist | Backtier Labs | 40 | +1.4 | 8% | +15 | 123531 | {'R1': 0.3, 'R2': 1.1, 'R3': 1.6, 'R4': 1.6, 'R5': 1.5, 'R6': 1.8} |
+| tb:open_hist | Team 82 | 8 | +1.3 | 9% | +13 | 143831 | {'R1': 0.2, 'R2': 0.0, 'R3': 0.6, 'R4': 2.6, 'R5': 1.9, 'R6': 2.3} |
+| tb:open_hist | durrrr | 22 | +1.2 | 12% | +11 | 137716 | {'R1': 3.1, 'R2': 0.5, 'R3': 0.8, 'R4': 1.2, 'R5': 1.0, 'R6': 0.7} |
+| steal:bbfold_hist | stanford deviants | 11 | +3.5 | 65% | +19 | 70251 | {'R1': 4.0, 'R2': 3.0, 'R3': 3.8, 'R4': 3.7, 'R5': 2.7, 'R6': 4.1} |
+| steal:bbfold_hist | Inabot | 34 | +3.2 | 57% | +16 | 72475 | {'R1': 3.0, 'R2': 1.5, 'R3': 4.7, 'R4': 2.6, 'R5': 4.1, 'R6': 3.2} |
+| steal:bbfold_hist | prior_updating... | 75 | +3.2 | 80% | +18 | 59697 | {'R1': 3.0, 'R2': 2.3, 'R3': 2.4, 'R4': 4.3, 'R5': 3.1, 'R6': 3.9} |
+| steal:bbfold_hist | Team 72 | 5 | +3.0 | 72% | +18 | 73513 | {'R1': 3.1, 'R2': 2.4, 'R3': 3.1, 'R4': 2.9, 'R5': 3.4, 'R6': 3.5} |
+| steal:bbfold_hist | QKV | 23 | +3.0 | 65% | +15 | 70825 | {'R1': 0.8, 'R2': 1.0, 'R3': 4.5, 'R4': 5.0, 'R5': 3.2, 'R6': 3.2} |
+| steal:bbfold_hist | Team 0 | 89 | +2.9 | 78% | +13 | 41562 | {'R1': 3.1, 'R2': 3.5, 'R3': 2.4, 'R4': 3.1, 'R5': 2.5, 'R6': 2.7} |
+| steal:bbfold_hist | TeamBallHog | 12 | +2.9 | 72% | +18 | 72793 | {'R1': 2.7, 'R2': 2.8, 'R3': 2.6, 'R4': 3.5, 'R5': 2.3, 'R6': 3.1} |
+| steal:bbfold_hist | Spartan Mathematics | 44 | +2.1 | 57% | +12 | 77622 | {'R1': 2.5, 'R2': 2.4, 'R3': 2.2, 'R4': 1.5, 'R5': 1.5, 'R6': 2.4} |
+| steal:bbfold_hist | one in a krillion | 18 | +2.0 | 60% | +10 | 75230 | {'R1': 1.8, 'R2': 1.3, 'R3': 2.0, 'R4': 2.6, 'R5': 1.4, 'R6': 2.6} |
+| steal:bbfold_hist | Beam | 61 | +1.8 | 48% | +8 | 65103 | {'R1': 2.1, 'R2': 1.1, 'R3': 2.1, 'R4': 2.8, 'R5': 1.9, 'R6': 0.9} |
+| steal:bbfold_hist | Parth&Mrid | 17 | +1.8 | 66% | +9 | 66242 | {'R1': 2.1, 'R2': 1.0, 'R3': 1.4, 'R4': 1.9, 'R5': 1.7, 'R6': 3.0} |
+| steal:bbfold_hist | alex chex codex | 80 | +1.5 | 27% | +9 | 67935 | {'R1': -0.0, 'R2': -0.1, 'R3': 0.2, 'R4': 3.7, 'R5': 2.9, 'R6': 3.5} |
+| steal:bbfold_hist | Prath | 36 | +1.4 | 69% | +8 | 71599 | {'R1': 1.8, 'R2': 1.5, 'R3': 1.1, 'R4': 1.8, 'R5': 0.8, 'R6': 1.1} |
+| steal:bbfold_hist | Poker Slugs | 102 | +1.3 | 43% | +6 | 58614 | {'R1': 1.6, 'R2': 1.4, 'R3': 0.8, 'R4': 0.3, 'R5': 1.5, 'R6': 0.8} |
+| steal:bbfold_hist | Affordance | 74 | +1.3 | 56% | +7 | 72039 | {'R1': 2.6, 'R2': 1.6, 'R3': 0.8, 'R4': 0.8, 'R5': 0.4, 'R6': 0.8} |
+| steal:bbfold_hist | Spectre | 33 | +1.2 | 49% | +6 | 63487 | {'R1': 0.9, 'R2': 1.5, 'R3': 0.9, 'R4': 0.5, 'R5': 1.5, 'R6': 2.1} |
+| btc:fold_hist | TeamBallHog | 12 | +15.1 | 76% | +78 | 74622 | {'R1': 15.6, 'R2': 16.7, 'R3': 15.5, 'R4': 15.7, 'R5': 11.5, 'R6': 14.8} |
+| btc:fold_hist | Team 72 | 5 | +12.2 | 69% | +61 | 61606 | {'R1': 10.7, 'R2': 11.4, 'R3': 12.5, 'R4': 12.9, 'R5': 12.8, 'R6': 13.1} |
+| btc:fold_hist | stanford deviants | 11 | +10.4 | 58% | +39 | 37595 | {'R1': 12.0, 'R2': 12.5, 'R3': 14.0, 'R4': 7.1, 'R5': 6.2, 'R6': 6.6} |
+| btc:fold_hist | prior_updating... | 75 | +7.8 | 79% | +34 | 36467 | {'R1': 9.1, 'R2': 7.9, 'R3': 7.7, 'R4': 7.4, 'R5': 7.9, 'R6': 6.4} |
+| btc:fold_hist | Team 0 | 89 | +7.2 | 52% | +43 | 100995 | {'R1': 1.9, 'R2': 3.2, 'R3': 9.2, 'R4': 10.3, 'R5': 9.7, 'R6': 11.9} |
+| btc:fold_hist | Spectre | 33 | +7.1 | 77% | +29 | 42408 | {'R1': 10.5, 'R2': 10.1, 'R3': 7.9, 'R4': 5.9, 'R5': 3.9, 'R6': 1.1} |
+| btc:fold_hist | Spock's Brain | 96 | +6.4 | 53% | +19 | 20104 | {'R1': 7.4, 'R2': 6.8, 'R3': 6.9, 'R4': 4.6, 'R5': 3.2} |
+| btc:fold_hist | one in a krillion | 18 | +5.6 | 74% | +26 | 51058 | {'R1': 0.7, 'R2': 9.1, 'R3': 8.5, 'R4': 2.2, 'R5': 6.9, 'R6': 7.8} |
+| btc:fold_hist | AZ | 3 | +4.6 | 67% | +20 | 38860 | {'R1': 5.1, 'R2': 5.0, 'R3': 6.7, 'R4': 3.8, 'R5': 3.6, 'R6': 3.4} |
+| btc:fold_hist | Maniac | 13 | +4.3 | 64% | +21 | 55627 | {'R1': 1.9, 'R2': 0.8, 'R3': 3.0, 'R4': 9.4, 'R5': 8.8, 'R6': 8.6} |
+| btc:fold_hist | Double G | 82 | +4.2 | 52% | +19 | 51890 | {'R1': 3.6, 'R2': 2.4, 'R3': 5.2, 'R4': 3.9, 'R5': 2.8, 'R6': 5.4} |
+| btc:fold_hist | QKV | 23 | +4.1 | 71% | +22 | 66127 | {'R1': 3.0, 'R2': 4.3, 'R3': 5.8, 'R4': 0.4, 'R5': 6.7, 'R6': 1.3} |
+| btc:fold_hist | Clippers Championship | 19 | +3.8 | 55% | +16 | 39381 | {'R1': 3.6, 'R2': 3.4, 'R3': 4.3, 'R4': 3.2, 'R5': 4.6, 'R6': 3.8} |
+| btc:fold_hist | Team 123 | 7 | +3.5 | 77% | +17 | 44621 | {'R1': -0.7, 'R2': -0.8, 'R3': 4.6, 'R4': 3.6, 'R5': 5.0, 'R6': 5.9} |
+| btc:fold_hist | Jax of Hearts | 41 | +3.3 | 78% | +14 | 31492 | {'R1': -2.1, 'R2': 5.6, 'R3': 6.7, 'R4': 5.4, 'R5': 2.7, 'R6': 3.2} |
+| btc:fold_hist | Affordance | 74 | +3.3 | 68% | +13 | 34201 | {'R1': 2.6, 'R2': 4.2, 'R3': 4.8, 'R4': 1.9, 'R5': 3.1, 'R6': 2.7} |
+| btc:fold_hist | Team Leo | 51 | +3.0 | 62% | +17 | 64663 | {'R1': -0.6, 'R2': 5.4, 'R3': 6.1, 'R4': 6.8, 'R5': -0.1, 'R6': 0.0} |
+| btc:fold_hist | Prath | 36 | +2.9 | 86% | +16 | 37146 | {'R1': 1.8, 'R2': 2.5, 'R3': 3.1, 'R4': 3.9, 'R5': 2.6, 'R6': 3.4} |
+| btc:fold_hist | No Game No Life | 83 | +2.5 | 54% | +7 | 28771 | {'R1': 0.6, 'R2': 0.8, 'R3': 2.7, 'R4': 5.9, 'R5': 0.1, 'R6': 7.7} |
+| btc:fold_hist | Team 132 | 76 | +2.4 | 22% | +21 | 99540 | {'R1': -0.3, 'R2': -0.4, 'R3': 2.3, 'R4': 3.8, 'R5': 3.5, 'R6': 3.6} |
+| btc:fold_hist | EK88 | 45 | +2.4 | 73% | +11 | 46630 | {'R1': 0.1, 'R2': 0.4, 'R3': 5.6, 'R4': -0.8, 'R5': 4.9, 'R6': 5.1} |
+| btc:fold_hist | Team 82 | 8 | +2.2 | 64% | +10 | 41965 | {'R1': 3.8, 'R2': 2.1, 'R3': 1.7, 'R4': 0.9, 'R5': 1.3, 'R6': 2.5} |
+| btc:fold_hist | durrrr | 22 | +1.9 | 56% | +9 | 57240 | {'R1': 0.4, 'R2': -0.9, 'R3': 2.3, 'R4': 2.6, 'R5': 3.1, 'R6': 2.9} |
+| btc:fold_hist | the twins | 37 | +1.8 | 73% | +9 | 53131 | {'R1': 3.6, 'R2': 3.0, 'R3': -0.1, 'R4': 0.2, 'R5': -0.6, 'R6': 0.4} |
+| btc:fold_hist | Spartan Mathematics | 44 | +1.7 | 75% | +7 | 31886 | {'R1': 1.2, 'R2': 1.6, 'R3': 0.8, 'R4': 1.3, 'R5': 2.9, 'R6': 2.8} |
+| btc:fold_hist | a5a7 | 46 | +1.5 | 64% | +7 | 58984 | {'R1': -1.3, 'R2': 2.3, 'R3': 1.6, 'R4': 0.7, 'R5': 0.6, 'R6': 1.6} |
+| btc:fold_hist | WAYS-ER TEAM | 15 | +1.1 | 51% | +5 | 65411 | {'R1': 1.1, 'R2': 1.5, 'R3': 1.9, 'R4': 1.6, 'R5': 0.8, 'R6': -1.0} |
+| fb:bet_hist | AZ | 3 | -6.5 | 53% | -22 | 33202 | {'R1': -6.8, 'R2': -6.7, 'R3': -6.3, 'R4': -5.3, 'R5': -6.6, 'R6': -6.9} |
+| fb:bet_hist | Maniac | 13 | -6.5 | 55% | -27 | 45958 | {'R1': -6.8, 'R2': -7.2, 'R3': -6.8, 'R4': -5.3, 'R5': -5.6, 'R6': -5.4} |
+| fb:bet_hist | Chikerbot | 35 | -6.0 | 40% | -19 | 26090 | {'R1': -5.7, 'R2': -8.4, 'R3': -5.9, 'R4': -5.3, 'R5': -4.0, 'R6': -4.8} |
+| fb:bet_hist | Gavilan | 14 | -5.6 | 64% | -20 | 32976 | {'R1': -5.8, 'R2': -6.5, 'R3': -6.1, 'R4': -6.6, 'R5': -1.9, 'R6': -7.1} |
+| fb:bet_hist | Foldemort | 24 | -5.4 | 49% | -19 | 34110 | {'R1': -2.0, 'R2': -4.9, 'R3': -6.6, 'R4': -5.7, 'R5': -7.1, 'R6': -6.4} |
+| fb:bet_hist | TeamBallHog | 12 | -5.3 | 63% | -22 | 47710 | {'R1': -5.4, 'R2': -5.7, 'R3': -5.0, 'R4': -5.9, 'R5': -5.4, 'R6': -4.0} |
+| fb:bet_hist | guzzins :P | 114 | -5.2 | 43% | -21 | 38047 | {'R1': -6.3, 'R2': -3.8, 'R3': -6.4, 'R4': -4.7, 'R5': -5.2, 'R6': -4.7} |
+| fb:bet_hist | Beam | 61 | -4.5 | 60% | -20 | 50374 | {'R1': -4.6, 'R2': -4.0, 'R3': -5.1, 'R4': -4.8, 'R5': -3.9, 'R6': -4.7} |
+| fb:bet_hist | Bean | 70 | -4.2 | 44% | -17 | 38665 | {'R1': -3.4, 'R2': -2.8, 'R3': -4.0, 'R4': -2.0, 'R5': -5.9, 'R6': -5.4} |
+| fb:bet_hist | Spectre | 33 | -4.0 | 40% | -14 | 29986 | {'R1': -4.0, 'R2': -1.8, 'R3': -4.0, 'R4': -4.5, 'R5': -5.7, 'R6': -3.9} |
+| fb:bet_hist | EEE | 106 | -3.8 | 51% | -8 | 14412 | {'R2': -2.9, 'R3': -3.1, 'R4': -2.9, 'R5': -5.7} |
+| fb:bet_hist | Curious George | 20 | -3.3 | 43% | -13 | 42172 | {'R1': -1.4, 'R2': -1.5, 'R3': -4.6, 'R4': -4.0, 'R5': -3.9, 'R6': -4.6} |
+| fb:bet_hist | Ghosts in the Machine | 42 | -3.3 | 49% | -17 | 60185 | {'R1': -3.0, 'R2': -3.4, 'R3': -3.2, 'R4': -4.0, 'R5': -3.2, 'R6': -3.3} |
+| fb:bet_hist | Litmus | 28 | -3.3 | 63% | -14 | 42935 | {'R1': -1.0, 'R2': -3.3, 'R3': -3.2, 'R4': -4.1, 'R5': -2.4, 'R6': -2.9} |
+| fb:bet_hist | Panshul42 | 63 | -3.1 | 63% | -12 | 39120 | {'R1': -3.5, 'R2': -2.5, 'R3': -6.0, 'R4': -2.4, 'R5': -2.5, 'R6': -2.6} |
+| fb:bet_hist | Case Ace | 62 | -3.1 | 62% | -9 | 18147 | {'R1': -1.2, 'R2': -7.5, 'R3': -0.6, 'R4': -1.8, 'R5': -2.0, 'R6': -1.3} |
+| fb:bet_hist | Backtier Labs | 40 | -3.1 | 40% | -11 | 35698 | {'R1': -1.7, 'R2': -2.8, 'R3': -2.6, 'R4': -3.0, 'R5': -3.1, 'R6': -3.7} |
+| fb:bet_hist | PG | 27 | -3.0 | 47% | -13 | 53028 | {'R1': -3.3, 'R2': -4.1, 'R3': -2.7, 'R4': -1.2, 'R5': -3.2, 'R6': -2.0} |
+| fb:bet_hist | Always Folds | 16 | -2.9 | 44% | -14 | 54146 | {'R1': -3.4, 'R2': -2.1, 'R3': -3.0, 'R4': -3.7, 'R5': -2.4, 'R6': -2.7} |
+| fb:bet_hist | 11dproton | 100 | -2.9 | 50% | -9 | 28129 | {'R1': -3.9, 'R2': -4.3, 'R3': -1.1, 'R4': -2.1, 'R5': -1.5, 'R6': -2.2} |
+| cj:jam_hist | Prath | 36 | +5.9 | 10% | +18 | 59676 | {'R1': 10.2, 'R2': 11.1, 'R3': 7.0, 'R4': 3.9, 'R5': 4.2, 'R6': 5.0} |
+| cj:jam_hist | all vibes | 59 | +5.8 | 14% | +14 | 54875 | {'R1': 7.1, 'R2': 6.5, 'R3': 5.9, 'R4': 4.3, 'R5': 8.6, 'R6': 4.1} |
+| cj:jam_hist | Clippers Championship | 19 | +5.6 | 11% | +15 | 56553 | {'R1': 6.9, 'R2': 9.2, 'R3': 7.5, 'R4': 3.4, 'R5': 3.5, 'R6': 5.5} |
+| cj:jam_hist | Chikerbot | 35 | +4.5 | 17% | +9 | 54003 | {'R1': 5.2, 'R2': 6.3, 'R3': 2.3, 'R4': 6.3, 'R5': 5.5, 'R6': 2.2} |
+| cj:jam_hist | Maniac | 13 | +4.2 | 10% | +11 | 55041 | {'R1': 4.3, 'R2': 5.1, 'R3': 6.2, 'R4': 3.0, 'R5': 3.4, 'R6': 5.3} |
+| cj:jam_hist | prior_updating... | 75 | +4.1 | 17% | +8 | 48626 | {'R1': 5.1, 'R2': 9.0, 'R3': 5.0, 'R4': 2.8, 'R5': 4.6, 'R6': 2.2} |
+| cj:jam_hist | Always Folds | 16 | +3.4 | 13% | +8 | 52414 | {'R1': 3.3, 'R2': 5.3, 'R3': 3.2, 'R4': 3.8, 'R5': 2.1, 'R6': 2.4} |
+| cj:jam_hist | Team 0 | 89 | +3.2 | 25% | +5 | 32434 | {'R1': 7.5, 'R2': 5.0, 'R3': 2.0, 'R4': 3.4, 'R5': 2.5, 'R6': 1.7} |
+| cj:jam_hist | Gavilan | 14 | +3.2 | 23% | +5 | 43453 | {'R1': 3.9, 'R2': 6.0, 'R3': 6.3, 'R4': 1.2, 'R5': 1.7, 'R6': 1.7} |
+| cj:jam_hist | Captain Underpants | 32 | +3.2 | 18% | +5 | 47962 | {'R1': 5.6, 'R2': 4.1, 'R3': 5.5, 'R4': 2.5, 'R5': 1.4, 'R6': 1.1} |
+| cj:jam_hist | AZ | 3 | +3.1 | 23% | +5 | 49434 | {'R1': 5.2, 'R2': 3.4, 'R3': 1.9, 'R4': 2.7, 'R5': 1.3, 'R6': 3.6} |
+| cj:jam_hist | The 2 Marketeers | 71 | +2.8 | 18% | +5 | 45110 | {'R1': -1.2, 'R2': 7.7, 'R3': 2.7, 'R4': 1.9, 'R5': 4.4, 'R6': 2.1} |
+| cj:jam_hist | Cal Daddy | 104 | +2.8 | 12% | +6 | 34228 | {'R1': -1.1, 'R2': 0.8, 'R3': 2.3, 'R4': 1.5, 'R5': 5.4, 'R6': 3.3} |
+| cj:jam_hist | Team 82 | 8 | +2.7 | 11% | +8 | 64375 | {'R1': 5.5, 'R2': 2.3, 'R3': 1.4, 'R4': 2.9, 'R5': 2.6, 'R6': 1.7} |
+| cj:jam_hist | Backtier Labs | 40 | +2.5 | 19% | +4 | 46501 | {'R1': -0.8, 'R2': 1.3, 'R3': 4.6, 'R4': 2.2, 'R5': 1.7, 'R6': 1.3} |
+| cj:jam_hist | Foldemort | 24 | +2.4 | 21% | +4 | 45613 | {'R1': 4.3, 'R2': 3.7, 'R3': 3.6, 'R4': 0.7, 'R5': 4.8, 'R6': 0.6} |
+| cj:jam_hist | Team 132 | 76 | +2.4 | 19% | +5 | 45853 | {'R1': 3.1, 'R2': 0.0, 'R3': 2.9, 'R4': 3.0, 'R5': -0.1, 'R6': 3.4} |
+| cj:jam_hist | Team 72 | 5 | +2.4 | 27% | +4 | 55312 | {'R1': -2.5, 'R2': 2.0, 'R3': 3.3, 'R4': 3.4, 'R5': 2.8, 'R6': 2.0} |
+| cj:jam_hist | Spectre | 33 | +2.3 | 30% | +3 | 39755 | {'R1': 0.3, 'R2': 3.0, 'R3': 2.9, 'R4': 0.2, 'R5': 1.4, 'R6': 3.9} |
+| cj:jam_hist | 2 Curry | 1 | +2.0 | 17% | +4 | 71978 | {'R1': 1.1, 'R2': -1.6, 'R3': 3.1, 'R4': 2.4, 'R5': 1.7, 'R6': 3.4} |
+| cj:jam_hist | Team 123 | 7 | +1.8 | 24% | +3 | 44651 | {'R1': -2.3, 'R2': 1.2, 'R3': 0.1, 'R4': 3.7, 'R5': 0.8, 'R6': 3.9} |
+| cj:jam_hist | TeamBallHog | 12 | +1.7 | 14% | +4 | 54374 | {'R1': 2.8, 'R2': -1.5, 'R3': 2.1, 'R4': 1.5, 'R5': 1.6, 'R6': 2.5} |
+| cj:jam_hist | Beam | 61 | +1.6 | 13% | +3 | 42753 | {'R1': 2.9, 'R2': 0.1, 'R3': 4.1, 'R4': 1.3, 'R5': 3.4, 'R6': -0.5} |
+| cj:jam_hist | pocket rockets | 9 | +1.5 | 20% | +3 | 62773 | {'R1': 2.6, 'R2': 1.9, 'R3': 2.1, 'R4': 1.9, 'R5': 0.2, 'R6': 0.8} |
+| cj:jam_hist | Bean | 70 | +1.5 | 14% | +3 | 49036 | {'R1': 2.0, 'R2': 1.2, 'R3': 1.0, 'R4': 0.1, 'R5': 2.5, 'R6': 2.6} |
+| cj:jam_hist | 11dproton | 100 | +1.4 | 10% | +4 | 43877 | {'R1': 2.2, 'R2': -0.6, 'R3': 0.9, 'R4': 1.7, 'R5': -1.6, 'R6': 5.2} |
+| cj:jam_hist | stanford deviants | 11 | +1.4 | 11% | +4 | 61808 | {'R1': 3.6, 'R2': 2.1, 'R3': 2.0, 'R4': 0.4, 'R5': 0.7, 'R6': 0.7} |
+| cj:jam_hist | Po Stitch | 30 | +1.3 | 12% | +3 | 60245 | {'R1': 1.1, 'R2': -0.1, 'R3': 0.5, 'R4': -2.0, 'R5': 3.3, 'R6': 2.6} |
+
+teams with at least one flagged seat-level response: 58 of 123
+  top 5: 5 of 5 teams; with 2+ kinds: 3
+  6-20: 13 of 14 teams; with 2+ kinds: 10
+  21-60: 22 of 40 teams; with 2+ kinds: 10
+  61+: 18 of 64 teams; with 2+ kinds: 7
+{'2 Curry': (1, ['f3b_hist', 'jam_hist']), 'Lemonade': (2, ['f3b_hist']), 'AZ': (3, ['f3b_hist', 'open_hist', 'fold_hist', 'bet_hist', 'jam_hist']), 'sandylikesfrogs': (4, ['open_hist']), 'Team 72': (5, ['bbfold_hist', 'fold_hist', 'jam_hist']), 'Team 123': (7, ['f3b_hist', 'open_hist', 'fold_hist', 'jam_hist']), 'Team 82': (8, ['open_hist', 'fold_hist', 'jam_hist']), 'pocket rockets': (9, ['jam_hist']), 'stanford deviants': (11, ['f3b_hist', 'bbfold_hist', 'fold_hist', 'jam_hist']), 'TeamBallHog': (12, ['open_hist', 'bbfold_hist', 'fold_hist', 'bet_hist', 'jam_hist']), 'Maniac': (13, ['open_hist', 'fold_hist', 'bet_hist', 'jam_hist']), 'Gavilan': (14, ['bet_hist', 'jam_hist']), 'WAYS-ER TEAM': (15, ['fold_hist']), 'Always Folds': (16, ['bet_hist', 'jam_hist']), 'Parth&Mrid': (17, ['open_hist', 'bbfold_hist']), 'one in a krillion': (18, ['bbfold_hist', 'fold_hist']), 'Clippers Championship': (19, ['open_hist', 'fold_hist', 'jam_hist']), 'Curious George': (20, ['bet_hist']), 'durrrr': (22, ['open_hist', 'fold_hist']), 'QKV': (23, ['open_hist', 'bbfold_hist', 'fold_hist']), 'Foldemort': (24, ['bet_hist', 'jam_hist']), 'PG': (27, ['bet_hist']), 'Litmus': (28, ['bet_hist']), 'nik airball': (29, ['open_hist']), 'Po Stitch': (30, ['jam_hist']), 'Captain Underpants': (32, ['jam_hist']), 'Spectre': (33, ['f3b_hist', 'open_hist', 'bbfold_hist', 'fold_hist', 'bet_hist', 'jam_hist']), 'Inabot': (34, ['bbfold_hist']), 'Chikerbot': (35, ['open_hist', 'bet_hist', 'jam_hist']), 'Prath': (36, ['bbfold_hist', 'fold_hist', 'jam_hist']), 'the twins': (37, ['f3b_hist', 'open_hist', 'fold_hist']), 'Backtier Labs': (40, ['open_hist', 'bet_hist', 'jam_hist']), 'Jax of Hearts': (41, ['fold_hist']), 'Ghosts in the Machine': (42, ['bet_hist']), 'Spartan Mathematics': (44, ['bbfold_hist', 'fold_hist']), 'EK88': (45, ['fold_hist']), 'a5a7': (46, ['fold_hist']), 'Team Leo': (51, ['fold_hist']), 'all vibes': (59, ['open_hist', 'jam_hist']), 'YeziShanYang': (60, ['open_hist']), 'Beam': (61, ['bbfold_hist', 'bet_hist', 'jam_hist']), 'Case Ace': (62, ['bet_hist']), 'Panshul42': (63, ['bet_hist']), 'Bean': (70, ['bet_hist', 'jam_hist']), 'The 2 Marketeers': (71, ['jam_hist']), 'Affordance': (74, ['bbfold_hist', 'fold_hist']), 'prior_updating...': (75, ['bbfold_hist', 'fold_hist', 'jam_hist']), 'Team 132': (76, ['fold_hist', 'jam_hist']), 'alex chex codex': (80, ['bbfold_hist']), 'Double G': (82, ['fold_hist']), 'No Game No Life': (83, ['fold_hist']), 'Team 0': (89, ['bbfold_hist', 'fold_hist', 'jam_hist']), "Spock's Brain": (96, ['fold_hist']), '11dproton': (100, ['bet_hist', 'jam_hist']), 'Poker Slugs': (102, ['bbfold_hist']), 'Cal Daddy': (104, ['jam_hist']), 'EEE': (106, ['bet_hist']), 'guzzins :P': (114, ['bet_hist'])}
+
+STRONG flags (|z|>=10 and effect >=3pp beyond the field median): 27 teams
+  top 5: 3 of 5 teams
+  6-20: 7 of 14 teams
+  21-60: 10 of 40 teams
+  61+: 7 of 64 teams
+{'2 Curry': (1, ['f3b_hist']), 'AZ': (3, ['open_hist', 'fold_hist', 'bet_hist']), 'Team 72': (5, ['fold_hist']), 'Team 123': (7, ['f3b_hist', 'open_hist', 'fold_hist']), 'stanford deviants': (11, ['f3b_hist', 'bbfold_hist', 'fold_hist']), 'TeamBallHog': (12, ['fold_hist', 'bet_hist']), 'Maniac': (13, ['fold_hist', 'bet_hist', 'jam_hist']), 'Gavilan': (14, ['bet_hist']), 'one in a krillion': (18, ['fold_hist']), 'Clippers Championship': (19, ['fold_hist', 'jam_hist']), 'QKV': (23, ['fold_hist']), 'Foldemort': (24, ['bet_hist']), 'Spectre': (33, ['fold_hist']), 'Inabot': (34, ['bbfold_hist']), 'Chikerbot': (35, ['bet_hist']), 'Prath': (36, ['fold_hist', 'jam_hist']), 'Jax of Hearts': (41, ['fold_hist']), 'EK88': (45, ['fold_hist']), 'Team Leo': (51, ['fold_hist']), 'all vibes': (59, ['jam_hist']), 'Affordance': (74, ['fold_hist']), 'prior_updating...': (75, ['bbfold_hist', 'fold_hist']), 'Team 132': (76, ['fold_hist']), 'Double G': (82, ['fold_hist']), 'Team 0': (89, ['fold_hist']), "Spock's Brain": (96, ['fold_hist']), 'guzzins :P': (114, ['bet_hist'])}
+
+by round: number of teams with a per-round effect >=3pp (expected sign) and |z|>=6
+  tb:f3b_hist: 2 2 3 3 4 4
+  tb:open_hist: 2 3 4 4 3 2
+  steal:bbfold_hist: 3 1 4 6 4 8
+  btc:fold_hist: 12 16 18 16 15 16
+  fb:bet_hist: 11 13 14 10 13 10
+  cj:jam_hist: 1 2 2 2 2 3

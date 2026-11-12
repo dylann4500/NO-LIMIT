@@ -1,0 +1,84 @@
+
+### design a: last third vs first third of the table; same players-left and own-stack(bb) bucket (blind level not controlled)
+| tendency | teams | field median drift (pp) | IQR | share of teams |z|>3 | teams with BH q<0.01 drift different from the field median and |dev|>=3pp |
+|---|---|---|---|---|---|
+| open | 122 | +3.2 | +1.4..+6.2 | 61% | 43 |
+| 3bet | 122 | +0.7 | +0.0..+2.2 | 31% | 21 |
+| f3b | 6 | +1.9 | -0.2..+5.5 | 17% | 1 |
+| calljam | 50 | +3.2 | +0.5..+5.4 | 18% | 10 |
+| fold1 | 11 | -1.0 | -3.0..+0.9 | 0% | 0 |
+
+### design b: adjacent thirds within the same blind level, players-left and stack bucket (blind level controlled; identified by table length)
+| tendency | teams | field median drift (pp) | IQR | share of teams |z|>3 | teams with BH q<0.01 drift different from the field median and |dev|>=3pp |
+|---|---|---|---|---|---|
+| open | 122 | +0.2 | -0.0..+0.5 | 9% | 1 |
+| 3bet | 122 | +0.1 | -0.1..+0.2 | 6% | 1 |
+| f3b | 118 | -0.9 | -1.7..-0.1 | 12% | 2 |
+| calljam | 123 | +0.9 | +0.4..+1.4 | 28% | 0 |
+| btc1 | 116 | -0.2 | -1.2..+1.2 | 3% | 1 |
+| btc2 | 49 | +0.7 | -1.6..+2.9 | 0% | 0 |
+| fold1 | 122 | -1.4 | -2.4..-0.6 | 16% | 0 |
+| fold2 | 104 | -2.2 | -3.7..-1.0 | 10% | 0 |
+| fold3 | 34 | -1.9 | -3.9..+0.5 | 3% | 0 |
+
+### design c: second half vs first half of each 20-hand blind level; same level, third, players-left, stack bucket
+| tendency | teams | field median drift (pp) | IQR | share of teams |z|>3 | teams with BH q<0.01 drift different from the field median and |dev|>=3pp |
+|---|---|---|---|---|---|
+| open | 122 | +0.3 | +0.1..+0.7 | 34% | 2 |
+| 3bet | 122 | +0.0 | -0.1..+0.1 | 11% | 1 |
+| f3b | 120 | +0.4 | +0.0..+1.2 | 14% | 4 |
+| calljam | 123 | -0.2 | -0.5..+0.0 | 5% | 0 |
+| btc1 | 123 | +0.8 | +0.2..+1.7 | 8% | 4 |
+| btc2 | 123 | +0.4 | -0.4..+1.8 | 2% | 1 |
+| fold1 | 123 | -0.3 | -0.8..+0.1 | 7% | 1 |
+| fold2 | 123 | -0.1 | -0.6..+0.6 | 2% | 0 |
+| fold3 | 118 | -0.1 | -0.9..+0.7 | 1% | 0 |
+
+### teams whose drift differs from the field's in design a AND design b (same sign), by tendency
+| tendency | team | final rank | drift a (pp) | field median a | drift b (pp) | field median b | drift c (pp) | drift a by round |
+|---|---|---|---|---|---|---|---|---|
+| open | sandylikesfrogs | 4 | +9.5 | +3.2 | +3.7 | +0.2 | +7.7 | {'R1': 15.2, 'R2': 7.1, 'R3': 8.6, 'R4': 8.8, 'R5': 5.4, 'R6': 11.0} |
+| open | thepastaway | 10 | +9.2 | +3.2 | +1.4 | +0.2 | +0.5 | {'R1': 3.7, 'R2': 5.4, 'R3': 4.3, 'R4': 0.1, 'R5': 1.4, 'R6': 23.2} |
+| open | Team 123 | 7 | +8.7 | +3.2 | +1.6 | +0.2 | +0.7 | {'R1': -0.3, 'R2': 7.4, 'R3': 15.1, 'R4': 10.3, 'R5': 13.7, 'R6': 10.0} |
+| open | Poker Slugs | 102 | -0.8 | +3.2 | -0.6 | +0.2 | +0.3 | {'R1': 13.6, 'R2': 20.6, 'R3': 10.5, 'R4': -8.7, 'R5': -13.1, 'R6': -12.3} |
+| open | KC | 99 | -0.0 | +3.2 | -0.3 | +0.2 | +0.1 | {'R1': -0.2, 'R2': 2.7, 'R3': 2.3, 'R4': 2.0, 'R5': -1.2, 'R6': 1.4} |
+| 3bet | AZ | 3 | +24.6 | +0.7 | +1.4 | +0.1 | -0.3 | {'R1': 18.1, 'R2': 17.7, 'R3': 19.4, 'R4': 32.2, 'R5': 32.6, 'R6': 36.2} |
+| 3bet | 2 Curry | 1 | +21.6 | +0.7 | +3.6 | +0.1 | +2.6 | {'R1': 15.8, 'R2': 23.8, 'R3': 28.8, 'R4': 23.3, 'R5': 21.6, 'R6': 16.5} |
+| 3bet | Lemonade | 2 | +11.7 | +0.7 | +1.0 | +0.1 | -0.0 | {'R1': 15.4, 'R2': 17.4, 'R3': 10.8, 'R4': 12.1, 'R5': 8.3, 'R6': 8.5} |
+| 3bet | sandylikesfrogs | 4 | +9.0 | +0.7 | +2.2 | +0.1 | +3.0 | {'R1': 15.5, 'R2': 11.0, 'R3': 6.4, 'R4': 7.1, 'R5': 6.7, 'R6': 8.7} |
+| 3bet | TeamBallHog | 12 | +8.9 | +0.7 | +0.9 | +0.1 | +0.1 | {'R1': 9.6, 'R2': 8.4, 'R3': 7.8, 'R4': 7.7, 'R5': 11.1, 'R6': 8.4} |
+| 3bet | Parth&Mrid | 17 | +5.0 | +0.7 | +0.8 | +0.1 | -0.3 | {'R1': -0.7, 'R2': 3.0, 'R3': 3.7, 'R4': 5.2, 'R5': 5.2, 'R6': 24.8} |
+| calljam | 2 Curry | 1 | +8.6 | +3.2 | +2.7 | +0.9 | -0.2 | {'R1': 9.9, 'R2': 13.2, 'R3': 5.1, 'R4': 5.7, 'R5': 8.2, 'R6': 9.8} |
+| calljam | LoveLP | 85 | -0.8 | +3.2 | -0.4 | +0.9 | -0.1 | {'R1': -10.2, 'R6': 0.2} |
+
+### design c (within blind level, second half vs first half): all teams with |drift| >= 1.5pp and |z| >= 5
+| tendency | team | final rank | drift (pp) | z | by round |
+|---|---|---|---|---|---|
+| open | sandylikesfrogs | 4 | +7.7 | +42.1 | {'R1': 11.7, 'R2': 6.2, 'R3': 6.4, 'R4': 5.3, 'R5': 7.5, 'R6': 10.2} |
+| open | prior_updating... | 75 | +4.4 | +23.4 | {'R1': 5.8, 'R2': 4.7, 'R3': 4.7, 'R4': 4.8, 'R5': 3.0, 'R6': 3.4} |
+| open | Team 72 | 5 | +2.4 | +13.2 | {'R1': 2.9, 'R2': 2.6, 'R3': 3.0, 'R4': 1.4, 'R5': 2.4, 'R6': 1.8} |
+| open | Team 0 | 89 | +2.7 | +11.8 | {'R1': 2.7, 'R2': 2.5, 'R3': 2.3, 'R4': 3.0, 'R5': 2.6, 'R6': 3.1} |
+| open | Spartan Mathematics | 44 | +1.9 | +11.8 | {'R1': 1.6, 'R2': 1.8, 'R3': 1.9, 'R4': 2.0, 'R5': 1.6, 'R6': 2.5} |
+| open | TeamBallHog | 12 | +2.2 | +11.7 | {'R1': 2.4, 'R2': 2.4, 'R3': 1.8, 'R4': 3.3, 'R5': 1.7, 'R6': 1.8} |
+| open | Beam | 61 | +1.6 | +9.4 | {'R1': 2.2, 'R2': 0.5, 'R3': 2.1, 'R4': 1.6, 'R5': 1.2, 'R6': 2.0} |
+| open | Gene Theory Optimal | 72 | +1.8 | +9.2 | {'R1': 2.1, 'R2': 2.4, 'R3': 2.2, 'R4': 2.2, 'R5': 1.6, 'R6': 0.0} |
+| open | Inabot | 34 | +1.6 | +8.6 | {'R1': 1.1, 'R2': 1.7, 'R3': 1.6, 'R4': 2.6, 'R5': 1.4, 'R6': 1.1} |
+| 3bet | sandylikesfrogs | 4 | +3.0 | +22.5 | {'R1': 3.1, 'R2': 3.0, 'R3': 2.8, 'R4': 2.9, 'R5': 3.0, 'R6': 3.6} |
+| 3bet | stanford deviants | 11 | +2.7 | +14.3 | {'R1': 1.5, 'R2': 5.0, 'R3': 2.5, 'R4': 3.3, 'R5': 1.8, 'R6': 2.6} |
+| 3bet | 2 Curry | 1 | +2.6 | +13.0 | {'R1': 3.2, 'R2': 3.1, 'R3': 2.4, 'R4': 2.1, 'R5': 3.3, 'R6': 1.7} |
+| f3b | sandylikesfrogs | 4 | +6.4 | +10.2 | {'R1': 5.1, 'R2': 4.7, 'R3': 5.2, 'R4': 7.1, 'R5': 12.1, 'R6': 5.5} |
+| f3b | prior_updating... | 75 | +4.2 | +7.9 | {'R1': 4.3, 'R2': 3.4, 'R3': 4.1, 'R4': 5.8, 'R5': 3.9, 'R6': 3.4} |
+| f3b | Double G | 82 | +3.7 | +6.1 | {'R1': 4.1, 'R2': 1.9, 'R3': 0.8, 'R4': 4.4, 'R5': 4.0, 'R6': 7.2} |
+| f3b | Maniac | 13 | +2.4 | +5.7 | {'R1': 5.0, 'R2': 5.3, 'R3': 0.9, 'R4': 1.9, 'R5': 2.5, 'R6': 1.9} |
+| f3b | Gavilan | 14 | +3.9 | +5.6 | {'R1': 8.3, 'R2': 2.2, 'R3': 6.9, 'R4': -0.1, 'R5': 4.2, 'R6': 2.8} |
+| btc1 | Litmus | 28 | +5.0 | +7.1 | {'R1': 2.9, 'R2': 7.8, 'R3': 3.2, 'R4': 5.2, 'R5': 2.3, 'R6': 4.8} |
+| btc1 | one in a krillion | 18 | +4.8 | +6.7 | {'R1': 5.4, 'R2': 7.0, 'R3': 2.8, 'R4': 3.5, 'R5': 4.8, 'R6': 4.3} |
+| btc1 | Spartan Mathematics | 44 | +4.3 | +5.6 | {'R1': 6.7, 'R2': 5.6, 'R3': 3.2, 'R4': 4.9, 'R5': 2.9, 'R6': 2.6} |
+| btc1 | EEE | 106 | +4.6 | +5.4 | {'R2': 4.1, 'R3': 5.2, 'R4': 1.3, 'R5': 6.6} |
+| fold1 | Po Stitch | 30 | +3.1 | +5.1 | {'R1': 3.2, 'R2': 3.5, 'R3': 3.1, 'R4': -0.4, 'R5': 2.7, 'R6': 7.5} |
+
+### design b (adjacent thirds, same blind level): all teams with |drift - field median| >= 2pp and |z vs field| >= 5
+| open | sandylikesfrogs | 4 | +3.7 (field +0.2) | +12.2 | {'R1': 6.8, 'R2': 3.8, 'R3': 2.3, 'R4': 1.8, 'R5': 3.0, 'R6': 5.2} |
+| 3bet | 2 Curry | 1 | +3.6 (field +0.1) | +10.3 | {'R1': 3.0, 'R2': 4.6, 'R3': 4.8, 'R4': 3.9, 'R5': 4.3, 'R6': 0.8} |
+| 3bet | sandylikesfrogs | 4 | +2.2 (field +0.1) | +9.4 | {'R1': 2.3, 'R2': 2.7, 'R3': 1.9, 'R4': 2.1, 'R5': 2.2, 'R6': 2.2} |
+| f3b | Team 72 | 5 | -5.7 (field -0.9) | -5.8 | {'R1': -8.0, 'R2': -2.7, 'R3': -4.6, 'R4': -4.5, 'R5': -6.1, 'R6': -7.9} |

@@ -1,0 +1,233 @@
+effect = change in the action's probability (pp) per +10pp deviation of the faced seat's in-table rate from its team's norm (shrunk with 4 pseudo-observations); controls: the seat's team norm, rest-of-table history, blind level, players left, own and faced-seat stack buckets, who covers, situation dummies
+| test | teams | field median effect (pp) | share of team-rounds |z|>3 | placebo: rest-of-table |z|>3 | teams: q<0.01, expected sign, |effect|>=1pp and >=1pp beyond field median |
+|---|---|---|---|---|---|
+| re-raise more against an opener who has folded to re-raises at this table | 192 | +0.04 | 11% | 3% | 27 |
+| re-raise more against an opener who has opened often at this table | 192 | +0.24 | 18% | 3% | 36 |
+| open SB/BTN more when the big blind has folded to opens at this table | 190 | +0.27 | 14% | 10% | 40 |
+| bet when checked to (heads-up) more against a seat that has folded to bets at this table | 182 | -0.90 | 28% | 1% | 32 |
+| fold less to a bet (heads-up) from a seat that has bet often at this table | 140 | -1.90 | 27% | 2% | 37 |
+| call a shove more from a seat that has shoved often at this table | 190 | +0.45 | 5% | 0% | 28 |
+
+| test | team | final rank | effect per +10pp (pp) | base rate | z | n | effect by round |
+|---|---|---|---|---|---|---|---|
+| tb:f3b_hist | Du-o |  | +21.7 | 44% | +72 | 52179 | {'690def26': 23.8, 'de7ac5d3': 23.3, '188fa79b': 21.2, '516b7309': 19.7, 'b009537f': 19.1, '3425f351': 22.9} |
+| tb:f3b_hist | big little sharks |  | +18.8 | 40% | +60 | 39471 | {'690def26': 18.7, 'de7ac5d3': 20.9, '188fa79b': 18.6, '516b7309': 17.9, 'b009537f': 17.4, '3425f351': 18.6} |
+| tb:f3b_hist | 0_o GTO Slop |  | +17.3 | 24% | +65 | 49749 | {'690def26': 21.7, 'de7ac5d3': 20.5, '188fa79b': 17.7, '516b7309': 16.3, 'b009537f': 17.2, '3425f351': 10.2} |
+| tb:f3b_hist | Situational Awareness |  | +15.3 | 39% | +55 | 50419 | {'690def26': 15.6, 'de7ac5d3': 14.7, '188fa79b': 13.9, '516b7309': 16.8, 'b009537f': 15.2, '3425f351': 15.7} |
+| tb:f3b_hist | Magnus RLsen |  | +13.5 | 24% | +47 | 42707 | {'690def26': 4.5, 'de7ac5d3': 7.5, '188fa79b': 11.4, '516b7309': 10.5, 'b009537f': 26.0, '3425f351': 27.0} |
+| tb:f3b_hist | Nyx |  | +12.5 | 28% | +44 | 40888 | {'690def26': 12.6, 'de7ac5d3': 12.9, '188fa79b': 12.8, '516b7309': 13.2, 'b009537f': 10.4, '3425f351': 12.7} |
+| tb:f3b_hist | Golem All in |  | +11.2 | 13% | +48 | 42855 | {'690def26': 10.7, 'de7ac5d3': 9.2, '188fa79b': 11.6, '516b7309': 11.6, 'b009537f': 13.0, '3425f351': 11.5} |
+| tb:f3b_hist | NP Complete |  | +10.6 | 27% | +41 | 43787 | {'690def26': -0.1, 'de7ac5d3': 13.9, '188fa79b': 12.4, '516b7309': 12.6, 'b009537f': 14.0, '3425f351': 8.4} |
+| tb:f3b_hist | HUMONGOUS |  | +8.8 | 28% | +28 | 41530 | {'690def26': -0.9, 'de7ac5d3': 0.4, '188fa79b': -0.7, '516b7309': 20.0, 'b009537f': 10.5, '3425f351': 21.4} |
+| tb:f3b_hist | BHTG |  | +5.1 | 26% | +22 | 48337 | {'690def26': 5.1, 'de7ac5d3': 6.4, '188fa79b': 4.2, '516b7309': 5.8, 'b009537f': 4.7, '3425f351': 4.3} |
+| tb:f3b_hist | sequoia lowercase |  | +4.8 | 27% | +17 | 50172 | {'690def26': 5.0, 'de7ac5d3': 2.5, '188fa79b': 1.6, '516b7309': 3.2, 'b009537f': 2.1, '3425f351': 9.2} |
+| tb:f3b_hist | Team 194 |  | +4.7 | 14% | +25 | 45053 | {'690def26': 0.2, 'de7ac5d3': 0.1, '188fa79b': 3.1, '516b7309': 7.6, 'b009537f': 8.9, '3425f351': 8.3} |
+| tb:f3b_hist | Bigfish |  | +4.1 | 53% | +13 | 31968 | {'690def26': 4.4, 'de7ac5d3': 4.2, '188fa79b': 4.2, '516b7309': 5.8, 'b009537f': 2.8, '3425f351': 1.2} |
+| tb:f3b_hist | orz |  | +4.0 | 31% | +16 | 45781 | {'690def26': 1.4, 'de7ac5d3': 2.8, '188fa79b': 8.2, '516b7309': 7.5, 'b009537f': 1.9, '3425f351': 2.6} |
+| tb:f3b_hist | croson |  | +3.4 | 9% | +17 | 32489 | {'690def26': -0.0, 'de7ac5d3': -0.4, '188fa79b': 0.2, '516b7309': 13.5, 'b009537f': 11.6, '3425f351': 0.2} |
+| tb:f3b_hist | Splendor |  | +2.7 | 24% | +12 | 42180 | {'690def26': -0.0, 'de7ac5d3': 3.4, '188fa79b': 0.1, '516b7309': 3.9, 'b009537f': 4.3, '3425f351': 3.0} |
+| tb:f3b_hist | REspect |  | +2.7 | 27% | +11 | 38660 | {'690def26': -0.0, 'de7ac5d3': 0.2, '188fa79b': -0.3, '516b7309': -1.4, 'b009537f': 8.2, '3425f351': 9.8} |
+| tb:f3b_hist | molly tea |  | +2.2 | 18% | +10 | 45493 | {'690def26': 1.4, 'de7ac5d3': 2.5, '188fa79b': 2.5, '516b7309': 1.5, 'b009537f': 0.2, '3425f351': 4.7} |
+| tb:f3b_hist | the_fish |  | +2.1 | 16% | +9 | 37790 | {'690def26': 0.0, 'de7ac5d3': -0.3, '188fa79b': -0.1, '516b7309': -0.8, 'b009537f': 8.4, '3425f351': 6.3} |
+| tb:f3b_hist | balright |  | +2.1 | 19% | +9 | 40711 | {'690def26': 22.3, 'de7ac5d3': -0.1, '188fa79b': -0.5, '516b7309': -0.4, 'b009537f': 0.0, '3425f351': -0.6} |
+| tb:f3b_hist | zakeburg |  | +1.7 | 20% | +8 | 46147 | {'690def26': 0.6, 'de7ac5d3': -0.3, '188fa79b': -0.3, '516b7309': 2.5, 'b009537f': 3.7, '3425f351': 4.4} |
+| tb:f3b_hist | if is_myturn go allin |  | +1.7 | 17% | +8 | 45049 | {'690def26': -0.1, 'de7ac5d3': 0.0, '188fa79b': 0.2, '516b7309': 5.4, 'b009537f': 2.4, '3425f351': 2.3} |
+| tb:f3b_hist | Shlok & Luca |  | +1.5 | 28% | +6 | 47483 | {'690def26': -1.0, 'de7ac5d3': -1.1, '188fa79b': -1.2, '516b7309': 5.6, 'b009537f': 10.1, '3425f351': -1.8} |
+| tb:f3b_hist | capybara |  | +1.2 | 14% | +7 | 47709 | {'690def26': 1.7, 'de7ac5d3': 1.0, '188fa79b': 1.4, '516b7309': 1.0, 'b009537f': 0.6, '3425f351': 1.9} |
+| tb:f3b_hist | triple t |  | +1.2 | 16% | +7 | 48777 | {'690def26': 0.1, 'de7ac5d3': 0.7, '188fa79b': 1.9, '516b7309': 1.2, 'b009537f': 1.5, '3425f351': 1.2} |
+| tb:f3b_hist | check republic |  | +1.2 | 24% | +5 | 40017 | {'690def26': 1.0, 'de7ac5d3': 1.8, '188fa79b': 1.2, '516b7309': 1.6, 'b009537f': 0.9, '3425f351': 0.5} |
+| tb:f3b_hist | Preesh |  | +1.2 | 23% | +5 | 45067 | {'690def26': -1.0, 'de7ac5d3': 0.6, '188fa79b': 0.6, '516b7309': 2.8, 'b009537f': 3.0, '3425f351': 1.7} |
+| tb:open_hist | artisans |  | +10.5 | 41% | +32 | 47513 | {'690def26': 9.8, 'de7ac5d3': 3.8, '188fa79b': 12.8, '516b7309': 8.4, 'b009537f': 11.6, '3425f351': 12.2} |
+| tb:open_hist | molly tea |  | +9.4 | 18% | +35 | 45493 | {'690def26': 7.8, 'de7ac5d3': 8.8, '188fa79b': 9.7, '516b7309': 7.5, 'b009537f': 9.0, '3425f351': 9.7} |
+| tb:open_hist | big little sharks |  | +8.3 | 40% | +23 | 39471 | {'690def26': 8.7, 'de7ac5d3': 9.3, '188fa79b': 7.2, '516b7309': 8.0, 'b009537f': 7.5, '3425f351': 8.6} |
+| tb:open_hist | Du-o |  | +5.6 | 44% | +18 | 52179 | {'690def26': 4.8, 'de7ac5d3': 5.5, '188fa79b': 7.7, '516b7309': 4.2, 'b009537f': 6.0, '3425f351': 5.3} |
+| tb:open_hist | Situational Awareness |  | +4.5 | 39% | +14 | 50419 | {'690def26': 4.0, 'de7ac5d3': 5.9, '188fa79b': 4.9, '516b7309': 4.7, 'b009537f': 2.4, '3425f351': 5.0} |
+| tb:open_hist | zakeburg |  | +4.1 | 20% | +17 | 46147 | {'690def26': 0.1, 'de7ac5d3': 1.2, '188fa79b': 0.1, '516b7309': 8.4, 'b009537f': 8.0, '3425f351': 9.2} |
+| tb:open_hist | StimulatedPlatypus |  | +3.8 | 17% | +17 | 47599 | {'690def26': 4.1, 'de7ac5d3': 4.7, '188fa79b': 4.7, '516b7309': 2.9, 'b009537f': 3.8, '3425f351': 2.5} |
+| tb:open_hist | HUMONGOUS |  | +3.7 | 28% | +11 | 41530 | {'690def26': 0.8, 'de7ac5d3': 0.4, '188fa79b': 0.8, '516b7309': 8.5, 'b009537f': 0.3, '3425f351': 7.9} |
+| tb:open_hist | balright |  | +3.2 | 19% | +12 | 40711 | {'690def26': 9.4, 'de7ac5d3': 0.9, '188fa79b': 2.9, '516b7309': 3.6, 'b009537f': 0.9, '3425f351': 1.1} |
+| tb:open_hist | Magnus RLsen |  | +3.0 | 24% | +10 | 42707 | {'690def26': 2.4, 'de7ac5d3': 3.3, '188fa79b': 2.1, '516b7309': 2.1, 'b009537f': 2.1, '3425f351': 5.4} |
+| tb:open_hist | alice huang |  | +3.0 | 14% | +13 | 40600 | {'690def26': 2.9, 'de7ac5d3': 2.5, '188fa79b': 3.0, '516b7309': 2.9, 'b009537f': 4.1, '3425f351': 2.7} |
+| tb:open_hist | ladue math club x0.5 |  | +2.8 | 21% | +12 | 46278 | {'690def26': 0.3, 'de7ac5d3': 0.2, '188fa79b': 3.2, '516b7309': 5.4, 'b009537f': 4.2, '3425f351': 5.8} |
+| tb:open_hist | capybara |  | +2.7 | 14% | +13 | 47709 | {'690def26': 2.8, 'de7ac5d3': 1.0, '188fa79b': 3.5, '516b7309': 2.9, 'b009537f': 2.1, '3425f351': 3.7} |
+| tb:open_hist | joe |  | +2.7 | 20% | +11 | 42130 | {'690def26': 1.7, 'de7ac5d3': 1.9, '188fa79b': 0.5, '516b7309': 5.2, 'b009537f': 4.9, '3425f351': 1.9} |
+| tb:open_hist | guacamole |  | +2.6 | 24% | +9 | 45361 | {'690def26': 3.9, 'de7ac5d3': 3.8, '188fa79b': 1.1, '516b7309': 0.7, 'b009537f': 3.4, '3425f351': 1.0} |
+| tb:open_hist | Team Rob Watts |  | +2.5 | 27% | +8 | 43117 | {'690def26': 0.5, 'de7ac5d3': 0.8, '188fa79b': -0.1, '516b7309': 1.8, 'b009537f': 3.8, '3425f351': 8.3} |
+| tb:open_hist | orz |  | +2.5 | 31% | +8 | 45781 | {'690def26': 1.0, 'de7ac5d3': 3.0, '188fa79b': 3.9, '516b7309': 2.2, 'b009537f': 2.7, '3425f351': 1.7} |
+| tb:open_hist | pb&j |  | +2.4 | 21% | +10 | 48812 | {'690def26': 1.3, 'de7ac5d3': 1.7, '188fa79b': 3.1, '516b7309': 4.1, 'b009537f': 1.3, '3425f351': 2.2} |
+| tb:open_hist | Team 72 |  | +2.2 | 19% | +9 | 43777 | {'690def26': 0.8, 'de7ac5d3': 1.1, '188fa79b': 2.0, '516b7309': 2.7, 'b009537f': 3.5, '3425f351': 3.0} |
+| tb:open_hist | cj stroud fan club |  | +2.2 | 21% | +8 | 39800 | {'690def26': 1.0, 'de7ac5d3': 1.7, '188fa79b': 3.0, '516b7309': 0.3, 'b009537f': 4.9, '3425f351': 1.5} |
+| tb:open_hist | if is_myturn go allin |  | +2.2 | 17% | +9 | 45049 | {'690def26': 0.9, 'de7ac5d3': -0.2, '188fa79b': 2.2, '516b7309': 3.2, 'b009537f': 3.4, '3425f351': 2.7} |
+| tb:open_hist | Aaron n Ryan |  | +2.2 | 15% | +10 | 45017 | {'690def26': 1.1, 'de7ac5d3': 1.9, '188fa79b': 2.2, '516b7309': 3.4, 'b009537f': 1.1, '3425f351': 2.9} |
+| tb:open_hist | triple t |  | +2.1 | 16% | +10 | 48777 | {'690def26': 2.5, 'de7ac5d3': 2.0, '188fa79b': 1.6, '516b7309': 1.3, 'b009537f': 3.0, '3425f351': 1.6} |
+| tb:open_hist | BigHeart |  | +2.1 | 11% | +12 | 43424 | {'690def26': 0.8, 'de7ac5d3': 2.6, '188fa79b': 2.1, '516b7309': 3.4, 'b009537f': 1.3, '3425f351': 1.9} |
+| tb:open_hist | bodke |  | +2.1 | 11% | +12 | 43094 | {'690def26': 2.3, 'de7ac5d3': 2.5, '188fa79b': 2.0, '516b7309': 2.5, 'b009537f': 1.2, '3425f351': 2.4} |
+| tb:open_hist | durrrr |  | +2.0 | 11% | +10 | 35139 | {'690def26': 1.7, 'de7ac5d3': 2.5, '188fa79b': 1.5, '516b7309': 2.2, 'b009537f': 1.7, '3425f351': 2.4} |
+| tb:open_hist | BridgeDummy |  | +2.0 | 12% | +9 | 41427 | {'690def26': 0.5, 'de7ac5d3': 0.2, '188fa79b': 0.6, '516b7309': 3.1, 'b009537f': 3.4, '3425f351': 4.1} |
+| tb:open_hist | mao |  | +1.9 | 15% | +9 | 49015 | {'690def26': 0.7, 'de7ac5d3': 0.6, '188fa79b': 3.4, '516b7309': 2.7, 'b009537f': 2.1, '3425f351': 0.6} |
+| tb:open_hist | HUCBE |  | +1.7 | 8% | +10 | 44198 | {'690def26': 1.3, 'de7ac5d3': 0.8, '188fa79b': 1.0, '516b7309': 2.5, 'b009537f': 2.8, '3425f351': 1.9} |
+| tb:open_hist | DependablePokerOracle |  | +1.7 | 25% | +6 | 40698 | {'690def26': 0.6, 'de7ac5d3': 0.9, '188fa79b': 1.2, '516b7309': 2.7, 'b009537f': 2.8, '3425f351': 2.5} |
+| tb:open_hist | Team 194 |  | +1.6 | 14% | +7 | 45053 | {'690def26': 0.1, 'de7ac5d3': 0.3, '188fa79b': 1.4, '516b7309': 1.1, 'b009537f': 3.0, '3425f351': 3.7} |
+| tb:open_hist | HugeML |  | +1.5 | 11% | +8 | 43528 | {'690def26': 1.7, 'de7ac5d3': 1.2, '188fa79b': 1.5, '516b7309': 1.4, 'b009537f': 0.9, '3425f351': 1.9} |
+| tb:open_hist | Team Solo Bolo |  | +1.4 | 12% | +7 | 39145 | {'690def26': 1.7, 'de7ac5d3': 1.2, '188fa79b': 1.2, '516b7309': 1.1, 'b009537f': 1.0, '3425f351': 2.0} |
+| tb:open_hist | spongebot |  | +1.4 | 14% | +6 | 41831 | {'690def26': 0.3, 'de7ac5d3': 2.8, '188fa79b': 1.8, '516b7309': 1.1, 'b009537f': 0.4, '3425f351': 1.4} |
+| tb:open_hist | GMI central |  | +1.3 | 6% | +7 | 35608 | {'690def26': -0.0, 'de7ac5d3': 0.0, '188fa79b': 0.2, '516b7309': 0.1, 'b009537f': 6.2, '3425f351': 2.2} |
+| tb:open_hist | dare enhance |  | +1.3 | 19% | +5 | 46078 | {'690def26': 1.1, 'de7ac5d3': 0.3, '188fa79b': 1.0, '516b7309': 1.1, 'b009537f': -0.4, '3425f351': 3.1} |
+| steal:bbfold_hist | Du-o |  | +8.0 | 49% | +23 | 29994 | {'690def26': 7.4, 'de7ac5d3': 9.6, '188fa79b': 7.2, '516b7309': 7.9, 'b009537f': 6.8, '3425f351': 9.3} |
+| steal:bbfold_hist | durrr |  | +7.5 | 68% | +23 | 26207 | {'690def26': 5.6, 'de7ac5d3': 1.3, '188fa79b': 8.1, '516b7309': 9.7, 'b009537f': 9.4, '3425f351': 8.1} |
+| steal:bbfold_hist | BHTG |  | +6.6 | 67% | +22 | 27647 | {'690def26': 4.5, 'de7ac5d3': 5.8, '188fa79b': 5.8, '516b7309': 6.2, 'b009537f': 8.3, '3425f351': 8.4} |
+| steal:bbfold_hist | Golem All in |  | +6.6 | 61% | +19 | 26275 | {'690def26': 5.1, 'de7ac5d3': 4.3, '188fa79b': 6.4, '516b7309': 9.8, 'b009537f': 6.9, '3425f351': 6.5} |
+| steal:bbfold_hist | Team Ducas |  | +6.1 | 60% | +17 | 24386 | {'690def26': 1.7, 'de7ac5d3': 5.7, '188fa79b': 6.0, '516b7309': 6.2, 'b009537f': 6.4, '3425f351': 7.8} |
+| steal:bbfold_hist | HUMONGOUS |  | +5.4 | 59% | +14 | 19845 | {'690def26': -0.8, 'de7ac5d3': 1.6, '188fa79b': 1.0, '516b7309': 12.1, 'b009537f': 10.9, '3425f351': 12.9} |
+| steal:bbfold_hist | here for the food |  | +5.4 | 68% | +14 | 19513 | {'690def26': -0.1, 'de7ac5d3': 0.3, '188fa79b': 5.0, '516b7309': 4.1, 'b009537f': 8.0, '3425f351': 8.2} |
+| steal:bbfold_hist | Nyx |  | +5.0 | 76% | +16 | 23040 | {'690def26': 4.8, 'de7ac5d3': 4.3, '188fa79b': 4.7, '516b7309': 5.6, 'b009537f': 6.0, '3425f351': 4.3} |
+| steal:bbfold_hist | Team 194 |  | +5.0 | 74% | +16 | 25093 | {'690def26': 3.4, 'de7ac5d3': 3.6, '188fa79b': 4.0, '516b7309': 4.5, 'b009537f': 6.4, '3425f351': 7.0} |
+| steal:bbfold_hist | 0_o GTO Slop |  | +4.1 | 78% | +15 | 27875 | {'690def26': 2.9, 'de7ac5d3': 3.9, '188fa79b': 3.5, '516b7309': 5.9, 'b009537f': 3.6, '3425f351': 4.7} |
+| steal:bbfold_hist | guacamole |  | +3.7 | 68% | +12 | 23882 | {'690def26': 3.0, 'de7ac5d3': 1.7, '188fa79b': 3.7, '516b7309': 4.8, 'b009537f': 4.5, '3425f351': 3.6} |
+| steal:bbfold_hist | sequoia lowercase |  | +3.4 | 63% | +10 | 25407 | {'690def26': 1.8, 'de7ac5d3': 1.4, '188fa79b': 3.8, '516b7309': 3.2, 'b009537f': 2.5, '3425f351': 5.6} |
+| steal:bbfold_hist | fable 5.3 |  | +3.2 | 59% | +11 | 25890 | {'690def26': 5.3, 'de7ac5d3': 4.6, '188fa79b': 1.7, '516b7309': 2.1, 'b009537f': 3.0, '3425f351': 2.7} |
+| steal:bbfold_hist | Team 175 |  | +3.1 | 52% | +10 | 23934 | {'690def26': 2.6, 'de7ac5d3': 3.2, '188fa79b': 3.7, '516b7309': 3.9, 'b009537f': 1.3, '3425f351': 3.8} |
+| steal:bbfold_hist | StimulatedPlatypus |  | +2.8 | 59% | +9 | 25392 | {'690def26': 0.3, 'de7ac5d3': 3.1, '188fa79b': 3.6, '516b7309': 2.8, 'b009537f': 3.8, '3425f351': 3.4} |
+| steal:bbfold_hist | balright |  | +2.8 | 59% | +8 | 22721 | {'690def26': 8.5, 'de7ac5d3': 2.9, '188fa79b': 3.1, '516b7309': -0.4, 'b009537f': 2.3, '3425f351': 1.5} |
+| steal:bbfold_hist | OpenSI |  | +2.8 | 61% | +7 | 13259 | {'690def26': 3.9, 'de7ac5d3': 2.4, '188fa79b': 2.3, '516b7309': 2.5} |
+| steal:bbfold_hist | Preesh |  | +2.8 | 69% | +9 | 23809 | {'690def26': 1.0, 'de7ac5d3': 1.8, '188fa79b': 2.5, '516b7309': 3.5, 'b009537f': 4.0, '3425f351': 3.7} |
+| steal:bbfold_hist | Bigfish |  | +2.7 | 87% | +11 | 17327 | {'690def26': 0.5, 'de7ac5d3': 0.4, '188fa79b': 0.3, '516b7309': 7.6, 'b009537f': 4.3, '3425f351': 1.5} |
+| steal:bbfold_hist | molly tea |  | +2.6 | 63% | +8 | 26560 | {'690def26': 2.4, 'de7ac5d3': 1.9, '188fa79b': 0.8, '516b7309': 2.5, 'b009537f': 1.7, '3425f351': 6.8} |
+| steal:bbfold_hist | durrrr |  | +2.6 | 62% | +7 | 20081 | {'690def26': 2.0, 'de7ac5d3': 3.5, '188fa79b': 2.7, '516b7309': 1.7, 'b009537f': 3.8, '3425f351': 2.1} |
+| steal:bbfold_hist | NP Complete |  | +2.5 | 70% | +8 | 22823 | {'690def26': -1.3, 'de7ac5d3': 1.8, '188fa79b': 4.5, '516b7309': 3.3, 'b009537f': 3.8, '3425f351': 3.9} |
+| steal:bbfold_hist | triple t |  | +2.5 | 67% | +8 | 26533 | {'690def26': 1.1, 'de7ac5d3': 0.0, '188fa79b': 2.7, '516b7309': 2.8, 'b009537f': 4.2, '3425f351': 4.3} |
+| steal:bbfold_hist | Splendor |  | +2.2 | 67% | +6 | 23466 | {'690def26': 0.3, 'de7ac5d3': 3.8, '188fa79b': -0.9, '516b7309': 5.1, 'b009537f': 3.3, '3425f351': 4.9} |
+| steal:bbfold_hist | HUCBE |  | +2.2 | 50% | +7 | 24767 | {'690def26': 2.3, 'de7ac5d3': 2.5, '188fa79b': 1.1, '516b7309': 1.3, 'b009537f': 2.3, '3425f351': 3.6} |
+| steal:bbfold_hist | Hotwheels |  | +2.1 | 71% | +8 | 26208 | {'690def26': 2.1, 'de7ac5d3': 2.8, '188fa79b': 2.3, '516b7309': 3.2, 'b009537f': 0.1, '3425f351': 1.8} |
+| steal:bbfold_hist | REspect |  | +2.1 | 71% | +6 | 20912 | {'690def26': -0.7, 'de7ac5d3': 4.9, '188fa79b': 6.7, '516b7309': 1.8, 'b009537f': 0.4, '3425f351': 0.5} |
+| steal:bbfold_hist | capybara |  | +2.1 | 39% | +6 | 26352 | {'690def26': 1.6, 'de7ac5d3': 1.5, '188fa79b': 0.4, '516b7309': 2.8, 'b009537f': 2.3, '3425f351': 3.4} |
+| steal:bbfold_hist | Omega3FihOilSupplem. |  | +2.0 | 51% | +5 | 22552 | {'690def26': 1.1, 'de7ac5d3': 0.4, '188fa79b': 0.2, '516b7309': 0.2, 'b009537f': 4.1, '3425f351': 4.1} |
+| steal:bbfold_hist | Fade GTO-Jam or GTFO |  | +2.0 | 58% | +6 | 24001 | {'690def26': 3.7, 'de7ac5d3': 1.6, '188fa79b': 2.3, '516b7309': 2.5, 'b009537f': 0.6, '3425f351': 0.9} |
+| steal:bbfold_hist | spongebot |  | +1.9 | 56% | +5 | 21863 | {'690def26': 0.0, 'de7ac5d3': 3.2, '188fa79b': 1.7, '516b7309': 1.5, 'b009537f': 0.7, '3425f351': 2.9} |
+| steal:bbfold_hist | orz |  | +1.9 | 85% | +7 | 26529 | {'690def26': 1.7, 'de7ac5d3': 1.3, '188fa79b': -0.1, '516b7309': 1.0, 'b009537f': 3.7, '3425f351': 3.6} |
+| steal:bbfold_hist | pb&j |  | +1.9 | 55% | +6 | 24888 | {'690def26': 3.7, 'de7ac5d3': 2.0, '188fa79b': 2.1, '516b7309': 1.7, 'b009537f': 2.2, '3425f351': -0.5} |
+| steal:bbfold_hist | the_fish |  | +1.9 | 50% | +5 | 19029 | {'690def26': 0.4, 'de7ac5d3': 0.6, '188fa79b': -1.5, '516b7309': 1.4, 'b009537f': 4.0, '3425f351': 3.9} |
+| steal:bbfold_hist | Sanya Dmitrievich |  | +1.6 | 70% | +5 | 23983 | {'690def26': 1.6, 'de7ac5d3': 1.3, '188fa79b': 1.4, '516b7309': 2.1, 'b009537f': 0.3, '3425f351': 3.1} |
+| steal:bbfold_hist | Magnus RLsen |  | +1.6 | 80% | +6 | 24953 | {'690def26': 3.0, 'de7ac5d3': 1.9, '188fa79b': 1.0, '516b7309': -0.2, 'b009537f': 1.4, '3425f351': 2.2} |
+| steal:bbfold_hist | Guppy |  | +1.5 | 40% | +4 | 24494 | {'690def26': -0.1, 'de7ac5d3': 0.6, '188fa79b': -0.7, '516b7309': -1.2, 'b009537f': 5.6, '3425f351': 5.1} |
+| steal:bbfold_hist | Jay Z |  | +1.4 | 45% | +5 | 26767 | {'690def26': -0.0, 'de7ac5d3': 1.7, '188fa79b': 2.7, '516b7309': 0.6, 'b009537f': 1.2, '3425f351': 2.0} |
+| steal:bbfold_hist | if is_myturn go allin |  | +1.4 | 62% | +4 | 22332 | {'690def26': -1.6, 'de7ac5d3': 5.2, '188fa79b': -0.2, '516b7309': 3.5, 'b009537f': 2.2, '3425f351': -0.0} |
+| steal:bbfold_hist | Aaron n Ryan |  | +1.3 | 56% | +4 | 24519 | {'690def26': 0.2, 'de7ac5d3': 2.6, '188fa79b': 1.1, '516b7309': 0.6, 'b009537f': 1.4, '3425f351': 1.7} |
+| btc:fold_hist | Golem All in |  | +20.9 | 68% | +54 | 26622 | {'690def26': 21.8, 'de7ac5d3': 22.0, '188fa79b': 18.3, '516b7309': 23.2, 'b009537f': 18.9, '3425f351': 25.2} |
+| btc:fold_hist | Du-o |  | +16.2 | 74% | +19 | 4934 | {'690def26': 16.5, 'de7ac5d3': 18.3, '516b7309': 13.9} |
+| btc:fold_hist | Bigfish |  | +13.2 | 46% | +27 | 13021 | {'690def26': 20.5, 'de7ac5d3': 10.3, '188fa79b': 7.1, '516b7309': 12.4, 'b009537f': 13.6, '3425f351': 13.8} |
+| btc:fold_hist | 0_o GTO Slop |  | +12.2 | 61% | +33 | 19851 | {'690def26': 11.4, 'de7ac5d3': 10.8, '188fa79b': 12.2, '516b7309': 13.2, 'b009537f': 13.2, '3425f351': 13.5} |
+| btc:fold_hist | pb&j |  | +11.2 | 67% | +16 | 5608 | {'690def26': 9.0, 'de7ac5d3': 10.1, '516b7309': 17.5} |
+| btc:fold_hist | big floppa |  | +9.3 | 66% | +27 | 20706 | {'690def26': 8.7, 'de7ac5d3': 10.9, '188fa79b': 9.0, '516b7309': 10.6, 'b009537f': 7.8, '3425f351': 8.3} |
+| btc:fold_hist | DependablePokerOracle |  | +8.9 | 74% | +18 | 8907 | {'690def26': 9.7, 'de7ac5d3': 11.0, '188fa79b': 5.8, '516b7309': 9.1, 'b009537f': 8.2} |
+| btc:fold_hist | durrr |  | +8.8 | 55% | +11 | 4714 | {'690def26': 6.6, 'de7ac5d3': 10.2} |
+| btc:fold_hist | Team Ducas |  | +8.3 | 61% | +16 | 11064 | {'690def26': 6.1, 'de7ac5d3': 3.0, '188fa79b': 15.8, '516b7309': 8.8, '3425f351': 15.2} |
+| btc:fold_hist | Team 175 |  | +7.3 | 54% | +18 | 13278 | {'690def26': 7.9, 'de7ac5d3': 6.8, '188fa79b': 9.5, '516b7309': 5.0, 'b009537f': 6.5, '3425f351': 8.1} |
+| btc:fold_hist | Sanya Dmitrievich |  | +7.0 | 58% | +19 | 16274 | {'690def26': 5.8, 'de7ac5d3': 7.2, '188fa79b': 6.4, '516b7309': 7.2, 'b009537f': 7.0, '3425f351': 9.2} |
+| btc:fold_hist | Cameron Casino |  | +6.1 | 74% | +13 | 8753 | {'690def26': 6.5, 'de7ac5d3': 4.3, '188fa79b': 5.5, '516b7309': 5.9, 'b009537f': 9.2} |
+| btc:fold_hist | BHTG |  | +5.3 | 71% | +15 | 20013 | {'690def26': 3.0, 'de7ac5d3': 6.4, '188fa79b': 4.6, '516b7309': 4.7, 'b009537f': 6.8, '3425f351': 7.0} |
+| btc:fold_hist | HUCBE |  | +5.0 | 45% | +15 | 20864 | {'690def26': 6.0, 'de7ac5d3': 4.6, '188fa79b': 4.0, '516b7309': 5.2, 'b009537f': 5.1, '3425f351': 5.2} |
+| btc:fold_hist | sequoia lowercase |  | +4.6 | 51% | +8 | 7229 | {'690def26': 11.2, 'de7ac5d3': -1.2, '188fa79b': 1.7, '3425f351': 6.5} |
+| btc:fold_hist | Team Solo Bolo |  | +4.2 | 40% | +13 | 21387 | {'690def26': 7.6, 'de7ac5d3': 8.6, '188fa79b': -0.9, '516b7309': 1.8, 'b009537f': 2.1, '3425f351': 4.5} |
+| btc:fold_hist | big little sharks |  | +4.1 | 70% | +12 | 17121 | {'690def26': 3.9, 'de7ac5d3': 4.0, '188fa79b': 2.6, '516b7309': 5.5, 'b009537f': 3.9, '3425f351': 5.1} |
+| btc:fold_hist | Omega3FihOilSupplem. |  | +3.4 | 60% | +6 | 9127 | {'188fa79b': -0.5, '516b7309': 3.5, 'b009537f': 7.6, '3425f351': 11.3} |
+| btc:fold_hist | Team 194 |  | +3.3 | 62% | +9 | 15487 | {'690def26': -2.3, 'de7ac5d3': 3.1, '188fa79b': 5.8, '516b7309': 5.9, 'b009537f': 4.8, '3425f351': 5.1} |
+| btc:fold_hist | HUMONGOUS |  | +3.0 | 72% | +5 | 7828 | {'690def26': -1.4, '516b7309': 4.7, 'b009537f': 4.7, '3425f351': 3.9} |
+| btc:fold_hist | Splendor |  | +3.0 | 42% | +8 | 16528 | {'690def26': -3.8, 'de7ac5d3': 4.8, '188fa79b': -0.5, '516b7309': 7.8, 'b009537f': 4.9, '3425f351': 6.1} |
+| btc:fold_hist | Nyx |  | +2.7 | 86% | +8 | 17735 | {'690def26': 2.8, 'de7ac5d3': 4.0, '188fa79b': 2.3, '516b7309': 4.4, 'b009537f': 1.4, '3425f351': 0.6} |
+| btc:fold_hist | Hotwheels |  | +2.7 | 69% | +6 | 11389 | {'690def26': 0.8, 'de7ac5d3': 2.0, '188fa79b': 3.5, '516b7309': 2.9, 'b009537f': 3.4, '3425f351': 3.7} |
+| btc:fold_hist | The Game Changers |  | +2.3 | 42% | +5 | 9958 | {'690def26': -1.2, 'de7ac5d3': -2.0, '188fa79b': 12.6} |
+| btc:fold_hist | Poker Pundits |  | +2.1 | 64% | +6 | 15435 | {'690def26': 0.4, 'de7ac5d3': 2.0, '188fa79b': 2.0, '516b7309': 3.7, 'b009537f': 3.8, '3425f351': 0.8} |
+| btc:fold_hist | guacamole |  | +2.1 | 58% | +6 | 19330 | {'690def26': 2.2, 'de7ac5d3': 2.4, '188fa79b': 3.9, '516b7309': 2.8, 'b009537f': 1.2, '3425f351': 0.5} |
+| btc:fold_hist | EK Bjorn |  | +2.1 | 58% | +6 | 30867 | {'690def26': -2.9, 'de7ac5d3': -1.2, '188fa79b': 4.7, '516b7309': 5.6, 'b009537f': 5.1, '3425f351': 1.4} |
+| btc:fold_hist | BridgeDummy |  | +1.9 | 66% | +3 | 9007 | {'de7ac5d3': 3.9, '188fa79b': 5.8, '516b7309': -3.9, '3425f351': -3.9} |
+| btc:fold_hist | Jay Z |  | +1.8 | 47% | +4 | 14834 | {'690def26': -2.0, 'de7ac5d3': -0.7, '188fa79b': -3.9, '516b7309': 7.5, 'b009537f': 5.8, '3425f351': 5.7} |
+| btc:fold_hist | Zebra |  | +1.6 | 70% | +3 | 9003 | {'de7ac5d3': 1.3, '188fa79b': 2.9, '516b7309': 1.2, '3425f351': -0.6} |
+| btc:fold_hist | hmu for gpus |  | +1.5 | 40% | +3 | 13561 | {'690def26': -1.3, 'de7ac5d3': -2.1, '188fa79b': 4.5, '516b7309': 4.2, 'b009537f': 5.6, '3425f351': 3.5} |
+| btc:fold_hist | fable 5.3 |  | +1.4 | 53% | +4 | 17333 | {'690def26': -2.4, 'de7ac5d3': 2.1, '188fa79b': 0.9, '516b7309': 3.4, 'b009537f': 4.9, '3425f351': 4.8} |
+| fb:bet_hist | durrrr |  | -10.4 | 38% | -29 | 15865 | {'690def26': -12.4, 'de7ac5d3': -12.2, '188fa79b': -9.3, '516b7309': -8.0, 'b009537f': -10.3, '3425f351': -10.9} |
+| fb:bet_hist | BigHeart |  | -8.5 | 48% | -7 | 1609 | {'188fa79b': -8.5} |
+| fb:bet_hist | JoeBob |  | -8.0 | 46% | -7 | 1585 | {'690def26': -8.0} |
+| fb:bet_hist | Team 175 |  | -7.5 | 41% | -13 | 6352 | {'188fa79b': -7.8, '516b7309': -9.0, 'b009537f': -6.3, '3425f351': -7.0} |
+| fb:bet_hist | type shi |  | -7.3 | 70% | -13 | 6787 | {'690def26': -7.7, 'de7ac5d3': -5.9, '516b7309': -7.9, 'b009537f': -7.8} |
+| fb:bet_hist | cj stroud fan club |  | -6.9 | 44% | -12 | 6327 | {'690def26': -6.5, 'de7ac5d3': -7.8, 'b009537f': -6.2, '3425f351': -7.0} |
+| fb:bet_hist | German Engineering |  | -5.8 | 43% | -5 | 1652 | {'188fa79b': -5.8} |
+| fb:bet_hist | durrr |  | -5.4 | 52% | -5 | 1648 | {'de7ac5d3': -5.4} |
+| fb:bet_hist | 0_o GTO Slop |  | -5.3 | 68% | -14 | 12642 | {'690def26': -6.1, 'de7ac5d3': -5.9, '188fa79b': -7.2, '516b7309': -4.1, 'b009537f': -4.0, '3425f351': -4.1} |
+| fb:bet_hist | Skibidi slex |  | -5.1 | 54% | -7 | 3537 | {'de7ac5d3': -5.8, '188fa79b': -4.4} |
+| fb:bet_hist | The Game Changers |  | -4.8 | 47% | -9 | 6648 | {'690def26': -2.7, 'de7ac5d3': -0.3, '188fa79b': -10.3} |
+| fb:bet_hist | Set Minors |  | -4.6 | 77% | -12 | 11355 | {'188fa79b': -3.8, '516b7309': -5.4} |
+| fb:bet_hist | Team 194 |  | -4.6 | 50% | -8 | 7036 | {'690def26': -1.7, 'de7ac5d3': -1.2, '188fa79b': -7.4, '516b7309': -8.1} |
+| fb:bet_hist | Jay Z |  | -4.2 | 65% | -6 | 4828 | {'690def26': -2.1, '516b7309': -5.0, 'b009537f': -4.6} |
+| fb:bet_hist | All in with 27o |  | -4.1 | 41% | -7 | 4496 | {'188fa79b': -3.7, '516b7309': -5.2} |
+| fb:bet_hist | mr robot |  | -4.0 | 37% | -4 | 1523 | {'690def26': -4.0} |
+| fb:bet_hist | Team sammamish |  | -4.0 | 45% | -9 | 10846 | {'690def26': -1.1, 'de7ac5d3': -1.4, '188fa79b': -0.2, '516b7309': -0.3, 'b009537f': -9.7, '3425f351': -11.6} |
+| fb:bet_hist | guacamole |  | -3.9 | 56% | -8 | 11036 | {'690def26': -3.3, 'de7ac5d3': -4.6, '516b7309': -3.2, 'b009537f': -4.0, '3425f351': -4.4} |
+| fb:bet_hist | Fade GTO-Jam or GTFO |  | -3.8 | 38% | -8 | 8835 | {'690def26': -3.5, 'de7ac5d3': -4.9, '188fa79b': -2.6, '516b7309': -4.5, '3425f351': -3.7} |
+| fb:bet_hist | Team 6 |  | -3.8 | 72% | -7 | 6805 | {'690def26': -4.7, 'b009537f': -3.2, '3425f351': -2.1} |
+| fb:bet_hist | Shanghaishark |  | -3.7 | 63% | -3 | 1613 | {'188fa79b': -3.7} |
+| fb:bet_hist | 23409m |  | -3.6 | 61% | -10 | 14189 | {'690def26': -4.9, 'de7ac5d3': -3.4, '188fa79b': -3.8, '516b7309': -3.0, 'b009537f': -3.2, '3425f351': -3.1} |
+| fb:bet_hist | oneofwon |  | -3.5 | 52% | -6 | 4713 | {'690def26': -3.1, '188fa79b': -1.5, '516b7309': -6.7} |
+| fb:bet_hist | Turbo1 |  | -3.5 | 57% | -8 | 12699 | {'690def26': -4.5, 'de7ac5d3': -2.6, '188fa79b': -2.6, '516b7309': -2.5, 'b009537f': -3.4, '3425f351': -5.6} |
+| fb:bet_hist | Omega3FihOilSupplem. |  | -3.5 | 35% | -5 | 3861 | {'188fa79b': -2.9, '516b7309': -4.6} |
+| fb:bet_hist | mikepunts |  | -3.4 | 59% | -7 | 10729 | {'690def26': -0.5, 'de7ac5d3': -1.5, '516b7309': -2.3, 'b009537f': -3.9, '3425f351': -5.2} |
+| fb:bet_hist | whale |  | -3.3 | 41% | -8 | 12924 | {'690def26': -0.1, 'de7ac5d3': -1.8, '188fa79b': -5.9, '516b7309': -3.4, 'b009537f': -5.5, '3425f351': -2.9} |
+| fb:bet_hist | Skill Issue |  | -3.3 | 46% | -3 | 1607 | {'de7ac5d3': -3.3} |
+| fb:bet_hist | Team 129 |  | -3.2 | 59% | -6 | 6758 | {'690def26': -2.8, 'de7ac5d3': -1.7, '188fa79b': -4.8, '516b7309': -3.2} |
+| fb:bet_hist | JKo United |  | -3.2 | 60% | -4 | 3791 | {'de7ac5d3': -3.7, '188fa79b': -2.6} |
+| fb:bet_hist | BridgeDummy |  | -3.1 | 35% | -3 | 1568 | {'188fa79b': -3.1} |
+| fb:bet_hist | team bj |  | -3.1 | 44% | -5 | 4864 | {'de7ac5d3': -3.4, '188fa79b': -3.8, '516b7309': -1.7} |
+| fb:bet_hist | Team 77 |  | -3.1 | 54% | -3 | 1715 | {'690def26': -3.1} |
+| fb:bet_hist | Team Team |  | -3.1 | 62% | -8 | 12096 | {'690def26': -2.7, 'de7ac5d3': -3.9, '188fa79b': -3.2, '516b7309': -3.8, 'b009537f': -2.3, '3425f351': -2.0} |
+| fb:bet_hist | uwu |  | -3.0 | 44% | -4 | 2957 | {'690def26': -3.0} |
+| fb:bet_hist | HUCBE |  | -2.9 | 62% | -8 | 12759 | {'690def26': -2.4, 'de7ac5d3': -2.6, '188fa79b': -4.1, '516b7309': -3.4, 'b009537f': -2.3, '3425f351': -2.3} |
+| fb:bet_hist | mmd |  | -2.9 | 66% | -3 | 1763 | {'690def26': -2.9} |
+| cj:jam_hist | DependablePokerOracle |  | +8.8 | 11% | +10 | 17008 | {'690def26': 13.3, 'de7ac5d3': 11.8, '188fa79b': 11.8, '516b7309': 6.2, 'b009537f': 8.0, '3425f351': 5.1} |
+| cj:jam_hist | check republic |  | +8.0 | 18% | +8 | 16415 | {'690def26': 5.5, 'de7ac5d3': 9.2, '188fa79b': 9.5, '516b7309': 11.3, 'b009537f': 12.3, '3425f351': 3.5} |
+| cj:jam_hist | Lunan Deague |  | +7.0 | 17% | +6 | 10451 | {'de7ac5d3': 2.4, '516b7309': 12.6, 'b009537f': 12.9, '3425f351': 4.4} |
+| cj:jam_hist | Team 72 |  | +6.4 | 14% | +9 | 19609 | {'690def26': 3.0, 'de7ac5d3': 4.2, '188fa79b': 10.6, '516b7309': 10.6, 'b009537f': 6.4, '3425f351': 8.1} |
+| cj:jam_hist | Situational Awareness |  | +6.1 | 19% | +7 | 21256 | {'690def26': 6.1, 'de7ac5d3': 6.3, '188fa79b': 8.3, '516b7309': 8.1, 'b009537f': 4.7, '3425f351': 4.9} |
+| cj:jam_hist | alice huang |  | +5.8 | 16% | +6 | 15075 | {'690def26': 12.2, 'de7ac5d3': 3.7, '188fa79b': 10.5, '516b7309': 6.7, 'b009537f': 6.0, '3425f351': 3.0} |
+| cj:jam_hist | bburinkle chicken |  | +5.6 | 21% | +5 | 16065 | {'690def26': 4.6, 'de7ac5d3': 4.9, '188fa79b': 7.6, '516b7309': 8.7, 'b009537f': 3.1, '3425f351': 5.4} |
+| cj:jam_hist | Group Chat |  | +5.3 | 14% | +7 | 23680 | {'690def26': 8.9, 'de7ac5d3': 4.5, '188fa79b': 6.4, '516b7309': 0.4, 'b009537f': 6.6, '3425f351': 4.1} |
+| cj:jam_hist | StimulatedPlatypus |  | +5.1 | 19% | +6 | 20262 | {'690def26': 12.4, 'de7ac5d3': 1.8, '188fa79b': 11.1, '516b7309': 10.6, 'b009537f': 3.5, '3425f351': 1.9} |
+| cj:jam_hist | 0_o GTO Slop |  | +4.5 | 22% | +5 | 23460 | {'690def26': 3.1, 'de7ac5d3': 1.8, '188fa79b': 8.2, '516b7309': 3.7, 'b009537f': 5.6, '3425f351': 7.0} |
+| cj:jam_hist | mao |  | +4.2 | 19% | +5 | 19061 | {'690def26': 3.6, 'de7ac5d3': 5.0, '188fa79b': 2.0, '516b7309': 5.1, 'b009537f': 1.8, '3425f351': 6.0} |
+| cj:jam_hist | RLHF |  | +3.9 | 15% | +5 | 20004 | {'690def26': 8.8, 'de7ac5d3': 2.4, '188fa79b': 0.7, '516b7309': 9.9, 'b009537f': -4.4, '3425f351': 5.0} |
+| cj:jam_hist | Magnus RLsen |  | +3.9 | 15% | +5 | 19798 | {'690def26': 5.3, 'de7ac5d3': 3.5, '188fa79b': 4.6, '516b7309': 0.9, 'b009537f': 2.0, '3425f351': 4.4} |
+| cj:jam_hist | ron liu |  | +3.9 | 17% | +4 | 12035 | {'de7ac5d3': 1.3, '188fa79b': 4.0, '516b7309': 2.2, 'b009537f': 3.2, '3425f351': 6.6} |
+| cj:jam_hist | ladue math club x0.5 |  | +3.7 | 16% | +4 | 18922 | {'690def26': -0.3, 'de7ac5d3': 0.5, '188fa79b': 10.0, '516b7309': 7.7, 'b009537f': 6.4, '3425f351': 2.9} |
+| cj:jam_hist | Team Ducas |  | +3.7 | 17% | +5 | 20317 | {'690def26': 5.0, 'de7ac5d3': 4.0, '188fa79b': 1.4, '516b7309': 3.8, 'b009537f': 1.8, '3425f351': 4.5} |
+| cj:jam_hist | Preesh |  | +3.6 | 23% | +4 | 17693 | {'690def26': 7.1, 'de7ac5d3': 2.8, '188fa79b': -0.1, '516b7309': 0.3, 'b009537f': 7.9, '3425f351': 2.5} |
+| cj:jam_hist | big little sharks |  | +3.5 | 19% | +4 | 16255 | {'690def26': 5.2, 'de7ac5d3': 1.5, '188fa79b': 10.2, '516b7309': 5.4, 'b009537f': 2.9, '3425f351': 3.2} |
+| cj:jam_hist | Team 175 |  | +3.5 | 21% | +4 | 18097 | {'690def26': 3.7, 'de7ac5d3': -0.4, '188fa79b': 4.9, '516b7309': 6.3, 'b009537f': 5.6, '3425f351': 6.6} |
+| cj:jam_hist | NP Complete |  | +3.5 | 25% | +3 | 16262 | {'690def26': 5.7, 'de7ac5d3': 2.9, '188fa79b': 10.5, '516b7309': 0.6, 'b009537f': 0.5, '3425f351': 2.7} |
+| cj:jam_hist | bodke |  | +3.1 | 16% | +4 | 18716 | {'690def26': 4.6, 'de7ac5d3': 2.1, '188fa79b': 6.3, '516b7309': 5.1, 'b009537f': 0.8, '3425f351': 2.3} |
+| cj:jam_hist | molly tea |  | +2.8 | 16% | +4 | 22180 | {'690def26': 3.4, 'de7ac5d3': -2.3, '188fa79b': 3.9, '516b7309': 7.3, 'b009537f': 5.4, '3425f351': 5.2} |
+| cj:jam_hist | orz |  | +2.6 | 12% | +4 | 24981 | {'690def26': 1.7, 'de7ac5d3': 1.9, '188fa79b': 0.2, '516b7309': 0.7, 'b009537f': 6.1, '3425f351': 4.7} |
+| cj:jam_hist | Golem All in |  | +2.5 | 11% | +4 | 22279 | {'690def26': 0.2, 'de7ac5d3': 0.1, '188fa79b': 4.6, '516b7309': 5.1, 'b009537f': 3.8, '3425f351': 2.1} |
+| cj:jam_hist | Fade GTO-Jam or GTFO |  | +2.5 | 13% | +4 | 19572 | {'690def26': 2.1, 'de7ac5d3': 3.5, '188fa79b': 3.5, '516b7309': 0.2, 'b009537f': 1.5, '3425f351': 3.2} |
+| cj:jam_hist | oneofwon |  | +2.3 | 11% | +3 | 19413 | {'690def26': 6.9, 'de7ac5d3': 4.6, '188fa79b': 1.7, '516b7309': -4.4, 'b009537f': 0.1, '3425f351': 1.6} |
+| cj:jam_hist | Rembrandt |  | +2.0 | 6% | +5 | 21608 | {'690def26': 3.5, 'de7ac5d3': 1.0, '188fa79b': 4.9, '516b7309': 1.2, 'b009537f': 1.2, '3425f351': 2.8} |
+| cj:jam_hist | 750 gaokao scorers |  | +1.7 | 8% | +3 | 19476 | {'690def26': 2.0, 'de7ac5d3': 0.1, '188fa79b': 2.4, '516b7309': 2.1, 'b009537f': 2.0, '3425f351': 2.9} |
+
+teams with at least one flagged seat-level response: 99 of 192
+{'0_o GTO Slop': ['f3b_hist', 'bbfold_hist', 'fold_hist', 'bet_hist', 'jam_hist'], 'BHTG': ['f3b_hist', 'bbfold_hist', 'fold_hist'], 'Bigfish': ['f3b_hist', 'bbfold_hist', 'fold_hist'], 'Du-o': ['f3b_hist', 'open_hist', 'bbfold_hist', 'fold_hist'], 'Golem All in': ['f3b_hist', 'bbfold_hist', 'fold_hist', 'jam_hist'], 'HUMONGOUS': ['f3b_hist', 'open_hist', 'bbfold_hist', 'fold_hist'], 'Magnus RLsen': ['f3b_hist', 'open_hist', 'bbfold_hist', 'jam_hist'], 'NP Complete': ['f3b_hist', 'bbfold_hist', 'jam_hist'], 'Nyx': ['f3b_hist', 'bbfold_hist', 'fold_hist'], 'Preesh': ['f3b_hist', 'bbfold_hist', 'jam_hist'], 'REspect': ['f3b_hist', 'bbfold_hist'], 'Shlok & Luca': ['f3b_hist'], 'Situational Awareness': ['f3b_hist', 'open_hist', 'jam_hist'], 'Splendor': ['f3b_hist', 'bbfold_hist', 'fold_hist'], 'Team 194': ['f3b_hist', 'open_hist', 'bbfold_hist', 'fold_hist', 'bet_hist'], 'balright': ['f3b_hist', 'open_hist', 'bbfold_hist'], 'big little sharks': ['f3b_hist', 'open_hist', 'fold_hist', 'jam_hist'], 'capybara': ['f3b_hist', 'open_hist', 'bbfold_hist'], 'check republic': ['f3b_hist', 'jam_hist'], 'croson': ['f3b_hist'], 'if is_myturn go allin': ['f3b_hist', 'open_hist', 'bbfold_hist'], 'molly tea': ['f3b_hist', 'open_hist', 'bbfold_hist', 'jam_hist'], 'orz': ['f3b_hist', 'open_hist', 'bbfold_hist', 'jam_hist'], 'sequoia lowercase': ['f3b_hist', 'bbfold_hist', 'fold_hist'], 'the_fish': ['f3b_hist', 'bbfold_hist'], 'triple t': ['f3b_hist', 'open_hist', 'bbfold_hist'], 'zakeburg': ['f3b_hist', 'open_hist'], 'Aaron n Ryan': ['open_hist', 'bbfold_hist'], 'BigHeart': ['open_hist', 'bet_hist'], 'BridgeDummy': ['open_hist', 'fold_hist', 'bet_hist'], 'DependablePokerOracle': ['open_hist', 'fold_hist', 'jam_hist'], 'GMI central': ['open_hist'], 'HUCBE': ['open_hist', 'bbfold_hist', 'fold_hist', 'bet_hist'], 'HugeML': ['open_hist'], 'StimulatedPlatypus': ['open_hist', 'bbfold_hist', 'jam_hist'], 'Team 72': ['open_hist', 'jam_hist'], 'Team Rob Watts': ['open_hist'], 'Team Solo Bolo': ['open_hist', 'fold_hist'], 'alice huang': ['open_hist', 'jam_hist'], 'artisans': ['open_hist'], 'bodke': ['open_hist', 'jam_hist'], 'cj stroud fan club': ['open_hist', 'bet_hist'], 'dare enhance': ['open_hist'], 'durrrr': ['open_hist', 'bbfold_hist', 'bet_hist'], 'guacamole': ['open_hist', 'bbfold_hist', 'fold_hist', 'bet_hist'], 'joe': ['open_hist'], 'ladue math club x0.5': ['open_hist', 'jam_hist'], 'mao': ['open_hist', 'jam_hist'], 'pb&j': ['open_hist', 'bbfold_hist', 'fold_hist'], 'spongebot': ['open_hist', 'bbfold_hist'], 'Fade GTO-Jam or GTFO': ['bbfold_hist', 'bet_hist', 'jam_hist'], 'Guppy': ['bbfold_hist'], 'Hotwheels': ['bbfold_hist', 'fold_hist'], 'Jay Z': ['bbfold_hist', 'fold_hist', 'bet_hist'], 'Omega3FihOilSupplem.': ['bbfold_hist', 'fold_hist', 'bet_hist'], 'OpenSI': ['bbfold_hist'], 'Sanya Dmitrievich': ['bbfold_hist', 'fold_hist'], 'Team 175': ['bbfold_hist', 'fold_hist', 'bet_hist', 'jam_hist'], 'Team Ducas': ['bbfold_hist', 'fold_hist', 'jam_hist'], 'durrr': ['bbfold_hist', 'fold_hist', 'bet_hist'], 'fable 5.3': ['bbfold_hist', 'fold_hist'], 'here for the food': ['bbfold_hist'], 'Cameron Casino': ['fold_hist'], 'EK Bjorn': ['fold_hist'], 'Poker Pundits': ['fold_hist'], 'The Game Changers': ['fold_hist', 'bet_hist'], 'Zebra': ['fold_hist'], 'big floppa': ['fold_hist'], 'hmu for gpus': ['fold_hist'], '23409m': ['bet_hist'], 'All in with 27o': ['bet_hist'], 'German Engineering': ['bet_hist'], 'JKo United': ['bet_hist'], 'JoeBob': ['bet_hist'], 'Set Minors': ['bet_hist'], 'Shanghaishark': ['bet_hist'], 'Skibidi slex': ['bet_hist'], 'Skill Issue': ['bet_hist'], 'Team 129': ['bet_hist'], 'Team 6': ['bet_hist'], 'Team 77': ['bet_hist'], 'Team Team': ['bet_hist'], 'Team sammamish': ['bet_hist'], 'Turbo1': ['bet_hist'], 'mikepunts': ['bet_hist'], 'mmd': ['bet_hist'], 'mr robot': ['bet_hist'], 'oneofwon': ['bet_hist', 'jam_hist'], 'team bj': ['bet_hist'], 'type shi': ['bet_hist'], 'uwu': ['bet_hist'], 'whale': ['bet_hist'], '750 gaokao scorers': ['jam_hist'], 'Group Chat': ['jam_hist'], 'Lunan Deague': ['jam_hist'], 'RLHF': ['jam_hist'], 'Rembrandt': ['jam_hist'], 'bburinkle chicken': ['jam_hist'], 'ron liu': ['jam_hist']}
+
+STRONG flags (|z|>=10 and effect >=3pp beyond the field median): 34 teams
+{'0_o GTO Slop': ['f3b_hist', 'bbfold_hist', 'fold_hist', 'bet_hist'], 'BHTG': ['f3b_hist', 'bbfold_hist', 'fold_hist'], 'Bigfish': ['f3b_hist', 'fold_hist'], 'Du-o': ['f3b_hist', 'open_hist', 'bbfold_hist', 'fold_hist'], 'Golem All in': ['f3b_hist', 'bbfold_hist', 'fold_hist'], 'HUMONGOUS': ['f3b_hist', 'open_hist', 'bbfold_hist'], 'Magnus RLsen': ['f3b_hist'], 'NP Complete': ['f3b_hist'], 'Nyx': ['f3b_hist', 'bbfold_hist'], 'Situational Awareness': ['f3b_hist', 'open_hist'], 'Team 194': ['f3b_hist', 'bbfold_hist'], 'big little sharks': ['f3b_hist', 'open_hist', 'fold_hist'], 'croson': ['f3b_hist'], 'orz': ['f3b_hist'], 'sequoia lowercase': ['f3b_hist'], 'StimulatedPlatypus': ['open_hist'], 'artisans': ['open_hist'], 'molly tea': ['open_hist'], 'zakeburg': ['open_hist'], 'Team Ducas': ['bbfold_hist', 'fold_hist'], 'durrr': ['bbfold_hist', 'fold_hist'], 'guacamole': ['bbfold_hist'], 'here for the food': ['bbfold_hist'], 'Cameron Casino': ['fold_hist'], 'DependablePokerOracle': ['fold_hist', 'jam_hist'], 'HUCBE': ['fold_hist'], 'Sanya Dmitrievich': ['fold_hist'], 'Team 175': ['fold_hist', 'bet_hist'], 'Team Solo Bolo': ['fold_hist'], 'big floppa': ['fold_hist'], 'pb&j': ['fold_hist'], 'cj stroud fan club': ['bet_hist'], 'durrrr': ['bet_hist'], 'type shi': ['bet_hist']}
+
+by round: number of teams with a per-round effect >=3pp (expected sign) and |z|>=6
+  tb:f3b_hist: 10 9 11 18 17 16
+  tb:open_hist: 7 6 8 10 11 13
+  steal:bbfold_hist: 6 7 8 12 12 11
+  btc:fold_hist: 14 12 11 15 11 13
+  fb:bet_hist: 5 4 8 5 3 3
+  cj:jam_hist: 0 0 0 0 0 0
+
+Boston, by estimated standing (noisy): share of teams with a STRONG seat-level response / any flagged
+  1-10: strong 5 of 10; any 10
+  11-20: strong 7 of 10; any 9
+  21-60: strong 13 of 40; any 29
+  61+: strong 9 of 131; any 50
+estimated top 12: [('Du-o', ['f3b_hist', 'open_hist', 'bbfold_hist', 'fold_hist']), ('Situational Awareness', ['f3b_hist', 'open_hist']), ('BHTG', ['f3b_hist', 'bbfold_hist', 'fold_hist']), ('0_o GTO Slop', ['f3b_hist', 'bbfold_hist', 'fold_hist', 'bet_hist']), ('Preesh', []), ('Hotwheels', []), ('Magnus RLsen', ['f3b_hist']), ('triple t', []), ('REspect', []), ('Team 72', []), ('Golem All in', ['f3b_hist', 'bbfold_hist', 'fold_hist']), ('zakeburg', ['open_hist'])]

@@ -1,0 +1,74 @@
+TENDENCIES (% ; chances per table in brackets for avalon R6). 'top20' = mean of the other 19, sd across them
+                                 av R1   av R2   av R3   av R4   av R5   av R6 [n/tbl]  top20 R6   sd   2 Curry R6  Lemonade R6 sandylike R6   Gavilan R6 TeamBallH R6 top20 lag-1 drift
+open when folded to (deep)        32.2    31.3    31.4    31.0    31.9    31.8    39.8      38.9 10.1         41.7          6.2         53.1         27.2         50.4               3.4
+3-bet vs an open                  16.3    16.0    17.3    17.8    17.8    17.5    32.1      23.8 13.6         38.6         13.4         14.1         18.4          7.8               4.3
+fold to 3-bet (not all-in)        86.8    88.1    88.6    87.6    88.6    88.7     2.5      65.3 16.6         73.4         69.0         72.2         47.1         62.4               7.4
+fold to 3-bet jam                 78.0    80.4    82.3    83.6    83.9    85.1     1.5      68.8 20.5         87.1          7.1         71.4         63.6         83.3               5.4
+BB fold to late steal             33.0    33.2    27.8    39.3    24.6    25.2     7.0      39.0 18.4         27.9         51.0         47.7         31.5         26.5               7.2
+call/raise a preflop all-in       24.9    23.3    21.4    17.1    17.4    16.7     7.2      16.8  4.1         15.4         17.9         19.0         17.4          7.8               3.0
+c-bet flop                        93.6    92.8    86.6    86.9    86.0    86.6     2.0      77.8 10.6         90.3         82.6         54.9         85.3         76.9               5.4
+bet when first, HU flop           92.1    92.2    84.4    87.0    83.1    83.6     6.2      75.0  9.7         81.5         80.5         58.5         80.3         75.9               6.7
+fold to bet HU flop               30.1    30.5    74.1    69.5    73.1    72.9     3.1      56.1 10.8         61.1         70.8         66.1         70.8         65.6               5.8
+fold to bet HU turn               48.8    49.8    67.0    61.2    65.3    66.4     0.8      48.3  9.5         46.2         49.7         63.9         39.0         54.5               5.6
+fold to bet HU river              72.1    75.1    77.7    73.3    75.6    77.6     0.4      49.6 10.5         41.6         49.5         63.8         30.5         57.4               6.5
+raise a bet HU flop               17.9    16.9    13.4    15.9    14.3    14.3     3.1      10.6  9.0          6.2          0.9         17.0          2.6          7.6               2.2
+fold to raise after betting       36.1    35.8    61.1    57.5    62.2    62.1     1.0      56.9 15.2         54.0         69.1         54.1         82.3         89.2               8.3
+
+FLIP MODEL (zero-equity bluff, wins pot P when target folds, loses B otherwise; default policy bluffs only where it profits against the average finalist).
+Value per recognising opponent per table, points; and EV of the bluff in pots vs target / vs average finalist
+  avalon           R1:   3.71 pts | 3-bet our open: +0.66/-0.09 -> 3.62; bet flop HU: -0.12/+0.23 -> 0.10; bet turn HU: +0.18/+0.10 -> 0.00; bet river HU: +0.55/+0.18 -> 0.00; steal our BB from BTN/SB: -0.65/-0.03 -> 0.00
+  avalon           R3:   0.00 pts | 3-bet our open: +0.70/+0.20 -> 0.00; bet flop HU: +0.59/+0.36 -> 0.00; bet turn HU: +0.47/+0.24 -> 0.00; bet river HU: +0.64/+0.30 -> 0.00; steal our BB from BTN/SB: -0.78/-0.11 -> 0.00
+  avalon           R6:   0.00 pts | 3-bet our open: +0.71/+0.10 -> 0.00; bet flop HU: +0.57/+0.30 -> 0.00; bet turn HU: +0.46/+0.17 -> 0.00; bet river HU: +0.64/+0.19 -> 0.00; steal our BB from BTN/SB: -0.85/-0.50 -> 0.00
+  2 Curry          R1:   5.60 pts | 3-bet our open: +0.61/-0.05 -> 5.60; bet flop HU: +0.39/+0.20 -> 0.00; bet turn HU: +0.12/+0.10 -> 0.00; bet river HU: +0.05/+0.21 -> 0.00; steal our BB from BTN/SB: -0.25/-0.05 -> 0.00
+  2 Curry          R3:   0.00 pts | 3-bet our open: +0.40/+0.24 -> 0.00; bet flop HU: +0.48/+0.36 -> 0.00; bet turn HU: +0.11/+0.25 -> 0.00; bet river HU: +0.06/+0.33 -> 0.00; steal our BB from BTN/SB: -0.70/-0.11 -> 0.00
+  2 Curry          R6:   0.00 pts | 3-bet our open: +0.33/+0.14 -> 0.00; bet flop HU: +0.38/+0.31 -> 0.00; bet turn HU: +0.14/+0.19 -> 0.00; bet river HU: +0.07/+0.22 -> 0.00; steal our BB from BTN/SB: -0.78/-0.51 -> 0.00
+  Lemonade         R1:   0.18 pts | 3-bet our open: +0.13/-0.08 -> 0.01; bet flop HU: +0.46/+0.20 -> 0.00; bet turn HU: -0.16/+0.12 -> 0.09; bet river HU: -0.20/+0.22 -> 0.08; steal our BB from BTN/SB: -0.41/-0.04 -> 0.00
+  Lemonade         R3:   0.00 pts | 3-bet our open: +0.24/+0.19 -> 0.00; bet flop HU: +0.55/+0.36 -> 0.00; bet turn HU: +0.23/+0.25 -> 0.00; bet river HU: +0.19/+0.33 -> 0.00; steal our BB from BTN/SB: -0.23/-0.14 -> 0.00
+  Lemonade         R6:   0.00 pts | 3-bet our open: +0.18/+0.10 -> 0.00; bet flop HU: +0.53/+0.30 -> 0.00; bet turn HU: +0.19/+0.19 -> 0.00; bet river HU: +0.19/+0.22 -> 0.00; steal our BB from BTN/SB: -0.21/-0.54 -> 0.00
+  sandylikesfrogs  R1:   0.00 pts | 3-bet our open: -0.46/-0.04 -> 0.00; bet flop HU: +0.31/+0.20 -> 0.00; bet turn HU: +0.16/+0.10 -> 0.00; bet river HU: +0.32/+0.20 -> 0.00; steal our BB from BTN/SB: -0.61/-0.03 -> 0.00
+  sandylikesfrogs  R3:   0.94 pts | 3-bet our open: -0.15/+0.22 -> 0.94; bet flop HU: +0.29/+0.37 -> 0.00; bet turn HU: +0.27/+0.25 -> 0.00; bet river HU: +0.34/+0.32 -> 0.00; steal our BB from BTN/SB: -0.02/-0.15 -> 0.00
+  sandylikesfrogs  R6:   0.00 pts | 3-bet our open: +0.27/+0.11 -> 0.00; bet flop HU: +0.46/+0.30 -> 0.00; bet turn HU: +0.42/+0.17 -> 0.00; bet river HU: +0.42/+0.21 -> 0.00; steal our BB from BTN/SB: -0.29/-0.53 -> 0.00
+
+All top-20: flip-model value per opponent per table (points), mean R1-R6 and R6, next to linear bound mean
+  Lemonade             flip mean  0.11  R6  0.00 | linear bound mean  0.59  R6  0.61
+  2 Curry              flip mean  1.02  R6  0.00 | linear bound mean  3.22  R6  1.79
+  avalon               flip mean  0.73  R6  0.00 | linear bound mean  4.32  R6  4.18
+  sandylikesfrogs      flip mean  1.29  R6  0.00 | linear bound mean  3.60  R6  2.28
+  Team 123             flip mean  2.87  R6  3.97 | linear bound mean  5.84  R6  6.58
+  Team 72              flip mean  1.99  R6  3.63 | linear bound mean  4.67  R6  5.55
+  AZ                   flip mean  0.06  R6  0.02 | linear bound mean  1.31  R6  1.35
+  pocket rockets       flip mean  0.11  R6  0.00 | linear bound mean  1.22  R6  1.96
+  Team 82              flip mean  0.74  R6  0.00 | linear bound mean  3.31  R6  2.65
+  Gavilan              flip mean  0.93  R6  1.38 | linear bound mean  3.03  R6  2.54
+  TeamBallHog          flip mean  0.18  R6  0.34 | linear bound mean  2.16  R6  1.77
+  thepastaway          flip mean  0.78  R6  2.01 | linear bound mean  3.90  R6  3.24
+  stanford deviants    flip mean  0.55  R6  0.02 | linear bound mean  4.35  R6  4.75
+  Always Folds         flip mean  0.18  R6  0.00 | linear bound mean  2.35  R6  2.41
+  Curious George       flip mean  0.89  R6  0.00 | linear bound mean  3.50  R6  1.96
+  Golden Knight        flip mean  0.88  R6  0.03 | linear bound mean  3.83  R6  3.62
+  nik airball          flip mean  0.35  R6  0.10 | linear bound mean  3.91  R6  1.78
+  one in a krillion    flip mean  2.57  R6  2.83 | linear bound mean  4.56  R6  4.41
+  Chikerbot            flip mean  0.74  R6  0.32 | linear bound mean  1.82  R6  2.04
+  Foldemort            flip mean  0.25  R6  0.05 | linear bound mean  2.04  R6  2.98
+
+MISIDENTIFICATION: opponent believes our seat is team X and applies X's best response to us (avalon R6 truth). Its gain vs default play, points per table (negative = the counter loses to us)
+  believed one in a krillion     -4.53 | 3-bet our open: -3.70; bet flop HU: +0.00; bet turn HU: +0.00; bet river HU: +0.00; steal our BB from : -0.82
+  believed Chikerbot             -4.51 | 3-bet our open: -3.70; bet flop HU: -0.51; bet turn HU: -0.30; bet river HU: +0.00; steal our BB from : +0.00
+  believed Team 123              -4.21 | 3-bet our open: -3.70; bet flop HU: -0.51; bet turn HU: +0.00; bet river HU: +0.00; steal our BB from : +0.00
+  believed Gavilan               -4.03 | 3-bet our open: -3.70; bet flop HU: +0.00; bet turn HU: +0.00; bet river HU: -0.33; steal our BB from : +0.00
+  believed Team 72               -3.70 | 3-bet our open: -3.70; bet flop HU: +0.00; bet turn HU: +0.00; bet river HU: +0.00; steal our BB from : +0.00
+  believed thepastaway           -3.70 | 3-bet our open: -3.70; bet flop HU: +0.00; bet turn HU: +0.00; bet river HU: +0.00; steal our BB from : +0.00
+  believed Foldemort             -0.82 | 3-bet our open: +0.00; bet flop HU: +0.00; bet turn HU: +0.00; bet river HU: +0.00; steal our BB from : -0.82
+  believed nik airball           -0.82 | 3-bet our open: +0.00; bet flop HU: +0.00; bet turn HU: +0.00; bet river HU: +0.00; steal our BB from : -0.82
+  believed Golden Knight         -0.62 | 3-bet our open: +0.00; bet flop HU: +0.00; bet turn HU: -0.30; bet river HU: -0.33; steal our BB from : +0.00
+  believed stanford deviants     -0.33 | 3-bet our open: +0.00; bet flop HU: +0.00; bet turn HU: +0.00; bet river HU: -0.33; steal our BB from : +0.00
+  believed AZ                    -0.30 | 3-bet our open: +0.00; bet flop HU: +0.00; bet turn HU: -0.30; bet river HU: +0.00; steal our BB from : +0.00
+  believed 2 Curry               +0.00 | 3-bet our open: +0.00; bet flop HU: +0.00; bet turn HU: +0.00; bet river HU: +0.00; steal our BB from : +0.00
+  believed Always Folds          +0.00 | 3-bet our open: +0.00; bet flop HU: +0.00; bet turn HU: +0.00; bet river HU: +0.00; steal our BB from : +0.00
+  believed Curious George        +0.00 | 3-bet our open: +0.00; bet flop HU: +0.00; bet turn HU: +0.00; bet river HU: +0.00; steal our BB from : +0.00
+  believed Lemonade              +0.00 | 3-bet our open: +0.00; bet flop HU: +0.00; bet turn HU: +0.00; bet river HU: +0.00; steal our BB from : +0.00
+  believed Team 82               +0.00 | 3-bet our open: +0.00; bet flop HU: +0.00; bet turn HU: +0.00; bet river HU: +0.00; steal our BB from : +0.00
+  believed TeamBallHog           +0.00 | 3-bet our open: +0.00; bet flop HU: +0.00; bet turn HU: +0.00; bet river HU: +0.00; steal our BB from : +0.00
+  believed pocket rockets        +0.00 | 3-bet our open: +0.00; bet flop HU: +0.00; bet turn HU: +0.00; bet river HU: +0.00; steal our BB from : +0.00
+  believed sandylikesfrogs       +0.00 | 3-bet our open: +0.00; bet flop HU: +0.00; bet turn HU: +0.00; bet river HU: +0.00; steal our BB from : +0.00
+  believed avalon (correct)     +0.00

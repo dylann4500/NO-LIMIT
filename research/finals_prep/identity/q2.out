@@ -1,0 +1,72 @@
+avalon hands per table: mean 89.3 median 91; other top-20: mean 84.2
+table length (hands, any seat live) approx = max hid+1: median 93
+
+HOW EARLY (lag-1 profiles, mean of 5 round pairs): avalon seats called avalon / other teams' seats called avalon / precision with a 1-in-20 prior / share with NB posterior>=0.9
+ALL
+  after   2 hands: found  19.0%  false  3.74%  precision   21% | posterior>=0.9:   7.7% of our seats,  0.09% of others' (precision  82%) | tokens seen   5.2
+  after   3 hands: found  24.7%  false  2.33%  precision   36% | posterior>=0.9:  12.7% of our seats,  0.15% of others' (precision  81%) | tokens seen   7.8
+  after   5 hands: found  38.9%  false  1.86%  precision   52% | posterior>=0.9:  24.4% of our seats,  0.26% of others' (precision  83%) | tokens seen  12.9
+  after   8 hands: found  57.2%  false  1.62%  precision   65% | posterior>=0.9:  42.2% of our seats,  0.33% of others' (precision  87%) | tokens seen  20.4
+  after  10 hands: found  65.4%  false  1.49%  precision   70% | posterior>=0.9:  51.9% of our seats,  0.39% of others' (precision  87%) | tokens seen  25.4
+  after  15 hands: found  80.4%  false  1.23%  precision   77% | posterior>=0.9:  71.1% of our seats,  0.45% of others' (precision  89%) | tokens seen  37.8
+  after  20 hands: found  88.0%  false  1.03%  precision   82% | posterior>=0.9:  81.9% of our seats,  0.46% of others' (precision  90%) | tokens seen  49.8
+  after  30 hands: found  94.7%  false  0.75%  precision   87% | posterior>=0.9:  91.8% of our seats,  0.42% of others' (precision  92%) | tokens seen  73.1
+  after  40 hands: found  96.9%  false  0.58%  precision   90% | posterior>=0.9:  95.4% of our seats,  0.35% of others' (precision  93%) | tokens seen  95.7
+  after  60 hands: found  98.3%  false  0.41%  precision   93% | posterior>=0.9:  97.5% of our seats,  0.26% of others' (precision  95%) | tokens seen 136.8
+SZ sizes
+  after   2 hands: found  14.6%  false  3.60%  precision   18% | posterior>=0.9:   6.5% of our seats,  0.07% of others' (precision  84%) | tokens seen   1.1
+  after   3 hands: found  20.3%  false  3.25%  precision   25% | posterior>=0.9:  10.9% of our seats,  0.11% of others' (precision  84%) | tokens seen   1.6
+  after   5 hands: found  32.3%  false  2.56%  precision   40% | posterior>=0.9:  21.4% of our seats,  0.19% of others' (precision  86%) | tokens seen   2.7
+  after   8 hands: found  49.2%  false  1.82%  precision   59% | posterior>=0.9:  37.6% of our seats,  0.24% of others' (precision  89%) | tokens seen   4.4
+  after  10 hands: found  57.9%  false  1.59%  precision   66% | posterior>=0.9:  46.7% of our seats,  0.28% of others' (precision  90%) | tokens seen   5.4
+  after  15 hands: found  74.8%  false  1.21%  precision   76% | posterior>=0.9:  65.9% of our seats,  0.39% of others' (precision  90%) | tokens seen   8.1
+  after  20 hands: found  84.4%  false  1.04%  precision   81% | posterior>=0.9:  78.0% of our seats,  0.42% of others' (precision  91%) | tokens seen  10.7
+  after  30 hands: found  93.3%  false  0.82%  precision   86% | posterior>=0.9:  90.0% of our seats,  0.41% of others' (precision  92%) | tokens seen  15.6
+  after  40 hands: found  96.3%  false  0.72%  precision   88% | posterior>=0.9:  94.4% of our seats,  0.39% of others' (precision  93%) | tokens seen  20.5
+  after  60 hands: found  97.9%  false  0.55%  precision   90% | posterior>=0.9:  96.9% of our seats,  0.31% of others' (precision  94%) | tokens seen  28.9
+NOSIZE (FQ+VAR+OTH+limp/shove)
+  after   2 hands: found   7.5%  false  4.29%  precision    8% | posterior>=0.9:   0.0% of our seats,  0.00% of others' (precision 100%) | tokens seen   4.1
+  after   3 hands: found   7.2%  false  3.31%  precision   10% | posterior>=0.9:   0.0% of our seats,  0.00% of others' (precision  32%) | tokens seen   6.1
+  after   5 hands: found  10.2%  false  3.62%  precision   13% | posterior>=0.9:   0.1% of our seats,  0.01% of others' (precision  35%) | tokens seen  10.1
+  after   8 hands: found  14.1%  false  3.72%  precision   17% | posterior>=0.9:   0.2% of our seats,  0.02% of others' (precision  39%) | tokens seen  16.1
+  after  10 hands: found  16.2%  false  3.79%  precision   18% | posterior>=0.9:   0.4% of our seats,  0.02% of others' (precision  44%) | tokens seen  20.0
+  after  15 hands: found  20.9%  false  3.52%  precision   24% | posterior>=0.9:   0.9% of our seats,  0.05% of others' (precision  49%) | tokens seen  29.7
+  after  20 hands: found  24.2%  false  3.20%  precision   28% | posterior>=0.9:   1.7% of our seats,  0.08% of others' (precision  52%) | tokens seen  39.1
+  after  30 hands: found  29.7%  false  2.62%  precision   37% | posterior>=0.9:   4.7% of our seats,  0.14% of others' (precision  63%) | tokens seen  57.4
+  after  40 hands: found  34.2%  false  2.20%  precision   45% | posterior>=0.9:   8.9% of our seats,  0.21% of others' (precision  69%) | tokens seen  75.2
+  after  60 hands: found  45.3%  false  1.77%  precision   57% | posterior>=0.9:  21.5% of our seats,  0.33% of others' (precision  78%) | tokens seen 107.9
+
+WHICH FEATURES GIVE US AWAY: mean log2-likelihood ratio (avalon profile vs equal mixture of the other 19), bits per 100 hands of ours, lag-1 profiles, mean over pairs
+  SZ open                     47.4 bits/100 hands   ( 12.7 occurrences/100 hands, 3.73 bits each)
+  SZ bet                      24.7 bits/100 hands   ( 10.0 occurrences/100 hands, 2.48 bits each)
+  LMS entry                    5.6 bits/100 hands   ( 15.9 occurrences/100 hands, 0.35 bits each)
+  SZ 3b                        5.0 bits/100 hands   (  1.4 occurrences/100 hands, 3.69 bits each)
+  SZ gran                      4.5 bits/100 hands   ( 24.9 occurrences/100 hands, 0.18 bits each)
+  FQ pf_face_open              3.9 bits/100 hands   ( 36.9 occurrences/100 hands, 0.11 bits each)
+  FQ pf_unopened               3.7 bits/100 hands   ( 47.7 occurrences/100 hands, 0.08 bits each)
+  LMS reraise                  2.7 bits/100 hands   (  6.4 occurrences/100 hands, 0.42 bits each)
+  FQ post_first                1.9 bits/100 hands   ( 13.4 occurrences/100 hands, 0.14 bits each)
+  LMS3 entry                   1.4 bits/100 hands   ( 15.9 occurrences/100 hands, 0.09 bits each)
+  FQ pf_bb_vs_steal            1.4 bits/100 hands   (  7.8 occurrences/100 hands, 0.18 bits each)
+  SZ iso                       1.2 bits/100 hands   (  0.4 occurrences/100 hands, 3.04 bits each)
+  FQ pf_face_3b                0.4 bits/100 hands   (  2.3 occurrences/100 hands, 0.19 bits each)
+  FQ pf_limped                 0.4 bits/100 hands   (  2.5 occurrences/100 hands, 0.15 bits each)
+  SZ raise                     0.4 bits/100 hands   (  0.5 occurrences/100 hands, 0.79 bits each)
+  FQ post_face                 0.3 bits/100 hands   (  5.5 occurrences/100 hands, 0.06 bits each)
+  FQ pf_face_jam               0.3 bits/100 hands   (  7.3 occurrences/100 hands, 0.05 bits each)
+  LMS postbet                  0.3 bits/100 hands   ( 10.4 occurrences/100 hands, 0.03 bits each)
+  FQ cbet                      0.3 bits/100 hands   (  2.5 occurrences/100 hands, 0.11 bits each)
+  OTH show                     0.3 bits/100 hands   (  5.4 occurrences/100 hands, 0.05 bits each)
+  FQ pf_other                  0.2 bits/100 hands   (  3.5 occurrences/100 hands, 0.06 bits each)
+  SZ 4b                        0.1 bits/100 hands   (  0.0 occurrences/100 hands, 3.77 bits each)
+  family SZ: 83.3 bits/100 hands
+  family FQ: 12.9 bits/100 hands
+  family LMS: 8.6 bits/100 hands
+  family VAR: -2.0 bits/100 hands
+  family OTH: 0.3 bits/100 hands
+
+NEAREST TEAMS to avalon (bits per 100 of our hands separating us from that team's profile; small = confusable)
+  SZ sizes                         Lemonade 135, Gavilan 177, Always Folds 185, thepastaway 188, sandylikesfrogs 192
+  FQ frequencies                   Gavilan 10, Foldemort 13, AZ 15, TeamBallHog 17, sandylikesfrogs 19
+  NOSIZE (FQ+VAR+OTH+limp/shove)   Gavilan 14, AZ 18, Foldemort 20, TeamBallHog 24, sandylikesfrogs 25
+  ALL                              Gavilan 191, Always Folds 215, Foldemort 228, sandylikesfrogs 233, one in a krillion 233

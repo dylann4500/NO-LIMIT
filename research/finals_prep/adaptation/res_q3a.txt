@@ -1,0 +1,39 @@
+## Q3a field-wide: how the whole field acts against avalon vs against others in matched situations (pooled R1-R6)
+| decision | teams | median effect (pp) | IQR | share of teams with |z|>2 | field-pooled effect (pp) | by round: R1..R6 median effect |
+|---|---|---|---|---|---|---|
+| steal | 122 | -0.1 | -0.6..+0.1 | 21% | -0.4 | -0.4 -0.3 -0.2 -0.2 -0.0 -0.1 |
+| 3bet | 122 | -0.2 | -0.4..+0.0 | 36% | -0.1 | -0.1 -0.1 -0.2 -0.2 -0.4 -0.3 |
+| f3b | 121 | +2.6 | +1.0..+4.2 | 68% | +3.0 | +3.4 +3.8 +3.0 +1.8 +2.2 +1.9 |
+| calljam | 123 | +0.8 | +0.2..+1.4 | 55% | +0.8 | +1.0 +1.1 +0.8 +1.0 +0.5 +0.5 |
+| btc | 123 | +2.7 | +1.6..+4.3 | 84% | +2.7 | +3.3 +1.5 +1.4 +3.2 +4.3 +3.5 |
+| foldbet | 123 | -2.1 | -3.2..-0.3 | 66% | -2.2 | -3.2 -2.3 -1.6 -1.0 -1.4 -1.9 |
+
+tests: 734; BH q<0.01 for a team effect different from the field's common effect: 200; q<0.05: 264
+of those, same sign of deviation in odd rounds and even rounds: 196
+replicated and |deviation| >= 5pp: 15
+
+| team | final rank | decision | n vs avalon | rate vs avalon | matched rate vs others | effect (pp) | field median effect | z vs field | q | effect by round R1..R6 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 2 Curry | 1 | 3bet | 35300 | 46.0 | 34.9 | +11.2 | -0.2 | +37.1 | 8e-299 | +15 +12 +10 +13 +10 +9 |
+| stanford deviants | 11 | 3bet | 31978 | 37.1 | 29.1 | +8.4 | -0.2 | +28.3 | 2e-173 | +5 +12 +7 +6 +10 +10 |
+| Team 123 | 7 | 3bet | 28930 | 35.2 | 29.9 | +5.7 | -0.2 | +20.0 | 2e-86 | -1 -0 +8 +8 +9 +8 |
+| stanford deviants | 11 | steal | 19790 | 50.0 | 56.4 | -6.4 | -0.1 | -17.5 | 2e-66 | -7 -9 -8 -4 -5 -6 |
+| Maniac | 13 | foldbet | 14063 | 45.3 | 54.9 | -9.1 | -2.1 | -12.9 | 7e-36 | -9 -9 -7 -7 -8 -14 |
+| one in a krillion | 18 | btc | 6935 | 87.8 | 80.1 | +7.7 | +2.7 | +10.6 | 2e-24 | +8 +4 +8 +8 +8 +9 |
+| Gavilan | 14 | foldbet | 8968 | 58.5 | 66.7 | -7.9 | -2.1 | -9.5 | 1e-19 | -12 -7 -8 -5 -5 -7 |
+| WAYS-ER TEAM | 15 | f3b | 9874 | 80.0 | 71.2 | +7.6 | +2.6 | +8.7 | 1e-16 | +11 +11 +9 +8 +8 -1 |
+| AZ | 3 | f3b | 7876 | 78.5 | 70.1 | +8.0 | +2.6 | +8.2 | 7e-15 | +12 +13 +9 +6 +5 +6 |
+| TS | 26 | f3b | 7135 | 65.5 | 56.3 | +8.2 | +2.6 | +8.0 | 4e-14 | +13 +10 +7 +10 +7 +5 |
+| Spartan Mathematics | 44 | btc | 2993 | 83.6 | 74.3 | +9.0 | +2.7 | +7.9 | 6e-14 | +8 +8 +11 +11 +6 +12 |
+| kyle | 113 | calljam | 5023 | 42.8 | 35.7 | +7.0 | +0.8 | +7.9 | 9e-14 | +3 +5 +0 +9 +9 +9 |
+| Po Stitch | 30 | f3b | 6386 | 84.1 | 75.8 | +7.9 | +2.6 | +7.8 | 2e-13 | +15 +8 +12 +4 +5 +6 |
+| Wentworth's Finest | 77 | f3b | 1959 | 63.7 | 54.3 | +8.7 | +2.6 | +4.2 | 0.0002 | +12 +9 +5 . . . |
+| JJ | 38 | btc | 1159 | 61.7 | 53.2 | +8.0 | +2.7 | +3.8 | 0.0008 | . +8 . . +10 +2 |
+
+reliability of team-specific effects (corr of odd-round vs even-round effect across teams):
+  steal: r=+0.74 (n=122), SD of team effects 1.1pp
+  3bet: r=+0.95 (n=122), SD of team effects 1.5pp
+  f3b: r=+0.64 (n=118), SD of team effects 2.3pp
+  calljam: r=+0.67 (n=122), SD of team effects 1.2pp
+  btc: r=+0.54 (n=122), SD of team effects 2.0pp
+  foldbet: r=+0.54 (n=122), SD of team effects 2.0pp

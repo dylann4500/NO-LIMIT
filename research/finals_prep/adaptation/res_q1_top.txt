@@ -1,0 +1,34 @@
+## teams ranked in the top 20 / top 10 of round n: Δscore to round n+1 by what they did (official scores)
+top 10 of round n
+  unchanged: n=12 mean Δ -0.63 ± 0.14; SD 0.49; best -0.1 worst -1.7; P(Δ>0) 0%; mean rank change -2.3
+  tweak: n=4 mean Δ -1.04 ± 0.66; SD 1.32; best +0.2 worst -2.5; P(Δ>0) 25%; mean rank change -1.0
+  jump: n=26 mean Δ -0.87 ± 0.25; SD 1.27; best +2.0 worst -3.4; P(Δ>0) 15%; mean rank change -2.3
+  rewrite: n=5 mean Δ -0.54 ± 0.69; SD 1.54; best +1.3 worst -2.2; P(Δ>0) 40%; mean rank change +0.0
+  changed minus unchanged: -0.21 ± 0.26
+top 20 of round n
+  unchanged: n=18 mean Δ -0.67 ± 0.12; SD 0.50; best -0.1 worst -1.7; P(Δ>0) 0%; mean rank change -2.9
+  tweak: n=7 mean Δ -0.90 ± 0.41; SD 1.08; best +0.2 worst -2.5; P(Δ>0) 14%; mean rank change -2.3
+  jump: n=53 mean Δ -0.65 ± 0.16; SD 1.15; best +2.0 worst -3.4; P(Δ>0) 23%; mean rank change -3.5
+  rewrite: n=17 mean Δ -0.68 ± 0.39; SD 1.61; best +3.8 worst -2.4; P(Δ>0) 24%; mean rank change -5.1
+  changed minus unchanged: -0.01 ± 0.18
+21-60
+  unchanged: n=22 mean Δ -0.63 ± 0.09; SD 0.44; best -0.1 worst -1.4; P(Δ>0) 0%; mean rank change -8.2
+  tweak: n=14 mean Δ -1.09 ± 0.26; SD 0.97; best +0.6 worst -2.3; P(Δ>0) 21%; mean rank change -10.7
+  jump: n=94 mean Δ -0.21 ± 0.10; SD 0.93; best +1.8 worst -2.6; P(Δ>0) 46%; mean rank change -1.1
+  rewrite: n=70 mean Δ -0.51 ± 0.30; SD 2.48; best +4.3 worst -10.6; P(Δ>0) 47%; mean rank change -4.7
+  changed minus unchanged: +0.23 ± 0.16
+61-127
+  unchanged: n=67 mean Δ -0.16 ± 0.06; SD 0.51; best +1.1 worst -1.8; P(Δ>0) 40%; mean rank change -2.3
+  tweak: n=11 mean Δ -0.69 ± 0.24; SD 0.80; best +0.3 worst -2.0; P(Δ>0) 18%; mean rank change -8.9
+  jump: n=98 mean Δ -0.02 ± 0.11; SD 1.06; best +2.5 worst -4.1; P(Δ>0) 54%; mean rank change -0.9
+  rewrite: n=159 mean Δ +1.07 ± 0.30; SD 3.77; best +11.8 worst -10.0; P(Δ>0) 65%; mean rank change +9.1
+  changed minus unchanged: +0.76 ± 0.20
+R1 R2 spearman 0.84 SD of Δscore 2.49 top-20 mean score 19.25 → 18.01 field SD 4.84 → 4.1
+R2 R3 spearman 0.88 SD of Δscore 2.17 top-20 mean score 18.01 → 17.7 field SD 4.1 → 3.87
+R3 R4 spearman 0.91 SD of Δscore 2.11 top-20 mean score 17.7 → 17.85 field SD 3.87 → 4.15
+R4 R5 spearman 0.86 SD of Δscore 2.46 top-20 mean score 17.85 → 17.53 field SD 4.15 → 4.19
+R5 R6 spearman 0.91 SD of Δscore 2.17 top-20 mean score 17.53 → 17.43 field SD 4.19 → 3.94
+largest one-round gains: [('codex', 'R5R6', 11.8, 'rewrite', 62), ('Eradicating Entropy', 'R4R5', 11.3, 'rewrite', 71), ('TV All-In', 'R2R3', 10.2, 'rewrite', 22), ('Zhang et al.', 'R1R2', 9.0, 'rewrite', 22), ('Hit and Run', 'R1R2', 8.8, 'rewrite', 22), ('EEE', 'R4R5', 8.0, 'rewrite', 30), ('Backtier Labs', 'R1R2', 7.7, 'rewrite', 20), ('wangzhongwang', 'R5R6', 7.5, 'rewrite', 26), ('Nai Long', 'R5R6', 6.8, 'rewrite', 43), ('3betblind', 'R1R2', 6.5, 'rewrite', 24), ('Team_01', 'R3R4', 6.4, 'rewrite', 36), ('11dproton', 'R2R3', 6.2, 'rewrite', 31)]
+largest one-round losses: [('2 Player Fish', 'R5R6', -10.6, 'rewrite', 65), ('codex', 'R4R5', -10.0, 'rewrite', 49), ('Nai Long', 'R4R5', -9.8, 'rewrite', 45), ('The Big Blind Theory', 'R3R4', -9.1, 'rewrite', 45), ('Team OODI', 'R3R4', -9.0, 'rewrite', 45), ('tuh', 'R4R5', -8.9, 'rewrite', 26), ('Eradicating Entropy', 'R3R4', -8.7, 'rewrite', 60), ('EEE', 'R3R4', -8.3, 'rewrite', 32), ('wangzhongwang', 'R4R5', -7.9, 'rewrite', 30), ('EEE', 'R5R6', -6.6, 'rewrite', 34)]
+gains of 1.5+ points: 92 {'unchanged': 0, 'tweak': 0, 'jump': 11, 'rewrite': 81} from top-20 teams: 3
+losses of 1.5+ points: 94 {'unchanged': 3, 'tweak': 12, 'jump': 29, 'rewrite': 50} from top-20 teams: 25

@@ -1,0 +1,6 @@
+exact-size recogniser, no jitter                                               avalon found @10/20/40/all:  65.4  88.0  96.9  98.5 | macro 20 teams:  58.8  72.9  79.4  81.7
+exact-size recogniser, we jitter +-1 step, first round                         avalon found @10/20/40/all:  21.8  32.2  41.9  75.9 | macro 20 teams:  56.6  70.1  76.7  80.6
+coarse-bin recogniser (0.25bb / 0.1 pot, no chip-rounding), no jitter          avalon found @10/20/40/all:  63.9  86.4  96.4  98.2 | macro 20 teams:  52.6  68.2  76.6  79.9
+coarse-bin recogniser, we jitter +-1 step (0.05bb / 2.5% pot), first round     avalon found @10/20/40/all:  53.7  75.8  90.6  96.4 | macro 20 teams:  52.1  67.7  76.3  79.8
+coarse-bin recogniser, we jitter +-3 steps (0.15bb / 7.5% pot), first round    avalon found @10/20/40/all:  35.3  49.6  63.0  85.0 | macro 20 teams:  51.2  66.4  75.0  79.3
+coarse-bin recogniser, we jitter +-3 steps, later rounds                       avalon found @10/20/40/all:  60.9  84.8  96.0  98.0 | macro 20 teams:  52.5  68.0  76.5  79.9

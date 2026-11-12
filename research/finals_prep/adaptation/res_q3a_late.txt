@@ -1,0 +1,28 @@
+## vs-avalon effect in the first half vs the second half of a table (pooled R1-R6)
+| decision | field median, first half (pp) | field median, second half (pp) |
+|---|---|---|
+| steal | -0.1 | -0.2 |
+| 3bet | -0.2 | -0.3 |
+| f3b | +1.1 | +3.4 |
+| calljam | +1.5 | +0.5 |
+| btc | +2.9 | +2.3 |
+| foldbet | -1.8 | -2.2 |
+
+| team | decision | first half: effect (pp), n | second half: effect (pp), n |
+|---|---|---|---|
+| 2 Curry | 3bet | +8.7 (24670) | +16.9 (10630) |
+| stanford deviants | 3bet | +6.8 (22571) | +12.1 (9407) |
+| Team 123 | 3bet | +3.6 (20962) | +11.1 (7968) |
+| stanford deviants | steal | -4.9 (8516) | -7.6 (11274) |
+| Maniac | foldbet | -8.6 (10812) | -10.6 (3251) |
+| one in a krillion | btc | +7.0 (4880) | +9.3 (2055) |
+| Gavilan | foldbet | -7.9 (7030) | -7.9 (1938) |
+| WAYS-ER TEAM | f3b | +2.7 (3088) | +10.4 (6786) |
+| AZ | f3b | +6.4 (2253) | +9.0 (5623) |
+| TS | f3b | +2.6 (2621) | +12.2 (4514) |
+| Spartan Mathematics | btc | +9.4 (1805) | +8.4 (1188) |
+| kyle | calljam | +9.5 (1881) | +5.4 (3142) |
+| Po Stitch | f3b | +3.0 (1926) | +10.6 (4460) |
+| Lemonade | 3bet | +0.5 (25326) | -0.0 (12433) |
+| AZ | 3bet | -1.6 (24799) | -2.4 (10256) |
+| sandylikesfrogs | 3bet | -0.5 (24313) | -0.7 (10090) |

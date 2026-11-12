@@ -1,0 +1,103 @@
+points per chip (stack 0.5-1.5x average) by players alive: {2: 1.25, 3: 1.92, 4: 3.6, 5: 4.62, 6: 5.15, 7: 5.42, 8: 5.44} x1e-3;  small / big stacks at 8 alive: [6.49, 5.44, 4.41]
+
+=== target avalon: upper bound on what ALL opponents together gain per table by knowing the seat (points/table); per opponent = /7
+ R1: total bound 38.81 pts/table all opponents = 5.544 per opponent; if only usable after hand 10: 5.241; after hand 20: 4.963
+    3-bet our open (fold to non-all-in 3-bet)      target  86.8% vs avg finalist  57.7% | break-even fold   61% | chances/table  33.1 (target responds 1.7x/table) | pot+risk    746 chips | bound 28.822
+    bet flop HU (fold to flop bet)                 target  30.1% vs avg finalist  51.6% | break-even fold   37% | chances/table   3.9 (target responds 2.2x/table) | pot+risk    646 chips | bound 1.951
+    bet turn HU (fold to turn bet)                 target  48.8% vs avg finalist  43.7% | break-even fold   37% | chances/table   2.4 (target responds 1.4x/table) | pot+risk   1414 chips | bound 0.660
+    bet river HU (fold to river bet)               target  72.1% vs avg finalist  49.0% | break-even fold   38% | chances/table   1.4 (target responds 0.8x/table) | pot+risk   2227 chips | bound 2.789
+    steal our BB from BTN/SB (BB fold to steal)    target  33.0% vs avg finalist  58.3% | break-even fold   59% | chances/table  12.0 (target responds 6.6x/table) | pot+risk    487 chips | bound 4.584
+ R3: total bound 30.09 pts/table all opponents = 4.298 per opponent; if only usable after hand 10: 4.098; after hand 20: 3.910
+    3-bet our open (fold to non-all-in 3-bet)      target  88.6% vs avg finalist  69.0% | break-even fold   61% | chances/table  34.4 (target responds 1.9x/table) | pot+risk    777 chips | bound 20.737
+    bet flop HU (fold to flop bet)                 target  74.1% vs avg finalist  59.8% | break-even fold   38% | chances/table   4.5 (target responds 3.0x/table) | pot+risk    709 chips | bound 1.613
+    bet turn HU (fold to turn bet)                 target  67.0% vs avg finalist  52.2% | break-even fold   38% | chances/table   1.5 (target responds 0.8x/table) | pot+risk   1431 chips | bound 1.210
+    bet river HU (fold to river bet)               target  77.7% vs avg finalist  56.3% | break-even fold   37% | chances/table   0.9 (target responds 0.4x/table) | pot+risk   1938 chips | bound 1.359
+    steal our BB from BTN/SB (BB fold to steal)    target  27.8% vs avg finalist  55.2% | break-even fold   59% | chances/table  11.8 (target responds 7.3x/table) | pot+risk    531 chips | bound 5.170
+ R6: total bound 29.28 pts/table all opponents = 4.183 per opponent; if only usable after hand 10: 3.952; after hand 20: 3.739
+    3-bet our open (fold to non-all-in 3-bet)      target  88.7% vs avg finalist  65.3% | break-even fold   62% | chances/table  32.2 (target responds 2.5x/table) | pot+risk    751 chips | bound 22.353
+    bet flop HU (fold to flop bet)                 target  72.9% vs avg finalist  56.1% | break-even fold   37% | chances/table   4.2 (target responds 3.1x/table) | pot+risk    682 chips | bound 1.702
+    bet turn HU (fold to turn bet)                 target  66.4% vs avg finalist  48.3% | break-even fold   38% | chances/table   1.4 (target responds 0.8x/table) | pot+risk   1395 chips | bound 1.300
+    bet river HU (fold to river bet)               target  77.6% vs avg finalist  49.6% | break-even fold   37% | chances/table   0.8 (target responds 0.4x/table) | pot+risk   1953 chips | bound 1.593
+    steal our BB from BTN/SB (BB fold to steal)    target  25.2% vs avg finalist  39.0% | break-even fold   59% | chances/table  11.2 (target responds 7.0x/table) | pot+risk    492 chips | bound 2.330
+
+=== target 2 Curry: upper bound on what ALL opponents together gain per table by knowing the seat (points/table); per opponent = /7
+ R1: total bound 48.39 pts/table all opponents = 6.912 per opponent; if only usable after hand 10: 6.606; after hand 20: 6.294
+    3-bet our open (fold to non-all-in 3-bet)      target  84.1% vs avg finalist  57.9% | break-even fold   60% | chances/table  55.8 (target responds 3.1x/table) | pot+risk    735 chips | bound 42.228
+    bet flop HU (fold to flop bet)                 target  61.6% vs avg finalist  50.0% | break-even fold   38% | chances/table   7.0 (target responds 4.5x/table) | pot+risk    798 chips | bound 2.432
+    bet turn HU (fold to turn bet)                 target  45.3% vs avg finalist  43.9% | break-even fold   38% | chances/table   3.8 (target responds 2.2x/table) | pot+risk   1474 chips | bound 0.316
+    bet river HU (fold to river bet)               target  40.7% vs avg finalist  50.6% | break-even fold   38% | chances/table   2.2 (target responds 1.1x/table) | pot+risk   2081 chips | bound 1.802
+    steal our BB from BTN/SB (BB fold to steal)    target  49.2% vs avg finalist  57.5% | break-even fold   59% | chances/table  12.4 (target responds 6.4x/table) | pot+risk    504 chips | bound 1.609
+ R3: total bound 17.48 pts/table all opponents = 2.497 per opponent; if only usable after hand 10: 2.408; after hand 20: 2.320
+    3-bet our open (fold to non-all-in 3-bet)      target  76.0% vs avg finalist  69.7% | break-even fold   60% | chances/table  38.5 (target responds 2.1x/table) | pot+risk    864 chips | bound 7.337
+    bet flop HU (fold to flop bet)                 target  67.4% vs avg finalist  60.1% | break-even fold   38% | chances/table   7.0 (target responds 5.0x/table) | pot+risk    937 chips | bound 1.557
+    bet turn HU (fold to turn bet)                 target  44.5% vs avg finalist  53.4% | break-even fold   38% | chances/table   3.1 (target responds 1.7x/table) | pot+risk   1730 chips | bound 1.608
+    bet river HU (fold to river bet)               target  41.2% vs avg finalist  58.2% | break-even fold   38% | chances/table   1.7 (target responds 0.8x/table) | pot+risk   2471 chips | bound 2.381
+    steal our BB from BTN/SB (BB fold to steal)    target  31.2% vs avg finalist  55.0% | break-even fold   59% | chances/table  12.2 (target responds 7.0x/table) | pot+risk    518 chips | bound 4.595
+ R6: total bound 12.53 pts/table all opponents = 1.791 per opponent; if only usable after hand 10: 1.714; after hand 20: 1.635
+    3-bet our open (fold to non-all-in 3-bet)      target  73.4% vs avg finalist  66.1% | break-even fold   60% | chances/table  39.3 (target responds 2.9x/table) | pot+risk    746 chips | bound 7.868
+    bet flop HU (fold to flop bet)                 target  61.1% vs avg finalist  56.7% | break-even fold   38% | chances/table   5.8 (target responds 4.0x/table) | pot+risk    923 chips | bound 0.824
+    bet turn HU (fold to turn bet)                 target  46.2% vs avg finalist  49.3% | break-even fold   38% | chances/table   2.8 (target responds 1.7x/table) | pot+risk   1723 chips | bound 0.534
+    bet river HU (fold to river bet)               target  41.6% vs avg finalist  51.5% | break-even fold   37% | chances/table   1.4 (target responds 0.7x/table) | pot+risk   2436 chips | bound 1.253
+    steal our BB from BTN/SB (BB fold to steal)    target  27.9% vs avg finalist  38.9% | break-even fold   59% | chances/table  11.9 (target responds 6.6x/table) | pot+risk    514 chips | bound 2.056
+
+=== target Lemonade: upper bound on what ALL opponents together gain per table by knowing the seat (points/table); per opponent = /7
+ R1: total bound 6.35 pts/table all opponents = 0.907 per opponent; if only usable after hand 10: 0.846; after hand 20: 0.781
+    3-bet our open (fold to non-all-in 3-bet)      target  66.7% vs avg finalist  58.8% | break-even fold   62% | chances/table   0.6 (target responds 0.0x/table) | pot+risk    945 chips | bound 0.129
+    bet flop HU (fold to flop bet)                 target  66.3% vs avg finalist  49.7% | break-even fold   38% | chances/table   5.3 (target responds 3.1x/table) | pot+risk    431 chips | bound 1.292
+    bet turn HU (fold to turn bet)                 target  27.7% vs avg finalist  44.8% | break-even fold   38% | chances/table   2.8 (target responds 1.3x/table) | pot+risk    646 chips | bound 1.073
+    bet river HU (fold to river bet)               target  25.0% vs avg finalist  51.5% | break-even fold   38% | chances/table   1.9 (target responds 0.7x/table) | pot+risk    784 chips | bound 1.215
+    steal our BB from BTN/SB (BB fold to steal)    target  43.1% vs avg finalist  57.8% | break-even fold   60% | chances/table  12.3 (target responds 6.6x/table) | pot+risk    480 chips | bound 2.642
+ R3: total bound 2.95 pts/table all opponents = 0.422 per opponent; if only usable after hand 10: 0.386; after hand 20: 0.356
+    3-bet our open (fold to non-all-in 3-bet)      target  71.7% vs avg finalist  69.9% | break-even fold   63% | chances/table   0.7 (target responds 0.0x/table) | pot+risk   1392 chips | bound 0.044
+    bet flop HU (fold to flop bet)                 target  71.7% vs avg finalist  59.9% | break-even fold   38% | chances/table   5.1 (target responds 3.9x/table) | pot+risk    587 chips | bound 1.331
+    bet turn HU (fold to turn bet)                 target  51.8% vs avg finalist  53.0% | break-even fold   38% | chances/table   2.1 (target responds 1.2x/table) | pot+risk   1050 chips | bound 0.113
+    bet river HU (fold to river bet)               target  49.2% vs avg finalist  57.8% | break-even fold   38% | chances/table   1.1 (target responds 0.6x/table) | pot+risk   1697 chips | bound 0.695
+    steal our BB from BTN/SB (BB fold to steal)    target  50.3% vs avg finalist  54.0% | break-even fold   59% | chances/table  13.0 (target responds 6.8x/table) | pot+risk    545 chips | bound 0.770
+ R6: total bound 4.30 pts/table all opponents = 0.615 per opponent; if only usable after hand 10: 0.587; after hand 20: 0.561
+    3-bet our open (fold to non-all-in 3-bet)      target  69.0% vs avg finalist  66.4% | break-even fold   62% | chances/table   0.7 (target responds 0.0x/table) | pot+risk   1204 chips | bound 0.056
+    bet flop HU (fold to flop bet)                 target  70.8% vs avg finalist  56.2% | break-even fold   38% | chances/table   5.0 (target responds 4.0x/table) | pot+risk    602 chips | bound 1.652
+    bet turn HU (fold to turn bet)                 target  49.7% vs avg finalist  49.1% | break-even fold   38% | chances/table   2.1 (target responds 1.3x/table) | pot+risk   1047 chips | bound 0.045
+    bet river HU (fold to river bet)               target  49.5% vs avg finalist  51.1% | break-even fold   38% | chances/table   1.1 (target responds 0.6x/table) | pot+risk   1661 chips | bound 0.121
+    steal our BB from BTN/SB (BB fold to steal)    target  51.0% vs avg finalist  37.7% | break-even fold   59% | chances/table  12.0 (target responds 6.9x/table) | pot+risk    505 chips | bound 2.428
+
+=== target sandylikesfrogs: upper bound on what ALL opponents together gain per table by knowing the seat (points/table); per opponent = /7
+ R1: total bound 33.29 pts/table all opponents = 4.756 per opponent; if only usable after hand 10: 4.375; after hand 20: 3.951
+    3-bet our open (fold to non-all-in 3-bet)      target  43.9% vs avg finalist  60.0% | break-even fold   62% | chances/table  59.7 (target responds 3.0x/table) | pot+risk    613 chips | bound 26.115
+    bet flop HU (fold to flop bet)                 target  56.7% vs avg finalist  50.2% | break-even fold   38% | chances/table  10.3 (target responds 6.5x/table) | pot+risk    605 chips | bound 1.434
+    bet turn HU (fold to turn bet)                 target  47.5% vs avg finalist  43.7% | break-even fold   38% | chances/table   5.2 (target responds 2.9x/table) | pot+risk   1089 chips | bound 0.806
+    bet river HU (fold to river bet)               target  57.7% vs avg finalist  49.7% | break-even fold   37% | chances/table   2.5 (target responds 1.2x/table) | pot+risk   1862 chips | bound 1.332
+    steal our BB from BTN/SB (BB fold to steal)    target  34.9% vs avg finalist  58.2% | break-even fold   60% | chances/table  11.9 (target responds 6.3x/table) | pot+risk    423 chips | bound 3.604
+ R3: total bound 17.94 pts/table all opponents = 2.562 per opponent; if only usable after hand 10: 2.430; after hand 20: 2.273
+    3-bet our open (fold to non-all-in 3-bet)      target  56.7% vs avg finalist  70.7% | break-even fold   62% | chances/table  35.3 (target responds 1.7x/table) | pot+risk    773 chips | bound 15.860
+    bet flop HU (fold to flop bet)                 target  55.4% vs avg finalist  60.7% | break-even fold   38% | chances/table   5.6 (target responds 3.8x/table) | pot+risk    681 chips | bound 0.703
+    bet turn HU (fold to turn bet)                 target  54.5% vs avg finalist  52.9% | break-even fold   38% | chances/table   2.5 (target responds 1.3x/table) | pot+risk   1218 chips | bound 0.186
+    bet river HU (fold to river bet)               target  59.0% vs avg finalist  57.3% | break-even fold   38% | chances/table   1.0 (target responds 0.4x/table) | pot+risk   2050 chips | bound 0.131
+    steal our BB from BTN/SB (BB fold to steal)    target  58.7% vs avg finalist  53.5% | break-even fold   59% | chances/table  12.5 (target responds 7.4x/table) | pot+risk    527 chips | bound 1.056
+ R6: total bound 15.98 pts/table all opponents = 2.282 per opponent; if only usable after hand 10: 2.065; after hand 20: 1.863
+    3-bet our open (fold to non-all-in 3-bet)      target  72.2% vs avg finalist  66.2% | break-even fold   62% | chances/table  54.5 (target responds 4.2x/table) | pot+risk    645 chips | bound 9.292
+    bet flop HU (fold to flop bet)                 target  66.1% vs avg finalist  56.4% | break-even fold   37% | chances/table   8.9 (target responds 7.1x/table) | pot+risk    602 chips | bound 1.988
+    bet turn HU (fold to turn bet)                 target  63.9% vs avg finalist  48.4% | break-even fold   37% | chances/table   3.5 (target responds 2.0x/table) | pot+risk    963 chips | bound 2.075
+    bet river HU (fold to river bet)               target  63.8% vs avg finalist  50.4% | break-even fold   37% | chances/table   1.5 (target responds 0.7x/table) | pot+risk   1396 chips | bound 1.119
+    steal our BB from BTN/SB (BB fold to steal)    target  47.7% vs avg finalist  37.8% | break-even fold   59% | chances/table  10.7 (target responds 6.5x/table) | pot+risk    455 chips | bound 1.502
+
+All top-20, R6 and mean R1-6: bound per opponent per table (points)
+  Lemonade             R6 0.615   mean 0.595
+  2 Curry              R6 1.791   mean 3.224
+  avalon               R6 4.183   mean 4.316
+  sandylikesfrogs      R6 2.282   mean 3.596
+  Team 123             R6 6.578   mean 5.843
+  Team 72              R6 5.552   mean 4.674
+  AZ                   R6 1.353   mean 1.313
+  pocket rockets       R6 1.958   mean 1.222
+  Team 82              R6 2.646   mean 3.309
+  Gavilan              R6 2.545   mean 3.032
+  TeamBallHog          R6 1.765   mean 2.157
+  thepastaway          R6 3.245   mean 3.895
+  stanford deviants    R6 4.750   mean 4.349
+  Always Folds         R6 2.413   mean 2.350
+  Curious George       R6 1.962   mean 3.498
+  Golden Knight        R6 3.621   mean 3.828
+  nik airball          R6 1.776   mean 3.913
+  one in a krillion    R6 4.413   mean 4.556
+  Chikerbot            R6 2.037   mean 1.818
+  Foldemort            R6 2.983   mean 2.035

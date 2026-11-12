@@ -1,0 +1,35 @@
+## bet when checked to, heads-up, by how often that seat has folded to bets earlier at this table (seat has faced 3+ bets); pooled R1-R6
+| team | seat folded <34% | 34-67% | >67% |
+|---|---|---|---|
+| TeamBallHog | 57% (25948) | 85% (31935) | 94% (8557) |
+| Team 72 | 53% (17248) | 72% (28769) | 95% (9419) |
+| stanford deviants | 42% (10944) | 58% (15869) | 79% (6079) |
+| AZ | 62% (11909) | 66% (17302) | 76% (5719) |
+| 2 Curry | 68% (16638) | 70% (22312) | 72% (8695) |
+| Lemonade | 62% (14913) | 66% (20085) | 68% (8206) |
+| avalon | 78% (362164) | 88% (401973) | 90% (135808) |
+| sandylikesfrogs | 76% (22325) | 72% (24121) | 69% (6974) |
+| Team 123 | 72% (12192) | 77% (19599) | 87% (7724) |
+
+## fold to a heads-up bet, by how often the bettor has bet (when not facing a bet) earlier at this table (5+ opportunities)
+| team | bettor bet <40% | 40-70% | >70% |
+|---|---|---|---|
+| AZ | 72% (2823) | 60% (9510) | 44% (16574) |
+| Maniac | 69% (4172) | 59% (13259) | 46% (20865) |
+| Gavilan | 79% (3450) | 71% (9409) | 55% (14150) |
+| TeamBallHog | 82% (4543) | 68% (14016) | 55% (21102) |
+| 2 Curry | 66% (4401) | 60% (13181) | 52% (19544) |
+| Lemonade | 67% (2974) | 62% (9120) | 57% (13770) |
+| avalon | 60% (62762) | 59% (171363) | 56% (186914) |
+| Team 72 | 68% (4815) | 64% (14867) | 58% (22435) |
+
+## open from SB/BTN, by how often the big blind has folded its big blind to opens earlier at this table (faced 2+)
+| team | BB folded <34% | 34-67% | >67% |
+|---|---|---|---|
+| stanford deviants | 55% (14864) | 63% (20303) | 69% (30739) |
+| Team 72 | 62% (15879) | 70% (21082) | 80% (32055) |
+| TeamBallHog | 63% (13492) | 68% (21865) | 78% (33291) |
+| 2 Curry | 74% (20264) | 77% (21832) | 78% (30590) |
+| Lemonade | 14% (15813) | 13% (22344) | 15% (30642) |
+| avalon | 46% (191074) | 47% (356236) | 48% (653503) |
+| AZ | 70% (15630) | 70% (19759) | 72% (32273) |

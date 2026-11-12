@@ -1,0 +1,96 @@
+null check (same file, odd vs even tables): share classified changed
+  R1 126 {'unchanged': 126, 'tweak': 0, 'jump': 0, 'rewrite': 0}
+  R2 126 {'unchanged': 126, 'tweak': 0, 'jump': 0, 'rewrite': 0}
+  R3 126 {'unchanged': 126, 'tweak': 0, 'jump': 0, 'rewrite': 0}
+  R4 126 {'unchanged': 126, 'tweak': 0, 'jump': 0, 'rewrite': 0}
+  R5 126 {'unchanged': 126, 'tweak': 0, 'jump': 0, 'rewrite': 0}
+  R6 126 {'unchanged': 125, 'tweak': 1, 'jump': 0, 'rewrite': 0}
+
+## Q1a bot changes between consecutive scored rounds (126 teams excl. avalon)
+| transition | unchanged | small tweak | clear jump | rewrite-scale | median RMS rate change (pp) among changers |
+|---|---|---|---|---|---|
+| R1→R2 | 14 | 10 | 39 | 63 | 10.2 |
+| R2→R3 | 13 | 9 | 53 | 51 | 8.8 |
+| R3→R4 | 25 | 3 | 56 | 42 | 7.9 |
+| R4→R5 | 28 | 7 | 45 | 46 | 7.0 |
+| R5→R6 | 27 | 3 | 52 | 44 | 5.9 |
+
+## Q1b by final standing (team-transitions, 5 per team)
+| final rank | team-transitions | unchanged | tweak | jump | rewrite-scale | mean RMS change (pp) |
+|---|---|---|---|---|---|---|
+| 1-5 | 25 | 24% | 12% | 52% | 12% | 4.1 |
+| 6-20 | 70 | 13% | 3% | 67% | 17% | 5.4 |
+| 21-60 | 200 | 10% | 6% | 44% | 40% | 8.2 |
+| 61-100 | 200 | 18% | 6% | 38% | 38% | 8.9 |
+| 101-127 | 135 | 27% | 3% | 15% | 56% | 14.8 |
+
+by rank in the round just played (rank in round n → change before n+1):
+| 1-5 | 24 | 29% | 17% | 46% | 8% | 3.0 |
+| 6-20 | 71 | 15% | 4% | 59% | 21% | 5.3 |
+| 21-60 | 200 | 11% | 7% | 47% | 35% | 7.6 |
+| 61-100 | 200 | 17% | 4% | 38% | 40% | 9.2 |
+| 101-127 | 135 | 24% | 2% | 16% | 58% | 15.4 |
+
+regression to the mean: Δscore = 2.38 + -0.191×prev score (all 630 team-transitions); sd of Δscore 2.29
+
+## Q1c did changes help? (official scores; SE of one team's Δscore ≈ 0.21)
+| class | n | mean Δscore | mean Δscore adjusted for previous score | SE | SD of Δscore | share improved | mean Δrank (+ = up) | share gaining 5+ places | share losing 5+ places |
+|---|---|---|---|---|---|---|---|---|---|
+| unchanged | 107 | -0.34 | -0.53 | 0.08 | 0.54 | 25% | -3.6 | 6% | 36% |
+| tweak | 32 | -0.91 | -0.49 | 0.17 | 0.91 | 19% | -8.2 | 3% | 50% |
+| jump | 245 | -0.23 | +0.05 | 0.07 | 1.05 | 44% | -1.5 | 27% | 36% |
+| rewrite | 246 | +0.50 | +0.24 | 0.20 | 3.41 | 57% | +4.2 | 44% | 34% |
+
+corr(size of behaviour change, Δscore) = +0.11; with adjusted Δscore -0.02; with |Δscore| +0.70; with |Δrank| +0.46
+by size of change (RMS pp):
+| 0-1 pp | 59 | mean Δ -0.28 | adj -0.66 ± 0.13 | SD 0.54 | improved 36% | P(Δ>+1) 0% | P(Δ<-1) 14% |
+| 1-2 pp | 79 | mean Δ -0.65 | adj -0.42 ± 0.08 | SD 0.74 | improved 16% | P(Δ>+1) 1% | P(Δ<-1) 32% |
+| 2-4 pp | 103 | mean Δ -0.26 | adj +0.05 ± 0.10 | SD 0.93 | improved 41% | P(Δ>+1) 6% | P(Δ<-1) 23% |
+| 4-8 pp | 132 | mean Δ -0.20 | adj +0.10 ± 0.10 | SD 1.15 | improved 43% | P(Δ>+1) 15% | P(Δ<-1) 23% |
+| 8-15 pp | 135 | mean Δ +0.30 | adj +0.36 ± 0.13 | SD 1.67 | improved 57% | P(Δ>+1) 33% | P(Δ<-1) 19% |
+| 15-100 pp | 122 | mean Δ +0.66 | adj +0.05 ± 0.38 | SD 4.51 | improved 59% | P(Δ>+1) 48% | P(Δ<-1) 31% |
+
+by tier and class: mean adjusted Δscore (n)
+  top 20 in round n: unchanged -0.67 raw / +0.47 adj (n=18); tweak -0.90 raw / +0.32 adj (n=7); jump -0.65 raw / +0.40 adj (n=53); rewrite -0.68 raw / +0.31 adj (n=17)
+  21-60: unchanged -0.63 raw / -0.29 adj (n=22); tweak -1.09 raw / -0.52 adj (n=14); jump -0.21 raw / +0.26 adj (n=94); rewrite -0.51 raw / -0.13 adj (n=70)
+  61-127: unchanged -0.16 raw / -0.87 adj (n=67); tweak -0.69 raw / -0.97 adj (n=11); jump -0.02 raw / -0.33 adj (n=98); rewrite +1.07 raw / +0.39 adj (n=159)
+
+by transition: unchanged teams' mean Δscore (what standing still cost):
+  R1→R2: unchanged n=14 mean Δ -0.87 (SD 0.50); changers n=112 mean Δ +0.12 (SD 2.62)
+  R2→R3: unchanged n=13 mean Δ -0.90 (SD 0.42); changers n=113 mean Δ +0.08 (SD 2.27)
+  R3→R4: unchanged n=25 mean Δ -0.23 (SD 0.40); changers n=101 mean Δ +0.07 (SD 2.35)
+  R4→R5: unchanged n=28 mean Δ -0.23 (SD 0.39); changers n=98 mean Δ +0.07 (SD 2.78)
+  R5→R6: unchanged n=27 mean Δ -0.03 (SD 0.48); changers n=99 mean Δ +0.01 (SD 2.44)
+
+## top-20 teams: class per transition and score per round
+| rank | team | R1→R2 | R2→R3 | R3→R4 | R4→R5 | R5→R6 | scores R1..R6 |
+|---|---|---|---|---|---|---|---|
+| 1 | 2 Curry | jump (4pp, -0.2) | jump (3pp, +0.9) | jump (5pp, -0.7) | tweak (2pp, -0.1) | jump (2pp, -0.3) | 20.4 20.2 21.2 20.5 20.4 20.1 |
+| 2 | Lemonade | unchanged (1pp, -0.4) | rewrite (20pp, +1.3) | unchanged (1pp, -0.1) | unchanged (1pp, -0.5) | unchanged (1pp, -0.5) | 19.8 19.3 20.7 20.6 20.1 19.6 |
+| 3 | AZ | tweak (2pp, -1.8) | jump (4pp, -1.5) | jump (5pp, +1.1) | unchanged (2pp, -1.0) | unchanged (1pp, -0.8) | 21.2 19.4 17.9 19.1 18.0 17.3 |
+| 4 | sandylikesfrogs | rewrite (11pp, -0.9) | jump (5pp, -1.4) | jump (6pp, -0.0) | tweak (3pp, +0.2) | rewrite (8pp, -1.6) | 20.7 19.7 18.3 18.3 18.5 16.9 |
+| 5 | Team 72 | jump (2pp, -2.0) | jump (3pp, -2.3) | jump (4pp, -0.0) | jump (3pp, -0.0) | jump (4pp, -0.4) | 22.2 20.2 17.9 17.9 17.8 17.4 |
+| 6 | avalon | avalon | avalon | avalon | avalon | avalon | 18.1 16.7 19.0 18.3 18.0 17.5 |
+| 7 | Team 123 | rewrite (14pp, +3.0) | rewrite (22pp, +4.9) | jump (6pp, +2.0) | unchanged (1pp, -0.1) | jump (2pp, -1.6) | 9.9 12.8 17.8 19.8 19.7 18.1 |
+| 8 | Team 82 | jump (5pp, -1.5) | jump (3pp, -0.9) | jump (3pp, +1.7) | unchanged (2pp, -0.2) | rewrite (11pp, +0.8) | 18.6 17.1 16.2 17.9 17.7 18.5 |
+| 9 | pocket rockets | jump (2pp, -2.1) | jump (6pp, +1.2) | unchanged (0pp, -0.4) | unchanged (2pp, -1.0) | jump (6pp, +1.1) | 18.9 16.9 18.0 17.6 16.6 17.8 |
+| 10 | thepastaway | tweak (1pp, -1.4) | rewrite (12pp, +0.9) | jump (3pp, +0.8) | unchanged (1pp, -0.6) | rewrite (25pp, +3.8) | 16.4 15.0 15.9 16.8 16.2 20.0 |
+| 11 | stanford deviants | rewrite (10pp, -0.8) | rewrite (8pp, +1.1) | jump (5pp, +0.4) | jump (7pp, -0.7) | jump (2pp, -1.6) | 17.5 16.7 17.7 18.1 17.4 15.8 |
+| 12 | TeamBallHog | jump (2pp, -2.8) | jump (1pp, -1.5) | unchanged (1pp, -1.2) | jump (4pp, -0.8) | jump (5pp, -0.5) | 22.4 19.6 18.1 16.9 16.1 15.5 |
+| 13 | Maniac | jump (5pp, +0.1) | jump (5pp, +0.8) | jump (5pp, +0.5) | jump (3pp, -0.8) | jump (2pp, -0.2) | 16.3 16.4 17.2 17.7 16.9 16.7 |
+| 14 | Gavilan | jump (6pp, +0.2) | jump (4pp, -1.4) | jump (4pp, +0.5) | jump (5pp, -1.4) | jump (5pp, +0.7) | 17.9 18.1 16.7 17.3 15.8 16.5 |
+| 15 | WAYS-ER TEAM | tweak (1pp, -2.5) | jump (3pp, -2.3) | jump (4pp, -0.5) | jump (2pp, +0.7) | rewrite (13pp, -1.6) | 21.4 18.8 16.6 16.1 16.8 15.3 |
+| 16 | Always Folds | rewrite (13pp, -2.2) | rewrite (14pp, -2.1) | rewrite (13pp, +0.3) | jump (4pp, +1.5) | unchanged (1pp, -0.6) | 19.7 17.5 15.4 15.7 17.2 16.6 |
+| 17 | Parth&Mrid | jump (4pp, -0.3) | jump (5pp, -1.6) | jump (5pp, +1.3) | jump (8pp, +0.5) | jump (5pp, -0.0) | 17.1 16.7 15.1 16.3 16.8 16.8 |
+| 18 | one in a krillion | jump (7pp, -0.7) | jump (8pp, +0.6) | jump (5pp, +0.4) | jump (5pp, -1.3) | jump (4pp, +0.5) | 16.8 16.1 16.7 17.1 15.8 16.2 |
+| 19 | Clippers Championship | jump (4pp, -0.0) | unchanged (1pp, -1.7) | jump (2pp, -0.8) | jump (5pp, -2.3) | jump (4pp, +0.4) | 19.3 19.3 17.5 16.8 14.5 14.9 |
+| 20 | Curious George | unchanged (1pp, -1.4) | jump (6pp, +0.7) | jump (9pp, +0.4) | rewrite (7pp, +1.5) | jump (4pp, -1.0) | 15.9 14.5 15.2 15.6 17.1 16.1 |
+
+number of the 5 gaps in which a team changed its bot: {0: 2, 1: 2, 2: 6, 3: 18, 4: 35, 5: 63}
+corr(number of changes, final rank) = -0.23
+  changed 0x: n=2, median final rank 124
+  changed 1x: n=2, median final rank 45
+  changed 2x: n=6, median final rank 97
+  changed 3x: n=18, median final rank 72
+  changed 4x: n=35, median final rank 65
+  changed 5x: n=63, median final rank 51

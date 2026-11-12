@@ -1,0 +1,139 @@
+## Q5 per practice round: which bot did each team play?
+| practice → scored | teams | unchanged prev=practice=next | changed before practice (practice = next) | changed after practice (practice = prev) | practice differs from both (experiment or two changes) | unclear |
+|---|---|---|---|---|---|---|
+| P4 → R1 (prev P3) | 122 | 0 | 0 | 7 | 88 | 27 |
+| P6 → R3 (prev R2) | 124 | 10 | 19 | 36 | 42 | 17 |
+| P7 → R4 (prev R3) | 124 | 18 | 20 | 27 | 40 | 19 |
+| P8 → R5 (prev R4) | 122 | 21 | 15 | 38 | 30 | 18 |
+| P9 → R6 (prev R5) | 123 | 24 | 30 | 26 | 30 | 13 |
+tier top 20 (P6-P9 pooled, n=76): {'same': 8, 'eq_next': 13, 'eq_prev': 21, 'neither': 14, 'unclear': 20}
+tier 21-60 (P6-P9 pooled, n=160): {'same': 13, 'eq_next': 37, 'eq_prev': 47, 'neither': 44, 'unclear': 19}
+tier 61+ (P6-P9 pooled, n=257): {'same': 52, 'eq_next': 34, 'eq_prev': 59, 'neither': 84, 'unclear': 28}
+
+'neither' cases (practice bot matches neither adjacent scored round), top-60 teams:
+  P4 2 Curry (rank 1): mean z² vs prev 127.4, vs next 66.6, prev-vs-next 75.3; scores prev/practice/next 21.4/19.9/20.4
+  P4 Lemonade (rank 2): mean z² vs prev 802.9, vs next 7.1, prev-vs-next 840.5; scores prev/practice/next 18.7/19.7/19.8
+  P4 AZ (rank 3): mean z² vs prev 53.4, vs next 33.1, prev-vs-next 81.1; scores prev/practice/next 22.1/21.6/21.2
+  P4 sandylikesfrogs (rank 4): mean z² vs prev 251.6, vs next 54.8, prev-vs-next 423.5; scores prev/practice/next 19.0/20.8/20.7
+  P4 Team 72 (rank 5): mean z² vs prev 8.8, vs next 18.9, prev-vs-next 4.1; scores prev/practice/next 23.2/22.0/22.2
+  P4 Team 123 (rank 7): mean z² vs prev 10093.6, vs next 6.9, prev-vs-next 13439.4; scores prev/practice/next 2.1/10.8/9.9
+  P4 Team 82 (rank 8): mean z² vs prev 6.2, vs next 104.9, prev-vs-next 80.6; scores prev/practice/next 21.0/19.5/18.6
+  P4 pocket rockets (rank 9): mean z² vs prev 6.1, vs next 11.0, prev-vs-next 8.1; scores prev/practice/next 20.3/18.8/18.9
+  P4 thepastaway (rank 10): mean z² vs prev 988.7, vs next 13.3, prev-vs-next 1401.1; scores prev/practice/next 13.9/17.3/16.4
+  P4 stanford deviants (rank 11): mean z² vs prev 284.0, vs next 377.6, prev-vs-next 963.1; scores prev/practice/next 15.4/18.8/17.5
+  P4 TeamBallHog (rank 12): mean z² vs prev 11.7, vs next 30.5, prev-vs-next 24.3; scores prev/practice/next 22.6/21.3/22.4
+  P4 Gavilan (rank 14): mean z² vs prev 133.8, vs next 419.5, prev-vs-next 609.6; scores prev/practice/next 13.9/16.4/17.9
+  P4 WAYS-ER TEAM (rank 15): mean z² vs prev 727.5, vs next 340.4, prev-vs-next 710.2; scores prev/practice/next 15.9/20.7/21.4
+  P4 Always Folds (rank 16): mean z² vs prev 133.4, vs next 195.1, prev-vs-next 6.2; scores prev/practice/next 23.0/19.6/19.7
+  P4 Parth&Mrid (rank 17): mean z² vs prev 19.1, vs next 309.6, prev-vs-next 245.5; scores prev/practice/next 17.0/16.5/17.1
+  P4 one in a krillion (rank 18): mean z² vs prev 23.1, vs next 56.0, prev-vs-next 78.1; scores prev/practice/next 18.6/19.0/16.8
+  P4 Clippers Championship (rank 19): mean z² vs prev 661.8, vs next 22.4, prev-vs-next 610.1; scores prev/practice/next 13.4/20.1/19.3
+  P4 Curious George (rank 20): mean z² vs prev 15.0, vs next 5.9, prev-vs-next 15.4; scores prev/practice/next 15.4/16.6/15.9
+  P4 Golden Knight (rank 21): mean z² vs prev 26.4, vs next 19.2, prev-vs-next 9.7; scores prev/practice/next 17.9/17.3/16.9
+  P4 QKV (rank 23): mean z² vs prev 7.8, vs next 301.8, prev-vs-next 209.8; scores prev/practice/next 18.2/15.8/14.7
+  P4 Foldemort (rank 24): mean z² vs prev 93.2, vs next 135.8, prev-vs-next 2.1; scores prev/practice/next 16.0/16.0/14.8
+  P4 TS (rank 26): mean z² vs prev 280.9, vs next 12.4, prev-vs-next 302.7; scores prev/practice/next 16.0/18.3/17.9
+  P4 PG (rank 27): mean z² vs prev 258.5, vs next 8.0, prev-vs-next 308.9; scores prev/practice/next 15.9/14.7/13.8
+  P4 Litmus (rank 28): mean z² vs prev 1134.1, vs next 98.1, prev-vs-next 952.2; scores prev/practice/next 12.7/7.8/8.9
+  P4 nik airball (rank 29): mean z² vs prev 43.6, vs next 8.6, prev-vs-next 54.5; scores prev/practice/next 14.2/13.5/12.6
+  P4 Po Stitch (rank 30): mean z² vs prev 45.0, vs next 80.9, prev-vs-next 5.1; scores prev/practice/next 19.4/17.8/17.6
+  P4 Captain Underpants (rank 32): mean z² vs prev 15.9, vs next 101.7, prev-vs-next 100.3; scores prev/practice/next 17.2/15.7/14.1
+  P4 Inabot (rank 34): mean z² vs prev 608.5, vs next 8.1, prev-vs-next 688.7; scores prev/practice/next 15.4/16.8/16.3
+  P4 Chikerbot (rank 35): mean z² vs prev 9.1, vs next 103.5, prev-vs-next 71.1; scores prev/practice/next 14.6/13.6/13.6
+  P4 Prath (rank 36): mean z² vs prev 6.9, vs next 10.0, prev-vs-next 2.6; scores prev/practice/next 15.4/13.9/13.3
+  P4 the twins (rank 37): mean z² vs prev 5.8, vs next 8.7, prev-vs-next 3.6; scores prev/practice/next 15.2/13.6/12.9
+  P4 JJ (rank 38): mean z² vs prev 201.8, vs next 1535.3, prev-vs-next 704.5; scores prev/practice/next 11.0/10.8/13.7
+  P4 bill & ted (rank 39): mean z² vs prev 258.3, vs next 7.1, prev-vs-next 329.8; scores prev/practice/next 9.3/19.0/18.5
+  P4 Backtier Labs (rank 40): mean z² vs prev 6.5, vs next 1196.7, prev-vs-next 1201.2; scores prev/practice/next 3.0/2.8/6.9
+  P4 Jax of Hearts (rank 41): mean z² vs prev 4.1, vs next 14.0, prev-vs-next 8.7; scores prev/practice/next 12.7/11.8/11.4
+  P4 Ghosts in the Machine (rank 42): mean z² vs prev 26.1, vs next 40.1, prev-vs-next 77.9; scores prev/practice/next 13.7/14.8/17.8
+  P4 ALL IN (rank 43): mean z² vs prev 4.0, vs next 228.6, prev-vs-next 215.8; scores prev/practice/next 15.6/14.9/15.4
+  P4 Spartan Mathematics (rank 44): mean z² vs prev 8.0, vs next 9.7, prev-vs-next 2.9; scores prev/practice/next 18.5/17.3/16.6
+  P4 EK88 (rank 45): mean z² vs prev 5.8, vs next 92.6, prev-vs-next 83.8; scores prev/practice/next 15.3/14.8/16.5
+  P4 a5a7 (rank 46): mean z² vs prev 285.0, vs next 241.8, prev-vs-next 118.4; scores prev/practice/next 6.5/6.4/7.8
+  P4 nash (rank 48): mean z² vs prev 4.1, vs next 8.7, prev-vs-next 1.8; scores prev/practice/next 14.7/13.5/12.7
+  P4 qab (rank 50): mean z² vs prev 389.8, vs next 4.7, prev-vs-next 483.8; scores prev/practice/next 6.5/9.5/8.8
+  P4 Team Leo (rank 51): mean z² vs prev 35.4, vs next 214.1, prev-vs-next 199.9; scores prev/practice/next 10.1/10.3/8.9
+  P4 RJ (rank 52): mean z² vs prev 201.3, vs next 28.0, prev-vs-next 236.9; scores prev/practice/next 14.4/13.2/13.7
+  P4 Team 30 (rank 55): mean z² vs prev 21.5, vs next 6.1, prev-vs-next 29.1; scores prev/practice/next 10.0/7.7/7.0
+  P4 3betblind (rank 56): mean z² vs prev 118.2, vs next 5.2, prev-vs-next 141.4; scores prev/practice/next 6.3/10.0/9.7
+  P4 coconut burrito (rank 57): mean z² vs prev 5.3, vs next 48.5, prev-vs-next 41.6; scores prev/practice/next 15.3/14.2/15.2
+  P4 Archibald (rank 58): mean z² vs prev 334.4, vs next 1343.8, prev-vs-next 401.9; scores prev/practice/next 12.6/13.5/12.4
+  P4 all vibes (rank 59): mean z² vs prev 80.3, vs next 8.7, prev-vs-next 75.0; scores prev/practice/next 16.3/15.6/15.4
+  P6 AZ (rank 3): mean z² vs prev 9.0, vs next 11.3, prev-vs-next 12.3; scores prev/practice/next 19.4/18.9/17.9
+  P6 thepastaway (rank 10): mean z² vs prev 12.5, vs next 277.1, prev-vs-next 937.3; scores prev/practice/next 15.0/15.3/15.9
+  P6 stanford deviants (rank 11): mean z² vs prev 4.2, vs next 59.9, prev-vs-next 384.7; scores prev/practice/next 16.7/16.1/17.7
+  P6 Gavilan (rank 14): mean z² vs prev 6.0, vs next 15.7, prev-vs-next 96.5; scores prev/practice/next 18.1/17.0/16.7
+  P6 Curious George (rank 20): mean z² vs prev 8.7, vs next 6.0, prev-vs-next 27.7; scores prev/practice/next 14.5/15.8/15.2
+  P6 QKV (rank 23): mean z² vs prev 144.1, vs next 10.3, prev-vs-next 874.3; scores prev/practice/next 13.3/17.4/16.0
+  P6 prod (rank 25): mean z² vs prev 91.2, vs next 34.3, prev-vs-next 757.0; scores prev/practice/next 13.0/14.4/17.3
+  P6 PG (rank 27): mean z² vs prev 8.1, vs next 131.4, prev-vs-next 864.0; scores prev/practice/next 15.9/14.1/15.3
+  P6 Litmus (rank 28): mean z² vs prev 55.6, vs next 83.0, prev-vs-next 2217.5; scores prev/practice/next 15.2/14.2/14.8
+  P6 Chikerbot (rank 35): mean z² vs prev 6.2, vs next 5.2, prev-vs-next 94.5; scores prev/practice/next 13.2/14.0/13.3
+  P6 Prath (rank 36): mean z² vs prev 9.9, vs next 16.7, prev-vs-next 252.0; scores prev/practice/next 13.1/17.3/15.6
+  P6 the twins (rank 37): mean z² vs prev 7.2, vs next 44.6, prev-vs-next 797.6; scores prev/practice/next 12.4/13.4/13.8
+  P6 Ghosts in the Machine (rank 42): mean z² vs prev 8.2, vs next 8.1, prev-vs-next 8.1; scores prev/practice/next 16.1/16.5/14.4
+  P6 EK88 (rank 45): mean z² vs prev 10.5, vs next 8.6, prev-vs-next 243.7; scores prev/practice/next 13.1/15.4/14.4
+  P6 Snoopy (rank 47): mean z² vs prev 6.1, vs next 6.0, prev-vs-next 9.3; scores prev/practice/next 14.3/13.3/13.0
+  P6 nash (rank 48): mean z² vs prev 393.5, vs next 151.4, prev-vs-next 3201.2; scores prev/practice/next 9.9/11.6/11.5
+  P6 RJ (rank 52): mean z² vs prev 4.5, vs next 11.4, prev-vs-next 74.2; scores prev/practice/next 14.8/14.8/13.0
+  P6 gtoalpha (rank 53): mean z² vs prev 7.5, vs next 10.0, prev-vs-next 22.3; scores prev/practice/next 12.1/15.4/14.2
+  P7 AZ (rank 3): mean z² vs prev 10.6, vs next 26.8, prev-vs-next 101.7; scores prev/practice/next 17.9/18.5/19.1
+  P7 stanford deviants (rank 11): mean z² vs prev 14.0, vs next 18.1, prev-vs-next 28.5; scores prev/practice/next 17.7/17.7/18.1
+  P7 Clippers Championship (rank 19): mean z² vs prev 16.1, vs next 8.0, prev-vs-next 29.2; scores prev/practice/next 17.5/16.1/16.8
+  P7 QKV (rank 23): mean z² vs prev 23.1, vs next 19.9, prev-vs-next 287.7; scores prev/practice/next 16.0/16.4/16.6
+  P7 prod (rank 25): mean z² vs prev 100.5, vs next 90.8, prev-vs-next 3.9; scores prev/practice/next 17.3/12.7/17.0
+  P7 TS (rank 26): mean z² vs prev 18.9, vs next 4.4, prev-vs-next 127.3; scores prev/practice/next 16.2/16.9/16.1
+  P7 PG (rank 27): mean z² vs prev 41.1, vs next 68.3, prev-vs-next 258.6; scores prev/practice/next 15.3/15.4/15.3
+  P7 Po Stitch (rank 30): mean z² vs prev 22.5, vs next 157.4, prev-vs-next 1110.2; scores prev/practice/next 15.4/14.5/12.8
+  P7 Chikerbot (rank 35): mean z² vs prev 13.7, vs next 15.4, prev-vs-next 341.5; scores prev/practice/next 13.3/13.7/13.9
+  P7 JJ (rank 38): mean z² vs prev 12.3, vs next 14.4, prev-vs-next 1.1; scores prev/practice/next 13.8/13.0/13.7
+  P7 ALL IN (rank 43): mean z² vs prev 56.9, vs next 56.1, prev-vs-next 1.2; scores prev/practice/next 14.4/14.2/14.3
+  P7 EK88 (rank 45): mean z² vs prev 45.5, vs next 62.9, prev-vs-next 205.8; scores prev/practice/next 14.4/15.5/10.9
+  P7 nash (rank 48): mean z² vs prev 154.3, vs next 43.6, prev-vs-next 1566.9; scores prev/practice/next 11.5/10.1/14.1
+  P7 gtoalpha (rank 53): mean z² vs prev 21.5, vs next 124.8, prev-vs-next 135.4; scores prev/practice/next 14.2/13.4/14.2
+  P7 coconut burrito (rank 57): mean z² vs prev 58.8, vs next 57.2, prev-vs-next 83.5; scores prev/practice/next 13.2/13.6/12.9
+  P7 all vibes (rank 59): mean z² vs prev 14.1, vs next 16.0, prev-vs-next 12.5; scores prev/practice/next 13.4/12.4/13.2
+  P7 YeziShanYang (rank 60): mean z² vs prev 60.3, vs next 8.8, prev-vs-next 710.2; scores prev/practice/next 8.9/13.7/13.0
+  P8 AZ (rank 3): mean z² vs prev 12.1, vs next 11.6, prev-vs-next 4.3; scores prev/practice/next 19.1/18.3/18.0
+  P8 Curious George (rank 20): mean z² vs prev 74.7, vs next 6.7, prev-vs-next 545.9; scores prev/practice/next 15.6/16.9/17.1
+  P8 QKV (rank 23): mean z² vs prev 4.3, vs next 28.8, prev-vs-next 219.3; scores prev/practice/next 16.6/17.3/15.8
+  P8 Po Stitch (rank 30): mean z² vs prev 106.8, vs next 6.3, prev-vs-next 669.2; scores prev/practice/next 12.8/15.3/14.7
+  P8 Captain Underpants (rank 32): mean z² vs prev 10.3, vs next 8.3, prev-vs-next 18.6; scores prev/practice/next 15.9/17.6/16.5
+  P8 Chikerbot (rank 35): mean z² vs prev 23.1, vs next 6.7, prev-vs-next 213.6; scores prev/practice/next 13.9/15.3/16.0
+  P8 EK88 (rank 45): mean z² vs prev 56.5, vs next 7.8, prev-vs-next 506.2; scores prev/practice/next 10.9/16.1/15.6
+  P8 Amazing humans (rank 49): mean z² vs prev 17.8, vs next 40.2, prev-vs-next 184.3; scores prev/practice/next 14.8/12.4/13.4
+  P9 AZ (rank 3): mean z² vs prev 5.5, vs next 6.2, prev-vs-next 2.6; scores prev/practice/next 18.0/18.5/17.3
+  P9 Team 82 (rank 8): mean z² vs prev 28.7, vs next 8.9, prev-vs-next 361.3; scores prev/practice/next 17.7/17.1/18.5
+  P9 Always Folds (rank 16): mean z² vs prev 807.7, vs next 792.5, prev-vs-next 3.1; scores prev/practice/next 17.2/6.3/16.6
+  P9 one in a krillion (rank 18): mean z² vs prev 11.2, vs next 18.7, prev-vs-next 28.7; scores prev/practice/next 15.8/16.4/16.2
+  P9 durrrr (rank 22): mean z² vs prev 9.1, vs next 9.5, prev-vs-next 19.0; scores prev/practice/next 16.0/16.1/15.7
+  P9 QKV (rank 23): mean z² vs prev 33.2, vs next 4.1, prev-vs-next 265.6; scores prev/practice/next 15.8/15.7/16.2
+  P9 prod (rank 25): mean z² vs prev 6.5, vs next 18.9, prev-vs-next 222.1; scores prev/practice/next 16.2/16.9/14.5
+  P9 TS (rank 26): mean z² vs prev 27.6, vs next 12.0, prev-vs-next 137.0; scores prev/practice/next 15.5/14.1/14.8
+  P9 Po Stitch (rank 30): mean z² vs prev 92.8, vs next 5.9, prev-vs-next 322.2; scores prev/practice/next 14.7/18.1/17.3
+  P9 Chikerbot (rank 35): mean z² vs prev 9.6, vs next 4.8, prev-vs-next 75.2; scores prev/practice/next 16.0/16.5/16.5
+  P9 Ghosts in the Machine (rank 42): mean z² vs prev 30.4, vs next 10.0, prev-vs-next 124.8; scores prev/practice/next 14.7/14.5/12.9
+  P9 ALL IN (rank 43): mean z² vs prev 224.0, vs next 863.9, prev-vs-next 446.9; scores prev/practice/next 14.9/9.9/13.8
+  P9 EK88 (rank 45): mean z² vs prev 10.1, vs next 10.5, prev-vs-next 2.2; scores prev/practice/next 15.6/15.6/14.6
+  P9 Amazing humans (rank 49): mean z² vs prev 44.2, vs next 176.8, prev-vs-next 627.4; scores prev/practice/next 13.4/12.4/12.5
+  P9 gtoalpha (rank 53): mean z² vs prev 141.4, vs next 136.3, prev-vs-next 78.8; scores prev/practice/next 13.5/13.6/13.5
+
+## practice score vs following scored score (official results, all active teams)
+| practice → scored | n | corr | SD of (practice − scored) | expected SD from sampling noise alone | excess SD | mean abs diff | avalon: practice − scored (our bot) |
+|---|---|---|---|---|---|---|---|
+| P1 → R1 | 92 | 0.45 | 5.20 | 0.56 | 5.17 | 3.82 | -3.49 (m10 vs v3b) |
+| P2 → R1 | 116 | 0.59 | 4.39 | 0.36 | 4.38 | 3.09 | +0.76 (v3 vs v3b) |
+| P3 → R1 | 123 | 0.77 | 3.32 | 0.21 | 3.32 | 2.38 | +0.92 (v3b vs v3b) |
+| P4 → R1 | 125 | 0.84 | 2.72 | 0.20 | 2.71 | 1.68 | -8.93 (v4 vs v3b) |
+| P5 → R2 | 127 | 0.93 | 1.62 | 0.56 | 1.52 | 1.09 | -0.18 (v5? vs v5r) |
+| P6 → R3 | 127 | 0.91 | 1.67 | 0.56 | 1.57 | 1.23 | +0.70 (v6 vs v6) |
+| P7 → R4 | 127 | 0.85 | 2.27 | 0.56 | 2.20 | 1.30 | +0.80 (v7 vs v7) |
+| P8 → R5 | 127 | 0.85 | 2.27 | 0.56 | 2.20 | 1.26 | -0.13 (v8b vs v9s) |
+| P9 → R6 | 127 | 0.89 | 2.03 | 0.56 | 1.95 | 1.13 | -0.55 (v10 vs v10) |
+
+## teams whose bot was the same in prev scored, practice and next scored (behaviourally): practice − next scored score
+  P6→R3: n=10 mean diff +0.79 ± 0.19; SD 0.59 vs noise 0.53; stronger half +1.03, weaker half +0.55; slope of diff on scored score +0.094
+  P7→R4: n=18 mean diff +0.45 ± 0.13; SD 0.55 vs noise 0.56; stronger half +0.29, weaker half +0.60; slope of diff on scored score -0.061
+  P8→R5: n=21 mean diff +0.19 ± 0.12; SD 0.54 vs noise 0.55; stronger half +0.25, weaker half +0.13; slope of diff on scored score +0.020
+  P9→R6: n=24 mean diff +0.21 ± 0.11; SD 0.55 vs noise 0.55; stronger half +0.25, weaker half +0.17; slope of diff on scored score +0.078

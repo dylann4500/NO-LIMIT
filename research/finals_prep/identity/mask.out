@@ -1,0 +1,356 @@
+modal size per feature (pooled over the other 19, equal weight) by training round, and how many of the 19 use it for >=50% / >=20% of that action in R6
+  SZ open EP     modal by round: R1:2.5 R2:2.5 R3:2.5 R4:2.5 R5:2.5 | R6 teams using R5-modal >=50%: 6, >=20%: 6, mean share 31%
+  SZ open CO     modal by round: R1:2.5 R2:2.5 R3:2.5 R4:2.5 R5:2 | R6 teams using R5-modal >=50%: 4, >=20%: 6, mean share 25%
+  SZ open BTN    modal by round: R1:2.5 R2:2.5 R3:2.5 R4:2 R5:2 | R6 teams using R5-modal >=50%: 4, >=20%: 8, mean share 27%
+  SZ open SB     modal by round: R1:2.5 R2:2.5 R3:2.5 R4:2 R5:2 | R6 teams using R5-modal >=50%: 7, >=20%: 11, mean share 39%
+  SZ 3b          modal by round: R1:3 R2:3 R3:3 R4:3 R5:3 | R6 teams using R5-modal >=50%: 7, >=20%: 9, mean share 42%
+  SZ bet s1      modal by round: R1:0.5 R2:0.5 R3:0.5 R4:0.5 R5:0.5 | R6 teams using R5-modal >=50%: 4, >=20%: 8, mean share 23%
+  SZ bet s2      modal by round: R1:0.65 R2:0.65 R3:0.65 R4:0.65 R5:0.65 | R6 teams using R5-modal >=50%: 3, >=20%: 5, mean share 15%
+  SZ bet s3      modal by round: R1:0.65 R2:0.75 R3:0.75 R4:0.75 R5:0.75 | R6 teams using R5-modal >=50%: 2, >=20%: 7, mean share 17%
+  SZ gran pre    modal by round: R1:1 R2:1 R3:1 R4:4 R5:4 | R6 teams using R5-modal >=50%: 4, >=20%: 10, mean share 32%
+  SZ gran post   modal by round: R1:4 R2:4 R3:4 R4:4 R5:4 | R6 teams using R5-modal >=50%: 14, >=20%: 19, mean share 59%
+
+### S0 baseline: no masking (profile = previous round)
+features     N | avalon found  top3 others called avalon precision@1/20 | where avalon seats go (top 3 labels) | n teams >=5% | macro acc
+SZ           5 |   32.3± 3.5  57.1                 2.53             40 | avalon 32%, thepastaway 9%, Gavilan 8% | 5 | 34.8
+SZ          10 |   57.9± 5.2  78.4                 1.56             66 | avalon 58%, thepastaway 7%, nik airball 6% | 4 | 52.0
+SZ          20 |   84.4± 4.6  93.7                 1.05             81 | avalon 84%, nik airball 3%, thepastaway 3% | 1 | 67.3
+SZ          40 |   96.3± 2.0  98.6                 0.71             88 | avalon 96%, nik airball 1%, thepastaway 1% | 1 | 75.6
+SZ         all |   98.2± 0.7  99.2                 0.42             92 | avalon 98%, thepastaway 0%, nik airball 0% | 1 | 78.2
+SZ+preFQ     5 |   38.3± 4.8  64.8                 1.91             51 | avalon 38%, Team 82 19%, thepastaway 9% | 4 | 39.7
+SZ+preFQ    10 |   65.9± 4.2  85.0                 1.71             67 | avalon 66%, Gavilan 6%, Team 82 6% | 4 | 57.4
+SZ+preFQ    20 |   88.4± 3.1  96.4                 1.19             80 | avalon 88%, Gavilan 3%, thepastaway 3% | 1 | 71.7
+SZ+preFQ    40 |   97.1± 1.5  99.1                 0.71             88 | avalon 97%, thepastaway 1%, Gavilan 1% | 1 | 78.5
+SZ+preFQ   all |   98.5± 0.6  99.3                 0.42             93 | avalon 98%, Gavilan 0%, thepastaway 0% | 1 | 80.9
+ALL          5 |   38.9± 5.1  63.5                 1.86             52 | avalon 39%, Team 82 19%, thepastaway 9% | 4 | 40.9
+ALL         10 |   65.4± 4.9  84.6                 1.49             70 | avalon 65%, Gavilan 6%, Team 82 6% | 4 | 58.8
+ALL         20 |   88.0± 3.7  96.4                 1.03             82 | avalon 88%, thepastaway 3%, Gavilan 3% | 1 | 72.9
+ALL         40 |   96.9± 1.8  99.1                 0.58             90 | avalon 97%, thepastaway 1%, nik airball 1% | 1 | 79.4
+ALL        all |   98.5± 0.7  99.3                 0.33             94 | avalon 98%, thepastaway 0%, Gavilan 0% | 1 | 81.7
+NOSIZE       5 |   10.2± 4.2  27.9                 3.62             13 | Team 82 21%, avalon 10%, TeamBallHog 8% | 8 | 14.3
+NOSIZE      10 |   16.2± 6.3  37.7                 3.79             18 | avalon 16%, Team 82 12%, Gavilan 9% | 5 | 21.2
+NOSIZE      20 |   24.2± 9.6  48.1                 3.20             28 | avalon 24%, one in a krillion 12%, Gavilan 9% | 6 | 30.5
+NOSIZE      40 |   34.2±14.3  59.7                 2.20             45 | avalon 34%, one in a krillion 13%, Gavilan 8% | 7 | 41.1
+NOSIZE     all |   65.5±14.1  85.1                 1.53             69 | avalon 65%, Gavilan 7%, AZ 5% | 2 | 61.2
+
+### S1 modal sizes, first round of masking (recogniser's avalon profile is the old one)
+features     N | avalon found  top3 others called avalon precision@1/20 | where avalon seats go (top 3 labels) | n teams >=5% | macro acc
+SZ           5 |    1.8± 0.1   6.2                 2.58              4 | Golden Knight 25%, 2 Curry 12%, AZ 10% | 6 | 33.2
+SZ          10 |    0.7± 0.1   2.6                 1.55              2 | Golden Knight 41%, 2 Curry 10%, AZ 9% | 6 | 49.1
+SZ          20 |    0.1± 0.0   0.6                 1.01              0 | Golden Knight 58%, one in a krillion 12%, AZ 6% | 4 | 63.1
+SZ          40 |    0.0± 0.0   0.1                 0.71              0 | Golden Knight 65%, one in a krillion 16%, Lemonade 5% | 3 | 70.8
+SZ         all |    0.0± 0.0   0.1                 0.42              0 | Golden Knight 62%, Lemonade 11%, one in a krillion 9% | 4 | 73.2
+SZ+preFQ     5 |    1.9± 1.7  10.0                 1.91              5 | Team 82 21%, Golden Knight 21%, AZ 8% | 7 | 37.9
+SZ+preFQ    10 |    1.0± 1.0   5.2                 1.71              3 | Golden Knight 35%, one in a krillion 12%, AZ 9% | 6 | 54.2
+SZ+preFQ    20 |    0.2± 0.2   1.7                 1.19              1 | Golden Knight 50%, one in a krillion 18%, AZ 8% | 4 | 67.3
+SZ+preFQ    40 |    0.1± 0.1   0.6                 0.71              0 | Golden Knight 59%, one in a krillion 22%, AZ 6% | 3 | 73.6
+SZ+preFQ   all |    0.0± 0.0   0.4                 0.42              1 | Golden Knight 59%, one in a krillion 14%, AZ 13% | 4 | 75.9
+ALL          5 |    2.5± 1.5   9.7                 1.86              7 | Team 82 22%, Golden Knight 17%, AZ 10% | 7 | 39.1
+ALL         10 |    1.5± 1.1   5.9                 1.49              5 | Golden Knight 27%, AZ 14%, Team 82 10% | 7 | 55.6
+ALL         20 |    0.5± 0.4   2.3                 1.03              2 | Golden Knight 37%, AZ 15%, 2 Curry 10% | 6 | 68.5
+ALL         40 |    0.1± 0.1   0.8                 0.58              1 | Golden Knight 42%, AZ 15%, 2 Curry 12% | 6 | 74.6
+ALL        all |    0.1± 0.1   0.7                 0.33              2 | AZ 34%, Golden Knight 25%, Team 82 13% | 6 | 76.8
+NOSIZE       5 |   10.2± 4.2  27.9                 3.62             13 | Team 82 21%, avalon 10%, TeamBallHog 8% | 8 | 14.3
+NOSIZE      10 |   16.2± 6.3  37.7                 3.79             18 | avalon 16%, Team 82 12%, Gavilan 9% | 5 | 21.2
+NOSIZE      20 |   24.2± 9.6  48.1                 3.20             28 | avalon 24%, one in a krillion 12%, Gavilan 9% | 6 | 30.5
+NOSIZE      40 |   34.2±14.3  59.7                 2.20             45 | avalon 34%, one in a krillion 13%, Gavilan 8% | 7 | 41.1
+NOSIZE     all |   65.5±14.1  85.1                 1.53             69 | avalon 65%, Gavilan 7%, AZ 5% | 2 | 61.2
+
+### S2 modal sizes, later rounds (recogniser has a profile of masked avalon)
+features     N | avalon found  top3 others called avalon precision@1/20 | where avalon seats go (top 3 labels) | n teams >=5% | macro acc
+SZ           5 |   66.1± 2.2  69.8                 8.66             29 | avalon 66%, Golden Knight 2%, nik airball 2% | 1 | 35.8
+SZ          10 |   87.8± 1.6  89.2                 7.73             37 | avalon 88%, nik airball 1%, Always Folds 1% | 1 | 52.6
+SZ          20 |   98.0± 0.6  98.3                 4.65             53 | avalon 98%, Golden Knight 0%, AZ 0% | 1 | 67.4
+SZ          40 |   99.5± 0.3  99.6                 1.97             73 | avalon 100%, Golden Knight 0%, nik airball 0% | 1 | 75.4
+SZ         all |   99.6± 0.3  99.6                 1.07             83 | avalon 100%, nik airball 0%, Foldemort 0% | 1 | 78.0
+SZ+preFQ     5 |   53.1±12.5  66.2                 2.62             52 | avalon 53%, Team 82 19%, Golden Knight 4% | 2 | 40.4
+SZ+preFQ    10 |   75.3±11.8  83.5                 1.95             67 | avalon 75%, Team 82 6%, Golden Knight 4% | 2 | 57.9
+SZ+preFQ    20 |   89.6± 8.2  94.2                 0.75             86 | avalon 90%, Golden Knight 4%, Chikerbot 3% | 1 | 71.8
+SZ+preFQ    40 |   95.5± 4.5  98.3                 0.21             96 | avalon 96%, Golden Knight 2%, Chikerbot 1% | 1 | 78.4
+SZ+preFQ   all |   98.2± 1.4  99.2                 0.12             98 | avalon 98%, Golden Knight 1%, Chikerbot 0% | 1 | 80.8
+ALL          5 |   49.3±14.3  61.3                 1.67             61 | avalon 49%, Team 82 19%, Golden Knight 7% | 3 | 41.4
+ALL         10 |   70.7±15.1  79.4                 0.95             80 | avalon 71%, Golden Knight 8%, Team 82 6% | 3 | 59.1
+ALL         20 |   86.1±11.1  92.0                 0.30             94 | avalon 86%, Golden Knight 7%, Chikerbot 2% | 2 | 72.9
+ALL         40 |   93.6± 6.2  97.6                 0.09             98 | avalon 94%, Golden Knight 4%, Chikerbot 1% | 1 | 79.3
+ALL        all |   97.4± 2.2  99.0                 0.05             99 | avalon 97%, Golden Knight 1%, Chikerbot 0% | 1 | 81.7
+NOSIZE       5 |   10.2± 4.2  27.9                 3.62             13 | Team 82 21%, avalon 10%, TeamBallHog 8% | 8 | 14.3
+NOSIZE      10 |   16.2± 6.3  37.7                 3.79             18 | avalon 16%, Team 82 12%, Gavilan 9% | 5 | 21.2
+NOSIZE      20 |   24.2± 9.6  48.1                 3.20             28 | avalon 24%, one in a krillion 12%, Gavilan 9% | 6 | 30.5
+NOSIZE      40 |   34.2±14.3  59.7                 2.20             45 | avalon 34%, one in a krillion 13%, Gavilan 8% | 7 | 41.1
+NOSIZE     all |   65.5±14.1  85.1                 1.53             69 | avalon 65%, Gavilan 7%, AZ 5% | 2 | 61.2
+
+### S3a randomised sizes in a wide band, first round
+features     N | avalon found  top3 others called avalon precision@1/20 | where avalon seats go (top 3 labels) | n teams >=5% | macro acc
+SZ           5 |    5.3± 0.4  13.2                 2.51             10 | Team 82 16%, Lemonade 15%, Team 72 9% | 6 | 33.4
+SZ          10 |    4.3± 0.5  12.6                 1.60             12 | Team 82 23%, Lemonade 20%, Team 72 11% | 5 | 49.2
+SZ          20 |    2.7± 0.6  11.5                 1.03             12 | Team 82 31%, Lemonade 24%, Team 72 12% | 5 | 63.3
+SZ          40 |    1.2± 0.4   8.9                 0.71              8 | Team 82 38%, Lemonade 28%, Team 72 13% | 5 | 70.8
+SZ         all |    0.6± 0.3   7.6                 0.43              7 | Lemonade 40%, Team 82 34%, Team 72 11% | 4 | 73.3
+SZ+preFQ     5 |    6.8± 2.3  20.9                 1.91             16 | Team 82 32%, thepastaway 9%, Team 72 9% | 6 | 38.2
+SZ+preFQ    10 |    7.9± 2.3  21.1                 1.71             20 | Team 82 30%, Team 72 15%, thepastaway 10% | 5 | 54.5
+SZ+preFQ    20 |    7.3± 2.1  20.4                 1.19             24 | Team 82 34%, Team 72 19%, thepastaway 13% | 5 | 67.6
+SZ+preFQ    40 |    5.9± 2.3  20.0                 0.71             30 | Team 82 40%, Team 72 23%, thepastaway 14% | 5 | 73.9
+SZ+preFQ   all |   10.4± 3.7  33.2                 0.42             57 | Team 82 33%, Team 72 24%, thepastaway 15% | 5 | 76.5
+ALL          5 |    6.9± 2.2  19.9                 1.86             16 | Team 82 33%, Team 72 10%, thepastaway 10% | 6 | 39.3
+ALL         10 |    7.6± 2.3  21.0                 1.49             21 | Team 82 31%, Team 72 16%, thepastaway 10% | 5 | 55.9
+ALL         20 |    7.1± 2.2  21.5                 1.03             26 | Team 82 35%, Team 72 21%, thepastaway 12% | 5 | 68.9
+ALL         40 |    6.2± 2.5  22.8                 0.58             36 | Team 82 41%, Team 72 25%, thepastaway 12% | 5 | 74.9
+ALL        all |   23.3± 8.6  55.3                 0.33             79 | Team 82 27%, avalon 23%, Team 72 23% | 4 | 77.9
+NOSIZE       5 |   10.2± 4.2  27.9                 3.62             13 | Team 82 21%, avalon 10%, TeamBallHog 8% | 8 | 14.3
+NOSIZE      10 |   16.2± 6.3  37.7                 3.79             18 | avalon 16%, Team 82 12%, Gavilan 9% | 5 | 21.2
+NOSIZE      20 |   24.2± 9.6  48.1                 3.20             28 | avalon 24%, one in a krillion 12%, Gavilan 9% | 6 | 30.5
+NOSIZE      40 |   34.2±14.3  59.7                 2.20             45 | avalon 34%, one in a krillion 13%, Gavilan 8% | 7 | 41.1
+NOSIZE     all |   65.5±14.1  85.1                 1.53             69 | avalon 65%, Gavilan 7%, AZ 5% | 2 | 61.2
+
+### S3b randomised sizes in a wide band, later rounds (recogniser has the randomised profile)
+features     N | avalon found  top3 others called avalon precision@1/20 | where avalon seats go (top 3 labels) | n teams >=5% | macro acc
+SZ           5 |   45.3± 1.8  62.1                 2.94             45 | avalon 45%, Team 82 5%, Team 72 4% | 2 | 35.3
+SZ          10 |   69.6± 1.9  83.5                 2.25             62 | avalon 70%, Team 82 4%, Team 72 3% | 1 | 52.3
+SZ          20 |   90.6± 1.3  96.5                 1.86             72 | avalon 91%, Team 82 2%, thepastaway 1% | 1 | 67.4
+SZ          40 |   98.2± 0.5  99.3                 1.67             76 | avalon 98%, Team 82 0%, thepastaway 0% | 1 | 75.3
+SZ         all |   98.7± 0.3  99.4                 1.84             74 | avalon 99%, Team 82 0%, thepastaway 0% | 1 | 77.8
+SZ+preFQ     5 |   49.9± 3.3  68.0                 2.29             53 | avalon 50%, Team 82 21%, Gavilan 4% | 2 | 40.2
+SZ+preFQ    10 |   75.1± 2.7  87.3                 2.31             63 | avalon 75%, Team 82 9%, Gavilan 2% | 2 | 57.7
+SZ+preFQ    20 |   93.3± 1.3  97.5                 1.95             72 | avalon 93%, Team 82 2%, Team 72 1% | 1 | 71.5
+SZ+preFQ    40 |   98.6± 0.4  99.4                 1.69             75 | avalon 99%, Team 82 0%, Gavilan 0% | 1 | 77.9
+SZ+preFQ   all |   99.0± 0.3  99.4                 1.84             74 | avalon 99%, Gavilan 0%, Team 82 0% | 1 | 80.1
+ALL          5 |   50.1± 3.3  66.6                 2.30             53 | avalon 50%, Team 82 21%, Gavilan 4% | 2 | 41.3
+ALL         10 |   74.9± 2.9  86.7                 2.18             64 | avalon 75%, Team 82 9%, Team 72 2% | 2 | 59.0
+ALL         20 |   93.0± 1.6  97.3                 1.84             73 | avalon 93%, Team 82 2%, Team 72 1% | 1 | 72.7
+ALL         40 |   98.5± 0.5  99.4                 1.54             77 | avalon 98%, Team 82 0%, thepastaway 0% | 1 | 78.9
+ALL        all |   98.9± 0.4  99.5                 1.82             74 | avalon 99%, Team 82 0%, thepastaway 0% | 1 | 80.9
+NOSIZE       5 |   10.2± 4.2  27.9                 3.62             13 | Team 82 21%, avalon 10%, TeamBallHog 8% | 8 | 14.3
+NOSIZE      10 |   16.2± 6.3  37.7                 3.79             18 | avalon 16%, Team 82 12%, Gavilan 9% | 5 | 21.2
+NOSIZE      20 |   24.2± 9.6  48.1                 3.20             28 | avalon 24%, one in a krillion 12%, Gavilan 9% | 6 | 30.5
+NOSIZE      40 |   34.2±14.3  59.7                 2.20             45 | avalon 34%, one in a krillion 13%, Gavilan 8% | 7 | 41.1
+NOSIZE     all |   65.5±14.1  85.1                 1.53             69 | avalon 65%, Gavilan 7%, AZ 5% | 2 | 61.2
+
+### S3c our own sizes jittered by one step (0.05bb / 2.5% pot), first round
+features     N | avalon found  top3 others called avalon precision@1/20 | where avalon seats go (top 3 labels) | n teams >=5% | macro acc
+SZ           5 |   11.8± 0.6  29.1                 2.62             19 | Team 72 16%, Lemonade 13%, avalon 12% | 7 | 33.7
+SZ          10 |   15.4± 1.1  38.1                 1.60             34 | Team 72 24%, Lemonade 18%, avalon 15% | 5 | 49.8
+SZ          20 |   18.8± 1.0  48.6                 1.04             49 | Team 72 33%, Lemonade 23%, avalon 19% | 4 | 64.0
+SZ          40 |   19.5± 1.9  58.8                 0.71             59 | Team 72 39%, Lemonade 28%, avalon 20% | 3 | 71.7
+SZ         all |   22.1± 6.7  76.4                 0.42             73 | Lemonade 42%, Team 72 28%, avalon 22% | 3 | 74.4
+SZ+preFQ     5 |   15.9± 2.5  38.6                 1.91             31 | Team 82 26%, Team 72 18%, avalon 16% | 6 | 38.6
+SZ+preFQ    10 |   24.1± 2.5  51.1                 1.71             43 | Team 72 29%, avalon 24%, Team 82 15% | 4 | 55.4
+SZ+preFQ    20 |   31.2± 2.9  65.2                 1.19             58 | Team 72 40%, avalon 31%, Team 82 8% | 3 | 68.8
+SZ+preFQ    40 |   36.8± 4.4  79.7                 0.71             73 | Team 72 48%, avalon 37%, Team 82 6% | 3 | 75.5
+SZ+preFQ   all |   62.4± 9.7  92.6                 0.42             89 | avalon 62%, Team 72 29%, Team 82 4% | 2 | 79.1
+ALL          5 |   16.9± 2.6  39.2                 1.86             32 | Team 82 25%, Team 72 18%, avalon 17% | 6 | 39.8
+ALL         10 |   25.3± 3.3  53.3                 1.49             47 | Team 72 29%, avalon 25%, Team 82 14% | 4 | 56.8
+ALL         20 |   34.0± 4.0  69.4                 1.03             63 | Team 72 39%, avalon 34%, Team 82 9% | 3 | 70.2
+ALL         40 |   41.9± 5.6  84.2                 0.58             79 | Team 72 44%, avalon 42%, Team 82 6% | 3 | 76.7
+ALL        all |   74.9± 7.1  95.0                 0.33             92 | avalon 75%, Team 72 18%, Team 82 3% | 2 | 80.5
+NOSIZE       5 |   10.2± 4.2  27.9                 3.62             13 | Team 82 21%, avalon 10%, TeamBallHog 8% | 8 | 14.3
+NOSIZE      10 |   16.2± 6.3  37.7                 3.79             18 | avalon 16%, Team 82 12%, Gavilan 9% | 5 | 21.2
+NOSIZE      20 |   24.2± 9.6  48.1                 3.20             28 | avalon 24%, one in a krillion 12%, Gavilan 9% | 6 | 30.5
+NOSIZE      40 |   34.2±14.3  59.7                 2.20             45 | avalon 34%, one in a krillion 13%, Gavilan 8% | 7 | 41.1
+NOSIZE     all |   65.5±14.1  85.1                 1.53             69 | avalon 65%, Gavilan 7%, AZ 5% | 2 | 61.2
+
+### S3d our own sizes jittered by one step, later rounds
+features     N | avalon found  top3 others called avalon precision@1/20 | where avalon seats go (top 3 labels) | n teams >=5% | macro acc
+SZ           5 |   50.7± 4.8  66.0                 2.64             50 | avalon 51%, Team 123 5%, thepastaway 4% | 2 | 35.7
+SZ          10 |   75.3± 4.6  86.3                 1.69             70 | avalon 75%, Team 123 4%, thepastaway 2% | 1 | 52.8
+SZ          20 |   93.6± 2.0  97.3                 1.03             83 | avalon 94%, Team 123 1%, thepastaway 1% | 1 | 67.8
+SZ          40 |   98.8± 0.5  99.4                 0.69             88 | avalon 99%, Team 123 0%, thepastaway 0% | 1 | 75.7
+SZ         all |   99.1± 0.4  99.5                 0.36             93 | avalon 99%, Team 123 0%, thepastaway 0% | 1 | 78.2
+SZ+preFQ     5 |   54.6± 3.3  70.4                 1.95             60 | avalon 55%, Team 82 19%, thepastaway 4% | 2 | 40.6
+SZ+preFQ    10 |   79.8± 2.5  88.9                 1.64             72 | avalon 80%, Team 82 6%, Gavilan 3% | 2 | 58.2
+SZ+preFQ    20 |   95.3± 1.1  97.9                 1.09             82 | avalon 95%, Team 82 1%, Gavilan 1% | 1 | 72.1
+SZ+preFQ    40 |   98.9± 0.5  99.4                 0.72             88 | avalon 99%, Gavilan 0%, thepastaway 0% | 1 | 78.6
+SZ+preFQ   all |   99.1± 0.4  99.5                 0.36             94 | avalon 99%, Gavilan 0%, Chikerbot 0% | 1 | 80.9
+ALL          5 |   54.5± 3.0  68.4                 1.86             61 | avalon 55%, Team 82 19%, thepastaway 5% | 2 | 41.6
+ALL         10 |   79.2± 2.7  88.0                 1.41             75 | avalon 79%, Team 82 7%, Gavilan 3% | 2 | 59.5
+ALL         20 |   95.0± 1.3  97.8                 0.88             85 | avalon 95%, Team 82 1%, thepastaway 1% | 1 | 73.3
+ALL         40 |   98.9± 0.4  99.4                 0.53             91 | avalon 99%, thepastaway 0%, Team 82 0% | 1 | 79.5
+ALL        all |   99.1± 0.3  99.5                 0.28             95 | avalon 99%, thepastaway 0%, Team 123 0% | 1 | 81.7
+NOSIZE       5 |   10.2± 4.2  27.9                 3.62             13 | Team 82 21%, avalon 10%, TeamBallHog 8% | 8 | 14.3
+NOSIZE      10 |   16.2± 6.3  37.7                 3.79             18 | avalon 16%, Team 82 12%, Gavilan 9% | 5 | 21.2
+NOSIZE      20 |   24.2± 9.6  48.1                 3.20             28 | avalon 24%, one in a krillion 12%, Gavilan 9% | 6 | 30.5
+NOSIZE      40 |   34.2±14.3  59.7                 2.20             45 | avalon 34%, one in a krillion 13%, Gavilan 8% | 7 | 41.1
+NOSIZE     all |   65.5±14.1  85.1                 1.53             69 | avalon 65%, Gavilan 7%, AZ 5% | 2 | 61.2
+
+### S4 copy 2 Curry's sizes (its previous-round distribution), first round
+features     N | avalon found  top3 others called avalon precision@1/20 | where avalon seats go (top 3 labels) | n teams >=5% | macro acc | 2 Curry recall, avalon->2 Curry
+SZ           5 |    1.8± 0.1   5.5                 2.58              4 | 2 Curry 51%, Chikerbot 7%, Lemonade 4% | 2 | 33.4 |   51%   51%
+SZ          10 |    0.7± 0.1   2.0                 1.55              2 | 2 Curry 75%, Chikerbot 5%, Lemonade 2% | 2 | 49.1 |   77%   75%
+SZ          20 |    0.1± 0.1   0.3                 1.04              1 | 2 Curry 93%, Chikerbot 2%, Lemonade 1% | 1 | 63.1 |   94%   93%
+SZ          40 |    0.0± 0.0   0.1                 0.71              0 | 2 Curry 99%, Chikerbot 0%, Lemonade 0% | 1 | 70.8 |   98%   99%
+SZ         all |    0.0± 0.0   0.1                 0.42              0 | 2 Curry 99%, Chikerbot 0%, Golden Knight 0% | 1 | 73.3 |   99%   99%
+SZ+preFQ     5 |    1.9± 1.6   9.2                 1.91              5 | 2 Curry 42%, Team 82 20%, Lemonade 6% | 5 | 37.9 |   50%   42%
+SZ+preFQ    10 |    1.0± 0.9   3.8                 1.71              3 | 2 Curry 63%, Team 82 10%, sandylikesfrogs 5% | 3 | 54.2 |   74%   63%
+SZ+preFQ    20 |    0.1± 0.1   0.7                 1.19              1 | 2 Curry 81%, Team 82 6%, sandylikesfrogs 4% | 2 | 67.3 |   90%   81%
+SZ+preFQ    40 |    0.0± 0.0   0.1                 0.71              0 | 2 Curry 93%, Team 82 3%, sandylikesfrogs 2% | 1 | 73.6 |   97%   93%
+SZ+preFQ   all |    0.0± 0.0   0.1                 0.42              0 | 2 Curry 97%, sandylikesfrogs 1%, Team 82 1% | 1 | 75.9 |   99%   97%
+ALL          5 |    2.0± 1.2   8.0                 1.86              5 | 2 Curry 45%, Team 82 20%, Gavilan 5% | 4 | 39.0 |   53%   45%
+ALL         10 |    0.9± 0.7   3.6                 1.49              3 | 2 Curry 66%, Team 82 8%, Chikerbot 4% | 2 | 55.6 |   78%   66%
+ALL         20 |    0.2± 0.1   0.8                 1.03              1 | 2 Curry 84%, Team 82 4%, sandylikesfrogs 3% | 1 | 68.5 |   93%   84%
+ALL         40 |    0.1± 0.0   0.2                 0.58              1 | 2 Curry 94%, sandylikesfrogs 2%, Team 82 2% | 1 | 74.6 |   98%   94%
+ALL        all |    0.1± 0.0   0.2                 0.33              1 | 2 Curry 86%, sandylikesfrogs 11%, Team 82 2% | 2 | 76.8 |   99%   86%
+NOSIZE       5 |   10.2± 4.2  27.9                 3.62             13 | Team 82 21%, avalon 10%, TeamBallHog 8% | 8 | 14.3 |   17%    6%
+NOSIZE      10 |   16.2± 6.3  37.7                 3.79             18 | avalon 16%, Team 82 12%, Gavilan 9% | 5 | 21.2 |   26%    4%
+NOSIZE      20 |   24.2± 9.6  48.1                 3.20             28 | avalon 24%, one in a krillion 12%, Gavilan 9% | 6 | 30.5 |   39%    2%
+NOSIZE      40 |   34.2±14.3  59.7                 2.20             45 | avalon 34%, one in a krillion 13%, Gavilan 8% | 7 | 41.1 |   52%    1%
+NOSIZE     all |   65.5±14.1  85.1                 1.53             69 | avalon 65%, Gavilan 7%, AZ 5% | 2 | 61.2 |   78%    0%
+
+### S4 copy 2 Curry's sizes, later rounds (recogniser has the hybrid profile)
+features     N | avalon found  top3 others called avalon precision@1/20 | where avalon seats go (top 3 labels) | n teams >=5% | macro acc | 2 Curry recall, avalon->2 Curry
+SZ           5 |   21.3± 6.5  64.3                 3.14             26 | 2 Curry 32%, avalon 21%, Chikerbot 7% | 3 | 33.5 |   35%   32%
+SZ          10 |   32.1± 7.2  85.0                 2.73             38 | 2 Curry 44%, avalon 32%, Chikerbot 5% | 3 | 49.4 |   50%   44%
+SZ          20 |   41.5± 5.3  97.0                 2.48             47 | 2 Curry 52%, avalon 41%, Chikerbot 2% | 2 | 63.5 |   59%   52%
+SZ          40 |   44.1± 3.4  99.3                 2.12             52 | 2 Curry 55%, avalon 44%, Chikerbot 0% | 2 | 71.5 |   67%   55%
+SZ         all |   41.0± 3.1  99.5                 1.81             54 | 2 Curry 58%, avalon 41%, Chikerbot 0% | 2 | 74.1 |   75%   58%
+SZ+preFQ     5 |   39.0± 2.1  71.2                 2.52             45 | avalon 39%, Team 82 20%, 2 Curry 15% | 4 | 39.2 |   35%   15%
+SZ+preFQ    10 |   65.1± 3.8  89.4                 2.68             56 | avalon 65%, 2 Curry 13%, Team 82 7% | 3 | 56.4 |   51%   13%
+SZ+preFQ    20 |   86.3± 4.1  97.9                 2.28             67 | avalon 86%, 2 Curry 8%, Team 82 2% | 2 | 70.3 |   63%    8%
+SZ+preFQ    40 |   95.3± 2.1  99.4                 1.89             73 | avalon 95%, 2 Curry 3%, Team 82 0% | 1 | 77.1 |   70%    3%
+SZ+preFQ   all |   96.8± 1.1  99.5                 0.96             84 | avalon 97%, 2 Curry 2%, Chikerbot 0% | 1 | 80.2 |   88%    2%
+ALL          5 |   38.3± 1.4  69.3                 2.35             46 | avalon 38%, Team 82 19%, 2 Curry 18% | 3 | 40.4 |   42%   18%
+ALL         10 |   62.1± 3.5  88.5                 2.18             60 | avalon 62%, 2 Curry 17%, Team 82 7% | 3 | 57.9 |   62%   17%
+ALL         20 |   82.3± 4.4  97.8                 1.74             71 | avalon 82%, 2 Curry 12%, Team 82 1% | 2 | 71.9 |   77%   12%
+ALL         40 |   93.3± 2.9  99.4                 1.30             79 | avalon 93%, 2 Curry 6%, Team 82 0% | 2 | 78.8 |   88%    6%
+ALL        all |   97.4± 0.7  99.5                 0.94             85 | avalon 97%, 2 Curry 2%, Chikerbot 0% | 1 | 81.6 |   97%    2%
+NOSIZE       5 |   10.2± 4.2  27.9                 3.62             13 | Team 82 21%, avalon 10%, TeamBallHog 8% | 8 | 14.3 |   17%    6%
+NOSIZE      10 |   16.2± 6.3  37.7                 3.79             18 | avalon 16%, Team 82 12%, Gavilan 9% | 5 | 21.2 |   26%    4%
+NOSIZE      20 |   24.2± 9.6  48.1                 3.20             28 | avalon 24%, one in a krillion 12%, Gavilan 9% | 6 | 30.5 |   39%    2%
+NOSIZE      40 |   34.2±14.3  59.7                 2.20             45 | avalon 34%, one in a krillion 13%, Gavilan 8% | 7 | 41.1 |   52%    1%
+NOSIZE     all |   65.5±14.1  85.1                 1.53             69 | avalon 65%, Gavilan 7%, AZ 5% | 2 | 61.2 |   78%    0%
+
+### S4 copy Lemonade's sizes (its previous-round distribution), first round
+features     N | avalon found  top3 others called avalon precision@1/20 | where avalon seats go (top 3 labels) | n teams >=5% | macro acc | Lemonade recall, avalon->Lemonade
+SZ           5 |   13.8± 3.8  39.5                 2.57             22 | Lemonade 41%, avalon 14%, thepastaway 4% | 2 | 33.8 |   33%   41%
+SZ          10 |   13.6± 4.2  54.1                 1.56             31 | Lemonade 64%, avalon 14%, thepastaway 3% | 2 | 49.8 |   51%   64%
+SZ          20 |    8.9± 3.3  69.5                 1.03             31 | Lemonade 85%, avalon 9%, nik airball 1% | 2 | 63.6 |   69%   85%
+SZ          40 |    3.7± 2.1  80.3                 0.71             22 | Lemonade 95%, avalon 4%, nik airball 0% | 1 | 70.9 |   81%   95%
+SZ         all |    2.0± 1.5  76.9                 0.42             21 | Lemonade 97%, avalon 2%, nik airball 0% | 1 | 73.4 |   89%   97%
+SZ+preFQ     5 |   24.4± 7.4  47.6                 1.91             40 | avalon 24%, Lemonade 24%, Team 82 19% | 4 | 39.0 |   59%   24%
+SZ+preFQ    10 |   35.6±10.7  63.3                 1.71             52 | avalon 36%, Lemonade 29%, Team 82 6% | 4 | 55.9 |   79%   29%
+SZ+preFQ    20 |   46.6±13.0  78.7                 1.19             67 | avalon 47%, Lemonade 32%, Foldemort 6% | 3 | 69.6 |   93%   32%
+SZ+preFQ    40 |   55.8±14.4  88.4                 0.71             80 | avalon 56%, Lemonade 31%, Foldemort 5% | 3 | 76.4 |   98%   31%
+SZ+preFQ   all |   55.3±17.5  90.4                 0.42             88 | avalon 55%, Lemonade 31%, sandylikesfrogs 10% | 3 | 78.7 |   99%   31%
+ALL          5 |   10.2± 4.3  31.1                 1.86             22 | Team 82 19%, Lemonade 17%, sandylikesfrogs 13% | 6 | 39.4 |   58%   17%
+ALL         10 |   14.4± 6.5  41.9                 1.49             34 | sandylikesfrogs 26%, Lemonade 20%, avalon 14% | 6 | 56.3 |   78%   20%
+ALL         20 |   17.4± 8.8  53.1                 1.03             47 | sandylikesfrogs 42%, Lemonade 19%, avalon 17% | 4 | 69.4 |   91%   19%
+ALL         40 |   17.0± 9.7  61.9                 0.58             61 | sandylikesfrogs 59%, avalon 17%, Lemonade 14% | 3 | 75.4 |   96%   14%
+ALL        all |   12.8± 5.0  65.0                 0.33             67 | sandylikesfrogs 76%, avalon 13%, Lemonade 6% | 3 | 77.4 |   97%    6%
+NOSIZE       5 |   10.2± 4.2  27.9                 3.62             13 | Team 82 21%, avalon 10%, TeamBallHog 8% | 8 | 14.3 |   47%    4%
+NOSIZE      10 |   16.2± 6.3  37.7                 3.79             18 | avalon 16%, Team 82 12%, Gavilan 9% | 5 | 21.2 |   65%    2%
+NOSIZE      20 |   24.2± 9.6  48.1                 3.20             28 | avalon 24%, one in a krillion 12%, Gavilan 9% | 6 | 30.5 |   79%    1%
+NOSIZE      40 |   34.2±14.3  59.7                 2.20             45 | avalon 34%, one in a krillion 13%, Gavilan 8% | 7 | 41.1 |   86%    0%
+NOSIZE     all |   65.5±14.1  85.1                 1.53             69 | avalon 65%, Gavilan 7%, AZ 5% | 2 | 61.2 |   92%    0%
+
+### S4 copy Lemonade's sizes, later rounds (recogniser has the hybrid profile)
+features     N | avalon found  top3 others called avalon precision@1/20 | where avalon seats go (top 3 labels) | n teams >=5% | macro acc | Lemonade recall, avalon->Lemonade
+SZ           5 |   47.8± 4.4  65.2                 3.21             44 | avalon 48%, Lemonade 9%, thepastaway 4% | 2 | 35.0 |   20%    9%
+SZ          10 |   71.8± 4.2  85.6                 2.76             58 | avalon 72%, Lemonade 8%, thepastaway 2% | 2 | 51.6 |   27%    8%
+SZ          20 |   91.2± 2.2  97.2                 2.51             66 | avalon 91%, Lemonade 4%, thepastaway 1% | 1 | 66.0 |   33%    4%
+SZ          40 |   97.9± 0.6  99.4                 2.63             66 | avalon 98%, Lemonade 1%, thepastaway 0% | 1 | 73.4 |   36%    1%
+SZ         all |   98.7± 0.4  99.5                 2.53             67 | avalon 99%, Lemonade 1%, thepastaway 0% | 1 | 76.0 |   44%    1%
+SZ+preFQ     5 |   48.0± 5.5  69.9                 1.69             60 | avalon 48%, Team 82 19%, Lemonade 12% | 3 | 40.2 |   56%   12%
+SZ+preFQ    10 |   72.8± 4.4  88.4                 1.24             76 | avalon 73%, Lemonade 9%, Team 82 6% | 3 | 57.8 |   76%    9%
+SZ+preFQ    20 |   91.6± 2.0  97.7                 0.58             89 | avalon 92%, Lemonade 4%, Team 82 1% | 1 | 71.9 |   91%    4%
+SZ+preFQ    40 |   98.1± 0.6  99.4                 0.17             97 | avalon 98%, Lemonade 1%, Gavilan 0% | 1 | 78.6 |   97%    1%
+SZ+preFQ   all |   98.7± 0.4  99.5                 0.14             97 | avalon 99%, Lemonade 1%, Gavilan 0% | 1 | 80.9 |   99%    1%
+ALL          5 |   54.9± 5.6  69.0                 1.60             64 | avalon 55%, Team 82 19%, Lemonade 6% | 3 | 41.7 |   54%    6%
+ALL         10 |   78.6± 4.7  88.2                 0.99             81 | avalon 79%, Team 82 6%, Lemonade 5% | 2 | 59.5 |   74%    5%
+ALL         20 |   94.4± 2.1  97.8                 0.40             93 | avalon 94%, Lemonade 2%, Team 82 1% | 1 | 73.2 |   89%    2%
+ALL         40 |   98.7± 0.5  99.4                 0.11             98 | avalon 99%, Lemonade 0%, thepastaway 0% | 1 | 79.6 |   96%    0%
+ALL        all |   99.0± 0.4  99.5                 0.11             98 | avalon 99%, Lemonade 0%, thepastaway 0% | 1 | 81.7 |   97%    0%
+NOSIZE       5 |   10.2± 4.2  27.9                 3.62             13 | Team 82 21%, avalon 10%, TeamBallHog 8% | 8 | 14.3 |   47%    4%
+NOSIZE      10 |   16.2± 6.3  37.7                 3.79             18 | avalon 16%, Team 82 12%, Gavilan 9% | 5 | 21.2 |   65%    2%
+NOSIZE      20 |   24.2± 9.6  48.1                 3.20             28 | avalon 24%, one in a krillion 12%, Gavilan 9% | 6 | 30.5 |   79%    1%
+NOSIZE      40 |   34.2±14.3  59.7                 2.20             45 | avalon 34%, one in a krillion 13%, Gavilan 8% | 7 | 41.1 |   86%    0%
+NOSIZE     all |   65.5±14.1  85.1                 1.53             69 | avalon 65%, Gavilan 7%, AZ 5% | 2 | 61.2 |   92%    0%
+
+### S4 copy Gavilan's sizes (its previous-round distribution), first round
+features     N | avalon found  top3 others called avalon precision@1/20 | where avalon seats go (top 3 labels) | n teams >=5% | macro acc | Gavilan recall, avalon->Gavilan
+SZ           5 |    3.0± 0.6  21.2                 2.56              6 | Gavilan 43%, thepastaway 11%, stanford deviants 7% | 3 | 33.3 |   37%   43%
+SZ          10 |    1.9± 0.6  22.4                 1.60              6 | Gavilan 65%, thepastaway 10%, stanford deviants 5% | 3 | 49.2 |   59%   65%
+SZ          20 |    0.9± 0.4  22.5                 1.05              4 | Gavilan 86%, thepastaway 6%, stanford deviants 2% | 2 | 63.1 |   81%   86%
+SZ          40 |    0.2± 0.1  22.0                 0.72              1 | Gavilan 96%, thepastaway 2%, nik airball 0% | 1 | 70.8 |   93%   96%
+SZ         all |    0.1± 0.1  19.3                 0.41              1 | Gavilan 98%, thepastaway 1%, stanford deviants 0% | 1 | 73.3 |   94%   98%
+SZ+preFQ     5 |    4.5± 1.8  29.4                 1.91             11 | Gavilan 45%, Team 82 19%, thepastaway 11% | 3 | 38.0 |   50%   45%
+SZ+preFQ    10 |    4.1± 1.5  32.4                 1.71             11 | Gavilan 68%, thepastaway 9%, Team 82 6% | 3 | 54.4 |   72%   68%
+SZ+preFQ    20 |    2.0± 0.8  32.9                 1.19              8 | Gavilan 86%, thepastaway 6%, avalon 2% | 2 | 67.3 |   88%   86%
+SZ+preFQ    40 |    0.5± 0.3  32.2                 0.71              3 | Gavilan 95%, thepastaway 3%, avalon 0% | 1 | 73.7 |   96%   95%
+SZ+preFQ   all |    0.3± 0.2  29.2                 0.42              3 | Gavilan 98%, thepastaway 1%, avalon 0% | 1 | 75.9 |   96%   98%
+ALL          5 |    5.0± 1.5  28.6                 1.86             12 | Gavilan 42%, Team 82 19%, thepastaway 13% | 4 | 39.2 |   52%   42%
+ALL         10 |    4.2± 1.2  33.0                 1.49             13 | Gavilan 64%, thepastaway 11%, Team 82 6% | 3 | 55.8 |   74%   64%
+ALL         20 |    2.2± 0.6  34.6                 1.03             10 | Gavilan 83%, thepastaway 8%, avalon 2% | 2 | 68.6 |   90%   83%
+ALL         40 |    0.7± 0.2  35.7                 0.58              6 | Gavilan 92%, thepastaway 5%, avalon 1% | 2 | 74.6 |   96%   92%
+ALL        all |    0.6± 0.2  40.9                 0.33              8 | Gavilan 95%, thepastaway 3%, avalon 1% | 1 | 76.8 |   96%   95%
+NOSIZE       5 |   10.2± 4.2  27.9                 3.62             13 | Team 82 21%, avalon 10%, TeamBallHog 8% | 8 | 14.3 |   18%    8%
+NOSIZE      10 |   16.2± 6.3  37.7                 3.79             18 | avalon 16%, Team 82 12%, Gavilan 9% | 5 | 21.2 |   26%    9%
+NOSIZE      20 |   24.2± 9.6  48.1                 3.20             28 | avalon 24%, one in a krillion 12%, Gavilan 9% | 6 | 30.5 |   34%    9%
+NOSIZE      40 |   34.2±14.3  59.7                 2.20             45 | avalon 34%, one in a krillion 13%, Gavilan 8% | 7 | 41.1 |   42%    8%
+NOSIZE     all |   65.5±14.1  85.1                 1.53             69 | avalon 65%, Gavilan 7%, AZ 5% | 2 | 61.2 |   60%    7%
+
+### S4 copy Gavilan's sizes, later rounds (recogniser has the hybrid profile)
+features     N | avalon found  top3 others called avalon precision@1/20 | where avalon seats go (top 3 labels) | n teams >=5% | macro acc | Gavilan recall, avalon->Gavilan
+SZ           5 |   20.5± 5.9  66.8                 2.92             27 | Gavilan 25%, avalon 20%, thepastaway 10% | 4 | 33.7 |   25%   25%
+SZ          10 |   32.3± 6.3  86.7                 2.35             42 | Gavilan 35%, avalon 32%, thepastaway 10% | 4 | 49.7 |   37%   35%
+SZ          20 |   44.8± 5.3  97.3                 2.25             51 | avalon 45%, Gavilan 42%, thepastaway 6% | 3 | 63.9 |   50%   42%
+SZ          40 |   52.8± 8.5  99.4                 2.13             57 | avalon 53%, Gavilan 44%, thepastaway 2% | 2 | 71.7 |   58%   44%
+SZ         all |   65.7±11.5  99.5                 2.10             62 | avalon 66%, Gavilan 33%, thepastaway 1% | 2 | 74.8 |   58%   33%
+SZ+preFQ     5 |   26.7± 5.6  69.8                 2.48             36 | avalon 27%, Gavilan 26%, Team 82 19% | 4 | 38.7 |   39%   26%
+SZ+preFQ    10 |   43.0± 5.7  88.3                 2.59             47 | avalon 43%, Gavilan 33%, thepastaway 7% | 4 | 55.5 |   54%   33%
+SZ+preFQ    20 |   56.3± 8.9  97.5                 2.06             59 | avalon 56%, Gavilan 34%, thepastaway 4% | 2 | 69.0 |   66%   34%
+SZ+preFQ    40 |   65.8±12.8  99.3                 1.77             66 | avalon 66%, Gavilan 31%, thepastaway 2% | 2 | 75.7 |   70%   31%
+SZ+preFQ   all |   84.4± 5.8  99.4                 1.51             75 | avalon 84%, Gavilan 14%, thepastaway 1% | 2 | 79.0 |   73%   14%
+ALL          5 |   32.0± 5.5  67.6                 2.64             39 | avalon 32%, Gavilan 19%, Team 82 19% | 4 | 39.9 |   38%   19%
+ALL         10 |   48.4± 5.2  87.2                 2.42             51 | avalon 48%, Gavilan 25%, thepastaway 8% | 4 | 57.1 |   56%   25%
+ALL         20 |   63.2± 4.4  97.2                 1.79             65 | avalon 63%, Gavilan 26%, thepastaway 5% | 3 | 70.8 |   71%   26%
+ALL         40 |   74.9± 4.6  99.3                 1.35             74 | avalon 75%, Gavilan 21%, thepastaway 3% | 2 | 77.5 |   79%   21%
+ALL        all |   86.7± 2.9  99.4                 0.97             83 | avalon 87%, Gavilan 12%, thepastaway 1% | 2 | 80.6 |   86%   12%
+NOSIZE       5 |   10.2± 4.2  27.9                 3.62             13 | Team 82 21%, avalon 10%, TeamBallHog 8% | 8 | 14.3 |   18%    8%
+NOSIZE      10 |   16.2± 6.3  37.7                 3.79             18 | avalon 16%, Team 82 12%, Gavilan 9% | 5 | 21.2 |   26%    9%
+NOSIZE      20 |   24.2± 9.6  48.1                 3.20             28 | avalon 24%, one in a krillion 12%, Gavilan 9% | 6 | 30.5 |   34%    9%
+NOSIZE      40 |   34.2±14.3  59.7                 2.20             45 | avalon 34%, one in a krillion 13%, Gavilan 8% | 7 | 41.1 |   42%    8%
+NOSIZE     all |   65.5±14.1  85.1                 1.53             69 | avalon 65%, Gavilan 7%, AZ 5% | 2 | 61.2 |   60%    7%
+
+### S4 copy TeamBallHog's sizes (its previous-round distribution), first round
+features     N | avalon found  top3 others called avalon precision@1/20 | where avalon seats go (top 3 labels) | n teams >=5% | macro acc | TeamBallHog recall, avalon->TeamBallHog
+SZ           5 |    3.4± 0.3  23.7                 2.49              7 | TeamBallHog 59%, avalon 3%, stanford deviants 3% | 1 | 33.4 |   67%   59%
+SZ          10 |    2.1± 0.2  29.7                 1.58              6 | TeamBallHog 82%, avalon 2%, stanford deviants 2% | 1 | 49.2 |   90%   82%
+SZ          20 |    0.6± 0.1  35.2                 1.05              3 | TeamBallHog 96%, avalon 1%, stanford deviants 1% | 1 | 63.1 |   99%   96%
+SZ          40 |    0.1± 0.0  37.9                 0.71              1 | TeamBallHog 99%, avalon 0%, Gavilan 0% | 1 | 70.8 |  100%   99%
+SZ         all |    0.1± 0.0  37.4                 0.42              1 | TeamBallHog 99%, avalon 0%, Gavilan 0% | 1 | 73.3 |  100%   99%
+SZ+preFQ     5 |    5.8± 2.0  31.0                 1.91             14 | TeamBallHog 56%, Team 82 19%, avalon 6% | 4 | 38.1 |   65%   56%
+SZ+preFQ    10 |    4.8± 1.0  40.6                 1.71             13 | TeamBallHog 79%, Team 82 6%, avalon 5% | 2 | 54.4 |   88%   79%
+SZ+preFQ    20 |    1.5± 0.1  51.7                 1.19              6 | TeamBallHog 95%, avalon 1%, Gavilan 1% | 1 | 67.3 |   99%   95%
+SZ+preFQ    40 |    0.2± 0.0  60.8                 0.71              2 | TeamBallHog 99%, Gavilan 0%, avalon 0% | 1 | 73.6 |  100%   99%
+SZ+preFQ   all |    0.2± 0.0  73.0                 0.42              2 | TeamBallHog 99%, Gavilan 0%, avalon 0% | 1 | 75.9 |  100%   99%
+ALL          5 |    5.7± 1.6  31.5                 1.86             14 | TeamBallHog 55%, Team 82 19%, avalon 6% | 4 | 39.2 |   65%   55%
+ALL         10 |    4.5± 0.9  42.3                 1.49             14 | TeamBallHog 79%, Team 82 6%, avalon 5% | 2 | 55.8 |   89%   79%
+ALL         20 |    1.6± 0.3  55.0                 1.03              8 | TeamBallHog 95%, avalon 2%, Gavilan 1% | 1 | 68.6 |   99%   95%
+ALL         40 |    0.4± 0.2  65.7                 0.58              4 | TeamBallHog 99%, avalon 0%, Gavilan 0% | 1 | 74.6 |  100%   99%
+ALL        all |    0.3± 0.2  82.1                 0.33              5 | TeamBallHog 99%, avalon 0%, Gavilan 0% | 1 | 76.8 |  100%   99%
+NOSIZE       5 |   10.2± 4.2  27.9                 3.62             13 | Team 82 21%, avalon 10%, TeamBallHog 8% | 8 | 14.3 |   15%    8%
+NOSIZE      10 |   16.2± 6.3  37.7                 3.79             18 | avalon 16%, Team 82 12%, Gavilan 9% | 5 | 21.2 |   24%    8%
+NOSIZE      20 |   24.2± 9.6  48.1                 3.20             28 | avalon 24%, one in a krillion 12%, Gavilan 9% | 6 | 30.5 |   36%    7%
+NOSIZE      40 |   34.2±14.3  59.7                 2.20             45 | avalon 34%, one in a krillion 13%, Gavilan 8% | 7 | 41.1 |   52%    5%
+NOSIZE     all |   65.5±14.1  85.1                 1.53             69 | avalon 65%, Gavilan 7%, AZ 5% | 2 | 61.2 |   80%    2%
+
+### S4 copy TeamBallHog's sizes, later rounds (recogniser has the hybrid profile)
+features     N | avalon found  top3 others called avalon precision@1/20 | where avalon seats go (top 3 labels) | n teams >=5% | macro acc | TeamBallHog recall, avalon->TeamBallHog
+SZ           5 |   28.5± 6.4  67.0                 3.80             28 | TeamBallHog 34%, avalon 29%, stanford deviants 3% | 2 | 33.2 |   37%   34%
+SZ          10 |   39.6± 7.2  87.1                 3.30             39 | TeamBallHog 44%, avalon 40%, stanford deviants 2% | 2 | 49.0 |   48%   44%
+SZ          20 |   46.1± 5.8  97.7                 2.68             48 | TeamBallHog 51%, avalon 46%, stanford deviants 1% | 2 | 63.2 |   53%   51%
+SZ          40 |   46.4± 3.8  99.5                 2.66             48 | TeamBallHog 53%, avalon 46%, Gavilan 0% | 2 | 70.7 |   51%   53%
+SZ         all |   55.8± 3.3  99.5                 2.43             55 | avalon 56%, TeamBallHog 44%, Gavilan 0% | 2 | 73.8 |   55%   44%
+SZ+preFQ     5 |   28.8± 2.6  72.1                 1.93             44 | TeamBallHog 33%, avalon 29%, Team 82 19% | 4 | 38.7 |   51%   33%
+SZ+preFQ    10 |   51.7± 3.1  90.0                 1.99             58 | avalon 52%, TeamBallHog 33%, Team 82 6% | 3 | 55.7 |   65%   33%
+SZ+preFQ    20 |   67.8± 3.2  98.2                 1.22             74 | avalon 68%, TeamBallHog 29%, Team 82 1% | 2 | 69.8 |   79%   29%
+SZ+preFQ    40 |   77.2± 4.1  99.5                 0.57             88 | avalon 77%, TeamBallHog 22%, Gavilan 0% | 2 | 77.0 |   90%   22%
+SZ+preFQ   all |   91.6± 1.9  99.5                 0.21             96 | avalon 92%, TeamBallHog 8%, Gavilan 0% | 2 | 80.4 |   96%    8%
+ALL          5 |   33.9± 4.5  70.0                 2.00             47 | avalon 34%, TeamBallHog 27%, Team 82 19% | 3 | 39.9 |   49%   27%
+ALL         10 |   54.6± 5.5  89.1                 1.87             61 | avalon 55%, TeamBallHog 30%, Team 82 6% | 3 | 57.2 |   65%   30%
+ALL         20 |   70.4± 5.9  98.1                 1.21             75 | avalon 70%, TeamBallHog 27%, Team 82 1% | 2 | 71.1 |   79%   27%
+ALL         40 |   80.1± 6.2  99.5                 0.56             88 | avalon 80%, TeamBallHog 19%, Team 82 0% | 2 | 78.2 |   90%   19%
+ALL        all |   93.0± 2.5  99.5                 0.15             97 | avalon 93%, TeamBallHog 6%, Chikerbot 0% | 2 | 81.3 |   98%    6%
+NOSIZE       5 |   10.2± 4.2  27.9                 3.62             13 | Team 82 21%, avalon 10%, TeamBallHog 8% | 8 | 14.3 |   15%    8%
+NOSIZE      10 |   16.2± 6.3  37.7                 3.79             18 | avalon 16%, Team 82 12%, Gavilan 9% | 5 | 21.2 |   24%    8%
+NOSIZE      20 |   24.2± 9.6  48.1                 3.20             28 | avalon 24%, one in a krillion 12%, Gavilan 9% | 6 | 30.5 |   36%    7%
+NOSIZE      40 |   34.2±14.3  59.7                 2.20             45 | avalon 34%, one in a krillion 13%, Gavilan 8% | 7 | 41.1 |   52%    5%
+NOSIZE     all |   65.5±14.1  85.1                 1.53             69 | avalon 65%, Gavilan 7%, AZ 5% | 2 | 61.2 |   80%    2%

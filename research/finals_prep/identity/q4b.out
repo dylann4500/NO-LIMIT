@@ -1,0 +1,55 @@
+QUADRATIC ESTIMATE of value of knowing the seat, points per recognising opponent per table (bluff thresholds spread evenly over hands)
+team                 R1     R2     R3     R4     R5     R6      mean | linear upper bound mean | R6 split: 3-bet / flop bet / turn bet / river bet / BB steal | R6 if known only after hand 10 / 20
+Lemonade               0.08   0.07   0.02   0.02   0.02   0.04   0.04 |   0.59 | 0.00 / 0.02 / 0.00 / 0.00 / 0.02 | 0.04 / 0.04
+2 Curry                0.83   0.39   0.16   0.06   0.09   0.07   0.27 |   3.22 | 0.04 / 0.00 / 0.00 / 0.01 / 0.02 | 0.07 / 0.06
+avalon                 0.76   0.51   0.44   0.32   0.38   0.47   0.48 |   4.32 | 0.37 / 0.02 / 0.02 / 0.03 / 0.02 | 0.44 / 0.42
+sandylikesfrogs        0.38   1.12   0.17   0.22   0.18   0.10   0.36 |   3.60 | 0.04 / 0.01 / 0.02 / 0.01 / 0.01 | 0.09 / 0.08
+Team 123               0.61   0.41   1.44   1.10   1.14   1.08   0.97 |   5.84 | 0.85 / 0.10 / 0.01 / 0.00 / 0.12 | 1.03 / 0.98
+Team 72                0.11   0.28   0.39   0.32   0.69   0.65   0.41 |   4.67 | 0.59 / 0.00 / 0.01 / 0.00 / 0.04 | 0.62 / 0.59
+AZ                     0.05   0.03   0.03   0.06   0.03   0.05   0.04 |   1.31 | 0.02 / 0.00 / 0.01 / 0.01 / 0.00 | 0.05 / 0.05
+pocket rockets         0.02   0.01   0.04   0.04   0.04   0.07   0.04 |   1.22 | 0.06 / 0.00 / 0.00 / 0.00 / 0.00 | 0.07 / 0.06
+Team 82                0.18   0.31   0.46   0.26   0.25   0.15   0.27 |   3.31 | 0.10 / 0.01 / 0.02 / 0.00 / 0.02 | 0.14 / 0.14
+Gavilan                0.48   0.23   0.25   0.23   0.24   0.24   0.28 |   3.03 | 0.19 / 0.01 / 0.01 / 0.02 / 0.01 | 0.23 / 0.21
+TeamBallHog            0.16   0.17   0.13   0.14   0.13   0.06   0.13 |   2.16 | 0.02 / 0.01 / 0.00 / 0.00 / 0.02 | 0.05 / 0.05
+thepastaway            0.51   0.47   0.35   0.25   0.26   0.49   0.39 |   3.90 | 0.36 / 0.00 / 0.00 / 0.02 / 0.10 | 0.47 / 0.45
+stanford deviants      0.46   0.49   0.35   0.30   0.33   0.64   0.43 |   4.35 | 0.56 / 0.01 / 0.00 / 0.01 / 0.06 | 0.61 / 0.59
+Always Folds           0.16   0.23   0.13   0.23   0.11   0.13   0.17 |   2.35 | 0.06 / 0.02 / 0.01 / 0.02 / 0.02 | 0.12 / 0.11
+Curious George         0.56   0.28   0.24   0.23   0.36   0.10   0.29 |   3.50 | 0.04 / 0.01 / 0.00 / 0.00 / 0.05 | 0.10 / 0.09
+Golden Knight          0.64   0.34   0.27   0.29   0.21   0.32   0.34 |   3.83 | 0.26 / 0.02 / 0.01 / 0.02 / 0.02 | 0.30 / 0.28
+nik airball            0.83   0.43   0.24   0.33   0.32   0.11   0.38 |   3.91 | 0.02 / 0.00 / 0.01 / 0.00 / 0.08 | 0.11 / 0.10
+one in a krillion      0.26   0.45   0.80   0.66   0.59   0.51   0.55 |   4.56 | 0.42 / 0.00 / 0.00 / 0.00 / 0.09 | 0.49 / 0.46
+Chikerbot              0.25   0.16   0.24   0.16   0.12   0.13   0.18 |   1.82 | 0.05 / 0.04 / 0.04 / 0.01 / 0.00 | 0.12 / 0.12
+Foldemort              0.17   0.20   0.02   0.05   0.04   0.23   0.12 |   2.04 | 0.16 / 0.00 / 0.00 / 0.00 / 0.07 | 0.22 / 0.20
+median across the other 19 teams, R6: quad 0.13, linear 2.41
+
+MISIDENTIFICATION (quadratic model): opponent treats our seat (avalon, R6 truth) as team X. Its gain vs treating us as the average finalist, points/table. Negative = its counter is worse against us than no profile at all.
+  as Team 123              -1.91 | -1.76 / -0.10 / -0.01 / -0.01 / -0.03
+  as thepastaway           -1.45 | -1.45 / -0.00 / +0.01 / +0.03 / -0.03
+  as Team 72               -1.14 | -1.08 / +0.01 / +0.01 / +0.01 / -0.10
+  as one in a krillion     -1.11 | -0.98 / +0.01 / +0.01 / +0.00 / -0.15
+  as Gavilan               -0.85 | -0.81 / +0.02 / -0.02 / -0.06 / +0.02
+  as Chikerbot             -0.42 | -0.24 / -0.07 / -0.06 / -0.02 / -0.02
+  as TeamBallHog           -0.03 | -0.10 / +0.02 / +0.01 / +0.02 / +0.02
+  as nik airball           +0.05 | +0.17 / +0.01 / +0.01 / +0.01 / -0.16
+  as Curious George        +0.06 | +0.20 / -0.02 / -0.01 / -0.00 / -0.11
+  as Lemonade              +0.07 | +0.11 / +0.02 / +0.00 / -0.00 / -0.06
+  as AZ                    +0.12 | +0.18 / +0.01 / -0.03 / -0.03 / -0.00
+  as Foldemort             +0.20 | +0.32 / +0.01 / -0.01 / +0.01 / -0.14
+  as pocket rockets        +0.20 | +0.22 / -0.01 / -0.00 / -0.00 / -0.01
+  as Golden Knight         +0.21 | +0.36 / -0.04 / -0.03 / -0.04 / -0.05
+  as sandylikesfrogs       +0.21 | +0.19 / +0.02 / +0.02 / +0.02 / -0.04
+  as 2 Curry               +0.22 | +0.21 / +0.01 / -0.00 / -0.02 / +0.02
+  as Always Folds          +0.26 | +0.27 / -0.04 / -0.02 / +0.02 / +0.02
+  as Team 82               +0.31 | +0.28 / -0.03 / +0.02 / +0.01 / +0.02
+  as stanford deviants     +0.35 | +0.35 / +0.02 / +0.01 / -0.04 / +0.01
+  as avalon                +0.47 | +0.37 / +0.02 / +0.02 / +0.03 / +0.02
+
+Same for avalon R1 truth (the over-calling bot):
+  Team 123 -1.75, nik airball -1.56, Gavilan -0.88, one in a krillion -0.86, stanford deviants -0.85, thepastaway -0.72, sandylikesfrogs -0.61, Team 72 -0.28, Chikerbot -0.14, pocket rockets +0.04, TeamBallHog +0.07, Always Folds +0.13, Lemonade +0.14, AZ +0.15, Team 82 +0.22, Foldemort +0.37, Golden Knight +0.37, Curious George +0.44, 2 Curry +0.57, avalon +0.76
+
+Stale profile: opponent uses avalon's previous-round rates against this round's avalon (points/table vs average-finalist default)
+  R2 played with R1 profile: +0.51   (fresh profile: +0.51)
+  R3 played with R2 profile: +0.27   (fresh profile: +0.44)
+  R4 played with R3 profile: +0.29   (fresh profile: +0.32)
+  R5 played with R4 profile: +0.35   (fresh profile: +0.38)
+  R6 played with R5 profile: +0.47   (fresh profile: +0.47)

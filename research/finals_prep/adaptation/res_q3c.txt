@@ -1,0 +1,204 @@
+
+### 2 Curry R1-R6: re-raise rate vs a single opener, both stacks 25bb+, no callers; n=137937
+by what the opener has done when re-raised earlier at this table (faced, folded):
+| opener's history | vs avalon | vs others |
+|---|---|---|
+| never re-raised yet |  16.7% (8560) |  18.3% (42726) |
+| faced 1, folded 0 |   9.9% (776) |   7.3% (12397) |
+| faced 1, folded 1 |  40.9% (3835) |  43.2% (13422) |
+| faced 2, folded 0 |  14.1% (64) |   7.1% (3306) |
+| faced 2, folded 1 |  12.0% (913) |  10.8% (6788) |
+| faced 2, folded 2 |  61.6% (2031) |  62.3% (6116) |
+| faced 3+, folded <50% |  12.1% (116) |  11.6% (5767) |
+| faced 3+, folded 50-80% |  35.9% (1280) |  32.0% (11849) |
+| faced 3+, folded 80%+ |  82.6% (4308) |  75.7% (13683) |
+by hand number at the table (all histories):
+| hands 1-10 |  18.7% (3431) |  18.2% (20132) |
+| hands 11-25 |  29.3% (5283) |  26.0% (29567) |
+| hands 26-50 |  38.0% (7181) |  29.7% (38079) |
+| hands 51-80 |  53.6% (4496) |  36.9% (22116) |
+| hands 81-400 |  76.8% (1492) |  53.8% (6160) |
+by exact open size (bb), opener never re-raised yet (no history to learn from):
+| 0-2.05 |   -  (0) |  20.3% (2365) |
+| 2.05-2.25 |  15.6% (7392) |  17.7% (4447) |
+| 2.25-2.45 |   -  (0) |  18.7% (4986) |
+| 2.45-2.65 |  26.3% (674) |  18.4% (20698) |
+| 2.65-3.05 |  21.7% (207) |  17.4% (5401) |
+| 3.05-9 |  17.4% (287) |  18.4% (4760) |
+by opener's in-table open frequency (opens/hands dealt, after 15+ hands), opener never re-raised yet:
+| 0-0.1 |  20.1% (1495) |  23.6% (6175) |
+| 0.1-0.2 |  16.5% (2376) |  19.8% (9500) |
+| 0.2-0.3 |  14.1% (482) |  16.4% (3345) |
+| 0.3-0.45 |   9.3% (43) |  14.9% (737) |
+| 0.45-1.01 |   -  (0) |  17.5% (40) |
+own earlier re-raises of this opener at this table, opener's history fixed at faced 1 folded 1: 0:  36.3% (10562) 1:  52.4% (6428)
+
+### stanford deviants R1-R6: re-raise rate vs a single opener, both stacks 25bb+, no callers; n=130830
+by what the opener has done when re-raised earlier at this table (faced, folded):
+| opener's history | vs avalon | vs others |
+|---|---|---|
+| never re-raised yet |  19.3% (8039) |  18.4% (41080) |
+| faced 1, folded 0 |  10.8% (740) |   9.9% (10355) |
+| faced 1, folded 1 |  32.5% (4217) |  29.4% (15385) |
+| faced 2, folded 0 |   5.4% (56) |   8.3% (2765) |
+| faced 2, folded 1 |  19.5% (703) |  16.0% (5695) |
+| faced 2, folded 2 |  45.0% (2135) |  38.0% (7156) |
+| faced 3+, folded <50% |   8.6% (81) |  13.8% (5025) |
+| faced 3+, folded 50-80% |  31.2% (1319) |  30.1% (10227) |
+| faced 3+, folded 80%+ |  62.6% (3447) |  51.7% (12405) |
+by hand number at the table (all histories):
+| hands 1-10 |  18.4% (3454) |  17.1% (19708) |
+| hands 11-25 |  27.0% (4888) |  22.0% (27973) |
+| hands 26-50 |  33.5% (6679) |  25.8% (35839) |
+| hands 51-80 |  37.8% (4268) |  27.0% (21065) |
+| hands 81-400 |  60.3% (1448) |  48.1% (5508) |
+by exact open size (bb), opener never re-raised yet (no history to learn from):
+| 0-2.05 |   -  (0) |  23.9% (2509) |
+| 2.05-2.25 |  16.2% (6800) |  21.8% (3990) |
+| 2.25-2.45 |   -  (0) |  18.8% (4417) |
+| 2.45-2.65 |  35.9% (690) |  18.5% (19814) |
+| 2.65-3.05 |  72.9% (203) |  16.5% (5506) |
+| 3.05-9 |  15.3% (346) |  14.1% (4794) |
+by opener's in-table open frequency (opens/hands dealt, after 15+ hands), opener never re-raised yet:
+| 0-0.1 |  24.1% (1465) |  24.8% (5932) |
+| 0.1-0.2 |  19.6% (2049) |  18.7% (9131) |
+| 0.2-0.3 |  13.7% (459) |  15.0% (3122) |
+| 0.3-0.45 |  19.4% (36) |  11.0% (648) |
+| 0.45-1.01 |   -  (2) |  15.1% (53) |
+own earlier re-raises of this opener at this table, opener's history fixed at faced 1 folded 1: 0:  27.9% (11356) 1:  32.9% (8168)
+
+### Team 123 R1-R2: re-raise rate vs a single opener, both stacks 25bb+, no callers; n=36561
+by what the opener has done when re-raised earlier at this table (faced, folded):
+| opener's history | vs avalon | vs others |
+|---|---|---|
+| never re-raised yet |   4.1% (3252) |   4.2% (15740) |
+| faced 1, folded 0 |   3.8% (213) |   4.5% (3039) |
+| faced 1, folded 1 |   4.3% (1368) |   4.3% (4528) |
+| faced 2, folded 0 |   -  (5) |   5.1% (704) |
+| faced 2, folded 1 |   3.0% (168) |   4.5% (1341) |
+| faced 2, folded 2 |   3.3% (549) |   5.1% (1578) |
+| faced 3+, folded <50% |   -  (8) |   5.0% (908) |
+| faced 3+, folded 50-80% |   3.3% (153) |   6.3% (1466) |
+| faced 3+, folded 80%+ |   5.2% (233) |   4.6% (1308) |
+by hand number at the table (all histories):
+| hands 1-10 |   4.2% (1150) |   4.0% (6162) |
+| hands 11-25 |   4.5% (1463) |   4.4% (8124) |
+| hands 26-50 |   3.9% (1843) |   4.4% (9630) |
+| hands 51-80 |   3.9% (1111) |   4.8% (5368) |
+| hands 81-400 |   2.9% (382) |   6.4% (1328) |
+by exact open size (bb), opener never re-raised yet (no history to learn from):
+| 0-2.05 |   -  (0) |   7.1% (743) |
+| 2.05-2.25 |   3.7% (2633) |   5.8% (1267) |
+| 2.25-2.45 |   -  (0) |   3.4% (1865) |
+| 2.45-2.65 |   6.1% (342) |   4.0% (7454) |
+| 2.65-3.05 |   5.5% (128) |   4.1% (2165) |
+| 3.05-9 |   4.0% (149) |   4.0% (2244) |
+by opener's in-table open frequency (opens/hands dealt, after 15+ hands), opener never re-raised yet:
+| 0-0.1 |   2.2% (418) |   4.3% (1958) |
+| 0.1-0.2 |   4.2% (1075) |   4.2% (3871) |
+| 0.2-0.3 |   5.4% (317) |   4.5% (1910) |
+| 0.3-0.45 |   -  (28) |   4.8% (441) |
+| 0.45-1.01 |   -  (0) |   -  (13) |
+own earlier re-raises of this opener at this table, opener's history fixed at faced 1 folded 1: 0:   4.3% (4852) 1:   4.2% (1039)
+
+### Team 123 R3-R6: re-raise rate vs a single opener, both stacks 25bb+, no callers; n=85688
+by what the opener has done when re-raised earlier at this table (faced, folded):
+| opener's history | vs avalon | vs others |
+|---|---|---|
+| never re-raised yet |  31.7% (4624) |  30.0% (23904) |
+| faced 1, folded 0 |  27.1% (446) |  23.1% (5832) |
+| faced 1, folded 1 |  46.4% (2597) |  42.7% (9618) |
+| faced 2, folded 0 |   3.9% (51) |   9.9% (1764) |
+| faced 2, folded 1 |  39.9% (451) |  33.2% (3540) |
+| faced 2, folded 2 |  54.7% (1508) |  50.4% (4986) |
+| faced 3+, folded <50% |  25.8% (93) |  15.4% (3615) |
+| faced 3+, folded 50-80% |  57.7% (919) |  50.4% (8100) |
+| faced 3+, folded 80%+ |  73.5% (3173) |  66.8% (10467) |
+by hand number at the table (all histories):
+| hands 1-10 |  29.7% (2394) |  25.8% (13448) |
+| hands 11-25 |  36.2% (3329) |  33.3% (18787) |
+| hands 26-50 |  47.2% (4285) |  40.7% (22500) |
+| hands 51-80 |  67.8% (2904) |  52.0% (13157) |
+| hands 81-400 |  81.6% (950) |  61.0% (3934) |
+by exact open size (bb), opener never re-raised yet (no history to learn from):
+| 0-2.05 |   -  (0) |  41.7% (1582) |
+| 2.05-2.25 |  27.2% (3982) |  34.0% (2698) |
+| 2.25-2.45 |   -  (0) |  32.3% (2567) |
+| 2.45-2.65 |  74.6% (355) |  30.1% (11604) |
+| 2.65-3.05 | 100.0% (106) |  26.7% (3025) |
+| 3.05-9 |   7.2% (181) |  19.3% (2396) |
+by opener's in-table open frequency (opens/hands dealt, after 15+ hands), opener never re-raised yet:
+| 0-0.1 |  35.3% (835) |  34.0% (3624) |
+| 0.1-0.2 |  34.4% (981) |  36.5% (4282) |
+| 0.2-0.3 |  36.5% (170) |  36.1% (1290) |
+| 0.3-0.45 |   -  (15) |  39.9% (218) |
+| 0.45-1.01 |   -  (2) |   -  (13) |
+own earlier re-raises of this opener at this table, opener's history fixed at faced 1 folded 1: 0:  42.7% (6044) 1:  44.2% (6065)
+
+### Lemonade R1-R6: re-raise rate vs a single opener, both stacks 25bb+, no callers; n=159754
+by what the opener has done when re-raised earlier at this table (faced, folded):
+| opener's history | vs avalon | vs others |
+|---|---|---|
+| never re-raised yet |   3.7% (11201) |   4.3% (58953) |
+| faced 1, folded 0 |   6.8% (899) |   6.6% (11447) |
+| faced 1, folded 1 |   7.3% (5118) |   7.8% (20713) |
+| faced 2, folded 0 |   5.8% (52) |   8.9% (2625) |
+| faced 2, folded 1 |  10.2% (835) |  11.1% (6085) |
+| faced 2, folded 2 |  12.5% (2397) |  11.8% (8330) |
+| faced 3+, folded <50% |   9.6% (104) |  14.3% (5239) |
+| faced 3+, folded 50-80% |  16.7% (1125) |  21.4% (10176) |
+| faced 3+, folded 80%+ |  21.7% (2655) |  24.0% (11800) |
+by hand number at the table (all histories):
+| hands 1-10 |   1.5% (3625) |   1.4% (22989) |
+| hands 11-25 |   2.3% (5476) |   3.5% (33359) |
+| hands 26-50 |   6.8% (7564) |   8.9% (43085) |
+| hands 51-80 |  10.9% (5441) |  13.8% (27339) |
+| hands 81-400 |  31.6% (2280) |  40.4% (8596) |
+by exact open size (bb), opener never re-raised yet (no history to learn from):
+| 0-2.05 |   -  (0) |   6.0% (3492) |
+| 2.05-2.25 |   1.3% (8655) |   2.8% (5618) |
+| 2.25-2.45 |   -  (0) |   3.2% (6219) |
+| 2.45-2.65 |   5.1% (1086) |   2.4% (25511) |
+| 2.65-3.05 |  13.5% (363) |   4.2% (7401) |
+| 3.05-9 |  17.3% (1097) |   9.6% (10635) |
+by opener's in-table open frequency (opens/hands dealt, after 15+ hands), opener never re-raised yet:
+| 0-0.1 |   4.5% (1763) |   8.0% (7105) |
+| 0.1-0.2 |   5.8% (3680) |   6.9% (14875) |
+| 0.2-0.3 |   4.7% (980) |   6.3% (7080) |
+| 0.3-0.45 |   5.6% (90) |   4.7% (1922) |
+| 0.45-1.01 |   -  (4) |   4.3% (141) |
+own earlier re-raises of this opener at this table, opener's history fixed at faced 1 folded 1: 0:   6.2% (21965) 1:  16.2% (3866)
+
+### Maniac R1-R6: re-raise rate vs a single opener, both stacks 25bb+, no callers; n=131613
+by what the opener has done when re-raised earlier at this table (faced, folded):
+| opener's history | vs avalon | vs others |
+|---|---|---|
+| never re-raised yet |   3.3% (10602) |   3.7% (52584) |
+| faced 1, folded 0 |   1.9% (780) |   4.6% (10203) |
+| faced 1, folded 1 |   3.4% (4760) |   4.2% (17426) |
+| faced 2, folded 0 |   2.4% (42) |   5.4% (2556) |
+| faced 2, folded 1 |   4.0% (620) |   4.5% (4926) |
+| faced 2, folded 2 |   4.6% (1922) |   4.9% (6501) |
+| faced 3+, folded <50% |   5.5% (91) |   7.7% (3678) |
+| faced 3+, folded 50-80% |   6.2% (672) |   8.4% (5950) |
+| faced 3+, folded 80%+ |   5.4% (1419) |  10.1% (6881) |
+by hand number at the table (all histories):
+| hands 1-10 |   3.9% (3416) |   4.3% (20045) |
+| hands 11-25 |   3.2% (5107) |   4.3% (29141) |
+| hands 26-50 |   3.2% (7167) |   4.4% (36853) |
+| hands 51-80 |   4.4% (4035) |   5.5% (19461) |
+| hands 81-400 |   5.8% (1183) |   9.2% (5205) |
+by exact open size (bb), opener never re-raised yet (no history to learn from):
+| 0-2.05 |   -  (0) |   4.6% (3464) |
+| 2.05-2.25 |   3.2% (8862) |   3.5% (5241) |
+| 2.25-2.45 |   -  (0) |   3.5% (6286) |
+| 2.45-2.65 |   3.7% (1049) |   3.5% (25576) |
+| 2.65-3.05 |   4.8% (355) |   3.8% (6570) |
+| 3.05-9 |   3.3% (336) |   3.9% (5392) |
+by opener's in-table open frequency (opens/hands dealt, after 15+ hands), opener never re-raised yet:
+| 0-0.1 |   2.7% (1904) |   2.4% (7479) |
+| 0.1-0.2 |   3.4% (3581) |   3.6% (14050) |
+| 0.2-0.3 |   3.0% (772) |   3.7% (5606) |
+| 0.3-0.45 |   1.3% (79) |   7.2% (1115) |
+| 0.45-1.01 |   -  (0) |  14.0% (50) |
+own earlier re-raises of this opener at this table, opener's history fixed at faced 1 folded 1: 0:   3.9% (18977) 1:   4.7% (3182)
