@@ -69,8 +69,9 @@ its first hour decided its result. Its style, measured from our tables:
   leaderboard (`leaderboard_held`), per-round culling of teams out of contention (`contender`,
   `culled_at_look` in results) and ICM luck correction (`icm_luck_correction`). None were used at the
   regional. Expect any of them.
-- Practice rounds grow during the build (Bay Area: 1,000 → 2,500 → 10,000 → 12,500 iterations), and a
-  1,000-iteration practice runs between scored rounds. Scored rounds: 20,000 iterations at Bay Area,
+- Bay Area's clock (portal timestamps): four practice rounds in the build, at minutes 20, 30, 40 and 50
+  (1,000 → 2,500 → 10,000 → 12,500 iterations), then a 1,000-iteration practice about 10 minutes before
+  each later scored round. Practice results came back in 1-3 minutes; scored results in 6-8. Scored rounds: 20,000 iterations at Bay Area,
   10,000+ at Boston.
 - Uploads auto-activate when they pass the test match (the portal now says so). 30-second cooldown.
 
@@ -85,32 +86,40 @@ its first hour decided its result. Its style, measured from our tables:
 bot is active, so each 20-minute window has two uploads: the challenger for the practice round, then the
 live bot for the scored round.
 
-| Time to scored round | Deadline |
+| Time to scored round | What happens |
 |---|---|
 | T-20 | Scored round starts. The challenger is already packed and tested from the last window. |
-| T-15 | Live bot's change chosen |
+| T-13 | Scored result and download land |
 | T-12 | Challenger uploaded and confirmed active |
 | T-10 | Practice round starts and plays the challenger |
 | T-9 | Live bot put back as active straight away (re-upload the current one) |
-| T-8 | New live bot packed |
+| T-8 | Practice result lands. **Decide: live bot, live bot with this window's change, or the challenger.** Chosen bot packed. |
 | T-6 | Tested under upload-test conditions (no time bank) |
-| T-3 | New live bot uploaded and confirmed active on the team page |
+| T-3 | Chosen bot uploaded and confirmed active on the team page |
 
-Once the live bot is back at T-9, a missed deadline means the previous live bot plays. If the challenger
-isn't ready by T-12, skip it that window: a challenger left active at T-0 plays the scored round. The
-practice result arrives too late for the round it precedes; it decides the swap for the round after.
-Confirm on the day that the Finals keeps this schedule (Format page) and that a practice round takes the
-bot active at its start.
+- The challenger's practice score is its validation, and it arrives in time for the same round: at the
+  regional, practice results landed 1-3 minutes after the practice started (T-9 to T-7).
+- It is 1,000 iterations, about ±0.6 points, against ±0.13 for the live bot's scored result. Swap on a
+  lead of about one standard error when we're outside the top 3, two when we're inside.
+- The scored download lands about 3 minutes before the practice round, so the change the live bot gets
+  at T-3 was built and tested on the previous round's download. Only quick items (a bug fix, refreshed
+  profiles) can use the newest one.
+- Practice start times drifted at the regional (7-10 minutes before the scored round). The poller should
+  announce "practice started" and "practice result"; go by those, not the wall clock.
+- If the challenger isn't ready by T-12, skip it that window: a challenger left active at T-0 plays the
+  scored round. Once the live bot is back at T-9, a missed deadline means the previous live bot plays.
+- Confirm on the day that the Finals keeps this schedule (Format page).
 
 **Before the start (about 2 hours):** four research agents in parallel (prompt pack Part 0), merged into a
 plan. Sign in to Modal.
 
 **Build hour:**
 - 0-5: read the kit and the Format page (weights, payouts, anything unusual in `state.config`).
-- by 10: a minimal legal bot uploaded and confirmed active. Practice round 1 plays it.
+- by 10: a minimal legal bot uploaded and confirmed active, so a bot is always live.
 - 10-50: three bots with different styles (balanced, wide-pressure, shove-heavy) built in parallel; the
-  test rig starts at about minute 15. Practice rounds 2, 3 and 4 each play a different style; practice 5
-  re-plays the leader to confirm.
+  test rig starts at about minute 15. Practice rounds 1, 2 and 3 (minutes 20, 30, 40) each play a
+  different style; practice 4 (minute 50, the largest) re-plays the leader to confirm. Practice 1 is only
+  1,000 iterations (about ±0.6 points), so put the style we trust least there.
 - 50-60: hands off. The best real-field scorer is active for scored round 1.
 
 **Every window after that:** the round loop (prompt pack Part 5).
@@ -118,8 +127,8 @@ plan. Sign in to Modal.
 ## 4. The operating model
 
 **How many bots.** Three during the build, two afterwards.
-- The build has five practice rounds; the first plays the minimal bot, so three styles can each get one
-  real-field score and the leader one confirmation. A fourth style would have to be chosen blind (more
+- The build has four practice rounds, so three styles can each get one real-field score and the leader
+  one confirmation. A fourth style would have to be chosen blind (more
   styles can still be filtered in simulation).
 - After the build there is one practice round between scored rounds, so one alternative can be tested on
   the real field per window: the **challenger**, the best of the styles that didn't win the build. The

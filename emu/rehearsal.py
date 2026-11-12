@@ -6,7 +6,7 @@ the last round. avalon is a local folder you (or your own agent) work in, exactl
   emu/runs/<run>/avalon/  kit/ portal/ submission/ results/ downloads/ inbox/
 
 Timeline (minutes from the start; --scale shrinks it for tests):
-  0 build starts | 10,20,30,40,50 practice rounds | 60,80,...,160 scored rounds 1-6 (weights 1-6)
+  0 build starts | 20,30,40,50 practice rounds (as at the Bay Area regional) | 60,80,...,160 scored rounds 1-6 (weights 1-6)
 At every round start, each team's submission/ is snapshotted ("uploaded"), put through the
 portal's upload test (a rejected upload leaves the previous bot active; no bot = forfeit), and the
 round plays in the background on the kit engine. When it finishes, every team gets the results
@@ -66,11 +66,11 @@ def team_name(persona: str) -> str:
 
 def timeline(scale: float, weights: list[int]) -> list[dict]:
     ev = [{"t": m * 60 * scale, "kind": "practice", "n": i, "label": f"Practice round {i}"}
-          for i, m in enumerate((10, 20, 30, 40, 50), 1)]
+          for i, m in enumerate((20, 30, 40, 50), 1)]
     ev += [{"t": (60 + 20 * (k - 1)) * 60 * scale, "kind": "scored", "n": k, "label": f"Scored round {k} (x{w})"}
            for k, w in enumerate(weights, 1)]
     # As on the real portal, a practice round runs between scored rounds (10 minutes after each one).
-    ev += [{"t": (70 + 20 * (k - 1)) * 60 * scale, "kind": "practice", "n": 5 + k, "label": f"Practice round {5 + k}"}
+    ev += [{"t": (70 + 20 * (k - 1)) * 60 * scale, "kind": "practice", "n": 4 + k, "label": f"Practice round {4 + k}"}
            for k in range(1, len(weights))]
     ev.sort(key=lambda e: e["t"])
     return ev
