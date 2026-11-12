@@ -1,0 +1,32 @@
+{
+  "agent": "Samuels-MacBook-Pro-4",
+  "assignee": "",
+  "claimed_at": "2026-11-12T23:21:41Z",
+  "cmd": "",
+  "compute": "mac + modal nguyennalyd3",
+  "details": "",
+  "expires_at": "2026-11-13T11:21:41Z",
+  "id": "finals-prep",
+  "log": [
+    {
+      "at": "2026-11-12T23:21:41Z",
+      "by": "samuel",
+      "text": "claimed"
+    }
+  ],
+  "owner": "samuel",
+  "paths": [
+    "research/finals_prep",
+    "docs/EVIDENCE_TABLE.md",
+    "docs/FIRST_PROMPT.md",
+    "docs/FINALS_PLAYBOOK.md",
+    "docs/Finals_Game_Plan.pdf"
+  ],
+  "posted_at": "",
+  "posted_by": "",
+  "priority": 0,
+  "result": "",
+  "state": "active",
+  "title": "Finals prep: strategy studies preserved, evidence table, plan reconciliation",
+  "updated_at": "2026-11-12T23:21:41Z"
+}
