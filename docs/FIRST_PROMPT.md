@@ -165,8 +165,8 @@ HOW TO WORK
     A. balanced: equity-driven, opens a normal range, folds to bets near break-even;
     B. pressure: opens and re-raises wide (the regional winner's style), with planned folds to the next
        raise, and bets whenever checked to while the field folds enough;
-    C. shove-heavy: small-ball avoided; limp-or-fold never; wide shoves and re-shoves by stack depth and
-       tournament equity (the regional runner-up's style).
+    C. shove-heavy: few small raises before the flop; mostly shove or fold, with wide shoves and
+       re-shoves chosen by stack depth and tournament equity (the regional runner-up's style).
   Each must pass every check below. I'll rotate which one is active through the practice rounds, so each
   gets a real score against this field, and we'll play the winner, then keep one challenger alive in the
   practice round between scored rounds.
