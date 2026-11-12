@@ -1,13 +1,53 @@
-# The first prompt: building a strong bot for an unknown variant
+# The prompt pack: building and improving a strong bot for an unknown variant
 
-For Dylan and Samuel. Part 1 is the prompt to paste into the coding agent at the announcement. Part 2 finds
-leaks in each download, Part 3 builds the test rig (local and on Modal), Part 4 builds team profiles. Part 5
-is the evidence, so you can judge how far to trust each line. Nothing here is code; it is knowledge, checks and procedures, which
-the rules allow us to bring.
+For Dylan and Samuel. Every prompt we bring on Sunday is here, in the order it gets used; the operating
+model (roles, how many bots and changes, decision rules) is in `docs/FINALS_PLAYBOOK.md`. Part 6 is the
+evidence, so you can judge how far to trust each line. Nothing here is code; it is knowledge, checks and
+procedures, which the rules allow us to bring.
 
-How to use it: fill the two `<...>` slots in Part 1 and paste it as the first message; give Part 3 to a
-subagent at about minute 15; keep Parts 2 and 4 ready for the first downloads. Before Sunday: sign in to
-Modal on the machine you'll use (account setup, not code). Roles and deadlines are in `docs/FINALS_PLAYBOOK.md`.
+| Part | Prompt | Who pastes it, when |
+|---|---|---|
+| 0 | Pre-event research (four agents in parallel) | Both, about 2 hours before the start |
+| 1 | The first prompt | Dylan, at the announcement |
+| 2 | The leak finder (five area agents) | Samuel, with every download |
+| 3 | The test rig | A subagent, about minute 15; runs all event |
+| 4 | Team profiles | Samuel, after scored round 1; refreshed every round |
+| 5 | The round loop: manager, candidate factory, bug hunters, opponent specialists | Both, every window |
+
+Fill the `<...>` slots as you paste. Before Sunday: sign in to Modal on the machines you'll use (account
+setup, not code). Spend compute and agent usage freely: an idle agent or an untested idea costs more than
+the tokens.
+
+---
+
+## Part 0 · Pre-event research (start about 2 hours before; four agents in parallel)
+
+The Boston winner had an agent researching for about 1.5 hours before the start. Give each agent one of
+these, all writing to notes/, then have one merge them into notes/plan.md.
+
+```
+We're competing today in the finals of the No Limit pokerbot tournament: 8-player no-limit sit-and-gos, a
+poker variant announced at the start, bots as one Python file with a 1 ms decision limit, a 60-minute
+build, then six scored rounds 20 minutes apart, 20 strong teams, only the top 3 win anything. Research and
+write notes (no bot code): <ONE OF THE FOUR TOPICS BELOW>. Be concrete and brief; separate what's
+well-supported from what's a guess.
+
+A. The regional variants and what a Finals twist could be. Bay Area: three hole cards, discard one and
+   expose one after the flop. Boston: the flop is chosen by a sealed-bid auction paid in a separate
+   currency. Pittsburgh: <what we learned>. For each: how a strong bot values the new decision, what
+   information it reveals, how hand rankings shift. Then list ten plausible new twists and, for each, the
+   fastest correct way to value its decision by enumeration.
+B. What wins sit-and-gos of AI-built bots: preflop aggression with planned responses to re-raises, postflop
+   folding calibrated to how often bets are bluffs, shove-or-fold by stack depth, tournament equity for
+   50/30/20 (and how it changes with other payouts), heads-up and three-handed play.
+C. A build plan for the first hour: the safety shell, a three-layer design, what to precompute at import,
+   an equity estimate that fits in 0.3 ms, per-seat opponent estimates with priors, team recognition from
+   bet sizes; and the checks that catch the bugs that have sunk bots (a library ICM that zeroes a busted
+   player, inverted rates, uncounted responses to our own bets, position errors at 2-3 players).
+D. A test plan: sparring bots, paired deals, measuring noise first, replaying our decisions from a
+   download, cloning the field from a download, running thousands of tables on Modal, and a confirmation
+   run on fresh deals before anything ships.
+```
 
 ---
 
@@ -169,8 +209,10 @@ HOW TO WORK
     C. shove-heavy: few small raises before the flop; mostly shove or fold, with wide shoves and
        re-shoves chosen by stack depth and tournament equity (the regional runner-up's style).
   Each must pass every check below. I'll rotate which one is active through the practice rounds, so each
-  gets a real score against this field, and we'll play the winner, then keep one challenger alive in the
-  practice round between scored rounds.
+  gets a real score against this field. The best scorer plays scored round 1; the next best stays alive as
+  the challenger, which plays the practice round between scored rounds and takes the bigger, riskier
+  changes; the third is dropped. If you have ideas for further styles, build them too and let the test rig
+  filter them: only three can get practice rounds, but more can be tried in simulation.
 - Tell me plainly when something is untested or a number looks wrong. I'd rather hear "I'm not sure this
   branch fires" now than find it in round 3.
 Start by reading the kit, then give me the summary and the minimal bot.
@@ -178,38 +220,43 @@ Start by reading the kit, then give me the summary and the minimal bot.
 
 ---
 
-## Part 2 · The leak finder (paste with the first practice-round download, then every round)
+## Part 2 · The leak finder (with the first practice-round download, then every round)
 
-Tested on our regional files: this would have flagged our biggest leak from the first practice round.
+Tested on our regional files: step 2 below would have ranked our biggest leak first from the first practice
+round. Run it as one extraction pass plus five area agents in parallel, each given the same extracted
+tables and one area; the manager (Part 5) merges their answers.
 
 ```
-Here is our hand history for <round>: <path> (format in the kit's README and hand-history folder). Write a
-script that streams it and reports, in this order. A full pass should take well under a minute.
+Here is our hand history for <round>: <path> (format in the kit's README and hand-history folder). First,
+one script that streams it once and saves tables every analysis can share. A full pass should take well
+under a minute. Count only non-filler seats and use team names from the header: entry ids change every
+round.
 
-1. Failures first: any automatic or failed decisions, by phase.
+For every decision by every team, record: street (number of board deals so far), situation (unopened;
+checked to; facing one bet or raise; facing a re-raise), players still in the tournament (6-8, 4-5, 2-3),
+effective stack in big blinds, the action (fold, check, call, small raise, large raise, all-in; the
+variant's own phase as its own class), and the hand's value to that team: its tournament-points equity
+after the hand minus before (both are in the file).
 
-2. Our own losing actions. Classify every decision by street (number of board deals so far), situation
-   (unopened; checked to; facing one bet or raise; facing a re-raise) and action (fold, check, call, small
-   raise, large raise, all-in), with the variant's own phase as its own class. Credit each decision with
-   the hand's value to us: our tournament-points equity after the hand minus before (both are in the
-   file). List every action whose average value is WORSE than our own fold (or check, when checking is
-   free) in the same situation, with uses per table, the difference, and a z-score from splitting the
-   tables into 20 blocks. Rank by uses per table x difference. An action we chose that still does worse
-   than folding is a real leak, and this figure is a floor on what stopping it recovers.
+Then answer, for <YOUR AREA: before the flop | after the flop | the variant's own phase | short stacks,
+all-ins and the last four players | how the field treats us>:
 
-3. What the best teams do that we don't. Take the 10 best other teams in this file by points per table.
-   For each situation and action, show their frequency and ours, and how that action performs for THEM
-   against their own fold. Rank the biggest "they do it more, and it pays for them" gaps. Trust the
-   direction, not the size: they choose their hands, so the average overstates what a marginal hand earns.
+1. Failures first: any automatic or failed decisions in this area.
+2. Our own losing actions: every action of ours whose average value is WORSE than our own fold (or check,
+   when checking is free) in the same situation, with uses per table, the difference, and a z-score from
+   splitting the tables into 20 blocks. Rank by uses per table x difference. An action we chose that still
+   does worse than folding is a real leak, and this figure is a floor on what stopping it recovers.
+3. What the best teams do that we don't: take the 10 best other teams in this file by points per table
+   (with 20 teams: the 5 best). For each situation and action, their frequency and ours, and how that
+   action performs for THEM against their own fold. Rank the biggest "they do it more, and it pays for
+   them" gaps. Trust the direction, not the size: they choose their hands, so the average overstates what
+   a marginal hand earns.
+4. Across all teams, which action rates in this area correlate most with points per table.
+5. How the field treats us compared with others in this area: how often our opens get re-raised, our bets
+   called or raised by street, our shoves called.
 
-4. Across all teams, which action rates correlate most with points per table.
-
-5. How the field treats us compared with others: how often our opens get re-raised, how often our bets
-   get called or raised by street, how often our shoves get called.
-
-Then give me the three largest leaks from (2), the two largest gaps from (3) that (4) supports, and one
-recommended change with the rates it should move. Count only non-filler seats, and use team names from the
-header: entry ids change every round.
+Finish with at most three findings, each as: the leak or gap, its size with its uncertainty, and the one
+change you'd make with the rates it should move.
 ```
 
 ## Part 3 · The test rig (paste to a subagent at about minute 15 of the build; it runs all event)
@@ -251,8 +298,13 @@ the image build first because it takes several minutes (the kit's requirements p
    Clones copy frequencies, not the reasoning behind them, so trust them for questions like "what if we
    re-raise these openers wider" and distrust them for fine postflop questions.
 
-6. After every test, one line per candidate: replay verdict, clone-field difference, sparring results,
-   latency, and whether it is fit to be the challenger in the next practice round.
+6. Take candidates from any folder under candidates/ (other agents will drop them there, several per
+   window) and test them all at once. Because the best of many candidates always looks better than it is,
+   rerun the top two against the live bot on FRESH deals before recommending either; report both runs.
+
+7. After every test, one line per candidate: replay verdict, clone-field difference on the first and the
+   confirmation run, sparring results, latency, and whether it is fit to ship or to be the challenger in
+   the next practice round.
 
 More tables shrink noise but not a clone's bias: past about 20,000 tables per candidate, spend the compute
 on more candidates and more variations, not longer runs.
@@ -283,7 +335,59 @@ Nothing learned at one table may be carried to another; profiles come only from 
 
 ---
 
-## Part 5 · The evidence behind each line
+## Part 5 · The round loop (every window)
+
+Run these in parallel as soon as a download lands. Agents are cheap and the windows are short: start them
+all at once and let the manager sort the results.
+
+**Manager** (one, all event; Samuel's main session)
+```
+You coordinate our agents between rounds. When I give you a new download, start in parallel: the extraction
+and the five area analyses (Part 2), the profile refresh (Part 4), two bug hunters, an opponent specialist
+for each team ahead of us, and six to ten candidate builders once the first findings are in. Give each a
+clear, separate task and folder so they never edit the same files.
+Within <minutes available>, hand me ONE page: (1) failures and bugs found, with fixes ready; (2) the ranked
+leaks and gaps with sizes and uncertainty, noting where two analyses agree; (3) the candidates tested, with
+the rig's first-run and confirmation-run numbers; (4) your recommendation under our rules: one change to
+the live bot (two only if they touch unrelated situations), which bot plays the next practice round, and
+whether the challenger should replace the live bot. Our rules: bug fixes and refreshed profiles go into
+both bots every window; only the top 3 win, so outside the top 3 prefer the bolder option when the
+evidence is roughly even, and inside it protect what's working, more so as the round weights grow.
+Say plainly what you're unsure of.
+```
+
+**Candidate builders** (six to ten per window, one idea each)
+```
+Here is our live bot (<folder>) and one finding from this round's analysis: <finding>. Make a copy in
+candidates/<short-name>/ that changes exactly this one thing, behind a named setting that defaults to the
+old behaviour. Don't touch anything else. Run the standard checks (legal actions, no exceptions, latency,
+the branch-fired counts) and write in NOTES.md what you changed, the rates you expect to move, and what
+would show it's wrong. The test rig picks it up from that folder.
+```
+
+**Bug hunters** (two per window, independent of the builders)
+```
+Read <bot folder> cold, as a reviewer who assumes there is a bug. Don't trust the builder's tests: write
+your own. Check every statistic with a scripted sequence of events and a known answer; check that every
+rate lies between 0 and 1 and moves off its prior over 200 hands; check tournament equity with 2 and 3
+players left and a busted player in a paid place; check position, blinds, who acts first and effective
+stack at 8, 3 and 2 players and after a bust; check every variant option including all-in seats; count how
+often each strategy branch fires over 1,000 hands and flag any that never fire or fire absurdly; look for
+caught exceptions that hide a disabled feature. Report only what you verified, with the smallest
+reproduction, worst first.
+```
+
+**Opponent specialists** (one per team ahead of us)
+```
+Study <team> in our downloads so far: its rates for every tendency we track by position and stack depth,
+its exact bet sizes, what its bets, raises and calls turned out to be at showdown by street, how it uses
+the variant's own decision, and how each of these changed between rounds. Tell me where it gives chips
+away and the specific adjustment our bot should make against a seat recognised as this team, with the
+expected gain per table when it is at ours and how sure you are. Give the adjustment as settings for the
+team's profile, not as changes to our default play.
+```
+
+## Part 6 · The evidence behind each line
 
 | Claim in the prompts | Evidence | Strength |
 |---|---|---|
@@ -301,6 +405,7 @@ Nothing learned at one table may be carried to another; profiles come only from 
 | Take risks: only top 3 pays | Payoff is all-or-nothing beyond 3rd; our most cautious calls (a style band, "don't copy the winner") cost more than our risky ones | Judgment |
 | Modal scale for the test rig | Measured: 6,000 tables in about 2 minutes of play on 40 containers; a first image build takes several minutes | Measured |
 | Cloned-field predictions | Validation on regional data in progress (would it have predicted v4's collapse and v6's gain?) | Pending |
+| Best-of-many looks better than it is | With 10 candidates each measured to about ±0.3 points, the best appears about +0.5 better by chance alone | Arithmetic |
 | Teams can be recognised by bet sizes | 19 candidates, profiles two rounds old: 54% correct at 10 hands, 67% at 20, 73% at 40; 81% when gated on a clear margin; ~1 in 5 confident calls wrong after a bot change | Tested on six rounds |
 | Team-blended priors beat field priors | 19 teams, profiles two rounds old: "does this seat fold to 3-bets more than 67%?" 74% correct at hand 20 vs 56% with live counting; error on fold tendencies down 15-25% by hand 20; slightly harmful in the first 5 hands of a 126-team field | Tested on six rounds |
 | Fold rates can't be learned live in one table | Median chances per seat per table: fold to a 3-bet 1, fold to a flop bet 3, turn 1, river 0; about 5 showdowns | Measured |

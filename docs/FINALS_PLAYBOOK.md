@@ -52,7 +52,7 @@ its first hour decided its result. Its style, measured from our tables:
    far above or below.
 3. Real preflop aggression (wide 3-bets with disciplined folds to 4-bets) judged by the field's response
    (their fold to 3-bet, re-raise rates), never blocked by a fixed VPIP/PFR band.
-4. A second, independently written bot from minute 0 (two-track build), chosen by practice-round results.
+4. Three independently written bots with different styles from minute 10, the winner chosen by practice-round results.
 5. Every library function a decision depends on unit-tested with edge cases (the ICM bug).
 
 ## 2. What we know about the Finals format
@@ -78,94 +78,86 @@ its first hour decided its result. Its style, measured from our tables:
 
 | Who | Owns |
 |---|---|
-| **Dylan** | the coding agent (build, changes, tests), packing, uploads, confirming the active bot |
-| **Samuel** | the clock and deadlines; every practice and scored round's hand history; the live dashboard; the one-change recommendation per round |
+| **Dylan** | the coding agents that build and change bots (the main bot and the style tracks), packing, uploads, confirming the active bot |
+| **Samuel** | the clock and deadlines; the manager agent and every analysis under it; the live dashboard; the one-page recommendation each window |
 
-**Per-round deadlines** (worked at the regional; a missed deadline means the previous bot stays live):
-T-15 change locked · T-8 packed · T-6 tested under upload-test conditions (no time bank) · T-3 uploaded and
+**Per-round deadlines** (a missed deadline means the previous bot stays live):
+T-15 change chosen · T-8 packed · T-6 tested under upload-test conditions (no time bank) · T-3 uploaded and
 the active bot confirmed on the team page.
 
+**Before the start (about 2 hours):** four research agents in parallel (prompt pack Part 0), merged into a
+plan. Sign in to Modal.
+
 **Build hour:**
-- 0-5: read the kit (RULES.md, README.md, AGENTS.md, `state.config`), the Format page (weights!).
-- by 10: a minimal legal bot uploaded and confirmed active (track A).
-- 0-50: track A grows into the main bot; track B (a subagent) writes an independent bot from scratch.
-- every practice round: Samuel's analysis of field response, our leaks and A vs B.
-- 50-60: hands off; the better track (by practice results, not local wins) is active.
+- 0-5: read the kit and the Format page (weights, payouts, anything unusual in `state.config`).
+- by 10: a minimal legal bot uploaded and confirmed active. Practice round 1 plays it.
+- 10-50: three bots with different styles (balanced, wide-pressure, shove-heavy) built in parallel; the
+  test rig starts at about minute 15. Practice rounds 2, 3 and 4 each play a different style; practice 5
+  re-plays the leader to confirm.
+- 50-60: hands off. The best real-field scorer is active for scored round 1.
 
-**Between rounds:** one or two changes with real-field evidence, each behind a flag; or a switch to the other
-track if it's clearly better; or a rewrite if we're stuck mid-table after two rounds.
+**Every window after that:** the round loop (prompt pack Part 5).
 
-## 4. Prompt pack (paste-ready; fill the <...>)
+## 4. The operating model
 
-### P0 · Pre-event research (start ~2 hours before; Fable or Opus)
-```
-We're competing in the No Limit pokerbot Finals today: 8-player no-limit sit-and-gos, bots as Python agents with a
-1 ms decision limit, a poker variant announced at the start, a 60-minute build, then six scored rounds 20 minutes
-apart. Before the start, research and write notes to notes/ (no bot code yet):
-1. The three regional variants of this competition (Bay Area: 3 hole cards, discard one and expose one on the flop;
-   Boston: the flop bought at a sealed auction with flop-chips; Pittsburgh: <what we learn tomorrow>) and how a
-   strong bot plays each; what kinds of twist the Finals variant could have and how to adapt quickly.
-2. What wins AI-built sit-and-go fields: ICM and push/fold by stack depth, preflop aggression (wide 3-bets with
-   disciplined folds to 4-bets), postflop folding calibrated to how often opponents bluff.
-3. A fast architecture: a platform layer (memory, legality, fallback), precomputed tables at import, Monte Carlo
-   equity under a deadline, per-seat opponent stats with priors.
-4. A checklist of traps: library functions with wrong edge cases (e.g. ICM scoring a busted stack 0 when that
-   place pays), floats in raise sizes, time banks, memory limits.
-Finish with notes/plan.md: the first 10 minutes, the first hour, and what to measure in each practice round.
-```
+**How many bots.** Three during the build, two afterwards.
+- The build has five practice rounds; the first plays the minimal bot, so three styles can each get one
+  real-field score and the leader one confirmation. A fourth style would have to be chosen blind (more
+  styles can still be filtered in simulation).
+- After the build there is one practice round between scored rounds, so one alternative can be tested on
+  the real field per window: the **challenger**, the best of the styles that didn't win the build. The
+  third bot is dropped.
+- The challenger slot is also where a hail-mary rewrite goes if we're stuck outside the top 3 after two
+  rounds.
 
-### P1 · The announcement (minute 0; Dylan)
-```
-The variant is announced. Read the starter kit fully (README.md, RULES.md, AGENTS.md, the SDK, the examples) and the
-Format page. Report: the API, the new phase/action kinds and state.variant fields, the round weights and anything
-unusual in state.config (payouts, final weight, time bank). Then, using notes/plan.md, get a minimal legal bot that
-handles every phase into submission/ within 10 minutes, test it under upload-test conditions (heads-up vs
-check_or_fold, 20 hands, no time bank, zero failed decisions) and tell me when it's ready to upload.
-```
+**How many changes per window.**
 
-### P2 · Track B, the independent bot (minute 10; Dylan, as a subagent)
-```
-Spawn a subagent to write a second bot from scratch in trackB/, without reading our main bot: a strong, aggressive
-design for this variant (wide but disciplined 3-bets, equity-based postflop with folds calibrated to the field,
-ICM push/fold). Same tests as the main bot. It reports when ready; we'll pick between the two on practice results.
-```
+| | Live bot | Challenger |
+|---|---|---|
+| Changes shipped | 1; 2 only if they touch unrelated situations | 2-4, or a redesign |
+| Why | its scored result must stay readable, and a bad change costs weighted points | it only plays a practice round, and it is judged as a whole |
+| Kind | evidence-backed fixes from the leak finder | bigger bets: a style element, more aggression, a rewrite |
 
-### P3 · Practice and round analysis (every round; Samuel)
-```
-Here is our hand history for <round>: <path>. With a script, report, in this order:
-1. Failed or automatic decisions (anything nonzero first).
-2. How the field responds to us vs to others: fold to our opens, 3-bets of our opens, fold to our 3-bets, fold to our
-   bets by street, how often they call our jams.
-3. Our rates vs the field's: VPIP, PFR, 3-bet, fold to 3-bet, fold to bets by street, c-bet, showdown rate, and the
-   top 3 teams' rates.
-4. Chips won/lost by decision class (open, 3-bet, call, flop/turn/river bet, call, fold), with error bars.
-5. The single change with the largest expected gain that's backed by these numbers, and the frequencies it should move.
-Use team names from the header; count only non-filler seats for scores.
-```
+Outside that count, every window, both bots get: bug fixes, refreshed team profiles, and any change proven
+on one that suits the other. If the challenger's practice score clearly beats the live bot's last result,
+they swap.
 
-### P4 · The live dashboard (start of the event; Samuel's agent)
-```
-Using our portal API key (~/.config/no-limit-2026/api-key, Bearer auth, base https://pokerbot.sequoiacap.com/tournament/api),
-write a small poller that every 60 seconds reads GET /competitions/<id>/standings and GET /competitions/<id>/tournaments,
-prints our rank and the top 5, notices when a round completes (GET /tournaments/<id>/results), and downloads our hand
-history for it from <the download URL copied from the browser's Network tab> into data/<round>/, then runs the P3
-analysis automatically. Never upload or change anything; read only.
-```
+**Test far more than we ship.** Six to ten candidate changes are built and tested each window; one ships.
+The best of many always looks better than it is (about +0.5 points by luck among ten), so the top two are
+rerun on fresh deals before either ships.
 
-### P5 · A change between rounds (Dylan)
-```
-Change exactly this, behind a flag defaulting to the old behaviour: <rule>, because <evidence from P3>. Expected moves:
-<frequencies>. Show me a behaviour diff against the current live bot on identical tables (every preflop and flop
-decision rate), the upload-test result with no time bank, and a fuzz test (no illegal action, no exception, p99 and
-max latency). Don't block a change for moving PFR or 3-bets if that's the intended move.
-```
+**Agents per window** (prompt pack Parts 2-5; start them all at once):
 
-### P6 · Hail mary (if stuck mid-table after round 2 or 3)
-```
-We're stuck at <rank>. Have a subagent write a fresh bot from scratch for this variant in rewrite/, informed only by
-these field numbers: <P3 summary>. Test it against our live bot and track B on identical tables, then we'll decide on
-the next practice round's real-field result.
-```
+| Agents | Job |
+|---|---|
+| 1 manager | starts the rest, merges everything into one page with a recommendation |
+| 1 + 5 | one extraction pass, then five area analyses: before the flop, after the flop, the variant's own phase, short stacks and the last four players, how the field treats us |
+| 6-10 candidate builders | one change each, on a copy of the live bot |
+| 1 test rig | replay testing, the cloned field and paired runs on Modal, confirmation runs |
+| 2 bug hunters | independent review of the live bot and the challenger |
+| 1 per team ahead of us | that team's weaknesses and a tailored counter for its profile |
+| 1 profiles | rebuilds every team's profile from the latest download |
+
+Split the agents across both our Claude accounts so neither hits a burst limit, with an API key as
+overflow. Don't hold agents back to save usage: an untested idea costs more.
+
+**How we decide.**
+- Only the top 3 win. Outside the top 3, take the bolder option when the evidence is roughly even; a
+  challenger that looks better by about one standard error is worth playing. Inside the top 3, protect
+  what's working, more so as the round weights grow.
+- Experiment early: round 1 is 1/21 of the score with linear weights (1/32 with Boston's); the last two
+  rounds are about half.
+- Estimates use all the evidence in proportion to its strength (weighted blends, no hard thresholds).
+  Thresholds are only for all-or-nothing choices like switching bots.
+- The real field is the judge: practice-round and scored results first, then replay testing, then the
+  cloned field. A local win against our own bots decides nothing.
+- Never gate a change on looking like the average team. Our regional gate would have blocked the winner.
+
+**Prompts:** all in `docs/FIRST_PROMPT.md` (Parts 0-5), with the evidence for each line in Part 6. The
+live-dashboard poller: have Samuel's agent write a read-only script that polls
+`/api/competitions/<id>/standings`, `/tournaments` and `/api/tournaments/<id>/results` every minute with our
+portal key, downloads each round's hand history as it completes (copy the download URL once from the
+browser's Network tab) and hands it to the manager.
 
 ## 5. Rehearsal
 
