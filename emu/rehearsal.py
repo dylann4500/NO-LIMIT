@@ -52,8 +52,16 @@ TEAMS = [
     ("pocket_rockets", FABLE, 90, 2),
 ]
 PREP_SITUATION = """The Finals start in about {minutes} minutes. The variant will only be announced at the start, together with the starter kit, so you can't build the bot yet. Your assistant (Claude Code) is open in your team's working folder on the team build box; portal/ has the website pages you can already read (Getting started, and the Format page without the variant). Use the time the way you planned: research and prepare, and keep notes in the folder so you can use them when the build starts."""
+# The Finals field: 7 simulated finalists + avalon = one 8-seat table. Each has regional notes
+# (emu/teams/finalists/) drawn from the 2026-11-12 strategy studies: per-seat learning, recognition by
+# bet sizes, the field's defence to wide re-raises, simulation, copying the leaders.
+FINALS7 = [
+    ("pocket_rockets", FABLE, 0, 2), ("pressure_point", OPUS, 0, 2), ("read_the_table", FABLE, 0, 2),
+    ("deep_stack", FABLE, 0, 16), ("shove_bros", OPUS, 0, 2), ("nit_picks", OPUS, 0, 2),
+    ("showdown_value", OPUS, 0, 2),
+]
+FINALISTS = EMU / "teams" / "finalists"
 AVALON = "avalon"
-AVALON_DEFAULT = ROOT / "bots" / "v10"
 
 
 def log(msg: str) -> None:
@@ -81,7 +89,10 @@ class Event:
         self.a = a
         self.dir = EMU / "runs" / a.run
         self.dir.mkdir(parents=True, exist_ok=True)
-        chosen = [t for t in TEAMS if t[0] in a.personas.split(",")] if a.personas else TEAMS[: a.teams]
+        if a.field == "finals":
+            chosen = FINALS7
+        else:
+            chosen = [t for t in TEAMS if t[0] in a.personas.split(",")] if a.personas else TEAMS[: a.teams]
         self.teams = {team_name(p): (p, m, prep, cpu) for p, m, prep, cpu in chosen}
         self.weights = [int(w) for w in a.weights.split(",")]
         self.slug = {t: run_team.team_slug(t) for t in [*self.teams, AVALON]}
@@ -107,15 +118,19 @@ class Event:
         for d in ("submission", "results", "downloads", "inbox"):
             (ws / d).mkdir()
         if team == AVALON:
-            shutil.copytree(AVALON_DEFAULT, ws / "submission", dirs_exist_ok=True)
+            if self.a.avalon_start != "empty":
+                shutil.copytree(ROOT / "bots" / self.a.avalon_start, ws / "submission", dirs_exist_ok=True)
+        elif self.a.field == "finals":
+            (ws / "notes").mkdir()
+            shutil.copy(FINALISTS / f"{self.teams[team][0]}.md", ws / "notes" / "regional_notes.md")
         return ws
 
     def situation(self, ws: Path) -> str:
         fmt = (ws / "portal" / "format.md").read_text()
         sched = "\n".join(f"- minute {e['t'] / 60 / self.a.scale:.0f}: {e['label']}" for e in self.events)
         return (f"The variant has just been announced and the build has started. Practice rounds (about "
-                f"{self.a.practice_iterations} iterations, never scored) run every 10 minutes during the build, "
-                f"then six scored rounds start 20 minutes apart. At the start of every round the portal plays "
+                f"{self.a.practice_iterations} iterations, never scored) run at minutes 20, 30, 40 and 50 of the build, "
+                f"then six scored rounds start 20 minutes apart, with a practice round 10 minutes before each. At the start of every round the portal plays "
                 f"whatever is in your submission/ folder at that moment (your team uploads it automatically), "
                 f"after the upload test. Results and your hand-history downloads appear in results/ and "
                 f"downloads/ when each round finishes, and you'll see a notice. Today's schedule:\n{sched}\n\n"
@@ -144,7 +159,10 @@ class Event:
             up.put_file(io.BytesIO(run_team.tar_dir(ws)), f"/{key}/workspace.tgz")
             up.put_file(str(kit), f"/{key}/announce.tgz")
             up.put_file(io.BytesIO(PREP_SITUATION.format(minutes=prep).encode()), f"/{key}/prep_situation.md")
-            up.put_file(io.BytesIO((run_team.PERSONAS / f"{persona}.md").read_bytes()), f"/{key}/persona.md")
+            ptext = (run_team.PERSONAS / f"{persona}.md").read_text()
+            if self.a.field == "finals":
+                ptext += "\n" + (FINALISTS / "_common.md").read_text()
+            up.put_file(io.BytesIO(ptext.encode()), f"/{key}/persona.md")
             up.put_file(io.BytesIO(situation.encode()), f"/{key}/situation.txt")
             up.put_file(io.BytesIO(json.dumps(schedule).encode()), f"/{key}/schedule.json")
             up.put_file(str(EMU / "teams" / "steer.py"), f"/{key}/steer.py")
@@ -441,6 +459,8 @@ def main() -> None:
     p.add_argument("--shards", type=int, default=40, help="Modal containers per round (local: at most 4)")
     p.add_argument("--local-rounds", action="store_true", help="play rounds on this machine instead of Modal")
     p.add_argument("--weights", default="1,2,3,4,5,6", help="round weights; Boston used 1,2,3,5,8,13")
+    p.add_argument("--field", default="", help="'finals': the 7 simulated finalists with regional notes (+ avalon = 8)")
+    p.add_argument("--avalon-start", default="empty", help="avalon's bot at the start: 'empty' (as on Sunday) or a bots/ folder")
     p.add_argument("--prep-scale", type=float, default=1.0, help="scale pre-event research minutes (0 = none)")
     p.add_argument("--avalon-replay", default=None,
                    help="validation: avalon's bot per scored round, e.g. v3b,v5r,v6,v7,v9s,v10 (the real night)")

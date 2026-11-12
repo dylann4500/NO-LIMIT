@@ -14,6 +14,7 @@ histories never leave this machine or the team's Modal workspace.
 ```bash
 prep/.venv/bin/python emu/rehearsal.py --run full1                 # 19 teams, real clock, regional variant
 prep/.venv/bin/python emu/rehearsal.py --run t1 --personas pressure_point,pocket_rockets --scale 0.1   # quick test
+prep/.venv/bin/python emu/rehearsal.py --run r8 --field finals --round-iterations 3000 --prep-scale 0 --wait   # 7 finalists + avalon
 ```
 
 | Option | Meaning |
@@ -24,6 +25,8 @@ prep/.venv/bin/python emu/rehearsal.py --run t1 --personas pressure_point,pocket
 | `--variant` / `--variant-rules` | a mock Finals variant: an engine variant module plus its RULES.md |
 | `--practice-iterations`, `--round-iterations` | round sizes (defaults 1,000 / 5,000; 3,000 keeps scored rounds inside 20 min) |
 | `--local-rounds` | play rounds on this Mac instead of Modal |
+| `--field finals` | 7 simulated finalists, each with regional notes (`teams/finalists/`): per-seat learning, recognition by sizes, defence to wide re-raises, simulation, copying the leaders. With avalon, one 8-seat table |
+| `--avalon-start` | avalon's bot at the start: `empty` (default, as on Sunday) or a `bots/` folder |
 
 Needs: the kit in `starter-kit/` (with `.venv`), the Modal client in `prep/.venv` signed in to the team
 workspace, and the Modal secret `emu-anthropic` (a Claude Code OAuth token or an Anthropic API key).
