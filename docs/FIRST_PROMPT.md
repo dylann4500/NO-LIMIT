@@ -263,7 +263,8 @@ change you'd make with the rates it should move.
 
 Three ways to test a candidate, cheapest first. The practice rounds are the only fully trustworthy judge but
 fit one challenger each, so the first two decide which challenger gets that slot. The cloned-field method
-is being validated on our regional data; until that result is in, treat its numbers as a filter, not a verdict.
+passed a test on our regional data (Part 6): it catches a candidate that loses 2 or more points and gets the
+direction of a big style change right, but it cannot separate candidates that are within about 1 point.
 
 ```
 Build our test rig in rig/, separate from the bots, and keep it running for the whole event. We have a Modal
@@ -295,8 +296,14 @@ the image build first because it takes several minutes (the kit's requirements p
      real ones from the download. If they don't match, say so and don't trust the clone field this round;
    - then play each candidate against the same clones on the same deals, and report paired differences
      against the live bot with standard errors.
-   Clones copy frequencies, not the reasoning behind them, so trust them for questions like "what if we
-   re-raise these openers wider" and distrust them for fine postflop questions.
+   After fitting, run a clones-only calibration loop (about 10,000 tables) and adjust each clone until its
+   simulated rates match its measured ones. Check how often river bettors win at showdown against the
+   real figure: clones come out too honest, so add bluffs until it matches, and rerun the top candidates
+   with fewer and with more bluffs to see whether the verdict holds.
+   Clones copy frequencies, not the reasoning behind them, and they don't adapt. Trust them to catch a
+   candidate that loses 2 or more points to this field and for the direction of big style changes like
+   "what if we re-raise these openers wider". Don't trust differences under about 1 point, and expect the
+   next round's real score to be up to 1-2 points lower than predicted, because the field tightens.
 
 6. Take candidates from any folder under candidates/ (other agents will drop them there, several per
    window) and test them all at once. Because the best of many candidates always looks better than it is,
@@ -404,7 +411,7 @@ team's profile, not as changes to our default play.
 | Three styles, rotated through practice rounds | Practice rounds play the active bot on the real field at 1,000-12,500 iterations; the regional's top two used opposite styles (wide 3-bets; limp-or-jam) and both beat every "balanced" bot; a Boston team gained 18 places with a fresh design | Reasoned from data; untested as a procedure |
 | Take risks: only top 3 pays | Payoff is all-or-nothing beyond 3rd; our most cautious calls (a style band, "don't copy the winner") cost more than our risky ones | Judgment |
 | Modal scale for the test rig | Measured: 6,000 tables in about 2 minutes of play on 40 containers; a first image build takes several minutes | Measured |
-| Cloned-field predictions | Validation on regional data in progress (would it have predicted v4's collapse and v6's gain?) | Pending |
+| Cloned-field predictions | Clones fitted from one regional download, each bot on 4,000-5,000 tables: v4 vs v3b predicted -5.6 to -7.8 (real about -9), including from the practice-3 data we had before uploading v4; v6 vs v5r predicted +1.6 to +2.9 (real +2.3); our same-round score within 0.7 points. v5r vs v3b came out -0.7 to +0.6 depending on bluff settings, so differences under about 1 point are not resolved. Forward predictions ran 0-1.8 points high. Fit, calibration and three candidates took about 10 minutes on a 12-core laptop | Tested on one regional (one variant, our own bots) |
 | Best-of-many looks better than it is | With 10 candidates each measured to about ±0.3 points, the best appears about +0.5 better by chance alone | Arithmetic |
 | Teams can be recognised by bet sizes | 19 candidates, profiles two rounds old: 54% correct at 10 hands, 67% at 20, 73% at 40; 81% when gated on a clear margin; ~1 in 5 confident calls wrong after a bot change | Tested on six rounds |
 | Team-blended priors beat field priors | 19 teams, profiles two rounds old: "does this seat fold to 3-bets more than 67%?" 74% correct at hand 20 vs 56% with live counting; error on fold tendencies down 15-25% by hand 20; slightly harmful in the first 5 hands of a 126-team field | Tested on six rounds |

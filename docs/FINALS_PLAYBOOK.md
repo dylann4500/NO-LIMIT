@@ -190,6 +190,10 @@ it in the rehearsal so the first use isn't on the day.
   Thresholds are only for all-or-nothing choices like switching bots.
 - The real field is the judge: practice-round and scored results first, then replay testing, then the
   cloned field. A local win against our own bots decides nothing.
+- The cloned field is a veto and a direction check, not a ranking. On regional data it predicted v4's
+  collapse (-6 to -8 against a real -9) from the data we had before uploading it, and v6's gain (+1.6 to
+  +2.9 against +2.3). It cannot separate candidates within about 1 point. Nothing that loses 2 or more
+  points in the cloned field gets uploaded, challenger included.
 - Never gate a change on looking like the average team. Our regional gate would have blocked the winner.
 
 **Prompts:** all in `docs/FIRST_PROMPT.md` (Parts 0-5), with the evidence for each line in Part 6. The
