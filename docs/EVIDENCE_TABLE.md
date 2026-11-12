@@ -92,6 +92,9 @@ tested. "Holds" means over 2 points and the same direction under both clone sett
 | The averaged "balanced" profile is never best | Holds, but it is an average of rates, not a coherent bot | Build balanced as a coherent equity bot or replace it with tight |
 | Our bots score about 14-15 against a top-20-only field, not 18-20; v10 folds 89-93% to 3-bets vs 70-77% for the strong styles | Holds for the drop | Expect lower scores; fold no more than about 75% to 3-bets (also suggested by the identity study) |
 
+Adopted into the prompt pack on 2026-11-12 (Samuel's call, still grade C): the three build styles are now
+pressure, shove-heavy and tight, and every style folds no more than about 75% to re-raises.
+
 ## 4. Simulator validation: what is established and what is running
 
 - **Established:** in two cases the cloned field got a large difference right in sign and rough size, and

@@ -119,7 +119,7 @@ plan. Sign in to Modal.
 **Build hour:**
 - 0-5: read the kit and the Format page (weights, payouts, anything unusual in `state.config`).
 - by 10: a minimal legal bot uploaded and confirmed active, so a bot is always live.
-- 10-50: one shared platform, three styles on it (balanced, wide-pressure, shove-heavy) built in parallel; the
+- 10-50: one shared platform, three styles on it (wide-pressure, shove-heavy, tight) built in parallel; the
   test rig starts at about minute 15. Practice rounds 1, 2 and 3 (minutes 20, 30, 40) each play a
   different style; practice 4 (minute 50, the largest) re-plays the leader to confirm. Practice 1 is only
   1,000 iterations (about ±0.6 points), so put the style we trust least there.

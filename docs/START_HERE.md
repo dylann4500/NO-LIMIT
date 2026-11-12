@@ -42,7 +42,8 @@ more than us.
 2. **Build hour:**
    - by minute 10: a minimal legal bot is uploaded;
    - then **one shared platform** (rules, equity, per-seat counters, memory, safety) with **three
-     styles** on top as parameter sets: balanced, wide-pressure and shove-heavy;
+     styles** on top as parameter sets: wide-pressure, shove-heavy and tight (in simulation each beats
+     a field of one of the others, so the real field picks);
    - practice rounds at minutes 20, 30 and 40 each play a different style, and minute 50 re-plays the
      leader;
    - the best real score goes live for scored round 1, and the runner-up becomes the **challenger**.
@@ -117,7 +118,9 @@ deadline just means the previous live bot plays. Never rush an untested upload.
 
 - **Live bot:** one change per round (two only if they touch unrelated situations), and only a tested
   one.
-- **Challenger:** two to four changes, or a redesign. It only plays practice rounds.
+- **Challenger:** two to four changes, or a redesign. It only plays practice rounds. Default choice:
+  the style that beats whatever is currently winning.
+- **Every style:** never fold more than about 75% to re-raises.
 - **Outside the top 3:** take the bolder option when the evidence is roughly even. A challenger ahead by
   about one standard error is worth playing.
 - **Inside the top 3:** protect what works, more so in the heavy late rounds.

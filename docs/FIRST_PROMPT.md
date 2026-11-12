@@ -210,11 +210,20 @@ HOW TO WORK
   places and the practice rounds can tell us which style this field pays. You own the platform and
   style A; spawn two subagents for B and C once the platform's interface is fixed, each in its own folder,
   changing only its style layer:
-    A. balanced: equity-driven, opens a normal range, folds to bets near break-even;
-    B. pressure: opens and re-raises wide (the regional winner's style), with planned folds to the next
-       raise, and bets whenever checked to while the field folds enough;
-    C. shove-heavy: few small raises before the flop; mostly shove or fold, with wide shoves and
-       re-shoves chosen by stack depth and tournament equity (the regional runner-up's style).
+    A. pressure: opens and re-raises wide (the regional winner's style), with planned responses to the
+       next raise, and bets when checked to while the field folds enough;
+    B. shove-heavy: few small raises before the flop; mostly shove or fold, with wide shoves and
+       re-shoves chosen by stack depth and tournament equity (the regional runner-up's style);
+    C. tight: opens few hands, avoids the early all-ins that bust other teams, calls off and re-raises
+       all-in with strong hands, and goes shove-or-fold by stack depth before the blinds drain it.
+  These three sit at the corners of a cycle we found in simulation: wide re-raising beats tight fields,
+  limp-or-shove beats wide re-raisers, and tight beats shove-heavy fields; against a strong field none was
+  clearly best. So the real field must pick, and the challenger should be the style that beats whatever
+  is winning. A tight bot that only folds busts around hand 100 and finishes 4th, so C must win chips.
+  All three share the post-flop equity logic (fold to bets near break-even, adjusted per seat).
+- Whatever the style, never fold more than about 75% to re-raises over a table: at our regional we
+  folded 82-89%, opponents re-raised us after a single fold, and strong bots folded 70-77%. Tight play is
+  the wrong answer to seats that re-raise a lot; against them call off and re-shove wider.
   Each must pass every check below. I'll rotate which one is active through the practice rounds, so each
   gets a real score against this field. The best scorer plays scored round 1; the next best stays alive as
   the challenger, which plays the practice round between scored rounds and takes the bigger, riskier
