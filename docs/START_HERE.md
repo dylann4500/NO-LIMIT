@@ -139,6 +139,7 @@ deadline just means the previous live bot plays. Never rush an untested upload.
 | `docs/REHEARSAL_TONIGHT.md` | Tonight |
 | `docs/Finals_Game_Plan.pdf` | Printable version of the plan; keep it open on the day |
 | `docs/Compute_and_Roles.pdf` | What compute we have and whose agents run where |
+| `docs/TWIST_NOTES.md` | Give to the coding agent at minute 0: how to value 12 plausible twists, a checklist for any new phase, five silent-bug tests |
 | `docs/FIRST_PROMPT.md` | Every prompt you will paste, in order (Parts 0-5), with the evidence (Part 6) |
 | `docs/FINALS_PLAYBOOK.md` | The longer reasoning: what went wrong, the format, the operating model |
 | `docs/EVIDENCE_TABLE.md` | How sure we are of each finding, and the test each proposed change needs |

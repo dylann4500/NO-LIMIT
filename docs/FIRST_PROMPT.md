@@ -22,6 +22,11 @@ the tokens.
 
 ## Part 0 · Pre-event research (start about 2 hours before; four agents in parallel)
 
+Topic A is largely prepared already: `docs/TWIST_NOTES.md` covers 12 plausible twists, a 15-minute
+checklist for any new phase, and five silent-bug tests. Bring it, and give it to the coding agent at
+minute 0 alongside the kit's RULES.md; the topic-A agent then only needs Pittsburgh's variant and
+anything the notes miss.
+
 The Boston winner had an agent researching for about 1.5 hours before the start. Give each agent one of
 these, all writing to notes/, then have one merge them into notes/plan.md.
 
