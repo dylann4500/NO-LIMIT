@@ -1,0 +1,8 @@
+{
+  "agent": "Samuels-MacBook-Pro-4",
+  "at": "2026-11-12T00:18:48Z",
+  "by": "samuel",
+  "pin": false,
+  "task": "emu-pilot",
+  "text": "Pilot running (emu/pilot.py --run pilot1): 4 teams, each = a simulated competitor (Opus) steering a coding agent (2x Opus 5.5, 2x Fable 5.2) in a Modal sandbox; 60-min build, R1, 15-min update, R2. ~1h45 wall."
+}
