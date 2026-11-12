@@ -1,12 +1,13 @@
 # The first prompt: building a strong bot for an unknown variant
 
-For Dylan and Samuel. Part 1 is the prompt to paste into the coding agent at the announcement. Parts 2 and 3
-are the follow-up prompts that find the big improvements once real data arrives. Part 4 is the evidence, so
-you can judge how far to trust each line. Nothing here is code; it is knowledge, checks and procedures, which
+For Dylan and Samuel. Part 1 is the prompt to paste into the coding agent at the announcement. Part 2 finds
+leaks in each download, Part 3 builds the test rig (local and on Modal), Part 4 builds team profiles. Part 5
+is the evidence, so you can judge how far to trust each line. Nothing here is code; it is knowledge, checks and procedures, which
 the rules allow us to bring.
 
-How to use it: fill the two `<...>` slots in Part 1, paste it as the first message, and keep Parts 2 and 3
-ready for the first practice-round download. Roles and deadlines are in `docs/FINALS_PLAYBOOK.md`.
+How to use it: fill the two `<...>` slots in Part 1 and paste it as the first message; give Part 3 to a
+subagent at about minute 15; keep Parts 2 and 4 ready for the first downloads. Before Sunday: sign in to
+Modal on the machine you'll use (account setup, not code). Roles and deadlines are in `docs/FINALS_PLAYBOOK.md`.
 
 ---
 
@@ -211,7 +212,53 @@ recommended change with the rates it should move. Count only non-filler seats, a
 header: entry ids change every round.
 ```
 
-## Part 3 · Team profiles (paste after the first scored round, refresh every round)
+## Part 3 · The test rig (paste to a subagent at about minute 15 of the build; it runs all event)
+
+Three ways to test a candidate, cheapest first. The practice rounds are the only fully trustworthy judge but
+fit one challenger each, so the first two decide which challenger gets that slot. The cloned-field method
+is being validated on our regional data; until that result is in, treat its numbers as a filter, not a verdict.
+
+```
+Build our test rig in rig/, separate from the bots, and keep it running for the whole event. We have a Modal
+workspace signed in on this machine; use it for anything that takes more than a minute locally, and start
+the image build first because it takes several minutes (the kit's requirements plus the kit's SDK).
+
+1. A local match runner on the kit's engine: any bot folders as seats, every table rule from state.config
+   settable, the variant pinned, per-table results kept, and a seed so two candidates can play the SAME
+   deals (paired). Report points per table with standard errors and failed decisions per bot.
+
+2. The same runner fanned out on Modal: shards of about 50-150 tables per container, tens of containers at
+   once, results merged. Target: 20,000 tables for three or four candidates inside five minutes. Never
+   upload hand histories anywhere; they contain other teams' play.
+
+3. Sparring bots that behave unlike ours, for sanity checks only: calls everything, shoves constantly,
+   plays only premiums, re-raises wide. A candidate that loses to one of these has a hole.
+
+4. Replay testing, as soon as we have a download: feed every decision point we faced in that file to a
+   candidate and report where it acts differently from the live bot, how often per table, and how those
+   spots actually turned out for us (the hand's points value), split by situation. This needs no model of
+   the opponents and should finish in under a minute on all cores.
+
+5. A cloned field, rebuilt from each new download: for every other team, fit a stand-in bot from its
+   measured behaviour (how often it opens, re-raises, folds to re-raises and shoves, by position and stack
+   depth; its bet sizes; how often it bets when checked to and folds, calls or raises facing a bet, by
+   street; what it shows down after each kind of action). Make each clone take its aggressive actions with
+   its strongest hands and fold its weakest, at the measured rates. Then:
+   - first play our LIVE bot against the clones and compare its simulated score and its own rates with the
+     real ones from the download. If they don't match, say so and don't trust the clone field this round;
+   - then play each candidate against the same clones on the same deals, and report paired differences
+     against the live bot with standard errors.
+   Clones copy frequencies, not the reasoning behind them, so trust them for questions like "what if we
+   re-raise these openers wider" and distrust them for fine postflop questions.
+
+6. After every test, one line per candidate: replay verdict, clone-field difference, sparring results,
+   latency, and whether it is fit to be the challenger in the next practice round.
+
+More tables shrink noise but not a clone's bias: past about 20,000 tables per candidate, spend the compute
+on more candidates and more variations, not longer runs.
+```
+
+## Part 4 · Team profiles (paste after the first scored round, refresh every round)
 
 ```
 From the hand histories so far, build a profile for each of the other 19 teams: the distribution of their
@@ -233,7 +280,7 @@ Nothing learned at one table may be carried to another; profiles come only from 
 
 ---
 
-## Part 4 · The evidence behind each line
+## Part 5 · The evidence behind each line
 
 | Claim in the prompts | Evidence | Strength |
 |---|---|---|
@@ -249,6 +296,8 @@ Nothing learned at one table may be carried to another; profiles come only from 
 | Reference-gap sizes are unreliable | The frequency-gap score undersized the over-calling leak 20x and had the wrong sign when valued by others' outcomes | Tested retrospectively |
 | Three styles, rotated through practice rounds | Practice rounds play the active bot on the real field at 1,000-12,500 iterations; the regional's top two used opposite styles (wide 3-bets; limp-or-jam) and both beat every "balanced" bot; a Boston team gained 18 places with a fresh design | Reasoned from data; untested as a procedure |
 | Take risks: only top 3 pays | Payoff is all-or-nothing beyond 3rd; our most cautious calls (a style band, "don't copy the winner") cost more than our risky ones | Judgment |
+| Modal scale for the test rig | Measured: 6,000 tables in about 2 minutes of play on 40 containers; a first image build takes several minutes | Measured |
+| Cloned-field predictions | Validation on regional data in progress (would it have predicted v4's collapse and v6's gain?) | Pending |
 | Teams can be recognised by bet sizes | 19 candidates, profiles two rounds old: 54% correct at 10 hands, 67% at 20, 73% at 40; 81% when gated on a clear margin; ~1 in 5 confident calls wrong after a bot change | Tested on six rounds |
 | Fold rates can't be learned live in one table | A seat faces a flop bet ~5-10 times and reaches showdown ~5 times per table | Measured |
 | Equity must assume opponents use the twist | A 2017 MIT prize-winner reported this as its main flaw | One source, self-reported |
