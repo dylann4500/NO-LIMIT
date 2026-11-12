@@ -269,7 +269,10 @@ table, score each seat against every profile from its sizes and preflop actions 
 first hand use a blend of the teams' rates weighted by how well each matches, mixed with the field's rate,
 as the seat's priors; then keep updating with what the seat does at this table. Don't wait for a
 confident match: the weighting already discounts weak evidence, and waiting throws away the first third of
-every table. Cap how far any single team's profile can pull a decision, because about one confident match
+every table. Let the blend's share grow over the first ten or so hands rather than starting at full
+strength, and give the rare tendencies (fold to a re-raise, folds to bets on each street, bet when checked
+to, calling an all-in: a seat gets only 0 to 4 chances per table) heavy priors that live counts move
+slowly, while frequent ones (how often they open or re-raise) can be learned mostly live. Cap how far any single team's profile can pull a decision, because about one confident match
 in five is wrong when a team has changed its bot, and treat a seat that fits no profile as a new bot.
 For showdown-based rates, correct for what's never shown: a bet that ends the action is a fair sample of
 that bet whether it was called or not, but earlier bets are only shown when the bettor kept going, so
@@ -299,7 +302,8 @@ Nothing learned at one table may be carried to another; profiles come only from 
 | Modal scale for the test rig | Measured: 6,000 tables in about 2 minutes of play on 40 containers; a first image build takes several minutes | Measured |
 | Cloned-field predictions | Validation on regional data in progress (would it have predicted v4's collapse and v6's gain?) | Pending |
 | Teams can be recognised by bet sizes | 19 candidates, profiles two rounds old: 54% correct at 10 hands, 67% at 20, 73% at 40; 81% when gated on a clear margin; ~1 in 5 confident calls wrong after a bot change | Tested on six rounds |
-| Fold rates can't be learned live in one table | A seat faces a flop bet ~5-10 times and reaches showdown ~5 times per table | Measured |
+| Team-blended priors beat field priors | 19 teams, profiles two rounds old: "does this seat fold to 3-bets more than 67%?" 74% correct at hand 20 vs 56% with live counting; error on fold tendencies down 15-25% by hand 20; slightly harmful in the first 5 hands of a 126-team field | Tested on six rounds |
+| Fold rates can't be learned live in one table | Median chances per seat per table: fold to a 3-bet 1, fold to a flop bet 3, turn 1, river 0; about 5 showdowns | Measured |
 | Equity must assume opponents use the twist | A 2017 MIT prize-winner reported this as its main flaw | One source, self-reported |
 | Strategy iteration beats infrastructure in the hour | Pilot: nine versions in 41 minutes (15.3 points) vs one parameter tuned all hour (9.7); one agent idle 31 of 60 minutes | Four simulated teams |
 | Latency tail is GC, cold calls and jitter | Our 2.6 ms GC outlier; 0.4-7.7 ms outliers measured even with GC disabled | Measured |
