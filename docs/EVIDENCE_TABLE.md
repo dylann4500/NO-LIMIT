@@ -76,6 +76,22 @@ and agent volume come last.
 Nothing in this section is grade B yet. Only two changes we have ever made are: v6's fold-to-flop-raise
 fix (+2.3 real) and the ICM fix (about +1.4 modelled).
 
+## 3b. Style-matchup simulations (cloned field, regional variant)
+
+All grade C: simulation only, frozen opponents, and the simulator's ranking reliability is still being
+tested. "Holds" means over 2 points and the same direction under both clone settings. Source:
+`research/finals_prep/metagame/REPORT.md`.
+
+| Finding | Strength in simulation | What it suggests testing |
+|---|---|---|
+| Styles form a cycle: wide re-raising beats an all-tight field (+5.7), limp-or-shove beats an all-wide field (+2.6), tight beats an all-limp-or-shove field (+2.3) | Holds | Build the three corners (pressure, shove-heavy, tight) and let practice rounds pick; plan the challenger as the next style in the cycle after the leader |
+| Against the actual top 20, limp-or-shove, tight and wide are within 1 point | Unresolved | Nothing to choose in advance: the real field decides |
+| Wide re-raising wins the full regional field but loses 3 points when weak teams are removed; limp-or-shove loses about 0.4 | Holds | Don't assume the regional winner's style transfers to 20 strong teams |
+| Tight is the worst main answer to wide re-raisers; it pays only against shove, limp or loose-calling fields | Holds | Trigger tight play from measured opponent types, not "aggression"; against re-raisers fold less to 3-bets and re-shove |
+| Calling off all-ins much more often costs 1-3 points | Holds | Keep call-offs narrow in any tight mode |
+| The averaged "balanced" profile is never best | Holds, but it is an average of rates, not a coherent bot | Build balanced as a coherent equity bot or replace it with tight |
+| Our bots score about 14-15 against a top-20-only field, not 18-20; v10 folds 89-93% to 3-bets vs 70-77% for the strong styles | Holds for the drop | Expect lower scores; fold no more than about 75% to 3-bets (also suggested by the identity study) |
+
 ## 4. Simulator validation: what is established and what is running
 
 - **Established:** in two cases the cloned field got a large difference right in sign and rough size, and
