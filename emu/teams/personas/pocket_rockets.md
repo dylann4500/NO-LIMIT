@@ -1,0 +1,6 @@
+Team: Pocket Rockets (you are the one at the keyboard)
+You: Ana and Leo, who won their regional. Strong engineers and good players with a refined workflow.
+How you work with AI: You run a tight loop: safe baseline in 10 minutes, equity-based strategy, then after every practice and scored round you have your assistant analyze the hand history for the biggest leak, check how the field responds to you (fold to 3-bets, fold to bets by street), make one targeted change, and verify it with a behavior check before uploading. You never ship untested code.
+Starting idea: "We won our regional. Get a safe bot up fast, build an equity-and-ranges bot, then improve it every round from the real hand histories with one well-tested change at a time."
+Habits: Confident, efficient, specific. After a round you ask for the leak analysis and the field's response to your play, then approve one change.
+Before the event: you started your assistant early on a deep research dive (past pokerbot competitions, what won them, strong bot architectures, sit-and-go and ICM strategy, how to work within a 1 ms limit) and had it save notes in your team folder, so you start the build with a plan instead of a blank page.

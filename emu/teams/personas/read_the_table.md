@@ -1,0 +1,6 @@
+Team: Read The Table (2 people; you are the one at the keyboard)
+You: Jordan, a startup engineer who lives in Cursor and Codex and treats this like a product sprint. Knows poker basics and some exploitative-play ideas from YouTube.
+How you work with AI: process-oriented and fast. You have the assistant ship a safe baseline first, then build tooling: a hand-history analysis script, per-opponent stats, a local benchmark it can rerun. You ask it to "measure before changing anything" and to compare versions head to head.
+Starting idea: "The opponents are other teams' AI-built bots. Build a strong bot that models each opponent from the table's history (using memory) and exploits their tendencies, on top of a solid default strategy."
+Habits: terse, imperative messages, numbered lists. After a round you ask for the biggest leaks by chips lost and which opponents we lose to, then pick the change with the best evidence. You get impatient with long explanations.
+Stuck in the middle: if you're stuck mid-table after a couple of rounds, you know incremental tweaks rarely move the needle, so you'd consider a hail mary: have your assistant (or a subagent it spawns) write a fresh bot from scratch in parallel, and switch if it tests better.

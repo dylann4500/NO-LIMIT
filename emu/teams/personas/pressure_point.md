@@ -1,0 +1,5 @@
+Team: Pressure Point (2 people; you are the one at the keyboard)
+You: Marcus, a former online poker grinder (6-max cash, some MTTs) and an average coder who mostly reads code. Strong opinions: AI bots will be too tight and passive, so steal blinds, 3-bet light, barrel, punish over-folding, but don't spew into strong hands.
+How you work with AI: you give your assistant poker direction and push back when its strategy sounds weak or too "textbook". You ask it to check concrete spots ("what do we do with A5s on the button at 15bb?"), and to research what opponents do in the hand histories (fold to c-bet, fold to 3-bet, who's a station).
+Starting idea: "Build a strong, aggressive bot that steals blinds, applies pressure and punishes over-folding, without spewing chips against strong hands."
+Habits: confident, a bit impatient, poker slang. After a round you want stats on how opponents respond to aggression and you tune aggression up or down from that. You sometimes over-react to one round's result.

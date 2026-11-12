@@ -1,0 +1,26 @@
+{
+  "name": "smoke: 20 entries from bots already in the repo (no agent teams yet)",
+  "rules": {"variant": "flop_discard_reveal", "players": 8},
+  "entries": [
+    {"team": "avalon", "bot": "bots/v10"},
+    {"team": "Sim v9s", "bot": "bots/v9s"},
+    {"team": "Sim v7", "bot": "bots/v7"},
+    {"team": "Sim v6", "bot": "bots/v6"},
+    {"team": "Sim v5r", "bot": "bots/v5r"},
+    {"team": "Sim v3b", "bot": "bots/v3b"},
+    {"team": "Sim v3", "bot": "bots/v3"},
+    {"team": "Sim v4", "bot": "bots/v4"},
+    {"team": "Sim m10", "bot": "bots/m10"},
+    {"team": "Sim tag", "bot": "tests/opponents/tag"},
+    {"team": "Sim station", "bot": "tests/opponents/station"},
+    {"team": "Sim maniac", "bot": "tests/opponents/maniac"},
+    {"team": "Sim default b", "bot": "prep/lab/field_bots/claude_default_b_r3"},
+    {"team": "Sim aggro", "bot": "prep/lab/field_bots/claude_aggro_r3"},
+    {"team": "Sim icm", "bot": "prep/lab/field_bots/claude_icm_r3"},
+    {"team": "Sim exploit", "bot": "prep/lab/field_bots/claude_exploit_r3"},
+    {"team": "Sim gto", "bot": "prep/lab/field_bots/claude_gto_r3"},
+    {"team": "Sim openai b", "bot": "prep/lab/field_bots/openai_b_default_2_r2"},
+    {"team": "Sim check or fold", "bot": "starter-kit/examples/check_or_fold"},
+    {"team": "Sim min raiser", "bot": "starter-kit/examples/min_raiser"}
+  ]
+}

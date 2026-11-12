@@ -1,0 +1,1 @@
+This is a sit-and-go tournament with 50/30/20 payouts, so tournament strategy matters most. Build a strong bot with ICM-aware decisions, push/fold ranges by stack depth in big blinds, and sound bubble play, on top of solid fundamentals.
