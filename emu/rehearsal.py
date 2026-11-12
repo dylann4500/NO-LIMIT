@@ -69,6 +69,10 @@ def timeline(scale: float, weights: list[int]) -> list[dict]:
           for i, m in enumerate((10, 20, 30, 40, 50), 1)]
     ev += [{"t": (60 + 20 * (k - 1)) * 60 * scale, "kind": "scored", "n": k, "label": f"Scored round {k} (x{w})"}
            for k, w in enumerate(weights, 1)]
+    # As on the real portal, a practice round runs between scored rounds (10 minutes after each one).
+    ev += [{"t": (70 + 20 * (k - 1)) * 60 * scale, "kind": "practice", "n": 5 + k, "label": f"Practice round {5 + k}"}
+           for k in range(1, len(weights))]
+    ev.sort(key=lambda e: e["t"])
     return ev
 
 
