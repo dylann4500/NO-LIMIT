@@ -1,0 +1,8 @@
+{
+  "agent": "Samuels-MacBook-Pro-4",
+  "at": "2026-11-12T02:22:52Z",
+  "by": "samuel",
+  "pin": false,
+  "task": "emu-pilot",
+  "text": "Pilot done (4 teams, build+2 rounds, all uploads passed, $47 API-equiv). Full rehearsal ready but NOT started (Samuel will signal): emu/rehearsal.py --run full1 --wait, then --start now|HH:MM. Rounds on Modal (40 shards, cloud merge), deliveries from the volume, teams isolated. Realism vs real top-20 in emu/realism.py; Boston data in data/boston/. See emu/README.md."
+}

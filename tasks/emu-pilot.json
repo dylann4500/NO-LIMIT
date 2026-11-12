@@ -22,6 +22,11 @@
       "at": "2026-11-12T00:18:48Z",
       "by": "samuel",
       "text": "Pilot running (emu/pilot.py --run pilot1): 4 teams, each = a simulated competitor (Opus) steering a coding agent (2x Opus 5.5, 2x Fable 5.2) in a Modal sandbox; 60-min build, R1, 15-min update, R2. ~1h45 wall."
+    },
+    {
+      "at": "2026-11-12T02:22:52Z",
+      "by": "samuel",
+      "text": "Pilot done (4 teams, build+2 rounds, all uploads passed, $47 API-equiv). Full rehearsal ready but NOT started (Samuel will signal): emu/rehearsal.py --run full1 --wait, then --start now|HH:MM. Rounds on Modal (40 shards, cloud merge), deliveries from the volume, teams isolated. Realism vs real top-20 in emu/realism.py; Boston data in data/boston/. See emu/README.md."
     }
   ],
   "owner": "samuel",
@@ -34,5 +39,5 @@
   "result": "",
   "state": "active",
   "title": "Tournament emulator pilot: mock portal/kit, Modal-sandboxed Claude agent teams (4 teams, build + 2 rounds, regional variant), realism check vs real data",
-  "updated_at": "2026-11-12T00:18:48Z"
+  "updated_at": "2026-11-12T02:22:52Z"
 }
