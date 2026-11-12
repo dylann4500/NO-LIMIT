@@ -37,8 +37,10 @@ its first hour decided its result. Its style, measured from our tables:
   band was set from the field's median after v4's failure, so it protected us from bad aggression and from
   good aggression alike. v4 failed because it 3-bet blindly and then folded 96% to 4-bets and played badly
   postflop, not because its PFR was high.
-- **Ranks barely move after round 1.** Bay Area round-to-round rank correlation was 0.76-0.83; Boston's was a
-  median of 0.68. Most teams' placing was set by the bot they had at the end of the build.
+- **Ranks are sticky across the whole field, much less so at the top.** Bay Area round-to-round rank
+  correlation was 0.84-0.91 for the field but 0.41-0.79 among the top 20, who moved 3-4.5 places a round.
+  Almost every team (78-90%) changed its bot every round, and for strong teams changing only kept them
+  level: top-20 teams lost about 0.65 points per table per round whether they changed or not.
 - **Big jumps come from rewrites, not tweaks.** Boston: a team stuck around 45th had a subagent write a fresh
   "hail mary" bot after round 3 and gained 18 places in one round (+2 points per table). Our own v4 rewrite
   failed, but it was released without real-field evidence.
@@ -50,9 +52,10 @@ its first hour decided its result. Its style, measured from our tables:
 1. A strong first bot within the build hour, starting from research done beforehand.
 2. Postflop calibrated to the field from the first practice round: fold to bets near the field's rates, not
    far above or below.
-3. Real preflop aggression (wide 3-bets with disciplined folds to 4-bets) judged by the field's response
-   (their fold to 3-bet, re-raise rates), never blocked by a fixed VPIP/PFR band.
-4. Three independently written bots with different styles from minute 10, the winner chosen by practice-round results.
+3. Preflop aggression set by the measured field (its fold to 3-bets and re-raise rates), never blocked by
+   a fixed VPIP/PFR band. Wide 3-betting won the Bay Area against a field that kept folding; by round 5 at
+   Boston the top teams folded only 58% to re-raises and 4-bet 23%, and every finalist knows what won.
+4. One shared platform with three styles on it from minute 10, the winner chosen by practice-round results.
 5. Every library function a decision depends on unit-tested with edge cases (the ICM bug).
 
 ## 2. What we know about the Finals format
@@ -116,7 +119,7 @@ plan. Sign in to Modal.
 **Build hour:**
 - 0-5: read the kit and the Format page (weights, payouts, anything unusual in `state.config`).
 - by 10: a minimal legal bot uploaded and confirmed active, so a bot is always live.
-- 10-50: three bots with different styles (balanced, wide-pressure, shove-heavy) built in parallel; the
+- 10-50: one shared platform, three styles on it (balanced, wide-pressure, shove-heavy) built in parallel; the
   test rig starts at about minute 15. Practice rounds 1, 2 and 3 (minutes 20, 30, 40) each play a
   different style; practice 4 (minute 50, the largest) re-plays the leader to confirm. Practice 1 is only
   1,000 iterations (about ±0.6 points), so put the style we trust least there.
@@ -126,14 +129,13 @@ plan. Sign in to Modal.
 
 ## 4. The operating model
 
-**How many bots.** Three during the build plus a tight one in reserve, two afterwards.
+**How many bots.** One shared platform with three styles during the build, two afterwards.
 - The build has four practice rounds, so three styles can each get one real-field score and the leader
   one confirmation. A fourth style would have to be chosen blind (more
   styles can still be filtered in simulation).
-- The reserve is a fourth bot for an aggressive field: it folds most hands, calls and re-raises all-in
-  with strong hands, and goes shove-or-fold when short. It gets no build practice round; the cloned field
-  judges it after scored round 1, and it takes the challenger slot if the field proves aggressive. The
-  other three carry a milder version of the same response.
+- Adaptation is per seat, not per table mood: each style blends what a seat has done at this table with a
+  prior and calls off or re-raises wider against seats that raise a lot. Every adaptive rule is a setting
+  the test rig can switch off, and none is assumed to help until that comparison says so.
 - After the build there is one practice round between scored rounds, so one alternative can be tested on
   the real field per window: the **challenger**, the best of the styles that didn't win the build. The
   third bot is dropped.
@@ -165,7 +167,7 @@ rerun on fresh deals before either ships.
 | 6-10 candidate builders | one change each, on a copy of the live bot |
 | 1 test rig | replay testing, the cloned field and paired runs on Modal, confirmation runs |
 | 2 bug hunters | independent review of the live bot and the challenger |
-| 1 per team ahead of us | that team's weaknesses and a tailored counter for its profile |
+| 1-3 opponent specialists | the teams where a profile pays most: large gaps from the field and a bot that hasn't changed much |
 | 1 profiles | rebuilds every team's profile from the latest download |
 
 Split the agents across both our Claude accounts so neither hits a burst limit, with an API key as
@@ -194,10 +196,12 @@ it in the rehearsal so the first use isn't on the day.
   Thresholds are only for all-or-nothing choices like switching bots.
 - The real field is the judge: practice-round and scored results first, then replay testing, then the
   cloned field. A local win against our own bots decides nothing.
-- The cloned field is a veto and a direction check, not a ranking. On regional data it predicted v4's
-  collapse (-6 to -8 against a real -9) from the data we had before uploading it, and v6's gain (+1.6 to
-  +2.9 against +2.3). It cannot separate candidates within about 1 point. Nothing that loses 2 or more
-  points in the cloned field gets uploaded, challenger included.
+- The cloned field is a warning light and a direction check, not a ranking. On regional data it got two
+  big cases right (v4's collapse, v6's gain), which doesn't prove its rankings; a fuller ordering test is
+  pending. A large predicted loss means "find out why before shipping", not an automatic veto.
+- Every finding is graded before it changes the bot (`docs/EVIDENCE_TABLE.md`): a measured fact, a tested
+  change, or a candidate. Candidates get built and tested; only tested changes become defaults. The
+  quickest way to lose is a persuasive analysis that goes straight into the live bot.
 - Never gate a change on looking like the average team. Our regional gate would have blocked the winner.
 
 **Prompts:** all in `docs/FIRST_PROMPT.md` (Parts 0-5), with the evidence for each line in Part 6. The

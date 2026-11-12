@@ -58,9 +58,10 @@ We're one of 20 teams in the finals of a live pokerbot tournament. The variant w
 have 60 minutes to build a bot from scratch, then six scored rounds 20 minutes apart, with later rounds
 weighted more. The other 19 teams are strong and are also using frontier coding agents, so a merely
 correct bot finishes mid-table. Only the top 3 win anything, so 4th and 20th are worth the same to us:
-when a choice trades a small chance of a worse result for a real chance of a much better one, take it.
-That applies to strategy and to evidence: act on a promising signal without waiting for certainty, while
-keeping the things that can zero a round (legality, speed, an active bot) absolutely safe. I'll explain
+when choosing which bot or style to run, take the bolder option when the evidence is roughly even.
+That is about our choices between rounds, not about chip decisions: our score is an average over
+thousands of tables, so inside a hand always take the play with the higher expected value. Keep the
+things that can zero a round (legality, speed, an active bot) absolutely safe. I'll explain
 what a winning bot takes, because the reasons matter more than the rules.
 
 THE FORMAT
@@ -153,8 +154,11 @@ and moves as evidence arrives. Three things we got wrong and want right:
   actions too. Ours silently never did, and the bot never learned who folded to it.
 - every rate is opportunities-based and must lie between 0 and 1; ours had one inverted.
 - when a hand is shown down, replay that seat's actions with the cards known and record what the bets and
-  calls were made with: bluff, draw or value, by street and size. A called river bet is a fair sample of
-  what they bet with; earlier streets are skewed toward strong hands.
+  calls were made with: bluff, draw or value, by street and size. Shown hands are selected evidence:
+  whether a bet gets called depends on the caller's cards and the public history (including exposed
+  cards), so even a called river bet is not a fair sample of the bettor's range, and earlier streets
+  are shown only when the bettor kept going. Use showdowns to bound a seat's bluff share (a low and a
+  high estimate), not as its rate.
 Build in team recognition from the start, even though the profiles arrive later. With only 19 opponents,
 a seat's exact open-raise size and its bet sizes as a fraction of the pot identify the team within a few
 dozen hands (in our regional data: the right team 54% of the time after 10 hands, 67% after 20, 73% after
@@ -199,10 +203,13 @@ HOW TO WORK
 - Never wait idle on timers or long jobs; if something runs long, work on the next thing.
 - Keep a short notes file next to the bot: what each version changed, what was measured, what's
   suspected. A later session of you will need it.
-- Build three bots with deliberately different styles, not three versions of one bot, because a different
-  design is the only thing that has ever moved a team many places, and the practice rounds can tell us
-  which style this field pays. You write track A; spawn two subagents now for B and C, each in its own
-  folder, sharing only the platform layer and the variant engine once those exist:
+- Build ONE shared platform (rules and legal actions, the variant engine, equity, per-seat counters,
+  memory, the safety shell) and express styles as parameter sets or small swappable decision parts on
+  top of it, so the hard machinery is written once and checked once. Then build three deliberately
+  different styles on it, because a different design is the only thing that has ever moved a team many
+  places and the practice rounds can tell us which style this field pays. You own the platform and
+  style A; spawn two subagents for B and C once the platform's interface is fixed, each in its own folder,
+  changing only its style layer:
     A. balanced: equity-driven, opens a normal range, folds to bets near break-even;
     B. pressure: opens and re-raises wide (the regional winner's style), with planned folds to the next
        raise, and bets whenever checked to while the field folds enough;
@@ -213,13 +220,15 @@ HOW TO WORK
   the challenger, which plays the practice round between scored rounds and takes the bigger, riskier
   changes; the third is dropped. If you have ideas for further styles, build them too and let the test rig
   filter them: only three can get practice rounds, but more can be tried in simulation.
-- Also build a fourth bot, D, for an aggressive field: it folds most hands and avoids the early all-ins
-  that bust other teams, calls and re-raises all-in with strong hands (how strong depends on how loose
-  that raiser has been), and switches to shove-or-fold by stack depth before the blinds drain it. A bot
-  that only folds busts around hand 100 and usually finishes 4th, so D must win chips, not just wait. It
-  gets no practice round in the build; the cloned field judges it after scored round 1.
-- Give A, B and C the same response in milder form: each counts how often the seats at its table raise,
-  re-raise and shove, and as that rises it opens fewer hands and calls off with more.
+- Adapt to specific seats, not to a vague "table mood": "this opener has folded to our re-raise twice at
+  this stack depth" is useful; "the table is aggressive, switch to tight mode" is not. Every adjustment is
+  a blend of the seat's live count with a prior, moves a decision by an amount that grows with the number
+  of observations, is capped, and keeps a conservative default when counts are small. Folding more is not
+  the answer to aggression: against seats that raise, re-raise or shove a lot, call off and re-raise wider;
+  play tighter only against seats that call too much, and tighten survival play only when other seats are
+  measurably busting each other (count all-ins per table).
+- Each adaptive rule is a named setting that can be switched off, so the test rig can compare the bot
+  with and without it. None of them is assumed to help until that comparison says so.
 - Tell me plainly when something is untested or a number looks wrong. I'd rather hear "I'm not sure this
   branch fires" now than find it in round 3.
 Start by reading the kit, then give me the summary and the minimal bot.
@@ -270,8 +279,9 @@ change you'd make with the rates it should move.
 
 Three ways to test a candidate, cheapest first. The practice rounds are the only fully trustworthy judge but
 fit one challenger each, so the first two decide which challenger gets that slot. The cloned-field method
-passed a test on our regional data (Part 6): it catches a candidate that loses 2 or more points and gets the
-direction of a big style change right, but it cannot separate candidates that are within about 1 point.
+reproduced one collapse and one gain on our regional data (Part 6), but two cases don't establish that its
+rankings are reliable: treat a large predicted loss as a warning to investigate, not an automatic veto,
+and never pick between candidates on a cloned-field difference alone. A fuller ordering test is pending.
 
 ```
 Build our test rig in rig/, separate from the bots, and keep it running for the whole event. We have a Modal
@@ -307,10 +317,17 @@ the image build first because it takes several minutes (the kit's requirements p
    simulated rates match its measured ones. Check how often river bettors win at showdown against the
    real figure: clones come out too honest, so add bluffs until it matches, and rerun the top candidates
    with fewer and with more bluffs to see whether the verdict holds.
-   Clones copy frequencies, not the reasoning behind them, and they don't adapt. Trust them to catch a
-   candidate that loses 2 or more points to this field and for the direction of big style changes like
-   "what if we re-raise these openers wider". Don't trust differences under about 1 point, and expect the
-   next round's real score to be up to 1-2 points lower than predicted, because the field tightens.
+   Clones copy frequencies, not the reasoning behind them, and they don't adapt. Add a second version in
+   which clones respond to what a seat has done at the table (re-raise a seat more after it folds to a
+   re-raise, less after it doesn't; bet more into seats that fold to bets; fold less to seats that bet
+   often), and report every candidate against both. Don't trust differences under about 1-2 points, and
+   expect the next round's real score to be lower than predicted, because the field improves. Fresh
+   deals remove noise, not model error: a candidate that wins only under one opponent model is unproven.
+
+5b. Candidate generator: once the cloned field runs, try a few dozen random parameter sets for the live
+   bot's style settings (each within sane ranges) and report the five best with their numbers. These are
+   candidates only: the best of many random tries always looks better than it is, so they go through the
+   same confirmation run, bug check and practice round as any other candidate.
 
 6. Take candidates from any folder under candidates/ (other agents will drop them there, several per
    window) and test them all at once. Because the best of many candidates always looks better than it is,
@@ -340,22 +357,30 @@ strength, and give the rare tendencies (fold to a re-raise, folds to bets on eac
 to, calling an all-in: a seat gets only 0 to 4 chances per table) heavy priors that live counts move
 slowly, while frequent ones (how often they open or re-raise) can be learned mostly live. Cap how far any single team's profile can pull a decision, because about one confident match
 in five is wrong when a team has changed its bot, and treat a seat that fits no profile as a new bot.
-For showdown-based rates, correct for what's never shown: a bet that ends the action is a fair sample of
-that bet whether it was called or not, but earlier bets are only shown when the bettor kept going, so
-count how often each team gives up after betting (that's public) and treat those unseen hands as the weak
-end, giving a low and a high estimate of its bluff share; use the middle unless a decision is close.
+For showdown-based rates, remember that shown hands are selected: whether a bet is called depends on the
+caller's cards and the public history, and earlier bets are shown only when the bettor kept going. Count
+how often each team gives up after betting (that's public), treat unseen hands as the weak end, and keep a
+low and a high estimate of its bluff share; use the middle unless a decision is close.
+Sizes can be copied: before a team's profile moves a decision far from the field's, check that the seat's
+live open and re-raise rates at this table fit that team, and if they don't, fall back to the field's
+rates. Compare sizes in bins (about a quarter of a big blind for opens, a tenth of the pot for bets).
 Teams change, between rounds and within a table, so nothing in a profile is constant:
 - Between rounds: keep each team's rates per round, weight the newest round most, and flag every rate
-  that moved by more than its noise since the round before. Store the direction of the move too, and
-  lean the prior a little further that way. A team whose sizes or rates jumped has a new bot: start its
-  profile again from the newest round only.
+  that moved by more than its noise since the round before. Use the newest round's level; don't
+  extrapolate the move (at both regionals "same as last round" predicted better than a trend). A team
+  whose sizes or rates jumped has a new bot: start its profile again from the newest round only.
 - Within a table: other teams are identifying and adapting to us as well. For each seat keep two sets of
   counts, all hands and a recent window (or a decaying average), and separately how the seat acts against
   US versus against everyone else. When the recent or against-us rate departs from the seat's longer-run
-  rate, move toward it. From the downloads, measure for each team how its play against us shifts from the
-  first third of a table to the last third, and store that shift in its profile as something to expect.
-- We are being profiled too. Report what would identify us (our exact bet and raise sizes) and our most
-  predictable rates, and vary our sizes within a small band where it costs nothing.
+  rate, move toward it, by an amount bounded by how many observations the recent window holds (a seat gets
+  only 0-4 chances per table at the rare decisions, so one or two actions must not swing the estimate).
+  From the downloads, measure how each team responds to what a seat has done at the table (for example
+  re-raising a seat more after it folded to a re-raise) and store that as part of its profile.
+- We are being profiled too, and changing our sizes hides us for one round at most. Don't move a size away
+  from its best value to disguise it. Each round, report the hand by which our own recogniser identifies
+  us, and list our rates at the rare decisions next to the field's. A large gap is a question, not a
+  verdict: say what an opponent who knew it would do, what that would cost us, and whether the gap is a
+  deliberate exploit; only then is closing it a candidate change.
 Don't assume eight seats or 20 teams' worth of tables: read the table size from the state every hand.
 Nothing learned at one table may be carried to another; profiles come only from the downloads.
 ```
@@ -404,7 +429,8 @@ caught exceptions that hide a disabled feature. Report only what you verified, w
 reproduction, worst first.
 ```
 
-**Opponent specialists** (one per team ahead of us)
+**Opponent specialists** (for the few teams where a profile pays most: large gaps from the field, and a
+bot that hasn't changed much between rounds; not simply the teams ahead of us)
 ```
 Study <team> in our downloads so far: its rates for every tendency we track by position and stack depth,
 its exact bet sizes, what its bets, raises and calls turned out to be at showdown by street, how it uses
