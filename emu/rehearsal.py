@@ -185,8 +185,12 @@ class Event:
             shutil.rmtree(dest)
         dest.mkdir(parents=True)
         if team == AVALON:
-            shutil.copytree(self.dir / AVALON / "submission", dest / "submission",
-                            ignore=shutil.ignore_patterns("__pycache__", ".*"))
+            src = self.dir / AVALON / "submission"
+            if self.a.avalon_replay:  # validation: avalon plays what we actually ran that round
+                plan = self.a.avalon_replay.split(",")
+                n = int(label.split()[2]) if label.startswith("Scored") else 0
+                src = ROOT / "bots" / (plan[n - 1] if n else self.a.avalon_practice)
+            shutil.copytree(src, dest / "submission", ignore=shutil.ignore_patterns("__pycache__", ".*"))
             return dest / "submission"
         p = self.sandboxes[team].exec("bash", "-lc", "cd /home/team/work && tar czf - --exclude=__pycache__ "
                                       "--exclude='.*' submission | base64 -w0", timeout=300)
@@ -434,6 +438,9 @@ def main() -> None:
     p.add_argument("--local-rounds", action="store_true", help="play rounds on this machine instead of Modal")
     p.add_argument("--weights", default="1,2,3,4,5,6", help="round weights; Boston used 1,2,3,5,8,13")
     p.add_argument("--prep-scale", type=float, default=1.0, help="scale pre-event research minutes (0 = none)")
+    p.add_argument("--avalon-replay", default=None,
+                   help="validation: avalon's bot per scored round, e.g. v3b,v5r,v6,v7,v9s,v10 (the real night)")
+    p.add_argument("--avalon-practice", default="v3b", help="avalon's bot in practice rounds with --avalon-replay")
     p.add_argument("--wait", action="store_true", help="set up, then wait for --start before anything runs")
     p.add_argument("--start", default=None, help="signal a waiting run: 'now' or HH:MM for the build to begin")
     a = p.parse_args()
