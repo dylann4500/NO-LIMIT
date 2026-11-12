@@ -126,10 +126,14 @@ plan. Sign in to Modal.
 
 ## 4. The operating model
 
-**How many bots.** Three during the build, two afterwards.
+**How many bots.** Three during the build plus a tight one in reserve, two afterwards.
 - The build has four practice rounds, so three styles can each get one real-field score and the leader
   one confirmation. A fourth style would have to be chosen blind (more
   styles can still be filtered in simulation).
+- The reserve is a fourth bot for an aggressive field: it folds most hands, calls and re-raises all-in
+  with strong hands, and goes shove-or-fold when short. It gets no build practice round; the cloned field
+  judges it after scored round 1, and it takes the challenger slot if the field proves aggressive. The
+  other three carry a milder version of the same response.
 - After the build there is one practice round between scored rounds, so one alternative can be tested on
   the real field per window: the **challenger**, the best of the styles that didn't win the build. The
   third bot is dropped.

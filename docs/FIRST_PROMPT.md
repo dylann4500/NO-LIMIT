@@ -213,6 +213,13 @@ HOW TO WORK
   the challenger, which plays the practice round between scored rounds and takes the bigger, riskier
   changes; the third is dropped. If you have ideas for further styles, build them too and let the test rig
   filter them: only three can get practice rounds, but more can be tried in simulation.
+- Also build a fourth bot, D, for an aggressive field: it folds most hands and avoids the early all-ins
+  that bust other teams, calls and re-raises all-in with strong hands (how strong depends on how loose
+  that raiser has been), and switches to shove-or-fold by stack depth before the blinds drain it. A bot
+  that only folds busts around hand 100 and usually finishes 4th, so D must win chips, not just wait. It
+  gets no practice round in the build; the cloned field judges it after scored round 1.
+- Give A, B and C the same response in milder form: each counts how often the seats at its table raise,
+  re-raise and shove, and as that rises it opens fewer hands and calls off with more.
 - Tell me plainly when something is untested or a number looks wrong. I'd rather hear "I'm not sure this
   branch fires" now than find it in round 3.
 Start by reading the kit, then give me the summary and the minimal bot.
