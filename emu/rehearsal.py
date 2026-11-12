@@ -57,7 +57,7 @@ PREP_SITUATION = """The Finals start in about {minutes} minutes. The variant wil
 # bet sizes, the field's defence to wide re-raises, simulation, copying the leaders.
 FINALS7 = [
     ("pocket_rockets", FABLE, 0, 2), ("pressure_point", OPUS, 0, 2), ("read_the_table", FABLE, 0, 2),
-    ("deep_stack", FABLE, 0, 16), ("shove_bros", OPUS, 0, 2), ("nit_picks", OPUS, 0, 2),
+    ("deep_stack", FABLE, 0, 4), ("shove_bros", OPUS, 0, 2), ("nit_picks", OPUS, 0, 2),
     ("showdown_value", OPUS, 0, 2),
 ]
 FINALISTS = EMU / "teams" / "finalists"
