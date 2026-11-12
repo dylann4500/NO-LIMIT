@@ -337,6 +337,19 @@ For showdown-based rates, correct for what's never shown: a bet that ends the ac
 that bet whether it was called or not, but earlier bets are only shown when the bettor kept going, so
 count how often each team gives up after betting (that's public) and treat those unseen hands as the weak
 end, giving a low and a high estimate of its bluff share; use the middle unless a decision is close.
+Teams change, between rounds and within a table, so nothing in a profile is constant:
+- Between rounds: keep each team's rates per round, weight the newest round most, and flag every rate
+  that moved by more than its noise since the round before. Store the direction of the move too, and
+  lean the prior a little further that way. A team whose sizes or rates jumped has a new bot: start its
+  profile again from the newest round only.
+- Within a table: other teams are identifying and adapting to us as well. For each seat keep two sets of
+  counts, all hands and a recent window (or a decaying average), and separately how the seat acts against
+  US versus against everyone else. When the recent or against-us rate departs from the seat's longer-run
+  rate, move toward it. From the downloads, measure for each team how its play against us shifts from the
+  first third of a table to the last third, and store that shift in its profile as something to expect.
+- We are being profiled too. Report what would identify us (our exact bet and raise sizes) and our most
+  predictable rates, and vary our sizes within a small band where it costs nothing.
+Don't assume eight seats or 20 teams' worth of tables: read the table size from the state every hand.
 Nothing learned at one table may be carried to another; profiles come only from the downloads.
 ```
 
