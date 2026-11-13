@@ -12,6 +12,11 @@
       "at": "2026-11-13T01:00:07Z",
       "by": "samuel",
       "text": "claimed"
+    },
+    {
+      "at": "2026-11-13T01:00:18Z",
+      "by": "samuel",
+      "text": "done: AGENTS.md now points to docs/START_HERE.md and the Finals docs (branch emu/rehearsal)"
     }
   ],
   "owner": "samuel",
@@ -21,8 +26,8 @@
   "posted_at": "",
   "posted_by": "",
   "priority": 0,
-  "result": "",
-  "state": "active",
+  "result": "AGENTS.md now points to docs/START_HERE.md and the Finals docs (branch emu/rehearsal)",
+  "state": "done",
   "title": "Point AGENTS.md at the Finals plan docs",
-  "updated_at": "2026-11-13T01:00:07Z"
+  "updated_at": "2026-11-13T01:00:18Z"
 }
