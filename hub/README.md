@@ -1,65 +1,91 @@
 # Avalon Hub
 
-One screen per person for all of that person's agents. Each laptop runs its own hub; the two hubs pass
-messages to each other, so agents settle questions between themselves instead of asking a human to relay.
-(Confirmed with the organizers: general infrastructure like this is allowed; bot code is not.)
+One screen per person. Each of you talks only to your **Overseer**; it runs the workers, the workers run
+their own helpers in parallel (Claude subagents, Modal, Codex), and the two laptops' agents message each
+other directly. Humans only decide and upload. (Confirmed with the organizers: general infrastructure like
+this is allowed; bot code is not.)
 
 ```
-./hub/start.sh samuel ~/nolimit-rehearsal      # on Samuel's laptop
-./hub/start.sh dylan  ~/nolimit-rehearsal      # on Dylan's laptop
+./hub/start.sh samuel ~/nolimit-rehearsal \
+    --portal-base http://127.0.0.1:8765/tournament/api --portal-key-file ~/.config/avalon-rehearsal/portal-key
+./hub/start.sh dylan ~/nolimit-rehearsal
 ```
 
-Then open **http://127.0.0.1:7777** and choose your name.
+Open **http://127.0.0.1:7777** and choose your name. `start.sh` restarts the hub if it ever crashes;
+Ctrl+C stops it.
 
-## What you see
+## The layout
 
-- **Sidebar:** your Overseer, then its agents, each with a live status dot (green = working, amber =
-  waiting for you, red = error, hollow = not started) and one line on what it is doing. The top line
-  says whether you are linked to the other laptop.
-- **Chat:** the selected agent's conversation, like Claude Code: your messages, its replies, its tool
-  calls (click to expand), and cards for messages it sent to or received from other agents.
-- **Banners:** an agent asking permission (Allow / Always for this agent / Deny), or an agent asking you
-  to decide or do something (e.g. "upload v4 now").
-- **Buttons:** Summary (its latest report), Auto-approve / Asking first, Interrupt, Start / Stop.
-- Choosing the other person's name shows their agents read-only (posted summaries); a message you type
-  there goes to that agent.
+| | Samuel | Dylan |
+|---|---|---|
+| **Overseer** (Opus) | Your only chat. The analysis, and the recommendation sent to Dylan's Overseer at T-8 | Dylan's only chat. Decides what plays, declares the live bot, tells Dylan what to upload |
+| Worker | **Data** (Opus): our leaks and opponent profiles from every round | **Platform** (Opus): shared code, releases, `bot/` |
+| Worker | **Tester** (Sonnet): one verdict per candidate: correct? stronger? | **Builder** (Opus): styles A/B/C and the challenger, in its own copy of the repo |
+| Hub services | **Clock**, **Portal watcher** | **Clock** |
 
-## How it works
+- **Any agent can message any agent** on either laptop (`send_message`, kinds `task`, `question`, `answer`,
+  `fyi`; `fyi` doesn't wake the receiver). Decisions belong to the two Overseers; only Overseers talk to
+  humans.
+- **Clock:** set minute 0 once (Home page, the `--start HH:MM` option, or an Overseer). Both laptops share
+  it. It wakes the Overseers at T-13, T-8, T-5 and T-3 before scored rounds and at T-3 before practice
+  rounds. If there's no decision by T-5, the live bot plays.
+- **Portal watcher** (Samuel's laptop): reads the portal every minute (read-only), saves each finished
+  round's results and our hand histories in `~/portal-data/`, wakes the Overseer and Data, tells Dylan's
+  Overseer, and raises an alert if an upload is rejected, if there's no active bot, or if the active bot
+  isn't the one Dylan's Overseer declared (checked at T-9 and T-2).
+- **Parallel work:** each agent fans out on Claude subagents (up to 4), Modal (shared cap of 80
+  containers) and Codex (if installed; separate credits). `roster.py` has the exact rules.
 
-- Every agent is a real Claude Code session (Claude Agent SDK) on the laptop's own Claude login, working
-  in the team repo. State and transcripts live in `~/.avalon-hub/<person>/`; a restarted hub resumes
-  each agent's conversation.
-- Agents get hub tools: `send_message` (any agent, either laptop), `list_agents`, `read_agent`,
-  `set_status`, `notify_human`, and for the Overseer `start_agent` / `stop_agent`. Standing instructions
-  (`roster.py`, PROTOCOL) tell them to message the owning agent directly, never through a human.
-- Messages between laptops go through a Modal Queue (team workspace), so any internet connection works,
-  phone hotspots included. Outgoing messages are saved locally first and retried until delivered;
-  duplicates are dropped.
-- Permissions: commands Claude Code would normally ask about are approved automatically, except risky
-  ones (force-push, hard reset, recursive deletes, sudo, piping downloads into a shell, ...), which wait
-  for a click. "Asking first" on an agent makes it wait for every such command.
+## The screen
+
+- **Needs you** (top of the sidebar): every permission request and every decision an Overseer needs,
+  with buttons. The browser tab shows the count, e.g. `(2) Avalon`.
+- **Home:** the clock, the declared live bot, the link to the other laptop, and a card for every agent and
+  service on both laptops.
+- **An agent's page:** its conversation, with tool steps folded into one line ("▸ 9 steps · Bash ×5, Read
+  ×4") and agent-to-agent messages as one-line entries you can expand. The latest report is pinned at the
+  top. Labels say what it's doing: Working · 3m, Ready, Waiting for you, Usage limit · resumes 21:40,
+  Error · retrying, Off. "Usage" shows how much of the Claude allowance is used.
+- Messages you send while an agent is busy show as **queued** until it reads them.
+
+## Reliability
+
+- Messages between laptops go through Modal (any internet connection, hotspots included). Each is
+  acknowledged by the receiver and resent until it is; duplicates are dropped; a message that truly can't
+  be delivered comes back to the sender. Pending messages survive a hub restart.
+- An agent whose turn fails keeps its messages and retries. If it hits a usage limit it shows when it
+  resumes; if it's the Opus allowance, it switches itself to Sonnet and carries on.
+- Risky commands (deletes, force pushes, `git stash/restore/rebase`, killing processes, Modal deletes, any
+  write to the organizers' portal, writes outside the repo) always wait for a click; unanswered requests are
+  refused after 3 minutes so nothing stalls before a deadline. "Commands: Ask me" makes an agent ask for
+  every command Claude Code would normally ask about.
+- Two agents caught messaging each other in a loop (over 10 messages in 10 minutes) are paused and you're
+  told.
 
 ## Setup (each laptop, once)
 
-1. Claude Code installed and logged in (`claude` works in a terminal).
+1. Claude Code installed and logged in.
 2. `uv` installed.
-3. Modal logged in to the team workspace (`modal token new`); test with `modal app list`.
-4. The team repo cloned, with the plan docs in it (START_HERE.md, FIRST_PROMPT.md, TWIST_NOTES.md,
-   PORTAL_AGENT.md).
+3. Modal logged in to the team workspace (`uv run --no-project --with modal modal app list` works).
+4. Optional: Codex CLI installed and logged in (`npm i -g @openai/codex`, then `codex login`), so agents can
+   use the OpenAI credits too.
+5. The team repo cloned, containing START_HERE.md, FIRST_PROMPT.md, TWIST_NOTES.md, PORTAL_AGENT.md and a
+   `.gitignore` that excludes `*.gz`, `*.csv` and `portal-data/`.
 
-Options: `--port`, `--model claude-haiku-5-5` (cheap test runs), `--no-autostart`, `--namespace=-test`
-(a separate message line for testing), `--data` (state folder).
+## Sunday
 
-## Roster (4 per laptop)
+Start with a fresh state folder and a fresh message line so nothing from rehearsals carries over:
 
-| Samuel | Dylan |
-|---|---|
-| **Overseer**: runs Samuel's side and is its analyst (results, trend, style, challenger vs live); sends the one-page recommendation before each scored round | **Overseer**: owns the plan, decides what plays and what ships; coordinates, never codes |
-| **Portal**: reads the organizers' portal, saves hand data, alerts (cheap model) | **Platform**: the shared code (legal bot by minute 10, harness by 15, ranking and twist by 20) and every release: packing, upload test, version log, active-bot check |
-| **Data**: our leaks and the opponents' profiles from each round's hand histories | **Styles**: styles A, B, C as settings on the platform, tuned in parallel |
-| **Tester**: one verdict per candidate: correct? (bug review) and stronger? (paired test, sparring, cloned field on Modal) | **Challenger**: builds Data's fixes and counters one at a time, or a redesign |
+```
+./hub/start.sh samuel ~/<sunday-repo> --data ~/.avalon-hub-live/samuel --namespace=-live \
+    --portal-base https://pokerbot.sequoiacap.com/tournament/api --portal-key-file ~/.config/no-limit-2026/api-key
+./hub/start.sh dylan ~/<sunday-repo> --data ~/.avalon-hub-live/dylan --namespace=-live
+```
 
-Each agent can run its own helpers in parallel inside its chat (Claude Code subagents), so fewer
-agents does not mean less capacity.
+Set minute 0 on Home as soon as the variant is announced. After the first practice round, copy the
+hand-history download link from the portal's team page and restart Samuel's hub with
+`--hands-url '<link with the round id replaced by {tid} and the subset part by {q}>'` (the portal's code
+doesn't reveal it). Keep both laptops plugged in with lids open.
 
-Edit `roster.py` to change roles, models or who starts automatically.
+Other options: `--port`, `--model claude-haiku-5-5` (cheap test runs), `--no-autostart`, `--start HH:MM`,
+`--portal-data`.
