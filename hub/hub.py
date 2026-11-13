@@ -49,7 +49,7 @@ DANGER = re.compile("|".join([
 HUB_TOOLS = ["send_message", "list_agents", "read_agent", "set_status", "notify_human", "start_agent", "stop_agent",
              "declare_live", "set_schedule", "propose", "update_proposal", "list_proposals", "codex_task", "register_bot",
              "record", "verify", "invalidate", "set_rules", "ledger", "next_bot_name",
-             "queue_post", "queue_claim", "queue_done"]
+             "queue_post", "queue_claim", "queue_done", "fetch_file"]
 API_KEY_FILE = Path.home() / ".config" / "avalon-hub" / "anthropic-api-key"
 KINDS = ("idea", "build", "live", "analysis", "bot", "question", "research", "finding", "change", "decision")
 BUILD_NOTES = [  # (person, agent, name): one note per build-hour work stream, created at minute 0
@@ -78,6 +78,41 @@ def merge_note(a: dict, b: dict) -> dict:
     if not m.get("body") and old.get("body"):
         m["body"] = old["body"]
     return m
+
+
+def stage_rank(st: str) -> float:
+    st = st or ""
+    if st == "Build":
+        return 0
+    m = re.match(r"Practice (\d+)", st)
+    if m:
+        return int(m.group(1))
+    m = re.match(r"Round (\d+)(\.5)?", st)
+    return 10 + 2 * int(m.group(1)) + (1 if m.group(2) else 0) if m else -1
+
+
+def persistent_leaks(items: list[dict]) -> list[dict]:
+    """Leaks (results tagged leak:<slug>) seen in two or more different rounds' data with the same sign: real, not
+    noise. Returns [{slug, stages, effects, ids}] strongest first."""
+    by: dict[str, list[dict]] = {}
+    for x in items:
+        if x.get("type") not in ("result", "hypothesis") or x.get("status") in ("invalidated", "disputed"):
+            continue
+        for t in x.get("tags") or []:
+            if isinstance(t, str) and t.startswith("leak:") and isinstance(x.get("effect"), (int, float)):
+                by.setdefault(t[5:], []).append(x)
+    out = []
+    for slug, xs in by.items():
+        data_stage = {}
+        for x in xs:
+            st = x.get("data_stage") or x.get("stage")
+            data_stage.setdefault(st, x)
+        signs = {1 if x["effect"] > 0 else -1 for x in data_stage.values() if x["effect"]}
+        if len(data_stage) >= 2 and len(signs) == 1:
+            ordered = sorted(data_stage.items(), key=lambda kv: stage_rank(kv[0]))
+            out.append({"slug": slug, "stages": [k for k, _ in ordered], "effects": [v["effect"] for _, v in ordered],
+                        "ids": [v["id"] for _, v in ordered]})
+    return sorted(out, key=lambda r: -abs(sum(r["effects"]) / len(r["effects"])))
 
 
 def disagreements(items: list[dict]) -> list[str]:
@@ -367,6 +402,8 @@ class Hub:
         n = sum(1 for x in self.ledger() if x.get("type") == typ) + 1
         iid = f"{typ[0].upper()}{n}-{by.split('-')[0]}{int(time.time()) % 10000:04d}"
         it = {k: v for k, v in it.items() if v not in (None, "", [])}
+        if any(isinstance(t, str) and t.startswith("leak:") for t in (it.get("tags") or [])):
+            asyncio.create_task(self.flag_persistent())
         if by == "s-pipeline" and "card" in (it.get("tags") or []):
             asyncio.create_task(self.route("card_ready", it.get("stage") or stage, stage=it.get("stage") or stage,
                                            card=it.get("file") or "analysis/<stage>/card.md", note_id=it.get("note")))
@@ -377,6 +414,27 @@ class Hub:
             await self.note_append(it["note"], by, f"**{'Result' if typ == 'result' else 'Hypothesis'}:** {it.get('claim', '')}"
                                    + (f" ({it.get('effect')} ± {it.get('se')}, n={it.get('n')})" if it.get("n") else ""), action="update")
         return iid, ""
+
+    async def flag_persistent(self):
+        await asyncio.sleep(1)
+        for r in persistent_leaks(self.ledger()):
+            key = "persist:" + r["slug"] + ":" + str(len(r["stages"]))
+            if self.bus.shared.get(key):
+                continue
+            await self.bus.set_shared(key, {"at": time.time(), "updated": time.time()})
+            an = max((p for p in self.props() if p.get("kind") == "analysis" and p.get("status") != "removed"),
+                     key=lambda p: p.get("created", 0), default=None)
+            text = (f"Persistent leak: **{r['slug']}** shows up in {len(r['stages'])} rounds' data, same direction ("
+                    + ", ".join(f"{st} {e:+g}" for st, e in zip(r["stages"], r["effects"])) + "). By our rules that's "
+                    "strong evidence: the fix should ship this window.")
+            if an:
+                await self.note_append(an["id"], "Hub", text)
+            for ov in ("s-overseer", "d-overseer"):
+                try:
+                    await self.bus.send({"id": new_id(), "from": "hub", "from_kind": "hub", "to": ov, "kind": "fyi",
+                                         "priority": "high", "text": text})
+                except Exception:  # noqa: BLE001
+                    pass
 
     async def verify_item(self, iid: str, verdict: str, reason: str, by: str) -> str:
         it = self.bus.shared.get("led:" + iid)
@@ -592,6 +650,35 @@ class Hub:
         cands += [a.cwd / "releases" / (bot_name(file) + ".zip") for a in self.agents.values()]
         return next((c for c in cands if c.is_file() and c.suffix == ".zip"), None)
 
+    def file_store(self):
+        import modal
+        return modal.Dict.from_name("avalon-files" + self.bus.ns, create_if_missing=True)
+
+    async def take_upload(self, name: str, data: bytes, who: str) -> dict:
+        """A file a human dropped into the Chat: saved here, copied to the shared store (both laptops can fetch it),
+        and handed to the Chat with instructions to route it."""
+        safe = re.sub(r"[^A-Za-z0-9._-]+", "_", Path(name).name)[:80] or "file"
+        fid = "F" + new_id()[1:7].upper()
+        d = self.repo / "inbox"
+        d.mkdir(exist_ok=True)
+        path = d / f"{fid}-{safe}"
+        path.write_bytes(data)
+        shared = False
+        if len(data) <= 80_000_000:
+            try:
+                await asyncio.wait_for(self.file_store().put.aio(fid, {"name": safe, "data": data}), 60)
+                shared = True
+            except Exception:  # noqa: BLE001
+                pass
+        kind = ("hand data" if re.search(r"\.(gz|jsonl|csv|json|txt|log)$", safe, re.I) else
+                "image" if re.search(r"\.(png|jpe?g|gif|webp|heic)$", safe, re.I) else "file")
+        ov = next((a for a in self.agents.values() if a.name.endswith("overview")), None)
+        if ov:
+            await ov.human(f"[attached {kind}: {safe}, {len(data) // 1024} KB, saved at {path}"
+                           + (f", shared as file id {fid} (agents on the other laptop: fetch_file('{fid}'))" if shared else "")
+                           + "] Route it to the right agent now (see your role).", who)
+        return {"id": fid, "path": str(path), "shared": shared, "kind": kind}
+
     def bot_store(self):
         import modal
         return modal.Dict.from_name("avalon-botfiles" + self.bus.ns, create_if_missing=True)
@@ -645,9 +732,17 @@ class Hub:
             pass
         return v
 
+    async def chat_ping(self, text: str):
+        """Put a highlighted message in this laptop's Chat (the place the humans look), besides the bell."""
+        ov = next((a for a in self.agents.values() if a.name.endswith("overview")), None)
+        if ov:
+            await ov.ov_log("Hub", text, urgent=True)
+
     async def alert_all(self, agent: str, text: str, urgent: bool):
         """An alert for both screens (the portal watcher runs on one laptop, but Dylan's hands do the uploads)."""
         await self.add_alert(agent, text, urgent)
+        if urgent:
+            await self.chat_ping(text)
         aid = new_id()
         await self.bus.set_shared("palert:" + aid, {"id": aid, "agent": agent, "text": text, "urgent": urgent,
                                                     "from": self.person, "updated": time.time()})
@@ -664,6 +759,8 @@ class Hub:
                     pseen.add(k)
                     if v.get("from") != self.person and time.time() - v.get("updated", 0) < 900:
                         await self.add_alert(v.get("agent", "s-portal"), v.get("text", ""), bool(v.get("urgent")))
+                        if v.get("urgent"):
+                            await self.chat_ping(v.get("text", ""))
             live = self.bus.shared.get("live") or {}
             act = (self.bus.shared.get("portal_active") or {}).get("filename")
             if live.get("filename") and norm_bot(act) == norm_bot(live.get("filename")):
@@ -1154,9 +1251,9 @@ class Agent:
         return ("[the Overseer's recent work, latest last]\n" + ("\n".join(rows)[-12000:] or "(nothing new)") +
                 "\n\n[notes on the board]\n" + ("\n".join(notes[:16])[:6000] or "(none)"))
 
-    async def ov_log(self, who: str, text: str):
+    async def ov_log(self, who: str, text: str, urgent: bool = False):
         """The Overview conversation, shared so the other person can read (and write in) it too."""
-        self.ovchat = (self.ovchat + [{"who": who, "at": time.time(), "text": text[:4000]}])[-40:]
+        self.ovchat = (self.ovchat + [{"who": who, "at": time.time(), "text": text[:4000], "urgent": urgent}])[-40:]
         atomic_write(self.dir / "ovchat.json", json.dumps(self.ovchat))
         await self.hub.bus.set_shared("ovchat:" + self.name, {"items": self.ovchat, "updated": time.time()})
         self.hub.emit("shared", {"ovchat": self.name})
@@ -1236,6 +1333,13 @@ class Agent:
                 self.traffic_seen = new_tr[-1]["at"]
                 out.append("[workers talking to each other since your last turn]\n" + "\n".join(
                     f"- {hhmm(t['at'])} {t['from']} → {t['to']} ({t['kind']}): {t['text']}" for t in new_tr[-12:]))
+        if ov or self.name in ("s-data", "s-skeptic", "d-platform"):
+            pl = persistent_leaks(led)
+            if pl:
+                out.append("[persistent leaks: the same leak in two or more rounds' data, same direction. Strong evidence: "
+                           "ship the fix this window unless it's already in]\n" + "\n".join(
+                               f"- {r['slug']}: " + ", ".join(f"{st} {e:+g}" for st, e in zip(r["stages"], r["effects"]))
+                               + f" ({', '.join(r['ids'])})" for r in pl[:6]))
         if ov or self.name in ("s-data", "s-skeptic"):
             dis = disagreements(led)
             if dis:
@@ -1700,6 +1804,7 @@ class Agent:
                                                "text": f"{me.title} wanted to tell the human: {a['text']}"})
                 return ok("Only your Overseer talks to humans; it has been passed to your Overseer.")
             await hub.add_alert(me.name, a["text"], bool(a.get("urgent")))
+            await hub.chat_ping(f"{me.title} asks: {a['text']}")
             me.record({"type": "notify", "text": a["text"], "urgent": bool(a.get("urgent"))})
             return ok("Your human has been notified.")
 
@@ -1847,6 +1952,8 @@ class Agent:
               "depends_on: ledger ids it builds on (the card, a method). note: the board note it belongs to. file: where "
               "the detail is. question: a short key shared by every answer to the same question (e.g. 'one-change Round 2'); "
               "lens: the angle (leaks, opponent:<team>, twist, sizing, engine, styles, aggregate); model: who produced it "
+              "(opus, sonnet, codex); for a leak, tags=['leak:<slug>'] with a stable slug reused round to round (look up "
+              "existing slugs with ledger(tag=...)) and data_stage= the round whose data it comes from (e.g. 'Practice 2'); "
               "(opus, sonnet, codex); proposer_of: for an aggregate, the ids it combines. Returns the id; cite ids.",
               schema(["type", "claim"], {"type": "string", "claim": "string", "effect": "number", "se": "number",
                                          "n": "integer", "unit": "string", "method": "string", "method_id": "string",
@@ -1854,7 +1961,7 @@ class Agent:
                                          "hands_per_match": "integer", "bot": "string", "data": "string",
                                          "tags": "array", "depends_on": "array", "file": "string", "note": "string",
                                          "question": "string", "lens": "string", "model": "string", "proposer_of": "array",
-                                         "scope": "string"}))
+                                         "scope": "string", "data_stage": "string"}))
         async def record(a):
             if a.get("note"):
                 a["note"] = a["note"].lstrip("#")
@@ -1931,6 +2038,24 @@ class Agent:
         async def queue_done(a):
             return ok(await hub.queue_done(a["id"], a["result"], me.name))
 
+        @tool("fetch_file", "Get a file a human attached on either laptop (by its file id, e.g. 'F3A9C1'): saved into your "
+              "laptop's repo inbox/; returns the path.", schema(["id"], {"id": "string"}))
+        async def fetch_file(a):
+            fid = a["id"].strip().upper()
+            local = next(iter((hub.repo / "inbox").glob(f"{fid}-*")), None) if (hub.repo / "inbox").exists() else None
+            if local:
+                return ok(f"Already here: {local}")
+            try:
+                v = await asyncio.wait_for(hub.file_store().get.aio(fid), 60)
+            except Exception as e:  # noqa: BLE001
+                return ok(f"Couldn't fetch {fid}: {type(e).__name__}")
+            if not v:
+                return ok(f"No shared file {fid}.")
+            (hub.repo / "inbox").mkdir(exist_ok=True)
+            pth = hub.repo / "inbox" / f"{fid}-{v['name']}"
+            pth.write_bytes(v["data"])
+            return ok(f"Saved to {pth}")
+
         @tool("next_bot_name", "The next free release name (v1, v2, ...). Use it for every release.", schema([], {}))
         async def next_bot_name(a):
             ns = [int(m.group(1)) for b in hub.bots() if (m := re.fullmatch(r"v(\d+)", b["name"]))]
@@ -1991,7 +2116,7 @@ class Agent:
                                                    start_agent, stop_agent, declare_live, set_schedule, propose,
                                                    update_proposal, list_proposals, codex_task, register_bot,
                                                    record, verify, invalidate, set_rules, ledger, next_bot_name,
-                                                   queue_post, queue_claim, queue_done])
+                                                   queue_post, queue_claim, queue_done, fetch_file])
 
 
 # ======================================================================== playbook (START_HERE.md section 6)
@@ -2056,6 +2181,43 @@ DISPATCH = {
     "T6": [("dylan", "crit", "d-platform", "Test the chosen bot with no time bank; release it as releases/<name>.zip")],
     "T3": [("dylan", "crit", "d-platform", "The greenlit bot's release must be ready; Dylan uploads it now")],
 }
+# Standing reminders the clock re-sends to specific agents, so the habits that matter survive long runs and
+# compaction: (trigger, person, agent or "*workers", text, wake). Triggers: b<min> (build hour), T<offset> (each
+# scored round's window), "every10" (every 10 event-minutes during the event).
+REMINDERS = [
+    ("T13", "both", "*workers", "Round data is landing. Record every result you have in the ledger (effect, se, n, method, "
+     "note), update your brief, and send a one-line fyi with the file path to whoever depends on it.", False),
+    ("T13", "samuel", "s-theory", "New real-field data: refit the call/fold columns of your tables from it and re-issue them "
+     "(real-field numbers outrank the tables).", True),
+    ("T13", "samuel", "s-skeptic", "Check the ledger's persistent leaks (the same leak in two rounds) first: verify them so the "
+     "fix can ship this window.", False),
+    ("T20", "both", "*overseers", "Sync with the other Overseer in 3 lines (what changed on your side, what you need from "
+     "theirs, the plan for this window) and update your PLAN file.", True),
+    ("T3", "both", "*workers", "Before this round starts: anything you found that isn't in the ledger yet, record it now; "
+     "update your brief.", False),
+    ("T3", "both", "*overseers", "Update your PLAN file (what plays, what's running where, open promises) and make sure "
+     "every worker has its next task queued for when data lands.", False),
+    ("every10", "both", "*workers", "Capacity check: if you have independent work (tests, sweeps, re-checks, a second opinion), "
+     "put it on Modal or Codex now rather than in line; we have budget to spend (Modal about $300, Codex credits).", False),
+    ("every10", "both", "*overseers", "Is any finding still only in someone's head or chat rather than in the ledger, and is "
+     "anyone idle while work is queued? Fix both now.", False),
+    ("b0", "both", "*workers", "Reminders from the plan: record results in the ledger, keep your brief current, ask the owner "
+     "when something is missing (team directory), fan out to subagents/Modal/Codex for independent pieces.", False),
+]
+
+
+def has_reminder(trig: str, person: str) -> bool:
+    return any(t == trig and who in ("both", person) for t, who, _, _, _ in REMINDERS)
+
+
+def reminder_targets(hub: "Hub", who: str) -> list:
+    if who == "*workers":
+        return [a for a in hub.agents.values() if not a.name.endswith(("overseer", "overview"))]
+    if who == "*overseers":
+        return [a for a in hub.agents.values() if a.name.endswith("overseer")]
+    return [hub.agents[who]] if who in hub.agents else []
+
+
 # checkpoints the Overseer compares against reality every turn (person, key, what must be true by then)
 CHECKPOINTS = [
     ("dylan", "b10", "a legal bot is uploaded and active"), ("samuel", "b15", "the test rig gives verdicts"),
@@ -2385,6 +2547,21 @@ class Clock:
                 return f"{lbl} at {hhmm(ts)} ({'now' if mins < 0.5 else f'in {mins:.0f} min'})"
         return "No schedule set" if not self.events() else "Event finished"
 
+    async def send_reminders(self, key: str):
+        """Re-send the standing reminders tied to this clock mark (see REMINDERS)."""
+        part = key.split(":", 1)[1]
+        trig = ("T" + part.split("-")[-1]) if part.startswith("s") else part if part.startswith("b") else \
+            ("every10" if part.startswith("p") and int(part[1:] or 0) % 2 == 0 else "")
+        for t, who, target, text, wake in REMINDERS:
+            if t != trig or who not in ("both", self.hub.person):
+                continue
+            for a in reminder_targets(self.hub, target):
+                if a.state == "stopped" and not wake:
+                    continue
+                await a.add_item({"kind": "hub", "wake": wake, "text": "[standing reminder] " + text})
+                if wake and a.state == "stopped" and not a.paused:
+                    await a.start()
+
     async def loop(self):
         while True:
             try:
@@ -2404,13 +2581,17 @@ class Clock:
             t0, U = s["start"], 60 * s.get("scale", 1.0)
             tk = int(t0)
             for mi, who, w in BUILD:
-                if who in ("both", me) or dispatch_text(f"b{mi}", me):
-                    marks.append((f"{tk}:b{mi}", t0 + mi * U, f"Build hour, minute {mi}: {w}" + dispatch_text(f"b{mi}", me)))
+                if who in ("both", me) or dispatch_text(f"b{mi}", me) or has_reminder(f"b{mi}", me):
+                    mine = who in ("both", me) or dispatch_text(f"b{mi}", me)
+                    marks.append((f"{tk}:b{mi}", t0 + mi * U, (f"Build hour, minute {mi}: {w}" + dispatch_text(f"b{mi}", me))
+                                  if mine else "[reminders-only]"))
             for k in range(1, s.get("scored", 6) + 1):
                 ts = t0 + (60 + 20 * (k - 1)) * U
                 for o, who, w in WINDOW:
-                    if (who in ("both", me) or dispatch_text(f"T{o}", me)) and not (k == 1 and o > 8):   # round 1: the build hour covers T-20..T-9
-                        marks.append((f"{tk}:s{k}-{o}", ts - o * U, f"Scored round {k} at {hhmm(ts)}, T-{o}: {w}" + dispatch_text(f"T{o}", me)))
+                    if (who in ("both", me) or dispatch_text(f"T{o}", me) or has_reminder(f"T{o}", me)) and not (k == 1 and o > 8):   # round 1: the build hour covers T-20..T-9
+                        mine = who in ("both", me) or dispatch_text(f"T{o}", me)
+                        marks.append((f"{tk}:s{k}-{o}", ts - o * U, (f"Scored round {k} at {hhmm(ts)}, T-{o}: {w}" + dispatch_text(f"T{o}", me))
+                                      if mine else "[reminders-only]"))
         if s:   # a regular check-in every 5 event-minutes from minute 0 to the end of the last round
             t0, U = s["start"], 60 * s.get("scale", 1.0)
             end = t0 + (60 + 20 * (s.get("scored", 6) - 1) + 10) * U
@@ -2423,10 +2604,14 @@ class Clock:
             if key not in self.sent and at <= now < at + max(60, 2 * (60 * (s or {}).get("scale", 1.0))):
                 self.sent.add(key)
                 atomic_write(self.hub.data / "clock_sent.json", json.dumps(sorted(self.sent)))
+                if text == "[reminders-only]":
+                    await self.send_reminders(key)
+                    continue
                 if key.endswith(":b0"):
                     await self.hub.build_notes(int(key.split(":")[0]))
                 await ov.add_item({"kind": "clock", "wake": not key.split(":", 1)[1].startswith("p"), "text": text,
                                    "urgent": key.endswith(("-13", "-8", "-3"))})
+                await self.send_reminders(key)
                 if ov.state == "stopped" and not ov.paused:
                     await ov.start()
                 human = HUMAN_STEPS.get(key.split(":", 1)[1].split("-")[-1] if ":s" in key else key.split(":", 1)[1], {}).get(me)
@@ -2706,6 +2891,12 @@ class PortalWatcher:
                 if ov:
                     await ov.add_item({"kind": "portal", "wake": True, "text": f"Hand history for {info['label']} is now "
                                        "saved:\n" + "\n".join(f"Hands: {f}" for f in files)})
+            elif time.time() - info["since"] > 300 and not info.get("pinged"):
+                info["pinged"] = True
+                self.save()
+                await self.hub.alert_all("s-portal", f"The hand history for {info['label']} hasn't downloaded for 5 minutes. "
+                                         "Please download it from the portal (team page / round page) and drop the file into "
+                                         "the Chat: it goes straight to the Pipeline.", True)
             elif time.time() - info["since"] > 1200 and not info.get("warned"):
                 info["warned"] = True
                 self.save()
@@ -2758,14 +2949,17 @@ class PortalWatcher:
 # ======================================================================== web
 @web.middleware
 async def json_only(request, handler):
-    """Every state-changing call must be JSON: a plain form or text POST from another web page can't trigger it."""
+    """Every state-changing call must be JSON: a plain form or text POST from another web page can't trigger it.
+    File uploads are raw bytes but need a custom header, which another site can't send without a CORS preflight."""
+    if request.path == "/api/upload" and request.headers.get("X-Avalon") == "1":
+        return await handler(request)
     if request.method == "POST" and not request.content_type.startswith("application/json"):
         return web.json_response({"error": "JSON only"}, status=403)
     return await handler(request)
 
 
 def make_app(hub: Hub) -> web.Application:
-    app = web.Application(client_max_size=2 * 1024 * 1024, middlewares=[json_only])
+    app = web.Application(client_max_size=400 * 1024 * 1024, middlewares=[json_only])
     r = app.router
 
     async def index(_):
@@ -2961,6 +3155,14 @@ def make_app(hub: Hub) -> web.Application:
         return web.Response(body=data, content_type="application/zip",
                             headers={"Content-Disposition": f'attachment; filename="{name}.zip"'})
     r.add_get("/api/bots/{name}/download", bot_download)
+
+    async def upload(req):
+        name = req.query.get("name") or "file"
+        data = await req.read()
+        if not data:
+            return web.json_response({"error": "Empty file."}, status=400)
+        return web.json_response(await hub.take_upload(name, data, PEOPLE[hub.person]))
+    r.add_post("/api/upload", upload)
     r.add_post("/api/props", new_prop)
     r.add_post("/api/props/{id}/act", act_prop)
     return app
@@ -2983,7 +3185,7 @@ async def main():
     ap.add_argument("--portal-base", default=None, help="portal API base, e.g. http://127.0.0.1:8765/tournament/api")
     ap.add_argument("--portal-key-file", default=None)
     ap.add_argument("--codex-model", default=None, help="Codex model for codex_task jobs (default: Codex's own)")
-    ap.add_argument("--codex-max", type=int, default=3, help="Codex jobs running at once")
+    ap.add_argument("--codex-max", type=int, default=6, help="Codex jobs running at once (separate credits: use them)")
     ap.add_argument("--no-codex", action="store_true")
     ap.add_argument("--portal-data", default=None, help="where the portal watcher saves results and hand data (default ~/portal-data)")
     ap.add_argument("--small-hands", action="store_true", help="download only the first-1000 hand file (phone hotspot)")

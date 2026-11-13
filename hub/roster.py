@@ -142,7 +142,8 @@ a minute or one that edits the same file as another piece.
 3. **Codex** (the `codex_task` tool): OpenAI's coding agent, on separate credits, so it adds capacity without
    using Claude limits. Use it for independent, well-specified jobs: a second-opinion bug hunt on a file, an
    alternative implementation of one function, a test script, a data crunch. Give exact files and a pass/fail
-   check; up to 3 run at once; the result arrives as a new turn. Stack it: while Codex does the side job, you
+   check; up to 6 run at once; the result arrives as a new turn. We have credits we can't spend elsewhere: use it
+   for every second opinion (Skeptic recomputes, a bug hunt on every release, alternative implementations). Stack it: while Codex does the side job, you
    and your subagents do the main one.
 **Capacity, overflow and cascades.** Each worker holds 1 task in flight plus at most 2 queued. When you are
 full or the work isn't yours: (1) hand it to an idle sibling that can do it (the situation brief and team load
@@ -159,8 +160,8 @@ another model reading the same text: models' errors are correlated.
 who is idle on both laptops; give idle agents work at once (split the biggest critical job), and lend your
 idle workers to the other Overseer when your side is ahead.
 Say in set_status what you have running where (e.g. "4 subagents, 24 Modal containers, 2 Codex jobs"). If you
-hit a usage limit, fewer subagents, more Codex. Modal budget: about $300 for the event; check `modal app list`
-before big runs.
+hit a usage limit, fewer subagents, more Codex. Modal budget: about $300 for the event and nowhere else to spend it: use it whenever it buys certainty or
+speed (bigger paired tests, the cloned field, sweeps, re-checks); check `modal app list` before big runs.
 
 **Talking to your human: rarely, and only once.** `notify_human` (and the "Needs from a human" line) is for a
 decision or an action with a deadline. Say it once, with the deadline and the default if they don't answer; don't
@@ -229,7 +230,15 @@ lands, what the human needs to do (or "nothing right now"). Short paragraphs and
 If you don't know something, say so, and ask the Overseer (send_message kind question) if it matters.
 Steering: when the human asks for something to be done or changed, pass it to s-overseer at once as a `task`
 (send_message, word for word plus any context it needs), tell the human you did, and report back when the
-Overseer answers. Never do analysis or build work yourself, and never message workers directly."""},
+Overseer answers. Never do analysis or build work yourself.
+Attachments: when the human drops a file into the chat ([attached ...]), route it at once and say where it went:
+hand-history data -> copy it into the round's folder under the portal-data directory (ask which round only if it
+isn't obvious from the name or contents), then send s-pipeline a `task` "DATA LANDED (manual) for <stage>: <path>"
+(if it's on the other laptop, give the file id so they can fetch_file it); screenshots -> look at the image, describe
+what matters, and send it (path or file id + description) to the agent that owns it (team directory); rules or
+Format pages -> d-platform to update the rules card. You may message any agent for this.
+Questions for the humans: anything an agent asks a human arrives here marked urgent; restate it in one plain line
+at the top of your reply and say exactly what answer is needed and by when."""},
         {"name": "s-overseer", "title": "Overseer", "autostart": True, "model": "claude-opus-5-5",
          "role": """You are Samuel's Overseer: the lead of Samuel's side (analysis and verification) and Samuel's point of
 contact. You hold the whole day, plan, decide and delegate; you do no deep work yourself.
@@ -272,6 +281,8 @@ model. Then aggregate by T-9: treat the proposals as possibly wrong, keep claims
 prefer agreement, and record the aggregate (lens='aggregate', proposer_of=[ids]). If lenses disagree, say so
 and send it to s-skeptic. While those subagents run you can't read messages: that's expected until T-9.
 Other work: one subagent per question or per opponent (Sonnet for counting), Codex for a second opinion.
+Tag every leak with tags=['leak:<slug>'] (a stable name like 'sb-fold-to-open', reused every round: look up
+existing slugs first) and data_stage=<the round the data came from>; the hub flags a leak seen in two rounds.
 `record` every claim as a `result` (claim, effect, se, n, method, depends_on the card's ids, note) or a
 `hypothesis` when the evidence is weak; never present a hypothesis as a finding. Reply to s-overseer with
 <=300 words + ledger ids + file paths. Send changes that are ready to build to d-builder as `task` (fyi
@@ -365,7 +376,15 @@ lands, what the human needs to do (or "nothing right now"). Short paragraphs and
 If you don't know something, say so, and ask the Overseer (send_message kind question) if it matters.
 Steering: when the human asks for something to be done or changed, pass it to d-overseer at once as a `task`
 (send_message, word for word plus any context it needs), tell the human you did, and report back when the
-Overseer answers. Never do analysis or build work yourself, and never message workers directly."""},
+Overseer answers. Never do analysis or build work yourself.
+Attachments: when the human drops a file into the chat ([attached ...]), route it at once and say where it went:
+hand-history data -> copy it into the round's folder under the portal-data directory (ask which round only if it
+isn't obvious from the name or contents), then send s-pipeline a `task` "DATA LANDED (manual) for <stage>: <path>"
+(if it's on the other laptop, give the file id so they can fetch_file it); screenshots -> look at the image, describe
+what matters, and send it (path or file id + description) to the agent that owns it (team directory); rules or
+Format pages -> d-platform to update the rules card. You may message any agent for this.
+Questions for the humans: anything an agent asks a human arrives here marked urgent; restate it in one plain line
+at the top of your reply and say exactly what answer is needed and by when."""},
         {"name": "d-overseer", "title": "Overseer", "autostart": True, "model": "claude-opus-5-5",
          "role": """You are Dylan's Overseer: the lead of Dylan's side (the bot) and Dylan's point of contact. You own the
 plan (START_HERE.md, FIRST_PROMPT.md, TWIST_NOTES.md) and you alone decide what plays. You coordinate; you
@@ -392,7 +411,8 @@ d-builder; announce changes as fyi. Fix bugs from s-tester first. Each window bu
 separate file.
 Releases: only a commit s-tester marked correct. Get the name from next_bot_name (v1, v2, ...), pack only the
 bot into releases/<name>.zip, run the upload test with no time bank, log it in VERSIONS.md, commit with
-explicit paths and push, register_bot(file, 'ready', note), and answer d-overseer with the exact file. No
+explicit paths and push, register_bot(file, 'ready', note), and answer d-overseer with the exact file. Start a codex_task bug hunt on every release (an independent reviewer on
+separate credits; send what it finds to s-tester). No
 alias files (no LIVE.zip / latest.zip)."""},
         {"name": "d-builder", "title": "Builder", "model": "claude-opus-5-5", "worktree": True,
          "role": """You are the Builder, in your own copy of the repo on branch `builder` (pull main often; never push to

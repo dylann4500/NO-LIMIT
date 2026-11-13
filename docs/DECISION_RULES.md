@@ -93,6 +93,11 @@ profiles and the challenger. Never drop the hard rules.
 Local wins do not predict the field (a bot of ours was +4.4 locally and 100th of 125). Use local play for
 legality, speed and sanity; use the practice rounds for strength.
 
+**Weigh signals by how solid they are.** A leak seen in two rounds' data in the same direction (the hub flags
+these as persistent) is strong evidence: ship its fix. One round's number is weaker; pool rounds when you can.
+When you pick the best of k candidates, discount its edge by about 0.5 x SE x sqrt(2 ln k) before comparing
+it with the bar (the best of 10 looks about +0.5 better than it is by chance alone).
+
 **Unverified is not wrong.** A `proposed` ledger item may be cited with the label "unverified". Only an item
 **disputed with a reproduced counter-number** blocks a switch. If s-skeptic runs out of time, say so and decide.
 

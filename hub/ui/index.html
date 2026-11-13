@@ -109,6 +109,10 @@ button:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-
 .dock-hd .tbtn { display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; } .dock-hd .hint { flex: 1 1 120px; min-width: 0; } .dock-hd b { font: 500 1.1rem var(--serif); } .dock-hd .hint { margin-left: 4px; }
 .dock-body { flex: 1; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 12px; }
 .dock-body .a { font: .98rem/1.6 var(--serif); } .dock-body .cv-me { max-width: 92%; }
+.waiting { border: 1px solid var(--bad); background: var(--bad-soft); border-radius: 12px; padding: 8px 10px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-size: .82rem; position: sticky; top: 0; z-index: 2; }
+.waiting b { color: var(--bad); margin-right: 4px; }
+.cv-ag.urgent { border-left: 3px solid var(--bad); padding-left: 10px; background: var(--bad-soft); border-radius: 8px; }
+.dock.drop { outline: 3px dashed var(--accent); outline-offset: -6px; }
 .dock-ft { border-top: 1px solid var(--line); padding: 8px 10px 10px; display: flex; flex-direction: column; gap: 6px; } .dock-ft .box { max-width: none; margin: 0; }
 .dock-ft textarea { width: 100%; border: 0; resize: none; background: none; color: var(--fg); font: 15px/1.5 var(--sans); min-height: 26px; max-height: 180px; outline: none; }
 @media (max-width: 900px) { .dock { position: fixed; inset: 56px 0 0 0; width: auto; z-index: 22; } }
@@ -439,12 +443,13 @@ function overviewChatHtml() {
     : ["The competition starts now", "The variant was announced at …", "Round 1 is at …"];
   return `<aside class="dock" aria-label="Chat" style="${S.dockW ? `width:${S.dockW}px` : ""}"><div class="dock-grip" id="dockGrip" title="Drag to resize" role="separator" aria-orientation="vertical"></div><div class="dock-hd"><b>Chat</b><span class="hint">knows everything the Overseer knows</span>${tabs}<button class="tbtn" id="ovX" title="Hide the chat">✕</button></div>
     <div class="dock-body" id="ovBody">
-      ${items.length ? items.map((t) => people.includes(t.who) ? `<div class="cv-me"><span class="by">${esc(t.who)} · ${hhmm(t.at)}</span>${esc(t.text)}</div>` : `<div class="cv-ag"><div class="by">Chat · ${hhmm(t.at)}</div><div class="a md">${md(t.text)}</div></div>`).join("")
+      ${who === S.st.me && (needCall().length || S.st.approvals.length) ? `<div class="waiting"><b>Waiting for you</b>${needCall().map((p) => `<button class="mini" data-open="${esc(p.id)}">${esc(NOTE[kindOf(p)] || "")}: ${esc(headOf(p).slice(0, 70))}${p.deadline ? " · by " + hhmm(p.deadline) : ""}</button>`).join("")}${S.st.approvals.length ? `<button class="mini" id="bellGo">${S.st.approvals.length} permission request(s)</button>` : ""}</div>` : ""}
+      ${items.length ? items.map((t) => people.includes(t.who) ? `<div class="cv-me"><span class="by">${esc(t.who)} · ${hhmm(t.at)}</span>${esc(t.text)}</div>` : `<div class="cv-ag ${t.urgent ? "urgent" : ""}"><div class="by">${t.urgent ? "⚠ " : ""}${esc(t.who === "Hub" ? "Needs you" : t.who === "Chat" || t.who === "Overview" ? "Chat" : t.who)} · ${hhmm(t.at)}</div><div class="a md">${md(t.text)}</div></div>`).join("")
         : `<div class="note2" style="margin-top:24px;text-align:left">${S.st.schedule ? `Ask anything about ${esc(S.st.people[who])}'s side, or tell it what to change: it passes instructions to the Overseer and reports back.` : `<b>Start here.</b> When the competition starts, tell the Chat (“the competition starts now”, or the announcement time). That sets the clock on both laptops and starts the Overseer with the whole game plan. Tell it any other times as you learn them (“round 1 is at 14:25”).`}</div>`}
       ${busy ? `<div class="note2">Chat is reading the team's context…</div>` : ""}
     </div>
     <div class="dock-ft"><div class="chips">${chips.map((c) => `<button data-ovchip="${esc(c)}">${esc(c)}</button>`).join("")}</div>
-      <form id="ovForm" class="box"><textarea id="ovTa" rows="1" placeholder="Message ${esc(S.st.people[who])}'s Chat…"></textarea><div class="row"><span class="hint" id="ovHint">Enter to send</span><button class="send" id="ovSend" aria-label="Send">↑</button></div></form></div></aside>`;
+      <form id="ovForm" class="box"><textarea id="ovTa" rows="1" placeholder="Message ${esc(S.st.people[who])}'s Chat… (drop or paste files here)"></textarea><div class="row">${who === S.st.me ? `<label class="tbtn" title="Attach a file (hand data, screenshot)" style="cursor:pointer">📎<input type="file" id="ovFile" multiple hidden></label>` : ""}<span class="hint" id="ovHint">Enter to send</span><button class="send" id="ovSend" aria-label="Send">↑</button></div></form></div></aside>`;
 }
 function sideHtml() {
   if (!S.side) return "";
@@ -568,6 +573,19 @@ function wire(a) {
   $("#ovT")?.addEventListener("click", () => { S.ov = !S.ov; try { localStorage.setItem("hub-chat", S.ov ? "1" : "0"); } catch (e) {} render(); setTimeout(() => $("#ovTa")?.focus(), 30); });
   $("#ovX")?.addEventListener("click", () => { S.ov = false; try { localStorage.setItem("hub-chat", "0"); } catch (e) {} render(); });
   document.querySelectorAll("[data-ovwho]").forEach((b) => b.onclick = () => { S.ovWho = b.dataset.ovwho; render(); });
+  const sendFiles = async (files) => { const h = $("#ovHint");
+    for (const f of files) { if (h) { h.textContent = `Uploading ${f.name}…`; h.className = "hint"; }
+      const r = await fetch(`/api/upload?name=${encodeURIComponent(f.name || "pasted.png")}`, { method: "POST", headers: { "X-Avalon": "1", "Content-Type": "application/octet-stream" }, body: f });
+      let j = {}; try { j = await r.json(); } catch (x) {}
+      if (h) { h.textContent = r.ok ? `Sent ${f.name || "image"} to the Chat (${j.kind}); it will route it.` : `Upload failed: ${j.error || r.status}`; h.className = r.ok ? "hint" : "hint bad"; } }
+    refresh(); };
+  $("#ovFile")?.addEventListener("change", (e) => sendFiles([...e.target.files]));
+  $("#bellGo")?.addEventListener("click", (e) => { e.stopPropagation(); S.bell = true; render(); });
+  const dock = $(".dock"); if (dock && (S.ovWho || S.st.me) === S.st.me) {
+    dock.ondragover = (e) => { e.preventDefault(); dock.classList.add("drop"); };
+    dock.ondragleave = () => dock.classList.remove("drop");
+    dock.ondrop = (e) => { e.preventDefault(); dock.classList.remove("drop"); if (e.dataTransfer.files.length) sendFiles([...e.dataTransfer.files]); };
+    $("#ovTa")?.addEventListener("paste", (e) => { const fs = [...(e.clipboardData?.files || [])]; if (fs.length) { e.preventDefault(); sendFiles(fs); } }); }
   const grip = $("#dockGrip"); if (grip) grip.onmousedown = (e) => { e.preventDefault(); grip.classList.add("drag"); const dock = grip.parentElement;
     const move = (ev) => { const w = Math.max(320, Math.min(window.innerWidth - 360, window.innerWidth - ev.clientX)); dock.style.width = w + "px"; S.dockW = w; };
     const up = () => { document.removeEventListener("mousemove", move); document.removeEventListener("mouseup", up); grip.classList.remove("drag"); S.mouseDown = false;
