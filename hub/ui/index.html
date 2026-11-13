@@ -720,7 +720,7 @@ async function loadEvents(n) { const r = await api(`/api/agents/${encodeURICompo
   if (r.last_i !== undefined && S.last[n] !== undefined && r.last_i < S.last[n]) { S.ev[n] = []; S.last[n] = -1; return loadEvents(n); }
   const have = S.ev[n] || [], seen = new Set(have.map((e) => e.i)); S.ev[n] = have.concat((r.events || []).filter((e) => !seen.has(e.i))).sort((x, y) => x.i - y.i).slice(-1500);
   if (S.ev[n].length) S.last[n] = S.ev[n][S.ev[n].length - 1].i; if (S.page === "agent") soon(); }
-async function refresh() { const st = await api("/api/state"); if (st.error) return; const known = new Set((S.st.props || []).filter((p) => p.status === "needs_call").map((p) => p.id)); S.st = st;
+async function refresh() { if (S.demo) return; const st = await api("/api/state"); if (st.error) return; const known = new Set((S.st.props || []).filter((p) => p.status === "needs_call").map((p) => p.id)); S.st = st;
   (st.props || []).filter((p) => p.status === "needs_call" && myCall(p) && !known.has(p.id)).forEach((p) => toast({ type: "pc", agent: p.author, at: p.updated, ...p })); soon(); }
 let raf = false; function soon() { if (!raf) { raf = true; requestAnimationFrame(() => { raf = false; render(); }); } }
 let es;
@@ -752,6 +752,17 @@ function stream() {
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") { if (S.liveOpen) S.liveOpen = false; else if (S.bell) S.bell = false; else if (S.card) S.card = null; else if (S.side) S.side = false; soon(); } });
 }
 load();
+// ?demo=1: fake a little activity in this browser only (nothing is sent), to see the board's motion in a preview
+if (/[?&]demo=1/.test(location.search)) {
+  S.demo = true; let k = 0;
+  setInterval(() => { if (!S.st || !S.st.props) return; k++; const now = Date.now() / 1000, cur = S.st.stage || "Round 2";
+    if (k % 4 === 1) S.st.props.unshift({ id: "DEMO" + k, kind: ["analysis", "bot", "live"][k % 3], title: ["Analysis for " + cur, "Which bot? v" + (6 + k), "v6 live · " + cur][k % 3],
+      headline: "Demo note " + k, stage: cur, status: k % 3 === 1 ? "needs_call" : "running", created: now, updated: now, thread: [] });
+    else if (k % 4 === 2) { const p = props().find((x) => x.kind === "analysis"); if (p) { p.thread = (p.thread || []).concat([{ who: "Portal", at: now, text: "Hand data downloaded. Analysis starting." }]); p.updated = now; } }
+    else if (k % 4 === 3) { const a = S.st.agents.find((x) => /pipeline|data|tester/.test(x.name)); if (a) { a.state = a.state === "working" ? "idle" : "working"; a.task = "demo: running the round card"; } }
+    else { const n = "s-overview"; (S.st.overviews[n] = S.st.overviews[n] || []).push({ who: "Chat", at: now, text: "Demo message " + k + ": the analyst just posted its first numbers." }); }
+    render(); }, 3500);
+}
 </script>
 </body>
 </html>
