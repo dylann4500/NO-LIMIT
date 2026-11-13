@@ -385,7 +385,7 @@ function noteNum(p) {
   const k = kindOf(p), th = p.thread || [];
   const m = th.map((t) => String(t.text || "").match(/we were (\d+) of (\d+) with ([\d.]+) \(±([\d.]+)\)/)).filter(Boolean).pop();
   if ((k === "live" || k === "analysis") && m) return `<div class="knum">${ORD(+m[1])} of ${m[2]} <small>· ${m[3]} ± ${m[4]} pts/table</small></div>`;
-  if (k === "bot" && p.bot && p.deadline && p.status === "needs_call") return `<div class="knum"><small>decide in <span data-dl="${p.deadline}">${mmss(p.deadline - Date.now() / 1000)}</span></small></div>`;
+  // a bot note's countdown is in its footer ('m:ss left'); no second copy here
   return "";
 }
 function noteOnIt(p) {

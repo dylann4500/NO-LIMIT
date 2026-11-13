@@ -31,10 +31,51 @@ and you can ask questions or steer with note_chat (it reaches the Overseer, whic
 answers in the note). 'Analysis for <stage>' notes hold the round's analysis, a pinned summary with numbered
 suggestions, and progress. 'Which bot?' notes ask whether to use a bot: answer with note_action approve/reject.
 The Live menu lists bots; make_live makes a ready bot live. Close (note_action remove) notes that are finished
-and no longer relevant. The bell shows permission requests and urgent messages. Your main conversation is your Overview
+and no longer relevant. The bell shows permission requests and urgent messages. Your main conversation is your Chat
 (message_agent to s-overview for Samuel, d-overview for Dylan): a readable chat that knows everything the
 Overseer knows. Ask it what's going on and steer through it (it passes instructions to the Overseer). You
 don't message the Overseer directly. The screen shows the last lines of your Overview chat."""
+
+# Questions real people asked this hub during rehearsals (and ones they'd reasonably ask on the day). The simulated
+# teammate asks some of these in its Chat or in a note, adapted to what's on screen, and rates each answer.
+QUESTIONS = {
+    "samuel": [
+        "What's going on right now? Anything I need to do?",
+        "Why is it testing an old bot while a newer one is live?",
+        "What are the build notes (Build 1, 2, ...) and why are they still running?",
+        "Is the live bot simple on purpose?",
+        "What's our biggest leak this round, in plain words, with the sample size?",
+        "Should we switch bots for the next scored round? What does the rule say?",
+        "How sure are we about that number? Has anyone re-checked it?",
+        "What did the field reward in practice: wide, shove or tight?",
+        "Is anything blocked or behind schedule?",
+        "What changed in the last 10 minutes?",
+        "Are we using Modal and Codex enough, or is anyone idle?",
+        "What does this permission request mean, and is it safe to allow?",
+        "Which teams are we exploiting, and is the fingerprinting accurate enough to use?",
+    ],
+    "dylan": [
+        "What do I need to upload right now, if anything?",
+        "Which file exactly is the live bot, and is it what the portal is running?",
+        "Why did the upload get rejected and what happens now?",
+        "What's the challenger and when is it ready?",
+        "What should I answer on this 'Which bot?' note? Explain it simply.",
+        "Is the bot on the portal the one we decided on?",
+        "What happens if I don't answer the decision in time?",
+        "What is Samuel's side working on right now?",
+        "Are we on track for the next deadline?",
+    ],
+}
+ASK_RULES = """
+Asking questions like a real teammate:
+- About every third turn, ask ONE question in your Chat (message_agent to your Chat) or in the most relevant note
+  (note_chat). Prefer the bank below; adapt it to what's on screen; never ask the same thing twice. Questions bank:
+{bank}
+- On a later turn, once the answer has arrived, rate it in a line starting 'RATING:' as
+  'RATING: <the question> | good / partial / bad / no answer | <why: correct? specific? plain words? timely?>'.
+  'no answer' if nothing came within about 3 of your turns.
+- Also add 'BUG:' lines for anything on the screen that looks wrong, stale, contradictory or confusing.
+"""
 
 PERSONA = {
     "samuel": COMMON + """
@@ -54,7 +95,8 @@ analysis and testing. Act like a sharp, busy, slightly skeptical human:
 You are Dylan, one of two students on team avalon in a live AI pokerbot competition. You upload bots to the
 organizers' portal (here: the rehearsal portal) by hand and make them active. Act like a focused, busy human:
 - When a bot becomes live (a 'Which bot?' note you approved, the Live menu, or an urgent bell message 'Upload X
-  now'), upload exactly that file with upload_bot and check it's active.
+  now'), click it in the Live menu and upload it with upload_from_live_menu (your normal way); use upload_bot only
+  if the Live menu download fails. Check it's active.
 - Follow the Build notes and ask your Overseer a question in one of them at least once.
 - Answer 'Which bot?' notes quickly with a reason. Answer permission requests sensibly. Don't write code.
 - In your NOTE line, report whether the note updates are timely, informative and faithful, and anything confusing.""",
@@ -226,13 +268,45 @@ class Human:
             h.write(f"ACT upload {fn} ok, active={t.get('active_filename')}")
             return ok(f"Uploaded {fn}; active bot is now {t.get('active_filename')}.")
 
-        return create_sdk_mcp_server("human", tools=[answer_permission, dismiss_note, note_action, note_chat, make_live, start_building, post_idea, message_agent, upload_bot])
+        @tool("upload_from_live_menu", "Dylan's normal way: click a bot in the Live menu (downloads vN.zip from the hub) and "
+              "upload that file to the portal, then make it active. name: e.g. v4.", {"name": str})
+        async def upload_from_live_menu(a):
+            if h.a.person != "dylan":
+                return ok("Only Dylan uploads.")
+            name = a["name"].removesuffix(".zip")
+            try:
+                with urllib.request.urlopen(f"{h.hub}/api/bots/{name}/download", timeout=40) as r:
+                    data = r.read()
+            except Exception as e:  # noqa: BLE001
+                h.write(f"ACT live-menu download {name} FAILED: {e}")
+                return ok(f"The Live menu download of {name} failed: {e}")
+            hdr = {"Authorization": f"Bearer {h.key}", "Content-Type": "application/zip"}
+            r = http("POST", f"{h.a.portal}/teams/avalon/submissions?filename={name}.zip", raw=data, headers=hdr)
+            if "id" not in r:
+                return ok(f"upload failed: {r}")
+            s = {}
+            for _ in range(60):
+                subs = http("GET", f"{h.a.portal}/teams/avalon/submissions", headers=hdr).get("items", [])
+                s = next((x for x in subs if x["id"] == r["id"]), {})
+                if s.get("status") in ("ready", "rejected"):
+                    break
+                time.sleep(1)
+            if s.get("status") != "ready":
+                h.write(f"ACT upload {name}.zip (live menu) REJECTED: {s.get('rejection_reason')}")
+                return ok(f"{name}.zip was rejected: {s.get('rejection_reason')}. The previous bot stays active.")
+            t = http("PATCH", f"{h.a.portal}/teams/avalon", {"active_submission_id": r["id"]}, headers=hdr)
+            h.write(f"ACT upload {name}.zip (live menu) ok, active={t.get('active_filename')}")
+            return ok(f"Uploaded {name}.zip from the Live menu; active bot is now {t.get('active_filename')}.")
+
+        return create_sdk_mcp_server("human", tools=[answer_permission, dismiss_note, note_action, note_chat, make_live,
+                                                     start_building, post_idea, message_agent, upload_bot, upload_from_live_menu])
 
     async def run(self):
         names = ["answer_permission", "dismiss_note", "note_action", "note_chat", "make_live", "start_building", "post_idea",
-                 "message_agent", "upload_bot"]
+                 "message_agent", "upload_bot", "upload_from_live_menu"]
         opts = ClaudeAgentOptions(
-            system_prompt=PERSONA[self.a.person] + "\n\nEach turn you get a snapshot of your screen. Act with the tools "
+            system_prompt=PERSONA[self.a.person] + ASK_RULES.format(bank="\n".join("  - " + q for q in QUESTIONS[self.a.person]))
+            + "\n\nEach turn you get a snapshot of your screen. Act with the tools "
             "(several actions per turn are fine), then end with one line starting 'NOTE:' saying what you did and "
             "anything confusing on the screen (or 'NOTE: nothing to do').",
             mcp_servers={"human": self.tools()}, allowed_tools=[f"mcp__human__{n}" for n in names],
@@ -246,8 +320,10 @@ class Human:
                     async for m in c.receive_response():
                         if isinstance(m, AssistantMessage):
                             for b in m.content:
-                                if isinstance(b, TextBlock) and "NOTE:" in b.text:
-                                    self.write(b.text[b.text.index("NOTE:"):][:600])
+                                if isinstance(b, TextBlock):
+                                    for ln in b.text.splitlines():
+                                        if ln.strip().startswith(("NOTE:", "RATING:", "BUG:")):
+                                            self.write(ln.strip()[:700])
                 except Exception as e:  # noqa: BLE001
                     self.write(f"ERROR {e}")
                 await asyncio.sleep(random.uniform(self.a.min_gap, self.a.max_gap))

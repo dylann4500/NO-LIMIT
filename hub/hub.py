@@ -182,6 +182,7 @@ QUICK_PRESETS = {"Do the suggestions", "Explain the biggest leak in plain words"
                  "Anything blocked?", "How was it tested?", "What's the risk?", "What's the status?"}
 REPORT_MODEL = os.environ.get("AVALON_REPORT_MODEL", "claude-sonnet-5-5")
 NARRATOR_MODEL = os.environ.get("AVALON_NARRATOR_MODEL", "claude-haiku-5-5")
+LONG_TURN_S = 25 * 60   # one turn this long: the Overseer checks it's progressing (output alone isn't progress)
 STALL_S = 12 * 60   # longer than any single foreground tool call (Bash caps at 10 min)
 # Context sizes (tokens) above which an agent compacts between turns (never T-9..T-2). Quality drops well before
 # the window is full ("context rot") and every turn re-reads the whole context, so both stay lean; the ledger and
@@ -892,7 +893,7 @@ class Hub:
                       "**Where it stands** (2-4 sentences), **What we found** (the key numbers with sample sizes and how "
                       "sure we are; say plainly when something is weak or only a hypothesis), **What's running now** (who is "
                       "doing what, and when it should land), **What's next**, and **What we need from you** (or 'Nothing "
-                      "right now'). Use only facts below; if the agents disagree or something was corrected, say so. No "
+                      "right now'). Use only facts below: never give a bot, file or person a role (challenger, live bot, ...) the material doesn't state; if the agents disagree or something was corrected, say so. No "
                       "ids or jargon a human wouldn't know; name agents by role (the analyst, the tester, the builder). "
                       f"Keep it under 350 words.\n\nLive bot chosen: {live.get('filename', 'none')}; active on the portal: "
                       f"{act.get('filename', 'unknown')}. Time now {hhmm(time.time())}.\n\nNOTE SUMMARY:\n{p.get('body') or '(none yet)'}"
@@ -1007,6 +1008,13 @@ class Hub:
             if a.state != "working" or a.client is None or not a.last_msg_at:
                 continue
             quiet = now - a.last_msg_at
+            long_turn = now - (a.turn_started or now)
+            if long_turn > LONG_TURN_S and getattr(a, "long_warned", 0) != a.turn_started and not a.name.endswith("overseer"):
+                a.long_warned = a.turn_started   # busy but maybe not progressing: the Overseer looks, nobody is rushed
+                await self.overseer().add_item({"kind": "hub", "wake": False, "text": (
+                    f"{a.title} has been on one turn for {long_turn / 60:.0f} min (task: {a.task[:120]}). Read its brief: if "
+                    "it's progressing, leave it; if it's looping or the job is too big, split it (a helper, Modal, Codex) "
+                    "or re-scope. Don't tell it to hurry.")})
             if quiet > STALL_S and not a.stall_kicked:
                 a.stall_kicked = now
                 a.record({"type": "error", "text": f"No output for {quiet / 60:.0f} min: interrupting (stall watchdog)."})
