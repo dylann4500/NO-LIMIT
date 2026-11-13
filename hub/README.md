@@ -58,8 +58,8 @@ Options: `--port`, `--model claude-haiku-5-5` (cheap test runs), `--no-autostart
 | Portal: reads the organizers' portal, saves hand data, alerts | Builder A: wide pressure |
 | Leak finder (Part 2) | Builder B: shove-heavy |
 | Analyst: results, trend, style, challenger vs live | Builder C: tight |
-| Bug hunter: reviews every new version | Builder D: challenger (fixes, redesigns) |
-| Opponents: team profiles and fingerprints (Part 4) | |
-| Simulator: paired tests, sparring, cloned field on Modal (Part 3) | |
+| Bug hunter: reviews every new version | Platform: the shared code every style builds on |
+| Opponents: team profiles and fingerprints (Part 4) | Release: packs, checks and readies each upload |
+| Simulator: paired tests, sparring, cloned field on Modal (Part 3) | Builder D: challenger (fixes, redesigns) |
 
 Edit `roster.py` to change roles, models or who starts automatically.
