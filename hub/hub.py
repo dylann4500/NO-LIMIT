@@ -807,6 +807,8 @@ class PortalWatcher:
         self.fails = 0
         self.small_only = small_only   # on a phone hotspot: only the first-1000 file, to save data
         self.team = self.cid = None
+        self.want_cid = os.environ.get("AVALON_COMPETITION_ID") or None
+        self.comp_name, self.team_name = "", "avalon"
         self.checked: set[str] = set(self.st.get("checked", []))
 
     def save(self):
@@ -836,15 +838,40 @@ class PortalWatcher:
                     await self.hub.add_alert("s-portal", "The portal has not answered for 3 checks in a row.", True)
             await asyncio.sleep(30 if fast else 60)
 
+    async def identify(self):
+        """Our team and competition. The real portal answers /auth/api-key for API keys (/me is browser-only)."""
+        teams = []
+        for path in ("/auth/api-key", "/me"):
+            try:
+                d = await self.aget(path)
+                teams = [{"id": t.get("team_id") or t.get("id"), "competition_id": t.get("competition_id")}
+                         for t in (d.get("teams") or [])]
+                if teams:
+                    break
+            except Exception:  # noqa: BLE001
+                continue
+        if self.want_cid:
+            teams = [t for t in teams if t["competition_id"] == self.want_cid] or teams
+        if not teams:
+            raise RuntimeError("the key lists no team")
+        if len(teams) > 1 and not self.want_cid:   # e.g. Bay Area and Finals: take the newest competition
+            comps = {c["id"]: c for c in (await self.aget("/competitions")).get("items", [])}
+            teams.sort(key=lambda t: str(comps.get(t["competition_id"], {}).get("created_at") or comps.get(t["competition_id"], {}).get("starts_at") or ""))
+        t = teams[-1]
+        self.team, self.cid = t["id"], t["competition_id"]
+        comp = await self.aget(f"/competitions/{self.cid}")
+        self.comp_name = comp.get("name", self.cid)
+        self.team_name = (await self.aget(f"/teams/{self.team}")).get("name", "avalon")
+
     async def poll(self) -> bool:
         if not self.cid:
-            me = await self.aget("/me")
-            t = (me.get("teams") or [{}])[0]
-            self.team, self.cid = t.get("id"), t.get("competition_id")
-            if not self.cid:
-                comps = (await self.aget("/competitions"))["items"]
-                self.cid = comps[0]["id"]
+            await self.identify()
         rounds = (await self.aget(f"/competitions/{self.cid}/tournaments"))["items"]
+        counts: dict[str, int] = {}
+        for r in sorted(rounds, key=lambda r: r["created_at"]):   # the real portal has no labels: name them
+            counts[r["kind"]] = counts.get(r["kind"], 0) + 1
+            r.setdefault("label", f"{'Scored' if r['kind'] != 'practice' else 'Practice'} round {counts[r['kind']]}"
+                                  + (f" (x{r['weight']})" if r.get("weight") else ""))
         new_done = [r for r in rounds if r.get("completed_at") and r["id"] not in self.st["done"]]
         if not self.st.get("baseline_done"):
             self.st["baseline_done"] = True
@@ -862,15 +889,19 @@ class PortalWatcher:
             await self.landed(r)
         standings = (await self.aget(f"/competitions/{self.cid}/standings"))["items"]
         self.st["standings"] = standings
-        team = await self.aget(f"/teams/{self.team}") if self.team else {}
+        team = await self.aget(f"/teams/{self.team}")
+        subs = await self.aget(f"/teams/{self.team}/submissions")
+        team["submissions"] = subs.get("items", subs) if isinstance(subs, dict) else subs
+        act = next((x for x in team["submissions"] if x["id"] == team.get("active_submission_id")), None)
+        team["active_filename"] = team.get("active_filename") or (act or {}).get("filename")
         await self.check_team(team)
         self.save()
-        ours = next((x for x in standings if x["team_name"] == "avalon"), None)
+        ours = next((x for x in standings if x["team_name"] == self.team_name), None)
         third = standings[2]["total"] if len(standings) >= 3 else None
         summary = "### Standings\n| # | Team | Total |\n|---|---|---|\n" + "\n".join(
-            f"| {x['rank']} | {'**' + x['team_name'] + '**' if x['team_name'] == 'avalon' else x['team_name']} | {x['total']:.2f} |"
+            f"| {x['rank']} | {'**' + x['team_name'] + '**' if x['team_name'] == self.team_name else x['team_name']} | {x['total']:.2f} |"
             for x in standings[:10])
-        summary += f"\n\nActive bot: {team.get('active_filename') or 'none'}"
+        summary += f"\n\nActive bot: {team.get('active_filename') or 'none'} · competition: {self.comp_name}"
         running = [r for r in rounds if not r.get("completed_at")]
         task = (f"We're {ours['rank']} ({ours['total']:.1f}; 3rd has {third:.1f})" if ours and third is not None else
                 f"{len(rounds)} rounds seen") + (f" · {len(running)} running" if running else "")
@@ -896,7 +927,7 @@ class PortalWatcher:
             except Exception:  # noqa: BLE001
                 pass
         items = sorted(res["items"], key=lambda x: -x["average_points"])
-        ours = next((i for i, x in enumerate(items, 1) if x["team_name"] == "avalon"), None)
+        ours = next((i for i, x in enumerate(items, 1) if x["team_name"] == self.team_name), None)
         me = items[ours - 1] if ours else None
         line = (f"{label} finished: we were {ours} of {len(items)} with {me['average_points']:.2f} "
                 f"(±{me['margin_of_error'] or 0:.2f}); 1st {items[0]['team_name']} {items[0]['average_points']:.2f}."

@@ -372,6 +372,9 @@ class Handler(BaseHTTPRequestHandler):
         P = self.P
         p = p.rstrip("/")
         comp = {"id": P.cid, "name": f"No Limit rehearsal ({P.run})", "variant": "flop_discard_reveal"}
+        if p == "/auth/api-key":   # what the real portal answers for an API key (its /me is browser-only)
+            return self.send(200, {"expires_at": "2026-12-31T00:00:00Z", "ends_with": P.key[-8:],
+                                   "teams": [{"competition_id": P.cid, "team_id": P.team_id}]})
         if p == "/me":
             return self.send(200, {"id": uid(P.run, "account"), "email": "avalon@rehearsal",
                                    "teams": [{"id": P.team_id, "name": TEAM, "competition_id": P.cid}]})
