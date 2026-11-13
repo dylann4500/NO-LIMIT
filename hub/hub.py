@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import hashlib
 import json
 import math
 import shutil
@@ -24,7 +25,7 @@ import urllib.request
 from pathlib import Path
 
 from aiohttp import web
-from claude_agent_sdk import (HookMatcher, AssistantMessage, ClaudeAgentOptions, ClaudeSDKClient, PermissionResultAllow,
+from claude_agent_sdk import (query as sdk_query, HookMatcher, AssistantMessage, ClaudeAgentOptions, ClaudeSDKClient, PermissionResultAllow,
                               PermissionResultDeny, ResultMessage, SystemMessage, TextBlock, ToolResultBlock,
                               ToolUseBlock, UserMessage, create_sdk_mcp_server, tool)
 
@@ -45,12 +46,71 @@ DANGER = re.compile("|".join([
     r"\.(post|patch|put|delete)\([^\n]*(sequoiacap|tournament/api)",
 ]))
 HUB_TOOLS = ["send_message", "list_agents", "read_agent", "set_status", "notify_human", "start_agent", "stop_agent",
-             "declare_live", "set_schedule", "propose", "update_proposal", "list_proposals", "codex_task"]
+             "declare_live", "set_schedule", "propose", "update_proposal", "list_proposals", "codex_task", "register_bot"]
 API_KEY_FILE = Path.home() / ".config" / "avalon-hub" / "anthropic-api-key"
-KINDS = ("idea", "research", "finding", "change", "decision")
+KINDS = ("idea", "build", "live", "analysis", "bot", "question", "research", "finding", "change", "decision")
+BUILD_NOTES = [  # (person, agent, name): one note per build-hour work stream, created at minute 0
+    ("dylan", "d-platform", "Legal bot v1, test harness, today's hand ranking"),
+    ("dylan", "d-builder", "Styles A, B and C"),
+    ("samuel", "s-tester", "Test rig (paired runs, sparring)"),
+    ("samuel", "s-data", "Analysis pipeline for today's hand data"),
+]
+
+
+def merge_note(a: dict, b: dict) -> dict:
+    """Two laptops' copies of one note: keep every message from both (a note's conversation must never lose a
+    line), and the newer copy's fields. A removal or a human decision is never undone by an older copy."""
+    new, old = (b, a) if b.get("updated", 0) >= a.get("updated", 0) else (a, b)
+    seen, thread = set(), []
+    for t in sorted((a.get("thread") or []) + (b.get("thread") or []), key=lambda t: t.get("at", 0)):
+        k = (round(t.get("at", 0), 2), t.get("who"), str(t.get("text"))[:80])
+        if k not in seen:
+            seen.add(k)
+            thread.append(t)
+    m = dict(new, thread=thread)
+    if old.get("status") == "removed" or (old.get("status") in ("approved", "rejected") and new.get("status") in ("needs_call", "revise")):
+        m["status"] = old["status"]
+        m["decided_by"] = old.get("decided_by", m.get("decided_by"))
+    if not m.get("body") and old.get("body"):
+        m["body"] = old["body"]
+    return m
+
+
+def stage_of(sch: dict | None, t: float) -> str:
+    """The competition stage at time t: Build, Practice 1-4, Round k, Round k.5 (the practice after round k)."""
+    if not sch:
+        return "Before the start"
+    m = (t - sch["start"]) / (60 * sch.get("scale", 1.0))
+    if m < 0:
+        return "Before the start"
+    if m < 20:
+        return "Build"
+    if m < 60:
+        return f"Practice {int((m - 20) // 10) + 1}"
+    j, nsc = int((m - 60) // 10), sch.get("scored", 6)
+    k = j // 2 + 1
+    if k > nsc:
+        return f"Round {nsc}"
+    return f"Round {k}" if j % 2 == 0 else f"Round {k}.5"
+
+
+def stage_of_round(kind: str, n: int) -> str:
+    """Stage label for the n-th practice or scored round on the portal."""
+    if kind == "practice":
+        return f"Practice {n}" if n <= 4 else f"Round {n - 4}.5"
+    return f"Round {n}"
+
+
+def bot_name(filename: str) -> str:
+    return re.sub(r"\.zip$", "", Path(filename or "").name) or "?"
+
 OPEN = ("new", "planned", "running", "needs_call", "revise")
-COMPACT_AT_OVERSEER = int(os.environ.get("AVALON_COMPACT_AT", 180_000))   # tokens of context; above this, compact between turns (outside the T-9..T-2 crunch)
-COMPACT_AT_WORKER = int(os.environ.get("AVALON_COMPACT_AT", 250_000))
+NARRATOR_MODEL = os.environ.get("AVALON_NARRATOR_MODEL", "claude-haiku-5-5")
+# Context sizes (tokens) above which an agent compacts between turns (never T-9..T-2). Quality drops as context
+# grows ("context rot"), so workers stay lean (their jobs are scoped; subagents start fresh) while the Overseer,
+# which holds the whole day, keeps the most.
+COMPACT_AT_OVERSEER = int(os.environ.get("AVALON_COMPACT_AT", 400_000))
+COMPACT_AT_WORKER = int(os.environ.get("AVALON_COMPACT_AT", 200_000))
 COMPACT_KEEP = ("Summarize for yourself to continue the day without loss. Keep, exactly: your role and current "
                 "assignments; the event phase and schedule; the declared live bot (exact file) and every candidate "
                 "with its status, test results and file path; every human decision and instruction, near-verbatim; "
@@ -124,6 +184,7 @@ class Hub:
         self.codex: Codex | None = None
         self.portal: PortalWatcher | None = None
         self.portal_data = Path.home() / "portal-data"
+        self.default_scale = 1.0
 
     def emit(self, kind: str, payload: dict):
         ev = {"kind": kind, **payload}
@@ -174,20 +235,204 @@ class Hub:
             if k.startswith("prop:") and isinstance(v, dict):
                 out[v["id"]] = v
         for v in self.local_props.values():
-            if v["id"] not in out or v.get("updated", 0) >= out[v["id"]].get("updated", 0):
-                out[v["id"]] = v
+            out[v["id"]] = merge_note(out[v["id"]], v) if v["id"] in out else v
         return sorted(out.values(), key=lambda p: p.get("updated", 0), reverse=True)
 
     def get_prop(self, pid: str) -> dict | None:
         return next((p for p in self.props() if p["id"] == pid), None)
 
+    def mirror_note(self, p: dict):
+        """Each note's full text as a file, so agents can read a whole conversation by path (external memory)."""
+        try:
+            d = self.data / "board"
+            d.mkdir(exist_ok=True)
+            txt = (f"# {p.get('title')}\n\nStage: {p.get('stage', '')} · kind: {p.get('kind')} · status: {p.get('status')} · "
+                   f"owner: {p.get('owner')}\n\n" + (f"## Summary\n\n{p['body']}\n\n" if p.get("body") else "") +
+                   "## Conversation\n\n" + "\n\n".join(f"**{t['who']}** ({hhmm(t['at'])}): {t['text']}" for t in p.get("thread", [])))
+            atomic_write(d / f"{p['id']}.md", txt)
+        except Exception:  # noqa: BLE001
+            pass
+
     async def save_prop(self, p: dict):
+        other = self.bus.shared.get("prop:" + p["id"])
+        if isinstance(other, dict) and other is not p:   # the other laptop may have added to it meanwhile
+            p.update(merge_note(other, p))
         p["updated"] = time.time()
+        self.mirror_note(p)
         self.local_props[p["id"]] = p
         self.bus.shared["prop:" + p["id"]] = p
         atomic_write(self.data / "props.json", json.dumps(self.local_props))
         self.emit("prop", {"prop": p})
         await self.bus.set_shared("prop:" + p["id"], p)
+
+    async def ensure_note(self, pid: str, **fields) -> dict:
+        """Create a hub-made note once (deterministic id, so a restart or the other laptop doesn't duplicate it)."""
+        p = self.get_prop(pid)
+        if p:
+            return p
+        sch = self.bus.shared.get("schedule")
+        p = {"id": pid, "status": "running", "created": time.time(), "thread": [], "body": "", "headline": "",
+             "author_person": self.person, "stage": stage_of(sch, time.time()), **fields}
+        p.setdefault("decider", p.get("author_person"))
+        await self.save_prop(p)
+        return p
+
+    async def build_notes(self, t0: int):
+        mine = [(i, x) for i, x in enumerate(BUILD_NOTES, 1) if x[0] == self.person]
+        for i, (who, agent, name) in mine:
+            task = next((t for (pp, pr, ag, t) in DISPATCH.get("b0", []) if ag == agent), "")
+            await self.ensure_note(f"B{i}-{t0}", kind="build", stage="Build", owner=self.owner_overseer(who),
+                                   author=agent, title=f"Build {i} of {len(BUILD_NOTES)} · {name}",
+                                   headline=f"{name}: {agent.split('-', 1)[1].title()} is on it.",
+                                   thread=[{"who": "Clock", "at": time.time(), "action": "update",
+                                            "text": f"Started at minute 0. Plan: {task}"}])
+
+    async def note_append(self, pid: str, who: str, text: str, action: str = "update", **fields):
+        p = self.get_prop(pid)
+        if not p or p.get("status") == "removed":
+            return
+        p.setdefault("thread", []).append({"who": who, "at": time.time(), "action": action, "text": text[:12000]})
+        p.update(fields)
+        await self.save_prop(p)
+
+    def bots(self) -> list[dict]:
+        out = [dict(v, name=k[4:]) for k, v in self.bus.shared.items() if k.startswith("bot:") and isinstance(v, dict)]
+        return sorted(out, key=lambda b: b.get("at", 0), reverse=True)
+
+    async def register_bot(self, file: str, status: str, note: str = "", by: str = ""):
+        name = bot_name(file)
+        if name.lower() in ("live", "latest", "current", "active", "best", "agent", "agent.py", "bot", "?"):
+            return   # an alias or a source file, not a bot
+        prev = self.bus.shared.get("bot:" + name) or {}
+        v = {"file": file, "status": status, "note": note[:300] or prev.get("note", ""), "by": by or prev.get("by", ""),
+             "at": prev.get("at") or time.time(), "updated": time.time()}
+        f = self.find_bot_file(file)
+        if prev.get("status") == v["status"] and prev.get("file") == v["file"] and not note and \
+                (not f or status != "ready" or prev.get("size") == f.stat().st_size):
+            return
+        if f and status == "ready":
+            v["sha256"] = hashlib.sha256(f.read_bytes()).hexdigest()
+            v["size"] = f.stat().st_size
+            asyncio.create_task(self.store_bot_file(name, f))
+        self.bus.shared["bot:" + name] = v
+        self.emit("shared", {"bots": True})
+        await self.bus.set_shared("bot:" + name, v)
+
+    def find_bot_file(self, file: str) -> Path | None:
+        """The bot's zip on this laptop: the path as given (repo-relative), else any releases/<name>.zip in the repo
+        or an agent's worktree."""
+        cands = [self.repo / file, self.repo / "releases" / (bot_name(file) + ".zip")]
+        cands += [a.cwd / "releases" / (bot_name(file) + ".zip") for a in self.agents.values()]
+        return next((c for c in cands if c.is_file() and c.suffix == ".zip"), None)
+
+    def bot_store(self):
+        import modal
+        return modal.Dict.from_name("avalon-botfiles" + self.bus.ns, create_if_missing=True)
+
+    async def store_bot_file(self, name: str, f: Path):
+        """Keep a copy of each ready bot where both laptops can download it (fetched only on demand)."""
+        try:
+            data = f.read_bytes()
+            if len(data) <= 8_000_000:
+                await self.bot_store().put.aio(name, data)
+        except Exception:  # noqa: BLE001
+            pass
+
+    async def bot_bytes(self, name: str) -> bytes | None:
+        b = self.bus.shared.get("bot:" + name) or {}
+        f = self.find_bot_file(b.get("file") or name)
+        if f:
+            return f.read_bytes()
+        try:
+            return await self.bot_store().get.aio(name)
+        except Exception:  # noqa: BLE001
+            return None
+
+    async def scan_releases(self):
+        """Every zip in the repo's releases/ is a bot that exists (Platform packs releases there)."""
+        while True:
+            try:
+                for z in sorted((self.repo / "releases").glob("*.zip")):
+                    if z.is_symlink() or z.stem.lower() in ("live", "latest", "current", "active", "best"):
+                        continue   # aliases, not bots
+                    cur = self.bus.shared.get("bot:" + bot_name(z.name)) or {}
+                    if cur.get("status") != "failed" and (cur.get("status") != "ready" or cur.get("size") != z.stat().st_size):
+                        await self.register_bot(cur.get("file") or "releases/" + z.name, "ready", by=cur.get("by") or "releases/")
+            except Exception:  # noqa: BLE001
+                pass
+            await asyncio.sleep(30)
+
+    async def make_live(self, file: str, who: str, note: str = "") -> dict:
+        v = {"filename": Path(file).name, "file": file, "sha256": "", "note": note or f"made live by {who}",
+             "by": who, "at": time.time()}
+        await self.bus.set_shared("live", v)
+        self.emit("shared", {"live": v})
+        try:
+            await self.bus.send({"id": new_id(), "from": who, "from_kind": "human", "to": "d-overseer", "kind": "task",
+                                 "text": f"{who} made {file} the live bot. Make sure Dylan uploads exactly that file on the "
+                                         "portal and makes it active now (the portal watcher will confirm)."})
+        except Exception:  # noqa: BLE001
+            pass
+        return v
+
+    async def watch_live(self):
+        """Dylan's laptop: when the live bot changes and the portal isn't running it yet, ask Dylan to upload it."""
+        seen = (self.bus.shared.get("live") or {}).get("at")
+        while True:
+            await asyncio.sleep(3)
+            live = self.bus.shared.get("live") or {}
+            if live.get("at") and live.get("at") != seen:
+                seen = live["at"]
+                act = (self.bus.shared.get("portal_active") or {}).get("filename")
+                if self.person == "dylan" and act != live.get("filename"):
+                    await self.add_alert("hub", f"**Upload {live['filename']} now** and make it active on the portal "
+                                         f"({live.get('note') or 'new live bot'}). Download it from the Live menu (top right).", True)
+
+    async def narrate(self, ag: "Agent", buf: list, chat_notes: set, final: bool, since: int = 1):
+        """Turn an Overseer's activity into note updates. A note chat's answer goes in word for word; everything else
+        is summarized from the Overseer's own words by a fast model, so each note shows live progress."""
+        async with ag.narr_lock:
+            texts = [x for k, x in buf if k == "text"]
+            verbatim = set()
+            if final and len(chat_notes) == 1 and texts:
+                nid = next(iter(chat_notes))
+                await self.note_append(nid, ag.title, "\n\n".join(texts))
+                verbatim.add(nid)
+            buf = buf[:1] + buf[max(1, since):]          # only what the per-minute updates haven't covered
+            outputs = [x for k, x in buf if k in ("text", "msg_out", "msg_in", "tool")]
+            if not outputs:
+                return
+            now = time.time()
+            notes = [p for p in self.props() if p.get("owner") == ag.name and p["id"] not in verbatim
+                     and p.get("status") not in ("removed",) and now - p.get("updated", 0) < 3 * 3600][:14]
+            if not notes:
+                return
+            listing = "\n".join(f"- {p['id']}: {p.get('stage', '')} · {p['kind']} · {p['title']} (status {p['status']}); last: "
+                                 + (str((p.get("thread") or [{}])[-1].get("text", ""))[:200]) for p in notes)
+            act = "\n".join(f"[{k}] {x}" for k, x in buf)[-14000:]
+            prompt = (f"You keep a team's board of notes up to date from what their lead agent (the Overseer) just did. "
+                      f"Notes:\n{listing}\n\nThe Overseer's activity (its input, its own words, messages to/from other "
+                      f"agents, tools it used):\n{act}\n\nFor each note this activity is about, write an update for the "
+                      "humans: use the Overseer's and agents' own wording and every number, say what happened, what is "
+                      "running and who is doing it, and what comes next. 2-6 sentences, plain language, no ids. Skip notes "
+                      "it isn't about; skip anything already said in the note's last line; general news (the clock, team-wide status) "
+                      "belongs to no note. Answer with JSON only: "
+                      '[{"id": "<note id>", "update": "<text>"}] (an empty list if nothing new).')
+            try:
+                out = ""
+                async for m in sdk_query(prompt=prompt, options=ClaudeAgentOptions(
+                        model=NARRATOR_MODEL, tools=[], max_turns=1, setting_sources=[], cwd=str(self.data),
+                        system_prompt="You write short, faithful progress updates. Output JSON only.")):
+                    if isinstance(m, ResultMessage):
+                        out = m.result or ""
+                js = json.loads(out[out.index("["):out.rindex("]") + 1]) if "[" in out else []
+            except Exception as e:  # noqa: BLE001
+                ag.record({"type": "note", "text": f"Note updates skipped this time ({type(e).__name__})."})
+                return
+            ids = {p["id"] for p in notes}
+            for u in js:
+                if isinstance(u, dict) and u.get("id") in ids and str(u.get("update", "")).strip():
+                    await self.note_append(u["id"], ag.title, str(u["update"]).strip())
 
     def owner_overseer(self, person: str) -> str:
         return ("s-" if person == "samuel" else "d-") + "overseer"
@@ -199,7 +444,11 @@ class Hub:
         who = PEOPLE[self.person]
         p.setdefault("thread", []).append({"who": who, "at": time.time(), "action": action, "text": text})
         target = p.get("owner") or p.get("author")
-        if action == "approve":
+        if action == "approve" and p.get("bot"):
+            await self.make_live(p["bot"], who, f"greenlit on note #{p['id']}")
+            p["status"], p["decided_by"] = "approved", who
+            note = f"GREENLIT by {who}: #{p['id']} use {p['bot']}. It is now the declared live bot; Dylan uploads it."
+        elif action == "approve":
             p["status"], p["decided_by"] = "approved", who
             note = f"GREENLIT by {who}: #{p['id']} \"{p['title']}\"." + (f" Note: {text}" if text else "") + " Go ahead."
         elif action == "reject":
@@ -212,18 +461,22 @@ class Hub:
         elif action == "remove":
             was = p["status"]
             p["status"], p["decided_by"] = "removed", who
-            note = (f"{who} removed #{p['id']} \"{p['title']}\" from the board: no longer relevant. Stop any work on it "
-                    "and tell the agents you gave it to." if was in OPEN or was == "blocked" else "")
+            note = ((f"{who} closed note #{p['id']} \"{p['title']}\"." +
+                     (" If work for it is still running and isn't needed elsewhere, stop it and tell the agents." if was in OPEN or was == "blocked" else "")
+                     + " Its whole conversation, for your memory (fold what matters into your PLAN file):\n" + self.thread_text(p)))
         elif action == "close":
             p["status"] = "done"
             note = f"{who} closed #{p['id']} \"{p['title']}\"." + (f" {text}" if text else "")
         else:
             raise ValueError("unknown action")
         await self.save_prop(p)
+        if action == "remove":
+            target = p.get("owner") if str(p.get("owner", "")).endswith("overseer") else self.owner_overseer(p.get("author_person") or self.person)
         if note and target and target.startswith(("s-", "d-")):
             try:
-                await self.bus.send({"id": new_id(), "from": who, "from_kind": "human", "to": target, "kind": "task",
-                                     "text": note + " (Update the card with update_proposal.)"})
+                await self.bus.send({"id": new_id(), "from": who, "from_kind": "human", "to": target,
+                                     "kind": "fyi" if action == "remove" else "task", "note": p["id"],
+                                     "text": note + ("" if action == "remove" else " (Update the note with update_proposal.)")})
             except Exception:  # noqa: BLE001
                 pass
         return p
@@ -235,24 +488,34 @@ class Hub:
         who = PEOPLE[self.person]
         p.setdefault("thread", []).append({"who": who, "at": time.time(), "action": "ask", "text": text})
         await self.save_prop(p)
-        ov = self.owner_overseer(p.get("author_person") or self.person)
-        await self.bus.send({"id": new_id(), "from": who, "from_kind": "human", "to": ov, "kind": "task", "text": (
-            f"[card #{p['id']} chat] {who} says about \"{p['title']}\": {text}\n\nAnswer in the card's chat with "
-            f"update_proposal(id='{p['id']}', note=<your answer>) (keep it short and plain). If it's an instruction, "
-            "route it to the right agent and say so in the note.")})
+        ov = p.get("owner") if str(p.get("owner", "")).endswith("overseer") else self.owner_overseer(p.get("author_person") or self.person)
+        recent = "\n".join(f"  {t['who']}: {str(t['text'])[:400]}" for t in p["thread"][-7:-1])
+        await self.bus.send({"id": new_id(), "from": who, "from_kind": "human", "to": ov, "kind": "task", "note": p["id"], "text": (
+            f"[note #{p['id']} \"{p['title']}\" ({p.get('stage', '')}) chat] {who}: {text}\n"
+            + (f"Recent in this note:\n{recent}\n" if recent else "") +
+            "\nYour reply text in this turn is shown in the note word for word, so answer the human directly and fully "
+            "in plain language (no update_proposal needed for the answer). If it's an instruction or question that needs "
+            "work, send it to the right agent(s) now, say who is doing what, and post the result here when it's back "
+            "(update_proposal(id, note=...)).")})
         return p
+
+    def thread_text(self, p: dict, limit: int = 9000) -> str:
+        rows = [f"[{hhmm(t['at'])}] {t['who']}: {t['text']}" for t in p.get("thread", [])]
+        txt = (f"Summary: {p['body']}\n" if p.get("body") else "") + "\n".join(rows)
+        return txt[-limit:]
 
     async def new_idea(self, title: str, body: str, for_person: str) -> dict:
         p = {"id": "P" + new_id()[1:7].upper(), "kind": "idea", "title": title[:160], "body": body[:6000],
              "author": PEOPLE[self.person], "author_person": self.person, "owner": self.owner_overseer(for_person),
-             "status": "new", "created": time.time(), "thread": []}
+             "status": "new", "created": time.time(), "thread": [],
+             "stage": stage_of(self.bus.shared.get("schedule"), time.time())}
         await self.save_prop(p)
         await self.bus.send({"id": new_id(), "from": PEOPLE[self.person], "from_kind": "human", "to": p["owner"],
-                             "kind": "task", "text": (
-            f"NEW IDEA from {PEOPLE[self.person]} (card #{p['id']}): {p['title']}\n{body}\n\nHuman ideas come first. "
-            f"Plan it, mark the card planned/running with update_proposal (say what runs where), run it with your workers "
-            f"/ subagents / Modal, and post what you found with propose(kind='finding', parent='{p['id']}'). If it "
-            "implies a change to the bot, propose that as kind='change' for a greenlight.")})
+                             "kind": "task", "note": p["id"], "text": (
+            f"NEW IDEA from {PEOPLE[self.person]} (note #{p['id']}): {p['title']}\n{body}\n\nHuman ideas come first. "
+            "Your reply text is posted in that note word for word: say what you'll do and who runs it. Run it with your "
+            "workers / subagents / Modal and post results in the same note (update_proposal(id, note=..., summary=...)). "
+            "If it leads to a new bot, ask with propose(kind='bot', bot=...).")})
         return p
 
     async def expire_decisions(self):
@@ -290,6 +553,8 @@ class Hub:
                 "approvals": [{k: v for k, v in a.items() if k != "future"} for a in self.approvals.values()],
                 "alerts": self.alerts, "schedule": self.bus.shared.get("schedule"),
                 "live": self.bus.shared.get("live"), "clock": self.clock.next_text(), "props": self.props()[:200],
+                "bots": self.bots()[:40], "portal_active": self.bus.shared.get("portal_active"),
+                "stage": stage_of(self.bus.shared.get("schedule"), time.time()),
                 "next_step": self.clock.next_step(),
                 "bus": {"online": self.bus.online, "error": self.bus.error, "outbox": len(self.bus.outbox),
                         "oldest": round(self.bus.oldest_unsent_age())}}
@@ -344,6 +609,10 @@ class Agent:
         self.last_need = ""
         self.idle_since: float | None = None
         self.digest_seen: dict[str, int] = {}
+        self.narr_buf: list = []
+        self.narr_mark = 1
+        self.narr_lock = asyncio.Lock()
+        self.turn_notes: set = set()
         self.digest_full = True          # first turn after (re)start: the whole team picture
         self.context_tokens = 0
         self.usage: dict = {}             # latest usage-limit notice from Claude
@@ -387,6 +656,16 @@ class Agent:
                                          "summary": self.summary})
 
     def record(self, ev: dict):
+        if self.name.endswith("overseer"):
+            t = ev.get("type")
+            if t == "text" and not ev.get("sub"):
+                self.narr_buf.append(("text", ev.get("text", "")))
+            elif t == "msg_out":
+                self.narr_buf.append(("msg_out", f"to {ev.get('to')}: {str(ev.get('text'))[:1500]}"))
+            elif t == "msg_in":
+                self.narr_buf.append(("msg_in", f"from {ev.get('from')}: {str(ev.get('text'))[:1500]}"))
+            elif t == "tool":
+                self.narr_buf.append(("tool", f"{ev.get('name')} {str(ev.get('input'))[:200]}"))
         ev = {"i": self.next_i, "t": time.time(), **ev}
         self.next_i += 1
         self.events.append(ev)
@@ -444,6 +723,18 @@ class Agent:
         if self.state == "stopped":
             self.paused = False
             await self.start()
+
+    async def narr_ticker(self):
+        """During a long Overseer turn, post progress to the notes every minute."""
+        try:
+            while True:
+                await asyncio.sleep(60)
+                n = len(self.narr_buf)
+                if n > max(1, self.narr_mark):
+                    since, self.narr_mark = self.narr_mark, n
+                    await self.hub.narrate(self, self.narr_buf[:n], set(), False, since)
+        except asyncio.CancelledError:
+            pass
 
     def team_digest(self) -> str:
         """Every other agent's brief (both laptops) that changed since this agent's last turn, so context flows
@@ -551,14 +842,15 @@ class Agent:
     def options(self, resume: bool) -> ClaudeAgentOptions:
         role = (f"{self.spec['role']}\n\nYour hub name is `{self.name}` ({PEOPLE[self.hub.person]}'s laptop). "
                 f"Your working folder is {self.cwd}; the team repo is {self.hub.repo}. This run's results and hand data are "
-                f"in {self.hub.portal_data} (one folder per round); use only these, never older data elsewhere."
+                f"in {self.hub.portal_data} (one folder per round); use only these, never older data elsewhere. Every board note's "
+                f"full conversation is mirrored as markdown in {self.hub.data / 'board'} (<note id>.md)."
                 f"\n{PROTOCOL}\n{COMMON_RULES}")
         return ClaudeAgentOptions(
             system_prompt={"type": "preset", "preset": "claude_code", "append": role},
             mcp_servers={"hub": self.tool_server()},
             allowed_tools=[f"mcp__hub__{t}" for t in HUB_TOOLS],
             can_use_tool=self.can_use_tool,
-            cwd=str(self.cwd), add_dirs=[str(self.hub.repo), str(self.hub.portal_data)],
+            cwd=str(self.cwd), add_dirs=[str(self.hub.repo), str(self.hub.portal_data), str(self.hub.data / "board")],
             env=({"ANTHROPIC_API_KEY": API_KEY_FILE.read_text().strip()} if self.use_api_key and API_KEY_FILE.exists() else {}),
             model=self.model(),
             fallback_model=None if self.hub.model_override else "claude-sonnet-5-5",
@@ -600,6 +892,9 @@ class Agent:
                     prompt = digest + "\n\n" + prompt
                 if self.name.endswith("overseer"):
                     prompt = situation(self.hub) + "\n\n" + prompt
+                    self.narr_buf, self.narr_mark = [("input", prompt[-6000:])], 1
+                    self.turn_notes = {b["note"] for b in batch if b.get("note") and b.get("from_kind") == "human"}
+                    ticker = asyncio.create_task(self.narr_ticker())
                 self.turn_started = time.time()
                 await self.set_state("working")
                 self.record({"type": "turn", "n": len(batch)})
@@ -622,16 +917,24 @@ class Agent:
                 self.items = [i for i in self.items if i["id"] not in done]
                 self.save_items()
                 self.fails = 0
+                if self.name.endswith("overseer"):
+                    ticker.cancel()
+                    buf, self.narr_buf = self.narr_buf, []
+                    asyncio.create_task(self.hub.narrate(self, buf, self.turn_notes, True, self.narr_mark))
                 await self.maybe_compact()
                 await self.set_state("idle")
                 if any(i.get("wake", True) for i in self.items if not i.get("taken")):
                     self.wake.set()
             except asyncio.CancelledError:
+                if "ticker" in locals():
+                    ticker.cancel()
                 for i in batch:
                     i.pop("taken", None)
                 self.save_items()
                 raise
             except Exception as e:  # noqa: BLE001
+                if "ticker" in locals():
+                    ticker.cancel()
                 for i in batch:
                     i.pop("taken", None)
                 self.save_items()
@@ -919,7 +1222,7 @@ class Agent:
                           "your human with notify_human.")
             ev = (a.get("event") or "minute0").lower().replace(" ", "").replace("round", "")
             sch = hub.bus.shared.get("schedule") or {}
-            scale = sch.get("scale", 1.0)
+            scale = sch.get("scale", hub.default_scale)
             m = re.fullmatch(r"(minute0|start|practice(\d+)|scored(\d+))", ev)
             if not m:
                 return ok("event must be minute0, practiceN or scoredN.")
@@ -953,45 +1256,61 @@ class Agent:
                 return ok("Codex is not enabled on this hub.")
             return ok(await hub.codex.submit(me, a["task"], a.get("folder"), a.get("check")))
 
-        @tool("propose", "Put a card on the Decisions board that both humans see. kind: research (a study you plan/ran), "
-              "finding (an analysis result), change (a change to the bot or plan; needs a greenlight before it is built/"
-              "shipped), decision (what plays in a round; needs a greenlight; give deadline_minutes, e.g. until T-5). "
-              "headline: ONE plain-English sentence a tired human understands in 5 seconds (no jargon, no ids), e.g. "
-              "'We fold too often on the flop; calling more should gain about 0.7 points per table.' "
-              "body: markdown with the evidence (numbers, ± error, files). parent: the card this answers (e.g. a human idea).",
+        @tool("propose", "Put a note on the humans' board. The hub already makes the Build, Live and 'Analysis for <round>' "
+              "notes; findings, research and suggested changes go INTO the round's analysis note (update_proposal with "
+              "note= for progress, summary= for the high-level summary + numbered suggestions), not new notes. Use propose "
+              "only for: kind='bot': ask the humans whether to use a bot ('Use v3 for Practice 2?'); give bot= the exact "
+              "release file (e.g. 'releases/v3.zip'); greenlighting it makes that bot live. kind='question': something "
+              "only a human can answer. headline: ONE plain-English sentence a tired human understands in 5 seconds. "
+              "body: markdown with the evidence (numbers, ± error, files). deadline_minutes: when the default happens.",
               schema(["kind", "title", "headline", "body"], {"kind": "string", "title": "string", "headline": "string",
-                                                             "body": "string", "parent": "string",
-                                                             "deadline_minutes": "number", "needs_call": "boolean"}))
+                                                             "body": "string", "bot": "string", "parent": "string",
+                                                             "deadline_minutes": "number"}))
         async def propose(a):
-            kind = a["kind"] if a["kind"] in KINDS[1:] else "finding"
-            needs = a.get("needs_call")
-            if needs is None:
-                needs = kind in ("change", "decision")
+            kind = {"decision": "bot", "change": "analysis", "finding": "analysis", "research": "analysis"}.get(a["kind"], a["kind"])
+            if kind == "analysis":   # fold into the latest analysis note instead of a new note
+                an = next((p for p in hub.props() if p.get("kind") == "analysis" and p.get("status") != "removed"), None)
+                if an:
+                    await hub.note_append(an["id"], me.title, f"**{a['title']}** — {a.get('headline') or ''}\n\n{a['body']}"[:8000],
+                                          action=a["kind"])
+                    return ok(f"Added to note #{an['id']} ({an['title']}): findings and suggestions live in the round's "
+                              "analysis note. Set its summary with update_proposal(id, summary=...) when you have the picture.")
+                kind = "question"
+            if kind not in ("bot", "question", "build"):
+                kind = "question"
+            if kind == "bot" and not a.get("bot"):
+                return ok("Give bot= the exact release file (e.g. 'releases/v3.zip').")
+            sch = hub.bus.shared.get("schedule")
             p = {"id": "P" + new_id()[1:7].upper(), "kind": kind, "title": a["title"][:160], "body": a["body"][:8000],
-                 "headline": (a.get("headline") or "")[:300],
-                 "author": me.name, "author_person": hub.person, "decider": "both" if kind == "decision" else hub.person,
-                 "owner": me.name,
-                 "parent": a.get("parent") or None,
-                 "status": "needs_call" if needs else ("running" if kind == "research" else "done"),
+                 "headline": (a.get("headline") or "")[:300], "bot": a.get("bot") or None,
+                 "author": me.name, "author_person": hub.person, "decider": "both" if kind == "bot" else hub.person,
+                 "owner": me.name if me.name.endswith("overseer") else hub.owner_overseer(hub.person),
+                 "parent": a.get("parent") or None, "stage": stage_of(sch, time.time()),
+                 "status": "needs_call" if kind in ("bot", "question") else "running",
                  "created": time.time(), "thread": []}
             if a.get("deadline_minutes"):
-                sc = (hub.bus.shared.get("schedule") or {}).get("scale", 1.0)
-                p["deadline"] = time.time() + float(a["deadline_minutes"]) * 60 * sc
+                p["deadline"] = time.time() + float(a["deadline_minutes"]) * 60 * (sch or {}).get("scale", 1.0)
+            if kind == "bot":
+                await hub.register_bot(a["bot"], "ready", by=me.name)
             await hub.save_prop(p)
-            if p.get("parent"):
-                par = hub.get_prop(p["parent"])
-                if par and par.get("status") in OPEN:
-                    par["status"] = "done" if kind == "finding" and not needs else par["status"]
-                    par.setdefault("thread", []).append({"who": me.title, "at": time.time(), "action": "result",
-                                                         "text": f"Result posted: #{p['id']} {p['title']}"})
-                    await hub.save_prop(par)
-            me.record({"type": "note", "text": f"Posted card #{p['id']} ({kind}): {p['title']}"})
-            return ok(f"Card #{p['id']} posted ({p['status']}). " + ("Wait for a human greenlight before acting on it; "
-                      "you'll get a message when they decide." if needs else ""))
+            me.record({"type": "note", "text": f"Posted note #{p['id']} ({kind}): {p['title']}"})
+            return ok(f"Note #{p['id']} posted ({p['status']}). Wait for a human answer; you'll get a message.")
 
-        @tool("update_proposal", "Update a card: status (planned / running / done / blocked) and a short note, e.g. "
-              "progress on a human's idea, or that an approved change is built and tested.",
-              schema(["id", "note"], {"id": "string", "status": "string", "note": "string"}))
+        @tool("register_bot", "Record a bot in the team's bot list (the humans' 'Live' menu): file (e.g. 'releases/v3.zip' or "
+              "the planned name), status building / testing / ready / failed, and a short note (what it is, test result). "
+              "Call it when you start a candidate, when it's in testing, and when it's released or fails.",
+              schema(["file", "status"], {"file": "string", "status": "string", "note": "string"}))
+        async def register_bot(a):
+            st = a["status"] if a["status"] in ("building", "testing", "ready", "failed") else "building"
+            if bot_name(a["file"]).lower() in ("agent", "agent.py", "bot", "live", "latest"):
+                return ok("Use the bot's release name (e.g. 'releases/v3.zip'), not a source file or alias.")
+            await hub.register_bot(a["file"], st, a.get("note") or "", me.name)
+            return ok(f"{bot_name(a['file'])}: {st}.")
+
+        @tool("update_proposal", "Update a note: note= a progress line or a result shown in its chat; summary= replaces the "
+              "note's pinned summary (for an analysis note: the high-level picture in plain words + numbered suggestions "
+              "for what to do); status planned / running / done / blocked.",
+              schema(["id"], {"id": "string", "status": "string", "note": "string", "summary": "string"}))
         async def update_proposal(a):
             p = hub.get_prop(a["id"].lstrip("#"))
             if not p:
@@ -1001,11 +1320,16 @@ class Agent:
                 return ok(f"Card #{p['id']} was removed from the board by a human; it's no longer relevant. Stop work on it.")
             if st in ("planned", "running", "done", "blocked"):
                 p["status"] = st
-            p.setdefault("thread", []).append({"who": me.title, "at": time.time(), "action": st or "note", "text": a["note"][:2000]})
+            if a.get("summary"):
+                p["body"] = a["summary"][:8000]
+                p["thread"] = p.get("thread", []) + [{"who": me.title, "at": time.time(), "action": "summary",
+                                                     "text": "Updated the summary and suggestions (top of this note)."}]
+            if a.get("note"):
+                p.setdefault("thread", []).append({"who": me.title, "at": time.time(), "action": st or "note", "text": a["note"][:6000]})
             await hub.save_prop(p)
-            return ok(f"Card #{p['id']} updated.")
+            return ok(f"Note #{p['id']} updated.")
 
-        @tool("list_proposals", "Cards on the Decisions board (open ones first) with status and the humans' replies.",
+        @tool("list_proposals", "Notes on the board (open ones first) with status and the humans' replies.",
               schema([], {"only_open": "boolean"}))
         async def list_proposals(a):
             ps = hub.props()
@@ -1020,7 +1344,7 @@ class Agent:
 
         return create_sdk_mcp_server("hub", tools=[send_message, list_agents, read_agent, set_status, notify_human,
                                                    start_agent, stop_agent, declare_live, set_schedule, propose,
-                                                   update_proposal, list_proposals, codex_task])
+                                                   update_proposal, list_proposals, codex_task, register_bot])
 
 
 # ======================================================================== playbook (START_HERE.md section 6)
@@ -1086,12 +1410,26 @@ CHECKPOINTS = [
 ]
 
 
+# How wide each dispatched job should fan out (effort scaling: the lead sets the budget, the worker splits).
+FANOUT = {
+    "d-platform": "fan out: one subagent per independent piece (engine adapter / hand ranking / packaging+checks); Sonnet for packaging and scripts",
+    "d-builder": "fan out: one subagent per style or candidate, in parallel, each in its own folder; Modal (up to 20) for sparring each",
+    "s-tester": "fan out: shard paired runs across Modal (up to 40 containers); one subagent per candidate for the 'correct?' review",
+    "s-data": "fan out: one subagent per question (our leaks / each top-5 opponent / the twist), Sonnet for parsing and counting; Codex for a second-opinion check",
+    "s-overseer": "", "d-overseer": "",
+}
+
+
 def dispatch_text(key: str, person: str) -> str:
     rows = [(pr, ag, t) for (who, pr, ag, t) in DISPATCH.get(key, []) if who == person]
     if not rows:
         return ""
-    return "\nDispatch now (task messages; optional ones only if on track):\n" + "\n".join(
-        f"- [{'CRITICAL' if pr == 'crit' else 'optional'}] {ag}: {t}" for pr, ag, t in rows)
+    extra = ("\nThe board now has a 'Build i of 4' note for each work stream (ids B1-B4 + the clock key). Progress is posted "
+             "there automatically from what you say and do; when a stream is finished, update_proposal(id, status='done', "
+             "summary=...)." if key == "b0" else "")
+    return extra + "\nDispatch now (task messages; optional ones only if on track):\n" + "\n".join(
+        f"- [{'CRITICAL' if pr == 'crit' else 'optional'}] {ag}: {t}" + (f" ({FANOUT[ag]})" if FANOUT.get(ag) else "")
+        for pr, ag, t in rows)
 
 
 # steps a person does with their own hands (clock reminders shown to that person)
@@ -1104,8 +1442,8 @@ HUMAN_STEPS = {
     "b40": {"dylan": "Upload style C for practice round 3 and make it active."},
     "12": {"dylan": "Upload the challenger and make it active (only if your Overseer says it's ready)."},
     "9": {"dylan": "Put the LIVE bot back as active now."},
-    "8": {"samuel": "Decision time: check the Decisions board and greenlight or reject.",
-          "dylan": "Decision time: check the Decisions board and greenlight or reject."},
+    "8": {"samuel": "Decision time: open the Use-which-bot note on the board and greenlight or reject.",
+          "dylan": "Decision time: open the Use-which-bot note on the board and greenlight or reject."},
     "3": {"dylan": "Upload the chosen bot (if one was greenlit) and confirm the active bot on the portal."},
 }
 
@@ -1397,6 +1735,8 @@ class Clock:
             if key not in self.sent and at <= now < at + max(60, 2 * (60 * (s or {}).get("scale", 1.0))):
                 self.sent.add(key)
                 atomic_write(self.hub.data / "clock_sent.json", json.dumps(sorted(self.sent)))
+                if key.endswith(":b0"):
+                    await self.hub.build_notes(int(key.split(":")[0]))
                 await ov.add_item({"kind": "clock", "wake": True, "text": text})
                 if ov.state == "stopped" and not ov.paused:
                     await ov.start()
@@ -1496,6 +1836,7 @@ class PortalWatcher:
             counts[r["kind"]] = counts.get(r["kind"], 0) + 1
             r.setdefault("label", f"{'Scored' if r['kind'] != 'practice' else 'Practice'} round {counts[r['kind']]}"
                                   + (f" (x{r['weight']})" if r.get("weight") else ""))
+            r["stage"] = stage_of_round(r["kind"], counts[r["kind"]])
         new_done = [r for r in rounds if r.get("completed_at") and r["id"] not in self.st["done"]]
         if not self.st.get("baseline_done"):
             self.st["baseline_done"] = True
@@ -1524,6 +1865,15 @@ class PortalWatcher:
         if prev.get("filename") != cur["filename"] or time.time() - prev.get("at", 0) > 300:
             await self.hub.bus.set_shared("portal_active", cur)   # both laptops' briefs show the active bot
         await self.check_team(team)
+        for r in rounds:   # a round that is playing gets a "<bot> live · <stage>" note
+            if not r.get("completed_at"):
+                f = cur["filename"] or "no bot"
+                await self.hub.ensure_note("L-" + r["id"][:12], kind="live", stage=r["stage"], owner="d-overseer",
+                                           author="s-portal", author_person="dylan",
+                                           title=f"{bot_name(f)} live · {r['stage']}",
+                                           headline=f"{bot_name(f)} is playing {r['stage']}.",
+                                           thread=[{"who": "Portal", "at": time.time(), "action": "update",
+                                                    "text": f"{r['stage']} started; {f} is the active bot on the portal."}])
         self.save()
         ours = next((x for x in standings if x["team_name"] == self.team_name), None)
         third = standings[2]["total"] if len(standings) >= 3 else None
@@ -1548,6 +1898,11 @@ class PortalWatcher:
         if not files:
             self.st["need_hands"][r["id"]] = {"folder": str(folder), "label": label, "since": time.time()}
         items = sorted(res["items"], key=lambda x: -x["average_points"])
+        stage = r.get("stage") or label
+        aid = "A-" + r["id"][:12]
+        self.st.setdefault("note_of", {})[r["id"]] = aid
+        await self.hub.ensure_note(aid, kind="analysis", stage=stage, owner="s-overseer", author="s-portal",
+                                   author_person="samuel", title=f"Analysis for {stage}", status="running")
         ours = next((i for i, x in enumerate(items, 1) if x["team_name"] == self.team_name), None)
         me = items[ours - 1] if ours else None
         line = (f"{label} finished: we were {ours} of {len(items)} with {me['average_points']:.2f} "
@@ -1557,11 +1912,20 @@ class PortalWatcher:
                 ("" if files else "\nHand history not downloadable yet; I'll keep trying.")
         self.st["done"].append(r["id"])
         self.save()
+        await self.hub.note_append(aid, "Portal", line + " " + (f"Hand data downloaded ({', '.join(Path(f).name for f in files)}). "
+                                   "Analysis starting." if files else "Hand data isn't downloadable yet; I'll keep trying."))
+        lid = "L-" + r["id"][:12]
+        if self.hub.get_prop(lid):
+            await self.hub.note_append(lid, "Portal", line, status="done")
         if quiet:
             return
         ov = self.hub.agents.get("s-overseer")
         if ov:   # the Overseer decides what to do with it and dispatches the workers with context
-            await ov.add_item({"kind": "portal", "wake": True, "text": "NEW ROUND RESULT. " + line + paths})
+            await ov.add_item({"kind": "portal", "wake": True, "note": aid, "text": "NEW ROUND RESULT. " + line + paths +
+                               f"\nThe humans follow this round on note #{aid} \"Analysis for {stage}\": your progress there is "
+                               "posted automatically from what you say and do. When you have the picture, set its summary "
+                               f"with update_proposal(id='{aid}', summary=...): the high-level story in plain words, then "
+                               "numbered suggestions for what to do. Keep adding results there as they come in."})
             if ov.state == "stopped" and not ov.paused:
                 await ov.start()
         await self.tell("d-overseer", "fyi", line)
@@ -1589,6 +1953,10 @@ class PortalWatcher:
             if files:
                 del self.st["need_hands"][tid]
                 self.save()
+                aid = self.st.get("note_of", {}).get(tid)
+                if aid:
+                    await self.hub.note_append(aid, "Portal", f"Hand data downloaded ({', '.join(Path(f).name for f in files)}). "
+                                               "Analysis starting.")
                 ov = self.hub.agents.get("s-overseer")
                 if ov:
                     await ov.add_item({"kind": "portal", "wake": True, "text": f"Hand history for {info['label']} is now "
@@ -1752,7 +2120,7 @@ def make_app(hub: Hub) -> web.Application:
     async def schedule(req):
         b = await body(req)
         try:
-            s = await hub.clock.set_start(b.get("start", ""), int(b.get("scored") or 6), float(b.get("scale") or 1.0))
+            s = await hub.clock.set_start(b.get("start", ""), int(b.get("scored") or 6), float(b.get("scale") or hub.default_scale))
         except ValueError as e:
             return web.json_response({"error": str(e)}, status=400)
         return web.json_response({"ok": True, "text": s})
@@ -1802,7 +2170,7 @@ def make_app(hub: Hub) -> web.Application:
     async def start_event(req):
         if hub.bus.shared.get("schedule"):
             return web.json_response({"error": "The clock is already running. To change it, tell your Overseer the right time."}, status=400)
-        s = await hub.clock.set_start("", 6, 1.0, t0=time.time())
+        s = await hub.clock.set_start("", 6, hub.default_scale, t0=time.time())
         ov = hub.overseer()
         await ov.human("Start building: the variant is announced now (minute 0). Kick off the build-hour plan.",
                        PEOPLE[hub.person])
@@ -1810,6 +2178,24 @@ def make_app(hub: Hub) -> web.Application:
 
     r.add_post("/api/props/{id}/ask", ask_prop)
     r.add_post("/api/start", start_event)
+
+    async def set_live(req):
+        b = await body(req)
+        f = (b.get("file") or "").strip()
+        if not f:
+            return web.json_response({"error": "Pick a bot."}, status=400)
+        v = await hub.make_live(f, PEOPLE[hub.person])
+        return web.json_response(v)
+    r.add_post("/api/live", set_live)
+
+    async def bot_download(req):
+        name = req.match_info["name"]
+        data = await hub.bot_bytes(name)
+        if not data:
+            return web.json_response({"error": f"{name}.zip isn't on this laptop or in the shared store yet."}, status=404)
+        return web.Response(body=data, content_type="application/zip",
+                            headers={"Content-Disposition": f'attachment; filename="{name}.zip"'})
+    r.add_get("/api/bots/{name}/download", bot_download)
     r.add_post("/api/props", new_prop)
     r.add_post("/api/props/{id}/act", act_prop)
     return app
@@ -1846,10 +2232,13 @@ async def main():
         hub.bus.publish(ag.name, {"title": ag.title, "state": ag.state, "task": ag.task, "summary": ag.summary})
     for pr in hub.local_props.values():   # re-share this laptop's cards (e.g. after a restart)
         asyncio.create_task(hub.bus.set_shared("prop:" + pr["id"], pr))
+    hub.default_scale = a.scale
     if a.start:
         await hub.clock.set_start(a.start, scale=a.scale)
     if not a.view_only:
         asyncio.create_task(hub.clock.loop())
+        asyncio.create_task(hub.scan_releases())
+        asyncio.create_task(hub.watch_live())
     if not a.no_codex and not a.view_only:
         hub.codex = Codex(hub, a.codex_model, a.codex_max)
         hub.codex.status()

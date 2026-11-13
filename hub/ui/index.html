@@ -66,16 +66,30 @@ button:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-
 .note .lab { font: 700 .66rem var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); display: flex; justify-content: space-between; gap: 8px; }
 .note .stamp { font: 600 .64rem var(--sans); letter-spacing: .04em; border: 1.5px solid currentColor; border-radius: 4px; padding: 0 5px; text-transform: uppercase; white-space: nowrap; }
 .note .stamp.call { color: var(--bad); } .note .stamp.ok { color: var(--ok); } .note .stamp.no { color: var(--bad); opacity: .8; }
-.note .head { font: 600 1rem/1.38 var(--sans); flex: 1; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; }
+.note .head { font: 600 1rem/1.38 var(--sans); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; }
+.note .gist { font-size: .84rem; line-height: 1.42; color: var(--fg); opacity: .82; flex: 1; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; }
 .note .sub { font-size: .76rem; color: var(--muted); } .note .sub .pdot { margin-right: 3px; }
 .note .dl { color: var(--bad); font-weight: 700; font-family: var(--mono); }
 .note .acts { display: flex; gap: 6px; }
 .note .acts button { border: 0; border-radius: 7px; padding: 4px 10px; font-size: .78rem; font-weight: 600; }
 .go { background: var(--ok); color: #fff; } .no { background: rgba(0,0,0,.08); color: var(--fg); }
 @media (prefers-color-scheme: dark) { .no { background: rgba(255,255,255,.1); } }
-.k-decision { --nb: var(--n-live); --ink: var(--n-live-ink); } .k-change { --nb: var(--n-change); --ink: var(--n-change-ink); }
-.k-finding { --nb: var(--n-finding); --ink: var(--n-finding-ink); } .k-research { --nb: var(--n-research); --ink: var(--n-research-ink); }
-.k-idea { --nb: var(--n-idea); --ink: var(--n-idea-ink); }
+.k-live { --nb: var(--n-live); --ink: var(--n-live-ink); } .k-bot, .k-question { --nb: var(--n-change); --ink: var(--n-change-ink); }
+.k-analysis { --nb: var(--n-finding); --ink: var(--n-finding-ink); } .k-build { --nb: var(--n-idea); --ink: var(--n-idea-ink); }
+.k-idea { --nb: var(--n-research); --ink: var(--n-research-ink); }
+.stage { display: flex; flex-direction: column; gap: 12px; } .stage.past { opacity: .9; }
+.stage h2 .now { background: var(--accent); color: #fff; border-radius: 999px; padding: 0 8px; letter-spacing: .04em; font-size: .64rem; }
+.livechip { background: none; border: 1px solid var(--line); border-radius: 9px; padding: 5px 11px; font-size: .84rem; display: inline-flex; gap: 7px; align-items: center; color: var(--fg); }
+.livechip .lv { width: 8px; height: 8px; border-radius: 50%; background: var(--idle); } .livechip .lv.on { background: var(--ok); } .livechip .lv.pend { background: var(--warn); animation: pulse 1.2s infinite; }
+.livemenu { position: fixed; top: 58px; width: min(380px, calc(100vw - 32px)); max-height: 70vh; overflow-y: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,.2); z-index: 31; padding: 8px; }
+.livemenu .hd { font-size: .74rem; color: var(--muted); padding: 6px 8px 8px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
+.botrow { width: 100%; display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; text-align: left; background: none; border: 0; border-radius: 9px; padding: 8px 10px; }
+.botrow:hover:not(:disabled) { background: var(--hover); } .botrow:disabled { opacity: .45; cursor: default; }
+.botrow b { font-weight: 600; } .botrow .st { font-size: .72rem; color: var(--muted); text-align: right; } .botrow .nt { grid-column: 1 / -1; font-size: .76rem; color: var(--muted); }
+.botrow.cur { box-shadow: inset 3px 0 0 var(--ok); }
+.summary { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; }
+.summary .k2 { font-size: .64rem; text-transform: uppercase; letter-spacing: .09em; color: var(--faint); font-weight: 700; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; } .chips button { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 2px 11px; font-size: .76rem; color: var(--muted); }
 .newnote { border: 2px dashed var(--n-idea-ink); background: transparent; box-shadow: none; color: var(--n-idea-ink); align-items: stretch; justify-content: center; }
 .newnote:hover { transform: none; box-shadow: none; }
 .newnote input, .newnote textarea { font: inherit; font-size: .9rem; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--fg); padding: 6px 9px; width: 100%; }
@@ -180,7 +194,11 @@ const clean = (t) => String(t || "").replace(" (hub)", "");
 const personOf = (n) => n && n.startsWith("s-") ? "samuel" : n && n.startsWith("d-") ? "dylan" : Object.keys(S.st.people).find((k) => S.st.people[k] === n) || "";
 const titleOf = (n) => { if (!n) return ""; if (n === "hub") return "Hub"; if (Object.values(S.st.people).includes(n)) return n; const a = agentByName(n); const p = personOf(n); const base = a ? clean(a.title || n) : n; return p && p !== S.st.me ? `${base} (${S.st.people[p]})` : base; };
 const pdot = (n) => { const p = personOf(n); return p ? `<span class="pdot ${p}"></span>` : ""; };
-const NOTE = { decision: "Live bot", change: "Suggestion", finding: "Analysis", research: "Research", idea: "Your idea" };
+const KMAP = { decision: "bot", change: "analysis", finding: "analysis", research: "analysis" };
+const kindOf = (p) => KMAP[p.kind] || p.kind;
+const NOTE = { build: "Build", live: "Live", analysis: "Analysis", bot: "Which bot?", question: "Question", idea: "Your idea" };
+const STAGE_ORDER = (st) => { st = st || ""; if (/^Before/.test(st)) return -1; if (st === "Build") return 0; let m = st.match(/^Practice (\d+)/); if (m) return +m[1];
+  m = st.match(/^Round (\d+)(\.5)?/); return m ? 10 + 2 * +m[1] + (m[2] ? 1 : 0) : -2; };
 const STAMP = { new: "new", planned: "planned", running: "working on it", needs_call: "your call", revise: "being revised", approved: "greenlit", rejected: "rejected", done: "done", expired: "no answer · default", blocked: "paused" };
 const BELL = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>`;
 function label(a) { if (!a) return ["", ""]; if (a.stale) return ["Offline", "offline"]; const st = a.state;
@@ -228,46 +246,86 @@ function panelHtml() {
   return `<div class="panel" id="panel">${groups.filter((g) => g[1].length).map(([t, xs]) => `<h3><span>${t} · ${xs.length}</span>${t === "Notes" ? `<button id="clearAll">Clear notes</button>` : ""}</h3>${xs.map((x) => needHtml(x, false)).join("")}`).join("") || `<div class="empty" style="padding:14px 0;text-align:center">Nothing needs you right now.</div>`}</div>`;
 }
 function rot(id) { let h = 0; for (const c of String(id)) h = (h * 31 + c.charCodeAt(0)) | 0; return ((Math.abs(h) % 9) - 4) * 0.25; }
+const plain = (t) => String(t || "").replace(/[*_`#>|]/g, "").replace(/\s+/g, " ").trim();
+function gist(p) {   // the one-line, plain-English state shown on the post-it
+  const k = kindOf(p), last = [...(p.thread || [])].reverse().find((t) => !["summary", "ask", "comment"].includes(t.action) && !Object.values(S.st.people).includes(t.who));
+  const src = k === "analysis" && p.body ? p.body : last ? last.text : p.body || "";
+  const t = plain(src); const cut = t.search(/(?<=[.!?])\s/); return (cut > 30 && cut < 170 ? t.slice(0, cut) : t.slice(0, 160) + (t.length > 160 ? "…" : ""));
+}
+function stampOf(p) {
+  const k = kindOf(p), st = p.status;
+  if (k === "live") return st === "done" ? "finished" : "playing";
+  if (k === "analysis") return st === "done" ? "done" : p.body ? "summary ready" : "analysing";
+  if (k === "build") return st === "done" ? "built" : "building";
+  return STAMP[st] || st;
+}
 function noteHtml(p, big) {
   const call = p.status === "needs_call" && myCall(p), left = p.deadline ? p.deadline - Date.now() / 1000 : null;
   const stampCls = call ? "call" : p.status === "approved" ? "ok" : ["rejected", "expired"].includes(p.status) ? "no" : "";
-  const dim = ["rejected", "expired", "done"].includes(p.status) && p.kind !== "finding";
+  const dim = ["rejected", "expired"].includes(p.status);
   const nchat = (p.thread || []).filter((t) => !["result", "expire"].includes(t.action)).length;
-  return `<button class="note k-${esc(p.kind)} ${big ? "big" : ""} ${dim ? "dim" : ""}" style="--rot:${rot(p.id)}deg" data-open="${esc(p.id)}">
+  return `<button class="note k-${esc(kindOf(p))} ${big ? "big" : ""} ${dim ? "dim" : ""}" style="--rot:${rot(p.id)}deg" data-open="${esc(p.id)}">
     <span class="rm" data-rm="${esc(p.id)}" role="button" title="Remove from the board" aria-label="Remove">✕</span>
-    <div class="lab"><span>${esc(NOTE[p.kind] || p.kind)}</span><span class="stamp ${stampCls}">${esc(call ? "your call" : STAMP[p.status] || p.status)}</span></div>
-    <div class="head">${esc(headOf(p))}</div>
+    <div class="lab"><span>${esc(NOTE[kindOf(p)] || p.kind)}</span><span class="stamp ${stampCls}">${esc(call ? "your call" : stampOf(p))}</span></div>
+    <div class="head">${esc(p.title && ["build", "live", "analysis"].includes(kindOf(p)) ? p.title : headOf(p))}</div>
+    ${["build", "live", "analysis"].includes(kindOf(p)) && gist(p) ? `<div class="gist">${esc(gist(p))}</div>` : ""}
     <div class="sub">${pdot(p.author)} ${esc(titleOf(p.author))} · ${ago(p.updated || p.created)}${nchat ? ` · ${nchat} in chat` : ""}${left !== null && call ? ` · <span class="dl" data-dl="${p.deadline}">${mmss(left)}</span>` : ""}${p.status === "needs_call" && !myCall(p) ? ` · ${esc(S.st.people[p.decider] || "")}'s call` : ""}</div>
-    ${call ? `<div class="acts"><button class="go" data-pa="approve" data-pid="${esc(p.id)}">Greenlight</button><button class="no" data-pa="reject" data-pid="${esc(p.id)}">Reject</button></div>` : ""}
+    ${call ? `<div class="acts"><button class="go" data-pa="approve" data-pid="${esc(p.id)}">${p.bot ? "Use it" : "Greenlight"}</button><button class="no" data-pa="reject" data-pid="${esc(p.id)}">${p.bot ? "Not now" : "Reject"}</button></div>` : ""}
   </button>`;
 }
 function boardHtml() {
-  const ps = props(), sch = S.st.schedule;
-  const call = ps.filter((p) => ["needs_call", "revise"].includes(p.status)).sort((a, b) => (myCall(b) - myCall(a)) || (a.deadline || 9e12) - (b.deadline || 9e12));
-  const work = ps.filter((p) => ["new", "planned", "running", "blocked"].includes(p.status));
-  const recent = ps.filter((p) => !call.includes(p) && !work.includes(p)).slice(0, 24);
-  const hero = sch ? "" : `<div class="hero"><div style="flex:1;min-width:260px"><h1>Ready when you are</h1><p>Press <b>Start building</b> the moment the variant is announced. The clock starts on both laptops and your Overseer kicks off the plan. If the announcement was a while ago, type its time instead.</p></div><button class="bigbtn" id="startBtn">Start building</button><div><input id="schin" placeholder="HH:MM"> <button class="mini" id="schgo">Set time</button></div></div>`;
+  const ps = props(), sch = S.st.schedule, cur = S.st.stage;
+  const hero = sch ? "" : `<div class="hero"><div style="flex:1;min-width:260px"><h1>Ready when you are</h1><p>Press <b>Start building</b> the moment the variant is announced. The clock starts on both laptops and the Overseers start the plan. Notes appear here as each part of the day happens. If the announcement was a while ago, type its time instead.</p></div><button class="bigbtn" id="startBtn">Start building</button><div><input id="schin" placeholder="HH:MM"> <button class="mini" id="schgo">Set time</button></div></div>`;
+  const call = ps.filter((p) => p.status === "needs_call" && myCall(p)).sort((a, b) => (a.deadline || 9e12) - (b.deadline || 9e12));
   const newNote = `<div class="note newnote" style="--rot:0deg">${S.ideaOpen ? `<textarea id="ideaBody" placeholder="An idea to try, or a question for the agents…"></textarea><div class="row"><span class="hint" id="ideaHint" style="flex:1"></span><button class="mini" id="ideaX">Cancel</button><button class="mini go" id="ideaGo">Post</button></div>` : `<button class="big" id="ideaOpen" style="border:0;background:none;color:inherit;height:100%;width:100%">＋ New idea<br><span style="font-weight:400;font-size:.8rem">Ask a question or suggest something to try</span></button>`}</div>`;
+  const stages = {}; ps.forEach((p) => { const st = p.stage || "Earlier"; (stages[st] = stages[st] || []).push(p); });
+  if (sch && !stages[cur]) stages[cur] = [];
+  const order = Object.keys(stages).sort((a, b) => STAGE_ORDER(b) - STAGE_ORDER(a));
+  const rank = { bot: 0, question: 0, live: 1, analysis: 2, build: 3, idea: 4 };
+  const rows = order.map((st) => { const xs = stages[st].slice().sort((a, b) => (b.status === "needs_call") - (a.status === "needs_call") || (rank[kindOf(a)] ?? 5) - (rank[kindOf(b)] ?? 5) || (a.created || 0) - (b.created || 0));
+    const isNow = st === cur || (!sch && st === order[0]);
+    return `<div class="stage ${isNow ? "" : "past"}"><h2>${esc(st)} ${isNow && sch ? `<span class="now">NOW</span>` : ""}</h2><div class="wall">${isNow ? newNote : ""}${xs.map((p) => noteHtml(p, isNow)).join("")}</div></div>`; }).join("");
   return `<div class="board">${hero}
-    <div><h2>Needs your call ${call.filter(myCall).length ? `<span class="c">${call.filter(myCall).length}</span>` : ""}</h2>${call.length ? `<div class="wall">${call.map((p) => noteHtml(p, true)).join("")}</div>` : `<div class="empty">Nothing waiting. Suggestions and live-bot decisions land here for a greenlight.</div>`}</div>
-    <div><h2>Being worked on</h2><div class="wall">${newNote}${work.map((p) => noteHtml(p)).join("")}</div></div>
-    <div><h2 style="justify-content:space-between"><span>Recent ${recent.length ? `<button class="tbtn" id="clearDone" style="margin-left:8px;text-transform:none;letter-spacing:0;font-weight:500">Clear finished</button>` : ""}</span><span class="legend">${Object.entries(NOTE).map(([k, v]) => `<span class="k-${k}">${v}</span>`).join("")}</span></h2>${recent.length ? `<div class="wall">${recent.map((p) => noteHtml(p)).join("")}</div>` : `<div class="empty">Analyses and decisions collect here.</div>`}</div>
+    ${call.length ? `<div><h2>Needs your call <span class="c">${call.length}</span></h2><div class="wall">${call.map((p) => noteHtml(p, true)).join("")}</div></div>` : ""}
+    ${rows || `<div class="stage"><div class="wall">${newNote}</div></div>`}
+    <div class="legend" style="justify-content:flex-end">${Object.entries(NOTE).map(([k, v]) => `<span class="k-${k}">${v}</span>`).join("")}${ps.some((p) => ["done", "rejected", "expired"].includes(p.status)) ? `<button class="tbtn" id="clearDone">Clear finished</button>` : ""}</div>
   </div>`;
 }
 function drawerHtml() {
   const p = props().find((x) => x.id === S.card); if (!p) return "";
   const call = ["needs_call", "revise"].includes(p.status) && myCall(p);
   const thread = (p.thread || []).map((t) => { const human = Object.values(S.st.people).includes(t.who);
-    if (["expire", "result"].includes(t.action) && !human) return `<div class="cb sys">${esc(t.who)} · ${hhmm(t.at)} · ${esc(t.text)}</div>`;
-    return `<div class="cb ${human ? "me" : "ag"}"><span class="w">${esc(t.who)} · ${hhmm(t.at)}${t.action && !["note", "ask", "comment"].includes(t.action) ? " · " + esc(STAMP[t.action] || t.action) : ""}</span>${human ? esc(t.text) : md(t.text)}</div>`; }).join("");
+    if (["expire", "result", "summary"].includes(t.action) && !human) return `<div class="cb sys">${esc(t.who)} · ${hhmm(t.at)} · ${esc(t.text)}</div>`;
+    return `<div class="cb ${human ? "me" : "ag"}"><span class="w">${esc(t.who)} · ${hhmm(t.at)}${t.action && !["note", "ask", "comment", "update"].includes(t.action) ? " · " + esc(STAMP[t.action] || t.action) : ""}</span>${human ? esc(t.text) : md(t.text)}</div>`; }).join("");
   const parent = p.parent ? props().find((x) => x.id === p.parent) : null;
-  return `<div class="drawer k-${esc(p.kind)}"><div class="dh"><div class="lab"><span>${esc(NOTE[p.kind] || p.kind)} · ${esc(call ? "your call" : STAMP[p.status] || p.status)}</span><span><button class="x" data-rm="${esc(p.id)}" style="font-size:.78rem;font-weight:600" title="Remove from the board">Remove</button> <button class="x" id="cardX" aria-label="Close">✕</button></span></div>
-      <div class="head">${esc(headOf(p))}</div>
+  const k = kindOf(p);
+  const chips = k === "analysis" ? ["Do the suggestions", "Explain the biggest leak", "What's still running?"] : k === "build" ? ["How far along?", "Anything blocked?"] : k === "bot" ? ["How was it tested?", "What's the risk?"] : ["What's the status?"];
+  return `<div class="drawer k-${esc(k)}"><div class="dh"><div class="lab"><span>${esc(p.stage ? p.stage + " · " : "")}${esc(NOTE[k] || p.kind)} · ${esc(call ? "your call" : stampOf(p))}</span><span><button class="x" data-rm="${esc(p.id)}" style="font-size:.78rem;font-weight:600" title="Remove from the board">Remove</button> <button class="x" id="cardX" aria-label="Close">✕</button></span></div>
+      <div class="head">${esc(p.title && ["build", "live", "analysis"].includes(k) ? p.title : headOf(p))}</div>
       <div class="meta">${pdot(p.author)} ${esc(titleOf(p.author))} · ${ago(p.created)}${p.deadline && call ? ` · decide by ${hhmm(p.deadline)}` : ""}${parent ? ` · answers “${esc(parent.title)}”` : ""}</div></div>
-    <div class="db">${p.headline && p.title !== p.headline ? `<div style="font-weight:600">${esc(p.title)}</div>` : ""}${p.body ? `<details class="ev" ${call || p.kind === "idea" ? "open" : ""}><summary>Details and evidence</summary><div class="md">${md(p.body)}</div></details>` : ""}
-      <div class="divider">Chat</div><div class="chat">${thread || `<div class="cb sys">Ask anything about this, or tell the Overseer what to do. It routes it to the right agent and answers here.</div>`}</div></div>
-    <div class="df">${call ? `<div class="acts"><button class="go" data-pa="approve" data-pid="${esc(p.id)}">Greenlight</button><button class="no" data-pa="reject" data-pid="${esc(p.id)}">Reject</button><span class="hint" style="align-self:center">or type a different instruction below</span></div>` : ""}
+    <div class="db">${p.body ? (["analysis", "build", "live"].includes(k) ? `<div class="summary"><div class="k2">Summary and suggestions</div><div class="md">${md(p.body)}</div></div>` : `<details class="ev" open><summary>Details and evidence</summary><div class="md">${md(p.body)}</div></details>`) : (k === "analysis" ? `<div class="summary"><div class="k2">Summary and suggestions</div><div class="md" style="color:var(--muted)">The Overseer posts the summary here once the analysis has a clear picture. Progress shows below as it happens.</div></div>` : "")}
+      <div class="divider">Updates and chat</div><div class="chat">${thread || `<div class="cb sys">Updates from the Overseer appear here as the work happens. Ask anything or steer: it goes to the Overseer, which hands it to the right agent and answers here.</div>`}</div></div>
+    <div class="df">${call ? `<div class="acts"><button class="go" data-pa="approve" data-pid="${esc(p.id)}">${p.bot ? "Use " + esc(p.bot.split("/").pop().replace(/\.zip$/, "")) : "Greenlight"}</button><button class="no" data-pa="reject" data-pid="${esc(p.id)}">${p.bot ? "Not now" : "Reject"}</button><span class="hint" style="align-self:center">or type a different instruction below</span></div>` : ""}${p.bot ? `<div class="acts"><button class="mini" data-dlbot="${esc(bname(p.bot))}">Download ${esc(bname(p.bot))}.zip</button></div>` : ""}
+      <div class="chips">${chips.map((c) => `<button data-chip="${esc(c)}">${esc(c)}</button>`).join("")}</div>
       <form id="cardForm"><textarea id="cardTa" rows="1" placeholder="${call ? "Suggest something else, or ask why…" : "Ask a question or give an instruction…"}"></textarea><button class="send" id="cardSend" aria-label="Send">↑</button></form><span class="hint" id="cardHint"></span></div></div>`;
+}
+const bname = (f) => String(f || "").split("/").pop().replace(/\.zip$/, "");
+function liveChip() {
+  const act = (S.st.portal_active || {}).filename, live = S.st.live;
+  if (!act && !live && !(S.st.bots || []).length) return "";
+  const pend = live && act && bname(act) !== bname(live.filename);
+  const tip = pend ? `The team chose ${live.filename}; the portal is still running ${act}` : "The bot active on the portal (checked every minute)";
+  return `<button class="livechip" id="liveT" title="${esc(tip)}"><span class="lv ${pend ? "pend" : act ? "on" : ""}"></span>Live: <b>${esc(act ? bname(act) : "none")}</b> ▾</button>`;
+}
+function liveMenu() {
+  if (!S.liveOpen) return "";
+  const live = S.st.live, act = (S.st.portal_active || {}), bots = S.st.bots || [];
+  const ST = { ready: "built", building: "building…", testing: "testing…", failed: "failed" };
+  const r = $("#liveT")?.getBoundingClientRect(); const right = r ? Math.max(16, window.innerWidth - r.right) : 16;
+  const ago2 = act.at ? " · checked " + ago(act.at) : "";
+  return `<div class="livemenu" id="liveMenu" style="right:${right}px"><div class="hd">Active on the portal: <b>${esc(act.filename || "unknown")}</b>${esc(ago2)}${live && bname(live.filename) !== bname(act.filename) ? `<br>Chosen to play next: <b>${esc(live.filename)}</b>` : ""}<br>Click a built bot to download its zip, then upload it on the No Limit dashboard.</div>
+    ${bots.length ? bots.map((b) => { const isAct = bname(act.filename) === b.name, isNext = live && bname(live.filename) === b.name && !isAct;
+      return `<button class="botrow ${isAct ? "cur" : ""}" data-dlbot="${esc(b.name)}" ${b.status === "ready" ? "" : "disabled"} title="${b.status === "ready" ? "Download " + esc(b.name) + ".zip" : "Not built yet"}"><b>${esc(b.name)}${isAct ? " · active" : isNext ? " · next" : ""}</b><span class="st">${esc(ST[b.status] || b.status)}${b.status === "ready" ? " ⤓" : ""}</span>${b.note ? `<span class="nt">${esc(b.note)}</span>` : ""}</button>`; }).join("") : `<div class="empty" style="padding:10px">No bots yet. They appear as the agents build them.</div>`}<div class="hint" id="dlHint" style="padding:4px 8px"></div></div>`;
 }
 function sideHtml() {
   if (!S.side) return "";
@@ -326,9 +384,9 @@ function render() {
   const linkDown = !S.st.bus.online || S.st.bus.oldest > 60;
   const main = S.page === "agent" ? agentHtml(a) : S.page === "overview" ? overviewHtml() : boardHtml();
   const comp = S.page === "agent" && a && !svc(a.name) ? `<div class="comp"><div class="quick">${QUICK.map(([t], i) => `<button data-q="${i}">${esc(t)}</button>`).join("")}</div><form class="box" id="form"><textarea id="ta" rows="1" placeholder="Ask or steer ${esc(titleOf(a.name))}…"></textarea><div class="row"><span class="hint ${S.hintBad ? "bad" : ""}" id="hint">${esc(S.hint || (a.queued ? a.queued + " waiting for its next turn · " : "") + "Enter to send")}</span><button class="send" id="sendb">↑</button></div></form></div>` : "";
-  $("#root").innerHTML = `<div class="shell"><div class="hdr"><span class="brand">Avalon <button class="who" id="who"><span class="pdot ${esc(S.view)}"></span>${esc(S.st.people[S.view])}</button></span>${clockHtml()}<button class="hbtn ${S.side ? "on" : ""}" id="sideT">Agents ▾</button>${bellHtml()}</div>
+  $("#root").innerHTML = `<div class="shell"><div class="hdr"><span class="brand">Avalon <button class="who" id="who"><span class="pdot ${esc(S.view)}"></span>${esc(S.st.people[S.view])}</button></span>${clockHtml()}${liveChip()}<button class="hbtn ${S.side ? "on" : ""}" id="sideT">Agents ▾</button>${bellHtml()}</div>
     ${linkDown ? `<div class="linkbar">Not linked to ${esc(S.st.people[otherPerson()])}'s laptop${S.st.bus.outbox ? ` · ${S.st.bus.outbox} message(s) waiting` : ""}. Agents keep working; talk to each other directly.</div>` : ""}
-    <div class="body">${sideHtml()}<div style="flex:1;display:flex;flex-direction:column;min-width:0;min-height:0"><div class="scroll" id="scroll">${main}</div>${comp}</div>${S.page === "board" ? drawerHtml() : ""}</div></div>${panelHtml()}`;
+    ${liveMenu()}<div class="body">${sideHtml()}<div style="flex:1;display:flex;flex-direction:column;min-width:0;min-height:0"><div class="scroll" id="scroll">${main}</div>${comp}</div>${S.page === "board" ? drawerHtml() : ""}</div></div>${panelHtml()}`;
   document.querySelectorAll("details[data-k]").forEach((d) => { if (openD.has(d.dataset.k)) d.open = true; });
   Object.entries(keep).forEach(([id, k]) => { const el = document.getElementById(id); if (el) { el.value = k.v; autosize(el); if (k.f) { el.focus(); try { el.setSelectionRange(k.s[0], k.s[1]); } catch (e) {} } } });
   const s2 = $("#scroll"); s2.scrollTop = changedView ? (S.page === "agent" ? s2.scrollHeight : (S.page === "board" ? prevTop : 0)) : (S.page === "agent" && atEnd ? s2.scrollHeight : prevTop);
@@ -369,6 +427,12 @@ function wire(a) {
   $("#clearAll")?.addEventListener("click", async (e) => { e.stopPropagation(); for (const x of S.st.alerts.slice()) await api(`/api/alerts/${x.id}/dismiss`, {}); S.st.alerts = []; render(); });
   $("#clearDone")?.addEventListener("click", async () => { const done = props().filter((p) => ["done", "rejected", "expired"].includes(p.status));
     if (!done.length || !confirm(`Remove ${done.length} finished note${done.length > 1 ? "s" : ""} from the board?`)) return; for (const p of done) await api(`/api/props/${encodeURIComponent(p.id)}/act`, { action: "remove", text: "" }); refresh(); });
+  $("#liveT")?.addEventListener("click", (e) => { e.stopPropagation(); S.liveOpen = !S.liveOpen; S.bell = false; render(); });
+  document.querySelectorAll("[data-dlbot]").forEach((b) => b.onclick = async (e) => { e.stopPropagation(); const n = b.dataset.dlbot; const h = $("#dlHint");
+    const r = await fetch(`/api/bots/${encodeURIComponent(n)}/download`); if (!r.ok) { let j = {}; try { j = await r.json(); } catch (x) {} if (h) h.textContent = j.error || "Download failed."; return; }
+    const url = URL.createObjectURL(await r.blob()); const a = document.createElement("a"); a.href = url; a.download = n + ".zip"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
+    if (h) h.textContent = `Downloaded ${n}.zip. Upload it on the No Limit dashboard and make it active.`; });
+  document.querySelectorAll("[data-chip]").forEach((b) => b.onclick = () => { const t = $("#cardTa"); if (!t) return; t.value = b.dataset.chip; $("#cardForm").requestSubmit(); });
   $("#cardX")?.addEventListener("click", () => { S.card = null; render(); });
   $("#startBtn")?.addEventListener("click", async () => { $("#startBtn").disabled = true; $("#startBtn").textContent = "Starting…"; const r = await api("/api/start", {}); if (r.error) $("#startBtn").textContent = r.error; refresh(); });
   $("#schin")?.addEventListener("keydown", (e) => { if (e.key === "Enter") $("#schgo").click(); });
@@ -425,8 +489,9 @@ function stream() {
   document.addEventListener("compositionstart", () => { S.composing = true; }); document.addEventListener("compositionend", () => { S.composing = false; if (S.pending) soon(); });
   document.addEventListener("mousedown", () => { S.mouseDown = true; }); document.addEventListener("mouseup", () => { S.mouseDown = false; if (S.pending) setTimeout(soon, 0); });
   document.addEventListener("focusout", () => { if (S.pending) setTimeout(soon, 0); });
-  document.addEventListener("click", (e) => { if (S.bell && !e.target.closest("#panel") && !e.target.closest("#bell") && !e.target.closest(".toasts")) { S.bell = false; soon(); } });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") { if (S.bell) S.bell = false; else if (S.card) S.card = null; else if (S.side) S.side = false; soon(); } });
+  document.addEventListener("click", (e) => { if (S.liveOpen && !e.target.closest("#liveMenu") && !e.target.closest("#liveT")) { S.liveOpen = false; soon(); }
+    if (S.bell && !e.target.closest("#panel") && !e.target.closest("#bell") && !e.target.closest(".toasts")) { S.bell = false; soon(); } });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") { if (S.liveOpen) S.liveOpen = false; else if (S.bell) S.bell = false; else if (S.card) S.card = null; else if (S.side) S.side = false; soon(); } });
 }
 load();
 </script>

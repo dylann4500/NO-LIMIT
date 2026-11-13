@@ -25,7 +25,8 @@ DIRECTORY = "avalon-hub-dir"
 FRESH = 300          # a directory entry older than this (s) is offline: no new messages are routed to it
 ACK_WAIT = 30        # resend a remote message if no ack after this many seconds
 MAX_TRIES = 12       # then it goes to the dead-letter file and the sender is told
-PAIR_LIMIT = 10      # more than this many messages between two agents in 10 min -> hold and alert
+PAIR_LIMIT = 15      # more than this many messages between two workers in 10 min -> hold and alert (a loop)
+PAIR_LIMIT_LEAD = 45  # an Overseer and its workers talk constantly by design; only a runaway loop trips this
 
 
 def new_id() -> str:
@@ -126,7 +127,8 @@ class Bus:
             while dq and now - dq[0] > 600:
                 dq.popleft()
             dq.append(now)
-            if len(dq) > PAIR_LIMIT:
+            limit = PAIR_LIMIT_LEAD if any(n.endswith("overseer") for n in key) else PAIR_LIMIT
+            if len(dq) > limit:
                 self.held.append(msg)
                 raise OverflowError(f"held: {msg['from']} and {msg['to']} have exchanged {len(dq)} messages in 10 minutes. "
                                     "Stop messaging each other; finish your work and summarise in set_status. A human has been told.")
