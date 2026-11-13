@@ -74,11 +74,17 @@ class Bus:
         self.blobs = None
         self.dirty: dict[str, float] = {}
         self._dirty_evt = asyncio.Event()
+        self.merge = None
+        self.on_merge = None   # optional (key, local, remote) -> merged value or None (notes: keep both laptops' changes)
+        self._persisted = ""
         self.synced = asyncio.Event()   # set after the first directory/shared sync (restart safety)
         try:   # restart without the link: carry on from the last known shared state (clock, rules, ledger, notes)
             saved = json.loads((data / "shared.json").read_text())
             self.shared.update(saved.get("shared", {}))
             self.shared_ver.update(saved.get("ver", {}))
+            self.dirty.update(saved.get("dirty", {}))   # values never uploaded before a crash still go out
+            if self.dirty:
+                self._dirty_evt.set()
         except Exception:  # noqa: BLE001
             pass
         self.local_names: set[str] = set()
@@ -105,9 +111,8 @@ class Bus:
             self.online = True
         except Exception as e:  # noqa: BLE001
             self.online, self.error = False, f"Can't reach the link to the other laptop ({type(e).__name__}); retrying"
-        for coro in (self._send_loop(), self._ack_loop(), self._recv_loop(), self._dir_loop(), self._publish_loop(),
-                     self._shared_loop()):
-            asyncio.create_task(coro)
+        for fn in (self._send_loop, self._ack_loop, self._recv_loop, self._dir_loop, self._publish_loop, self._shared_loop):
+            asyncio.create_task(self._forever(fn))
 
     def oldest_unsent_age(self) -> float:
         ts = [o["msg"]["at"] for o in self.outbox]
@@ -159,6 +164,21 @@ class Bus:
         self._save_outbox()
         self._wake.set()
         return "sent" if self.online else "queued; the link to the other laptop is down, it will be sent when it is back"
+
+    async def _forever(self, fn):
+        """A loop that dies on an unexpected error would silently stop the link: restart it instead."""
+        while True:
+            try:
+                await fn()
+            except asyncio.CancelledError:
+                raise
+            except Exception as e:  # noqa: BLE001
+                try:
+                    with (self.data / "errors.log").open("a") as f:
+                        f.write(f"{time.strftime('%H:%M:%S')} bus/{fn.__name__}: {type(e).__name__}: {e}\n")
+                except Exception:  # noqa: BLE001
+                    pass
+                await asyncio.sleep(3)
 
     def _save_outbox(self):
         atomic_write(self.outbox_file, json.dumps(self.outbox))
@@ -294,7 +314,10 @@ class Bus:
 
     def _persist_shared(self):
         try:
-            atomic_write(self.data / "shared.json", json.dumps({"shared": self.shared, "ver": self.shared_ver}, default=str))
+            txt = json.dumps({"shared": self.shared, "ver": self.shared_ver, "dirty": self.dirty}, default=str)
+            if txt != self._persisted:   # only when something changed (it runs every few seconds)
+                atomic_write(self.data / "shared.json", txt)
+                self._persisted = txt
         except Exception:  # noqa: BLE001
             pass
 
@@ -309,9 +332,24 @@ class Bus:
             self._persist_shared()
             for key, ver in list(self.dirty.items()):
                 val = self.shared.get(key)
+                mergeable = self.merge is not None and key.startswith("prop:") and isinstance(val, dict)
                 try:
+                    if mergeable:   # read-merge-write: never overwrite the other laptop's lines or decision
+                        remote = await asyncio.wait_for(self.blobs.get.aio("shared:" + key), 15)
+                        if isinstance(remote, dict):
+                            m = self.merge(key, val, remote)
+                            if m != val:
+                                m["updated"] = max(m.get("updated", 0), val.get("updated", 0), remote.get("updated", 0)) + 0.001
+                                self.shared[key], val, ver = m, m, m["updated"]
+                                self.shared_ver[key] = self.dirty[key] = ver
+                                if self.on_merge:
+                                    self.on_merge(key, m)
                     await asyncio.wait_for(self.blobs.put.aio("shared:" + key, val), 15)
                     await asyncio.wait_for(self.d.put.aio("ver:" + key, ver), 10)
+                    if mergeable:   # verify: a simultaneous write from the other laptop means merge again
+                        back = await asyncio.wait_for(self.blobs.get.aio("shared:" + key), 15)
+                        if not isinstance(back, dict) or back.get("updated") != val.get("updated"):
+                            continue
                     if self.dirty.get(key) == ver:
                         del self.dirty[key]
                 except Exception:  # noqa: BLE001
@@ -340,13 +378,33 @@ class Bus:
                             self.directory[n] = v
                         elif k.startswith("ver:"):
                             sk = k[4:]
-                            if self.shared_ver.get(sk) != v and sk not in self.dirty and (self.shared_ver.get(sk) or 0) < v:
+                            mergeable = self.merge is not None and sk.startswith("prop:")
+                            lv = self.shared_ver.get(sk) or 0
+                            if v == lv:
+                                continue
+                            if mergeable and sk in self.shared:   # a note: merge whichever copy is newer
+                                val = await asyncio.wait_for(self.blobs.get.aio("shared:" + sk), 20)
+                                cur = self.shared.get(sk)
+                                if isinstance(cur, dict) and isinstance(val, dict):
+                                    m = self.merge(sk, cur, val)
+                                    if m != val:   # ours adds something: send the merged copy, stamped newest
+                                        m["updated"] = max(m.get("updated", 0), v, lv) + 0.001
+                                        await self.set_shared(sk, m)
+                                    else:
+                                        self.shared[sk], self.shared_ver[sk] = m, v
+                                    if self.on_merge:
+                                        self.on_merge(sk, self.shared[sk])
+                                    continue
+                            if v > lv and sk not in self.dirty:
                                 val = await asyncio.wait_for(self.blobs.get.aio("shared:" + sk), 20)
                                 cur = self.shared.get(sk)
                                 if val is not None and not (isinstance(cur, dict) and isinstance(val, dict)
                                                             and cur.get("updated", 0) > val.get("updated", 0)):
                                     self.shared[sk] = val
                                 self.shared_ver[sk] = v
+                            elif v < lv and sk not in self.dirty and sk in self.shared:
+                                self.dirty[sk] = lv   # an older copy overwrote ours on the server (a race): send ours again
+                                self._dirty_evt.set()
                         elif k.startswith("shared:") and k[7:] not in versioned:   # older format, only if never rewritten
                             sk = k[7:]
                             cur = self.shared.get(sk)

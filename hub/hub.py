@@ -16,6 +16,7 @@ import hashlib
 import json
 import math
 import shutil
+import gzip
 import os
 import re
 import subprocess
@@ -61,6 +62,17 @@ BUILD_NOTES = [  # (person, agent, name): one note per build-hour work stream, c
     ("samuel", "s-theory", "Theory: ranking, ICM, push/fold, twist tables for today's variant"),
     ("samuel", "s-scout", "Opponents: first profiles and fingerprints from practices 1-2, and how identifiable we are"),
 ]
+
+
+async def one_shot(prompt: str, options, timeout: float) -> str:
+    """A single model call that can't hang its caller (the narrator holds a lock; a report holds an HTTP request)."""
+    async def run():
+        out = ""
+        async for m in sdk_query(prompt=prompt, options=options):
+            if isinstance(m, ResultMessage):
+                out = m.result or ""
+        return out
+    return await asyncio.wait_for(run(), timeout)
 
 
 def merge_note(a: dict, b: dict) -> dict:
@@ -246,6 +258,8 @@ class Hub:
         self.approvals: dict[str, dict] = {}
         self.alerts: list[dict] = load_json(data / "alerts.json", [])
         self.bus = Bus(person, data, self.deliver, self.bounce, namespace)
+        self.bus.merge = lambda key, local, remote: merge_note(local, remote)   # a note changed on both laptops keeps both changes
+        self.bus.on_merge = lambda key, v: self.emit("prop", {"prop": v})
         self.agents: dict[str, Agent] = {s["name"]: Agent(self, s) for s in ROSTER[person]}
         self.bus.local_names = set(self.agents)
         self.bus.all_names = {a["name"] for agents in ROSTER.values() for a in agents} | {"s-portal", "s-clock", "d-clock", "hub"}
@@ -263,6 +277,25 @@ class Hub:
         self.traffic: list = []
         self.card_ok = False
         self.landed_at: dict[str, float] = {}   # stage -> when its results/hands landed (the deadline guard reads it)
+
+    def note_error(self, where: str, e: BaseException):
+        """Record a background failure (hub/errors.log) without stopping anything; shown in the Hub service."""
+        try:
+            with (self.data / "errors.log").open("a") as f:
+                f.write(f"{time.strftime('%H:%M:%S')} {where}: {type(e).__name__}: {e}\n{traceback.format_exc()[-1500:]}\n")
+        except Exception:  # noqa: BLE001
+            pass
+
+    async def forever(self, name: str, fn):
+        """Run a long-lived loop; if it ever raises, record it and start it again (it must never die silently)."""
+        while True:
+            try:
+                await fn()
+            except asyncio.CancelledError:
+                raise
+            except Exception as e:  # noqa: BLE001
+                self.note_error(name, e)
+                await asyncio.sleep(3)
 
     def emit(self, kind: str, payload: dict):
         ev = {"kind": kind, **payload}
@@ -668,13 +701,14 @@ class Hub:
         d.mkdir(exist_ok=True)
         path = d / f"{fid}-{safe}"
         path.write_bytes(data)
-        shared = False
-        if len(data) <= 80_000_000:
-            try:
-                await asyncio.wait_for(self.file_store().put.aio(fid, {"name": safe, "data": data}), 60)
-                shared = True
-            except Exception:  # noqa: BLE001
-                pass
+        shared = len(data) <= 80_000_000
+        if shared:   # copied for the other laptop in the background: the Chat must not wait on the link
+            async def share():
+                try:
+                    await asyncio.wait_for(self.file_store().put.aio(fid, {"name": safe, "data": data}), 120)
+                except Exception as e:  # noqa: BLE001
+                    self.note_error("file-share", e)
+            asyncio.create_task(share())
         kind = ("hand data" if re.search(r"\.(gz|jsonl|csv|json|txt|log)$", safe, re.I) else
                 "image" if re.search(r"\.(png|jpe?g|gif|webp|heic)$", safe, re.I) else "file")
         ov = next((a for a in self.agents.values() if a.name.endswith("overview")), None)
@@ -693,7 +727,7 @@ class Hub:
         try:
             data = f.read_bytes()
             if len(data) <= 8_000_000:
-                await self.bot_store().put.aio(name, data)
+                await asyncio.wait_for(self.bot_store().put.aio(name, data), 60)
         except Exception:  # noqa: BLE001
             pass
 
@@ -703,7 +737,7 @@ class Hub:
         if f:
             return f.read_bytes()
         try:
-            return await self.bot_store().get.aio(name)
+            return await asyncio.wait_for(self.bot_store().get.aio(name), 25)
         except Exception:  # noqa: BLE001
             return None
 
@@ -812,12 +846,9 @@ class Hub:
                       "belongs to no note. Answer with JSON only: "
                       '[{"id": "<note id>", "update": "<text>"}] (an empty list if nothing new).')
             try:
-                out = ""
-                async for m in sdk_query(prompt=prompt, options=ClaudeAgentOptions(
+                out = await one_shot(prompt, ClaudeAgentOptions(
                         model=NARRATOR_MODEL, tools=[], max_turns=1, setting_sources=[], cwd=str(self.data),
-                        system_prompt="You write short, faithful progress updates. Output JSON only.")):
-                    if isinstance(m, ResultMessage):
-                        out = m.result or ""
+                        system_prompt="You write short, faithful progress updates. Output JSON only."), 75)
                 js = json.loads(out[out.index("["):out.rindex("]") + 1]) if "[" in out else []
             except Exception as e:  # noqa: BLE001
                 ag.record({"type": "note", "text": f"Note updates skipped this time ({type(e).__name__})."})
@@ -867,12 +898,9 @@ class Hub:
                       f"{act.get('filename', 'unknown')}. Time now {hhmm(time.time())}.\n\nNOTE SUMMARY:\n{p.get('body') or '(none yet)'}"
                       f"\n\nNOTE CONVERSATION (latest last):\n{thread or '(empty)'}\n\nTHE OVERSEER'S RECENT WORK (latest last):\n"
                       f"{work or '(not on this laptop)'}\n\nEVERY AGENT'S CURRENT BRIEF:\n{briefs}")
-            out = ""
-            async for m in sdk_query(prompt=prompt, options=ClaudeAgentOptions(
+            out = (await one_shot(prompt, ClaudeAgentOptions(
                     model=REPORT_MODEL, tools=[], max_turns=1, setting_sources=[], cwd=str(self.data),
-                    system_prompt="You write clear, faithful status reports from the material given. Never invent facts.")):
-                if isinstance(m, ResultMessage):
-                    out = (m.result or "").strip()
+                    system_prompt="You write clear, faithful status reports from the material given. Never invent facts."), 120)).strip()
             if out:
                 p = self.get_prop(pid) or p
                 p["report"] = {"text": out, "at": time.time(), "n": len(p.get("thread", []))}
@@ -1034,7 +1062,9 @@ class Hub:
                 "remote": self.remote_view(),
                 "approvals": [{k: v for k, v in a.items() if k != "future"} for a in self.approvals.values()],
                 "alerts": self.alerts, "schedule": self.bus.shared.get("schedule"),
-                "live": self.bus.shared.get("live"), "clock": self.clock.next_text(), "props": self.props()[:200],
+                "live": self.bus.shared.get("live"), "clock": self.clock.next_text(),
+                "props": [dict(p, thread=(p.get("thread") or [])[-60:]) if len(p.get("thread") or []) > 60 else p
+                          for p in self.props()[:200]],
                 "bots": self.bots()[:40], "portal_active": self.bus.shared.get("portal_active"),
                 "overviews": {k[7:]: v.get("items", []) for k, v in self.bus.shared.items()
                               if k.startswith("ovchat:") and isinstance(v, dict)},
@@ -1229,10 +1259,12 @@ class Agent:
         if item.get("urgent") and self.state == "working" and self.client is not None and not self.preempting \
                 and time.time() - (self.turn_started or time.time()) > 45:
             self.preempting = True   # data landed / decision time / a human: don't wait behind a long turn
-            try:
-                await self.client.interrupt()
-            except Exception:  # noqa: BLE001
-                self.preempting = False
+            async def kick(c=self.client):
+                try:
+                    await asyncio.wait_for(c.interrupt(), 15)
+                except Exception:  # noqa: BLE001
+                    self.preempting = False
+            asyncio.create_task(kick())   # never block the caller (the clock, the portal, a human) on a stuck agent
         if item.get("wake", True):
             self.wake.set()
         self.hub.emit("agent", self.view())
@@ -1457,7 +1489,7 @@ class Agent:
 
     # ---------------------------------------------------------------- lifecycle
     async def start(self, first_task: str | None = None):
-        if self.hub.view_only:   # a preview never runs agents (no usage, no actions)
+        if self.hub.view_only or os.environ.get("AVALON_NO_AGENTS"):   # a preview / an integration test never runs agents
             return
         self.paused = False
         if first_task:
@@ -2586,8 +2618,8 @@ class Clock:
     async def set_start(self, hhmm_s: str, scored: int = 6, scale: float = 1.0, t0: float | None = None):
         if t0 is None:
             m = re.fullmatch(r"\s*(\d{1,2}):(\d{2})(?::(\d{2}))?\s*", hhmm_s or "")
-            if not m:
-                raise ValueError("use HH:MM")
+            if not m or int(m.group(1)) > 23 or int(m.group(2)) > 59 or int(m.group(3) or 0) > 59:
+                raise ValueError("use HH:MM (24-hour), e.g. 14:02")
             lt = time.localtime()
             t0 = time.mktime((lt.tm_year, lt.tm_mon, lt.tm_mday, int(m.group(1)), int(m.group(2)), int(m.group(3) or 0), 0, 0, -1))
         await self.hub.bus.set_shared("schedule", {"start": t0, "scored": scored, "scale": scale,
@@ -2642,13 +2674,11 @@ class Clock:
 
     async def loop(self):
         while True:
-            try:
-                await self.tick()
-                await self.hub.expire_decisions()
-                await self.guard.tick()
-                await self.hub.watch_stalls()
-            except Exception:  # noqa: BLE001
-                pass
+            for job in (self.tick, self.hub.expire_decisions, self.guard.tick, self.hub.watch_stalls):
+                try:
+                    await asyncio.wait_for(job(), 120)
+                except Exception as e:  # noqa: BLE001   one failing job must not switch off the others
+                    self.hub.note_error(f"clock/{getattr(job, '__name__', 'job')}", e)
             await asyncio.sleep(10)
 
     async def tick(self):
@@ -2681,7 +2711,10 @@ class Clock:
                               "everything for the current and next step on track? Nudge your workers or tell your human if not; "
                               "if all is on track, just update set_status (no messages needed)."))
         for key, at, text in marks:
-            if key not in self.sent and at <= now < at + max(60, 2 * (60 * (s or {}).get("scale", 1.0))):
+            grace = max(60, 2 * (60 * (s or {}).get("scale", 1.0)))
+            if key.endswith(("-13", "-8", "-3")):
+                grace = max(grace, 300)   # decision steps still fire after a hub restart across them
+            if key not in self.sent and at <= now < at + grace:
                 self.sent.add(key)
                 atomic_write(self.hub.data / "clock_sent.json", json.dumps(sorted(self.sent)))
                 if text == "[reminders-only]":
@@ -2906,6 +2939,7 @@ class PortalWatcher:
         self.out.mkdir(parents=True, exist_ok=True)
         self.st = load_json(hub.data / "portal_state.json", {"done": [], "subs": [], "standings": None})
         self.st.setdefault("need_hands", {})   # round id -> folder, until its hand files are saved
+        hub.landed_at.update(self.st.get("landed_at", {}))   # the deadline guard must not think data never landed
         self.fails = 0
         self.small_only = small_only   # on a phone hotspot: only the first-1000 file, to save data
         self.team = self.cid = None
@@ -2994,10 +3028,19 @@ class PortalWatcher:
         for r in sorted(new_done, key=lambda r: r["created_at"]):
             try:
                 await self.landed(r)
-            except Exception as e:  # noqa: BLE001
-                self.st["done"].append(r["id"])
-                await self.hub.add_alert("s-portal", f"Couldn't process the result of {r.get('label', r['id'])} "
-                                         f"({type(e).__name__}: {e}); tell your Overseer to look at the portal directly.", True)
+                self.st.get("land_fail", {}).pop(r["id"], None)
+            except Exception as e:  # noqa: BLE001   results not ready yet, a timeout: try again next poll
+                fails = self.st.setdefault("land_fail", {})
+                fails[r["id"]] = fails.get(r["id"], 0) + 1
+                if fails[r["id"]] == 3:
+                    await self.hub.alert_all("s-portal", f"Can't read the result of {r.get('label', r['id'])} yet "
+                                             f"({type(e).__name__}); still retrying every poll. Check the portal page.", True)
+                if fails[r["id"]] >= 15:   # ~10+ minutes of failures: stop, say so
+                    self.st["done"].append(r["id"])
+                    await self.hub.alert_all("s-portal", f"Gave up reading the result of {r.get('label', r['id'])} after "
+                                             f"15 tries ({type(e).__name__}: {e}). Download it from the portal and drop it "
+                                             "into the Chat.", True)
+                self.save()
         await self.retry_hands()
         standings = (await self.aget(f"/competitions/{self.cid}/standings"))["items"]
         self.st["standings"] = standings
@@ -3031,67 +3074,60 @@ class PortalWatcher:
         task = (f"We're {ours.get('rank')} ({(ours.get('total') or 0):.1f}; 3rd has {third:.1f})" if ours and third is not None else
                 f"{len(rounds)} rounds seen") + (f" · {len(running)} running" if running else "")
         self.hub.set_service("s-portal", "Portal", "working", task, summary)
-        return bool(running)
+        return bool(running) or bool(self.st.get("land_fail")) or bool(self.st.get("need_hands"))
 
     async def landed(self, r, quiet: bool = False):
+        """A round finished. Order matters: tell the agents first (seconds), then run the card and fingerprinting in the
+        background. Raises if the results can't be read; poll() then retries the round instead of skipping it."""
         res = await self.aget(f"/tournaments/{r['id']}/results")
+        if not isinstance(res, dict) or not isinstance(res.get("items"), list):
+            raise RuntimeError("results not ready")
         label = r.get("label") or f"{r['kind']} {r['created_at'][11:16]}"
         n = len(self.st["done"]) + 1
         folder = self.out / f"{n:02d}-{re.sub(r'[^a-z0-9]+', '-', label.lower()).strip('-')}"
         folder.mkdir(parents=True, exist_ok=True)
         (folder / "results.json").write_text(json.dumps(res, indent=1))
+        stage = r.get("stage") or label
         files = await self.fetch_hands(r["id"], folder, small_first=True)
         if not files:
-            self.st["need_hands"][r["id"]] = {"folder": str(folder), "label": label, "since": time.time()}
+            self.st["need_hands"][r["id"]] = {"folder": str(folder), "label": label, "stage": stage, "since": time.time()}
         elif not self.small_only:
             asyncio.create_task(self.fetch_hands(r["id"], folder))   # the full file, off the critical path
         self.hub.last_landed = time.time()
         items = sorted(res["items"], key=lambda x: -(x.get("average_points") or 0))
-        stage = r.get("stage") or label
         self.hub.landed_at[stage] = time.time()
+        self.st.setdefault("landed_at", {})[stage] = self.hub.landed_at[stage]   # survives a restart (deadline guard)
         aid = "A-" + r["id"][:12]
         self.st.setdefault("note_of", {})[r["id"]] = aid
         await self.hub.ensure_note(aid, kind="analysis", stage=stage, owner="s-overseer", author="s-portal",
                                    author_person="samuel", title=f"Analysis for {stage}", status="running")
-        ours = next((i for i, x in enumerate(items, 1) if x["team_name"] == self.team_name), None)
+        ours = next((i for i, x in enumerate(items, 1) if x.get("team_name") == self.team_name), None)
         me = items[ours - 1] if ours else None
         line = (f"{label} finished: we were {ours} of {len(items)} with {(me.get('average_points') or 0):.2f} "
-                f"(±{me.get('margin_of_error') or 0:.2f}); 1st {items[0]['team_name']} {(items[0].get('average_points') or 0):.2f}."
+                f"(±{me.get('margin_of_error') or 0:.2f}); 1st {items[0].get('team_name')} {(items[0].get('average_points') or 0):.2f}."
                 if me else f"{label} finished (we had no result: forfeit?).")
         paths = f"\nResults: {folder}/results.json" + "".join(f"\nHands: {p}" for p in files) + \
                 ("" if files else "\nHand history not downloadable yet; I'll keep trying.")
-        self.st["done"].append(r["id"])
-        self.save()
         await self.hub.note_append(aid, "Portal", line + " " + (f"Hand data downloaded ({', '.join(Path(f).name for f in files)}). "
                                    "Analysis starting." if files else "Hand data isn't downloadable yet; I'll keep trying."))
         lid = "L-" + r["id"][:12]
         if self.hub.get_prop(lid):
             await self.hub.note_append(lid, "Portal", line, status="done")
         if quiet:
+            self.st["done"].append(r["id"])
+            self.save()
             return
-        if files:   # fingerprinting runs alongside the card, never in front of it
-            async def fp_job():
-                fp = await self.run_card(folder, stage, "fp_train.py")
-                if fp.startswith("(exit 0)"):
-                    await self.hub.route("fp_ready", stage, stage=stage, card=f"analysis/{stage}/fp/ (the hub ran fp_train.py)", note_id=aid)
-                elif fp:
-                    sc = self.hub.agents.get("s-scout")
-                    if sc:
-                        await sc.add_item({"kind": "hub", "wake": True, "text": f"The hub's run of analysis/fp_train.py for "
-                                           f"{stage} failed:\n{fp[-1500:]}\nRun it by hand (quick mode) or ask s-pipeline to fix it."})
-            asyncio.create_task(fp_job())
-        card = await self.run_card(folder, stage) if files else ""
-        if card.startswith("(exit 0)"):
-            self.hub.card_ok = True
-            await self.hub.route("card_ready", stage, stage=stage, card=f"analysis/{stage}/card.md (the hub ran it)", note_id=aid)
+        has_card = (self.hub.repo / "analysis" / "roundcard.py").exists() and bool(files)
         pl = self.hub.agents.get("s-pipeline")
         if pl:   # standing order: numbers first, no Overseer hop (the decision window is only 5 minutes)
             await pl.add_item({"kind": "portal", "wake": True, "urgent": True, "note": aid, "text": (
-                f"DATA LANDED for {stage}. {line}{paths}\n" + (f"The hub already ran analysis/roundcard.py:\n{card}\nCheck it, "
-                "record the headline numbers, and fyi s-overseer, s-data and s-skeptic. " if card else "") +
-                "Run the round card now (analysis/roundcard.py), write "
-                f"analysis/{re.sub(r'[^A-Za-z0-9.]+', '-', stage)}/card.md, record the headline numbers as results (note='{aid}'), "
-                "and fyi s-overseer and s-data with the path. Finish within 2 minutes.")})
+                f"DATA LANDED for {stage}. {line}{paths}\n" + (
+                    "The hub is running analysis/roundcard.py on it now and sends you the output within 90 s: don't start "
+                    "a second run. Meanwhile check the hand file opens. When the output arrives, check it, " if has_card else
+                    "Run the round card now (analysis/roundcard.py), write "
+                    f"analysis/{re.sub(r'[^A-Za-z0-9.]+', '-', stage)}/card.md, ") +
+                f"record the headline numbers as results (note='{aid}'), and fyi s-overseer and s-data with the path. "
+                "Finish within 2 minutes.")})
             if pl.state == "stopped" and not pl.paused:
                 await pl.start()
         ov = self.hub.agents.get("s-overseer")
@@ -3104,7 +3140,38 @@ class PortalWatcher:
             if ov.state == "stopped" and not ov.paused:
                 await ov.start()
         await self.tell("d-overseer", "fyi", line)
+        self.st["done"].append(r["id"])   # only now: a crash before this re-announces the round after the restart
+        self.save()
         self.hub.set_service("s-portal", "Portal", "working", line)
+        if files:
+            asyncio.create_task(self.analyse(folder, stage, aid))
+
+    async def analyse(self, folder: Path, stage: str, aid: str | None):
+        """The hub's own runs of the card and fingerprint scripts, side by side, each routed as soon as it is done."""
+        async def fp_job():
+            fp = await self.run_card(folder, stage, "fp_train.py")
+            if fp.startswith("(exit 0)"):
+                await self.hub.route("fp_ready", stage, stage=stage, card=f"analysis/{stage}/fp/ (the hub ran fp_train.py)", note_id=aid)
+            elif fp:
+                sc = self.hub.agents.get("s-scout")
+                if sc:
+                    await sc.add_item({"kind": "hub", "wake": True, "text": f"The hub's run of analysis/fp_train.py for "
+                                       f"{stage} failed:\n{fp[-1500:]}\nRun it by hand (quick mode) or ask s-pipeline to fix it."})
+        asyncio.create_task(fp_job())
+        card = await self.run_card(folder, stage)
+        if not card:
+            return
+        pl = self.hub.agents.get("s-pipeline")
+        if card.startswith("(exit 0)"):
+            self.hub.card_ok = True
+            await self.hub.route("card_ready", stage, stage=stage, card=f"analysis/{stage}/card.md (the hub ran it)", note_id=aid)
+            if pl:
+                await pl.add_item({"kind": "hub", "wake": True, "note": aid, "text": f"The hub ran analysis/roundcard.py for "
+                                   f"{stage}:\n{card}\nCheck it, record the headline numbers, fyi s-overseer, s-data and s-skeptic."})
+        elif pl:
+            await pl.add_item({"kind": "hub", "wake": True, "urgent": True, "note": aid, "text": f"The hub's run of "
+                               f"analysis/roundcard.py for {stage} FAILED:\n{card}\nRun the card yourself now (fix the script "
+                               "after T-3), write the card, record the headline numbers."})
 
     async def run_card(self, folder: Path, stage: str, name: str = "roundcard.py") -> str:
         """If the pipeline's round-card script exists (built and tested in the build hour), run it at once, so the
@@ -3140,7 +3207,12 @@ class PortalWatcher:
             try:
                 data = await self.aget(self.hands_url.replace("{tid}", tid).replace("{q}", q), raw=True)
                 if data[:2] == b"\x1f\x8b" and len(data) > 100:
-                    p.write_bytes(data)
+                    def save():
+                        gzip.decompress(data)   # a truncated download must never count as saved
+                        tmp = p.with_suffix(".tmp")
+                        tmp.write_bytes(data)
+                        tmp.replace(p)
+                    await asyncio.to_thread(save)
                     files.append(str(p))
             except Exception:  # noqa: BLE001
                 pass
@@ -3157,9 +3229,12 @@ class PortalWatcher:
                     await self.hub.note_append(aid, "Portal", f"Hand data downloaded ({', '.join(Path(f).name for f in files)}). "
                                                "Analysis starting.")
                 pl = self.hub.agents.get("s-pipeline")
+                has_card = (self.hub.repo / "analysis" / "roundcard.py").exists()
                 if pl:
                     await pl.add_item({"kind": "portal", "wake": True, "note": aid, "text": f"DATA LANDED (late) for "
-                                       f"{info['label']}: " + " ".join(files) + ". Run the round card now."})
+                                       f"{info['label']}: " + " ".join(files) + (". The hub is running the round card now and "
+                                       "sends you the output." if has_card else ". Run the round card now.")})
+                asyncio.create_task(self.analyse(Path(info["folder"]), info.get("stage") or info["label"], aid))
                 ov = self.hub.agents.get("s-overseer")
                 if ov:
                     await ov.add_item({"kind": "portal", "wake": True, "text": f"Hand history for {info['label']} is now "
@@ -3440,8 +3515,17 @@ def make_app(hub: Hub) -> web.Application:
     async def inbox_file(req):
         fid = re.sub(r"[^A-Z0-9]", "", req.match_info["fid"].upper())
         f = next(iter((hub.repo / "inbox").glob(f"{fid}-*")), None) if (hub.repo / "inbox").exists() and fid else None
+        if not f and fid:   # attached on the other laptop: fetch it from the shared store once, keep a copy
+            try:
+                v = await asyncio.wait_for(hub.file_store().get.aio(fid), 25)
+                if isinstance(v, dict) and v.get("data"):
+                    (hub.repo / "inbox").mkdir(exist_ok=True)
+                    f = hub.repo / "inbox" / f"{fid}-{re.sub(r'[^A-Za-z0-9._-]+', '_', v.get('name') or 'file')[:80]}"
+                    f.write_bytes(v["data"])
+            except Exception:  # noqa: BLE001
+                f = None
         if not f:
-            return web.json_response({"error": "not on this laptop"}, status=404)
+            return web.json_response({"error": "not on this laptop or in the shared store"}, status=404)
         return web.FileResponse(f)
     r.add_get("/api/inbox/{fid}", inbox_file)
     r.add_post("/api/props", new_prop)
@@ -3496,16 +3580,16 @@ async def main():
     if a.start:
         await hub.clock.set_start(a.start, scale=a.scale)
     if not a.view_only:
-        asyncio.create_task(hub.clock.loop())
-        asyncio.create_task(hub.scan_releases())
-        asyncio.create_task(hub.watch_live())
+        asyncio.create_task(hub.forever("clock", hub.clock.loop))
+        asyncio.create_task(hub.forever("releases", hub.scan_releases))
+        asyncio.create_task(hub.forever("watch_live", hub.watch_live))
     if not a.no_codex and not a.view_only:
         hub.codex = Codex(hub, a.codex_model, a.codex_max)
         hub.codex.status()
     if a.portal_base and a.portal_key_file and not a.view_only:
         hub.portal = PortalWatcher(hub, a.portal_base, Path(a.portal_key_file), a.hands_url,
                                    Path(a.portal_data) if a.portal_data else None, a.small_hands)
-        asyncio.create_task(hub.portal.loop())
+        asyncio.create_task(hub.forever("portal", hub.portal.loop))
     runner = web.AppRunner(make_app(hub))
     await runner.setup()
     await web.TCPSite(runner, "127.0.0.1", a.port).start()
