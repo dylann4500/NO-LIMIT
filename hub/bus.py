@@ -1,18 +1,19 @@
 """Message bus between agents, on one laptop and across both.
 
-- Agent -> agent on the same laptop: delivered in-process at once.
-- Agent -> agent on the other laptop: put on a Modal Queue partition named after the receiving person
-  ("to-samuel" / "to-dylan"). Only internet access is needed, so a phone hotspot is fine.
-- Every outgoing remote message is written to a local outbox first and retried until Modal accepts it,
-  so a dropped connection loses nothing. Receivers drop duplicates by message id.
-- A shared Modal Dict holds the directory: every agent's name, owner, state and one-line status, so
-  each side knows who exists and what they are doing.
-If Modal is unavailable, the bus runs local-only and says so in the UI.
+- Same laptop: delivered in-process.
+- Other laptop: put on a Modal Queue partition "to-<person>". The receiver acknowledges each message
+  (a key in the shared Modal Dict) once it is safely in the agent's inbox; the sender keeps the message
+  in its outbox and resends until it sees the ack. Receivers drop duplicates by id. So nothing is lost
+  to a dropped hotspot, a crash, or a reply lost in flight.
+- The same Dict holds the directory (every agent's state and one-line status), the declared live bot and
+  the event schedule, so both laptops share them.
+- All Modal calls have short timeouts and never block an agent's turn.
 """
 
 from __future__ import annotations
 
 import asyncio
+import collections
 import json
 import time
 import uuid
@@ -21,28 +22,61 @@ from typing import Awaitable, Callable
 
 QUEUE = "avalon-hub-bus"
 DIRECTORY = "avalon-hub-dir"
+FRESH = 300          # a directory entry older than this (s) is offline: no new messages are routed to it
+ACK_WAIT = 30        # resend a remote message if no ack after this many seconds
+MAX_TRIES = 12       # then it goes to the dead-letter file and the sender is told
+PAIR_LIMIT = 10      # more than this many messages between two agents in 10 min -> hold and alert
 
 
 def new_id() -> str:
     return "m" + uuid.uuid4().hex[:12]
 
 
+def atomic_write(path: Path, text: str):
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(text)
+    tmp.replace(path)
+
+
+def load_json(path: Path, default):
+    try:
+        return json.loads(path.read_text())
+    except (OSError, ValueError):
+        return default
+
+
+async def guarded(coro, timeout=4.0):
+    try:
+        return await asyncio.wait_for(coro, timeout)
+    except Exception:  # noqa: BLE001
+        return None
+
+
 class Bus:
-    def __init__(self, person: str, data: Path, deliver: Callable[[dict], Awaitable[None]], namespace: str = ""):
+    def __init__(self, person: str, data: Path, deliver: Callable[[dict], Awaitable[bool]],
+                 bounce: Callable[[dict, str], Awaitable[None]], namespace: str = ""):
         self.person = person
         self.data = data
-        self.deliver = deliver  # called with a message addressed to one of OUR agents
+        self.deliver = deliver      # -> True if the message is now safely in a local inbox
+        self.bounce = bounce        # tell a local sender its message could not be delivered
         self.ns = namespace
-        self.outbox_file = data / "outbox.jsonl"
+        self.outbox_file = data / "outbox.json"
         self.seen_file = data / "seen.json"
-        self.seen: set[str] = set(json.loads(self.seen_file.read_text())) if self.seen_file.exists() else set()
-        self.outbox: list[dict] = [json.loads(l) for l in self.outbox_file.open()] if self.outbox_file.exists() else []
+        self.dead_file = data / "dead-letters.jsonl"
+        self.seen = collections.OrderedDict((k, 1) for k in load_json(self.seen_file, []))
+        # outbox entries: {"msg":..., "tries":n, "sent_at": t or None}
+        self.outbox: list[dict] = load_json(self.outbox_file, [])
         self.directory: dict[str, dict] = {}
+        self.shared: dict[str, object] = {}   # "live", "schedule" (other shared keys)
         self.local_names: set[str] = set()
         self.online = False
         self.error = ""
         self.q = self.d = None
         self._wake = asyncio.Event()
+        self.pairs: dict[tuple, collections.deque] = collections.defaultdict(collections.deque)
+        self.held: list[dict] = []
+        self._publish_latest: dict[str, dict] = {}
+        self._publish_evt = asyncio.Event()
 
     # ------------------------------------------------------------ setup
     async def start(self):
@@ -50,121 +84,214 @@ class Bus:
             import modal
             self.q = modal.Queue.from_name(QUEUE + self.ns, create_if_missing=True)
             self.d = modal.Dict.from_name(DIRECTORY + self.ns, create_if_missing=True)
-            await self.d.put.aio("__ping__", time.time())
+            await asyncio.wait_for(self.d.put.aio("__ping__", time.time()), 15)
             self.online = True
         except Exception as e:  # noqa: BLE001
-            self.online, self.error = False, f"Modal unavailable ({type(e).__name__}: {e}); messages stay on this laptop"
-        asyncio.create_task(self._send_loop())
-        asyncio.create_task(self._recv_loop())
-        asyncio.create_task(self._dir_loop())
+            self.online, self.error = False, f"Can't reach the link to the other laptop ({type(e).__name__}); retrying"
+        for coro in (self._send_loop(), self._ack_loop(), self._recv_loop(), self._dir_loop(), self._publish_loop()):
+            asyncio.create_task(coro)
 
-    # ------------------------------------------------------------ sending
+    def oldest_unsent_age(self) -> float:
+        ts = [o["msg"]["at"] for o in self.outbox]
+        return time.time() - min(ts) if ts else 0.0
+
+    # ------------------------------------------------------------ routing
     def person_of(self, agent: str) -> str | None:
         if agent in self.local_names:
             return self.person
         e = self.directory.get(agent)
-        if e:
+        if e and time.time() - e.get("seen", 0) < FRESH:
             return e.get("person")
-        if agent.startswith("s-"):
-            return "samuel"
-        if agent.startswith("d-"):
-            return "dylan"
         return None
+
+    def known(self) -> list[str]:
+        return sorted(self.local_names | {k for k, v in self.directory.items() if time.time() - v.get("seen", 0) < FRESH})
 
     async def send(self, msg: dict) -> str:
         msg.setdefault("id", new_id())
         msg.setdefault("at", time.time())
         to_person = self.person_of(msg["to"])
         if to_person is None:
-            raise ValueError(f"unknown agent '{msg['to']}'")
+            raise ValueError(f"no agent named '{msg['to']}' is online. Online: {', '.join(self.known())}")
+        # loop guard: agent-to-agent only
+        if msg.get("from_kind") == "agent":
+            key = tuple(sorted((msg["from"], msg["to"])))
+            dq = self.pairs[key]
+            now = time.time()
+            while dq and now - dq[0] > 600:
+                dq.popleft()
+            dq.append(now)
+            if len(dq) > PAIR_LIMIT:
+                self.held.append(msg)
+                raise OverflowError(f"held: {msg['from']} and {msg['to']} have exchanged {len(dq)} messages in 10 minutes. "
+                                    "Stop messaging each other; finish your work and summarise in set_status. A human has been told.")
         if to_person == self.person:
-            await self._accept(msg)
+            if not await self.deliver(msg):
+                raise ValueError(f"'{msg['to']}' could not take the message")
             return "delivered"
-        self.outbox.append(msg)
+        self.outbox.append({"msg": msg, "tries": 0, "sent_at": None})
         self._save_outbox()
         self._wake.set()
-        return "queued for the other laptop" if not self.online else "sent"
+        return "sent" if self.online else "queued; the link to the other laptop is down, it will be sent when it is back"
 
     def _save_outbox(self):
-        tmp = self.outbox_file.with_suffix(".tmp")
-        tmp.write_text("".join(json.dumps(m) + "\n" for m in self.outbox))
-        tmp.replace(self.outbox_file)
+        atomic_write(self.outbox_file, json.dumps(self.outbox))
 
     async def _send_loop(self):
         delay = 1.0
         while True:
-            if self.outbox and self.q is not None:
-                msg = self.outbox[0]
+            due = [o for o in self.outbox if o["sent_at"] is None]
+            if due and self.q is not None:
+                o = due[0]
+                m = o["msg"]
+                part = "to-" + (self.person_of(m["to"]) or ("samuel" if m["to"].startswith("s-") else "dylan"))
                 try:
-                    await self.q.put.aio(msg, partition="to-" + self.person_of(msg["to"]))
-                    self.outbox.pop(0)
+                    await asyncio.wait_for(self.q.put.aio(m, partition=part), 15)
+                    o["sent_at"], o["tries"] = time.time(), o["tries"] + 1
                     self._save_outbox()
                     self.online, self.error, delay = True, "", 1.0
                     continue
                 except Exception as e:  # noqa: BLE001
-                    self.online, self.error = False, f"retrying send: {type(e).__name__}"
+                    o["tries"] += 1
+                    if o["tries"] >= MAX_TRIES or type(e).__name__ in ("RequestSizeError", "TypeError"):
+                        await self._dead(o, f"{type(e).__name__}")
+                        continue
+                    self.online, self.error = False, "Link to the other laptop is down; retrying"
                     delay = min(delay * 2, 20)
             self._wake.clear()
             try:
-                await asyncio.wait_for(self._wake.wait(), timeout=delay if self.outbox else 30)
+                await asyncio.wait_for(self._wake.wait(), timeout=delay if due else 10)
             except asyncio.TimeoutError:
                 pass
 
+    async def _dead(self, o, why):
+        self.outbox.remove(o)
+        self._save_outbox()
+        with self.dead_file.open("a") as f:
+            f.write(json.dumps({"why": why, **o}) + "\n")
+        await self.bounce(o["msg"], f"could not be delivered after {o['tries']} tries ({why})")
+
+    async def _ack_loop(self):
+        while True:
+            await asyncio.sleep(4)
+            if self.d is None:
+                continue
+            changed = False
+            for o in list(self.outbox):
+                if o["sent_at"] is None:
+                    continue
+                k = "ack:" + o["msg"]["id"]
+                got = await guarded(self.d.get.aio(k))
+                if got:
+                    self.outbox.remove(o)
+                    changed = True
+                    asyncio.create_task(guarded(self.d.pop.aio(k)))
+                elif time.time() - o["sent_at"] > ACK_WAIT:
+                    if o["tries"] >= MAX_TRIES:
+                        await self._dead(o, "never acknowledged")
+                    else:
+                        o["sent_at"] = None   # resend
+                        changed = True
+                        self._wake.set()
+            if changed:
+                self._save_outbox()
+
     # ------------------------------------------------------------ receiving
-    async def _accept(self, msg: dict):
-        if msg["id"] in self.seen:
+    async def _accept(self, msg: dict) -> bool:
+        mid = msg["id"]
+        if mid not in self.seen:
+            ok = await self.deliver(msg)
+            if not ok:
+                await self.bounce_remote(msg, f"no agent named '{msg['to']}' on {self.person}'s laptop")
+            self.seen[mid] = 1
+            while len(self.seen) > 5000:
+                self.seen.popitem(last=False)
+            atomic_write(self.seen_file, json.dumps(list(self.seen)))
+        return True
+
+    async def bounce_remote(self, msg: dict, why: str):
+        if msg.get("from_kind") != "agent":
             return
-        self.seen.add(msg["id"])
-        self.seen_file.write_text(json.dumps(sorted(self.seen)[-5000:]))
-        await self.deliver(msg)
+        note = {"id": new_id(), "from": "hub", "from_kind": "hub", "to": msg["from"], "kind": "fyi", "at": time.time(),
+                "text": f"Your message {msg['id']} to {msg['to']} was not delivered: {why}."}
+        self.outbox.append({"msg": note, "tries": 0, "sent_at": None})
+        self._save_outbox()
+        self._wake.set()
 
     async def _recv_loop(self):
         delay = 1.0
         while True:
             if self.q is None:
-                await asyncio.sleep(30)
+                await asyncio.sleep(10)
                 continue
             try:
                 try:
-                    items = await self.q.get_many.aio(50, partition="to-" + self.person, timeout=10)
-                except Exception as e:  # noqa: BLE001  (an empty queue after the timeout is normal)
+                    items = await asyncio.wait_for(self.q.get_many.aio(50, partition="to-" + self.person, timeout=10), 30)
+                except Exception as e:  # noqa: BLE001
                     if type(e).__name__ != "Empty":
                         raise
                     items = []
                 self.online, self.error, delay = True, "", 1.0
                 for m in items:
-                    try:
-                        await self._accept(m)
-                    except Exception:  # noqa: BLE001
-                        pass
-            except Exception as e:  # noqa: BLE001
-                self.online, self.error = False, f"retrying receive: {type(e).__name__}"
+                    await self._accept(m)
+                    asyncio.create_task(guarded(self.d.put.aio("ack:" + m["id"], time.time())))
+            except Exception:  # noqa: BLE001
+                self.online, self.error = False, "Link to the other laptop is down; retrying"
                 await asyncio.sleep(delay)
                 delay = min(delay * 2, 20)
 
-    # ------------------------------------------------------------ directory
-    async def publish(self, name: str, info: dict):
+    # ------------------------------------------------------------ directory and shared state
+    def publish(self, name: str, info: dict):
         info = dict(info, person=self.person, seen=time.time())
         self.directory[name] = info
+        self._publish_latest[name] = info
+        self._publish_evt.set()
+
+    async def _publish_loop(self):
+        while True:
+            await self._publish_evt.wait()
+            self._publish_evt.clear()
+            batch, self._publish_latest = self._publish_latest, {}
+            if self.d is None:
+                continue
+            for name, info in batch.items():
+                await guarded(self.d.put.aio("agent:" + name, info))
+
+    async def set_shared(self, key: str, value):
+        self.shared[key] = value
         if self.d is not None:
-            try:
-                await self.d.put.aio("agent:" + name, info)
-            except Exception:  # noqa: BLE001
-                pass
+            await guarded(self.d.put.aio("shared:" + key, value))
 
     async def _dir_loop(self):
         while True:
             if self.d is not None:
                 try:
-                    fresh = {}
-                    async for k in self.d.keys.aio():
-                        if isinstance(k, str) and k.startswith("agent:"):
-                            v = await self.d.get.aio(k)
-                            if v:
-                                fresh[k[6:]] = v
-                    for k, v in fresh.items():
-                        if k not in self.local_names:
-                            self.directory[k] = v
+                    keys = await asyncio.wait_for(self._keys(), 20)
+                    for k in keys:
+                        v = await guarded(self.d.get.aio(k))
+                        if v is None:
+                            continue
+                        if k.startswith("agent:"):
+                            n = k[6:]
+                            if n in self.local_names:
+                                continue
+                            if time.time() - v.get("seen", 0) > 3600:
+                                asyncio.create_task(guarded(self.d.pop.aio(k)))   # long gone: forget it
+                                self.directory.pop(n, None)
+                                continue
+                            self.directory[n] = v
+                        elif k.startswith("shared:"):
+                            self.shared[k[7:]] = v
+                    for n in list(self.directory):
+                        if n not in self.local_names and "agent:" + n not in keys:
+                            self.directory.pop(n, None)
                 except Exception:  # noqa: BLE001
                     pass
             await asyncio.sleep(5)
+
+    async def _keys(self):
+        out = []
+        async for k in self.d.keys.aio():
+            if isinstance(k, str) and (k.startswith("agent:") or k.startswith("shared:")):
+                out.append(k)
+        return out
