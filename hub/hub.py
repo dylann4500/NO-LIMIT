@@ -2159,8 +2159,10 @@ DISPATCH = {
     "b10": [("dylan", "crit", "d-platform", "v1 must be released (releases/v1.zip) and Dylan told to upload it now if not done")],
     "b15": [("samuel", "crit", "s-tester", "Test rig must run now: first verdict on v1 (correct? timing?)")],
     "b20": [("dylan", "crit", "d-builder", "Style A ready (legal and upload-tested is enough) for practice round 1; B next"),
+            ("dylan", "crit", "d-platform", "Build s-theory's hand ranking and ICM thresholds into the platform now (behind settings), so style B in practice 2 uses them; push/fold tables follow at minute 30"),
             ("samuel", "crit", "s-data", "When practice 1's round card lands: leaks of the bot that played (Part 2), top change in 5 minutes")],
-    "b30": [("samuel", "crit", "s-pipeline", "analysis/fp_train.py: build and test it on practice 1's labelled download (docs/FINGERPRINTING.md)"),
+    "b30": [("dylan", "crit", "d-platform", "Build s-theory's push/fold and call tables and the twist rule into the platform now, so style C in practice 3 (minute 40) is the first real-field test of the full theory tables"),
+            ("samuel", "crit", "s-pipeline", "analysis/fp_train.py: build and test it on practice 1's labelled download (docs/FINGERPRINTING.md)"),
             ("samuel", "crit", "s-scout", "First profiles from practice 1-2; recogniser accuracy (same-round) and our own identifiability"),
             ("samuel", "crit", "s-theory", "Refit the call tables' shove-width and fold-rate columns from practice 1's real data and re-issue"),
             ("dylan", "crit", "d-builder", "Style B for practice 2; C next"),
@@ -2237,6 +2239,7 @@ CHECKPOINTS = [
     ("dylan", "b10", "the rules card is set (players per table, stacks, blinds)"),
     ("samuel", "T12", "the round card for the round that just landed is written"),
     ("samuel", "b20", "s-theory's ranking and ICM tables are with d-platform"),
+    ("dylan", "b40", "the bot playing practice 3 uses s-theory's push/fold tables and twist rule (so they get a real-field test before scored round 1)"),
     ("samuel", "T8", "the recommendation is with d-overseer, citing ledger ids (validated preferred; none disputed)"),
 ]
 
