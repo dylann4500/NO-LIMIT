@@ -170,6 +170,7 @@ QUICK_PRESETS = {"Do the suggestions", "Explain the biggest leak in plain words"
                  "Anything blocked?", "How was it tested?", "What's the risk?", "What's the status?"}
 REPORT_MODEL = os.environ.get("AVALON_REPORT_MODEL", "claude-sonnet-5-5")
 NARRATOR_MODEL = os.environ.get("AVALON_NARRATOR_MODEL", "claude-haiku-5-5")
+STALL_S = 12 * 60   # longer than any single foreground tool call (Bash caps at 10 min)
 # Context sizes (tokens) above which an agent compacts between turns (never T-9..T-2). Quality drops well before
 # the window is full ("context rot") and every turn re-reads the whole context, so both stay lean; the ledger and
 # each agent's PLAN file carry what compaction drops.
@@ -261,6 +262,7 @@ class Hub:
         self.view_only = False
         self.traffic: list = []
         self.card_ok = False
+        self.landed_at: dict[str, float] = {}   # stage -> when its results/hands landed (the deadline guard reads it)
 
     def emit(self, kind: str, payload: dict):
         ev = {"kind": kind, **payload}
@@ -721,8 +723,10 @@ class Hub:
             await asyncio.sleep(30)
 
     async def make_live(self, file: str, who: str, note: str = "", tell: bool = True) -> dict:
+        old = self.bus.shared.get("live") or None
         v = {"filename": Path(file).name, "file": file, "sha256": "", "note": note or f"made live by {who}",
-             "by": who, "at": time.time()}
+             "by": who, "at": time.time(),
+             "prev": {k: old[k] for k in ("filename", "file", "by", "at") if k in old} if old else None}
         await self.bus.set_shared("live", v)
         self.emit("shared", {"live": v})
         if not tell:
@@ -967,6 +971,33 @@ class Hub:
             "If it leads to a new bot, ask with propose(kind='bot', bot=...).")})
         return p
 
+    async def watch_stalls(self):
+        """An agent whose turn has produced nothing for STALL_S (a hung connection, a stuck tool) is interrupted, then
+        disconnected if that doesn't end it; its input is retried (the retry tells it to check what already happened)."""
+        now = time.time()
+        for a in self.agents.values():
+            if a.state != "working" or a.client is None or not a.last_msg_at:
+                continue
+            quiet = now - a.last_msg_at
+            if quiet > STALL_S and not a.stall_kicked:
+                a.stall_kicked = now
+                a.record({"type": "error", "text": f"No output for {quiet / 60:.0f} min: interrupting (stall watchdog)."})
+                a.interrupted = False
+                try:
+                    await asyncio.wait_for(a.client.interrupt(), 20)
+                except Exception:  # noqa: BLE001
+                    pass
+                await self.overseer().add_item({"kind": "hub", "wake": False, "text": f"{a.title} produced nothing for "
+                                                f"{quiet / 60:.0f} min and was interrupted; its input will be retried."})
+            elif a.stall_kicked and now - a.stall_kicked > 90 and a.last_msg_at < a.stall_kicked:
+                a.stall_kicked = now + 3600   # once
+                try:
+                    await asyncio.wait_for(a.client.disconnect(), 10)   # the turn loop sees the error and retries
+                except Exception:  # noqa: BLE001
+                    pass
+                await self.add_alert(a.name, f"{a.title} was stuck (no output for {quiet / 60:.0f} min); the hub "
+                                     "restarted its connection and it retries.", False)
+
     async def expire_decisions(self):
         now = time.time()
         for p in self.props():
@@ -1060,6 +1091,9 @@ class Agent:
         self.turn_started = 0.0
         self.interrupted = False
         self.preempting = False
+        self.eta: float | None = None   # when this agent expects its current deliverable (set_status eta_minutes)
+        self.last_msg_at = 0.0          # last message from Claude in the current turn (the stall watchdog reads it)
+        self.stall_kicked = 0.0
         self.human_in_turn = False
         self.last_need = ""
         self.idle_since: float | None = None
@@ -1515,7 +1549,8 @@ class Agent:
                     self.turn_notes = {b["note"] for b in batch if b.get("note") and b.get("from_kind") == "human"}
                     self.turn_note_refs = {b["note"] for b in batch if b.get("note")}
                     ticker = asyncio.create_task(self.narr_ticker())
-                self.turn_started = time.time()
+                self.turn_started = self.last_msg_at = time.time()
+                self.stall_kicked = 0.0
                 await self.set_state("working")
                 self.record({"type": "turn", "n": len(batch)})
                 await self.client.query(prompt)
@@ -1533,6 +1568,12 @@ class Agent:
                     self.items.insert(0, {"id": new_id(), "at": time.time(), "kind": "hub", "wake": True,
                                           "text": "Your previous turn was interrupted because urgent input arrived (below). "
                                                   "Handle it first, then resume what you were doing."})
+                if self.stall_kicked and not self.interrupted:   # the stall watchdog stopped it: resume, don't drop the task
+                    self.items.insert(0, {"id": new_id(), "at": time.time(), "kind": "hub", "wake": True,
+                                          "text": "Your previous turn produced no output for 12 minutes and was stopped by the "
+                                                  "hub. Check what already finished (files, ledger, messages), then resume the "
+                                                  "task. If a command hung, re-run it with a timeout, in the background, or on Modal."})
+                    self.stall_kicked = 0.0
                 if self.interrupted:            # paused by a human: the turn is over, don't replay it
                     ok, limited, self.interrupted = True, False, False
                     self.record({"type": "note", "text": "Paused."})
@@ -1610,6 +1651,7 @@ class Agent:
                     self.wake.set()
 
     def handle(self, m):
+        self.last_msg_at = time.time()
         if isinstance(m, AssistantMessage):
             for b in m.content:
                 if isinstance(b, TextBlock) and b.text.strip():
@@ -1787,10 +1829,20 @@ class Agent:
                 return ok(f"{v.get('title')} [{v.get('state')}] task: {v.get('task')}\nsummary:\n{v.get('summary')}")
             return ok(f"No agent named {n}.")
 
-        @tool("set_status", "Update your state (working/waiting/blocked/done/idle), one-line task and markdown summary.",
-              schema([], {"state": "string", "task": "string", "summary": "string"}))
+        @tool("set_status", "Update your state (working/waiting/blocked/done/idle), one-line task and markdown summary. "
+              "eta_minutes: your honest estimate of event-minutes until your current deliverable is finished (the "
+              "deadline guard uses it to re-plan early; it never makes anyone hurry, so don't shade it).",
+              schema([], {"state": "string", "task": "string", "summary": "string", "eta_minutes": "number"}))
         async def set_status(a):
+            if a.get("task") and a["task"] != me.task:
+                me.eta = None   # a new task: the old estimate no longer applies
             me.task = (a.get("task") or me.task)[:200]
+            if a.get("eta_minutes") is not None:
+                try:
+                    sc = (hub.bus.shared.get("schedule") or {}).get("scale", 1.0)
+                    me.eta = time.time() + float(a["eta_minutes"]) * 60 * sc
+                except (TypeError, ValueError):
+                    pass
             if a.get("summary"):
                 me.summary = a["summary"][:6000]
                 need = re.search(r"\*\*Needs from a human:?\*\*:?\s*(.+)", me.summary)
@@ -2515,6 +2567,7 @@ class Clock:
     def __init__(self, hub: Hub):
         self.hub = hub
         self.sent: set[str] = set(load_json(hub.data / "clock_sent.json", []))
+        self.guard = DeadlineGuard(hub)
 
     def events(self):
         s = self.hub.bus.shared.get("schedule")
@@ -2592,6 +2645,8 @@ class Clock:
             try:
                 await self.tick()
                 await self.hub.expire_decisions()
+                await self.guard.tick()
+                await self.hub.watch_stalls()
             except Exception:  # noqa: BLE001
                 pass
             await asyncio.sleep(10)
@@ -2656,6 +2711,183 @@ class Clock:
                     self.hub.dismiss(al["id"])
         self.hub.set_service(f"{me[0]}-clock", "Clock", "working" if s else "idle", self.next_text())
 
+
+# ======================================================================== deadline guard
+# Cut-offs that change WHAT we do when a step runs late, never HOW CAREFULLY. At the regional, countdown reminders
+# made agents rush and ship untested bots; here a late step loses its slot and the safe default plays (the live
+# bot, active again since T-9), so nobody gains by hurrying. Workers get no countdowns from this: before a cut-off
+# only the Overseer hears (to re-scope); at the cut-off the owner is stopped and told the fallback. Every rule is
+# known in advance (the "Cut-offs" table in DECISION_RULES.md).
+# (id, person, cut-off in event-minutes before the scored round, heads-up at, owner, what, fallback)
+GUARD = [
+    ("data", "samuel", 10, None, "s-portal", "the previous scored round's results and hands have landed",
+     "No new data this window. The live bot plays with only changes already supported by earlier rounds (persistent "
+     "leaks, validated items); s-data works from pooled earlier rounds; nothing waits for this data. When it lands it "
+     "feeds the next window."),
+    ("card", "samuel", 8, None, "s-pipeline", "the round card is written (within 3 event-minutes of the data landing)",
+     "Stop fixing the card script. s-data computes the numbers the decision needs (the challenger's practice score vs "
+     "the live bot's last comparable round, the top leak's size and z) with a one-off script, 3-minute cap; "
+     "s-pipeline fixes the script after T-3 for the next window."),
+    ("change", "samuel", 8, 10, "s-data", "this window's one-change proposal is recorded (question 'one-change ...')",
+     "No change from this window's new data goes into the live bot. Record what you have as a hypothesis with the "
+     "same question key; it goes to the challenger or the next practice round to be measured. The live bot plays "
+     "with changes that were already validated."),
+    ("challenger", "dylan", 12, 14, "d-challenger", "a new challenger is released (a ready vN since the window opened)",
+     "Keep building at normal care; don't pack it in a hurry. The practice round plays the most informative bot "
+     "already released and upload-tested (else the live bot). The challenger's next slot is the next window's T-12."),
+    ("note", "dylan", 7, None, "d-overseer", "the 'Which bot?' note for this round is posted",
+     "The clock posted the note itself with the live bot as the default; the pre-registered rule still applies if "
+     "d-overseer adds the numbers before T-5."),
+    ("chosen", "dylan", 4, 6, "d-platform", "the bot chosen at T-8 is released and upload-tested",
+     "The chosen bot doesn't play this round: the live bot (active since T-9) plays and nothing is uploaded. Stop "
+     "packing it for this round; it plays the next practice round instead."),
+]
+
+
+def stage_slug(stage: str) -> str:
+    return re.sub(r"[^A-Za-z0-9.]+", "-", stage)
+
+
+class DeadlineGuard:
+    def __init__(self, hub: "Hub"):
+        self.hub = hub
+        self.done: set[str] = set(load_json(hub.data / "guard_done.json", []))
+        self.log: list = load_json(hub.data / "guard_log.json", [])
+
+    def mark(self, key: str):
+        self.done.add(key)
+        atomic_write(self.hub.data / "guard_done.json", json.dumps(sorted(self.done)))
+
+    def met(self, gid: str, k: int, start: float, U: float) -> bool | None:
+        """True: done. False: not done. None: not due (nothing to check yet). Observable state only, never an agent's say-so."""
+        hub, prev = self.hub, f"Round {k - 1}"
+        if gid == "data":
+            return hub.landed_at.get(prev, 0) > start - 2 * U
+        if gid == "card":
+            landed = hub.landed_at.get(prev, 0)
+            if landed <= start - 2 * U:
+                return None   # no data, no card due ("data" covers it)
+            f = hub.repo / "analysis" / stage_slug(prev) / "card.md"
+            if f.is_file() and f.stat().st_mtime > landed - 60:
+                return True
+            return None if time.time() < landed + 3 * U else False
+        if gid == "change":
+            return any(str(x.get("question", "")).lower().startswith("one-change") and x.get("at", 0) > start
+                       for x in hub.ledger())
+        if gid == "challenger":
+            return any(b.get("status") == "ready" and (b.get("updated") or b.get("at") or 0) > start - 2 * U for b in hub.bots())
+        if gid == "note":
+            return any(p.get("kind") == "bot" and p.get("created", 0) > start for p in hub.props())
+        if gid == "chosen":
+            live = hub.bus.shared.get("live") or {}
+            if not live or live.get("at", 0) <= start:
+                return True   # nothing new chosen this window: the live bot plays as it is
+            b = hub.bus.shared.get("bot:" + bot_name(live.get("filename") or "")) or {}
+            return b.get("status") == "ready" and bool(hub.find_bot_file(live.get("file") or "") or b.get("sha256"))
+        return True
+
+    def windows(self):
+        s = self.hub.bus.shared.get("schedule")
+        if not s:
+            return []
+        t0, U = s["start"], 60 * s.get("scale", 1.0)
+        return [(k, t0 + (60 + 20 * (k - 1)) * U, U) for k in range(2, s.get("scored", 6) + 1)]   # round 1: the build hour
+
+    async def tick(self):
+        hub, now = self.hub, time.time()
+        for k, ts, U in self.windows():
+            start = ts - 20 * U
+            if not (start <= now < ts):
+                continue
+            for gid, who, cut, warn, owner, what, fallback in GUARD:
+                key = f"{int(ts)}:{gid}"
+                if who != hub.person or key in self.done:
+                    continue
+                if gid == "card" and f"{int(ts)}:data:cut" in self.done:
+                    continue
+                m = self.met(gid, k, start, U)
+                if m:
+                    self.mark(key)
+                    continue
+                if m is False and (gid == "card" or now >= ts - cut * U):
+                    self.mark(key)
+                    self.mark(key + ":cut")
+                    await self.cut(k, gid, owner, what, fallback, ts, U)
+                    continue
+                if m is None:
+                    continue
+                ag = hub.agents.get(owner)
+                late_eta = ag is not None and ag.eta and now < ag.eta and ag.eta > ts - cut * U
+                if (warn and now >= ts - warn * U or late_eta) and key + ":warn" not in self.done:
+                    self.mark(key + ":warn")
+                    await self.heads_up(k, owner, what, cut, fallback, ag, ts, U)
+
+    async def heads_up(self, k, owner, what, cut, fallback, ag, ts, U):
+        """Before a cut-off only the Overseer hears, so it can re-scope; the worker is never told to hurry."""
+        eta = (f"{owner} expects to finish at {hhmm(ag.eta)}" if ag is not None and ag.eta else f"{owner} hasn't given an ETA")
+        await self.hub.overseer().add_item({"kind": "hub", "wake": True, "text": (
+            f"[deadline guard] Scored round {k}: '{what}' isn't done; its cut-off is T-{cut} ({hhmm(ts - cut * U)}). {eta}. "
+            f"If it matters this window, re-scope now: cut it to the smallest useful version, or give {owner} a helper. Do NOT "
+            f"tell anyone to hurry or skip a test. If it misses, this fallback plays, and it is fine: {fallback}")})
+        self.note(k, "heads-up", owner, what)
+
+    async def cut(self, k, gid, owner, what, fallback, ts, U):
+        hub = self.hub
+        msg = (f"[deadline guard] Cut-off passed for scored round {k}: '{what}' didn't happen in time. The plan changes "
+               f"(the pre-registered fallback, not a request to go faster): {fallback}")
+        ag = hub.agents.get(owner)
+        if ag is not None and gid != "challenger":   # stop the late work for this round; the challenger keeps going
+            await ag.add_item({"kind": "hub", "wake": True, "urgent": True, "text": msg + " Stop that work for this round "
+                               "now, record what you have (ledger: hypothesis, or result if measured), set_status with "
+                               "what's left, then take your next task."})
+        elif ag is not None:
+            await ag.add_item({"kind": "hub", "wake": False, "text": msg})
+        await hub.overseer().add_item({"kind": "hub", "wake": True, "urgent": True, "text": msg + " Re-plan the rest of "
+                                       "this window around it; report the cause at the next T-20 sync so it doesn't repeat."})
+        if gid == "note":
+            await self.post_default_note(k, ts, U)
+        if gid == "chosen":
+            await self.revert_live(k)
+        human = {"challenger": "no challenger this window. Leave the live bot active for the practice round (or the "
+                               "released bot your Overseer names).",
+                 "chosen": "the chosen bot wasn't ready by T-4. **Upload nothing**: the live bot already active plays.",
+                 "data": "round data hadn't landed by T-10. The live bot plays with already-validated changes only.",
+                 "change": "no change from this round's data in time. The live bot plays with already-validated changes.",
+                 "card": "the round-card script failed or was too slow. Data is computing the decision numbers by hand.",
+                 "note": "no 'Which bot?' note by T-7. The clock posted one with the live bot as default."}[gid]
+        await hub.alert_all(f"{hub.person[0]}-clock", f"Round {k}: {human}", urgent=gid in ("chosen", "challenger"))
+        self.note(k, "cut", owner, what)
+
+    def note(self, k, kind, owner, what):
+        self.log = (self.log + [{"at": time.time(), "round": k, "kind": kind, "owner": owner, "what": what}])[-200:]
+        atomic_write(self.hub.data / "guard_log.json", json.dumps(self.log))
+        cuts = [x for x in self.log if x["kind"] == "cut"]
+        self.hub.set_service(f"{self.hub.person[0]}-guard", "Deadlines", "working",
+                             f"Round {k}: {'missed' if kind == 'cut' else 'at risk'}: {what}",
+                             "### Cut-offs missed\n" + ("\n".join(f"- Round {x['round']}: {x['what']} ({x['owner']})"
+                                                                   for x in cuts) or "none"))
+
+    async def post_default_note(self, k, ts, U):
+        hub = self.hub
+        live = hub.bus.shared.get("live") or {}
+        if not live.get("file"):
+            return
+        p = {"id": "P" + new_id()[1:7].upper(), "kind": "bot", "title": f"Which bot plays scored round {k}?",
+             "headline": f"Default: the live bot {bot_name(live['filename'])} keeps playing.",
+             "body": "Posted by the clock because no decision note existed by T-7. The live bot plays unless the "
+                     "pre-registered rule picks a challenger that's released and upload-tested. Greenlight to confirm.",
+             "bot": live["file"], "author": "d-overseer", "author_person": hub.person, "decider": "both",
+             "owner": "d-overseer", "parent": None, "stage": stage_of(hub.bus.shared.get("schedule"), time.time()),
+             "status": "needs_call", "created": time.time(), "deadline": ts - 5 * U, "thread": []}
+        await hub.save_prop(p)
+
+    async def revert_live(self, k):
+        hub = self.hub
+        live = hub.bus.shared.get("live") or {}
+        prev = live.get("prev")
+        if prev and prev.get("file"):
+            await hub.make_live(prev["file"], "deadline guard", note=f"{live.get('filename')} wasn't ready by T-4 of round "
+                                f"{k}; {prev.get('filename')} stays live", tell=False)
 
 # ======================================================================== portal watcher
 class PortalWatcher:
@@ -2816,6 +3048,7 @@ class PortalWatcher:
         self.hub.last_landed = time.time()
         items = sorted(res["items"], key=lambda x: -(x.get("average_points") or 0))
         stage = r.get("stage") or label
+        self.hub.landed_at[stage] = time.time()
         aid = "A-" + r["id"][:12]
         self.st.setdefault("note_of", {})[r["id"]] = aid
         await self.hub.ensure_note(aid, kind="analysis", stage=stage, owner="s-overseer", author="s-portal",
@@ -2836,12 +3069,20 @@ class PortalWatcher:
             await self.hub.note_append(lid, "Portal", line, status="done")
         if quiet:
             return
+        if files:   # fingerprinting runs alongside the card, never in front of it
+            async def fp_job():
+                fp = await self.run_card(folder, stage, "fp_train.py")
+                if fp.startswith("(exit 0)"):
+                    await self.hub.route("fp_ready", stage, stage=stage, card=f"analysis/{stage}/fp/ (the hub ran fp_train.py)", note_id=aid)
+                elif fp:
+                    sc = self.hub.agents.get("s-scout")
+                    if sc:
+                        await sc.add_item({"kind": "hub", "wake": True, "text": f"The hub's run of analysis/fp_train.py for "
+                                           f"{stage} failed:\n{fp[-1500:]}\nRun it by hand (quick mode) or ask s-pipeline to fix it."})
+            asyncio.create_task(fp_job())
         card = await self.run_card(folder, stage) if files else ""
         if card.startswith("(exit 0)"):
             self.hub.card_ok = True
-        fp = await self.run_card(folder, stage, "fp_train.py") if files else ""
-        if fp.startswith("(exit 0)"):
-            await self.hub.route("fp_ready", stage, stage=stage, card=f"analysis/{stage}/fp/ (the hub ran fp_train.py)", note_id=aid)
             await self.hub.route("card_ready", stage, stage=stage, card=f"analysis/{stage}/card.md (the hub ran it)", note_id=aid)
         pl = self.hub.agents.get("s-pipeline")
         if pl:   # standing order: numbers first, no Overseer hop (the decision window is only 5 minutes)
@@ -2880,7 +3121,11 @@ class PortalWatcher:
                 str(script.parent), str(script), str(folder), cwd=str(self.hub.repo),
                 stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT,
                 env={**os.environ, "AVALON_STAGE": stage})
-            out, _ = await asyncio.wait_for(proc.communicate(), 90)
+            try:
+                out, _ = await asyncio.wait_for(proc.communicate(), 90)
+            except asyncio.TimeoutError:
+                proc.kill()   # a hung script must not hold the data path (or leak a process)
+                return f"(the hub stopped {name} after 90 s: too slow; the agents run it by hand)"
             return (f"(exit {proc.returncode}) " + out.decode(errors="replace")[-3000:]).strip()
         except Exception as e:  # noqa: BLE001
             return f"(the hub couldn't run it: {type(e).__name__})"

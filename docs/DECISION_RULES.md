@@ -53,6 +53,24 @@ in the top 3; below that, it goes to the challenger or the next practice round t
 plays: confirm it's active, report the miss and its cause, and fix the cause for the next window. Don't wait
 past T-3 for a release.
 
+**Cut-offs (the hub enforces these; deadlines cut scope, never care).** At the regional, countdown reminders
+made bots rush and ship untested. Here a late step simply loses its slot and the safe default plays, so there
+is nothing to gain by hurrying, and you are never asked to. If you won't make a cut-off, deliver a smaller
+version or let the fallback happen; never skip a test to make one. Give an honest `eta_minutes` in set_status:
+a late estimate only lets your Overseer re-scope early.
+
+| Cut-off | If it hasn't happened | Who is told |
+|---|---|---|
+| T-12: a new challenger released | Practice plays an already-tested bot (else the live bot); the challenger keeps building for next window | Overseer, Dylan (the challenger isn't interrupted) |
+| T-10: last round's data landed | No change from new data; live bot plus already-validated changes | Overseer, both humans |
+| 3 min after data: round card written | s-data computes the decision numbers by hand; the card script is fixed after T-3 | s-pipeline stopped, Overseer |
+| T-8: one-change proposal recorded | No new-data change in the live bot; the idea goes to the challenger or next practice | s-data stopped, Overseer |
+| T-7: "Which bot?" note posted | The hub posts it with the live bot as default | Overseer, both humans |
+| T-4: the chosen bot released and tested | The live bot (active since T-9) plays; nothing is uploaded | d-platform stopped, Overseer, both humans (urgent) |
+
+Before a cut-off only the Overseer gets a heads-up (at the times above, or earlier if an ETA is late), so it can
+cut scope or add a helper. A missed cut-off is reported with its cause at the next T-20 sync.
+
 **The challenger:** two to four changes, a new style, or a fresh rewrite. Its job is to find what the field
 pays. Default design: the best response to the field's **measured mix** of styles (Part 4 profiles), not to
 whoever is leading.
