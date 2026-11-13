@@ -105,6 +105,7 @@ def bot_name(filename: str) -> str:
     return re.sub(r"\.zip$", "", Path(filename or "").name) or "?"
 
 OPEN = ("new", "planned", "running", "needs_call", "revise")
+REPORT_MODEL = os.environ.get("AVALON_REPORT_MODEL", "claude-sonnet-5-5")
 NARRATOR_MODEL = os.environ.get("AVALON_NARRATOR_MODEL", "claude-haiku-5-5")
 # Context sizes (tokens) above which an agent compacts between turns (never T-9..T-2). Quality drops as context
 # grows ("context rot"), so workers stay lean (their jobs are scoped; subagents start fresh) while the Overseer,
@@ -185,6 +186,7 @@ class Hub:
         self.portal: PortalWatcher | None = None
         self.portal_data = Path.home() / "portal-data"
         self.default_scale = 1.0
+        self.report_busy: set[str] = set()
 
     def emit(self, kind: str, payload: dict):
         ev = {"kind": kind, **payload}
@@ -400,7 +402,7 @@ class Hub:
             verbatim = set()
             if final and len(chat_notes) == 1 and texts:
                 nid = next(iter(chat_notes))
-                await self.note_append(nid, ag.title, "\n\n".join(texts))
+                await self.note_append(nid, ag.title, "\n\n".join(texts), action="reply")
                 verbatim.add(nid)
             buf = buf[:1] + buf[max(1, since):]          # only what the per-minute updates haven't covered
             outputs = [x for k, x in buf if k in ("text", "msg_out", "msg_in", "tool")]
@@ -437,6 +439,60 @@ class Hub:
             for u in js:
                 if isinstance(u, dict) and u.get("id") in ids and str(u.get("update", "")).strip():
                     await self.note_append(u["id"], ag.title, str(u["update"]).strip())
+
+    async def note_report(self, pid: str) -> dict:
+        """Answer 'what's going on with this note right now?' in readable prose, as the agents would if asked:
+        a model reads the note, the owner Overseer's recent work, every agent's brief and the note's files."""
+        p = self.get_prop(pid)
+        if not p:
+            raise ValueError("That note no longer exists.")
+        if pid in self.report_busy:
+            return p
+        self.report_busy.add(pid)
+        try:
+            ov = self.agents.get(p.get("owner") or "")
+            work = ""
+            if ov:
+                rows = []
+                for e in ov.events[-160:]:
+                    t = e.get("type")
+                    if t == "text" and not e.get("sub"):
+                        rows.append(f"[{hhmm(e['t'])}] Overseer: {e['text'][:1500]}")
+                    elif t in ("msg_in", "msg_out"):
+                        rows.append(f"[{hhmm(e['t'])}] {'from ' + str(e.get('from')) if t == 'msg_in' else 'to ' + str(e.get('to'))}: {str(e.get('text'))[:900]}")
+                work = "\n".join(rows)[-16000:]
+            briefs = "\n".join(f"- {a.name} ({a.state}): {a.task} | {(a.summary or '')[:500]}" for a in self.agents.values())
+            briefs += "\n" + "\n".join(f"- {n} ({v.get('state')}): {v.get('task', '')} | {(v.get('summary') or '')[:500]}"
+                                         for n, v in self.bus.directory.items() if v.get("person") != self.person and not v.get("service"))
+            thread = "\n".join(f"[{hhmm(t['at'])}] {t['who']}: {str(t['text'])[:1200]}" for t in p.get("thread", [])[-40:])
+            live = self.bus.shared.get("live") or {}
+            act = self.bus.shared.get("portal_active") or {}
+            prompt = (f"You are the voice of team avalon's agents in a live pokerbot competition. A teammate opened the note "
+                      f"\"{p['title']}\" ({p.get('stage', '')}, {p['kind']}, status {p['status']}) and is asking: "
+                      f"\"What's going on with this right now?\"\n\nAnswer them as the agents would: clear, specific, "
+                      "readable prose for a smart human who hasn't been watching. Markdown with these short sections: "
+                      "**Where it stands** (2-4 sentences), **What we found** (the key numbers with sample sizes and how "
+                      "sure we are; say plainly when something is weak or only a hypothesis), **What's running now** (who is "
+                      "doing what, and when it should land), **What's next**, and **What we need from you** (or 'Nothing "
+                      "right now'). Use only facts below; if the agents disagree or something was corrected, say so. No "
+                      "ids or jargon a human wouldn't know; name agents by role (the analyst, the tester, the builder). "
+                      f"Keep it under 350 words.\n\nLive bot chosen: {live.get('filename', 'none')}; active on the portal: "
+                      f"{act.get('filename', 'unknown')}. Time now {hhmm(time.time())}.\n\nNOTE SUMMARY:\n{p.get('body') or '(none yet)'}"
+                      f"\n\nNOTE CONVERSATION (latest last):\n{thread or '(empty)'}\n\nTHE OVERSEER'S RECENT WORK (latest last):\n"
+                      f"{work or '(not on this laptop)'}\n\nEVERY AGENT'S CURRENT BRIEF:\n{briefs}")
+            out = ""
+            async for m in sdk_query(prompt=prompt, options=ClaudeAgentOptions(
+                    model=REPORT_MODEL, tools=[], max_turns=1, setting_sources=[], cwd=str(self.data),
+                    system_prompt="You write clear, faithful status reports from the material given. Never invent facts.")):
+                if isinstance(m, ResultMessage):
+                    out = (m.result or "").strip()
+            if out:
+                p = self.get_prop(pid) or p
+                p["report"] = {"text": out, "at": time.time(), "n": len(p.get("thread", []))}
+                await self.save_prop(p)
+            return p
+        finally:
+            self.report_busy.discard(pid)
 
     def owner_overseer(self, person: str) -> str:
         return ("s-" if person == "samuel" else "d-") + "overseer"
@@ -2184,6 +2240,16 @@ def make_app(hub: Hub) -> web.Application:
         return web.json_response({"ok": True, "text": s})
 
     r.add_post("/api/props/{id}/ask", ask_prop)
+
+    async def report_prop(req):
+        try:
+            p = await hub.note_report(req.match_info["id"])
+        except ValueError as e:
+            return web.json_response({"error": str(e)}, status=400)
+        except Exception as e:  # noqa: BLE001
+            return web.json_response({"error": f"Couldn't write the update ({type(e).__name__})."}, status=500)
+        return web.json_response(p)
+    r.add_post("/api/props/{id}/report", report_prop)
     r.add_post("/api/start", start_event)
 
     async def set_live(req):
