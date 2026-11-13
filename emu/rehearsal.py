@@ -90,7 +90,7 @@ class Event:
         self.dir = EMU / "runs" / a.run
         self.dir.mkdir(parents=True, exist_ok=True)
         if a.field == "finals":
-            chosen = FINALS7
+            chosen = [x for x in FINALS7 if not a.personas or x[0] in a.personas.split(",")]
         else:
             chosen = [t for t in TEAMS if t[0] in a.personas.split(",")] if a.personas else TEAMS[: a.teams]
         self.teams = {team_name(p): (p, m, prep, cpu) for p, m, prep, cpu in chosen}
@@ -389,7 +389,7 @@ class Event:
     def run(self) -> None:
         log(f"{self.a.run}: {len(self.teams)} simulated teams + avalon; variant {self.a.variant}; scale {self.a.scale}")
         self.workspace(AVALON)
-        log(f"avalon workspace: {self.dir / AVALON} (submission/ starts as bots/v10)")
+        log(f"avalon workspace: {self.dir / AVALON} (submission/ starts as: {self.a.avalon_start})")
         start = self.wait_for_start()
         SETUP_S = 300  # creating and filling a sandbox, before its session begins
 
