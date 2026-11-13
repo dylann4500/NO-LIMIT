@@ -12,6 +12,11 @@
       "at": "2026-11-13T02:33:51Z",
       "by": "dylann29",
       "text": "claimed"
+    },
+    {
+      "at": "2026-11-13T02:35:03Z",
+      "by": "dylann29",
+      "text": "done: docs/AUTO_HANDOFF.md on branch auto-handoff (one commit on top of emu/rehearsal): folders + watcher + add-on prompts A-E + who pastes what tonight. Samuel: merge into emu/rehearsal and copy into the rehearsal repo"
     }
   ],
   "owner": "dylann29",
@@ -21,8 +26,8 @@
   "posted_at": "",
   "posted_by": "",
   "priority": 0,
-  "result": "",
-  "state": "active",
+  "result": "docs/AUTO_HANDOFF.md on branch auto-handoff (one commit on top of emu/rehearsal): folders + watcher + add-on prompts A-E + who pastes what tonight. Samuel: merge into emu/rehearsal and copy into the rehearsal repo",
+  "state": "done",
   "title": "Automatic agent hand-offs between the two laptops: new doc docs/AUTO_HANDOFF.md (folders, watcher add-on prompts, who pastes what tonight), on branch auto-handoff off emu/rehearsal",
-  "updated_at": "2026-11-13T02:33:51Z"
+  "updated_at": "2026-11-13T02:35:03Z"
 }
