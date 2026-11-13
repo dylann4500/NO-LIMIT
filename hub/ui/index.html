@@ -52,7 +52,7 @@ button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 2px
 .badge { background: var(--accent); color: #fff; border-radius: 999px; font-size: .66rem; padding: 0 6px; margin-top: 4px; font-weight: 600; }
 .needs { margin: 6px 10px 2px; border: 1px solid var(--warn); background: var(--warn-soft); border-radius: 12px; padding: 8px 10px 10px; max-height: 45vh; overflow-y: auto; flex: none; }
 .needs h3 { margin: 0 0 6px; font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--warn); }
-.need { font-size: .82rem; padding: 6px 0; border-top: 1px solid color-mix(in srgb, var(--warn) 25%, transparent); }
+.need { font-size: .84rem; padding: 8px 0; border-top: 1px solid color-mix(in srgb, var(--warn) 25%, transparent); }
 .need:first-of-type { border-top: 0; }
 .need .who2 { font-weight: 600; } .need code { font: .74rem var(--mono); word-break: break-all; display: block; color: var(--muted); max-height: 3.2em; overflow: hidden; }
 .need .txt { overflow-wrap: anywhere; } .need .txt p { margin: 2px 0; }
@@ -76,6 +76,21 @@ button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 2px
 .menu { position: relative; } .menu .pop { position: absolute; right: 0; top: 34px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 6px; z-index: 5; min-width: 230px; box-shadow: 0 6px 24px rgba(0,0,0,.12); }
 .menu .pop button { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 7px 10px; border-radius: 7px; font-size: .86rem; }
 .menu .pop button:hover { background: var(--hover); } .menu .pop .danger { color: var(--bad); }
+.bell { position: relative; background: none; border: 1px solid var(--line); border-radius: 9px; width: 34px; height: 30px; display: inline-grid; place-items: center; color: var(--muted); }
+.bell:hover { color: var(--fg); border-color: var(--muted); } .bell.has { color: var(--warn); border-color: var(--warn); }
+.bell svg { width: 16px; height: 16px; }
+.bell .n { position: absolute; top: -6px; right: -7px; background: var(--warn); color: #fff; border-radius: 999px; font-size: .64rem; font-weight: 700; padding: 0 5px; line-height: 1.5; }
+.bell.urgent .n { background: var(--bad); }
+.panel { position: fixed; top: 54px; right: 16px; width: min(400px, calc(100vw - 32px)); max-height: 72vh; overflow-y: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,.18); z-index: 30; padding: 6px 14px 10px; }
+.panel h3 { font: 600 .7rem var(--sans); text-transform: uppercase; letter-spacing: .08em; color: var(--faint); margin: 8px 0 4px; display: flex; justify-content: space-between; }
+.panel h3 button { border: 0; background: none; color: var(--accent); font-size: .74rem; text-transform: none; letter-spacing: 0; }
+.panel .empty2 { color: var(--muted); font-size: .86rem; padding: 14px 0; text-align: center; }
+.toasts { position: fixed; top: 58px; right: 16px; display: flex; flex-direction: column; gap: 8px; z-index: 40; width: min(360px, calc(100vw - 32px)); pointer-events: none; }
+.toast { pointer-events: auto; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--warn); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.18); padding: 9px 12px; font-size: .84rem; animation: tin .18s ease-out; }
+.toast.urgent { border-left-color: var(--bad); } .toast .x { float: right; border: 0; background: none; color: var(--faint); padding: 0 0 0 8px; }
+.toast .txt { overflow-wrap: anywhere; max-height: 7.5em; overflow: hidden; } .toast .txt p { margin: 2px 0; }
+@keyframes tin { from { transform: translateY(-6px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .toast { animation: none; } }
 .linkbar { flex: none; background: var(--bad-soft); color: var(--bad); font-size: .84rem; padding: 7px 22px; border-bottom: 1px solid var(--line); }
 .scroll { flex: 1; overflow-y: auto; min-height: 0; }
 .conv { max-width: 800px; margin: 0 auto; padding: 18px 22px 30px; display: flex; flex-direction: column; gap: 12px; }
@@ -146,7 +161,7 @@ button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 2px
 <div id="root"></div>
 <script>
 "use strict";
-const S = { st: null, view: null, sel: "home", ev: {}, last: {}, unread: {}, sumOpen: {}, menu: false, sending: false, hint: "", hintBad: false, pendingRender: false };
+const S = { st: null, view: null, sel: "home", ev: {}, last: {}, unread: {}, sumOpen: {}, menu: false, bell: false, toasts: [], sending: false, hint: "", hintBad: false, pendingRender: false };
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const md = (t) => { try { if (!window.marked || !window.DOMPurify) return "<p>" + esc(t) + "</p>"; return DOMPurify.sanitize(marked.parse(String(t || "")), { FORBID_TAGS: ["img", "style", "form", "input", "iframe", "video", "audio"], FORBID_ATTR: ["style"] }); } catch (e) { return "<p>" + esc(t) + "</p>"; } };
@@ -193,19 +208,42 @@ function renderPicker() {
   document.querySelectorAll("[data-p]").forEach((b) => b.onclick = () => { S.view = b.dataset.p; try { localStorage.setItem("hub-view", S.view); } catch (e) {} S.sel = "home"; render(); S.st.agents.forEach((a) => loadEvents(a.name)); stream(); });
 }
 
+function needHtml(x, compact) {
+  if (x.type === "ap") return `<div class="need"><span class="who2">${esc(titleOf(x.agent))}</span> wants to run ${esc(x.tool)}${x.risky ? " <b style='color:var(--bad)'>(risky)</b>" : ""}<code>${esc(x.input)}</code><div class="acts"><button class="mini go" data-ap="${esc(x.id)}" data-d="allow">Allow</button>${x.risky ? "" : `<button class="mini" data-ap="${esc(x.id)}" data-d="always">Always for this agent</button>`}<button class="mini" data-ap="${esc(x.id)}" data-d="deny">Deny</button></div></div>`;
+  return `<div class="need"><span class="who2">${esc(titleOf(x.agent))}</span> · ${hhmm(x.at)}${x.urgent ? " · <b style='color:var(--bad)'>urgent</b>" : ""}<div class="txt md">${md(x.text)}</div>${compact ? "" : `<div class="acts"><button class="mini" data-dis="${esc(x.id)}">Done</button>${local(x.agent) ? `<button class="mini" data-sel="${esc(x.agent)}">Open ${esc(titleOf(x.agent))}</button>` : ""}</div>`}</div>`;
+}
+function bellHtml() {
+  if (S.view !== S.st.me) return "";
+  const nd = needs(); const urgent = nd.some((x) => x.urgent || x.type === "ap");
+  const svg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>`;
+  return `<button class="bell ${nd.length ? "has" : ""} ${urgent ? "urgent" : ""}" id="bell" aria-label="Notifications">${svg}${nd.length ? `<span class="n">${nd.length}</span>` : ""}</button>`;
+}
+function panelHtml() {
+  if (!S.bell) return "";
+  const nd = needs().slice().reverse();
+  return `<div class="panel" id="panel"><h3><span>Needs you · ${nd.length}</span>${nd.some((x) => x.type === "al") ? `<button id="clearAll">Clear all notes</button>` : ""}</h3>${nd.map((x) => needHtml(x, false)).join("") || `<div class="empty2">Nothing needs you right now.</div>`}</div>`;
+}
+function renderToasts() {
+  let box = document.getElementById("toasts");
+  if (!box) { box = document.createElement("div"); box.id = "toasts"; box.className = "toasts"; document.body.appendChild(box); }
+  const now = Date.now();
+  S.toasts = S.toasts.filter((t) => t.until > now && (t.type === "ap" ? S.st.approvals.some((a) => a.id === t.id) : S.st.alerts.some((a) => a.id === t.id)));
+  box.innerHTML = S.bell ? "" : S.toasts.map((t) => `<div class="toast ${t.urgent || t.type === "ap" ? "urgent" : ""}"><button class="x" data-tx="${esc(t.id)}" aria-label="Hide">✕</button>${needHtml(t, t.type !== "ap")}</div>`).join("");
+  box.querySelectorAll("[data-tx]").forEach((b) => b.onclick = () => { S.toasts = S.toasts.filter((t) => t.id !== b.dataset.tx); renderToasts(); });
+  box.querySelectorAll("[data-ap]").forEach((b) => b.onclick = () => answer(b));
+  box.querySelectorAll(".toast .need").forEach((el, i) => { const t = S.toasts[i]; if (t && t.type !== "ap") { el.style.cursor = "pointer"; el.onclick = () => { S.bell = true; S.toasts = []; render(); }; } });
+}
+function toast(x) { if (S.view !== S.st.me) return; S.toasts.push({ ...x, until: Date.now() + (x.type === "ap" ? 180000 : x.urgent ? 30000 : 9000) }); S.toasts = S.toasts.slice(-4); renderToasts(); setTimeout(renderToasts, x.type === "ap" ? 180500 : x.urgent ? 30500 : 9500); }
+async function answer(b) { b.parentElement.querySelectorAll("button").forEach((x) => x.disabled = true); const r = await api(`/api/approvals/${b.dataset.ap}`, { decision: b.dataset.d }); S.st.approvals = S.st.approvals.filter((x) => x.id !== b.dataset.ap); render(); renderToasts(); }
 function sidebar() {
   const mine = myAgents(), other = otherAgents();
   const ov = mine.filter((a) => isOv(a.name)), wk = mine.filter((a) => !isOv(a.name));
   const nd = S.view === S.st.me ? needs() : [];
   const row = (a, cls = "") => { const [l, c] = label(a); const n = nd.filter((x) => x.agent === a.name).length; const u = S.unread[a.name];
     return `<button class="item ${cls} ${a.stale ? "stale" : ""} ${S.sel === a.name ? "on" : ""}" data-sel="${esc(a.name)}"><span class="dot ${esc(c)}"></span><span style="min-width:0"><div class="nm">${esc(clean(a.title || a.name))}<span class="st">${esc(l)}</span></div><div class="ln">${esc(a.task || (c === "stopped" ? "Not started" : "No task yet"))}</div></span>${n ? `<span class="pill">needs you</span>` : u ? `<span class="badge">${u}</span>` : ""}</button>`; };
-  const ndHtml = nd.length ? `<div class="needs"><h3>Needs you · ${nd.length}</h3>${nd.map((x) => x.type === "ap"
-    ? `<div class="need"><span class="who2">${esc(titleOf(x.agent))}</span> wants to run ${esc(x.tool)}${x.risky ? " <b style='color:var(--bad)'>(risky)</b>" : ""}<code>${esc(x.input)}</code><div class="acts"><button class="mini go" data-ap="${esc(x.id)}" data-d="allow">Allow</button>${x.risky ? "" : `<button class="mini" data-ap="${esc(x.id)}" data-d="always">Always for this agent</button>`}<button class="mini" data-ap="${esc(x.id)}" data-d="deny">Deny</button></div></div>`
-    : `<div class="need"><span class="who2">${esc(titleOf(x.agent))}</span> · ${hhmm(x.at)}${x.urgent ? " · <b style='color:var(--bad)'>urgent</b>" : ""}<div class="txt md">${md(x.text)}</div><div class="acts"><button class="mini" data-dis="${esc(x.id)}">Done</button></div></div>`).join("")}</div>` : "";
   const services = S.view === S.st.me ? S.st.services : [];
   return `<div class="side"><div class="brand"><b>Avalon</b><button class="who" id="who">${esc(S.st.people[S.view])} ▾</button></div>
     <div class="clock">${S.st.schedule ? `<b>${esc(S.st.clock)}</b>` : `No schedule yet · <a href="#" id="setsch" style="color:var(--accent)">set it on Home</a>`}</div>
-    ${ndHtml}
     <div class="list"><button class="item ${S.sel === "home" ? "on" : ""}" data-sel="home"><span></span><span><div class="nm">⌂ Home</div><div class="ln">Everything at a glance</div></span></button>
       <div class="sec"><span>${S.view === S.st.me ? "Your agents" : esc(S.st.people[S.view]) + "'s agents"}</span></div>${ov.map((a) => row(a)).join("")}${wk.map((a) => row(a)).join("")}
       ${services.length ? `<div class="sec"><span>Hub services</span></div>${services.map((s) => row(s, "svc")).join("")}` : ""}
@@ -287,16 +325,17 @@ function render() {
   const top = a ? `<div class="top"><button class="tbtn back" id="menuBtn">☰</button><h1>${esc(clean(a.title || a.name))}</h1><span class="lbl ${esc(c)}">${esc(l)}</span>${isLocal && a.usage && a.usage.used != null ? `<span class="lbl ${a.usage.status === "allowed" ? "" : "waiting"}" title="Share of this Claude account's ${esc(String(a.usage.type || "").replace(/_/g, " "))} allowance used">Usage ${Math.round(a.usage.used * 100)}%</span>` : ""}${isLocal ? `<span class="lbl" title="Model">${esc(String(a.model).replace("claude-", "").replace(/-\d.*/, ""))}</span>` : ""}${!isLocal && !isSvc ? `<span class="lbl">${esc(S.st.people[a.person] || "")}'s laptop</span>` : ""}<span class="sp"></span>
       ${isLocal ? `${a.state === "working" || a.state === "waiting" ? `<button class="tbtn" id="intr" title="Stop the current step; it keeps its memory and its queued messages">Pause</button>` : ""}
       <span class="seg" title="Risky commands always ask"><span>Commands</span><button class="${a.policy === "auto" ? "on" : ""}" data-pol="auto">Auto</button><button class="${a.policy === "ask" ? "on" : ""}" data-pol="ask">Ask me</button></span>
-      <span class="menu"><button class="tbtn" id="more" aria-label="More">⋯</button>${S.menu ? `<div class="pop">${a.state === "stopped" ? `<button id="startA">Start ${esc(a.title)}</button>` : `<button class="danger" id="stopA">Turn off ${esc(a.title)}…</button>`}<button id="copyName">Copy its name (${esc(a.name)})</button></div>` : ""}</span>` : ""}</div>`
-    : `<div class="top"><button class="tbtn back" id="menuBtn">☰</button><h1>Home</h1><span class="sp"></span></div>`;
+      <span class="menu"><button class="tbtn" id="more" aria-label="More">⋯</button>${S.menu ? `<div class="pop">${a.state === "stopped" ? `<button id="startA">Start ${esc(a.title)}</button>` : `<button class="danger" id="stopA">Turn off ${esc(a.title)}…</button>`}<button id="copyName">Copy its name (${esc(a.name)})</button></div>` : ""}</span>` : ""}${bellHtml()}</div>`
+    : `<div class="top"><button class="tbtn back" id="menuBtn">☰</button><h1>Home</h1><span class="sp"></span>${bellHtml()}</div>`;
   const body = !a ? homeHtml() : isSvc ? serviceHtml(a) : isLocal ? convHtml(a) : remoteHtml(a);
   const hintTxt = S.hint || ((isLocal && a.queued ? a.queued + " message(s) queued · " : "") + "Enter to send · Shift+Enter for a new line");
   const comp = a && !isSvc ? `<div class="comp"><form class="box" id="form"><textarea id="ta" rows="1" placeholder="Message ${esc(titleOf(a.name))}"></textarea><div class="row"><span class="hint ${S.hintBad ? "bad" : ""}" id="hint">${esc(hintTxt)}</span><button class="send" id="sendb" aria-label="Send">↑</button></div></form></div>` : "";
-  $("#root").innerHTML = `<div class="app" id="app">${sidebar()}<div class="main">${top}${linkDown ? `<div class="linkbar">Not linked to ${esc(otherName())}'s laptop${S.st.bus.outbox ? ` · ${S.st.bus.outbox} message(s) waiting to send` : ""}. Agents keep working; talk to your teammate directly until it's back.</div>` : ""}<div class="scroll" id="scroll">${body}</div>${comp}</div></div>`;
+  $("#root").innerHTML = `<div class="app" id="app">${sidebar()}<div class="main">${top}${linkDown ? `<div class="linkbar">Not linked to ${esc(otherName())}'s laptop${S.st.bus.outbox ? ` · ${S.st.bus.outbox} message(s) waiting to send` : ""}. Agents keep working; talk to your teammate directly until it's back.</div>` : ""}<div class="scroll" id="scroll">${body}</div>${comp}</div></div>${panelHtml()}`;
   document.querySelectorAll("details[data-k]").forEach((d) => { if (openD.has(d.dataset.k)) d.open = true; });
   const ta = $("#ta"); if (ta) { ta.value = draft; autosize(ta); if (tf) ta.focus(); }
   const s2 = $("#scroll"); s2.scrollTop = atEnd ? s2.scrollHeight : prevTop;
   wire(a);
+  renderToasts();
 }
 function autosize(t) { t.style.height = "auto"; t.style.height = Math.min(t.scrollHeight, 220) + "px"; }
 function alertHint(t, bad = true) { S.hint = t; S.hintBad = bad; const h = $("#hint"); if (h) { h.textContent = t; h.className = "hint" + (bad ? " bad" : ""); } }
@@ -312,8 +351,10 @@ function wire(a) {
   $("#stopA")?.addEventListener("click", async (e) => { e.stopPropagation(); const b = $("#stopA"); if (!b.dataset.sure) { b.dataset.sure = 1; b.textContent = "Click again to turn it off"; return; } S.menu = false; await api(`/api/agents/${enc}/stop`, {}); render(); });
   $("#copyName")?.addEventListener("click", () => { try { navigator.clipboard.writeText(a.name); } catch (e) {} S.menu = false; render(); });
   document.querySelectorAll("details.pin[data-k]").forEach((d) => d.addEventListener("toggle", () => { if (a) S.sumOpen[a.name] = d.open; }));
-  document.querySelectorAll("[data-ap]").forEach((b) => b.onclick = async () => { b.parentElement.querySelectorAll("button").forEach((x) => x.disabled = true); const r = await api(`/api/approvals/${b.dataset.ap}`, { decision: b.dataset.d }); if (r.error) { S.st.approvals = S.st.approvals.filter((x) => x.id !== b.dataset.ap); render(); } });
-  document.querySelectorAll("[data-dis]").forEach((b) => b.onclick = async () => { b.disabled = true; await api(`/api/alerts/${b.dataset.dis}/dismiss`, {}); S.st.alerts = S.st.alerts.filter((x) => x.id !== b.dataset.dis); render(); });
+  document.querySelectorAll("#root [data-ap]").forEach((b) => b.onclick = () => answer(b));
+  $("#bell")?.addEventListener("click", (e) => { e.stopPropagation(); S.bell = !S.bell; S.toasts = []; render(); });
+  $("#clearAll")?.addEventListener("click", async (e) => { e.stopPropagation(); const ids = S.st.alerts.map((x) => x.id); for (const id of ids) await api(`/api/alerts/${id}/dismiss`, {}); S.st.alerts = []; render(); });
+  document.querySelectorAll("#root [data-dis]").forEach((b) => b.onclick = async (e) => { e.stopPropagation(); b.disabled = true; await api(`/api/alerts/${b.dataset.dis}/dismiss`, {}); S.st.alerts = S.st.alerts.filter((x) => x.id !== b.dataset.dis); render(); });
   $("#schgo")?.addEventListener("click", async () => { const r = await api("/api/schedule", { start: $("#schin").value }); if (r.error) { $("#schin").style.borderColor = "var(--bad)"; $("#schin").title = r.error; } else refresh(); });
   $("#setsch")?.addEventListener("click", (e) => { e.preventDefault(); select("home"); setTimeout(() => $("#schin")?.focus(), 50); });
   const ta = $("#ta"); if (!ta) return;
@@ -347,15 +388,16 @@ function stream() {
       soon(); }
     else if (ev.kind === "agent") { const i = S.st.agents.findIndex((a) => a.name === ev.name); if (i >= 0) S.st.agents[i] = { ...S.st.agents[i], ...ev }; soon(); }
     else if (ev.kind === "service") { const i = S.st.services.findIndex((s) => s.name === ev.name); if (i >= 0) S.st.services[i] = ev; else S.st.services.push(ev); soon(); }
-    else if (ev.kind === "approval") { S.st.approvals.push(ev); soon(); }
+    else if (ev.kind === "approval") { S.st.approvals.push(ev); toast({ type: "ap", ...ev }); soon(); }
     else if (ev.kind === "approval_done") { S.st.approvals = S.st.approvals.filter((a) => a.id !== ev.id); soon(); }
-    else if (ev.kind === "alert") { S.st.alerts.push(ev); soon(); }
+    else if (ev.kind === "alert") { S.st.alerts.push(ev); toast({ type: "al", ...ev }); soon(); }
     else if (ev.kind === "alert_done") { S.st.alerts = S.st.alerts.filter((a) => a.id !== ev.id); soon(); }
     else if (ev.kind === "shared") refresh();
   };
   setInterval(refresh, 8000);
   document.addEventListener("selectionchange", () => { if (S.pendingRender && !window.getSelection().toString()) soon(); });
-  document.addEventListener("click", (e) => { if (S.menu && !e.target.closest(".menu")) { S.menu = false; soon(); } });
+  document.addEventListener("click", (e) => { let ch = false; if (S.menu && !e.target.closest(".menu")) { S.menu = false; ch = true; } if (S.bell && !e.target.closest("#panel") && !e.target.closest("#bell")) { S.bell = false; ch = true; } if (ch) soon(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && (S.bell || S.menu)) { S.bell = false; S.menu = false; soon(); } });
 }
 load();
 </script>

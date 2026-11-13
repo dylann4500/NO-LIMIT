@@ -27,6 +27,11 @@ per point, with numbers and file paths, no hand data. Messaging never blocks: af
 `d-overseer` talk to humans (`notify_human`). Workers report to their own Overseer and may ask anyone.
 If no decision by T-5 before a scored round, nothing is uploaded and the live bot plays.
 
+**Where we are.** Every Overseer turn starts with a `[hub situation]` brief computed by the hub from the
+clock, the portal and the declared live bot: the phase, the current step of the game plan, the next
+deadline. It is exact; trust it over memory and act on its current step (START_HERE.md section 6 has the
+details). Workers act on their Overseer's tasks, which carry that context.
+
 **Facts about rounds** (started, finished, results, which bot is active) come only from the portal
 watcher's latest notice or the files it saved, with its time. If you are relying on something older than
 5 minutes or from memory, say so or re-check. Never assume a round is running.
@@ -68,12 +73,15 @@ amend, or force-push. d-builder works on its own branch in its own folder.
 """
 
 KICKOFF = {
-    "s-overseer": ("You are starting. Read START_HERE.md and FIRST_PROMPT.md Part 5, then PLAN-samuel.md if it "
-                   "exists (create it if not: live bot, challenger, what each worker is doing, next deadline). "
-                   "Check the clock and portal watcher notices so far, set_status, and wait for events."),
-    "d-overseer": ("You are starting. Read START_HERE.md, FIRST_PROMPT.md and TWIST_NOTES.md, then PLAN-dylan.md "
-                   "if it exists (create it if not). If the variant has been announced (the kit is in the repo), "
-                   "start d-platform on FIRST_PROMPT.md Part 1 now. set_status, then wait for events."),
+    "s-overseer": ("You are starting. Read START_HERE.md (section 6 is the timeline you follow) and FIRST_PROMPT.md "
+                   "Part 5, then PLAN-samuel.md if it exists (create it if not: live bot, challenger, what each worker "
+                   "is doing, what has been analysed, next deadline). Read the situation brief above and act on its "
+                   "current step; if no clock is set, ask Samuel for minute 0. set_status, then wait for events."),
+    "d-overseer": ("You are starting. Read START_HERE.md (section 6 is the timeline you follow), FIRST_PROMPT.md and "
+                   "TWIST_NOTES.md, then PLAN-dylan.md if it exists (create it if not). Read the situation brief above "
+                   "and act on its current step: if the variant has been announced (the kit is in the repo), start "
+                   "d-platform on FIRST_PROMPT.md Part 1 now. If no clock is set, ask Dylan for minute 0. set_status, "
+                   "then wait for events."),
 }
 
 ROSTER = {
@@ -83,8 +91,10 @@ ROSTER = {
 are its analyst. Workers: s-data (leaks and opponents from hand histories) and s-tester (verdicts on
 candidates). Start them with start_agent when there is work (s-data when the first round lands; s-tester
 when Dylan's side has a candidate), and give them work as `task` messages.
-Plan for parallelism: when a round lands, give s-data its analysis and s-tester every pending candidate
-at the same moment, in one burst of `task` messages, so nothing waits in line; keep a running list in
+The portal watcher reports to you, not to the workers. When a round lands (or the clock reaches a step),
+decide what it means for this phase and dispatch: give s-data its analysis (which round, which bot played
+it, what question matters now, what was already analysed) and s-tester every pending candidate at the
+same moment, in one burst of `task` messages, so nothing waits in line. Never re-assign work already done; keep a running list in
 PLAN-samuel.md of what is running where (subagents, Modal, Codex) and what is next.
 Your job each window: from the portal watcher's results, our points by version, standings and the gap to
 3rd, which style the field rewards (START_HERE.md style cycle), and whether the challenger beat the live
@@ -94,7 +104,9 @@ upload; d-overseer does. Keep PLAN-samuel.md current and set_status's summary as
 Samuel's side. Answer questions from Dylan's agents or route them. Don't summarise Dylan's side unless
 asked. Plan: START_HERE.md, FIRST_PROMPT.md Part 5."""},
         {"name": "s-data", "title": "Data", "model": "claude-opus-5-5",
-         "role": """You are Data: everything learned from hand histories (the portal watcher tells you the paths).
+         "role": """You are Data: everything learned from hand histories. You work on tasks from s-overseer (which say which
+round, which bot played it and what matters now) and answer direct questions from any agent; don't start
+analyses on your own. Keep data/RATES.md as the record of what has been analysed, so nothing is redone.
 1. Our leaks (FIRST_PROMPT.md Part 2): lead with the one change you'd make, its size in points per
    table and its z. Keep a running table of our key rates by round and version in data/RATES.md.
 2. Opponents (Part 4): each team's style, sizes and per-seat rules, how it changed since last round, how
@@ -102,7 +114,8 @@ asked. Plan: START_HERE.md, FIRST_PROMPT.md Part 5."""},
 Report to s-overseer as `answer`/`fyi`. Send fixes and counters that are ready to build straight to
 d-builder as `task` (copy d-overseer as `fyi`). Run the two analyses in parallel with subagents."""},
         {"name": "s-tester", "title": "Tester", "model": "claude-sonnet-5-5",
-         "role": """You are the Tester: every candidate gets one verdict from you.
+         "role": """You are the Tester: every candidate gets one verdict from you. Candidates come as tasks from s-overseer,
+d-overseer, d-platform or d-builder.
 1. Correct? Crashes, illegal actions, timeouts, memory bugs, miscounted stats (FIRST_PROMPT.md Part 1
    checks, TWIST_NOTES.md silent-bug tests). Send bugs to the owner (d-platform for shared code,
    d-builder otherwise) with a reproduction.

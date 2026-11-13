@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import math
 import os
 import re
 import subprocess
@@ -343,6 +344,8 @@ class Agent:
                     i["taken"] = True
                 self.save_items()
                 prompt = "\n\n".join(self.format(b) for b in batch)
+                if self.name.endswith("overseer"):
+                    prompt = situation(self.hub) + "\n\n" + prompt
                 self.turn_started = time.time()
                 await self.set_state("working")
                 self.record({"type": "turn", "n": len(batch)})
@@ -636,6 +639,79 @@ class Agent:
                                                    start_agent, stop_agent, declare_live, set_schedule])
 
 
+# ======================================================================== playbook (START_HERE.md section 6)
+BUILD = [  # (minute, who, what) for the build hour
+    (0, "both", "Variant announced: fetch the kit, read the Format page (weights, payouts, anything unusual). d-overseer starts d-platform on Part 1 with TWIST_NOTES.md."),
+    (10, "dylan", "A minimal legal bot must be uploaded and confirmed active by now."),
+    (15, "both", "Test rig running (Part 3a: paired runs, sparring). Samuel's side measures every candidate."),
+    (20, "dylan", "Practice round 1 plays style A (a different style each practice round)."),
+    (30, "dylan", "Practice round 2 plays style B."),
+    (40, "dylan", "Practice round 3 plays style C."),
+    (50, "both", "Practice round 4 re-plays the leader. Then hands off: the best real-field scorer is active for scored round 1."),
+]
+WINDOW = [  # (minutes before a scored round, who, what)
+    (20, "both", "The previous scored round has started. The challenger should already be packed and tested."),
+    (13, "both", "The previous scored round's result and hand data land about now. Samuel's side: run the round loop (Data on leaks/opponents, Tester on pending candidates). Dylan's side: challenger ready."),
+    (12, "dylan", "Upload the challenger and confirm it is active (it plays the practice round). Skip if not ready."),
+    (10, "both", "Practice round starts and plays the challenger."),
+    (9, "dylan", "Put the live bot back as active straight away."),
+    (8, "both", "DECIDE: live bot, live bot + this window's one tested change, or the challenger. s-overseer's recommendation is due to d-overseer now."),
+    (6, "dylan", "Test the chosen bot under upload-test conditions (no time bank)."),
+    (5, "both", "No decision by now means the live bot plays; no upload."),
+    (3, "dylan", "Upload the chosen bot and confirm the active bot on the portal. After this, nothing changes."),
+]
+
+
+def situation(hub: "Hub") -> str:
+    """Exact 'where are we' snapshot put at the top of every Overseer turn."""
+    now = time.time()
+    me = hub.person
+    sch = hub.bus.shared.get("schedule")
+    lines = [f"Now {hhmm(now)}."]
+    if not sch:
+        lines.append("PHASE: unknown (no clock set). Ask your human for minute 0 (the variant announcement) or set it "
+                     "with set_schedule; until then, assume nothing is playing.")
+    else:
+        t0, nsc = sch["start"], sch.get("scored", 6)
+        m = (now - t0) / 60
+        rounds = [t0 + (60 + 20 * (k - 1)) * 60 for k in range(1, nsc + 1)]
+        if m < 0:
+            lines.append(f"PHASE: before the event; minute 0 is at {hhmm(t0)} (in {-m:.0f} min).")
+        elif m < 60:
+            done = [f"min {mi}: {w}" for mi, who, w in BUILD if mi <= m and who in ("both", me)]
+            nxt = next(((mi, w) for mi, who, w in BUILD if mi > m and who in ("both", me)), None)
+            lines.append(f"PHASE: build hour, minute {m:.0f} of 60. Scored round 1 at {hhmm(rounds[0])}.")
+            if done:
+                lines.append("Should be done by now: " + " | ".join(done[-2:]))
+            if nxt:
+                lines.append(f"Next (minute {nxt[0]}, {hhmm(t0 + nxt[0] * 60)}): {nxt[1]}")
+        elif now > rounds[-1] + 1200:
+            lines.append("PHASE: the event is over.")
+        else:
+            k = next((i + 1 for i, ts in enumerate(rounds) if ts > now), None)
+            if k is None:
+                lines.append(f"PHASE: the last scored round ({nsc}) is playing; results due about {hhmm(rounds[-1] + 480)}.")
+            else:
+                ts = rounds[k - 1]
+                T = (ts - now) / 60
+                lines.append(f"PHASE: window before scored round {k} (weight x{k}) at {hhmm(ts)}: T-{math.ceil(T)} min.")
+                past = [(o, w) for o, who, w in WINDOW if o >= T and who in ("both", me)]
+                nxt = next(((o, w) for o, who, w in WINDOW if o < T and who in ("both", me)), None)
+                if past:
+                    lines.append(f"Current step (T-{past[-1][0]}): {past[-1][1]}")
+                if nxt:
+                    lines.append(f"Next step at T-{nxt[0]} ({hhmm(ts - nxt[0] * 60)}): {nxt[1]}")
+    live = hub.bus.shared.get("live")
+    lines.append(f"Declared live bot: {live['filename']} ({hhmm(live['at'])})." if live else "Declared live bot: none yet.")
+    p = hub.services.get("s-portal") or hub.bus.directory.get("s-portal")
+    if p:
+        lines.append(f"Portal watcher ({hhmm(p.get('updated') or p.get('seen') or now)}): {p.get('task')}")
+    nd = len(hub.approvals) + len(hub.alerts)
+    if nd:
+        lines.append(f"{nd} item(s) are waiting for a human on this laptop.")
+    return "[hub situation]\n" + "\n".join(lines) + "\nFollow START_HERE.md section 6 for this phase; trust this brief over memory."
+
+
 # ======================================================================== clock
 class Clock:
     """Round schedule shared by both hubs; wakes this laptop's Overseer at the deadlines."""
@@ -689,26 +765,27 @@ class Clock:
     async def tick(self):
         now = time.time()
         ov = self.hub.overseer()
-        for kind, k, ts in self.events():
-            label = f"{'Scored' if kind == 'scored' else 'Practice'} round {k}"
-            if kind == "scored":
-                marks = [(13, "T-13: the previous round's results should be in. Plan this window."),
-                         (8, "T-8: decision time. " + ("Send d-overseer your recommendation now." if self.hub.person == "samuel"
-                                                     else "Decide what plays (s-overseer's recommendation should be in).")),
-                         (5, "T-5: if nothing is decided, the live bot plays; no upload."),
-                         (3, "T-3: last moment to upload. After this, uploads may miss the round.")]
-            else:
-                marks = [(3, "starts in 3 minutes." + (" Make sure the bot for it is uploaded and active."
-                                                       if self.hub.person == "dylan" else ""))]
-            for mins, text in marks:
-                key = f"{kind}{k}-{mins}"
-                if key not in self.sent and ts - mins * 60 <= now < ts - mins * 60 + 120:
-                    self.sent.add(key)
-                    atomic_write(self.hub.data / "clock_sent.json", json.dumps(sorted(self.sent)))
-                    await ov.add_item({"kind": "clock", "wake": True, "text": f"{label} at {hhmm(ts)}: {text}"})
-                    if ov.state == "stopped" and not ov.paused:
-                        await ov.start()
-        self.hub.set_service("hub-clock", "Clock", "working" if self.events() else "idle", self.next_text())
+        me = self.hub.person
+        s = self.hub.bus.shared.get("schedule")
+        marks = []
+        if s:
+            t0 = s["start"]
+            for mi, who, w in BUILD:
+                if who in ("both", me):
+                    marks.append((f"b{mi}", t0 + mi * 60, f"Build hour, minute {mi}: {w}"))
+            for k in range(1, s.get("scored", 6) + 1):
+                ts = t0 + (60 + 20 * (k - 1)) * 60
+                for o, who, w in WINDOW:
+                    if who in ("both", me) and not (k == 1 and o > 10):   # round 1's window starts inside the build hour
+                        marks.append((f"s{k}-{o}", ts - o * 60, f"Scored round {k} at {hhmm(ts)}, T-{o}: {w}"))
+        for key, at, text in marks:
+            if key not in self.sent and at <= now < at + 120:
+                self.sent.add(key)
+                atomic_write(self.hub.data / "clock_sent.json", json.dumps(sorted(self.sent)))
+                await ov.add_item({"kind": "clock", "wake": True, "text": text})
+                if ov.state == "stopped" and not ov.paused:
+                    await ov.start()
+        self.hub.set_service("hub-clock", "Clock", "working" if s else "idle", self.next_text())
 
 
 # ======================================================================== portal watcher
@@ -769,6 +846,18 @@ class PortalWatcher:
                 self.cid = comps[0]["id"]
         rounds = (await self.aget(f"/competitions/{self.cid}/tournaments"))["items"]
         new_done = [r for r in rounds if r.get("completed_at") and r["id"] not in self.st["done"]]
+        if not self.st.get("baseline_done"):
+            self.st["baseline_done"] = True
+            if new_done:   # rounds that finished before this hub started: one catch-up note, not N "new" rounds
+                for r in sorted(new_done, key=lambda r: r["created_at"]):
+                    await self.landed(r, quiet=True)
+                ov = self.hub.agents.get("s-overseer")
+                if ov:
+                    await ov.add_item({"kind": "portal", "wake": True, "text": (
+                        f"Catch-up: {len(new_done)} round(s) had already finished before I started; their results and our "
+                        f"hand data are saved under {self.out}/ (one folder per round). These are NOT new rounds; check "
+                        "PLAN-samuel.md / data/RATES.md for what has already been analysed before assigning work.")})
+                new_done = []
         for r in sorted(new_done, key=lambda r: r["created_at"]):
             await self.landed(r)
         standings = (await self.aget(f"/competitions/{self.cid}/standings"))["items"]
@@ -788,7 +877,7 @@ class PortalWatcher:
         self.hub.set_service("s-portal", "Portal", "working", task, summary)
         return bool(running)
 
-    async def landed(self, r):
+    async def landed(self, r, quiet: bool = False):
         res = await self.aget(f"/tournaments/{r['id']}/results")
         label = r.get("label") or f"{r['kind']} {r['created_at'][11:16]}"
         n = len(self.st["done"]) + 1
@@ -816,14 +905,13 @@ class PortalWatcher:
                 ("" if files else "\nHand history not downloadable yet; I'll keep trying.")
         self.st["done"].append(r["id"])
         self.save()
+        if quiet:
+            return
         ov = self.hub.agents.get("s-overseer")
-        if ov:
-            await ov.add_item({"kind": "portal", "wake": True, "text": line + paths})
-        data_agent = self.hub.agents.get("s-data")
-        if data_agent and files:
-            await data_agent.add_item({"kind": "portal", "wake": True, "text": line + paths + "\nAnalyse it (your role)."})
-            if data_agent.state == "stopped" and not data_agent.paused:
-                await data_agent.start()
+        if ov:   # the Overseer decides what to do with it and dispatches the workers with context
+            await ov.add_item({"kind": "portal", "wake": True, "text": "NEW ROUND RESULT. " + line + paths})
+            if ov.state == "stopped" and not ov.paused:
+                await ov.start()
         try:
             await self.hub.bus.send({"id": new_id(), "from": "s-portal", "from_kind": "hub", "to": "d-overseer",
                                      "kind": "fyi", "text": line})
@@ -845,7 +933,8 @@ class PortalWatcher:
         live = self.hub.bus.shared.get("live")
         now = time.time()
         for kind, k, ts in self.hub.clock.events():
-            for mins in (9, 2):
+            # scored rounds: check after the live bot is back (T-7) and just before (T-2); practice: just before
+            for mins in ((7, 2) if kind == "scored" else (2,)):
                 key = f"{kind}{k}-{mins}"
                 if key in self.checked or not (ts - mins * 60 <= now < ts - mins * 60 + 90):
                     continue
@@ -853,7 +942,7 @@ class PortalWatcher:
                 active = team.get("active_filename")
                 if not active:
                     msg = f"{kind.title()} round {k} starts at {hhmm(ts)} and there is NO active bot. We forfeit unless one is made active."
-                elif live and live.get("filename") and live["filename"] != active:
+                elif kind == "scored" and live and live.get("filename") and live["filename"] != active:
                     msg = (f"{kind.title()} round {k} starts at {hhmm(ts)}: the portal's active bot is {active}, but "
                            f"d-overseer declared {live['filename']}.")
                 else:
