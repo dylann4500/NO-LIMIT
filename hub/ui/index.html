@@ -143,6 +143,11 @@ button:active:not(:disabled) { transform: scale(.97); }
 .dock-hd .tbtn { display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; border-radius: var(--r-control);} .dock-hd .hint { flex: 1 1 120px; min-width: 0; } .dock-hd b { font: 500 1.1rem var(--serif); } .dock-hd .hint { margin-left: 4px; }
 .dock-body { flex: 1; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 12px; }
 .dock-body .a { font: .98rem/1.6 var(--chat-serif); } .dock-body .cv-me { max-width: 92%; }
+/* edges pulse red while something needs an answer within minutes (a permission request, a decision due soon);
+   slow (one pulse per 1.4 s, far under the 3-flashes-per-second limit); solid under reduced motion */
+.urgent-edge { position: fixed; inset: 0; pointer-events: none; z-index: 60; box-shadow: inset 0 0 0 4px #c81e1e, inset 0 0 36px 6px rgba(200, 30, 30, .45); animation: edge 1.4s ease-in-out infinite; }
+@keyframes edge { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { .urgent-edge { animation: none !important; opacity: 1; } }
 .waiting { border: 1px solid var(--bad); background: var(--bad-soft); border-radius: var(--r-surface); padding: 8px 10px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-size: .82rem; position: sticky; top: 0; z-index: 2; }
 .waiting b { color: var(--bad); margin-right: 4px; }
 .cv-ag.urgent { border-left: 3px solid var(--bad); padding-left: 10px; background: var(--bad-soft); border-radius: 8px; }
@@ -602,9 +607,19 @@ function render() {
   for (const p of props()) SEEN.notes.set(p.id, (p.thread || []).length);
   for (const [k, v] of Object.entries(S.st.overviews || {})) SEEN.chat[k] = v.length;
   SEEN.first = false;
-  wire(a); renderToasts();
+  wire(a); renderToasts(); syncEdge();
 }
 function autosize(t) { t.style.height = "auto"; t.style.height = Math.min(t.scrollHeight, 200) + "px"; }
+function urgentNow() {   // what genuinely needs an answer right away
+  if (!S.st) return false;
+  const soon = needCall().some((p) => p.deadline && p.deadline - Date.now() / 1000 < 180);
+  return S.st.approvals.length > 0 || soon;
+}
+function syncEdge() {
+  let el = document.getElementById("urgentEdge");
+  if (urgentNow()) { if (!el) { el = document.createElement("div"); el.id = "urgentEdge"; el.className = "urgent-edge"; el.setAttribute("aria-hidden", "true"); document.body.appendChild(el); } }
+  else if (el) el.remove();
+}
 function renderToasts() {
   let box = document.getElementById("toasts"); if (!box) { box = document.createElement("div"); box.id = "toasts"; box.className = "toasts"; document.body.appendChild(box); }
   const now = Date.now();
@@ -760,7 +775,7 @@ function stream() {
     else if (ev.kind === "shared") refresh(); };
   setInterval(refresh, 6000);
   setInterval(() => { const el = $("#cdn"); if (el) { const left = +el.dataset.at - Date.now() / 1000; el.textContent = mmss(left); el.className = "t " + (left < 60 ? "now" : left < 180 ? "soon" : ""); if (left < -2) refresh(); }
-    document.querySelectorAll("[data-dl]").forEach((d) => { d.textContent = mmss(+d.dataset.dl - Date.now() / 1000); }); }, 1000);
+    document.querySelectorAll("[data-dl]").forEach((d) => { d.textContent = mmss(+d.dataset.dl - Date.now() / 1000); }); syncEdge(); }, 1000);
   document.addEventListener("selectionchange", () => { if (S.pending && !window.getSelection().toString()) soon(); });
   document.addEventListener("compositionstart", () => { S.composing = true; }); document.addEventListener("compositionend", () => { S.composing = false; if (S.pending) soon(); });
   document.addEventListener("mousedown", () => { S.mouseDown = true; }); document.addEventListener("mouseup", () => { S.mouseDown = false; if (S.pending) setTimeout(soon, 0); });
@@ -775,7 +790,8 @@ if (/[?&]demo=1/.test(location.search)) {
   S.demo = true; let k = 0;
   setInterval(() => { if (!S.st || !S.st.props) return; k++; const now = Date.now() / 1000, cur = S.st.stage || "Round 2";
     if (k % 4 === 1) S.st.props.unshift({ id: "DEMO" + k, kind: ["analysis", "bot", "live"][k % 3], title: ["Analysis for " + cur, "Which bot? v" + (6 + k), "v6 live · " + cur][k % 3],
-      headline: "Demo note " + k, stage: cur, status: k % 3 === 1 ? "needs_call" : "running", created: now, updated: now, thread: [] });
+      headline: "Demo note " + k, stage: cur, status: k % 3 === 1 ? "needs_call" : "running", created: now, updated: now, thread: [],
+      ...(k % 3 === 1 ? { deadline: now + 150, decider: "both", bot: "releases/v" + (6 + k) + ".zip" } : {}) });
     else if (k % 4 === 2) { const p = props().find((x) => x.kind === "analysis"); if (p) { p.thread = (p.thread || []).concat([{ who: "Portal", at: now, text: "Hand data downloaded. Analysis starting." }]); p.updated = now; } }
     else if (k % 4 === 3) { const a = S.st.agents.find((x) => /pipeline|data|tester/.test(x.name)); if (a) { a.state = a.state === "working" ? "idle" : "working"; a.task = "demo: running the round card"; } }
     else { const n = "s-overview"; (S.st.overviews[n] = S.st.overviews[n] || []).push({ who: "Chat", at: now, text: "Demo message " + k + ": the analyst just posted its first numbers." }); }
