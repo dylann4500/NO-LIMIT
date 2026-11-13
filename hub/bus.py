@@ -271,11 +271,10 @@ class Bus:
         while True:
             if self.d is not None:
                 try:
-                    keys = await asyncio.wait_for(self._keys(), 20)
-                    for k in keys:
-                        v = await guarded(self.d.get.aio(k))
-                        if v is None:
-                            continue
+                    pairs = await asyncio.wait_for(self._items(), 25)
+                    keys = set()
+                    for k, v in pairs:
+                        keys.add(k)
                         if k.startswith("agent:"):
                             n = k[6:]
                             if n in self.local_names:
@@ -286,13 +285,23 @@ class Bus:
                                 continue
                             self.directory[n] = v
                         elif k.startswith("shared:"):
-                            self.shared[k[7:]] = v
+                            sk = k[7:]
+                            cur = self.shared.get(sk)
+                            if not (isinstance(cur, dict) and isinstance(v, dict) and cur.get("updated", 0) > v.get("updated", 0)):
+                                self.shared[sk] = v
                     for n in list(self.directory):
                         if n not in self.local_names and "agent:" + n not in keys:
                             self.directory.pop(n, None)
                 except Exception:  # noqa: BLE001
                     pass
             await asyncio.sleep(5)
+
+    async def _items(self):
+        out = []
+        async for k, v in self.d.items.aio():
+            if isinstance(k, str) and (k.startswith("agent:") or k.startswith("shared:")) and v is not None:
+                out.append((k, v))
+        return out
 
     async def _keys(self):
         out = []

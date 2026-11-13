@@ -9,67 +9,74 @@
 <script src="/vendor/marked.min.js"></script>
 <script src="/vendor/purify.min.js"></script>
 <style>
+/* Layout: sidebar (navigation + live status) | main (header with countdown and bell; Home, Decisions, or an agent).
+   Colour carries meaning everywhere: state (green working, amber needs a person, red error, grey idle),
+   card kind (idea blue, research teal, finding violet, change orange, decision green), person (Samuel indigo, Dylan rose). */
 :root {
-  --bg: #faf9f7; --side: #f2f0ec; --panel: #ffffff; --fg: #1f1e1c; --muted: #75716b; --faint: #a6a19a;
-  --line: #e6e2dc; --hover: #e9e6e0; --accent: #c4673f; --accent-soft: #f6e7df;
-  --ok: #2f8a57; --warn: #b7791f; --warn-soft: #fbf0db; --bad: #c0392b; --bad-soft: #fbe4e1; --idle: #9a958e; --bubble: #efece6;
+  --bg: #faf9f7; --side: #f3f1ed; --panel: #ffffff; --fg: #1f1e1c; --muted: #6f6b65; --faint: #a19c95;
+  --line: #e6e2dc; --hover: #ebe8e2; --accent: #c4673f; --accent-soft: #f6e7df; --bubble: #efece6;
+  --ok: #2f8a57; --ok-soft: #e3f3ea; --warn: #b7791f; --warn-soft: #fbf0db; --bad: #c0392b; --bad-soft: #fbe4e1; --idle: #9a958e;
+  --k-idea: #2f6fd6; --k-research: #0f8b8d; --k-finding: #7a4fd6; --k-change: #c4673f; --k-decision: #2f8a57;
+  --p-samuel: #5b5bd6; --p-dylan: #d6487a;
   --serif: "Newsreader", Georgia, serif; --sans: "Inter", system-ui, -apple-system, sans-serif; --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) { :root {
-  --bg: #1d1d1b; --side: #171716; --panel: #262624; --fg: #ecebe8; --muted: #a29f99; --faint: #6f6c67;
-  --line: #33322f; --hover: #2c2b29; --accent: #dd8a64; --accent-soft: #3a2a22;
-  --ok: #5cc48d; --warn: #e5b45a; --warn-soft: #3a3020; --bad: #ef7c6d; --bad-soft: #3d221f; --idle: #7d7a75; --bubble: #30302d; color-scheme: dark } }
+  --bg: #1c1c1a; --side: #161615; --panel: #252523; --fg: #ecebe8; --muted: #a8a49e; --faint: #6f6c67;
+  --line: #33322f; --hover: #2c2b29; --accent: #e08c66; --accent-soft: #3a2a22; --bubble: #30302d;
+  --ok: #3fa36f; --ok-soft: #1c3326; --warn: #e5b45a; --warn-soft: #3a3020; --bad: #ef7c6d; --bad-soft: #3d221f; --idle: #7d7a75;
+  --k-idea: #6b9cf0; --k-research: #3cc0c2; --k-finding: #a98af0; --k-change: #e08c66; --k-decision: #5cc48d;
+  --p-samuel: #8f8ff0; --p-dylan: #f07aa5; color-scheme: dark } }
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
-body { background: var(--bg); color: var(--fg); font: 15px/1.6 var(--sans); }
+body { background: var(--bg); color: var(--fg); font: 15px/1.55 var(--sans); }
 button { font: inherit; cursor: pointer; color: inherit; }
-button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 #root { height: 100%; }
-.app { display: grid; grid-template-columns: 300px minmax(0, 1fr); height: 100vh; height: 100dvh; overflow: hidden; }
+.app { display: grid; grid-template-columns: 296px minmax(0, 1fr); height: 100vh; height: 100dvh; overflow: hidden; }
+/* sidebar */
 .side { background: var(--side); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
-.brand { display: flex; align-items: center; gap: 10px; padding: 16px 18px 4px; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 16px 18px 12px; }
 .brand b { font: 500 1.3rem var(--serif); letter-spacing: -.01em; }
-.who { margin-left: auto; font-size: .78rem; color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; }
-.clock { padding: 2px 18px 10px; font-size: .78rem; color: var(--muted); }
-.clock b { color: var(--fg); font-weight: 500; }
+.who { margin-left: auto; font-size: .78rem; color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; display: inline-flex; gap: 6px; align-items: center; }
 .list { overflow-y: auto; padding: 0 10px 16px; flex: 1; }
-.sec { font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); padding: 14px 10px 4px; font-weight: 600; display: flex; justify-content: space-between; }
-.item { width: 100%; display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; gap: 9px; align-items: start; text-align: left; background: none; border: 0; border-radius: 9px; padding: 7px 10px; }
+.sec { font-size: .67rem; text-transform: uppercase; letter-spacing: .09em; color: var(--faint); padding: 16px 10px 5px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+.item { width: 100%; display: grid; grid-template-columns: 14px minmax(0, 1fr) auto; gap: 9px; align-items: start; text-align: left; background: none; border: 0; border-radius: 9px; padding: 7px 10px; }
 .item:hover, .item.on { background: var(--hover); }
 .item .nm { font-weight: 500; font-size: .92rem; display: flex; gap: 6px; align-items: baseline; }
 .item .st { font-size: .72rem; color: var(--muted); font-weight: 400; }
 .item .ln { color: var(--muted); font-size: .78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.item.stale { opacity: .5; }
-.item.svc .nm { font-weight: 400; font-size: .86rem; }
-.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--idle); margin-top: 7px; }
+.item.stale, .item.off { opacity: .55; } .item.nav .nm { font-weight: 600; }
+.item.attn { box-shadow: inset 3px 0 0 var(--warn); }
+.ico { width: 14px; height: 14px; margin-top: 4px; color: var(--muted); }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--idle); margin: 7px 2px 0; }
 .dot.working, .dot.starting { background: var(--ok); animation: pulse 1.6s infinite; }
 .dot.waiting, .dot.blocked { background: var(--warn); } .dot.error, .dot.limited { background: var(--bad); }
-.dot.stopped, .dot.offline { background: transparent; border: 1.5px solid var(--idle); }
-.dot.done { background: var(--accent); } .dot.home { background: none; margin-top: 0; width: auto; height: auto; color: var(--muted); }
+.dot.stopped, .dot.offline { background: transparent; border: 1.5px dashed var(--idle); }
+.dot.done { background: var(--accent); }
 @keyframes pulse { 50% { opacity: .45; } }
 @media (prefers-reduced-motion: reduce) { .dot { animation: none !important; } }
+.pdot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+.pdot.samuel { background: var(--p-samuel); } .pdot.dylan { background: var(--p-dylan); }
 .pill { font-size: .66rem; font-weight: 600; border-radius: 999px; padding: 0 7px; background: var(--warn-soft); color: var(--warn); margin-top: 4px; white-space: nowrap; }
-.badge { background: var(--accent); color: #fff; border-radius: 999px; font-size: .66rem; padding: 0 6px; margin-top: 4px; font-weight: 600; }
-.needs { margin: 6px 10px 2px; border: 1px solid var(--warn); background: var(--warn-soft); border-radius: 12px; padding: 8px 10px 10px; max-height: 45vh; overflow-y: auto; flex: none; }
-.needs h3 { margin: 0 0 6px; font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--warn); }
-.need { font-size: .84rem; padding: 8px 0; border-top: 1px solid color-mix(in srgb, var(--warn) 25%, transparent); }
-.need:first-of-type { border-top: 0; }
-.need .who2 { font-weight: 600; } .need code { font: .74rem var(--mono); word-break: break-all; display: block; color: var(--muted); max-height: 3.2em; overflow: hidden; }
-.need .txt { overflow-wrap: anywhere; } .need .txt p { margin: 2px 0; }
-.need .acts { display: flex; gap: 5px; margin-top: 5px; flex-wrap: wrap; }
-.mini { border: 1px solid var(--line); background: var(--panel); border-radius: 7px; padding: 2px 9px; font-size: .76rem; }
-.mini.go { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-.mini:disabled { opacity: .4; cursor: default; }
+.badge { background: var(--accent); color: #fff; border-radius: 999px; font-size: .66rem; padding: 0 6px; margin-top: 4px; font-weight: 700; }
+.badge.warn { background: var(--warn); color: #1f1e1c; }
+.page h2 .badge { margin-top: 0; align-self: center; }
+/* main + header */
 .main { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
-.top { flex: none; display: flex; align-items: center; gap: 10px; padding: 12px 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.top { flex: none; display: flex; align-items: center; gap: 10px; padding: 11px 20px; border-bottom: 1px solid var(--line); flex-wrap: wrap; min-height: 54px; }
 .top h1 { font: 500 1.2rem var(--serif); margin: 0; }
-.lbl { font-size: .76rem; border-radius: 999px; padding: 1px 10px; background: var(--hover); color: var(--muted); white-space: nowrap; }
-.lbl.working { background: color-mix(in srgb, var(--ok) 15%, transparent); color: var(--ok); }
+.top .sp { flex: 1; }
+.lbl { font-size: .75rem; border-radius: 999px; padding: 1px 10px; background: var(--hover); color: var(--muted); white-space: nowrap; }
+.lbl.working { background: var(--ok-soft); color: var(--ok); }
 .lbl.waiting, .lbl.blocked { background: var(--warn-soft); color: var(--warn); }
 .lbl.error, .lbl.limited { background: var(--bad-soft); color: var(--bad); }
-.top .sp { flex: 1; }
+.count { display: inline-flex; flex-direction: column; align-items: flex-end; font-size: .74rem; color: var(--muted); line-height: 1.25; max-width: 340px; }
+.count b { font: 600 .95rem var(--mono); color: var(--fg); font-variant-numeric: tabular-nums; }
+.count b.soon { color: var(--warn); } .count b.now { color: var(--bad); }
+.count span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 340px; }
 .tbtn { background: none; border: 1px solid var(--line); border-radius: 8px; padding: 4px 11px; color: var(--muted); font-size: .82rem; }
 .tbtn:hover { color: var(--fg); border-color: var(--muted); }
+.tbtn.go { background: var(--fg); color: var(--bg); border-color: var(--fg); }
 .seg { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; font-size: .78rem; }
 .seg span { padding: 4px 4px 4px 10px; color: var(--muted); } .seg button { border: 0; background: none; padding: 4px 9px; color: var(--muted); }
 .seg button.on { background: var(--hover); color: var(--fg); font-weight: 500; }
@@ -81,28 +88,52 @@ button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 2px
 .bell svg { width: 16px; height: 16px; }
 .bell .n { position: absolute; top: -6px; right: -7px; background: var(--warn); color: #fff; border-radius: 999px; font-size: .64rem; font-weight: 700; padding: 0 5px; line-height: 1.5; }
 .bell.urgent .n { background: var(--bad); }
-.panel { position: fixed; top: 54px; right: 16px; width: min(400px, calc(100vw - 32px)); max-height: 72vh; overflow-y: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,.18); z-index: 30; padding: 6px 14px 10px; }
-.panel h3 { font: 600 .7rem var(--sans); text-transform: uppercase; letter-spacing: .08em; color: var(--faint); margin: 8px 0 4px; display: flex; justify-content: space-between; }
+.strip { flex: none; display: flex; align-items: baseline; gap: 12px; padding: 7px 20px; border-bottom: 1px solid var(--line); background: var(--panel); font-size: .86rem; flex-wrap: wrap; }
+.strip .t { font: 600 1.25rem var(--mono); font-variant-numeric: tabular-nums; }
+.strip .t.soon { color: var(--warn); } .strip .t.now { color: var(--bad); animation: pulse 1s infinite; }
+.strip .what { color: var(--fg); flex: 1; min-width: 200px; } .strip .ph { color: var(--muted); font-size: .76rem; white-space: nowrap; }
+.strip.none { color: var(--muted); }
+.linkbar { flex: none; background: var(--bad-soft); color: var(--bad); font-size: .84rem; padding: 7px 20px; border-bottom: 1px solid var(--line); }
+.scroll { flex: 1; overflow-y: auto; min-height: 0; }
+/* notifications */
+.panel { position: fixed; top: 56px; right: 16px; width: min(420px, calc(100vw - 32px)); max-height: 74vh; overflow-y: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,.18); z-index: 30; padding: 4px 14px 10px; }
+.panel h3 { font: 600 .68rem var(--sans); text-transform: uppercase; letter-spacing: .09em; color: var(--faint); margin: 10px 0 2px; display: flex; justify-content: space-between; }
 .panel h3 button { border: 0; background: none; color: var(--accent); font-size: .74rem; text-transform: none; letter-spacing: 0; }
 .panel .empty2 { color: var(--muted); font-size: .86rem; padding: 14px 0; text-align: center; }
-.toasts { position: fixed; top: 58px; right: 16px; display: flex; flex-direction: column; gap: 8px; z-index: 40; width: min(360px, calc(100vw - 32px)); pointer-events: none; }
+.need { font-size: .84rem; padding: 9px 0; border-top: 1px solid var(--line); }
+.need:first-of-type { border-top: 0; }
+.need .who2 { font-weight: 600; } .need code { font: .74rem var(--mono); word-break: break-all; display: block; color: var(--muted); max-height: 3.2em; overflow: hidden; margin-top: 2px; }
+.need .txt { overflow-wrap: anywhere; } .need .txt p { margin: 2px 0; }
+.acts { display: flex; gap: 6px; margin-top: 7px; flex-wrap: wrap; align-items: center; }
+.mini { border: 1px solid var(--line); background: var(--panel); border-radius: 7px; padding: 3px 10px; font-size: .78rem; }
+.mini:hover { border-color: var(--muted); }
+.mini.go { background: var(--ok); color: #fff; border-color: var(--ok); }
+.mini.no { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 40%, var(--line)); }
+.mini.dark { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.mini:disabled { opacity: .4; cursor: default; }
+.toasts { position: fixed; top: 60px; right: 16px; display: flex; flex-direction: column; gap: 8px; z-index: 40; width: min(380px, calc(100vw - 32px)); pointer-events: none; }
 .toast { pointer-events: auto; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--warn); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.18); padding: 9px 12px; font-size: .84rem; animation: tin .18s ease-out; }
-.toast.urgent { border-left-color: var(--bad); } .toast .x { float: right; border: 0; background: none; color: var(--faint); padding: 0 0 0 8px; }
+.toast.urgent { border-left-color: var(--bad); } .toast.card { border-left-color: var(--k-decision); }
+.toast .x { float: right; border: 0; background: none; color: var(--faint); padding: 0 0 0 8px; }
 .toast .txt { overflow-wrap: anywhere; max-height: 7.5em; overflow: hidden; } .toast .txt p { margin: 2px 0; }
 @keyframes tin { from { transform: translateY(-6px); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .toast { animation: none; } }
-.linkbar { flex: none; background: var(--bad-soft); color: var(--bad); font-size: .84rem; padding: 7px 22px; border-bottom: 1px solid var(--line); }
-.scroll { flex: 1; overflow-y: auto; min-height: 0; }
-.conv { max-width: 800px; margin: 0 auto; padding: 18px 22px 30px; display: flex; flex-direction: column; gap: 12px; }
-.pin { border: 1px solid var(--line); background: var(--panel); border-radius: 12px; }
-.pin summary { cursor: pointer; padding: 8px 14px; font-size: .82rem; color: var(--muted); list-style: none; }
-.pin summary::-webkit-details-marker { display: none; } .pin .body { padding: 0 16px 10px; }
+/* agent page */
+.conv { max-width: 820px; margin: 0 auto; padding: 18px 22px 30px; display: flex; flex-direction: column; gap: 12px; }
+.brief { border: 1px solid var(--line); background: var(--panel); border-radius: 14px; padding: 12px 16px; display: flex; flex-direction: column; gap: 6px; position: sticky; top: 8px; z-index: 2; box-shadow: 0 4px 16px rgba(0,0,0,.06); }
+.brief.need { border-color: var(--warn); }
+.brief .k2 { font-size: .66rem; text-transform: uppercase; letter-spacing: .09em; color: var(--faint); font-weight: 600; display: flex; justify-content: space-between; }
+.brief .body { font-size: .92rem; } .brief .body p { margin: 3px 0; } .brief .body ul { margin: 3px 0; padding-left: 20px; }
+.brief.clip .body { max-height: 13em; overflow: hidden; -webkit-mask-image: linear-gradient(#000 70%, transparent); mask-image: linear-gradient(#000 70%, transparent); }
+.brief .more { border: 0; background: none; color: var(--accent); font-size: .78rem; padding: 0; align-self: flex-start; }
+.divider { display: flex; align-items: center; gap: 10px; color: var(--faint); font-size: .7rem; text-transform: uppercase; letter-spacing: .09em; font-weight: 600; margin-top: 6px; }
+.divider::before, .divider::after { content: ""; height: 1px; background: var(--line); flex: 1; }
 .u { align-self: flex-end; background: var(--bubble); border-radius: 18px; padding: 8px 16px; max-width: 82%; white-space: pre-wrap; overflow-wrap: anywhere; }
 .u .by { display: block; font-size: .7rem; color: var(--muted); }
 .u.queued { opacity: .65; border: 1px dashed var(--muted); }
-.a { font: 1.04rem/1.65 var(--serif); overflow-wrap: anywhere; } .a p { margin: .45em 0; }
+.a { font: 1.03rem/1.62 var(--serif); overflow-wrap: anywhere; } .a p { margin: .45em 0; }
 .a.sub { font-size: .94rem; color: var(--muted); border-left: 2px solid var(--line); padding-left: 12px; }
-.md table { border-collapse: collapse; font: .86rem var(--sans); display: block; overflow-x: auto; }
+.md table { border-collapse: collapse; font: .85rem var(--sans); display: block; overflow-x: auto; }
 .md th, .md td { border: 1px solid var(--line); padding: 3px 8px; font-variant-numeric: tabular-nums; }
 .md code { font: .82em var(--mono); background: var(--hover); padding: 1px 5px; border-radius: 4px; }
 .md pre { background: var(--panel); border: 1px solid var(--line); padding: 10px 12px; border-radius: 10px; overflow-x: auto; font-size: .8rem; }
@@ -115,31 +146,62 @@ button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 2px
 .step.err { color: var(--bad); }
 .step .res { white-space: pre-wrap; max-height: 220px; overflow: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px; margin: 4px 0; }
 .msgl { font-size: .86rem; } .msgl > summary { cursor: pointer; list-style: none; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.msgl > summary::-webkit-details-marker { display: none; } .msgl b { color: var(--accent); font-weight: 600; }
-.msgl .k { font-size: .64rem; text-transform: uppercase; letter-spacing: .06em; border: 1px solid var(--line); border-radius: 5px; padding: 0 5px; margin: 0 6px; }
+.msgl > summary::-webkit-details-marker { display: none; } .msgl b { font-weight: 600; }
+.k { font-size: .62rem; text-transform: uppercase; letter-spacing: .07em; border: 1px solid var(--line); border-radius: 5px; padding: 0 5px; margin: 0 6px; color: var(--muted); }
 .msgl .body { border-left: 2px solid var(--accent-soft); padding: 2px 0 2px 12px; margin: 4px 0 0 4px; color: var(--fg); }
-.div { align-self: center; font-size: .72rem; color: var(--faint); }
+.div { align-self: center; font-size: .7rem; color: var(--faint); }
 .note { align-self: center; font-size: .76rem; color: var(--faint); text-align: center; }
+.note.card { color: var(--muted); }
 .err { color: var(--bad); font-size: .85rem; white-space: pre-wrap; }
-.empty { color: var(--muted); text-align: center; margin: 14vh auto 0; font: 1.15rem var(--serif); max-width: 46ch; }
-.comp { flex: none; padding: 0 22px 16px; }
-.box { max-width: 800px; margin: 0 auto; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 10px 12px 8px 16px; box-shadow: 0 1px 8px rgba(0,0,0,.04); }
+.empty { color: var(--muted); text-align: center; margin: 12vh auto 0; font: 1.12rem var(--serif); max-width: 46ch; }
+.comp { flex: none; padding: 0 22px 14px; }
+.quick { max-width: 820px; margin: 0 auto 6px; display: flex; gap: 6px; flex-wrap: wrap; }
+.quick button { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 2px 11px; font-size: .76rem; color: var(--muted); }
+.quick button:hover { color: var(--fg); border-color: var(--muted); }
+.box { max-width: 820px; margin: 0 auto; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 10px 12px 8px 16px; box-shadow: 0 1px 8px rgba(0,0,0,.04); }
 .box textarea { width: 100%; border: 0; resize: none; background: none; color: var(--fg); font: 15px/1.5 var(--sans); min-height: 26px; max-height: 220px; outline: none; }
 .box .row { display: flex; align-items: center; gap: 10px; } .box .hint { font-size: .74rem; color: var(--faint); flex: 1; } .box .hint.bad { color: var(--bad); }
 .send { width: 32px; height: 32px; border-radius: 9px; border: 0; background: var(--accent); color: #fff; font-size: 1rem; }
 .send:disabled { opacity: .35; cursor: default; }
-.home { max-width: 980px; margin: 0 auto; padding: 22px; display: flex; flex-direction: column; gap: 20px; }
-.home h2 { font: 500 1.05rem var(--serif); margin: 0 0 8px; }
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
-.card { text-align: left; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.card:hover { border-color: var(--muted); } .card.stale { opacity: .55; }
-.card .hd { display: flex; gap: 8px; align-items: center; } .card .hd b { font: 500 1.02rem var(--serif); } .card .hd .lbl { margin-left: auto; }
-.card .task { font-size: .86rem; } .card .last { font-size: .8rem; color: var(--muted); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
-.card .meta { font-size: .72rem; color: var(--faint); }
-.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+/* home */
+.page { max-width: 1000px; margin: 0 auto; padding: 20px 22px 40px; display: flex; flex-direction: column; gap: 22px; }
+.page h2 { font: 500 1.08rem var(--serif); margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
+.acard { text-align: left; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.acard:hover { border-color: var(--muted); } .acard.stale { opacity: .55; } .acard.attn { border-color: var(--warn); }
+.acard .hd { display: flex; gap: 8px; align-items: center; } .acard .hd b { font: 500 1.02rem var(--serif); } .acard .hd .lbl { margin-left: auto; }
+.acard .task { font-size: .86rem; } .acard .last { font-size: .8rem; color: var(--muted); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+.acard .last p { margin: 0; } .acard .meta { font-size: .72rem; color: var(--faint); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
 .fact { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; font-size: .88rem; }
-.fact .k2 { font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); font-weight: 600; }
-.fact input { font: inherit; width: 90px; padding: 3px 8px; border: 1px solid var(--line); border-radius: 7px; background: var(--bg); color: var(--fg); }
+.fact .k2 { font-size: .66rem; text-transform: uppercase; letter-spacing: .09em; color: var(--faint); font-weight: 600; }
+.fact input { font: inherit; width: 96px; padding: 3px 8px; border: 1px solid var(--line); border-radius: 7px; background: var(--bg); color: var(--fg); }
+/* decisions board */
+.pcard { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--kc, var(--line)); border-radius: 12px; padding: 11px 14px; display: flex; flex-direction: column; gap: 6px; }
+.pcard .hd { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.pcard .t { font: 600 .98rem var(--sans); }
+.kchip { font-size: .64rem; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; color: var(--kc); }
+.schip { font-size: .7rem; border-radius: 999px; padding: 0 8px; background: var(--hover); color: var(--muted); margin-left: auto; white-space: nowrap; }
+.schip.needs_call, .schip.revise { background: var(--warn-soft); color: var(--warn); font-weight: 600; }
+.schip.running, .schip.planned, .schip.new { background: color-mix(in srgb, var(--k-idea) 14%, transparent); color: var(--k-idea); }
+.schip.approved { background: var(--ok-soft); color: var(--ok); } .schip.rejected { background: var(--bad-soft); color: var(--bad); }
+.pcard .meta { font-size: .74rem; color: var(--faint); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.pcard .meta .dl { color: var(--warn); font-weight: 600; } .pcard .meta .dl.now { color: var(--bad); }
+.pcard .body { font-size: .9rem; } .pcard .body p { margin: 3px 0; }
+.pcard.clip .body { max-height: 9.5em; overflow: hidden; -webkit-mask-image: linear-gradient(#000 65%, transparent); mask-image: linear-gradient(#000 65%, transparent); }
+.thread { border-top: 1px solid var(--line); padding-top: 6px; display: flex; flex-direction: column; gap: 3px; font-size: .8rem; }
+.thread .tw b { font-weight: 600; } .thread .tw { color: var(--muted); } .thread .tw.h { color: var(--fg); }
+.reply { display: flex; gap: 6px; } .reply textarea, .newidea textarea, .newidea input, .newidea select { font: inherit; font-size: .88rem; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg); padding: 6px 9px; }
+.reply textarea { flex: 1; min-height: 34px; resize: vertical; }
+.newidea { background: var(--panel); border: 1px dashed var(--k-idea); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
+.newidea.closed textarea, .newidea.closed .row, .newidea.closed .hint { display: none; }
+.newidea input { width: 100%; } .newidea textarea { width: 100%; min-height: 64px; resize: vertical; }
+.newidea .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: .82rem; color: var(--muted); }
+.legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: .74rem; color: var(--muted); }
+.legend span::before { content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 5px; background: var(--kc); vertical-align: -1px; }
+.tabs { display: flex; gap: 4px; } .tabs button { border: 0; background: none; padding: 4px 10px; border-radius: 8px; color: var(--muted); font-size: .84rem; }
+.tabs button.on { background: var(--hover); color: var(--fg); font-weight: 500; }
+/* picker */
 .pick { min-height: 100%; display: flex; align-items: center; justify-content: center; padding: 56px 16px; }
 .pick .cardp { text-align: center; width: 100%; max-width: 460px; }
 .pick h1 { font: 400 2.1rem/1.2 var(--serif); margin: 0 0 8px; } .pick p { color: var(--muted); margin: 0 0 26px; }
@@ -149,11 +211,11 @@ button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 2px
 .pick small { display: block; font: .76rem var(--sans); color: var(--muted); margin-top: 6px; } .pick button.mine small { color: var(--accent); }
 .back { display: none; }
 @media (max-width: 760px) {
-  .app { grid-template-columns: 1fr; }
-  .app .side { display: none; }
+  .app { grid-template-columns: 1fr; } .app .side { display: none; }
   .app.menu-open .side { display: flex; position: fixed; inset: 0; z-index: 20; }
-  .back { display: inline-block; }
-  .pick .ps { grid-template-columns: 1fr; }
+  .back { display: inline-block; } .pick .ps { grid-template-columns: 1fr; } .count { display: none; }
+  .legend { display: none; } .tabs { overflow-x: auto; flex-wrap: nowrap; } .tabs button { white-space: nowrap; }
+  .strip .what { min-width: 0; }
 }
 </style>
 </head>
@@ -161,19 +223,30 @@ button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 2px
 <div id="root"></div>
 <script>
 "use strict";
-const S = { st: null, view: null, sel: "home", ev: {}, last: {}, unread: {}, sumOpen: {}, menu: false, bell: false, toasts: [], sending: false, hint: "", hintBad: false, pendingRender: false };
+const S = { st: null, view: null, sel: "home", ev: {}, last: {}, unread: {}, briefOpen: {}, open: {}, menu: false, bell: false, toasts: [], toastHtml: "",
+  sending: false, hint: "", hintBad: false, pendingRender: false, boardTab: "open", replyFor: null, ideaOpen: false };
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const md = (t) => { try { if (!window.marked || !window.DOMPurify) return "<p>" + esc(t) + "</p>"; return DOMPurify.sanitize(marked.parse(String(t || "")), { FORBID_TAGS: ["img", "style", "form", "input", "iframe", "video", "audio"], FORBID_ATTR: ["style"] }); } catch (e) { return "<p>" + esc(t) + "</p>"; } };
 const api = async (p, body) => { let r; try { r = await fetch(p, body === undefined ? {} : { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }); } catch (e) { return { error: "The hub isn't answering. Is its terminal window still open?" }; } let j = {}; try { j = await r.json(); } catch (e) {} if (!r.ok && !j.error) j.error = "The hub didn't answer (" + r.status + ")."; return j; };
-const hhmm = (t) => new Date(t * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+const hhmm = (t) => new Date(t * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
 const ago = (t) => { if (!t) return ""; const s = Math.max(0, Date.now() / 1000 - t); return s < 60 ? "just now" : s < 3600 ? Math.round(s / 60) + " min ago" : Math.round(s / 3600) + " h ago"; };
+const mmss = (sec) => { sec = Math.max(0, Math.round(sec)); const m = Math.floor(sec / 60), s = sec % 60; return m >= 60 ? Math.floor(m / 60) + "h " + (m % 60) + "m" : m + ":" + String(s).padStart(2, "0"); };
 const isOv = (n) => /overseer$/.test(n || "");
 const local = (n) => S.st.agents.some((a) => a.name === n);
 const svc = (n) => S.st.services.find((s) => s.name === n);
 const agentByName = (n) => S.st.agents.find((a) => a.name === n) || svc(n) || S.st.remote.find((a) => a.name === n);
 const clean = (t) => String(t || "").replace(" (hub)", "");
-const titleOf = (n) => { if (n === "hub") return "Hub"; if (Object.values(S.st.people).includes(n)) return n; const a = agentByName(n); if (!a) return n; const rp = !local(n) && !svc(n) && a.person && a.person !== S.view ? ` (${S.st.people[a.person] || ""})` : ""; return clean(a.title || n) + rp; };
+const personOf = (n) => n && n.startsWith("s-") ? "samuel" : n && n.startsWith("d-") ? "dylan" : Object.keys(S.st.people).find((k) => S.st.people[k] === n) || "";
+const titleOf = (n) => { if (!n) return ""; if (n === "hub") return "Hub"; if (Object.values(S.st.people).includes(n)) return n; const a = agentByName(n); const p = personOf(n); const base = a ? clean(a.title || n) : n; return p && p !== S.st.me ? `${base} (${S.st.people[p]})` : base; };
+const pdot = (n) => { const p = personOf(n); return p ? `<span class="pdot ${p}" title="${esc(S.st.people[p])}"></span>` : ""; };
+const KIND = { idea: "Idea", research: "Research", finding: "Finding", change: "Proposed change", decision: "Live-bot decision" };
+const STATUS = { new: "New", planned: "Planned", running: "Running", needs_call: "Needs your call", revise: "Being revised", approved: "Greenlit", rejected: "Rejected", done: "Done", expired: "Expired: default applied", blocked: "Blocked" };
+const ICON = {
+  home: `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>`,
+  board: `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
+  bell: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>`,
+};
 function label(a) {
   if (!a) return ["", ""];
   if (a.stale) return ["Offline", "offline"];
@@ -188,7 +261,10 @@ function label(a) {
   if (st === "done") return ["Done", "done"];
   return ["Ready", "idle"];
 }
-const needs = () => S.st.approvals.map((x) => ({ type: "ap", ...x })).concat(S.st.alerts.map((x) => ({ type: "al", ...x }))).sort((a, b) => a.at - b.at);
+const props = () => S.st.props || [];
+const myCall = (p) => !p.decider || p.decider === S.st.me || p.decider === "both";
+const needCall = () => props().filter((p) => p.status === "needs_call" && myCall(p));
+const needs = () => S.st.approvals.map((x) => ({ type: "ap", ...x })).concat(S.st.alerts.map((x) => ({ type: "al", ...x }))).concat(needCall().map((p) => ({ type: "pc", agent: p.author, at: p.updated, urgent: !!p.deadline, ...p }))).sort((a, b) => (a.deadline || 9e12) - (b.deadline || 9e12) || a.at - b.at);
 const myAgents = () => S.view === S.st.me ? S.st.agents : S.st.remote.filter((a) => a.person === S.view && !a.service);
 const otherAgents = () => S.view === S.st.me ? S.st.remote.filter((a) => !a.service) : S.st.agents;
 const otherName = () => Object.keys(S.st.people).filter((p) => p !== S.view).map((p) => S.st.people[p]).join(", ");
@@ -199,74 +275,137 @@ async function load() {
   try { S.view = localStorage.getItem("hub-view"); const s = localStorage.getItem("hub-sel"); if (s) S.sel = s; } catch (e) {}
   const h = location.hash.slice(1); if (S.st.people[h]) S.view = h;
   if (!S.view || !S.st.people[S.view]) return renderPicker();
-  if (S.sel !== "home" && !agentByName(S.sel)) S.sel = "home";
+  if (!["home", "board"].includes(S.sel) && !agentByName(S.sel)) S.sel = "home";
   render(); S.st.agents.forEach((a) => loadEvents(a.name)); stream();
 }
 function renderPicker() {
   $("#root").innerHTML = `<div class="pick"><div class="cardp"><h1>Avalon</h1><p>Who's at this laptop?</p><div class="ps">${
-    Object.entries(S.st.people).map(([k, v]) => `<button data-p="${esc(k)}" class="${k === S.st.me ? "mine" : ""}">${esc(v)}<small>${k === S.st.me ? "This laptop · your agents" : "Their agents"}</small></button>`).join("")}</div></div></div>`;
+    Object.entries(S.st.people).map(([k, v]) => `<button data-p="${esc(k)}" class="${k === S.st.me ? "mine" : ""}"><span class="pdot ${esc(k)}"></span> ${esc(v)}<small>${k === S.st.me ? "This laptop · your agents" : "Their agents"}</small></button>`).join("")}</div></div></div>`;
   document.querySelectorAll("[data-p]").forEach((b) => b.onclick = () => { S.view = b.dataset.p; try { localStorage.setItem("hub-view", S.view); } catch (e) {} S.sel = "home"; render(); S.st.agents.forEach((a) => loadEvents(a.name)); stream(); });
 }
 
-function needHtml(x, compact) {
-  if (x.type === "ap") return `<div class="need"><span class="who2">${esc(titleOf(x.agent))}</span> wants to run ${esc(x.tool)}${x.risky ? " <b style='color:var(--bad)'>(risky)</b>" : ""}<code>${esc(x.input)}</code><div class="acts"><button class="mini go" data-ap="${esc(x.id)}" data-d="allow">Allow</button>${x.risky ? "" : `<button class="mini" data-ap="${esc(x.id)}" data-d="always">Always for this agent</button>`}<button class="mini" data-ap="${esc(x.id)}" data-d="deny">Deny</button></div></div>`;
-  return `<div class="need"><span class="who2">${esc(titleOf(x.agent))}</span> · ${hhmm(x.at)}${x.urgent ? " · <b style='color:var(--bad)'>urgent</b>" : ""}<div class="txt md">${md(x.text)}</div>${compact ? "" : `<div class="acts"><button class="mini" data-dis="${esc(x.id)}">Done</button>${local(x.agent) ? `<button class="mini" data-sel="${esc(x.agent)}">Open ${esc(titleOf(x.agent))}</button>` : ""}</div>`}</div>`;
-}
-function bellHtml() {
-  const nd = needs(); const urgent = nd.some((x) => x.urgent || x.type === "ap");
-  const svg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>`;
-  return `<button class="bell ${nd.length ? "has" : ""} ${urgent ? "urgent" : ""}" id="bell" aria-label="Notifications">${svg}${nd.length ? `<span class="n">${nd.length}</span>` : ""}</button>`;
-}
-function panelHtml() {
-  if (!S.bell) return "";
-  const nd = needs().slice().reverse();
-  return `<div class="panel" id="panel"><h3><span>Needs you · ${nd.length}</span>${nd.some((x) => x.type === "al") ? `<button id="clearAll">Clear all notes</button>` : ""}</h3>${nd.map((x) => needHtml(x, false)).join("") || `<div class="empty2">Nothing needs you right now.</div>`}</div>`;
-}
-function renderToasts() {
-  let box = document.getElementById("toasts");
-  if (!box) { box = document.createElement("div"); box.id = "toasts"; box.className = "toasts"; document.body.appendChild(box); }
-  const now = Date.now();
-  S.toasts = S.toasts.filter((t) => t.until > now && (t.type === "ap" ? S.st.approvals.some((a) => a.id === t.id) : S.st.alerts.some((a) => a.id === t.id)));
-  const html = S.bell ? "" : S.toasts.map((t) => `<div class="toast ${t.urgent || t.type === "ap" ? "urgent" : ""}"><button class="x" data-tx="${esc(t.id)}" aria-label="Hide">✕</button>${needHtml(t, t.type !== "ap")}</div>`).join("");
-  if (html === S.toastHtml) return;
-  S.toastHtml = html; box.innerHTML = html;
-  box.querySelectorAll("[data-tx]").forEach((b) => b.onclick = () => { S.toasts = S.toasts.filter((t) => t.id !== b.dataset.tx); renderToasts(); });
-  box.querySelectorAll("[data-ap]").forEach((b) => b.onclick = () => answer(b));
-  box.querySelectorAll(".toast .need").forEach((el, i) => { const t = S.toasts[i]; if (t && t.type !== "ap") { el.style.cursor = "pointer"; el.onclick = () => { S.bell = true; S.toasts = []; render(); }; } });
-}
-function toast(x) { S.toasts.push({ ...x, until: Date.now() + (x.type === "ap" ? 180000 : x.urgent ? 30000 : 9000) }); S.toasts = S.toasts.slice(-4); renderToasts(); setTimeout(renderToasts, x.type === "ap" ? 180500 : x.urgent ? 30500 : 9500); }
-async function answer(b) { b.parentElement.querySelectorAll("button").forEach((x) => x.disabled = true); const r = await api(`/api/approvals/${b.dataset.ap}`, { decision: b.dataset.d }); S.st.approvals = S.st.approvals.filter((x) => x.id !== b.dataset.ap); render(); renderToasts(); }
+// ------------------------------------------------------------------ sidebar
 function sidebar() {
   const mine = myAgents(), other = otherAgents();
   const ov = mine.filter((a) => isOv(a.name)), wk = mine.filter((a) => !isOv(a.name));
   const nd = needs();
   const row = (a, cls = "") => { const [l, c] = label(a); const n = nd.filter((x) => x.agent === a.name).length; const u = S.unread[a.name];
-    return `<button class="item ${cls} ${a.stale ? "stale" : ""} ${S.sel === a.name ? "on" : ""}" data-sel="${esc(a.name)}"><span class="dot ${esc(c)}"></span><span style="min-width:0"><div class="nm">${esc(clean(a.title || a.name))}<span class="st">${esc(l)}</span></div><div class="ln">${esc(a.task || (c === "stopped" ? "Not started" : "No task yet"))}</div></span>${n ? `<span class="pill">needs you</span>` : u ? `<span class="badge">${u}</span>` : ""}</button>`; };
+    return `<button class="item ${cls} ${a.stale ? "stale" : ""} ${c === "stopped" ? "off" : ""} ${n ? "attn" : ""} ${S.sel === a.name ? "on" : ""}" data-sel="${esc(a.name)}"><span class="dot ${esc(c)}"></span><span style="min-width:0"><div class="nm">${esc(clean(a.title || a.name))}<span class="st">${esc(l)}</span></div><div class="ln">${esc(a.task || (c === "stopped" ? "Not started" : "No task yet"))}</div></span>${n ? `<span class="pill">needs you</span>` : u ? `<span class="badge">${u}</span>` : ""}</button>`; };
+  const nc = needCall().length;
   const services = S.view === S.st.me ? S.st.services : [];
-  return `<div class="side"><div class="brand"><b>Avalon</b><button class="who" id="who">${esc(S.st.people[S.view])} ▾</button></div>
-    <div class="clock">${S.st.schedule ? `<b>${esc(S.st.clock)}</b>` : `No schedule yet · <a href="#" id="setsch" style="color:var(--accent)">set it on Home</a>`}</div>
-    <div class="list"><button class="item ${S.sel === "home" ? "on" : ""}" data-sel="home"><span></span><span><div class="nm">⌂ Home</div><div class="ln">Everything at a glance</div></span></button>
-      <div class="sec"><span>${S.view === S.st.me ? "Your agents" : esc(S.st.people[S.view]) + "'s agents"}</span></div>${ov.map((a) => row(a)).join("")}${wk.map((a) => row(a)).join("")}
-      ${services.length ? `<div class="sec"><span>Hub services</span></div>${services.map((s) => row(s, "svc")).join("")}` : ""}
-      ${other.length ? `<div class="sec"><span>${esc(otherName())}'s side</span><span>${S.st.bus.online ? "linked" : "not linked"}</span></div>${other.map((a) => row(a)).join("")}` : ""}
+  return `<div class="side"><div class="brand"><b>Avalon</b><button class="who" id="who"><span class="pdot ${esc(S.view)}"></span>${esc(S.st.people[S.view])} ▾</button></div>
+    <div class="list">
+      <button class="item nav ${S.sel === "home" ? "on" : ""}" data-sel="home">${ICON.home}<span><div class="nm">Home</div><div class="ln">Everything at a glance</div></span></button>
+      <button class="item nav ${S.sel === "board" ? "on" : ""}" data-sel="board">${ICON.board}<span><div class="nm">Decisions</div><div class="ln">${nc ? nc + " need your call" : "Ideas, findings, changes"}</div></span>${nc ? `<span class="badge warn">${nc}</span>` : ""}</button>
+      <div class="sec"><span><span class="pdot ${esc(S.view)}"></span> ${S.view === S.st.me ? "Your agents" : esc(S.st.people[S.view]) + "'s agents"}</span></div>${ov.map((a) => row(a)).join("")}${wk.map((a) => row(a)).join("")}
+      ${services.length ? `<div class="sec"><span>Hub services</span></div>${services.map((s) => row(s)).join("")}` : ""}
+      ${other.length ? `<div class="sec"><span><span class="pdot ${esc(Object.keys(S.st.people).find((p) => p !== S.view))}"></span> ${esc(otherName())}'s side</span><span>${S.st.bus.online ? "linked" : "not linked"}</span></div>${other.map((a) => row(a)).join("")}` : ""}
     </div></div>`;
 }
 
+// ------------------------------------------------------------------ header widgets
+function countdownHtml() {
+  const ns = S.st.next_step; if (!ns) return S.st.schedule ? "" : `<span class="count"><span>No clock set</span></span>`;
+  const left = ns[0] - Date.now() / 1000;
+  return `<span class="count" title="${esc(ns[1])}"><b class="${left < 60 ? "now" : left < 180 ? "soon" : ""}" id="cdn" data-at="${ns[0]}">${mmss(left)}</b><span>${esc(ns[1].replace(/^Scored (\d) /, "Round $1 · ").slice(0, 70))}</span></span>`;
+}
+function stripHtml() {
+  const ns = S.st.next_step, sch = S.st.schedule;
+  if (!sch) return `<div class="strip none">No clock set. Set minute 0 on Home, or tell your Overseer ("the variant was announced at 14:02").</div>`;
+  if (!ns) return `<div class="strip none">The event is over.</div>`;
+  const left = ns[0] - Date.now() / 1000;
+  const mins = (Date.now() / 1000 - sch.start) / (60 * (sch.scale || 1));
+  return `<div class="strip"><span class="t ${left < 60 ? "now" : left < 180 ? "soon" : ""}" id="cdn2" data-at="${ns[0]}">${mmss(left)}</span><span class="what">until <b>${esc(ns[1])}</b> · ${hhmm(ns[0])}</span><span class="ph">${mins < 0 ? "before the event" : mins < 60 ? "build hour · minute " + Math.floor(mins) : "event minute " + Math.floor(mins)}${sch.scale && sch.scale < 1 ? " · simulation ×" + Math.round(1 / sch.scale) : ""}</span></div>`;
+}
+function bellHtml() {
+  const nd = needs(); const urgent = nd.some((x) => x.urgent || x.type === "ap");
+  return `<button class="bell ${nd.length ? "has" : ""} ${urgent ? "urgent" : ""}" id="bell" aria-label="Notifications">${ICON.bell}${nd.length ? `<span class="n">${nd.length}</span>` : ""}</button>`;
+}
+function needHtml(x, compact) {
+  if (x.type === "ap") return `<div class="need"><span class="who2">${pdot(x.agent)} ${esc(titleOf(x.agent))}</span> wants to run ${esc(x.tool)}${x.risky ? " <b style='color:var(--bad)'>(risky)</b>" : ""}<code>${esc(x.input)}</code><div class="acts"><button class="mini go" data-ap="${esc(x.id)}" data-d="allow">Allow</button>${x.risky ? "" : `<button class="mini" data-ap="${esc(x.id)}" data-d="always">Always for this agent</button>`}<button class="mini no" data-ap="${esc(x.id)}" data-d="deny">Deny</button></div></div>`;
+  if (x.type === "pc") return `<div class="need"><span class="kchip" style="--kc:var(--k-${esc(x.kind)})">${esc(KIND[x.kind] || x.kind)}</span> <span class="who2">${esc(x.title)}</span><div style="color:var(--muted);font-size:.78rem">${pdot(x.author)} ${esc(titleOf(x.author))}${x.deadline ? ` · decide by ${hhmm(x.deadline)}` : ""}</div><div class="acts"><button class="mini go" data-pa="approve" data-pid="${esc(x.id)}">Greenlight</button><button class="mini no" data-pa="reject" data-pid="${esc(x.id)}">Reject</button><button class="mini" data-open-card="${esc(x.id)}">Open</button></div></div>`;
+  return `<div class="need"><span class="who2">${pdot(x.agent)} ${esc(titleOf(x.agent))}</span> · ${hhmm(x.at)}${x.urgent ? " · <b style='color:var(--bad)'>urgent</b>" : ""}<div class="txt md">${md(x.text)}</div>${compact ? "" : `<div class="acts"><button class="mini" data-dis="${esc(x.id)}">Done</button>${local(x.agent) ? `<button class="mini" data-sel="${esc(x.agent)}">Open ${esc(titleOf(x.agent))}</button>` : ""}</div>`}</div>`;
+}
+function panelHtml() {
+  if (!S.bell) return "";
+  const nd = needs().slice().reverse();
+  const groups = [["Waiting for your call", nd.filter((x) => x.type === "pc")], ["Permission requests", nd.filter((x) => x.type === "ap")], ["Notes from your agents", nd.filter((x) => x.type === "al")]];
+  return `<div class="panel" id="panel">${groups.filter((g) => g[1].length).map(([t, xs]) => `<h3><span>${t} · ${xs.length}</span>${t.startsWith("Notes") ? `<button id="clearAll">Clear notes</button>` : ""}</h3>${xs.map((x) => needHtml(x, false)).join("")}`).join("") || `<div class="empty2">Nothing needs you right now.</div>`}</div>`;
+}
+function renderToasts() {
+  let box = document.getElementById("toasts");
+  if (!box) { box = document.createElement("div"); box.id = "toasts"; box.className = "toasts"; document.body.appendChild(box); }
+  const now = Date.now();
+  S.toasts = S.toasts.filter((t) => t.until > now && (t.type === "ap" ? S.st.approvals.some((a) => a.id === t.id) : t.type === "pc" ? needCall().some((p) => p.id === t.id) : S.st.alerts.some((a) => a.id === t.id)));
+  const html = S.bell ? "" : S.toasts.map((t) => `<div class="toast ${t.type === "pc" ? "card" : t.urgent || t.type === "ap" ? "urgent" : ""}"><button class="x" data-tx="${esc(t.id)}" aria-label="Hide">✕</button>${needHtml(t, t.type === "al")}</div>`).join("");
+  if (html === S.toastHtml) return;
+  S.toastHtml = html; box.innerHTML = html;
+  box.querySelectorAll("[data-tx]").forEach((b) => b.onclick = () => { S.toasts = S.toasts.filter((t) => t.id !== b.dataset.tx); renderToasts(); });
+  wireActions(box);
+}
+function toast(x) { S.toasts.push({ ...x, until: Date.now() + (x.type === "ap" ? 180000 : x.type === "pc" ? 60000 : x.urgent ? 30000 : 9000) }); S.toasts = S.toasts.slice(-4); renderToasts(); setTimeout(renderToasts, x.type === "ap" ? 180500 : x.type === "pc" ? 60500 : x.urgent ? 30500 : 9500); }
+
+// ------------------------------------------------------------------ Home
+function agentCard(a) {
+  const [l, c] = label(a); const attn = needs().some((x) => x.agent === a.name);
+  const sum = a.summary && !/\|\s*#\s*\|[^\n]*\n\|[-| ]+\|\s*(\n\s*)*(\n\nActive|$)/.test(a.summary) ? String(a.summary).split("\n").filter((x) => x.trim()).slice(0, 3).join("\n") : "";
+  const evs = S.ev[a.name] || []; const lastTool = [...evs].reverse().find((e) => e.type === "tool");
+  const task = a.task ? a.task + (a.state === "idle" && a.idle_since && Date.now() / 1000 - a.idle_since > 120 ? ` (idle since ${hhmm(a.idle_since)})` : "") : (a.state === "working" && lastTool ? "Running " + toolName(lastTool.name) + "…" : "No task yet");
+  return `<button class="acard ${a.stale ? "stale" : ""} ${attn ? "attn" : ""}" data-sel="${esc(a.name)}"><div class="hd"><span class="dot ${esc(c)}" style="margin:0"></span><b>${esc(clean(a.title || a.name))}</b>${pdot(a.name)}<span class="lbl ${esc(c)}">${esc(l)}</span></div><div class="task">${esc(task)}</div>${sum ? `<div class="last md">${md(sum)}</div>` : ""}<div class="meta">${[attn ? "<b style='color:var(--warn)'>needs you</b>" : "", a.seen ? "updated " + ago(a.seen) : a.updated ? "updated " + ago(a.updated) : ""].filter(Boolean).join(" · ")}</div></button>`;
+}
 function homeHtml() {
-  const card = (a) => { const [l, c] = label(a); const evs = S.ev[a.name] || []; const lastText = [...evs].reverse().find((e) => e.type === "text" && !e.sub);
-    return `<button class="card ${a.stale ? "stale" : ""}" data-sel="${esc(a.name)}"><div class="hd"><span class="dot ${esc(c)}" style="margin:0"></span><b>${esc(clean(a.title || a.name))}</b><span class="lbl ${esc(c)}">${esc(l)}</span></div><div class="task">${esc(a.task || "No task yet")}</div>${lastText ? `<div class="last">${esc(lastText.text.slice(0, 240))}</div>` : ""}<div class="meta">${lastText ? "last reply " + ago(lastText.t) : a.seen ? "updated " + ago(a.seen) : a.updated ? "updated " + ago(a.updated) : ""}</div></button>`; };
-  const live = S.st.live, sch = S.st.schedule;
-  return `<div class="home">
+  const live = S.st.live, sch = S.st.schedule; const nc = needCall();
+  const running = props().filter((p) => ["new", "planned", "running"].includes(p.status));
+  return `<div class="page">
     <div class="facts">
-      <div class="fact"><div class="k2">Clock</div>${sch ? esc(S.st.clock) + `<div style="color:var(--faint);font-size:.76rem;margin-bottom:4px">minute 0: ${hhmm(sch.start)}</div>` : `Set minute 0 (the variant announcement):<br>`}<input id="schin" placeholder="HH:MM" aria-label="Minute 0 (HH:MM)"> <button class="mini go" id="schgo">${sch ? "Change" : "Set"}</button></div>
+      <div class="fact"><div class="k2">Clock</div>${sch ? `Minute 0 was ${hhmm(sch.start)}${sch.scale && sch.scale < 1 ? ` · simulation ×${Math.round(1 / sch.scale)}` : ""}<div style="color:var(--faint);font-size:.76rem;margin-bottom:4px">Change it here, or tell your Overseer a time.</div>` : `Set minute 0 (the variant announcement):<br>`}<input id="schin" placeholder="HH:MM" aria-label="Minute 0"> <button class="mini dark" id="schgo">${sch ? "Change" : "Set"}</button></div>
       <div class="fact"><div class="k2">Live bot</div>${live ? esc(live.filename) + (live.note ? " · " + esc(live.note) : "") + `<div style="color:var(--faint);font-size:.76rem">declared by Dylan's Overseer ${ago(live.at)}</div>` : "Not declared yet"}</div>
+      <div class="fact"><div class="k2">Decisions</div>${nc.length ? `<b style="color:var(--warn)">${nc.length} need your call</b>` : "Nothing waiting"}${running.length ? ` · ${running.length} idea/research running` : ""}<div><button class="mini" data-sel="board" style="margin-top:4px">Open the board</button></div></div>
       <div class="fact"><div class="k2">Link to ${esc(otherName())}'s laptop</div>${S.st.bus.online ? "Connected" : `<span style="color:var(--bad)">${esc(S.st.bus.error || "Down")}</span>`}${S.st.bus.outbox ? ` · ${S.st.bus.outbox} waiting to send` : ""}</div>
     </div>
-    <div><h2>${S.view === S.st.me ? "Your agents" : esc(S.st.people[S.view]) + "'s agents"}</h2><div class="cards">${myAgents().map(card).join("") || `<div class="note">None yet.</div>`}</div></div>
-    ${S.view === S.st.me && S.st.services.length ? `<div><h2>Hub services</h2><div class="cards">${S.st.services.map(card).join("")}</div></div>` : ""}
-    ${otherAgents().length ? `<div><h2>${esc(otherName())}'s side</h2><div class="cards">${otherAgents().map(card).join("")}</div></div>` : ""}
+    <div><h2><span class="pdot ${esc(S.view)}"></span>${S.view === S.st.me ? "Your agents" : esc(S.st.people[S.view]) + "'s agents"}</h2><div class="cards">${myAgents().map(agentCard).join("") || `<div class="note">None yet.</div>`}</div></div>
+    ${S.view === S.st.me && S.st.services.filter((x) => !/clock$/.test(x.name)).length ? `<div><h2>Hub services</h2><div class="cards">${S.st.services.filter((x) => !/clock$/.test(x.name)).map(agentCard).join("")}</div></div>` : ""}
+    ${otherAgents().length ? `<div><h2><span class="pdot ${esc(Object.keys(S.st.people).find((p) => p !== S.view))}"></span>${esc(otherName())}'s side</h2><div class="cards">${otherAgents().map(agentCard).join("")}</div></div>` : ""}
   </div>`;
 }
+
+// ------------------------------------------------------------------ Decisions board
+function pcardHtml(p) {
+  const kc = `--kc:var(--k-${esc(p.kind)})`;
+  const open = S.open[p.id], long = String(p.body || "").length > 420;
+  const left = p.deadline ? p.deadline - Date.now() / 1000 : null;
+  const open2 = ["needs_call", "revise"].includes(p.status), isIdea = p.kind === "idea";
+  const canAct = open2 && myCall(p);
+  const thread = (p.thread || []).map((t) => `<div class="tw ${Object.values(S.st.people).includes(t.who) ? "h" : ""}"><b>${esc(t.who)}</b> · ${hhmm(t.at)}${t.action && !["note", "comment"].includes(t.action) ? ` · ${esc(STATUS[t.action] || t.action)}` : ""}: ${esc(t.text || "")}</div>`).join("");
+  const parent = p.parent ? props().find((x) => x.id === p.parent) : null;
+  return `<div class="pcard ${long && !open && !canAct ? "clip" : ""}" id="card-${esc(p.id)}" style="${kc}" title="#${esc(p.id)}">
+    <div class="hd"><span class="kchip">${esc(KIND[p.kind] || p.kind)}</span><span class="t">${esc(p.title)}</span><span class="schip ${esc(p.status)}">${esc(STATUS[p.status] || p.status)}</span></div>
+    <div class="meta">${pdot(p.author)} ${esc(titleOf(p.author))}${p.owner && p.owner !== p.author ? ` → ${pdot(p.owner)} ${esc(titleOf(p.owner))}` : ""} · ${ago(p.created)}${left !== null && canAct ? ` · <span class="dl ${left < 120 ? "now" : ""}">decide within ${mmss(left)}</span>` : ""}${open2 && !myCall(p) ? ` · <b>${esc(S.st.people[p.decider] || "")}'s call</b> (FYI)` : ""}${open2 && p.decider === "both" ? " · <b>either of you</b> can decide" : ""}${parent ? ` · answers <a href="#" data-open-card="${esc(parent.id)}" title="${esc(parent.title)}" style="color:var(--accent);display:inline-block;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;vertical-align:bottom">${esc(parent.title)}</a>` : ""}</div>
+    ${p.body ? `<div class="body md">${md(p.body)}</div>${long && !canAct ? `<button class="more" data-toggle-card="${esc(p.id)}" style="border:0;background:none;color:var(--accent);font-size:.78rem;padding:0;align-self:flex-start">${open ? "Show less" : "Show all"}</button>` : ""}` : ""}
+    ${thread ? `<div class="thread">${thread}</div>` : ""}
+    ${S.replyFor === p.id ? `<div class="reply"><textarea id="replyTxt" placeholder="${canAct ? "What should they do instead? (sent to the agent)" : "Comment or question (sent to the agent)"}"></textarea><button class="mini dark" data-pa="comment" data-pid="${esc(p.id)}">Send</button><button class="mini" data-cancel-reply>Cancel</button></div>`
+      : `<div class="acts">${canAct ? `<button class="mini go" data-pa="approve" data-pid="${esc(p.id)}">Greenlight → ${esc(titleOf(p.author))}</button><button class="mini no" data-pa="reject" data-pid="${esc(p.id)}">Reject</button><button class="mini" data-reply="${esc(p.id)}">Suggest instead…</button>`
+        : `<button class="mini" data-reply="${esc(p.id)}">${isIdea ? "Add detail…" : "Comment or ask…"}</button>${["new", "planned", "running", "blocked"].includes(p.status) ? `<button class="mini" data-pa="close" data-pid="${esc(p.id)}">Close</button>` : ""}`}</div>`}
+  </div>`;
+}
+function boardHtml() {
+  const ps = props();
+  const call = ps.filter((p) => ["needs_call", "revise"].includes(p.status)).sort((a, b) => (myCall(b) - myCall(a)) || (a.deadline || 9e12) - (b.deadline || 9e12));
+  const prog = ps.filter((p) => ["new", "planned", "running", "blocked"].includes(p.status));
+  const findings = ps.filter((p) => p.kind === "finding" && p.status === "done").slice(0, 30);
+  const decided = ps.filter((p) => ["approved", "rejected", "expired"].includes(p.status) || (p.status === "done" && p.kind !== "finding")).slice(0, 30);
+  const tab = S.boardTab;
+  const idea = `<div class="newidea ${S.ideaOpen ? "" : "closed"}"><input id="ideaTitle" placeholder="New idea or research question, e.g. &quot;Does Pressure Point fold to flop raises after a check?&quot;" maxlength="160"><textarea id="ideaBody" placeholder="Details, what you'd like checked, and what would change your mind (optional)"></textarea><div class="row">Send to <select id="ideaFor">${Object.entries(S.st.people).map(([k, v]) => `<option value="${esc(k)}" ${k === S.st.me ? "selected" : ""}>${esc(v)}'s Overseer</option>`).join("")}</select><span style="flex:1"></span><button class="mini dark" id="ideaGo">Post idea</button></div><div class="hint" id="ideaHint" style="font-size:.76rem;color:var(--faint)">Your Overseer plans it, runs it, and posts the result here.</div></div>`;
+  const legend = `<div class="legend">${Object.entries(KIND).map(([k, v]) => `<span style="--kc:var(--k-${k})">${v}</span>`).join("")}</div>`;
+  const list = (xs, empty) => xs.length ? `<div style="display:flex;flex-direction:column;gap:10px">${xs.map(pcardHtml).join("")}</div>` : `<div class="note" style="align-self:flex-start">${empty}</div>`;
+  return `<div class="page">
+    <div><h2>Needs a call ${call.length ? `<span class="badge warn">${call.length}</span>` : ""}</h2>${list(call, "Nothing waiting. Changes and live-bot decisions appear here for a greenlight.")}</div>
+    ${idea}
+    <div><div class="tabs"><button class="${tab === "open" ? "on" : ""}" data-tab="open">In progress (${prog.length})</button><button class="${tab === "findings" ? "on" : ""}" data-tab="findings">Findings (${findings.length})</button><button class="${tab === "decided" ? "on" : ""}" data-tab="decided">Decided (${decided.length})</button><span style="flex:1"></span>${legend}</div><div style="margin-top:10px">${tab === "open" ? list(prog, "No ideas or research running. Post one above.") : tab === "findings" ? list(findings, "No findings yet.") : list(decided, "Nothing decided yet.")}</div></div>
+  </div>`;
+}
+
+// ------------------------------------------------------------------ agent page
 const toolName = (n) => n.replace(/^mcp__\w+?__/, "");
 function stepsHtml(run, live) {
   const counts = {}; let fails = 0;
@@ -276,13 +415,21 @@ function stepsHtml(run, live) {
   const head = `▸ ${run.length} step${run.length > 1 ? "s" : ""} · ${esc(sumTxt)}${fails ? ` · <span style="color:var(--bad)">${fails} failed</span>` : ""}${live && last && !last.r ? ` · <span class="live">now: ${esc(toolName(last.e.name))} ${esc(String(last.e.input).slice(0, 70))}</span>` : ""}`;
   return `<details class="steps" data-k="s${run[0].e.i}"><summary>${head}</summary>${run.map(({ e, r }) => `<div class="step ${r && r.error ? "err" : ""}"><details data-k="t${e.i}"><summary>${r ? (r.error ? "✕" : "✓") : "…"} ${esc(toolName(e.name))} ${esc(e.input)}</summary>${r ? `<div class="res">${esc(r.text)}</div>` : ""}</details></div>`).join("")}</details>`;
 }
-const HIDE = new Set(["ToolSearch", "mcp__hub__send_message", "mcp__hub__set_status", "mcp__hub__notify_human"]);
+const HIDE = new Set(["ToolSearch", "mcp__hub__send_message", "mcp__hub__set_status", "mcp__hub__notify_human", "mcp__hub__propose", "mcp__hub__update_proposal"]);
+function briefHtml(a, remote) {
+  const open = S.briefOpen[a.name] || remote;
+  const sum = a.summary || "";
+  const cards = props().filter((p) => p.author === a.name || p.owner === a.name).slice(0, 3);
+  const need = (sum.match(/\*\*Needs from a human:?\*\*:?\s*(.+)/) || [])[1] || "";
+  const needOn = need && !/^(nothing|none|n\/?a|no\b)/i.test(need);
+  return `<div class="brief ${sum.length > 500 && !open ? "clip" : ""} ${needOn ? "need" : ""}"><div class="k2"><span>Brief${a.task ? " · " + esc(a.task) : ""}</span><span>${a.seen ? "updated " + ago(a.seen) : ""}</span></div>
+    <div class="body md">${sum ? md(sum) : `<p style="color:var(--muted)">${a.state === "stopped" ? "Not started yet." : "No update posted yet."}</p>`}</div>
+    ${sum.length > 500 && !remote ? `<button class="more" id="briefMore">${open ? "Show less" : "Show the full brief"}</button>` : ""}
+    ${cards.length ? `<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:.78rem">${cards.map((p) => `<button class="mini" data-open-card="${esc(p.id)}" style="--kc:var(--k-${esc(p.kind)});border-left:3px solid var(--kc)">${esc(p.title.slice(0, 50))} · ${esc(STATUS[p.status] || p.status)}</button>`).join("")}</div>` : ""}</div>`;
+}
 function convHtml(a) {
   const evs = S.ev[a.name] || [];
-  const pinned = a.summary ? `<details class="pin" data-k="pin-${esc(a.name)}" ${S.sumOpen[a.name] ? "open" : ""}><summary>Latest report${a.task ? " · " + esc(a.task) : ""} ▾</summary><div class="body md">${md(a.summary)}</div></details>` : "";
-  if (!evs.length) return `<div class="conv">${pinned}<div class="empty">${a.state === "stopped" ? "Off. Send a message to start it." : a.state === "starting" ? "Starting…" : "Ready. Nothing has happened yet."}</div></div>`;
   const results = {}; evs.forEach((e) => { if (e.type === "tool_result") results[e.id] = e; });
-  const lastResult = [...evs].reverse().find((e) => e.type === "result" || e.type === "turn");
   const out = []; let run = [];
   const flush = (live) => { if (run.length) { out.push(stepsHtml(run, live)); run = []; } };
   evs.forEach((e) => {
@@ -294,59 +441,76 @@ function convHtml(a) {
         out.push(`<div class="u ${pending ? "queued" : ""}"><span class="by">${esc(e.from && e.from !== S.st.people[S.st.me] ? titleOf(e.from) : "You")}${pending ? " · queued: it reads this after its current step" : ""}</span>${esc(e.text)}</div>`); break; }
       case "text": out.push(`<div class="a md ${e.sub ? "sub" : ""}">${md(e.text)}</div>`); break;
       case "msg_in": case "msg_out": { const inb = e.type === "msg_in"; const other = inb ? e.from : e.to; const first = String(e.text).split("\n")[0].slice(0, 160);
-        out.push(`<details class="msgl" data-k="m${e.i}"><summary>${inb ? "← from" : "→ to"} <b>${esc(titleOf(other))}</b><span class="k">${esc(e.kind || "msg")}</span>${esc(first)}</summary><div class="body md">${md(e.text)}</div></details>`); break; }
+        out.push(`<details class="msgl" data-k="m${e.i}"><summary>${inb ? "← from" : "→ to"} ${pdot(other)} <b>${esc(titleOf(other))}</b><span class="k">${esc(e.kind || "msg")}</span>${esc(first)}</summary><div class="body md">${md(e.text)}</div></details>`); break; }
       case "notify": out.push(`<div class="note">Asked you: ${esc(String(e.text).slice(0, 160))}</div>`); break;
       case "permission": out.push(`<div class="note">${esc(e.tool)}: ${esc(e.decision === "timeout" ? "no answer, refused" : e.decision === "always" ? "allowed (always)" : e.decision)}</div>`); break;
       case "error": out.push(`<div class="err">${esc(e.text)}</div>`); break;
-      case "note": out.push(`<div class="note">${esc(e.text)}</div>`); break;
+      case "note": out.push(`<div class="note ${/card/.test(e.text) ? "card" : ""}">${esc(e.text)}</div>`); break;
       case "result": out.push(`<div class="div">done in ${Math.max(1, Math.round((e.ms || 0) / 1000))}s</div>`); break;
       default: break;
     }
   });
   flush(a.state === "working");
-  return `<div class="conv">${pinned}${out.join("")}</div>`;
+  return `<div class="conv">${briefHtml(a, false)}<div class="divider">Activity</div>${out.join("") || `<div class="note">Nothing yet. ${a.state === "stopped" ? "Send a message to start it." : ""}</div>`}</div>`;
 }
-const remoteHtml = (a) => `<div class="conv">${a.summary ? `<div class="pin"><div class="body md" style="padding-top:12px">${md(a.summary)}</div></div>` : `<div class="empty">No report posted yet.</div>`}<div class="note">Runs on ${esc(S.st.people[a.person] || "the other")}'s laptop. You see its latest report; a message you send reaches it as a task.</div></div>`;
-const serviceHtml = (s) => `<div class="conv">${s.summary ? `<div class="pin"><div class="body md" style="padding-top:12px">${md(s.summary)}</div></div>` : ""}${(s.log || []).slice().reverse().map((x) => `<div class="note" style="align-self:flex-start">${hhmm(x.t)} · ${esc(x.text)}</div>`).join("") || `<div class="empty">Nothing yet.</div>`}</div>`;
+const remoteHtml = (a) => `<div class="conv">${briefHtml(a, true)}<div class="note">Runs on ${esc(S.st.people[a.person] || "the other")}'s laptop: you see its brief; a message you send reaches it as a task.</div></div>`;
+const serviceHtml = (s) => `<div class="conv">${s.summary ? `<div class="brief"><div class="body md">${md(s.summary)}</div></div>` : ""}<div class="divider">Log</div>${(s.log || []).slice().reverse().map((x) => `<div class="note" style="align-self:flex-start">${hhmm(x.t)} · ${esc(x.text)}</div>`).join("") || `<div class="empty">Nothing yet.</div>`}</div>`;
+const QUICK = [["Status?", "In 3 lines: what are you doing, what's your latest result, and what's next?"], ["Why?", "Why did you choose that? What's the evidence, and what would change your mind?"], ["What's blocking you?", "Is anything blocking you or waiting on someone? Who, and since when?"], ["Change priority…", "New priority, do this first: "], ["Post it as a card", "Put your latest result or recommendation on the Decisions board so we can greenlight or redirect it."]];
 
+// ------------------------------------------------------------------ render
 function render() {
   if (!S.view) return renderPicker();
   const ae = document.activeElement;
-  if ((ae && ae.id === "schin") || S.composing || S.mouseDown) { S.pendingRender = true; return; }
+  if ((ae && ["schin", "ideaTitle", "ideaBody", "replyTxt", "ideaFor"].includes(ae.id)) || S.composing || S.mouseDown) { S.pendingRender = true; return; }
   const selTxt = window.getSelection ? window.getSelection().toString() : "";
   if (selTxt && $("#scroll") && $("#scroll").contains(window.getSelection().anchorNode)) { S.pendingRender = true; return; }
   S.pendingRender = false;
-  const a = S.sel === "home" ? null : agentByName(S.sel);
+  const page = S.sel === "home" || S.sel === "board" ? S.sel : null;
+  const a = page ? null : agentByName(S.sel);
+  if (!page && !a) { S.sel = "home"; return render(); }
   const isLocal = a && local(a.name), isSvc = a && svc(a.name);
-  const draft = $("#ta")?.value || "", tf = document.activeElement && document.activeElement.id === "ta";
+  const draft = $("#ta")?.value || "", tf = ae && ae.id === "ta";
   const caret = tf ? [$("#ta").selectionStart, $("#ta").selectionEnd] : null;
   const panelTop = $("#panel")?.scrollTop || 0;
-  const sc = $("#scroll"); const atEnd = !sc || sc.scrollHeight - sc.scrollTop - sc.clientHeight < 80; const prevTop = sc ? sc.scrollTop : 0;
+  const sc = $("#scroll"); const atEnd = !sc || sc.scrollHeight - sc.scrollTop - sc.clientHeight < 80; const prevTop = sc ? sc.scrollTop : 0; const prevSel = S.lastSel; S.lastSel = S.sel;
   const openD = new Set([...document.querySelectorAll("details[open][data-k]")].map((d) => d.dataset.k));
   const [l, c] = label(a);
   const nd = needs().length;
   document.title = (nd ? `(${nd}) ` : "") + "Avalon";
   const linkDown = !S.st.bus.online || S.st.bus.oldest > 60;
-  const top = a ? `<div class="top"><button class="tbtn back" id="menuBtn">☰</button><h1>${esc(clean(a.title || a.name))}</h1><span class="lbl ${esc(c)}">${esc(l)}</span>${isLocal && a.usage && a.usage.used != null ? `<span class="lbl ${a.usage.status === "allowed" ? "" : "waiting"}" title="Share of this Claude account's ${esc(String(a.usage.type || "").replace(/_/g, " "))} allowance used">Usage ${Math.round(a.usage.used * 100)}%</span>` : ""}${isLocal ? `<span class="lbl" title="Model">${esc(String(a.model).replace("claude-", "").replace(/-\d.*/, ""))}</span>` : ""}${!isLocal && !isSvc ? `<span class="lbl">${esc(S.st.people[a.person] || "")}'s laptop</span>` : ""}<span class="sp"></span>
+  const right = `${bellHtml()}`;
+  const top = a ? `<div class="top"><button class="tbtn back" id="menuBtn">☰</button><h1>${esc(clean(a.title || a.name))}</h1>${pdot(a.name)}<span class="lbl ${esc(c)}">${esc(l)}</span>${isLocal && a.usage && a.usage.used != null ? `<span class="lbl ${a.usage.status === "allowed" ? "" : "waiting"}" title="Share of this Claude account's ${esc(String(a.usage.type || "").replace(/_/g, " "))} allowance used">Usage ${Math.round(a.usage.used * 100)}%</span>` : ""}${isLocal && a.api_key ? `<span class="lbl waiting" title="Subscription allowance used up: running on the team's API key">API key</span>` : ""}${!isLocal && !isSvc ? `<span class="lbl">${esc(S.st.people[a.person] || "")}'s laptop</span>` : ""}<span class="sp"></span>
       ${isLocal ? `${a.state === "working" || a.state === "waiting" ? `<button class="tbtn" id="intr" title="Stop the current step; it keeps its memory and its queued messages">Pause</button>` : ""}
-      <span class="seg" title="Risky commands always ask"><span>Commands</span><button class="${a.policy === "auto" ? "on" : ""}" data-pol="auto">Auto</button><button class="${a.policy === "ask" ? "on" : ""}" data-pol="ask">Ask me</button></span>
-      <span class="menu"><button class="tbtn" id="more" aria-label="More">⋯</button>${S.menu ? `<div class="pop">${a.state === "stopped" ? `<button id="startA">Start ${esc(a.title)}</button>` : `<button class="danger" id="stopA">Turn off ${esc(a.title)}…</button>`}<button id="copyName">Copy its name (${esc(a.name)})</button></div>` : ""}</span>` : ""}${bellHtml()}</div>`
-    : `<div class="top"><button class="tbtn back" id="menuBtn">☰</button><h1>Home</h1><span class="sp"></span>${bellHtml()}</div>`;
-  const body = !a ? homeHtml() : isSvc ? serviceHtml(a) : isLocal ? convHtml(a) : remoteHtml(a);
-  const hintTxt = S.hint || ((isLocal && a.queued ? a.queued + " message(s) queued · " : "") + "Enter to send · Shift+Enter for a new line");
-  const comp = a && !isSvc ? `<div class="comp"><form class="box" id="form"><textarea id="ta" rows="1" placeholder="Message ${esc(titleOf(a.name))}"></textarea><div class="row"><span class="hint ${S.hintBad ? "bad" : ""}" id="hint">${esc(hintTxt)}</span><button class="send" id="sendb" aria-label="Send">↑</button></div></form></div>` : "";
-  $("#root").innerHTML = `<div class="app" id="app">${sidebar()}<div class="main">${top}${linkDown ? `<div class="linkbar">Not linked to ${esc(otherName())}'s laptop${S.st.bus.outbox ? ` · ${S.st.bus.outbox} message(s) waiting to send` : ""}. Agents keep working; talk to your teammate directly until it's back.</div>` : ""}<div class="scroll" id="scroll">${body}</div>${comp}</div></div>${panelHtml()}`;
+      <span class="seg" title="Which commands wait for your OK. Risky ones always do."><span>Approvals</span><button class="${a.policy === "auto" ? "on" : ""}" data-pol="auto">Auto</button><button class="${a.policy === "ask" ? "on" : ""}" data-pol="ask">Ask</button></span>
+      <span class="menu"><button class="tbtn" id="more" aria-label="More">⋯</button>${S.menu ? `<div class="pop">${a.state === "stopped" ? `<button id="startA">Start ${esc(a.title)}</button>` : `<button class="danger" id="stopA">Turn off ${esc(a.title)}…</button>`}<button id="copyName">Copy its name (${esc(a.name)})</button><div style="font-size:.72rem;color:var(--faint);padding:4px 10px">Model: ${esc(a.model)}</div></div>` : ""}</span>` : ""}${right}</div>`
+    : `<div class="top"><button class="tbtn back" id="menuBtn">☰</button><h1>${page === "board" ? "Decisions" : "Home"}</h1><span class="sp"></span>${right}</div>`;
+  const body = page === "home" ? homeHtml() : page === "board" ? boardHtml() : isSvc ? serviceHtml(a) : isLocal ? convHtml(a) : remoteHtml(a);
+  const hintTxt = S.hint || ((isLocal && a.queued ? `${a.queued} waiting for its next turn · ` : "") + "Enter to send · Shift+Enter for a new line");
+  const comp = a && !isSvc ? `<div class="comp"><div class="quick">${QUICK.map(([t, q], i) => `<button data-q="${i}">${esc(t)}</button>`).join("")}</div><form class="box" id="form"><textarea id="ta" rows="1" placeholder="Ask or steer ${esc(titleOf(a.name))}…"></textarea><div class="row"><span class="hint ${S.hintBad ? "bad" : ""}" id="hint">${esc(hintTxt)}</span><button class="send" id="sendb" aria-label="Send">↑</button></div></form></div>` : "";
+  $("#root").innerHTML = `<div class="app" id="app">${sidebar()}<div class="main">${top}${stripHtml()}${linkDown ? `<div class="linkbar">Not linked to ${esc(otherName())}'s laptop${S.st.bus.outbox ? ` · ${S.st.bus.outbox} message(s) waiting to send` : ""}. Agents keep working; talk to your teammate directly until it's back.</div>` : ""}<div class="scroll" id="scroll">${body}</div>${comp}</div></div>${panelHtml()}`;
   document.querySelectorAll("details[data-k]").forEach((d) => { if (openD.has(d.dataset.k)) d.open = true; });
   const ta = $("#ta"); if (ta) { ta.value = draft; autosize(ta); if (tf) { ta.focus(); try { ta.setSelectionRange(caret[0], caret[1]); } catch (e) {} } }
   if ($("#panel")) $("#panel").scrollTop = panelTop;
-  const s2 = $("#scroll"); s2.scrollTop = atEnd ? s2.scrollHeight : prevTop;
+  const s2 = $("#scroll"); s2.scrollTop = prevSel !== S.sel ? (page ? 0 : s2.scrollHeight) : atEnd && !page ? s2.scrollHeight : prevTop;
   wire(a);
   renderToasts();
 }
 function autosize(t) { t.style.height = "auto"; t.style.height = Math.min(t.scrollHeight, 220) + "px"; }
 function alertHint(t, bad = true) { S.hint = t; S.hintBad = bad; const h = $("#hint"); if (h) { h.textContent = t; h.className = "hint" + (bad ? " bad" : ""); } }
+async function act(pid, action, text) {
+  const r = await api(`/api/props/${encodeURIComponent(pid)}/act`, { action, text: text || "" });
+  if (!r.error) { const i = S.st.props.findIndex((p) => p.id === pid); if (i >= 0) S.st.props[i] = r; S.replyFor = null; }
+  render(); renderToasts();
+}
+function wireActions(root) {
+  root.querySelectorAll("[data-ap]").forEach((b) => b.onclick = async (e) => { e.stopPropagation(); b.parentElement.querySelectorAll("button").forEach((x) => x.disabled = true); await api(`/api/approvals/${b.dataset.ap}`, { decision: b.dataset.d }); S.st.approvals = S.st.approvals.filter((x) => x.id !== b.dataset.ap); render(); });
+  root.querySelectorAll("[data-pa]").forEach((b) => b.onclick = async (e) => { e.stopPropagation(); const txt = b.dataset.pa === "comment" ? ($("#replyTxt")?.value || "").trim() : ""; if (b.dataset.pa === "comment" && !txt) return; b.parentElement.querySelectorAll("button").forEach((x) => x.disabled = true); await act(b.dataset.pid, b.dataset.pa, txt); });
+  root.querySelectorAll("[data-open-card]").forEach((b) => b.onclick = (e) => { e.preventDefault(); e.stopPropagation(); const id = b.dataset.openCard; const p = props().find((x) => x.id === id); S.bell = false; S.sel = "board"; S.open[id] = true; if (p) S.boardTab = ["needs_call", "revise"].includes(p.status) ? S.boardTab : ["new", "planned", "running", "blocked"].includes(p.status) ? "open" : p.kind === "finding" && p.status === "done" ? "findings" : "decided"; render(); setTimeout(() => document.getElementById("card-" + id)?.scrollIntoView({ block: "center" }), 30); });
+  root.querySelectorAll("[data-dis]").forEach((b) => b.onclick = async (e) => { e.stopPropagation(); b.disabled = true; await api(`/api/alerts/${b.dataset.dis}/dismiss`, {}); S.st.alerts = S.st.alerts.filter((x) => x.id !== b.dataset.dis); render(); });
+}
 function wire(a) {
-  document.querySelectorAll("[data-sel]").forEach((b) => b.onclick = () => select(b.dataset.sel));
+  document.querySelectorAll("#root [data-sel]").forEach((b) => b.onclick = () => select(b.dataset.sel));
+  wireActions($("#root"));
   $("#who")?.addEventListener("click", () => { try { localStorage.removeItem("hub-view"); } catch (e) {} S.view = null; renderPicker(); });
   $("#menuBtn")?.addEventListener("click", () => $("#app").classList.toggle("menu-open"));
   const enc = a ? encodeURIComponent(a.name) : "";
@@ -356,15 +520,23 @@ function wire(a) {
   $("#startA")?.addEventListener("click", async () => { S.menu = false; await api(`/api/agents/${enc}/start`, {}); render(); });
   $("#stopA")?.addEventListener("click", async (e) => { e.stopPropagation(); const b = $("#stopA"); if (!b.dataset.sure) { b.dataset.sure = 1; b.textContent = "Click again to turn it off"; return; } S.menu = false; await api(`/api/agents/${enc}/stop`, {}); render(); });
   $("#copyName")?.addEventListener("click", () => { try { navigator.clipboard.writeText(a.name); } catch (e) {} S.menu = false; render(); });
-  document.querySelectorAll("details.pin[data-k]").forEach((d) => d.addEventListener("toggle", () => { if (a) S.sumOpen[a.name] = d.open; }));
-  document.querySelectorAll("#root [data-ap]").forEach((b) => b.onclick = () => answer(b));
+  $("#briefMore")?.addEventListener("click", () => { S.briefOpen[a.name] = !S.briefOpen[a.name]; render(); });
   $("#bell")?.addEventListener("click", (e) => { e.stopPropagation(); S.bell = !S.bell; S.toasts = []; render(); });
   $("#clearAll")?.addEventListener("click", async (e) => { e.stopPropagation(); const ids = S.st.alerts.map((x) => x.id); for (const id of ids) await api(`/api/alerts/${id}/dismiss`, {}); S.st.alerts = []; render(); });
-  document.querySelectorAll("#root [data-dis]").forEach((b) => b.onclick = async (e) => { e.stopPropagation(); b.disabled = true; await api(`/api/alerts/${b.dataset.dis}/dismiss`, {}); S.st.alerts = S.st.alerts.filter((x) => x.id !== b.dataset.dis); render(); });
+  document.querySelectorAll("[data-tab]").forEach((b) => b.onclick = () => { S.boardTab = b.dataset.tab; render(); });
+  document.querySelectorAll("[data-toggle-card]").forEach((b) => b.onclick = () => { S.open[b.dataset.toggleCard] = !S.open[b.dataset.toggleCard]; render(); });
+  document.querySelectorAll("[data-reply]").forEach((b) => b.onclick = () => { S.replyFor = b.dataset.reply; render(); setTimeout(() => $("#replyTxt")?.focus(), 20); });
+  document.querySelectorAll("[data-cancel-reply]").forEach((b) => b.onclick = () => { S.replyFor = null; render(); });
+  $("#replyTxt")?.addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) document.querySelector("[data-pa=comment]")?.click(); });
+  $("#ideaTitle")?.addEventListener("focus", () => { if (!S.ideaOpen) { S.ideaOpen = true; const el = document.querySelector(".newidea"); el && el.classList.remove("closed"); } });
+  $("#ideaGo")?.addEventListener("click", async () => { const t = $("#ideaTitle").value.trim(); if (!t) { $("#ideaHint").textContent = "Give the idea a short title first."; $("#ideaHint").style.color = "var(--bad)"; return; }
+    $("#ideaGo").disabled = true; const r = await api("/api/props", { title: t, body: $("#ideaBody").value.trim(), for: $("#ideaFor").value });
+    if (r.error) { $("#ideaHint").textContent = r.error; $("#ideaHint").style.color = "var(--bad)"; $("#ideaGo").disabled = false; return; }
+    $("#ideaTitle").value = ""; $("#ideaBody").value = ""; $("#ideaTitle").blur(); S.ideaOpen = false; S.st.props.unshift(r); S.boardTab = "open"; render(); });
   $("#schin")?.addEventListener("keydown", (e) => { if (e.key === "Enter") $("#schgo").click(); });
   $("#schgo")?.addEventListener("click", async () => { const r = await api("/api/schedule", { start: $("#schin").value }); if (r.error) { $("#schin").style.borderColor = "var(--bad)"; $("#schin").title = r.error; } else { $("#schin").value = ""; $("#schin").blur(); refresh(); } });
-  $("#setsch")?.addEventListener("click", (e) => { e.preventDefault(); select("home"); setTimeout(() => $("#schin")?.focus(), 50); });
   const ta = $("#ta"); if (!ta) return;
+  document.querySelectorAll("[data-q]").forEach((b) => b.onclick = () => { const [, q] = QUICK[+b.dataset.q]; if (q.endsWith(": ")) { ta.value = q; ta.focus(); autosize(ta); } else { ta.value = q; $("#form").requestSubmit(); } });
   ta.addEventListener("input", () => { autosize(ta); if (S.hint) { S.hint = ""; S.hintBad = false; alertHint("Enter to send · Shift+Enter for a new line", false); S.hint = ""; } });
   ta.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); $("#form").requestSubmit(); } });
   $("#form").addEventListener("submit", async (e) => { e.preventDefault(); const t = ta.value.trim(); if (!t || S.sending) return; S.sending = true; $("#sendb").disabled = true;
@@ -372,16 +544,23 @@ function wire(a) {
     S.sending = false; const b = $("#sendb"); if (b) b.disabled = false;
     if (r.error) alertHint("Not sent: " + r.error); else { const t2 = $("#ta"); if (t2) { t2.value = ""; autosize(t2); } if (r.remote) alertHint("Sent to " + titleOf(a.name) + " ✓", false); } });
 }
-function select(n) { S.sel = n; S.menu = false; S.unread[n] = 0; S.hint = ""; S.hintBad = false; try { localStorage.setItem("hub-sel", n); } catch (e) {} $("#app")?.classList.remove("menu-open"); render(); if (local(n)) loadEvents(n); }
+function select(n) { S.sel = n; S.menu = false; S.bell = false; S.unread[n] = 0; S.hint = ""; S.hintBad = false; try { localStorage.setItem("hub-sel", n); } catch (e) {} $("#app")?.classList.remove("menu-open"); render(); if (local(n)) loadEvents(n); }
 async function loadEvents(n) {
   const r = await api(`/api/agents/${encodeURIComponent(n)}/events?since=${S.last[n] ?? -1}`);
   if (r.error) return;
+  if (r.last_i !== undefined && S.last[n] !== undefined && r.last_i < S.last[n]) { S.ev[n] = []; S.last[n] = -1; return loadEvents(n); }   // the hub's data was reset
   const have = S.ev[n] || [], seen = new Set(have.map((e) => e.i));
   S.ev[n] = have.concat((r.events || []).filter((e) => !seen.has(e.i))).sort((x, y) => x.i - y.i).slice(-1500);
   if (S.ev[n].length) S.last[n] = S.ev[n][S.ev[n].length - 1].i;
   soon();
 }
-async function refresh() { const st = await api("/api/state"); if (!st.error) { S.st = st; soon(); } }
+async function refresh() {
+  const st = await api("/api/state"); if (st.error) return;
+  const known = new Set((S.st.props || []).filter((p) => p.status === "needs_call").map((p) => p.id));
+  S.st = st;
+  (st.props || []).filter((p) => p.status === "needs_call" && !known.has(p.id)).forEach((p) => toast({ type: "pc", agent: p.author, at: p.updated, ...p }));
+  soon();
+}
 let raf = false; function soon() { if (!raf) { raf = true; requestAnimationFrame(() => { raf = false; render(); }); } }
 let es;
 function stream() {
@@ -399,17 +578,19 @@ function stream() {
     else if (ev.kind === "approval_done") { S.st.approvals = S.st.approvals.filter((a) => a.id !== ev.id); soon(); }
     else if (ev.kind === "alert") { S.st.alerts.push(ev); toast({ type: "al", ...ev }); soon(); }
     else if (ev.kind === "alert_done") { S.st.alerts = S.st.alerts.filter((a) => a.id !== ev.id); soon(); }
+    else if (ev.kind === "prop") { const p = ev.prop; S.st.props = S.st.props || []; const i = S.st.props.findIndex((x) => x.id === p.id); const was = i >= 0 ? S.st.props[i].status : null; if (i >= 0) S.st.props[i] = p; else S.st.props.unshift(p); if (p.status === "needs_call" && was !== "needs_call") toast({ type: "pc", agent: p.author, at: p.updated, ...p }); soon(); }
     else if (ev.kind === "shared") refresh();
   };
-  setInterval(refresh, 8000);
+  setInterval(refresh, 6000);
+  setInterval(() => { const el = $("#cdn2"); if (el) { const left = +el.dataset.at - Date.now() / 1000; el.textContent = mmss(left); el.className = "t " + (left < 60 ? "now" : left < 180 ? "soon" : ""); if (left < -2) refresh(); } }, 1000);
   document.addEventListener("selectionchange", () => { if (S.pendingRender && !window.getSelection().toString()) soon(); });
   document.addEventListener("compositionstart", () => { S.composing = true; });
   document.addEventListener("compositionend", () => { S.composing = false; if (S.pendingRender) soon(); });
   document.addEventListener("mousedown", () => { S.mouseDown = true; });
   document.addEventListener("mouseup", () => { S.mouseDown = false; if (S.pendingRender) setTimeout(soon, 0); });
-  document.addEventListener("focusout", (e) => { if (e.target && e.target.id === "schin" && S.pendingRender) setTimeout(soon, 0); });
-  document.addEventListener("click", (e) => { let ch = false; if (S.menu && !e.target.closest(".menu")) { S.menu = false; ch = true; } if (S.bell && !e.target.closest("#panel") && !e.target.closest("#bell")) { S.bell = false; ch = true; } if (ch) soon(); });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && (S.bell || S.menu)) { S.bell = false; S.menu = false; soon(); } });
+  document.addEventListener("focusout", () => { if (S.pendingRender) setTimeout(soon, 0); });
+  document.addEventListener("click", (e) => { let ch = false; if (S.menu && !e.target.closest(".menu")) { S.menu = false; ch = true; } if (S.bell && !e.target.closest("#panel") && !e.target.closest("#bell") && !e.target.closest(".toasts")) { S.bell = false; ch = true; } if (ch) soon(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && (S.bell || S.menu || S.replyFor)) { S.bell = false; S.menu = false; S.replyFor = null; soon(); } });
 }
 load();
 </script>
