@@ -1,0 +1,33 @@
+{
+  "agent": "Samuels-MacBook-Pro-4",
+  "assignee": "",
+  "claimed_at": "2026-11-13T07:45:51Z",
+  "cmd": "",
+  "compute": "",
+  "details": "",
+  "expires_at": "2026-11-13T11:45:51Z",
+  "id": "docs-hub-rewrite",
+  "log": [
+    {
+      "at": "2026-11-13T07:45:51Z",
+      "by": "samuel",
+      "text": "claimed"
+    }
+  ],
+  "owner": "samuel",
+  "paths": [
+    "docs/START_HERE.md",
+    "docs/SUNDAY.md",
+    "docs/REHEARSAL.md",
+    "docs/REHEARSAL_TONIGHT.md",
+    "docs/Finals_Handbook.pdf",
+    "AGENTS.md"
+  ],
+  "posted_at": "",
+  "posted_by": "",
+  "priority": 0,
+  "result": "",
+  "state": "active",
+  "title": "Rewrite START_HERE, add SUNDAY and REHEARSAL guides for the hub setup; rebuild handbook",
+  "updated_at": "2026-11-13T07:45:51Z"
+}
