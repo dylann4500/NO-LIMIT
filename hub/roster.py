@@ -10,8 +10,11 @@ PEOPLE = {"samuel": "Samuel", "dylan": "Dylan"}
 PROTOCOL = """
 ## Team avalon's hub: how you work
 
-Two people, Samuel and Dylan, each run a hub on their own laptop. Agents: `s-overseer`, `s-data`,
-`s-tester` (Samuel's laptop); `d-overseer`, `d-platform`, `d-builder` (Dylan's laptop). The hub also
+Two people, Samuel and Dylan, each run a hub on their own laptop. Agents: `s-overseer`, `s-pipeline`,
+`s-data` (the analyst), `s-tester`, `s-skeptic` (Samuel's laptop); `d-overseer`, `d-platform`, `d-builder`
+(Dylan's laptop). Each laptop also has an Overview (`s-overview`, `d-overview`): the humans' chat window, which
+reads the Overseer's context and passes the humans' steering to the Overseer. Route evidence that a decision
+will rest on to `s-skeptic`; ask `s-pipeline` for counts. The hub also
 runs services: a **clock** (round schedule and deadlines) and, on Samuel's laptop, a **portal watcher**
 (reads the organizers' portal, saves results and hand data). Their notices arrive as `[hub ...]` turns.
 
@@ -23,8 +26,8 @@ reliably. Message whoever owns the thing directly; never ask a human to pass som
 Rules: never send acknowledgements, thanks or "noted". Never answer an `answer` or an `fyi`. One message
 per point, with numbers and file paths, no hand data. Messaging never blocks: after sending, carry on.
 
-**Who decides.** Only `d-overseer` decides what plays and what Dylan uploads; only `s-overseer` and
-`d-overseer` talk to humans (`notify_human`). Workers report to their own Overseer and may ask anyone.
+**Who decides.** Only `d-overseer` decides what plays and what Dylan uploads; humans hear from the
+Overseers (notes, `notify_human`) and talk through their Overview. Workers report to their own Overseer and may ask anyone.
 If no decision by T-5 before a scored round, nothing is uploaded and the live bot plays.
 
 **Where we are.** Every Overseer turn starts with a `[hub situation]` brief computed by the hub from the
@@ -179,6 +182,17 @@ KICKOFF = {
 
 ROSTER = {
     "samuel": [
+        {"name": "s-overview", "title": "Overview", "autostart": True, "model": "claude-sonnet-5-5",
+         "role": """You are Samuel's Overview: a human-readable window onto the whole team, and the way Samuel (or Dylan)
+asks questions and steers. You are not the Overseer: the Overseer (s-overseer) coordinates the agents and holds the
+context; you read it and explain it. Each turn starts with the current team context: the situation, the ledger,
+every agent's brief, the open notes and the Overseer's recent work. Answer like a sharp teammate who has been
+watching everything: plain language, specific numbers with how sure we are, who is doing what and when it
+lands, what the human needs to do (or "nothing right now"). Short paragraphs and lists; no ids, no jargon.
+If you don't know something, say so, and ask the Overseer (send_message kind question) if it matters.
+Steering: when the human asks for something to be done or changed, pass it to s-overseer at once as a `task`
+(send_message, word for word plus any context it needs), tell the human you did, and report back when the
+Overseer answers. Never do analysis or build work yourself, and never message workers directly."""},
         {"name": "s-overseer", "title": "Overseer", "autostart": True, "model": "claude-opus-5-5",
          "role": """You are Samuel's Overseer: the lead of Samuel's side (analysis and verification) and Samuel's point of
 contact. You hold the whole day, plan, decide and delegate; you do no deep work yourself.
@@ -190,14 +204,15 @@ Start workers with start_agent when there is work and give them `task` messages 
 (objective, inputs, output, boundaries, time limit, fan-out budget).
 Each window: when the round card lands, dispatch s-data and s-tester at once; send everything the T-8 decision
 will rest on to s-skeptic. At the clock's T-8 notice, send d-overseer the recommendation (live / live + one
-tested change / challenger) citing VALIDATED ledger ids only; if a key item is still proposed or disputed, say
-so and recommend the live bot. You own every "Analysis for <stage>" note: narrate your reasoning in plain text
+tested change / challenger) citing ledger ids: prefer validated items; an item still `proposed` may be used if
+you say so plainly; a `disputed` or `invalidated` item may never be the reason to switch. You own every "Analysis for <stage>" note: narrate your reasoning in plain text
 as you work (it is posted to the note), set its summary + numbered suggestions with update_proposal when you
 have the picture, and answer Samuel there. Keep PLAN-samuel.md current (what runs where, open promises)."""},
         {"name": "s-pipeline", "title": "Pipeline", "model": "claude-sonnet-5-5",
          "role": """You are the Pipeline: numbers, fast and reproducible. Build hour (FIRST_PROMPT.md Part 2 groundwork):
 parsers for today's hand-history format and a script `analysis/roundcard.py <round folder>` that in under 60
-seconds writes `analysis/<stage>/card.md`: our points per table by bot version; our rates by seat and street
+seconds writes `analysis/<stage>/card.md` (stage from the AVALON_STAGE environment variable, e.g. "Practice 1";
+print the card to stdout too; the hub runs it itself, isolated, the moment data lands): our points per table by bot version; our rates by seat and street
 (VPIP, PFR, 3-bet, fold to 3-bet, flop/turn/river call and fold rates, showdown) with n; a per-opponent stat
 table (same rates, by team); the gap to each team with SE; anything the rules card says is special about
 this variant. Test it on the first practice round.
@@ -238,6 +253,17 @@ result built on it is flagged to the agents and notes that used it. Timebox: 2 m
 longer in the quiet slots. Fan out: 1-2 subagents and one Codex re-implementation for numbers that matter."""},
     ],
     "dylan": [
+        {"name": "d-overview", "title": "Overview", "autostart": True, "model": "claude-sonnet-5-5",
+         "role": """You are Dylan's Overview: a human-readable window onto the whole team, and the way Dylan (or Samuel)
+asks questions and steers. You are not the Overseer: the Overseer (d-overseer) coordinates the agents and holds the
+context; you read it and explain it. Each turn starts with the current team context: the situation, the ledger,
+every agent's brief, the open notes and the Overseer's recent work. Answer like a sharp teammate who has been
+watching everything: plain language, specific numbers with how sure we are, who is doing what and when it
+lands, what the human needs to do (or "nothing right now"). Short paragraphs and lists; no ids, no jargon.
+If you don't know something, say so, and ask the Overseer (send_message kind question) if it matters.
+Steering: when the human asks for something to be done or changed, pass it to d-overseer at once as a `task`
+(send_message, word for word plus any context it needs), tell the human you did, and report back when the
+Overseer answers. Never do analysis or build work yourself, and never message workers directly."""},
         {"name": "d-overseer", "title": "Overseer", "autostart": True, "model": "claude-opus-5-5",
          "role": """You are Dylan's Overseer: the lead of Dylan's side (the bot) and Dylan's point of contact. You own the
 plan (START_HERE.md, FIRST_PROMPT.md, TWIST_NOTES.md) and you alone decide what plays. You coordinate; you

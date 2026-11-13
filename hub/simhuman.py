@@ -31,7 +31,10 @@ and you can ask questions or steer with note_chat (it reaches the Overseer, whic
 answers in the note). 'Analysis for <stage>' notes hold the round's analysis, a pinned summary with numbered
 suggestions, and progress. 'Which bot?' notes ask whether to use a bot: answer with note_action approve/reject.
 The Live menu lists bots; make_live makes a ready bot live. Close (note_action remove) notes that are finished
-and no longer relevant. The bell shows permission requests and urgent messages."""
+and no longer relevant. The bell shows permission requests and urgent messages. Your main conversation is your Overview
+(message_agent to s-overview for Samuel, d-overview for Dylan): a readable chat that knows everything the
+Overseer knows. Ask it what's going on and steer through it (it passes instructions to the Overseer). You
+don't message the Overseer directly. The screen shows the last lines of your Overview chat."""
 
 PERSONA = {
     "samuel": COMMON + """
@@ -116,6 +119,12 @@ class Human:
                 L.append("      summary: " + p["body"][:700].replace("\n", " / "))
             for t in (p.get("thread") or [])[-3:]:
                 L.append(f"      {time.strftime('%H:%M:%S', time.localtime(t['at']))} {t['who']}: {str(t['text'])[:500].replace(chr(10), ' / ')}")
+        ovn = ("s" if me == "samuel" else "d") + "-overview"
+        ov = (st.get("overviews") or {}).get(ovn, [])
+        if ov:
+            L.append("YOUR OVERVIEW CHAT (latest last):")
+            for t in ov[-4:]:
+                L.append(f"  {time.strftime('%H:%M:%S', time.localtime(t['at']))} {t['who']}: {t['text'][:1200].replace(chr(10), ' / ')}")
         L.append("YOUR AGENTS (brief):")
         for a in st["agents"]:
             L.append(f"  {a['name']} [{a['state']}] {a['task'][:140]}")

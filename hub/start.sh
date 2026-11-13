@@ -7,7 +7,7 @@ REPO=${2:?usage: hub/start.sh samuel|dylan <team repo> [options]}
 shift 2
 cd "$(dirname "$0")"
 while true; do
-  caffeinate -dimsu uv run --no-project --with aiohttp --with claude-agent-sdk --with modal \
+  caffeinate -dimsu uv run --no-project --with aiohttp==3.14.5 --with claude-agent-sdk==0.2.181 --with modal==1.6.4 \
     python hub.py --person "$PERSON" --repo "$REPO" "$@" 2> >(grep -v -e CanUseToolShadowed -e _warn_if_can_use >&2)
   code=$?
   [ $code -eq 130 -o $code -eq 0 ] && break      # Ctrl+C or a clean exit: stop

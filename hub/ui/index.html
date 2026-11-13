@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Avalon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" media="print" onload="this.media='all'">
 <script src="/vendor/marked.min.js"></script>
 <script src="/vendor/purify.min.js"></script>
 <style>
@@ -334,7 +334,7 @@ function drawerHtml() {
       <form id="cardForm" class="box"><textarea id="cardTa" rows="1" placeholder="${call ? "Suggest something else, or ask why…" : "Ask a question or steer the work…"}"></textarea><div class="row"><span class="hint" id="cardHint">Enter to send · goes to the Overseer</span><button class="send" id="cardSend" aria-label="Send">↑</button></div></form>
     </div></div></div>`;
 }
-const bname = (f) => String(f || "").split("/").pop().replace(/\.zip$/, "");
+const bname = (f) => String(f || "").split("/").pop().replace(/\.zip$/, "").replace(/\s*\(\d+\)$/, "");
 function liveChip() {
   const act = (S.st.portal_active || {}).filename, live = S.st.live;
   if (!act && !live && !(S.st.bots || []).length) return "";
@@ -352,13 +352,33 @@ function liveMenu() {
     ${bots.length ? bots.map((b) => { const isAct = bname(act.filename) === b.name, isNext = live && bname(live.filename) === b.name && !isAct;
       return `<button class="botrow ${isAct ? "cur" : ""}" data-dlbot="${esc(b.name)}" ${b.status === "ready" ? "" : "disabled"} title="${b.status === "ready" ? "Download " + esc(b.name) + ".zip" : "Not built yet"}"><b>${esc(b.name)}${isAct ? " · active" : isNext ? " · next" : ""}</b><span class="st">${esc(ST[b.status] || b.status)}${b.status === "ready" ? " ⤓" : ""}</span>${b.note ? `<span class="nt">${esc(b.note)}</span>` : ""}</button>`; }).join("") : `<div class="empty" style="padding:10px">No bots yet. They appear as the agents build them.</div>`}<div class="hint" id="dlHint" style="padding:4px 8px"></div></div>`;
 }
+function ovName(person) { return (person === "samuel" ? "s" : "d") + "-overview"; }
+function overviewChatHtml() {
+  if (!S.ov) return "";
+  const who = S.ovWho || S.st.me, name = ovName(who), items = (S.st.overviews || {})[name] || [];
+  const ag = agentByName(name), busy = ag && ["working", "starting"].includes(ag.state);
+  const people = Object.values(S.st.people);
+  const tabs = Object.entries(S.st.people).map(([k, v]) => `<button class="tbtn ${k === who ? "on" : ""}" data-ovwho="${esc(k)}"><span class="pdot ${esc(k)}"></span> ${esc(v)}'s Overview</button>`).join("");
+  const chips = ["What's going on right now?", "What should I be doing?", "What changed in the last 10 minutes?", "Explain the next decision and what it rests on"];
+  return `<div class="cv-back" id="ovBack"></div><div class="cv k-idea" role="dialog" aria-label="Overview">
+    <div class="cv-hd"><div class="cv-lab">Overview · a readable window onto ${esc(S.st.people[who])}'s whole side</div><div class="cv-title" style="display:flex;gap:8px;flex-wrap:wrap">${tabs}</div>
+      <div class="cv-tools"><button class="tbtn" id="ovX" aria-label="Close">✕</button></div></div>
+    <div class="cv-body" id="ovBody"><div class="cv-col">
+      ${items.length ? items.map((t) => people.includes(t.who) ? `<div class="cv-me"><span class="by">${esc(t.who)} · ${hhmm(t.at)}</span>${esc(t.text)}</div>` : `<div class="cv-ag"><div class="by">Overview · ${hhmm(t.at)}</div><div class="a md">${md(t.text)}</div></div>`).join("")
+        : `<div class="note2" style="margin-top:30px">Ask anything about ${esc(S.st.people[who])}'s side: what's happening, why, what's next, what you need to do. To change something, just say it; the Overview passes it to the Overseer and reports back.</div>`}
+      ${busy ? `<div class="note2">Overview is reading the team's context…</div>` : ""}
+    </div></div>
+    <div class="cv-ft"><div class="cv-col"><div class="chips">${chips.map((c) => `<button data-ovchip="${esc(c)}">${esc(c)}</button>`).join("")}</div>
+      <form id="ovForm" class="box"><textarea id="ovTa" rows="1" placeholder="Ask ${esc(S.st.people[who])}'s Overview, or steer…"></textarea><div class="row"><span class="hint" id="ovHint">Enter to send</span><button class="send" id="ovSend" aria-label="Send">↑</button></div></form>
+    </div></div></div>`;
+}
 function sideHtml() {
   if (!S.side) return "";
   const nd = needs();
   const row = (a) => { const [l, c] = label(a); const n = nd.filter((x) => x.agent === a.name).length; const u = S.unread[a.name];
     return `<button class="item ${c === "stopped" ? "off" : ""} ${n ? "attn" : ""} ${S.page === "agent" && S.sel === a.name ? "on" : ""}" data-sel="${esc(a.name)}"><span class="dot ${esc(c)}"></span><span style="min-width:0"><div class="nm">${esc(clean(a.title || a.name))}<span class="st">${esc(l)}</span></div><div class="ln">${esc(a.task || (c === "stopped" ? "Not started" : "No task yet"))}</div></span>${n ? `<span class="pill">needs you</span>` : u ? `<span class="badge">${u}</span>` : ""}</button>`; };
-  const mine = S.st.agents.slice().sort((a, b) => isOv(b.name) - isOv(a.name)), op = otherPerson();
-  const other = S.st.remote.filter((a) => !a.service);
+  const mine = S.st.agents.filter((a) => !/overview$/.test(a.name)).sort((a, b) => isOv(b.name) - isOv(a.name)), op = otherPerson();
+  const other = S.st.remote.filter((a) => !a.service && !/overview$/.test(a.name));
   return `<div class="side"><button class="item ${S.page === "board" ? "on" : ""}" data-go="board"><span></span><span><div class="nm">Board</div><div class="ln">Notes and decisions</div></span></button><button class="item ${S.page === "overview" ? "on" : ""}" data-go="overview"><span></span><span><div class="nm">Overview</div><div class="ln">Every agent at a glance</div></span></button>
     <div class="sec"><span><span class="pdot ${esc(S.st.me)}"></span> Your agents</span></div>${mine.map(row).join("")}
     <div class="sec"><span>Hub services</span></div>${S.st.services.map(row).join("")}
@@ -399,9 +419,10 @@ function render() {
   if ((ae && ["schin", "ideaBody"].includes(ae.id)) || S.composing || S.mouseDown) { S.pending = true; return; }
   const selTxt = window.getSelection ? window.getSelection().toString() : ""; if (selTxt) { S.pending = true; return; }
   S.pending = false;
-  const keep = {}; ["ta", "cardTa"].forEach((id) => { const el = document.getElementById(id); if (el) keep[id] = { v: el.value, f: ae === el, s: [el.selectionStart, el.selectionEnd] }; });
+  const keep = {}; ["ta", "cardTa", "ovTa"].forEach((id) => { const el = document.getElementById(id); if (el) keep[id] = { v: el.value, f: ae === el, s: [el.selectionStart, el.selectionEnd] }; });
   const sc = $("#scroll"); const atEnd = !sc || sc.scrollHeight - sc.scrollTop - sc.clientHeight < 80; const prevTop = sc ? sc.scrollTop : 0;
-  const dbEl = $(".cv-body"); const dbTop = dbEl ? dbEl.scrollTop : undefined; const panelTop = $("#panel")?.scrollTop || 0;
+  const ovEl = $("#ovBody"); const ovTop = ovEl ? ovEl.scrollTop : undefined; const ovAtEnd = !ovEl || ovEl.scrollHeight - ovEl.scrollTop - ovEl.clientHeight < 80;
+  const dbEl = $(".cv-body:not(#ovBody)"); const dbTop = dbEl ? dbEl.scrollTop : undefined; const panelTop = $("#panel")?.scrollTop || 0;
   const key = S.page + ":" + (S.sel || "") + ":" + (S.card || ""); const changedView = key !== S.lastKey; S.lastKey = key;
   const openD = new Set([...document.querySelectorAll("details[open][data-k]")].map((d) => d.dataset.k));
   const nd = needs().length; document.title = (nd ? `(${nd}) ` : "") + "Avalon";
@@ -409,13 +430,14 @@ function render() {
   const linkDown = !S.st.bus.online || S.st.bus.oldest > 60;
   const main = S.page === "agent" ? agentHtml(a) : S.page === "overview" ? overviewHtml() : boardHtml();
   const comp = S.page === "agent" && a && !svc(a.name) ? `<div class="comp"><div class="quick">${QUICK.map(([t], i) => `<button data-q="${i}">${esc(t)}</button>`).join("")}</div><form class="box" id="form"><textarea id="ta" rows="1" placeholder="Ask or steer ${esc(titleOf(a.name))}…"></textarea><div class="row"><span class="hint ${S.hintBad ? "bad" : ""}" id="hint">${esc(S.hint || (a.queued ? a.queued + " waiting for its next turn · " : "") + "Enter to send")}</span><button class="send" id="sendb">↑</button></div></form></div>` : "";
-  $("#root").innerHTML = `<div class="shell"><div class="hdr"><span class="brand">Avalon <button class="who" id="who"><span class="pdot ${esc(S.view)}"></span>${esc(S.st.people[S.view])}</button></span>${clockHtml()}${liveChip()}<button class="hbtn ${S.side ? "on" : ""}" id="sideT">Agents ▾</button>${bellHtml()}</div>
+  $("#root").innerHTML = `<div class="shell"><div class="hdr"><span class="brand">Avalon <button class="who" id="who"><span class="pdot ${esc(S.view)}"></span>${esc(S.st.people[S.view])}</button></span>${clockHtml()}<button class="hbtn ${S.ov ? "on" : ""}" id="ovT" style="font-weight:600;color:var(--fg)">Overview</button>${liveChip()}<button class="hbtn ${S.side ? "on" : ""}" id="sideT">Agents ▾</button>${bellHtml()}</div>
     ${linkDown ? `<div class="linkbar">Not linked to ${esc(S.st.people[otherPerson()])}'s laptop${S.st.bus.outbox ? ` · ${S.st.bus.outbox} message(s) waiting` : ""}. Agents keep working; talk to each other directly.</div>` : ""}
-    ${liveMenu()}<div class="body">${sideHtml()}<div style="flex:1;display:flex;flex-direction:column;min-width:0;min-height:0"><div class="scroll" id="scroll">${main}</div>${comp}</div>${S.page === "board" ? drawerHtml() : ""}</div></div>${panelHtml()}`;
+    ${liveMenu()}${overviewChatHtml()}<div class="body">${sideHtml()}<div style="flex:1;display:flex;flex-direction:column;min-width:0;min-height:0"><div class="scroll" id="scroll">${main}</div>${comp}</div>${S.page === "board" ? drawerHtml() : ""}</div></div>${panelHtml()}`;
   document.querySelectorAll("details[data-k]").forEach((d) => { if (openD.has(d.dataset.k)) d.open = true; });
   Object.entries(keep).forEach(([id, k]) => { const el = document.getElementById(id); if (el) { el.value = k.v; autosize(el); if (k.f) { el.focus(); try { el.setSelectionRange(k.s[0], k.s[1]); } catch (e) {} } } });
   const s2 = $("#scroll"); s2.scrollTop = changedView ? (S.page === "agent" ? s2.scrollHeight : (S.page === "board" ? prevTop : 0)) : (S.page === "agent" && atEnd ? s2.scrollHeight : prevTop);
-  const db = $(".cv-body"); if (db) db.scrollTop = changedView || dbTop === undefined ? 0 : dbTop;
+  const ovB = $("#ovBody"); if (ovB) ovB.scrollTop = ovAtEnd || ovTop === undefined ? ovB.scrollHeight : ovTop;
+  const db = $(".cv-body:not(#ovBody)"); if (db) db.scrollTop = changedView || dbTop === undefined ? 0 : dbTop;
   if ($("#panel")) $("#panel").scrollTop = panelTop;
   wire(a); renderToasts();
 }
@@ -469,6 +491,15 @@ function wire(a) {
     const url = URL.createObjectURL(await r.blob()); const a = document.createElement("a"); a.href = url; a.download = n + ".zip"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
     if (h) h.textContent = `Downloaded ${n}.zip. Upload it on the No Limit dashboard and make it active.`; });
   document.querySelectorAll("[data-chip]").forEach((b) => b.onclick = () => { const t = $("#cardTa"); if (!t) return; t.value = b.dataset.chip; $("#cardForm").requestSubmit(); });
+  $("#ovT")?.addEventListener("click", () => { S.ov = !S.ov; S.card = null; render(); setTimeout(() => $("#ovTa")?.focus(), 30); });
+  $("#ovX")?.addEventListener("click", () => { S.ov = false; render(); });
+  $("#ovBack")?.addEventListener("click", () => { S.ov = false; render(); });
+  document.querySelectorAll("[data-ovwho]").forEach((b) => b.onclick = () => { S.ovWho = b.dataset.ovwho; render(); });
+  const ovta = $("#ovTa"); if (ovta) { ovta.addEventListener("input", () => autosize(ovta)); ovta.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); $("#ovForm").requestSubmit(); } });
+    document.querySelectorAll("[data-ovchip]").forEach((b) => b.onclick = () => { ovta.value = b.dataset.ovchip; $("#ovForm").requestSubmit(); });
+    $("#ovForm").addEventListener("submit", async (e) => { e.preventDefault(); const t = ovta.value.trim(); if (!t) return; ovta.value = ""; autosize(ovta);
+      const name = ovName(S.ovWho || S.st.me); const ov = (S.st.overviews[name] = S.st.overviews[name] || []); ov.push({ who: S.st.people[S.st.me], at: Date.now() / 1000, text: t }); render();
+      const r = await api(`/api/agents/${encodeURIComponent(name)}/send`, { text: t }); if (r.error) { const h = $("#ovHint"); if (h) { h.textContent = "Not sent: " + r.error; h.className = "hint bad"; } } }); }
   $("#cvBack")?.addEventListener("click", () => { S.card = null; render(); });
   $("#repGo")?.addEventListener("click", () => makeReport(S.card));
   $("#cardX")?.addEventListener("click", () => { S.card = null; render(); });
@@ -531,7 +562,7 @@ function stream() {
   document.addEventListener("focusout", () => { if (S.pending) setTimeout(soon, 0); });
   document.addEventListener("click", (e) => { if (S.liveOpen && !e.target.closest("#liveMenu") && !e.target.closest("#liveT")) { S.liveOpen = false; soon(); }
     if (S.bell && !e.target.closest("#panel") && !e.target.closest("#bell") && !e.target.closest(".toasts")) { S.bell = false; soon(); } });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") { if (S.liveOpen) S.liveOpen = false; else if (S.bell) S.bell = false; else if (S.card) S.card = null; else if (S.side) S.side = false; soon(); } });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") { if (S.ov) S.ov = false; else if (S.liveOpen) S.liveOpen = false; else if (S.bell) S.bell = false; else if (S.card) S.card = null; else if (S.side) S.side = false; soon(); } });
 }
 load();
 </script>

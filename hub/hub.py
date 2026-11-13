@@ -39,8 +39,9 @@ DANGER = re.compile("|".join([
     r"git\s+push\b[^\n]*(--force|\s-f\b|\s\+\S)", r"git\s+reset\s+--hard", r"git\s+clean\s+-\S*f",
     r"git\s+(stash|restore|rebase)\b", r"git\s+checkout\s+(--\s|\.\s*$|-f\b)", r"git\s+commit\b[^\n]*--amend",
     r"git\s+branch\s+-D", r"\bsudo\b", r"\bmkfs", r"curl[^|\n]*\|\s*(ba|z)?sh", r"chmod\s+-R\s+777",
-    r"\bdd\s+if=", r">\s*/dev/sd", r"\b(p?kill|killall)\b", r"\bkill\s+-9",
-    r"modal\s+(app\s+(stop|delete)|volume\s+(rm|delete)|secret\s+delete)",
+    r"\bdd\s+if=", r">\s*/dev/sd", r"\bkillall\b", r"\bkill\s+(-\S+\s+)*-1\b",
+    r"\bpkill\b(?![^\n]*-f\s+\S*(poker|spar|play|modal|run_|bench|test))",   # broad pkill can kill the agents themselves
+    r"modal\s+(app\s+delete|volume\s+(rm|delete)|secret\s+delete)",
     r"(pokerbot\.sequoiacap\.com|/tournament/api)[^\n]*(-X\s*(POST|PATCH|PUT|DELETE)|--data|\s-d\s)",
     r"(-X\s*(POST|PATCH|PUT|DELETE)|--data|\s-d\s)[^\n]*(pokerbot\.sequoiacap\.com|/tournament/api)",
     r"\.(post|patch|put|delete)\([^\n]*(sequoiacap|tournament/api)",
@@ -106,6 +107,8 @@ def bot_name(filename: str) -> str:
     return re.sub(r"\.zip$", "", Path(filename or "").name) or "?"
 
 OPEN = ("new", "planned", "running", "needs_call", "revise")
+QUICK_PRESETS = {"Do the suggestions", "Explain the biggest leak in plain words", "What's still running?", "How far along is it?",
+                 "Anything blocked?", "How was it tested?", "What's the risk?", "What's the status?"}
 REPORT_MODEL = os.environ.get("AVALON_REPORT_MODEL", "claude-sonnet-5-5")
 NARRATOR_MODEL = os.environ.get("AVALON_NARRATOR_MODEL", "claude-haiku-5-5")
 # Context sizes (tokens) above which an agent compacts between turns (never T-9..T-2). Quality drops well before
@@ -120,7 +123,7 @@ COMPACT_KEEP = ("Summarize for yourself to continue the day without loss. Keep, 
                 "running where (subagents, Modal app ids, Codex job ids) and where results will land; promises you "
                 "made to other agents; the ledger ids you depend on or cite; open questions. Drop: raw tool output, logs, superseded plans, chit-chat.")
 LIMIT_RX = re.compile(r"usage limit|rate.?limit|overloaded|429|quota|limit reached|too many requests", re.I)
-APPROVAL_TIMEOUT = 180
+APPROVAL_TIMEOUT = 120
 
 
 class LimitHit(Exception):
@@ -128,9 +131,14 @@ class LimitHit(Exception):
 EVENT_CAP = 4000
 
 
+def norm_bot(x: str) -> str:
+    """'releases/v3.zip', 'v3 (1).zip' (a browser's second download) -> 'v3'."""
+    return re.sub(r"\s*\(\d+\)$", "", re.sub(r"\.zip$", "", (x or "").strip().split("/")[-1].lower()).strip())
+
+
 def same_bot(declared: str, active: str) -> bool:
     """Compare a declared live-bot name with the portal's active file name, ignoring folders and .zip."""
-    norm = lambda x: re.sub(r"\.zip$", "", (x or "").strip().split("/")[-1].lower())   # noqa: E731
+    norm = lambda x: norm_bot(x)   # noqa: E731
     d, a = norm(declared), norm(active)
     return d == a or d in ("agent.py", "bot", "") or a == ""
 
@@ -188,6 +196,7 @@ class Hub:
         self.portal_data = Path.home() / "portal-data"
         self.default_scale = 1.0
         self.report_busy: set[str] = set()
+        self.last_landed = 0.0
 
     def emit(self, kind: str, payload: dict):
         ev = {"kind": kind, **payload}
@@ -264,6 +273,8 @@ class Hub:
         self.mirror_note(p)
         self.local_props[p["id"]] = p
         self.bus.shared["prop:" + p["id"]] = p
+        if len(p.get("thread") or []) > 50:   # the link carries the newest 50 messages; the full thread stays here
+            p = dict(p, thread=[dict(t, text=str(t.get("text", ""))[:4000]) for t in p["thread"][-50:]])
         atomic_write(self.data / "props.json", json.dumps(self.local_props))
         self.emit("prop", {"prop": p})
         await self.bus.set_shared("prop:" + p["id"], p)
@@ -285,8 +296,15 @@ class Hub:
         """A result or method that contradicts the rules card is rejected when it is written."""
         r = self.rules()
         for k in ("players", "stack", "big_blind", "hands_per_match"):
-            if r.get(k) not in (None, "") and it.get(k) not in (None, "") and str(it[k]) != str(r[k]):
-                return f"{k}={it[k]} contradicts the rules card ({k}={r[k]})"
+            if r.get(k) not in (None, "") and it.get(k) not in (None, ""):
+                try:
+                    differ = abs(float(it[k]) - float(r[k])) > 1e-9
+                except (TypeError, ValueError):
+                    differ = str(it[k]) != str(r[k])
+                if differ:
+                    return f"{k}={it[k]} contradicts the rules card ({k}={r[k]})"
+        if r.get("players") and it.get("type") in ("method",) and it.get("players") in (None, ""):
+            return "a method must state players (per table); the rules card says " + str(r["players"])
         return ""
 
     async def record_item(self, it: dict, by: str) -> tuple[str, str]:
@@ -359,8 +377,9 @@ class Hub:
             await self.note_append(it["note"], "Skeptic", text, action="update")
 
     async def human_item(self, text: str, note: str | None = None):
-        """Every human instruction becomes a top-priority ledger item every agent sees, near-verbatim."""
-        if len(text.strip()) < 3:
+        """Human instructions (not questions) become top-priority ledger items every agent sees, near-verbatim."""
+        body = text.split(": ", 1)[-1].strip()
+        if len(body) < 3 or body.endswith("?") or body in QUICK_PRESETS:
             return
         await self.record_item({"type": "human", "claim": f"{PEOPLE[self.person]}: {text.strip()[:600]}", "note": note},
                                PEOPLE[self.person].lower())
@@ -450,6 +469,7 @@ class Hub:
 
     async def scan_releases(self):
         """Every zip in the repo's releases/ is a bot that exists (Platform packs releases there)."""
+        await self.bus.synced.wait()
         while True:
             try:
                 for z in sorted((self.repo / "releases").glob("*.zip")):
@@ -462,11 +482,13 @@ class Hub:
                 pass
             await asyncio.sleep(30)
 
-    async def make_live(self, file: str, who: str, note: str = "") -> dict:
+    async def make_live(self, file: str, who: str, note: str = "", tell: bool = True) -> dict:
         v = {"filename": Path(file).name, "file": file, "sha256": "", "note": note or f"made live by {who}",
              "by": who, "at": time.time()}
         await self.bus.set_shared("live", v)
         self.emit("shared", {"live": v})
+        if not tell:
+            return v
         try:
             await self.bus.send({"id": new_id(), "from": who, "from_kind": "human", "to": "d-overseer", "kind": "task",
                                  "text": f"{who} made {file} the live bot. Make sure Dylan uploads exactly that file on the "
@@ -475,20 +497,34 @@ class Hub:
             pass
         return v
 
+    async def alert_all(self, agent: str, text: str, urgent: bool):
+        """An alert for both screens (the portal watcher runs on one laptop, but Dylan's hands do the uploads)."""
+        await self.add_alert(agent, text, urgent)
+        aid = new_id()
+        await self.bus.set_shared("palert:" + aid, {"id": aid, "agent": agent, "text": text, "urgent": urgent,
+                                                    "from": self.person, "updated": time.time()})
+
     async def watch_live(self):
         """Dylan's laptop: when the live bot changes and the portal isn't running it yet, ask Dylan to upload it."""
+        await self.bus.synced.wait()
         seen = (self.bus.shared.get("live") or {}).get("at")
+        pseen = {k for k in self.bus.shared if k.startswith("palert:")}
         while True:
             await asyncio.sleep(3)
+            for k, v in list(self.bus.shared.items()):
+                if k.startswith("palert:") and k not in pseen and isinstance(v, dict):
+                    pseen.add(k)
+                    if v.get("from") != self.person and time.time() - v.get("updated", 0) < 900:
+                        await self.add_alert(v.get("agent", "s-portal"), v.get("text", ""), bool(v.get("urgent")))
             live = self.bus.shared.get("live") or {}
             act = (self.bus.shared.get("portal_active") or {}).get("filename")
-            if live.get("filename") and act == live.get("filename"):
+            if live.get("filename") and norm_bot(act) == norm_bot(live.get("filename")):
                 for al in [x for x in self.alerts if "Upload " in x.get("text", "") and live["filename"] in x.get("text", "")]:
                     self.dismiss(al["id"])
             if live.get("at") and live.get("at") != seen:
                 seen = live["at"]
                 act = (self.bus.shared.get("portal_active") or {}).get("filename")
-                if self.person == "dylan" and act != live.get("filename"):
+                if self.person == "dylan" and norm_bot(act) != norm_bot(live.get("filename")):
                     await self.add_alert("hub", f"**Upload {live['filename']} now** and make it active on the portal "
                                          f"({live.get('note') or 'new live bot'}). Download it from the Live menu (top right).", True)
 
@@ -550,7 +586,7 @@ class Hub:
         self.report_busy.add(pid)
         try:
             ov = self.agents.get(p.get("owner") or "")
-            work = ""
+            work = "" if ov else ((self.bus.shared.get("ovwork:" + (p.get("owner") or "")) or {}).get("text") or "")
             if ov:
                 rows = []
                 for e in ov.events[-160:]:
@@ -605,8 +641,10 @@ class Hub:
         if action in ("approve", "reject", "comment"):
             await self.human_item(f"{action} on note \"{p['title']}\"" + (f": {text}" if text else ""), p["id"])
         target = p.get("owner") or p.get("author")
+        if action == "approve" and p.get("deadline") and time.time() > p["deadline"]:
+            raise ValueError("Too late: the deadline for this decision has passed, so the default applies.")
         if action == "approve" and p.get("bot"):
-            await self.make_live(p["bot"], who, f"greenlit on note #{p['id']}")
+            await self.make_live(p["bot"], who, f"greenlit on note #{p['id']}", tell=False)
             p["status"], p["decided_by"] = "approved", who
             note = f"GREENLIT by {who}: #{p['id']} use {p['bot']}. It is now the declared live bot; Dylan uploads it."
         elif action == "approve":
@@ -622,9 +660,9 @@ class Hub:
         elif action == "remove":
             was = p["status"]
             p["status"], p["decided_by"] = "removed", who
-            note = ((f"{who} closed note #{p['id']} \"{p['title']}\"." +
-                     (" If work for it is still running and isn't needed elsewhere, stop it and tell the agents." if was in OPEN or was == "blocked" else "")
-                     + " Its whole conversation, for your memory (fold what matters into your PLAN file):\n" + self.thread_text(p)))
+            note = ((f"{who} closed note #{p['id']} \"{p['title']}\" (still open work: stop it unless it's needed elsewhere, "
+                     f"and tell the agents). Its full conversation is in {self.data / 'board' / (p['id'] + '.md')}; fold "
+                     "anything still relevant into your PLAN file.") if was in OPEN or was == "blocked" else "")
         elif action == "close":
             p["status"] = "done"
             note = f"{who} closed #{p['id']} \"{p['title']}\"." + (f" {text}" if text else "")
@@ -656,7 +694,8 @@ class Hub:
             f"[note #{p['id']} \"{p['title']}\" ({p.get('stage', '')}) chat] {who}: {text}\n"
             + (f"Recent in this note:\n{recent}\n" if recent else "") +
             "\nYour reply text in this turn is shown in the note word for word, so answer the human directly and fully "
-            "in plain language (no update_proposal needed for the answer). If it's an instruction or question that needs "
+            "in plain language (no update_proposal needed for the answer). If this turn has messages from more than one "
+            "note, answer each one with update_proposal(id, note=<answer>) instead. If it's an instruction or question that needs "
             "work, send it to the right agent(s) now, say who is doing what, and post the result here when it's back "
             "(update_proposal(id, note=...)).")})
         return p
@@ -683,7 +722,7 @@ class Hub:
     async def expire_decisions(self):
         now = time.time()
         for p in self.props():
-            if p.get("status") == "needs_call" and p.get("deadline") and now > p["deadline"] and \
+            if p.get("status") in ("needs_call", "revise") and p.get("deadline") and now > p["deadline"] and \
                     (p.get("author") in self.agents):
                 p["status"] = "expired"
                 p.setdefault("thread", []).append({"who": "Hub", "at": now, "action": "expire",
@@ -716,6 +755,8 @@ class Hub:
                 "alerts": self.alerts, "schedule": self.bus.shared.get("schedule"),
                 "live": self.bus.shared.get("live"), "clock": self.clock.next_text(), "props": self.props()[:200],
                 "bots": self.bots()[:40], "portal_active": self.bus.shared.get("portal_active"),
+                "overviews": {k[7:]: v.get("items", []) for k, v in self.bus.shared.items()
+                              if k.startswith("ovchat:") and isinstance(v, dict)},
                 "stage": stage_of(self.bus.shared.get("schedule"), time.time()),
                 "next_step": self.clock.next_step(),
                 "bus": {"online": self.bus.online, "error": self.bus.error, "outbox": len(self.bus.outbox),
@@ -767,6 +808,7 @@ class Agent:
         self.fails = 0
         self.turn_started = 0.0
         self.interrupted = False
+        self.preempting = False
         self.human_in_turn = False
         self.last_need = ""
         self.idle_since: float | None = None
@@ -775,11 +817,14 @@ class Agent:
         self.narr_mark = 1
         self.narr_lock = asyncio.Lock()
         self.turn_notes: set = set()
-        self.turn_note_refs: set = set()   # notes this turn's tool calls referred to (narrator routing)
+        self.turn_note_refs: set = set()
+        self.ov_last = 0.0
+        self.ovchat: list = load_json(self.dir / "ovchat.json", []) if self.name.endswith("overview") else []
         self.led_seen: set = set()          # ledger ids this agent was shown or wrote (for invalidation notices)
         self.led_digest: dict = {}
         self.digest_full = True          # first turn after (re)start: the whole team picture
         self.context_tokens = 0
+        self.context_max = 0
         self.usage: dict = {}             # latest usage-limit notice from Claude
         self.limit_reset: float | None = None
         self.model_switch: str | None = None
@@ -820,7 +865,24 @@ class Agent:
         self.hub.bus.publish(self.name, {"title": self.title, "state": self.state, "task": self.task, "idle_since": self.idle_since,
                                          "summary": self.summary})
 
+    def ovwork_rows(self, since: float = 0, cap: int = 12000) -> str:
+        rows = []
+        for e in self.events[-200:]:
+            if e.get("t", 0) < since:
+                continue
+            t = e.get("type")
+            if t == "text" and not e.get("sub"):
+                rows.append(f"[{hhmm(e['t'])}] Overseer: {e['text'][:1200]}")
+            elif t in ("msg_in", "msg_out"):
+                rows.append(f"[{hhmm(e['t'])}] {'from ' + str(e.get('from')) if t == 'msg_in' else 'to ' + str(e.get('to'))}: {str(e.get('text'))[:700]}")
+        return "\n".join(rows)[-cap:]
+
     def record(self, ev: dict):
+        if self.name.endswith("overseer") and ev.get("type") in ("text", "msg_in", "msg_out") and \
+                time.time() - getattr(self, "ovwork_at", 0) > 30:
+            self.ovwork_at = time.time()
+            asyncio.get_event_loop().call_later(1, lambda: asyncio.ensure_future(self.hub.bus.set_shared(
+                "ovwork:" + self.name, {"text": self.ovwork_rows(time.time() - 1800, 8000), "updated": time.time()})))
         if self.name.endswith("overseer"):
             t = ev.get("type")
             if t == "text" and not ev.get("sub"):
@@ -870,24 +932,72 @@ class Agent:
         item.setdefault("at", time.time())
         self.items.append(item)
         self.save_items()
+        if item.get("urgent") and self.state == "working" and self.client is not None and not self.preempting \
+                and time.time() - (self.turn_started or time.time()) > 45:
+            self.preempting = True   # data landed / decision time / a human: don't wait behind a long turn
+            try:
+                await self.client.interrupt()
+            except Exception:  # noqa: BLE001
+                self.preempting = False
         if item.get("wake", True):
             self.wake.set()
         self.hub.emit("agent", self.view())
 
     async def receive(self, msg: dict):
         kind = msg.get("kind") or "question"
+        if self.name.endswith("overview") and msg.get("from_kind") == "human":
+            await self.ov_log(msg["from"], msg["text"])
         self.record({"type": "msg_in", "from": msg["from"], "text": msg["text"], "id": msg["id"],
                      "kind": kind, "reply_to": msg.get("reply_to"), "from_kind": msg.get("from_kind")})
-        await self.add_item({"kind": "msg", "wake": kind not in ("fyi", "answer_to_answer"), **msg})
+        wake = kind not in ("fyi", "answer_to_answer") or msg.get("from") in ("s-pipeline", "s-skeptic", "hub") or bool(msg.get("note"))
+        await self.add_item({"kind": "msg", "wake": wake, "urgent": msg.get("from_kind") == "human" and kind != "fyi", **msg})
         if self.state == "stopped" and not self.paused and kind != "fyi":
             await self.start()
 
     async def human(self, text: str, who: str):
         self.record({"type": "user", "text": text, "from": who, "queued": self.state in ("working", "waiting")})
-        await self.add_item({"kind": "human", "from": who, "text": text})
+        if self.name.endswith("overview"):
+            await self.ov_log(who, text)
+        await self.add_item({"kind": "human", "from": who, "text": text, "urgent": True})
         if self.state == "stopped":
             self.paused = False
             await self.start()
+
+    def overview_context(self) -> str:
+        """What the Overview reads before answering: the Overseer's recent work and the open notes."""
+        hub = self.hub
+        ov = hub.agents.get(self.name.replace("overview", "overseer"))
+        since = max(self.ov_last - 300, time.time() - 1800)
+        self.ov_last = time.time()
+        rows = []
+        if not ov:
+            rows = [(hub.bus.shared.get("ovwork:" + self.name.replace("overview", "overseer")) or {}).get("text", "")]
+        if ov:
+            for e in ov.events[-200:]:
+                if e.get("t", 0) < since:
+                    continue
+                t = e.get("type")
+                if t == "text" and not e.get("sub"):
+                    rows.append(f"[{hhmm(e['t'])}] Overseer: {e['text'][:1200]}")
+                elif t in ("msg_in", "msg_out"):
+                    rows.append(f"[{hhmm(e['t'])}] {'from ' + str(e.get('from')) if t == 'msg_in' else 'to ' + str(e.get('to'))}: {str(e.get('text'))[:700]}")
+        notes = []
+        for p in hub.props():
+            if p.get("status") == "removed":
+                continue
+            last = (p.get("thread") or [{}])[-1]
+            notes.append(f"- {p.get('stage', '')} · {p['kind']} · {p['status']}: {p['title']}"
+                         + (f"\n  summary: {p['body'][:400]}" if p.get("body") else "")
+                         + (f"\n  latest: {str(last.get('text', ''))[:300]}" if last else ""))
+        return ("[the Overseer's recent work, latest last]\n" + ("\n".join(rows)[-12000:] or "(nothing new)") +
+                "\n\n[notes on the board]\n" + ("\n".join(notes[:16])[:6000] or "(none)"))
+
+    async def ov_log(self, who: str, text: str):
+        """The Overview conversation, shared so the other person can read (and write in) it too."""
+        self.ovchat = (self.ovchat + [{"who": who, "at": time.time(), "text": text[:4000]}])[-40:]
+        atomic_write(self.dir / "ovchat.json", json.dumps(self.ovchat))
+        await self.hub.bus.set_shared("ovchat:" + self.name, {"items": self.ovchat, "updated": time.time()})
+        self.hub.emit("shared", {"ovchat": self.name})
 
     async def narr_ticker(self):
         """During a long Overseer turn, post progress to the notes every minute."""
@@ -948,9 +1058,10 @@ class Agent:
                 break
             rows.append(line)
             used += len(line)
-        for x in led:
+        shown = changed[:len([r for r in rows if not r.startswith("- …")])]   # only what was actually emitted
+        for x in shown + humans:
             self.led_digest[x["id"]] = x.get("status")
-        self.led_seen |= {x["id"] for x in changed}
+        self.led_seen |= {x["id"] for x in shown}
         if rows:
             out.append("[ledger: changed since your last turn, most important first]\n" + "\n".join(rows))
         rows = [(a.name, a.title, a.state, a.summary) for a in hub.agents.values() if a is not self]
@@ -983,9 +1094,9 @@ class Agent:
         U, now = 60 * sch.get("scale", 1.0), time.time()
         for k in range(1, sch.get("scored", 6) + 1):
             ts = sch["start"] + (60 + 20 * (k - 1)) * U
-            if ts - 9 * U <= now < ts - 2 * U:
+            if ts - 15 * U <= now < ts - 2 * U:   # from data landing (~T-13) to upload: never pause to compact
                 return True
-        return False
+        return time.time() - getattr(self.hub, "last_landed", 0) < 8 * U
 
     async def maybe_compact(self):
         """Compact proactively, between turns, before the context gets long and slow, with a role-specific
@@ -993,10 +1104,13 @@ class Agent:
         try:
             u = await self.client.get_context_usage()
             tokens = int((u or {}).get("totalTokens") or 0)
+            self.context_max = int((u or {}).get("maxTokens") or 0)
         except Exception:  # noqa: BLE001
             return
         self.context_tokens = tokens
         limit = COMPACT_AT_OVERSEER if self.name.endswith("overseer") else COMPACT_AT_WORKER
+        if self.context_max:   # stay well below the CLI's own auto-compact point
+            limit = min(limit, int(0.65 * self.context_max))
         if tokens < limit or self.crunch():
             return
         await self.set_state("working", "compacting")
@@ -1096,9 +1210,14 @@ class Agent:
                 self.save_items()
                 self.human_in_turn = any(b["kind"] == "human" or b.get("from_kind") == "human" for b in batch)
                 prompt = "\n\n".join(self.format(b) for b in batch)
+                if any(b.get("retry") for b in batch):
+                    prompt = ("(Retrying this input after an error: some actions from the previous attempt may already have "
+                              "happened. Check (ledger, notes, messages, files) before repeating any of them.)\n\n" + prompt)
                 digest = self.team_digest()
                 if digest:
                     prompt = digest + "\n\n" + prompt
+                if self.name.endswith("overview"):
+                    prompt = situation(self.hub) + "\n\n" + self.overview_context() + "\n\n" + prompt
                 if self.name.endswith("overseer"):
                     prompt = situation(self.hub) + "\n\n" + prompt
                     self.narr_buf, self.narr_mark = [("input", prompt[-6000:])], 1
@@ -1116,6 +1235,13 @@ class Agent:
                         ok = False
                     elif r == "limited":
                         ok, limited = False, True
+                if self.preempting:             # stopped for urgent input; the partial turn stays in the session
+                    ok, limited, self.preempting = True, False, False
+                    self.interrupted = False
+                    self.record({"type": "note", "text": "Interrupted for urgent input; it resumes after handling it."})
+                    self.items.insert(0, {"id": new_id(), "at": time.time(), "kind": "hub", "wake": True,
+                                          "text": "Your previous turn was interrupted because urgent input arrived (below). "
+                                                  "Handle it first, then resume what you were doing."})
                 if self.interrupted:            # paused by a human: the turn is over, don't replay it
                     ok, limited, self.interrupted = True, False, False
                     self.record({"type": "note", "text": "Paused."})
@@ -1147,6 +1273,7 @@ class Agent:
                     ticker.cancel()
                 for i in batch:
                     i.pop("taken", None)
+                    i["retry"] = i.get("retry", 0) + 1
                 self.save_items()
                 text = f"{type(e).__name__}: {e}"
                 is_limit = isinstance(e, LimitHit) or self.usage.get("status") == "rejected"
@@ -1158,6 +1285,7 @@ class Agent:
                     kind = self.usage.get("type") or ""
                     if "opus" in kind and "sonnet" not in self.model() and not self.hub.model_override:
                         self.model_switch = "claude-sonnet-5-5"   # Opus allowance used up: carry on with Sonnet
+                        self.usage = {}
                         wait = 5
                         msg = f"{self.title} used up its Opus allowance; it switched to Sonnet and carries on."
                     elif API_KEY_FILE.exists() and not self.use_api_key:
@@ -1189,6 +1317,8 @@ class Agent:
             for b in m.content:
                 if isinstance(b, TextBlock) and b.text.strip():
                     self.record({"type": "text", "text": b.text, "sub": bool(m.parent_tool_use_id)})
+                    if self.name.endswith("overview") and not m.parent_tool_use_id:
+                        asyncio.create_task(self.ov_log("Overview", b.text))
                 elif isinstance(b, ToolUseBlock):
                     self.record({"type": "tool", "name": b.name, "input": short(b.input), "id": b.id,
                                  "sub": bool(m.parent_tool_use_id)})
@@ -1482,7 +1612,8 @@ class Agent:
         async def propose(a):
             kind = {"decision": "bot", "change": "analysis", "finding": "analysis", "research": "analysis"}.get(a["kind"], a["kind"])
             if kind == "analysis":   # fold into the latest analysis note instead of a new note
-                an = next((p for p in hub.props() if p.get("kind") == "analysis" and p.get("status") != "removed"), None)
+                an = max((p for p in hub.props() if p.get("kind") == "analysis" and p.get("status") != "removed"),
+                         key=lambda p: p.get("created", 0), default=None)
                 if an:
                     await hub.note_append(an["id"], me.title, f"**{a['title']}** — {a.get('headline') or ''}\n\n{a['body']}"[:8000],
                                           action=a["kind"])
@@ -1521,6 +1652,8 @@ class Agent:
                                          "hands_per_match": "integer", "bot": "string", "data": "string",
                                          "tags": "array", "depends_on": "array", "file": "string", "note": "string"}))
         async def record(a):
+            if a.get("note"):
+                a["note"] = a["note"].lstrip("#")
             iid, err = await hub.record_item(dict(a), me.name)
             if a.get("note"):
                 me.turn_note_refs.add(a["note"])
@@ -1672,13 +1805,15 @@ DISPATCH = {
             ("samuel", "crit", "s-tester", "Rank A, B, C (paired tests + real practice scores) for the round-1 choice")],
     "b50": [("dylan", "crit", "d-platform", "Release the best real-field scorer as the live bot for scored round 1"),
             ("samuel", "crit", "s-data", "Which style did the field reward? One paragraph for the round-1 decision")],
-    "T13": [("samuel", "crit", "s-data", "From the round card (s-pipeline writes it within a minute of the data): our leaks first (Part 2), one recommended change with size, z and n, recorded in the ledger"),
+    "T13": [("samuel", "crit", "s-data", "As soon as DATA LANDED (not before; if it hasn't, wait for it), from the round card (s-pipeline writes it within a minute of the data): our leaks first (Part 2), one recommended change with size, z and n, recorded in the ledger"),
             ("samuel", "crit", "s-skeptic", "Re-run the numbers behind every proposed result the T-8 decision may rest on (card headline, s-tester verdicts, s-data's change); verify each"),
             ("samuel", "crit", "s-tester", "Verdict on every pending candidate: correct? and paired test vs the live bot"),
             ("samuel", "opt", "s-data", "Opponent profiles and counters (Part 4)"),
             ("samuel", "opt", "s-tester", "Cloned field on Modal (Part 3b) for the challenger"),
             ("dylan", "crit", "d-builder", "Challenger packed and tested, ready for the T-12 upload"),
             ("dylan", "crit", "d-platform", "Fix bugs s-tester reported; build this window's one tested change on the live bot")],
+    "T20": [("samuel", "crit", "s-skeptic", "Verify the challenger's paired-test verdicts and methods now (they don't depend on the new round), so only the new round's card is left to check at T-13"),
+            ("dylan", "crit", "d-overseer", "Draft the 'Which bot?' note for the next scored round now (default: the live bot); fill in the evidence as it lands")],
     "T12": [("dylan", "crit", "d-platform", "Release the challenger (releases/<name>.zip) so Dylan can upload it for the practice round")],
     "T8": [("samuel", "crit", "s-overseer", "Send d-overseer the recommendation now (live / live + one tested change / challenger) with evidence"),
            ("dylan", "crit", "d-overseer", "Post the live-bot decision card now (deadline_minutes until T-5)")],
@@ -1693,7 +1828,7 @@ CHECKPOINTS = [
     ("dylan", "T8", "the decision card is posted"), ("dylan", "T3", "the chosen bot's release is ready"),
     ("dylan", "b10", "the rules card is set (players per table, stacks, blinds)"),
     ("samuel", "T12", "the round card for the round that just landed is written"),
-    ("samuel", "T8", "the recommendation cites only VALIDATED ledger ids (or says which are still proposed)"),
+    ("samuel", "T8", "the recommendation is with d-overseer, citing ledger ids (validated preferred; none disputed)"),
 ]
 
 
@@ -1725,15 +1860,15 @@ def dispatch_text(key: str, person: str) -> str:
 HUMAN_STEPS = {
     "b0": {"samuel": "Set the clock's minute 0 if it isn't set, and read the Format page.",
            "dylan": "Fetch the kit and read the Format page."},
-    "b10": {"dylan": "Upload the minimal bot and make it active."},
-    "b20": {"dylan": "Upload style A for practice round 1 (if Overseer says so) and make it active."},
-    "b30": {"dylan": "Upload style B for practice round 2 and make it active."},
-    "b40": {"dylan": "Upload style C for practice round 3 and make it active."},
-    "12": {"dylan": "Upload the challenger and make it active (only if your Overseer says it's ready)."},
-    "9": {"dylan": "Put the LIVE bot back as active now."},
+    "b10": {"dylan": "UPLOAD"},
+    "b20": {"dylan": "UPLOAD"},
+    "b30": {"dylan": "UPLOAD"},
+    "b40": {"dylan": "UPLOAD"},
+    "12": {"dylan": "UPLOAD"},
+    "9": {"dylan": "UPLOAD"},
     "8": {"samuel": "Decision time: open the Use-which-bot note on the board and greenlight or reject.",
           "dylan": "Decision time: open the Use-which-bot note on the board and greenlight or reject."},
-    "3": {"dylan": "Upload the chosen bot (if one was greenlit) and confirm the active bot on the portal."},
+    "3": {"dylan": "UPLOAD"},
 }
 
 
@@ -1817,10 +1952,10 @@ def situation(hub: "Hub") -> str:
     if sch:   # who is free right now, on both laptops, so idle capacity gets used
         now2, load = time.time(), []
         for a in hub.agents.values():
-            if not a.name.endswith("overseer"):
+            if not a.name.endswith(("overseer", "overview")):
                 load.append((a.name, a.state, a.task, a.idle_since))
         for n, v in hub.bus.directory.items():
-            if v.get("person") != me and not v.get("service") and not n.endswith("overseer") and now2 - v.get("seen", 0) < 120:
+            if v.get("person") != me and not v.get("service") and not n.endswith(("overseer", "overview")) and now2 - v.get("seen", 0) < 120:
                 load.append((n, v.get("state"), v.get("task"), v.get("idle_since")))
         idle = [n for n, st, t, since in load if st in ("idle", "done") and (not since or now2 - since > 60)]
         lines.append("Team load: " + "; ".join(f"{n} {st}" + (f" ({(t or '')[:60]})" if st == 'working' and t else "")
@@ -2026,10 +2161,16 @@ class Clock:
                 atomic_write(self.hub.data / "clock_sent.json", json.dumps(sorted(self.sent)))
                 if key.endswith(":b0"):
                     await self.hub.build_notes(int(key.split(":")[0]))
-                await ov.add_item({"kind": "clock", "wake": True, "text": text})
+                await ov.add_item({"kind": "clock", "wake": not key.split(":", 1)[1].startswith("p"), "text": text,
+                                   "urgent": key.endswith(("-13", "-8", "-3"))})
                 if ov.state == "stopped" and not ov.paused:
                     await ov.start()
                 human = HUMAN_STEPS.get(key.split(":", 1)[1].split("-")[-1] if ":s" in key else key.split(":", 1)[1], {}).get(me)
+                if human == "UPLOAD":   # upload reminders follow the actual state, never a fixed plan
+                    live = (self.hub.bus.shared.get("live") or {}).get("filename")
+                    act = (self.hub.bus.shared.get("portal_active") or {}).get("filename")
+                    human = (f"Upload **{live}** now (Live menu → download) and make it active; the portal is running "
+                             f"{act or 'nothing'}." if live and norm_bot(live) != norm_bot(act) else None)
                 if human:   # a step a person must do: remind them directly
                     await self.hub.add_alert(f"{me[0]}-clock", text.split(": ", 1)[0] + ": " + human,
                                              urgent=key.endswith(("-8", "-3")))
@@ -2091,7 +2232,7 @@ class PortalWatcher:
                     await self.hub.add_alert("s-portal", "The portal has not answered for 3 checks in a row.", True)
             live = self.hub.bus.shared.get("live") or {}
             act = self.hub.bus.shared.get("portal_active") or {}
-            waiting = live.get("filename") and live.get("filename") != act.get("filename") and time.time() - live.get("at", 0) < 1800
+            waiting = live.get("filename") and norm_bot(live.get("filename")) != norm_bot(act.get("filename")) and time.time() - live.get("at", 0) < 1800
             await asyncio.sleep(10 if waiting else 30 if fast else 60)   # an upload is pending: confirm it fast
 
     async def identify(self):
@@ -2143,7 +2284,12 @@ class PortalWatcher:
                         "PLAN-samuel.md / data/RATES.md for what has already been analysed before assigning work.")})
                 new_done = []
         for r in sorted(new_done, key=lambda r: r["created_at"]):
-            await self.landed(r)
+            try:
+                await self.landed(r)
+            except Exception as e:  # noqa: BLE001
+                self.st["done"].append(r["id"])
+                await self.hub.add_alert("s-portal", f"Couldn't process the result of {r.get('label', r['id'])} "
+                                         f"({type(e).__name__}: {e}); tell your Overseer to look at the portal directly.", True)
         await self.retry_hands()
         standings = (await self.aget(f"/competitions/{self.cid}/standings"))["items"]
         self.st["standings"] = standings
@@ -2168,13 +2314,13 @@ class PortalWatcher:
                                                     "text": f"{r['stage']} started; {f} is the active bot on the portal."}])
         self.save()
         ours = next((x for x in standings if x["team_name"] == self.team_name), None)
-        third = standings[2]["total"] if len(standings) >= 3 else None
+        third = (standings[2].get("total") or 0) if len(standings) >= 3 else None
         summary = "### Standings\n| # | Team | Total |\n|---|---|---|\n" + "\n".join(
-            f"| {x['rank']} | {'**' + x['team_name'] + '**' if x['team_name'] == self.team_name else x['team_name']} | {x['total']:.2f} |"
+            f"| {x.get('rank')} | {'**' + x['team_name'] + '**' if x['team_name'] == self.team_name else x['team_name']} | {(x.get('total') or 0):.2f} |"
             for x in standings[:10])
         summary += f"\n\nActive bot: {team.get('active_filename') or 'none'} · competition: {self.comp_name}"
         running = [r for r in rounds if not r.get("completed_at")]
-        task = (f"We're {ours['rank']} ({ours['total']:.1f}; 3rd has {third:.1f})" if ours and third is not None else
+        task = (f"We're {ours.get('rank')} ({(ours.get('total') or 0):.1f}; 3rd has {third:.1f})" if ours and third is not None else
                 f"{len(rounds)} rounds seen") + (f" · {len(running)} running" if running else "")
         self.hub.set_service("s-portal", "Portal", "working", task, summary)
         return bool(running)
@@ -2186,10 +2332,13 @@ class PortalWatcher:
         folder = self.out / f"{n:02d}-{re.sub(r'[^a-z0-9]+', '-', label.lower()).strip('-')}"
         folder.mkdir(parents=True, exist_ok=True)
         (folder / "results.json").write_text(json.dumps(res, indent=1))
-        files = await self.fetch_hands(r["id"], folder)
+        files = await self.fetch_hands(r["id"], folder, small_first=True)
         if not files:
             self.st["need_hands"][r["id"]] = {"folder": str(folder), "label": label, "since": time.time()}
-        items = sorted(res["items"], key=lambda x: -x["average_points"])
+        elif not self.small_only:
+            asyncio.create_task(self.fetch_hands(r["id"], folder))   # the full file, off the critical path
+        self.hub.last_landed = time.time()
+        items = sorted(res["items"], key=lambda x: -(x.get("average_points") or 0))
         stage = r.get("stage") or label
         aid = "A-" + r["id"][:12]
         self.st.setdefault("note_of", {})[r["id"]] = aid
@@ -2197,8 +2346,8 @@ class PortalWatcher:
                                    author_person="samuel", title=f"Analysis for {stage}", status="running")
         ours = next((i for i, x in enumerate(items, 1) if x["team_name"] == self.team_name), None)
         me = items[ours - 1] if ours else None
-        line = (f"{label} finished: we were {ours} of {len(items)} with {me['average_points']:.2f} "
-                f"(±{me['margin_of_error'] or 0:.2f}); 1st {items[0]['team_name']} {items[0]['average_points']:.2f}."
+        line = (f"{label} finished: we were {ours} of {len(items)} with {(me.get('average_points') or 0):.2f} "
+                f"(±{me.get('margin_of_error') or 0:.2f}); 1st {items[0]['team_name']} {(items[0].get('average_points') or 0):.2f}."
                 if me else f"{label} finished (we had no result: forfeit?).")
         paths = f"\nResults: {folder}/results.json" + "".join(f"\nHands: {p}" for p in files) + \
                 ("" if files else "\nHand history not downloadable yet; I'll keep trying.")
@@ -2211,17 +2360,20 @@ class PortalWatcher:
             await self.hub.note_append(lid, "Portal", line, status="done")
         if quiet:
             return
+        card = await self.run_card(folder, stage) if files else ""
         pl = self.hub.agents.get("s-pipeline")
         if pl:   # standing order: numbers first, no Overseer hop (the decision window is only 5 minutes)
-            await pl.add_item({"kind": "portal", "wake": True, "note": aid, "text": (
-                f"DATA LANDED for {stage}. {line}{paths}\nRun the round card now (analysis/roundcard.py), write "
+            await pl.add_item({"kind": "portal", "wake": True, "urgent": True, "note": aid, "text": (
+                f"DATA LANDED for {stage}. {line}{paths}\n" + (f"The hub already ran analysis/roundcard.py:\n{card}\nCheck it, "
+                "record the headline numbers, and fyi s-overseer, s-data and s-skeptic. " if card else "") +
+                "Run the round card now (analysis/roundcard.py), write "
                 f"analysis/{re.sub(r'[^A-Za-z0-9.]+', '-', stage)}/card.md, record the headline numbers as results (note='{aid}'), "
                 "and fyi s-overseer and s-data with the path. Finish within 2 minutes.")})
             if pl.state == "stopped" and not pl.paused:
                 await pl.start()
         ov = self.hub.agents.get("s-overseer")
         if ov:   # the Overseer decides what to do with it and dispatches the workers with context
-            await ov.add_item({"kind": "portal", "wake": True, "note": aid, "text": "NEW ROUND RESULT. " + line + paths +
+            await ov.add_item({"kind": "portal", "wake": True, "urgent": True, "note": aid, "text": "NEW ROUND RESULT. " + line + paths +
                                f"\nThe humans follow this round on note #{aid} \"Analysis for {stage}\": your progress there is "
                                "posted automatically from what you say and do. When you have the picture, set its summary "
                                f"with update_proposal(id='{aid}', summary=...): the high-level story in plain words, then "
@@ -2231,9 +2383,29 @@ class PortalWatcher:
         await self.tell("d-overseer", "fyi", line)
         self.hub.set_service("s-portal", "Portal", "working", line)
 
-    async def fetch_hands(self, tid: str, folder: Path) -> list[str]:
+    async def run_card(self, folder: Path, stage: str) -> str:
+        """If the pipeline's round-card script exists (built and tested in the build hour), run it at once, so the
+        numbers exist before any agent has taken a turn."""
+        script = self.hub.repo / "analysis" / "roundcard.py"
+        if not script.exists():
+            return ""
+        py = self.hub.repo / ".venv" / "bin" / "python"
+        try:
+            proc = await asyncio.create_subprocess_exec(
+                str(py if py.exists() else "python3"), "-I", "-c",
+                "import runpy, sys; sys.path.insert(0, sys.argv[1]); sys.argv = sys.argv[2:]; "
+                "runpy.run_path(sys.argv[0], run_name='__main__')",
+                str(script.parent), str(script), str(folder), cwd=str(self.hub.repo),
+                stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT,
+                env={**os.environ, "AVALON_STAGE": stage})
+            out, _ = await asyncio.wait_for(proc.communicate(), 90)
+            return (f"(exit {proc.returncode}) " + out.decode(errors="replace")[-3000:]).strip()
+        except Exception as e:  # noqa: BLE001
+            return f"(the hub couldn't run it: {type(e).__name__})"
+
+    async def fetch_hands(self, tid: str, folder: Path, small_first: bool = False) -> list[str]:
         files = []
-        for suffix, q in (("first-1000", "?subset=first-1000"),) + ((("full", ""),) if not self.small_only else ()):
+        for suffix, q in (("first-1000", "?subset=first-1000"),) + ((("full", ""),) if not (self.small_only or small_first) else ()):
             p = folder / f"hands-{suffix}.jsonl.gz"
             if p.exists() and p.stat().st_size > 100:
                 files.append(str(p))
@@ -2287,7 +2459,7 @@ class PortalWatcher:
                 self.st["subs"].append(s["id"])
                 if s["status"] == "rejected":
                     text = f"Upload {s['filename']} was REJECTED by the portal: {s.get('rejection_reason')}. The previous bot stays active."
-                    await self.hub.add_alert("s-portal", text, True)
+                    await self.hub.alert_all("s-portal", text, True)
                     await self.tell("d-overseer", "question", text)
         live = self.hub.bus.shared.get("live")
         now = time.time()
@@ -2310,7 +2482,7 @@ class PortalWatcher:
                            f"d-overseer declared {live['filename']}.")
                 else:
                     continue
-                await self.hub.add_alert("s-portal", msg, True)
+                await self.hub.alert_all("s-portal", msg, True)
                 await self.tell("d-overseer", "question", msg)
 
 
@@ -2360,6 +2532,8 @@ def make_app(hub: Hub) -> web.Application:
         return resp
 
     async def body(req):
+        if req.method == "POST" and not req.content_type.startswith("application/json"):
+            raise web.HTTPForbidden(text="JSON only")
         try:
             return await req.json()
         except Exception:  # noqa: BLE001
@@ -2371,7 +2545,8 @@ def make_app(hub: Hub) -> web.Application:
         if not text:
             return web.json_response({"error": "Type a message first."}, status=400)
         who = PEOPLE[hub.person]
-        await hub.human_item(f"to {name}: {text}")
+        if not name.endswith("overview"):
+            await hub.human_item(f"to {name}: {text}")
         if name in hub.agents:
             await hub.agents[name].human(text, who)
             return web.json_response({"ok": True})
@@ -2543,10 +2718,17 @@ async def main():
     if a.portal_data:
         hub.portal_data = Path(a.portal_data).expanduser().resolve()
     await hub.bus.start()
+    try:   # restart safety: see the shared state before acting on it (bounded, so a dead link can't block startup)
+        await asyncio.wait_for(hub.bus.synced.wait(), 12)
+    except asyncio.TimeoutError:
+        pass
     for ag in hub.agents.values():
         hub.bus.publish(ag.name, {"title": ag.title, "state": ag.state, "task": ag.task, "summary": ag.summary})
-    for pr in hub.local_props.values():   # re-share this laptop's cards (e.g. after a restart)
-        asyncio.create_task(hub.bus.set_shared("prop:" + pr["id"], pr))
+    for pr in hub.local_props.values():   # re-share this laptop's notes (e.g. after a restart), merged with the remote copy
+        other = hub.bus.shared.get("prop:" + pr["id"])
+        merged = merge_note(other, pr) if isinstance(other, dict) else pr
+        if merged != other:
+            asyncio.create_task(hub.bus.set_shared("prop:" + pr["id"], merged))
     hub.default_scale = a.scale
     hub.bus.scale = a.scale
     if a.start:
@@ -2580,7 +2762,7 @@ async def main():
             await ag.add_item({"kind": "hub", "wake": True, "text": f"The hub restarted at {hhmm(time.time())}. "
                                "Re-check your PLAN file, your inbox and the latest portal notice, then carry on."})
             await ag.start()
-        elif not a.no_autostart and ag.spec.get("autostart") and not restarted:
+        elif not a.no_autostart and ag.spec.get("autostart") and (not restarted or ag.name.endswith("overview")):
             if not ag.session_id and ag.name in KICKOFF:
                 await ag.add_item({"kind": "hub", "wake": True, "text": KICKOFF[ag.name]})
             await ag.start()
@@ -2589,7 +2771,8 @@ async def main():
         while True:
             await asyncio.sleep(30)
             for ag in hub.agents.values():
-                hub.bus.publish(ag.name, {"title": ag.title, "state": ag.state, "task": ag.task, "summary": ag.summary})
+                hub.bus.publish(ag.name, {"title": ag.title, "state": ag.state, "task": ag.task, "summary": ag.summary[:2000],
+                                          "idle_since": ag.idle_since})
                 ag.save_meta()
             if hub.bus.outbox and hub.bus.oldest_unsent_age() > 120:
                 await hub.add_alert("hub", "Messages to the other laptop have been waiting over 2 minutes: the link "

@@ -24,7 +24,8 @@ QUEUE = "avalon-hub-bus"
 DIRECTORY = "avalon-hub-dir"
 FRESH = 300          # a directory entry older than this (s) is offline: no new messages are routed to it
 ACK_WAIT = 30        # resend a remote message if no ack after this many seconds
-MAX_TRIES = 12       # then it goes to the dead-letter file and the sender is told
+MAX_TRIES = 12       # unacknowledged deliveries (puts that succeeded) before it goes to the dead-letter file
+GIVE_UP_AFTER = 1800 # seconds; failed puts while the link is down don't count, only this overall age does
 PAIR_LIMIT = 30      # more than this many messages between two workers in 10 event-minutes -> hold and alert (a loop)
 PAIR_LIMIT_LEAD = 45  # an Overseer and its workers talk constantly by design; only a runaway loop trips this
 
@@ -69,6 +70,17 @@ class Bus:
         self.outbox: list[dict] = load_json(self.outbox_file, [])
         self.directory: dict[str, dict] = {}
         self.shared: dict[str, object] = {}   # "live", "schedule" (other shared keys)
+        self.shared_ver: dict[str, float] = {}
+        self.blobs = None
+        self.dirty: dict[str, float] = {}
+        self._dirty_evt = asyncio.Event()
+        self.synced = asyncio.Event()   # set after the first directory/shared sync (restart safety)
+        try:   # restart without the link: carry on from the last known shared state (clock, rules, ledger, notes)
+            saved = json.loads((data / "shared.json").read_text())
+            self.shared.update(saved.get("shared", {}))
+            self.shared_ver.update(saved.get("ver", {}))
+        except Exception:  # noqa: BLE001
+            pass
         self.local_names: set[str] = set()
         self.online = False
         self.error = ""
@@ -85,11 +97,15 @@ class Bus:
             import modal
             self.q = modal.Queue.from_name(QUEUE + self.ns, create_if_missing=True)
             self.d = modal.Dict.from_name(DIRECTORY + self.ns, create_if_missing=True)
+            # shared values (notes, ledger, bots...) live in their own Dict; the directory holds only tiny version
+            # stamps, so each 5 s poll downloads just what changed (hotspot data matters)
+            self.blobs = modal.Dict.from_name(DIRECTORY + self.ns + "-shared", create_if_missing=True)
             await asyncio.wait_for(self.d.put.aio("__ping__", time.time()), 15)
             self.online = True
         except Exception as e:  # noqa: BLE001
             self.online, self.error = False, f"Can't reach the link to the other laptop ({type(e).__name__}); retrying"
-        for coro in (self._send_loop(), self._ack_loop(), self._recv_loop(), self._dir_loop(), self._publish_loop()):
+        for coro in (self._send_loop(), self._ack_loop(), self._recv_loop(), self._dir_loop(), self._publish_loop(),
+                     self._shared_loop()):
             asyncio.create_task(coro)
 
     def oldest_unsent_age(self) -> float:
@@ -131,7 +147,7 @@ class Bus:
             if len(dq) > limit:
                 self.held.append(msg)
                 raise OverflowError(f"held: {msg['from']} and {msg['to']} have exchanged {len(dq)} messages in 10 minutes. "
-                                    "Stop messaging each other; finish your work and summarise in set_status. A human has been told.")
+                                    "This message was dropped. Stop messaging each other; finish your work and summarise in set_status. A human has been told.")
         if to_person == self.person:
             if not await self.deliver(msg):
                 raise ValueError(f"'{msg['to']}' could not take the message")
@@ -159,8 +175,8 @@ class Bus:
                     self.online, self.error, delay = True, "", 1.0
                     continue
                 except Exception as e:  # noqa: BLE001
-                    o["tries"] += 1
-                    if o["tries"] >= MAX_TRIES or type(e).__name__ in ("RequestSizeError", "TypeError"):
+                    # a failed put means the link is down: keep it, don't count it against the message
+                    if time.time() - m.get("at", time.time()) > GIVE_UP_AFTER or type(e).__name__ in ("RequestSizeError", "TypeError"):
                         await self._dead(o, f"{type(e).__name__}")
                         continue
                     self.online, self.error = False, "Link to the other laptop is down; retrying"
@@ -194,7 +210,7 @@ class Bus:
                     changed = True
                     asyncio.create_task(guarded(self.d.pop.aio(k)))
                 elif time.time() - o["sent_at"] > ACK_WAIT:
-                    if o["tries"] >= MAX_TRIES:
+                    if o["tries"] >= MAX_TRIES or time.time() - o["msg"].get("at", time.time()) > GIVE_UP_AFTER:
                         await self._dead(o, "never acknowledged")
                     else:
                         o["sent_at"] = None   # resend
@@ -265,15 +281,48 @@ class Bus:
                 await guarded(self.d.put.aio("agent:" + name, info))
 
     async def set_shared(self, key: str, value):
+        """Local at once; the upload happens in the background, coalesced and retried until it succeeds (blob first,
+        then the version stamp, so the other laptop never fetches a stale value under a new stamp)."""
         self.shared[key] = value
-        if self.d is not None:
-            await guarded(self.d.put.aio("shared:" + key, value))
+        ver = (value.get("updated") if isinstance(value, dict) else None) or time.time()
+        self.shared_ver[key] = ver
+        self.dirty[key] = ver
+        self._dirty_evt.set()
+
+    def _persist_shared(self):
+        try:
+            atomic_write(self.data / "shared.json", json.dumps({"shared": self.shared, "ver": self.shared_ver}, default=str))
+        except Exception:  # noqa: BLE001
+            pass
+
+    async def _shared_loop(self):
+        while True:
+            await self._dirty_evt.wait()
+            self._dirty_evt.clear()
+            if self.d is None or self.blobs is None:
+                await asyncio.sleep(5)
+                self._dirty_evt.set()
+                continue
+            self._persist_shared()
+            for key, ver in list(self.dirty.items()):
+                val = self.shared.get(key)
+                try:
+                    await asyncio.wait_for(self.blobs.put.aio("shared:" + key, val), 15)
+                    await asyncio.wait_for(self.d.put.aio("ver:" + key, ver), 10)
+                    if self.dirty.get(key) == ver:
+                        del self.dirty[key]
+                except Exception:  # noqa: BLE001
+                    pass
+            if self.dirty:
+                await asyncio.sleep(3)
+                self._dirty_evt.set()
 
     async def _dir_loop(self):
         while True:
             if self.d is not None:
                 try:
                     pairs = await asyncio.wait_for(self._items(), 25)
+                    versioned = {k[4:] for k, _ in pairs if k.startswith("ver:")}
                     keys = set()
                     for k, v in pairs:
                         keys.add(k)
@@ -286,7 +335,16 @@ class Bus:
                                 self.directory.pop(n, None)
                                 continue
                             self.directory[n] = v
-                        elif k.startswith("shared:"):
+                        elif k.startswith("ver:"):
+                            sk = k[4:]
+                            if self.shared_ver.get(sk) != v and sk not in self.dirty and (self.shared_ver.get(sk) or 0) < v:
+                                val = await asyncio.wait_for(self.blobs.get.aio("shared:" + sk), 20)
+                                cur = self.shared.get(sk)
+                                if val is not None and not (isinstance(cur, dict) and isinstance(val, dict)
+                                                            and cur.get("updated", 0) > val.get("updated", 0)):
+                                    self.shared[sk] = val
+                                self.shared_ver[sk] = v
+                        elif k.startswith("shared:") and k[7:] not in versioned:   # older format, only if never rewritten
                             sk = k[7:]
                             cur = self.shared.get(sk)
                             if not (isinstance(cur, dict) and isinstance(v, dict) and cur.get("updated", 0) > v.get("updated", 0)):
@@ -294,6 +352,8 @@ class Bus:
                     for n in list(self.directory):
                         if n not in self.local_names and "agent:" + n not in keys:
                             self.directory.pop(n, None)
+                    self._persist_shared()
+                    self.synced.set()
                 except Exception:  # noqa: BLE001
                     pass
             await asyncio.sleep(5)
@@ -301,7 +361,7 @@ class Bus:
     async def _items(self):
         out = []
         async for k, v in self.d.items.aio():
-            if isinstance(k, str) and (k.startswith("agent:") or k.startswith("shared:")) and v is not None:
+            if isinstance(k, str) and (k.startswith(("agent:", "shared:", "ver:"))) and v is not None:
                 out.append((k, v))
         return out
 
