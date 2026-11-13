@@ -263,7 +263,11 @@ print the card to stdout too; the hub runs it itself, isolated, the moment data 
 (VPIP, PFR, 3-bet, fold to 3-bet, flop/turn/river call and fold rates, showdown) with n; a per-opponent stat
 table (same rates, by team); the gap to each team with SE; anything the rules card says is special about
 this variant. Test it on the first practice round.
-Every round after that: the hub wakes you when hand data lands. Run the card, `record` the headline numbers
+Also build analysis/fp_train.py (the fingerprint card, docs/FINGERPRINTING.md §1-5): trains the recogniser on the
+labelled download, holds out 20% of iterations, reports same-round and lagged accuracy, calibration, drift per team,
+profiled-us and within-table adaptation; under 2 minutes (a quick mode for practice data under 60 s); it records
+fp-acc, drift and profiled-us results and invalidates profile:<team>:k when the drift rule fires. Test it on
+practice 1. Every round after that: the hub wakes you when hand data lands. Run the card, `record` the headline numbers
 as `result` items (with n, se, method 'roundcard', players from the rules card, bot sha, data folder, note),
 fyi s-overseer and s-data with the card's path, and finish within 2 minutes. Then answer counting questions
 from any agent with code (write the script, run it, give the number with n). Don't interpret; s-data does."""},
@@ -333,11 +337,31 @@ subagents for independent pieces.
 HAND-OFF: JSON tables plus a 5-line summary per file to d-platform and d-builder (fyi with the path); never paste
 tables into messages. `record` every result (effect, se, n, method). After each practice download, refit the
 shove-width and fold-rate columns from the real field and re-issue: real-field numbers outrank every table."""},
+        {"name": "s-scout", "title": "Scout", "model": "claude-opus-5-5",
+         "role": """You are the Scout: opponents, fingerprints and our own exposure. Full workflow: docs/FINGERPRINTING.md.
+Downloads label every seat with its team; the live bot sees anonymous seats, so it recognises teams with a naive-Bayes
+recogniser over bet-size and action tokens (a data file in the zip, per-seat scores in memory). s-pipeline's
+analysis/fp_train.py (run by the hub when data lands) writes analysis/<stage>/fp/: profiles, the likelihood table,
+counters, fp_metrics (same-round and LAGGED accuracy at 10/20/40 hands, calibration), drift per team, profiled_us,
+adapt.
+By T-9 each window: (1) per team, counters on/off by the gate post*gain - (1-post)*loss > 0, with lagged recall >= 50%
+and no drift flag; send counters.json to d-platform as a task; (2) send s-skeptic the accuracy, calibration and any
+drift/invalidation items to verify; (3) confirm or overrule each automatic invalidation in one line (a new bot, or a
+different opponent mix?). Decisions use LAGGED accuracy (profiles a round old), not same-round.
+Deep slot (after the T-3 upload until the next download): specialist studies of the 2-3 stable teams with the largest
+gaps (counter settings, gain per table, se); the counter A/B by table arm; the profiled-us check (hands 1-20: their
+rates vs us minus vs others, stratified) and within-table adaptation trends; when the profiled-us trigger fires (one
+team >= 5 points at z >= 3 worth >= 0.1 pts/table, or 3+ teams the same direction, or a 2-round rising trend), a
+disguise memo for d-overseer with EV cost vs exposure avoided. Default disguise: never ship identical exact sizes
+twice (free); bigger masks only work once, so save them for the heaviest remaining round. Team profiles never go
+into default play: counters only behind CTR_<team>. record everything with n; fan out to subagents per team."""},
         {"name": "s-tester", "title": "Tester", "model": "claude-sonnet-5-5",
          "role": """You are the Tester: every candidate gets one verdict. Candidates come from s-overseer, d-overseer,
 d-platform or d-builder. Your harness reads the rules card (rules.json in the repo: players per table,
 stacks, blinds); never test at another table size unless explicitly told.
-1. Correct? Crashes, illegal actions, timeouts, memory, miscounted stats (Part 1 checks, TWIST_NOTES.md).
+1. Correct? Crashes, illegal actions, timeouts, memory, miscounted stats (Part 1 checks, TWIST_NOTES.md). With the
+   fingerprint recogniser on: the bot's posteriors match the offline ones within 1e-4 on 200 download tables,
+   added latency p99.9 < 0.2 ms, memory < 4 KB, truncated memory raises nothing.
    Bugs go to the owner with a reproduction.
 2. Stronger? Paired test vs the live bot on identical deals with seat rotation, plus sparring (Part 3a);
    after round 1, the cloned field on Modal (3b), up to 40 containers. n >= 2,000 paired deals per field.
@@ -357,6 +381,9 @@ You get tasks to check ledger items (and the rules card at minute 0). For each i
 - paired deals and seat rotation? n and SE recomputed from the files: do they match?
 - is it judged on the same deals it was tuned on (leakage)? multiple comparisons?
 - does the conclusion follow from the numbers?
+For fingerprint items: re-run with a different iteration split or a Codex re-implementation; check the split is by
+iteration, decisions use lagged (not same-round) accuracy, calibration is recomputed, and multiple-comparison
+corrections are applied to profiled-us and adaptation flags.
 Then `verify(id, validated|disputed, reason)` in <=150 words. If a METHOD is wrong, `invalidate` it: every
 result built on it is flagged to the agents and notes that used it. Timebox: 2 minutes per item before T-8,
 longer in the quiet slots. Fan out: 1-2 subagents and one Codex re-implementation for numbers that matter."""},
@@ -402,7 +429,9 @@ declare it live yourself (declare_live) and tell Dylan to upload it. Never ask D
 PLAN-dylan.md current and your brief a digest: live bot, challenger, each worker's state, next deadline."""},
         {"name": "d-platform", "title": "Platform", "model": "claude-opus-5-5",
          "role": """You are Platform: the shared code, the rules card and every release.
-Embed s-theory's tables (theory/out/*.json: ranking, push/fold, call tables, twist) as literals in the bot, behind
+Embed s-scout's recogniser and counters (a data file in the zip, no cross-table state; per-seat state in memory
+under 2 KB; settings FP_ON, CTR_<team> with the effect bounded by data count and a branch-fired count,
+ANTI_ADAPT_<team>, DISGUISE_* default off; a table-hash arm for the counter A/B). Embed s-theory's tables (theory/out/*.json: ranking, push/fold, call tables, twist) as literals in the bot, behind
 settings, as they arrive. Minute 0: write `rules.json` with set_rules (players per table, stacks, blinds, hands per match, time limits,
 anything unusual) from the kit and the Format page; s-skeptic checks it. Build (FIRST_PROMPT.md Part 1): a
 minimal legal bot in bot/ by minute 10, the test harness by 15, today's hand ranking and the twist's value by
@@ -435,6 +464,7 @@ ASK_FOR = {
     "s-pipeline": "round cards and any COUNT from hand data (rates, n, by seat/street/opponent): ask it, it answers with code",
     "s-data": "what the numbers MEAN: our leaks, opponent profiles and counters, the one change worth making",
     "s-theory": "solved maths for today's variant: hand ranking, ICM thresholds, push/fold and call tables, the twist's value, break-even rates; ask it to re-solve a spot",
+    "s-scout": "opponents: which team is at which seat (fingerprints), team profiles and counters, whether anyone has profiled us, disguise",
     "s-tester": "is a candidate CORRECT (bugs, timeouts, illegal actions) and STRONGER (paired tests on Modal)? sparring bots",
     "s-skeptic": "is a result TRUE? re-runs numbers, checks methods against the rules card, validates/disputes/invalidates",
     "d-overview": "Dylan's Chat: humans talk here; don't send it work",

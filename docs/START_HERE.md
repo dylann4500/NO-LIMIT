@@ -151,6 +151,7 @@ Samuel's things are marked indigo, Dylan's rose.
 | Worker | **Analyst**: what the numbers mean: our biggest leaks, opponents, the changes worth making (up to three) | **Builder**: styles A, B and C plus challengers, each in its own folder of its own copy of the repo |
 | Worker | **Tester**: a verdict on every candidate, "correct?" and "stronger?" (paired tests on Modal, at the table size on the rules card) | |
 | Worker | **Theory**: from minute 0, solves what can be solved for today's variant (hand ranking, ICM, push/fold and call tables, the twist's value) and hands Platform tables; refits them from each practice round | |
+| Worker | **Scout**: opponents: which team sits where (fingerprints learned from each download), team profiles and counters, whether anyone has profiled us, and disguise when it pays (`docs/FINGERPRINTING.md`) | |
 | Worker | **Skeptic**: re-runs the numbers behind anything a decision rests on; marks results validated or disputed; can invalidate a wrong method, which flags everything built on it | |
 | Hub services (plain code, not agents) | **Clock**, **Portal watcher**, **Codex** | **Clock**, **Codex** |
 

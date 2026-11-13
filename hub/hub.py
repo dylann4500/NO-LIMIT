@@ -2157,7 +2157,9 @@ DISPATCH = {
     "b15": [("samuel", "crit", "s-tester", "Test rig must run now: first verdict on v1 (correct? timing?)")],
     "b20": [("dylan", "crit", "d-builder", "Style A ready (legal and upload-tested is enough) for practice round 1; B next"),
             ("samuel", "crit", "s-data", "When practice 1's round card lands: leaks of the bot that played (Part 2), top change in 5 minutes")],
-    "b30": [("samuel", "crit", "s-theory", "Refit the call tables' shove-width and fold-rate columns from practice 1's real data and re-issue"),
+    "b30": [("samuel", "crit", "s-pipeline", "analysis/fp_train.py: build and test it on practice 1's labelled download (docs/FINGERPRINTING.md)"),
+            ("samuel", "crit", "s-scout", "First profiles from practice 1-2; recogniser accuracy (same-round) and our own identifiability"),
+            ("samuel", "crit", "s-theory", "Refit the call tables' shove-width and fold-rate columns from practice 1's real data and re-issue"),
             ("dylan", "crit", "d-builder", "Style B for practice 2; C next"),
             ("samuel", "crit", "s-data", "Practice 2 leaks; compare styles A vs B on the real field"),
             ("samuel", "opt", "s-data", "Opponent profiles (Part 4) from practice rounds so far")],
@@ -2170,6 +2172,7 @@ DISPATCH = {
             ("samuel", "crit", "s-tester", "Verdict on every pending candidate: correct? and paired test vs the live bot"),
             ("samuel", "crit", "s-data", "Opponent profiles and counters (Part 4) for the teams where a profile pays most (often at our tables, stable between rounds, far from the field)"),
             ("dylan", "crit", "d-builder", "Two candidate builders: the next challenger idea and an opponent counter, each in its own folder"),
+            ("samuel", "crit", "s-scout", "Fingerprint card: counters on/off by the gate, counters.json to d-platform, accuracy/drift to s-skeptic, by T-9"),
             ("samuel", "opt", "s-tester", "Cloned field on Modal (Part 3b) for the challenger"),
             ("dylan", "crit", "d-builder", "Challenger packed and tested, ready for the T-12 upload"),
             ("dylan", "crit", "d-platform", "Fix bugs s-tester reported; build this window's live-bot changes (up to three independent, each behind a setting)")],
@@ -2189,6 +2192,8 @@ REMINDERS = [
      "note), update your brief, and send a one-line fyi with the file path to whoever depends on it.", False),
     ("T13", "samuel", "s-theory", "New real-field data: refit the call/fold columns of your tables from it and re-issue them "
      "(real-field numbers outrank the tables).", True),
+    ("T13", "samuel", "s-scout", "New download: read the fingerprint card (or run fp_train.py if the hub couldn't), set counters "
+     "by the gate, send counters.json to d-platform and the accuracy/drift items to s-skeptic, all by T-9.", True),
     ("T13", "samuel", "s-skeptic", "Check the ledger's persistent leaks (the same leak in two rounds) first: verify them so the "
      "fix can ship this window.", False),
     ("T20", "both", "*overseers", "Sync with the other Overseer in 3 lines (what changed on your side, what you need from "
@@ -2243,6 +2248,8 @@ ROUTES = {
                                          "the raw files (run your pre-armed verify script); verify the card's ledger items."),
                    ("s-tester", "fyi", "Round card for {stage} is ready: {card}. Use its opponent table to recalibrate sparring "
                                        "bots before the next paired test.")],
+    "fp_ready": [("s-scout", "task", "Fingerprint card for {stage} is ready: {card}. Set counters on/off per team by the gate, "
+                                     "send counters.json to d-platform, send s-skeptic the accuracy/drift items, by T-9.")],
     "candidate": [("s-tester", "task", "New candidate {bot} ({status}) from {by}: give it a verdict (correct? stronger? paired, "
                                        "at the rules card's table size). {note}"),
                   ("s-skeptic", "fyi", "New candidate {bot} from {by}; you'll verify s-tester's verdict on it.")],
@@ -2256,6 +2263,7 @@ FANOUT = {
     "d-builder": "fan out: one subagent per style or candidate, in parallel, each in its own folder; Modal (up to 20) for sparring each",
     "s-tester": "fan out: shard paired runs across Modal (up to 40 containers); one subagent per candidate for the 'correct?' review",
     "s-data": "one-change proposal: 3 lens subagents in ONE message (3-min cap) + 1 Codex recompute, aggregate by T-9; other work: one subagent per question, Sonnet for counting",
+    "s-scout": "fan out: one subagent per team for specialist studies; Codex for an independent re-implementation of the accuracy numbers; Modal for counter A/B sims",
     "s-theory": "fan out: one subagent per deliverable once the evaluator is verified (ICM / twist / push-fold), Modal <= 20 containers for equity tables and sims",
     "s-pipeline": "fan out: at most 2 Sonnet subagents (parser / card); keep the card script under 60 s",
     "s-skeptic": "fan out: 1-2 subagents plus one Codex re-implementation for numbers that matter; 2 minutes per item before T-8",
@@ -2814,6 +2822,9 @@ class PortalWatcher:
         card = await self.run_card(folder, stage) if files else ""
         if card.startswith("(exit 0)"):
             self.hub.card_ok = True
+        fp = await self.run_card(folder, stage, "fp_train.py") if files else ""
+        if fp.startswith("(exit 0)"):
+            await self.hub.route("fp_ready", stage, stage=stage, card=f"analysis/{stage}/fp/ (the hub ran fp_train.py)", note_id=aid)
             await self.hub.route("card_ready", stage, stage=stage, card=f"analysis/{stage}/card.md (the hub ran it)", note_id=aid)
         pl = self.hub.agents.get("s-pipeline")
         if pl:   # standing order: numbers first, no Overseer hop (the decision window is only 5 minutes)
@@ -2837,10 +2848,10 @@ class PortalWatcher:
         await self.tell("d-overseer", "fyi", line)
         self.hub.set_service("s-portal", "Portal", "working", line)
 
-    async def run_card(self, folder: Path, stage: str) -> str:
+    async def run_card(self, folder: Path, stage: str, name: str = "roundcard.py") -> str:
         """If the pipeline's round-card script exists (built and tested in the build hour), run it at once, so the
         numbers exist before any agent has taken a turn."""
-        script = self.hub.repo / "analysis" / "roundcard.py"
+        script = self.hub.repo / "analysis" / name
         if not script.exists():
             return ""
         py = self.hub.repo / ".venv" / "bin" / "python"

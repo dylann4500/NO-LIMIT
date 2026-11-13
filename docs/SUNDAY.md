@@ -19,7 +19,7 @@ uv run --no-project --with modal modal app list    # Modal, team workspace
 3. **Samuel: make the Sunday repo.** A fresh private GitHub repo (e.g. `avalon-finals`), invite Dylan,
    and add these from `~/NoLimit/NO-LIMIT/docs/`:
    - `START_HERE.md`, `DECISION_RULES.md`, `FIRST_PROMPT.md`, `TWIST_NOTES.md`, `PORTAL_AGENT.md`,
-     `EVIDENCE_TABLE.md` and `FINALS_PLAYBOOK.md`;
+     `EVIDENCE_TABLE.md`, `FINALS_PLAYBOOK.md` and `FINGERPRINTING.md`;
    - empty `bot/`, `candidates/`, `releases/` and `notes/` folders (put a `.keep` file in each);
    - a `.gitignore` containing:
 ```
