@@ -258,7 +258,9 @@ have the picture, and answer Samuel there. Keep PLAN-samuel.md current (what run
         {"name": "s-pipeline", "title": "Pipeline", "model": "claude-sonnet-5-5",
          "role": """You are the Pipeline: numbers, fast and reproducible. Build hour (FIRST_PROMPT.md Part 2 groundwork):
 parsers for today's hand-history format and a script `analysis/roundcard.py <round folder>` that in under 60
-seconds writes `analysis/<stage>/card.md` (stage from the AVALON_STAGE environment variable, e.g. "Practice 1";
+seconds writes `analysis/<stage>/card.md`; it also writes the Finals field's rates (fold to 3-bet, open-shove by
+stack band, call of a shove, fold to flop bet, bet when checked to, big-blind fold) to analysis/field_priors.json,
+which replace the regional priors from the first download on; (stage from the AVALON_STAGE environment variable, e.g. "Practice 1";
 print the card to stdout too; the hub runs it itself, isolated, the moment data lands): our points per table by bot version; our rates by seat and street
 (VPIP, PFR, 3-bet, fold to 3-bet, flop/turn/river call and fold rates, showdown) with n; a per-opponent stat
 table (same rates, by team); the gap to each team with SE; anything the rules card says is special about
@@ -317,7 +319,8 @@ m30 out/pushfold.json: push and call tables keyed [players_left][position][stack
     today's ranking (or a class bitmask). Heads-up: fictitious play to best-response gain < 0.02bb. 3-handed:
     fictitious play on ICM payouts with a Modal-built 3-way equity table (<= 20 containers). 4-8 players: first-in
     jam vs one ICM-best-responding caller. Also call tables as best responses to opponent shove widths
-    {10,20,35,50,70%}: the regional field shoved 40-60% at <= 20bb, so equilibrium call ranges fold too much there.
+    {10,20,35,50,70%}: both regional fields open-shoved 35-50% at <= 10bb and 10-35% at 10-20bb, so equilibrium call
+    ranges fold too much there.
 m40 out/exploit.json: break-even fold rates for our 3-bet sizes (risk/(risk+reward)), fold-to-bet limits
     (bet/(pot+bet)), 4-bet jam ranges vs measured 3-bet widths. Optional: a Discounted CFR (alpha 1.5, beta 0,
     gamma 2) river subgame on ~50 equity buckets, only if the variant makes postflop information one-sided.

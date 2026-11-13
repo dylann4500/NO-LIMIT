@@ -12,5 +12,5 @@ Arms: `old` (snapshots saved next to run.py as old_roster.py, old_START_HERE.md,
     git show <rev>:docs/FIRST_PROMPT.md > old_FIRST_PROMPT.md; git show <rev>:hub/hub.py > old_hub.py
     uv run --no-project --with claude-agent-sdk==0.2.181 python run.py claude-opus-5-5 1 old,new
 
-Results on 2026-11-13 (before -> after the DECISION_RULES rewrite): Opus old 13/16, new 16/16; Sonnet x2
+Results on 2026-11-13 (before -> after the DECISION_RULES rewrite): Opus old 13/16, new 16/16 (and 16/16 again after the priors and signal-weighting edits, also post-compaction); Sonnet x2
 old 26/32, new 29/32, compact 30/32. Rerun after any change to the plan or the agents' rules.

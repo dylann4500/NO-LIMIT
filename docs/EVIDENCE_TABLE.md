@@ -117,3 +117,18 @@ pressure, shove-heavy and tight, and every style folds no more than about 75% to
 A full rehearsal of the two-person decision loop. Infrastructure exists (`emu/`); no window has been run
 end to end with both of us making the decision against the clock. This is the next milestone (see the
 playbook), ahead of any further research.
+
+## Do regional numbers transfer to a new variant? (13 November)
+
+Bay Area (`flop_discard_reveal`) and Boston (`flop_auction_holdem`) fields compared on the same statistics
+(`research/finals_prep/adaptation/res_q2.txt`, `res_boston.txt`; a new 3,000-table extraction of each R1/R6):
+fold to 3-bet 67.2% vs 67.3%; open-shove first in at <=10bb 41.3% vs 40.6%, 10-15bb 22.0% vs 24.2%, 15-20bb
+9.8% vs 12.5%; call a shove <=10bb 19.8% vs 19.7%; fold to a flop bet 53.5% vs 52.8%; PFR 22.2% vs 21.5%; only
+VPIP moved (about 3 points higher with 3 hole cards). Teams changing bots 78-90% vs 75-84% per round; unchanged
+bots -0.53 ± 0.08 vs -0.46 ± 0.09; practice above the next scored round +0.37 vs +0.42. Shrinkage test: a prior
+from the other variant (weight 4) was as accurate as the target field's own mean and cut per-seat error by
+about a third in the first 1-8 chances (e.g. fold to 3-bet RMSE 14 vs 22 points at n=4); by n = 16 all priors
+agree; a stale or heavy prior (weight 10 on round 1) hurt. **Grade A (measured, two regionals).** The plan's
+earlier "70-85% fold to 3-bets" and "40-60% shoves at <=20bb" came from the pre-event simulated field, not
+either regional, and are withdrawn (grade D).
+

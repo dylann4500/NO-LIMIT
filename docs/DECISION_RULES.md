@@ -103,14 +103,23 @@ it with the bar (the best of 10 looks about +0.5 better than it is by chance alo
 
 ## 5. Starting values, not limits
 
-These came from one regional, one variant and simulated opponents. Use them, measure them, override them when
-this event's data says otherwise, and say why.
+Two regionals with different variants (Bay Area discard-and-expose, Boston flop auction) produced nearly the
+same field: fold to 3-bets 67% in both, open-shove at 10bb or less 41% in both, the same drift toward
+aggression, and 75-90% of teams changing bots each round. So **behaviour rates and arithmetic are priors;
+hand rankings, equity cut-offs, twist values and the style cycle's sizes are not** (s-theory recomputes those
+for today's variant).
+- **Seat priors:** start each seat at the field rate with weight 4 (as if 4 observations). Until the first
+  practice download use the regional values (FIRST_PROMPT Part 1); from that download on, s-pipeline replaces
+  them with the Finals field's rates (analysis/field_priors.json). Never use a weight above 10 for a field
+  prior; team-profile priors from Finals rounds get weight about 30, capped.
+- Use them, measure them, override them when this event's data says otherwise, and say why.
 - **Folding to re-raises:** fold to a 3-bet of our open no more than the break-even rate for our open size and
-  range (usually 65-75%; we folded 82-89% at the regional and strong bots 70-77%). This is about our opens
+  range (usually 65-75% for 3-bets of 3-3.5x; s-theory recomputes it for today's sizes; we folded 82-89% at the
+  regional, the strong bots and both regional fields 63-68%). This is about our opens
   facing 3-bets; it does not apply to folding to 4-bets after our own light 3-bets.
-- **Styles A/B/C and the cycle** (wide beats tight, shove beats wide, tight beats shove) held in simulation
-  when about half the field played one style; with a mixed field they were within about 1 point. The real
-  field decides.
+- **Styles A/B/C are three corners to try, not a ranking:** the cycle (wide beats tight, shove beats wide,
+  tight beats shove) was simulated on the Bay Area variant only, so its sizes don't carry over. Practice
+  rounds decide.
 - **Opponent exploitation is core work, not optional:** each team sits at about 7 of our 19 tables at the
   Finals; profiles and counters run every window.
 - **Read the round weights and payouts from the Format page**; never assume weights 1-6.

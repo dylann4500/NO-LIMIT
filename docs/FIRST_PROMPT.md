@@ -150,7 +150,8 @@ Treat these as starting values to be replaced by today's data, not as truths abo
 - Aggression before the flop won. The winner raised first in about 40% of the time and re-raised (3-bet)
   a third of the opens it faced, with a wide range, and folded most of those to a fourth bet. We re-raised
   only premiums, 5 times a table against its 12, and lost about 2.5 points per table to it in every round.
-  AI-built bots tend to re-raise only their best hands and fold to re-raises about 70-85% of the time, so
+  AI-built bots tend to re-raise only their best hands and fold to re-raises about 65% of the time (63-68% in both regionals' fields and their top teams by the
+  last round), so
   wide re-raises against openers who fold are profitable. But every raise needs a plan for being
   re-raised: a bot of ours that 3-bet 58% of hands and then folded 96% of the time to the next raise lost
   10 points per table. Raise or fold before the flop; limping and flat-calling raises lost money for
@@ -169,9 +170,10 @@ Treat these as starting values to be replaced by today's data, not as truths abo
   payouts in state.config and check them against these figures. One specific trap: a library ICM function
   that gives a busted player zero even when their finishing place pays. The kit's function did exactly
   that, and it made our bot fold winning calls for two rounds. Test it with two and three players left.
-- At about 12 big blinds or less, play shove-or-fold, and widen sharply short-handed. Opponents' shoves
-  were far wider than textbook charts (40-60% of hands at 20 big blinds or less), so call them wider than
-  a chart says, within the tournament-equity limits above.
+- At about 12 big blinds or less, play shove-or-fold, and widen sharply short-handed. Opponents
+  open-shoved far more often than charts: about 35-50% of first-in chances at 10 big blinds or less, 20-35%
+  at 10-15 and 10-25% at 15-20 (both regionals, last round; top teams at the high end), so call them wider
+  than a chart says, within the tournament-equity limits above.
 - Heads-up and three-handed play decide whether a table pays 50 or 30. Give them their own ranges and test
   them; every bot that neglected them paid for it.
 
@@ -180,7 +182,9 @@ Keep running counts for every seat in the table's memory and update them from th
 this costs microseconds and a few hundred bytes. For each tendency (how often they raise first in, re-raise,
 fold to a re-raise, fold to a bet on each street, bet when checked to, raise a bet, call an all-in), the
 estimate is (times they did it + weight x prior rate) / (chances + weight), so it starts at the field's rate
-and moves as evidence arrives. Three things we got wrong and want right:
+and moves as evidence arrives. Use weight 4 (the spread between teams at both regionals implies 3-7); before
+the first download the field's rate is the regional value, after it the Finals field's (s-pipeline publishes
+them). Never use a weight above 10 for a field prior. Three things we got wrong and want right:
 - our own bets and raises change the situation for everyone else, so count opponents' responses to OUR
   actions too. Ours silently never did, and the bot never learned who folded to it.
 - every rate is opportunities-based and must lie between 0 and 1; ours had one inverted.
@@ -320,7 +324,8 @@ it is here for reference and evidence.
 **The brief** (s-theory's instructions; deliverables at minutes 15, 22, 25, 30, 40, 45): today's hand ranking;
 ICM thresholds (a busted player keeps their place's payout); the twist's option values; push and call tables
 keyed by players left, position and stack, with call tables as best responses to opponent shove widths of
-10-70% (the regional field shoved 40-60% at 20bb or less, so equilibrium call ranges fold too much); break-even
+10-70% (both regional fields open-shoved 35-50% at 10bb or less and 10-35% at 10-20bb, so equilibrium call
+ranges fold too much); break-even
 fold, bluff and 4-bet thresholds; a hand-off note. Stop rules: fictitious play at best-response gain below
 0.02bb (or 0.05% of the prize pool with ICM), 2,000 iterations or 2 minutes; a missed checkpoint ships the
 fallback, labelled. Checks: equity symmetry, card removal, blind and position spots, microsecond lookups, and a
@@ -479,8 +484,8 @@ as the seat's priors; then keep updating with what the seat does at this table. 
 confident match: the weighting already discounts weak evidence, and waiting throws away the first third of
 every table. Let the blend's share grow over the first ten or so hands rather than starting at full
 strength, and give the rare tendencies (fold to a re-raise, folds to bets on each street, bet when checked
-to, calling an all-in: a seat gets only 0 to 4 chances per table) heavy priors that live counts move
-slowly, while frequent ones (how often they open or re-raise) can be learned mostly live. Cap how far any single team's profile can pull a decision, because about one confident match
+to, calling an all-in: a seat gets only 0 to 4 chances per table) priors from the team's newest-round profile with
+weight about 30 (capped; falling back to the field rate with weight 4), while frequent ones (how often they open or re-raise) can be learned mostly live. Cap how far any single team's profile can pull a decision, because about one confident match
 in five is wrong when a team has changed its bot, and treat a seat that fits no profile as a new bot.
 For showdown-based rates, remember that shown hands are selected: whether a bet is called depends on the
 caller's cards and the public history, and earlier bets are shown only when the bettor kept going. Count
