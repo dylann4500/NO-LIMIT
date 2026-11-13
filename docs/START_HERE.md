@@ -97,6 +97,9 @@ with a one-sentence, plain-English headline. The note's colour and label say wha
 
 The board has three rows: **Needs your call** (big notes with Greenlight / Reject on them),
 **Being worked on** (with a **+ New idea** note to post your own) and **Recent**.
+To tidy up, hover a note and click its **✕** (or **Remove** inside it), or press **Clear finished** next
+to Recent. Removing a note that's still being worked on tells the agents to stop work on it; it's gone
+from both laptops.
 
 **Click a note** to open it on the right: the headline, the details and evidence (folded), and a
 **chat**. Ask anything ("why?", "how sure are you?") or give an instruction ("try it at 30bb instead").

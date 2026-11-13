@@ -201,13 +201,18 @@ class Hub:
             if p["status"] == "needs_call":
                 p["status"] = "revise"
             note = f"{who} on #{p['id']} \"{p['title']}\": {text}"
+        elif action == "remove":
+            was = p["status"]
+            p["status"], p["decided_by"] = "removed", who
+            note = (f"{who} removed #{p['id']} \"{p['title']}\" from the board: no longer relevant. Stop any work on it "
+                    "and tell the agents you gave it to." if was in OPEN or was == "blocked" else "")
         elif action == "close":
             p["status"] = "done"
             note = f"{who} closed #{p['id']} \"{p['title']}\"." + (f" {text}" if text else "")
         else:
             raise ValueError("unknown action")
         await self.save_prop(p)
-        if target and target.startswith(("s-", "d-")):
+        if note and target and target.startswith(("s-", "d-")):
             try:
                 await self.bus.send({"id": new_id(), "from": who, "from_kind": "human", "to": target, "kind": "task",
                                      "text": note + " (Update the card with update_proposal.)"})
@@ -910,6 +915,8 @@ class Agent:
             if not p:
                 return ok("No such card.")
             st = a.get("status")
+            if p.get("status") == "removed":
+                return ok(f"Card #{p['id']} was removed from the board by a human; it's no longer relevant. Stop work on it.")
             if st in ("planned", "running", "done", "blocked"):
                 p["status"] = st
             p.setdefault("thread", []).append({"who": me.title, "at": time.time(), "action": st or "note", "text": a["note"][:2000]})

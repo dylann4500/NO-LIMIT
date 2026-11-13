@@ -59,6 +59,9 @@ button:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-
 .wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
 .note { position: relative; background: var(--nb); color: var(--fg); border-radius: 4px 4px 14px 4px; padding: 14px 15px 12px; min-height: 168px; display: flex; flex-direction: column; gap: 8px; text-align: left; border: 0; box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 8px 18px -10px rgba(0,0,0,.25); transform: rotate(var(--rot, 0deg)); transition: transform .12s, box-shadow .12s; }
 .note:hover { transform: rotate(0deg) translateY(-2px); box-shadow: 0 2px 4px rgba(0,0,0,.1), 0 14px 26px -12px rgba(0,0,0,.35); }
+.note .rm { position: absolute; top: -8px; right: -8px; width: 22px; height: 22px; border-radius: 50%; background: var(--panel); color: var(--muted); border: 1px solid var(--line); display: grid; place-items: center; font-size: .7rem; opacity: 0; transition: opacity .12s; cursor: pointer; }
+.note:hover .rm, .note:focus-within .rm { opacity: 1; } .note .rm:hover { color: var(--bad); border-color: var(--bad); }
+@media (hover: none) { .note .rm { opacity: .8; } }
 .note.big { min-height: 200px; } .note.dim { opacity: .62; }
 .note .lab { font: 700 .66rem var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); display: flex; justify-content: space-between; gap: 8px; }
 .note .stamp { font: 600 .64rem var(--sans); letter-spacing: .04em; border: 1.5px solid currentColor; border-radius: 4px; padding: 0 5px; text-transform: uppercase; white-space: nowrap; }
@@ -185,7 +188,7 @@ function label(a) { if (!a) return ["", ""]; if (a.stale) return ["Offline", "of
   if (st === "waiting") return ["Waiting for you", "waiting"]; if (st === "limited") return ["Usage limit · " + (a.substate || "retrying"), "limited"];
   if (st === "error") return ["Error · " + (a.substate || "retrying"), "error"]; if (st === "stopped") return ["Off", "stopped"]; if (st === "starting") return ["Starting", "starting"];
   if (st === "blocked") return ["Blocked", "blocked"]; if (st === "done") return ["Done", "done"]; return ["Ready", "idle"]; }
-const props = () => S.st.props || [];
+const props = () => (S.st.props || []).filter((p) => p.status !== "removed");
 const myCall = (p) => !p.decider || p.decider === S.st.me || p.decider === "both";
 const needCall = () => props().filter((p) => p.status === "needs_call" && myCall(p));
 const needs = () => S.st.approvals.map((x) => ({ type: "ap", ...x })).concat(S.st.alerts.map((x) => ({ type: "al", ...x }))).concat(needCall().map((p) => ({ type: "pc", agent: p.author, at: p.updated, urgent: !!p.deadline, ...p }))).sort((a, b) => (a.deadline || 9e12) - (b.deadline || 9e12) || a.at - b.at);
@@ -231,6 +234,7 @@ function noteHtml(p, big) {
   const dim = ["rejected", "expired", "done"].includes(p.status) && p.kind !== "finding";
   const nchat = (p.thread || []).filter((t) => !["result", "expire"].includes(t.action)).length;
   return `<button class="note k-${esc(p.kind)} ${big ? "big" : ""} ${dim ? "dim" : ""}" style="--rot:${rot(p.id)}deg" data-open="${esc(p.id)}">
+    <span class="rm" data-rm="${esc(p.id)}" role="button" title="Remove from the board" aria-label="Remove">✕</span>
     <div class="lab"><span>${esc(NOTE[p.kind] || p.kind)}</span><span class="stamp ${stampCls}">${esc(call ? "your call" : STAMP[p.status] || p.status)}</span></div>
     <div class="head">${esc(headOf(p))}</div>
     <div class="sub">${pdot(p.author)} ${esc(titleOf(p.author))} · ${ago(p.updated || p.created)}${nchat ? ` · ${nchat} in chat` : ""}${left !== null && call ? ` · <span class="dl" data-dl="${p.deadline}">${mmss(left)}</span>` : ""}${p.status === "needs_call" && !myCall(p) ? ` · ${esc(S.st.people[p.decider] || "")}'s call` : ""}</div>
@@ -247,7 +251,7 @@ function boardHtml() {
   return `<div class="board">${hero}
     <div><h2>Needs your call ${call.filter(myCall).length ? `<span class="c">${call.filter(myCall).length}</span>` : ""}</h2>${call.length ? `<div class="wall">${call.map((p) => noteHtml(p, true)).join("")}</div>` : `<div class="empty">Nothing waiting. Suggestions and live-bot decisions land here for a greenlight.</div>`}</div>
     <div><h2>Being worked on</h2><div class="wall">${newNote}${work.map((p) => noteHtml(p)).join("")}</div></div>
-    <div><h2 style="justify-content:space-between"><span>Recent</span><span class="legend">${Object.entries(NOTE).map(([k, v]) => `<span class="k-${k}">${v}</span>`).join("")}</span></h2>${recent.length ? `<div class="wall">${recent.map((p) => noteHtml(p)).join("")}</div>` : `<div class="empty">Analyses and decisions collect here.</div>`}</div>
+    <div><h2 style="justify-content:space-between"><span>Recent ${recent.length ? `<button class="tbtn" id="clearDone" style="margin-left:8px;text-transform:none;letter-spacing:0;font-weight:500">Clear finished</button>` : ""}</span><span class="legend">${Object.entries(NOTE).map(([k, v]) => `<span class="k-${k}">${v}</span>`).join("")}</span></h2>${recent.length ? `<div class="wall">${recent.map((p) => noteHtml(p)).join("")}</div>` : `<div class="empty">Analyses and decisions collect here.</div>`}</div>
   </div>`;
 }
 function drawerHtml() {
@@ -257,7 +261,7 @@ function drawerHtml() {
     if (["expire", "result"].includes(t.action) && !human) return `<div class="cb sys">${esc(t.who)} · ${hhmm(t.at)} · ${esc(t.text)}</div>`;
     return `<div class="cb ${human ? "me" : "ag"}"><span class="w">${esc(t.who)} · ${hhmm(t.at)}${t.action && !["note", "ask", "comment"].includes(t.action) ? " · " + esc(STAMP[t.action] || t.action) : ""}</span>${human ? esc(t.text) : md(t.text)}</div>`; }).join("");
   const parent = p.parent ? props().find((x) => x.id === p.parent) : null;
-  return `<div class="drawer k-${esc(p.kind)}"><div class="dh"><div class="lab"><span>${esc(NOTE[p.kind] || p.kind)} · ${esc(call ? "your call" : STAMP[p.status] || p.status)}</span><button class="x" id="cardX" aria-label="Close">✕</button></div>
+  return `<div class="drawer k-${esc(p.kind)}"><div class="dh"><div class="lab"><span>${esc(NOTE[p.kind] || p.kind)} · ${esc(call ? "your call" : STAMP[p.status] || p.status)}</span><span><button class="x" data-rm="${esc(p.id)}" style="font-size:.78rem;font-weight:600" title="Remove from the board">Remove</button> <button class="x" id="cardX" aria-label="Close">✕</button></span></div>
       <div class="head">${esc(headOf(p))}</div>
       <div class="meta">${pdot(p.author)} ${esc(titleOf(p.author))} · ${ago(p.created)}${p.deadline && call ? ` · decide by ${hhmm(p.deadline)}` : ""}${parent ? ` · answers “${esc(parent.title)}”` : ""}</div></div>
     <div class="db">${p.headline && p.title !== p.headline ? `<div style="font-weight:600">${esc(p.title)}</div>` : ""}${p.body ? `<details class="ev" ${call || p.kind === "idea" ? "open" : ""}><summary>Details and evidence</summary><div class="md">${md(p.body)}</div></details>` : ""}
@@ -348,6 +352,10 @@ function wireActions(root) {
   root.querySelectorAll("[data-ap]").forEach((b) => b.onclick = async (e) => { e.stopPropagation(); b.parentElement.querySelectorAll("button").forEach((x) => x.disabled = true); await api(`/api/approvals/${b.dataset.ap}`, { decision: b.dataset.d }); S.st.approvals = S.st.approvals.filter((x) => x.id !== b.dataset.ap); render(); });
   root.querySelectorAll("[data-pa]").forEach((b) => b.onclick = async (e) => { e.stopPropagation(); b.parentElement.querySelectorAll("button").forEach((x) => x.disabled = true); await act(b.dataset.pid, b.dataset.pa, ""); });
   root.querySelectorAll("[data-open]").forEach((b) => b.onclick = (e) => { e.stopPropagation(); S.page = "board"; S.card = b.dataset.open; S.bell = false; render(); });
+  root.querySelectorAll("[data-rm]").forEach((b) => b.onclick = async (e) => { e.stopPropagation(); const p = (S.st.props || []).find((x) => x.id === b.dataset.rm); if (!p) return;
+    const open = ["new", "planned", "running", "needs_call", "revise", "blocked"].includes(p.status);
+    if (open && !confirm(p.status === "needs_call" ? "Remove this note? No answer means the default happens." : "Remove this note? The agents working on it will be told to stop.")) return;
+    if (S.card === p.id) S.card = null; await act(p.id, "remove", ""); });
   root.querySelectorAll("[data-dis]").forEach((b) => b.onclick = async (e) => { e.stopPropagation(); b.disabled = true; await api(`/api/alerts/${b.dataset.dis}/dismiss`, {}); S.st.alerts = S.st.alerts.filter((x) => x.id !== b.dataset.dis); render(); });
 }
 function wire(a) {
@@ -359,6 +367,8 @@ function wire(a) {
   $("#otherT")?.addEventListener("click", () => { S.other = !S.other; render(); });
   $("#bell")?.addEventListener("click", (e) => { e.stopPropagation(); S.bell = !S.bell; S.toasts = []; render(); });
   $("#clearAll")?.addEventListener("click", async (e) => { e.stopPropagation(); for (const x of S.st.alerts.slice()) await api(`/api/alerts/${x.id}/dismiss`, {}); S.st.alerts = []; render(); });
+  $("#clearDone")?.addEventListener("click", async () => { const done = props().filter((p) => ["done", "rejected", "expired"].includes(p.status));
+    if (!done.length || !confirm(`Remove ${done.length} finished note${done.length > 1 ? "s" : ""} from the board?`)) return; for (const p of done) await api(`/api/props/${encodeURIComponent(p.id)}/act`, { action: "remove", text: "" }); refresh(); });
   $("#cardX")?.addEventListener("click", () => { S.card = null; render(); });
   $("#startBtn")?.addEventListener("click", async () => { $("#startBtn").disabled = true; $("#startBtn").textContent = "Starting…"; const r = await api("/api/start", {}); if (r.error) $("#startBtn").textContent = r.error; refresh(); });
   $("#schin")?.addEventListener("keydown", (e) => { if (e.key === "Enter") $("#schgo").click(); });
