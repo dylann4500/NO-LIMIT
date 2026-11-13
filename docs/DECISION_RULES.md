@@ -45,7 +45,9 @@ The rule's answer **is** the default. If nobody answers in time, the rule's answ
 
 **Changes to the live bot each window:** up to **three independent changes**, each in a different situation,
 each behind its own on/off setting, each with a branch-fired count, and the combined build passing rule
-2.1. Bundle them; attribution comes from the settings and counts, not from shipping less. Each change needs
+2.1. A change that targets a rate (e.g. "fold to 3-bets at 74%") must show that rate in a local run before it
+ships: the measured rate within about 5 points of the target. *(In a rehearsal a change aimed at 74.6% played at
+92.8% because only "it fired" was checked.)* Bundle them; attribution comes from the settings and counts, not from shipping less. Each change needs
 real-data support of **1.0 SE or more** (z ≥ 1) when we're outside the top 3, and **1.5 SE or more** when we're
 in the top 3; below that, it goes to the challenger or the next practice round to be measured first.
 

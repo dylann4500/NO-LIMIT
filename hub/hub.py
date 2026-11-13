@@ -162,7 +162,7 @@ def stage_of(sch: dict | None, t: float) -> str:
         return f"Practice {int((m - 20) // 10) + 1}"
     j, nsc = int((m - 60) // 10), sch.get("scored", 6)
     k = j // 2 + 1
-    if k > nsc:
+    if k >= nsc:   # nothing is played after the last scored round
         return f"Round {nsc}"
     return f"Round {k}" if j % 2 == 0 else f"Round {k}.5"
 
@@ -205,7 +205,7 @@ EVENT_CAP = 4000
 
 
 # "Upload v4.zip now", "**Upload v4 now**", "upload **v13.zip** now (greenlit ...)": an ask to upload, not a report about one
-UPLOAD_ASK = re.compile(r"upload\W{0,3}(v\d+)(?:\.zip)?\W{0,3}now", re.I)
+UPLOAD_ASK = re.compile(r"upload\W{0,3}(v\d+)(?:\.zip)?\W{0,3}(?:now|by|before|immediately|asap)\b", re.I)
 
 
 def norm_bot(x: str) -> str:
@@ -2684,6 +2684,7 @@ class Clock:
             t, mine = al.get("text", ""), al.get("agent", "").endswith("-clock")
             up = None if re.search(r"reject|fail", t, re.I) else UPLOAD_ASK.search(t)   # never clear a rejection
             if (mine and "Decision time" in t and not waiting) or (mine and now - al["at"] > 10 * U) or \
+                    (re.search(r"allowance", t) and now - al["at"] > 1800) or \
                     (up and (norm_bot(up.group(1)) == act or (live and norm_bot(up.group(1)) != live))):
                 hub.dismiss(al["id"])
 
