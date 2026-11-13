@@ -316,6 +316,9 @@ results to files. Time, not budget, is the limit.
 CHECKS before any hand-off: equity symmetry; card removal on 50 pairs vs combo enumeration; 2- and 3-player
 blind/position spots; lookups take microseconds; a paired-seed sim (same deals) showing the push/call tables gain
 against a 50% shover and lose < 0.3 points against an equilibrium shover. If a check fails, say so first.
+AHEAD OF SCHEDULE? Don't stop: run the checks you skipped, then the approximations you made (a joint 3-way solve on
+Modal, card removal, unequal stacks), then whatever s-data's first findings make most valuable; fan out to
+subagents for independent pieces.
 HAND-OFF: JSON tables plus a 5-line summary per file to d-platform and d-builder (fyi with the path); never paste
 tables into messages. `record` every result (effect, se, n, method). After each practice download, refit the
 shove-width and fold-rate columns from the real field and re-issue: real-field numbers outrank every table."""},
