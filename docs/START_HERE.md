@@ -80,6 +80,7 @@ We ran the prompts themselves, clean-room, the way they'll be used on Sunday:
 |---|---|---|
 | The first prompt on two unfamiliar mock variants (a turn draw, a flop card pass), 60 minutes each | Legal bot in under 2 minutes, three styles in under 20. Each run produced real silent bugs, caught only by the scripted checks | Test harness by minute 15; rebuild the current hand from its history (not memory); test the ICM call/fold step against reference values; define styles on today's ranking; team recognition moved out of hour one |
 | The leak finder on our real round-1 data, knowing the answer | In under 3 minutes it found the leak v6 fixed (calling raises of our flop bet, about 1.8 points per table) | Compare before-the-flop actions within the same position; rank leaks after pooling across stack sizes |
+| The test-rig prompt, 60 minutes | Paired runner in 2 minutes, sparring in 4, replay with zero drift; the rushed cloned field failed its own check | Split into a build-hour brief (runner, sparring, replay) and a between-rounds brief (cloned field on Modal) |
 | Tonight's rehearsal, compressed to 25 minutes | Ran end to end: rounds, uploads, results and downloads | Ready for 8 PM |
 
 The silent bugs the build tests made are the same kinds we shipped at the regional: a "folded to our
@@ -117,7 +118,7 @@ The decision at each deadline is made together. Details: `docs/Compute_and_Roles
 |---|---|---|
 | 0-5 | Fetch the kit (setup skill). Paste the first prompt (prompt pack Part 1) and give the agent `docs/TWIST_NOTES.md`. Read the Format page: round weights, payouts, anything unusual | Both |
 | by 10 | Minimal legal bot uploaded; read the active bot's name out loud | Dylan |
-| 10-50 | Shared platform first, then three styles in parallel. Test rig starts at about minute 15 (Part 3) | Dylan builds, Samuel measures |
+| 10-50 | Shared platform first, then three styles in parallel. Test rig starts at about minute 15 (Part 3a: paired runs and sparring; the cloned field waits for 3b after round 1) | Dylan builds, Samuel measures |
 | 20, 30, 40 | Each practice round plays a different style | Dylan uploads |
 | 50 | Practice round re-plays the leader | |
 | 50-60 | Hands off. The best real-field scorer is active for scored round 1 | Dylan |
@@ -174,7 +175,8 @@ deadline just means the previous live bot plays. Never rush an untested upload.
 - Pittsburgh's variant.
 - Whether the cloned field ranks candidates reliably. A test is running; until it reports, use the
   cloned field only to catch disasters.
-- Whether the test-rig prompt (Part 3) can be built in the time on the day. A 60-minute test is
-  running; the prompt will be trimmed to what fits.
+- The cloned field on the day: a clean-room test built the paired runner, sparring and replay inside
+  30 minutes, but its cloned field, built in a hurry, failed its own check. It now waits until after
+  round 1 and runs on Modal (Part 3b).
 - Whether this many agents is manageable for two people, whether either Claude account gets throttled,
   and whether Modal queues. Tonight answers these.

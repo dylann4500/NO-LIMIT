@@ -10,7 +10,7 @@ procedures, which the rules allow us to bring.
 | 0 | Pre-event research (four agents in parallel) | Both, about 2 hours before the start |
 | 1 | The first prompt | Dylan, at the announcement |
 | 2 | The leak finder (five area agents) | Samuel, with every download |
-| 3 | The test rig | A subagent, about minute 15; runs all event |
+| 3 | The test rig: 3a build-hour brief, 3b between-rounds cloned field | 3a: a subagent at about minute 15; 3b: after the first scored download |
 | 4 | Team profiles | Samuel, after scored round 1; refreshed every round |
 | 5 | The round loop: manager, candidate factory, bug hunters, opponent specialists | Both, every window |
 
@@ -324,71 +324,85 @@ Finish with at most three findings, each as: the leak or gap, its size with its 
 change you'd make with the rates it should move.
 ```
 
-## Part 3 · The test rig (paste to a subagent at about minute 15 of the build; it runs all event)
+## Part 3 · The test rig (two briefs: 3a at about minute 15 of the build, 3b after the first download)
 
-Three ways to test a candidate, cheapest first. The practice rounds are the only fully trustworthy judge but
-fit one challenger each, so the first two decide which challenger gets that slot. The cloned-field method
-reproduced one collapse and one gain on our regional data (Part 6), but two cases don't establish that its
-rankings are reliable: treat a large predicted loss as a warning to investigate, not an automatic veto,
-and never pick between candidates on a cloned-field difference alone. A fuller ordering test is pending.
+Three ways to test a candidate, cheapest first: sparring and paired runs (3a), replay testing on a
+download (3a or 3b), and the cloned field (3b). The practice rounds are the only fully trustworthy judge
+but fit one challenger each, so the others decide which challenger gets that slot. The cloned field got
+two big regional cases right, which doesn't prove its rankings: treat a large predicted loss as a warning
+to investigate, never pick between candidates on it alone.
 
+Tested clean-room on 12 November with the regional kit and our round-1 sample: with the engine calls
+spelled out, a working runner took about 2 minutes and sparring results about 4; replay rebuilt 1,012
+tables with zero stack drift in 71 seconds; an uncalibrated cloned field built inside the hour failed its
+own live-bot check (12.2 against a real 18.4). So the cloned field belongs between rounds, on Modal.
+
+**3a · Build-hour brief (paste at about minute 15)**
 ```
-Build our test rig in rig/, separate from the bots, and keep it running for the whole event. We have a Modal
-workspace signed in on this machine; use it for anything that takes more than a minute locally, and start
-the image build first because it takes several minutes (the kit's requirements plus the kit's SDK).
-
-1. A local match runner on the kit's engine: any bot folders as seats, every table rule from state.config
-   settable, the variant pinned, per-table results kept, and a seed so two candidates can play the SAME
-   deals (paired). Report points per table with standard errors and failed decisions per bot.
-
-2. The same runner fanned out on Modal: shards of about 50-150 tables per container, tens of containers at
-   once, results merged. Target: 20,000 tables for three or four candidates inside five minutes. Never
-   upload hand histories anywhere; they contain other teams' play.
-
-3. Sparring bots that behave unlike ours, for sanity checks only: calls everything, shoves constantly,
-   plays only premiums, re-raises wide. A candidate that loses to one of these has a hole.
-
-4. Replay testing, as soon as we have a download: feed every decision point we faced in that file to a
-   candidate and report where it acts differently from the live bot, how often per table, and how those
-   spots actually turned out for us (the hand's points value), split by situation. This needs no model of
-   the opponents and should finish in under a minute on all cores.
-
-5. A cloned field, rebuilt from each new download: for every other team, fit a stand-in bot from its
-   measured behaviour (how often it opens, re-raises, folds to re-raises and shoves, by position and stack
-   depth; its bet sizes; how often it bets when checked to and folds, calls or raises facing a bet, by
-   street; what it shows down after each kind of action). Make each clone take its aggressive actions with
-   its strongest hands and fold its weakest, at the measured rates. Then:
-   - first play our LIVE bot against the clones and compare its simulated score and its own rates with the
-     real ones from the download. If they don't match, say so and don't trust the clone field this round;
-   - then play each candidate against the same clones on the same deals, and report paired differences
-     against the live bot with standard errors.
-   After fitting, run a clones-only calibration loop (about 10,000 tables) and adjust each clone until its
-   simulated rates match its measured ones. Check how often river bettors win at showdown against the
-   real figure: clones come out too honest, so add bluffs until it matches, and rerun the top candidates
-   with fewer and with more bluffs to see whether the verdict holds.
-   Clones copy frequencies, not the reasoning behind them, and they don't adapt. Add a second version in
-   which clones respond to what a seat has done at the table (re-raise a seat more after it folds to a
-   re-raise, less after it doesn't; bet more into seats that fold to bets; fold less to seats that bet
-   often), and report every candidate against both. Don't trust differences under about 1-2 points, and
-   expect the next round's real score to be lower than predicted, because the field improves. Fresh
-   deals remove noise, not model error: a candidate that wins only under one opponent model is unproven.
-
-5b. Candidate generator: once the cloned field runs, try a few dozen random parameter sets for the live
-   bot's style settings (each within sane ranges) and report the five best with their numbers. These are
-   candidates only: the best of many random tries always looks better than it is, so they go through the
-   same confirmation run, bug check and practice round as any other candidate.
-
-6. Take candidates from any folder under candidates/ (other agents will drop them there, several per
-   window) and test them all at once. Because the best of many candidates always looks better than it is,
-   rerun the top two against the live bot on FRESH deals before recommending either; report both runs.
-
-7. After every test, one line per candidate: replay verdict, clone-field difference on the first and the
-   confirmation run, sparring results, latency, and whether it is fit to ship or to be the challenger in
-   the next practice round.
-
-More tables shrink noise but not a clone's bias: past about 20,000 tables per candidate, spend the compute
-on more candidates and more variations, not longer runs.
+Build our test rig in rig/, separate from the bots. One deliverable first: rig/compare.py LIVE CAND...
+--tables N --field F, printing for each candidate points per table with a standard error, the paired
+difference against LIVE with its standard error, failed decisions, and the 99th-percentile and maximum
+decision time.
+- Run bots IN-PROCESS, not through the kit's command-line runner (it starts two processes per bot and is
+  slow). In the regional kit that meant: an object with an async act(state, memory) returning the
+  protocol's Reply(action, memory, bank_ms); tables played with the engine's play_table on a SitAndGo built
+  from TableRules (variant pinned) with a table id and seed; points from the scoring module's
+  table_points. Check those names in today's SDK. Every TableRules field must be settable (rules_from_dict
+  or equivalent), including payouts and anything unusual in state.config. Parallelise with a process pool
+  (guard the entry point; macOS spawns processes).
+- Same table seed = same cards by position, so every candidate plays the same deals. Seed any bot's own
+  randomness from the table id and hand number so reruns are exact. Expect pairing to help little: once one
+  decision differs, the table diverges; the standard error is about 13/sqrt(tables). Use many tables.
+- Sparring fields, for sanity only: calls everything, shoves constantly, plays only premiums, re-raises
+  wide; each as seven copies, plus a mixed field. They must play the variant's own decision too, some at
+  random and some well. A candidate that loses to one of these by more than 2 standard errors has a hole.
+- Pick up any folder under candidates/ and test it. Fit to be the challenger: paired difference on FRESH
+  deals above 2 standard errors, no sparring loss above 2 standard errors, zero failed decisions, the
+  kit's check passes, and 99th-percentile time under 0.5 ms measured on an idle core (timings under load
+  are not the platform's).
+- As soon as a practice-round download exists, add replay testing: rebuild each of our tables in the
+  engine with a rigged deck (our cards, the board, every card shown or exposed; random filler for the
+  rest), replay the logged actions, and ask each candidate at each of our decisions. Find the deck order
+  by probing the engine (at the regional, card k went to position p at deck[k*n+p], then burn, flop, burn,
+  turn, burn, river). Check stacks every hand and drop tables that drift. Report where each candidate acts
+  differently from the logged action and from the current live bot, how often per table, by situation.
+  The outcome column is observational, not counterfactual.
+- Then, and only then: wrap the same shard function for Modal (check that modal imports first) and start
+  the image build in the background. Target 20,000 tables for three or four candidates inside five
+  minutes. Hand histories never leave this machine; fitted opponent parameters may go to our own Modal
+  workspace.
 ```
+
+**3b · Between-rounds brief (paste after the first scored download)**
+```
+Extend rig/ with a cloned field, rebuilt from each new download, run on Modal.
+- For every other team, fit a stand-in bot from its measured behaviour: how often it opens, re-raises,
+  folds to re-raises and shoves, by position and stack depth; its bet sizes; how often it bets when
+  checked to and folds, calls or raises facing a bet, by street. Make each clone take its actions by hand
+  strength ranked WITHIN the range it would hold at that point (not among all hands), and calibrate the
+  whole fold/call/raise split, not only the raise rate: an unconditional ranking gave a clone that folded
+  27% to re-raises where the real team folded 80%.
+- Calibrate with a clones-only loop of about 10,000 tables per iteration until simulated rates match
+  measured ones. Check how often river bettors win at showdown against the real figure; clones come out
+  too honest, so add bluffs until it matches.
+- First play the bot that actually played the download against the clones, and compare its simulated
+  score and rates with the real ones. Expect this to fail in round 1; if it fails, report clone results
+  only as warnings that round.
+- Build two more opponent models: one with more or fewer bluffs, and one in which clones respond to what a
+  seat has done at the table (re-raise a seat more after it folds to a re-raise, less after it doesn't;
+  bet more into seats that fold to bets; fold less to seats that bet often). Report every candidate
+  against all three; a candidate that wins under only one is unproven.
+- Candidate generator: try a few dozen random parameter sets for the live bot's style settings within
+  sane ranges, and report the five best. They are candidates only (the best of many random tries always
+  looks better than it is) and go through 3a's challenger test like any other.
+- Because the best of many candidates looks better than it is, rerun the top two on FRESH deals before
+  recommending either. More tables shrink noise but not a clone's bias: past about 20,000 tables per
+  candidate, spend compute on more candidates and opponent models, not longer runs.
+- After every test, one line per candidate: replay difference, cloned-field difference under each model,
+  fresh-deals rerun, sparring, latency, and whether it is fit to be the challenger.
+```
+
+---
 
 ## Part 4 · Team profiles (paste after the first scored round, refresh every round)
 
