@@ -67,11 +67,17 @@ class Portal:
         self.state_file = self.ws / "portal_state.json"
         self.lock = threading.Lock()
         self.state = json.loads(self.state_file.read_text()) if self.state_file.exists() else {"subs": [], "active": None}
+        # One key for every rehearsal run, so links shared with a teammate keep working.
+        stable = Path.home() / ".config" / "avalon-rehearsal" / "portal-key"
+        stable.parent.mkdir(parents=True, exist_ok=True)
+        if not stable.exists():
+            old = self.ws / "portal" / "api-key"
+            stable.write_text(old.read_text() if old.exists() else "nlk_" + secrets.token_hex(16) + "\n")
+            stable.chmod(0o600)
+        self.key = stable.read_text().strip()
         keyf = self.ws / "portal" / "api-key"
         keyf.parent.mkdir(parents=True, exist_ok=True)
-        if not keyf.exists():
-            keyf.write_text("nlk_" + secrets.token_hex(16) + "\n")
-        self.key = keyf.read_text().strip()
+        keyf.write_text(self.key + "\n")
         self.cid = uid(run, "competition")
         self.team_id = uid(run, "team", TEAM)
 
