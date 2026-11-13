@@ -1057,19 +1057,26 @@ class Codex:
             log = self.dir / f"{j['id']}.log"
             brief = j["task"] + (f"\n\nWhen done, verify with: {check}" if check else "") + \
                 "\n\nEnd with a short summary of what you did and the result."
-            cmd = [self.bin, "exec", "--ignore-user-config", "-s", "workspace-write", "--skip-git-repo-check",
-                   "-C", j["folder"], "-o", str(out)] + (["-m", self.model] if self.model else []) + [brief]
-            try:
-                with log.open("w") as lf:
-                    proc = await asyncio.create_subprocess_exec(*cmd, stdin=asyncio.subprocess.DEVNULL, stdout=lf, stderr=lf)
-                    rc = await asyncio.wait_for(proc.wait(), 1800)
-            except asyncio.TimeoutError:
-                proc.kill()
-                rc = -1
-            except Exception as e:  # noqa: BLE001
-                rc, j["error"] = -2, str(e)
-            text = out.read_text()[:3000] if out.exists() else ""
-            tail = log.read_text()[-1500:] if log.exists() else ""
+            models = [self.model] if self.model else [None, "gpt-5-mini"]   # strong default, then a rate-limit fallback
+            for mdl in models:
+                cmd = [self.bin, "exec", "--ignore-user-config", "-s", "workspace-write", "--skip-git-repo-check",
+                       "-C", j["folder"], "-o", str(out)] + (["-m", mdl] if mdl else []) + [brief]
+                try:
+                    with log.open("w") as lf:
+                        proc = await asyncio.create_subprocess_exec(*cmd, stdin=asyncio.subprocess.DEVNULL, stdout=lf, stderr=lf)
+                        rc = await asyncio.wait_for(proc.wait(), 1800)
+                except asyncio.TimeoutError:
+                    proc.kill()
+                    rc = -1
+                except Exception as e:  # noqa: BLE001
+                    rc, j["error"] = -2, str(e)
+                text = out.read_text()[:3000] if out.exists() else ""
+                tail = log.read_text()[-1500:] if log.exists() else ""
+                if rc == 0 and text:
+                    j["model"] = mdl or "default"
+                    break
+                if not re.search(r"Request too large|tokens per min|rate limit|TPM", tail, re.I):
+                    break
             if rc == 0 and text:
                 j["state"] = "done"
                 msg = f"Codex job {j['id']} finished ({j['folder']}). Full output: {out}\n\n{text}"
@@ -1077,7 +1084,7 @@ class Codex:
                 j["state"] = "failed"
                 why = re.search(r'"message":"([^"]+)"', tail)
                 reason = why.group(1) if why else (j.get("error") or tail.strip().splitlines()[-1:] or ["unknown error"])[0]
-                if re.search(r"not supported when using Codex with a ChatGPT account|login|unauthori|401|403", tail, re.I):
+                if re.search(r"not supported when using Codex with a ChatGPT account|not logged in|unauthori|401|403", tail, re.I):
                     self.broken = "not signed in properly or the plan doesn't allow this model"
                     await self.hub.add_alert(f"{self.hub.person[0]}-codex", "Codex can't run jobs: " + reason[:200] +
                                              " Fix: in a terminal run `codex login` (or log in with an OpenAI API key), "
