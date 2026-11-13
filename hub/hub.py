@@ -215,6 +215,20 @@ class Hub:
                 pass
         return p
 
+    async def card_ask(self, pid: str, text: str) -> dict:
+        p = self.get_prop(pid)
+        if not p:
+            raise ValueError("That card no longer exists.")
+        who = PEOPLE[self.person]
+        p.setdefault("thread", []).append({"who": who, "at": time.time(), "action": "ask", "text": text})
+        await self.save_prop(p)
+        ov = self.owner_overseer(p.get("author_person") or self.person)
+        await self.bus.send({"id": new_id(), "from": who, "from_kind": "human", "to": ov, "kind": "task", "text": (
+            f"[card #{p['id']} chat] {who} says about \"{p['title']}\": {text}\n\nAnswer in the card's chat with "
+            f"update_proposal(id='{p['id']}', note=<your answer>) (keep it short and plain). If it's an instruction, "
+            "route it to the right agent and say so in the note.")})
+        return p
+
     async def new_idea(self, title: str, body: str, for_person: str) -> dict:
         p = {"id": "P" + new_id()[1:7].upper(), "kind": "idea", "title": title[:160], "body": body[:6000],
              "author": PEOPLE[self.person], "author_person": self.person, "owner": self.owner_overseer(for_person),
@@ -846,15 +860,19 @@ class Agent:
         @tool("propose", "Put a card on the Decisions board that both humans see. kind: research (a study you plan/ran), "
               "finding (an analysis result), change (a change to the bot or plan; needs a greenlight before it is built/"
               "shipped), decision (what plays in a round; needs a greenlight; give deadline_minutes, e.g. until T-5). "
+              "headline: ONE plain-English sentence a tired human understands in 5 seconds (no jargon, no ids), e.g. "
+              "'We fold too often on the flop; calling more should gain about 0.7 points per table.' "
               "body: markdown with the evidence (numbers, ± error, files). parent: the card this answers (e.g. a human idea).",
-              schema(["kind", "title", "body"], {"kind": "string", "title": "string", "body": "string", "parent": "string",
-                                                 "deadline_minutes": "number", "needs_call": "boolean"}))
+              schema(["kind", "title", "headline", "body"], {"kind": "string", "title": "string", "headline": "string",
+                                                             "body": "string", "parent": "string",
+                                                             "deadline_minutes": "number", "needs_call": "boolean"}))
         async def propose(a):
             kind = a["kind"] if a["kind"] in KINDS[1:] else "finding"
             needs = a.get("needs_call")
             if needs is None:
                 needs = kind in ("change", "decision")
             p = {"id": "P" + new_id()[1:7].upper(), "kind": kind, "title": a["title"][:160], "body": a["body"][:8000],
+                 "headline": (a.get("headline") or "")[:300],
                  "author": me.name, "author_person": hub.person, "decider": "both" if kind == "decision" else hub.person,
                  "owner": me.name,
                  "parent": a.get("parent") or None,
@@ -930,6 +948,54 @@ WINDOW = [  # (minutes before a scored round, who, what)
 ]
 
 
+# What each Overseer dispatches at each step: (person, priority, agent, task). "crit" is the critical path;
+# "opt" is worth doing only when on track (drop it first when behind). Keys: b<minute> (build hour) and
+# T<minutes before a scored round>. Prompt-pack parts refer to FIRST_PROMPT.md.
+DISPATCH = {
+    "b0": [("dylan", "crit", "d-platform", "FIRST_PROMPT.md Part 1 with TWIST_NOTES.md: minimal legal bot in bot/ and releases/v1.zip by minute 10; test harness by 15; today's hand ranking and the twist's value by 20; then the shared platform with every Part 1 check passing"),
+           ("dylan", "crit", "d-builder", "Read Part 1 (styles) and TWIST_NOTES.md; draft styles A (wide pressure), B (shove-heavy), C (tight, fold <=75% to re-raises) as settings; build them on Platform's interface as soon as it's published"),
+           ("samuel", "crit", "s-tester", "Part 3a: paired runner on identical deals plus sparring bots, running by minute 15"),
+           ("samuel", "opt", "s-data", "Prepare Part 2 (leaks) and Part 4 (opponents) scripts for today's hand-history format, so the first round is analysed within 5 minutes of landing")],
+    "b10": [("dylan", "crit", "d-platform", "v1 must be released (releases/v1.zip) and Dylan told to upload it now if not done")],
+    "b15": [("samuel", "crit", "s-tester", "Test rig must run now: first verdict on v1 (correct? timing?)")],
+    "b20": [("dylan", "crit", "d-builder", "Style A ready (tested by s-tester) for practice round 1; B next"),
+            ("samuel", "crit", "s-data", "When practice 1 lands: leaks of the bot that played (Part 2), first-1000 file, top change in 5 minutes")],
+    "b30": [("dylan", "crit", "d-builder", "Style B for practice 2; C next"),
+            ("samuel", "crit", "s-data", "Practice 2 leaks; compare styles A vs B on the real field"),
+            ("samuel", "opt", "s-data", "Opponent profiles (Part 4) from practice rounds so far")],
+    "b40": [("dylan", "crit", "d-builder", "Style C for practice 3"),
+            ("samuel", "crit", "s-tester", "Rank A, B, C (paired tests + real practice scores) for the round-1 choice")],
+    "b50": [("dylan", "crit", "d-platform", "Release the best real-field scorer as the live bot for scored round 1"),
+            ("samuel", "crit", "s-data", "Which style did the field reward? One paragraph for the round-1 decision")],
+    "T13": [("samuel", "crit", "s-data", "The round that just landed: our leaks first (Part 2), one recommended change with size and z"),
+            ("samuel", "crit", "s-tester", "Verdict on every pending candidate: correct? and paired test vs the live bot"),
+            ("samuel", "opt", "s-data", "Opponent profiles and counters (Part 4)"),
+            ("samuel", "opt", "s-tester", "Cloned field on Modal (Part 3b) for the challenger"),
+            ("dylan", "crit", "d-builder", "Challenger packed and tested, ready for the T-12 upload"),
+            ("dylan", "crit", "d-platform", "Fix bugs s-tester reported; build this window's one tested change on the live bot")],
+    "T12": [("dylan", "crit", "d-platform", "Release the challenger (releases/<name>.zip) so Dylan can upload it for the practice round")],
+    "T8": [("samuel", "crit", "s-overseer", "Send d-overseer the recommendation now (live / live + one tested change / challenger) with evidence"),
+           ("dylan", "crit", "d-overseer", "Post the live-bot decision card now (deadline_minutes until T-5)")],
+    "T6": [("dylan", "crit", "d-platform", "Test the chosen bot with no time bank; release it as releases/<name>.zip")],
+    "T3": [("dylan", "crit", "d-platform", "The greenlit bot's release must be ready; Dylan uploads it now")],
+}
+# checkpoints the Overseer compares against reality every turn (person, key, what must be true by then)
+CHECKPOINTS = [
+    ("dylan", "b10", "a legal bot is uploaded and active"), ("samuel", "b15", "the test rig gives verdicts"),
+    ("dylan", "b20", "today's ranking and twist value exist; style A is tested"), ("dylan", "b40", "styles A, B, C all tested"),
+    ("dylan", "T12", "the challenger is packed and tested"), ("samuel", "T8", "the recommendation is with d-overseer"),
+    ("dylan", "T8", "the decision card is posted"), ("dylan", "T3", "the chosen bot's release is ready"),
+]
+
+
+def dispatch_text(key: str, person: str) -> str:
+    rows = [(pr, ag, t) for (who, pr, ag, t) in DISPATCH.get(key, []) if who == person]
+    if not rows:
+        return ""
+    return "\nDispatch now (task messages; optional ones only if on track):\n" + "\n".join(
+        f"- [{'CRITICAL' if pr == 'crit' else 'optional'}] {ag}: {t}" for pr, ag, t in rows)
+
+
 # steps a person does with their own hands (clock reminders shown to that person)
 HUMAN_STEPS = {
     "b0": {"samuel": "Set the clock's minute 0 if it isn't set, and read the Format page.",
@@ -1001,6 +1067,28 @@ def situation(hub: "Hub") -> str:
                     lines.append(f"Current step (T-{past[-1][0]}): {past[-1][1]}")
                 if nxt:
                     lines.append(f"Next step at T-{nxt[0]} ({hhmm(ts - nxt[0] * U)}): {nxt[1]}")
+    if sch:
+        due = []
+        U2 = 60 * sch.get("scale", 1.0)
+        t0 = sch["start"]
+        nsc = sch.get("scored", 6)
+        for who, key, what in CHECKPOINTS:
+            if who != me:
+                continue
+            if key.startswith("b"):
+                at = t0 + int(key[1:]) * U2
+                if at <= now < t0 + 60 * U2:
+                    due.append(f"by minute {key[1:]}: {what}")
+            else:
+                off = int(key[1:])
+                for k in range(1, nsc + 1):
+                    ts = t0 + (60 + 20 * (k - 1)) * U2
+                    if ts - off * U2 <= now < ts:
+                        due.append(f"by T-{off} of scored round {k}: {what}")
+        if due:
+            lines.append("Checkpoints that should be TRUE now (check against your workers' briefs): " + "; ".join(due) +
+                         ". If any isn't, you're behind: drop optional work, put every worker on the critical path, "
+                         "and say so in your brief.")
     live = hub.bus.shared.get("live")
     lines.append(f"Declared live bot: {live['filename']} ({hhmm(live['at'])})." if live else "Declared live bot: none yet.")
     p = hub.services.get("s-portal") or hub.bus.directory.get("s-portal")
@@ -1177,13 +1265,13 @@ class Clock:
             t0, U = s["start"], 60 * s.get("scale", 1.0)
             tk = int(t0)
             for mi, who, w in BUILD:
-                if who in ("both", me):
-                    marks.append((f"{tk}:b{mi}", t0 + mi * U, f"Build hour, minute {mi}: {w}"))
+                if who in ("both", me) or dispatch_text(f"b{mi}", me):
+                    marks.append((f"{tk}:b{mi}", t0 + mi * U, f"Build hour, minute {mi}: {w}" + dispatch_text(f"b{mi}", me)))
             for k in range(1, s.get("scored", 6) + 1):
                 ts = t0 + (60 + 20 * (k - 1)) * U
                 for o, who, w in WINDOW:
-                    if who in ("both", me) and not (k == 1 and o > 8):   # round 1: the build hour covers T-20..T-9
-                        marks.append((f"{tk}:s{k}-{o}", ts - o * U, f"Scored round {k} at {hhmm(ts)}, T-{o}: {w}"))
+                    if (who in ("both", me) or dispatch_text(f"T{o}", me)) and not (k == 1 and o > 8):   # round 1: the build hour covers T-20..T-9
+                        marks.append((f"{tk}:s{k}-{o}", ts - o * U, f"Scored round {k} at {hhmm(ts)}, T-{o}: {w}" + dispatch_text(f"T{o}", me)))
         if s:   # a regular check-in every 5 event-minutes from minute 0 to the end of the last round
             t0, U = s["start"], 60 * s.get("scale", 1.0)
             end = t0 + (60 + 20 * (s.get("scored", 6) - 1) + 10) * U
@@ -1587,6 +1675,28 @@ def make_app(hub: Hub) -> web.Application:
             return web.json_response({"error": str(e)}, status=400)
         return web.json_response(p)
 
+    async def ask_prop(req):
+        b = await body(req)
+        t = (b.get("text") or "").strip()
+        if not t:
+            return web.json_response({"error": "Type a question or instruction first."}, status=400)
+        try:
+            p = await hub.card_ask(req.match_info["id"], t)
+        except (ValueError, OverflowError) as e:
+            return web.json_response({"error": str(e)}, status=400)
+        return web.json_response(p)
+
+    async def start_event(req):
+        if hub.bus.shared.get("schedule"):
+            return web.json_response({"error": "The clock is already running. To change it, tell your Overseer the right time."}, status=400)
+        s = await hub.clock.set_start("", 6, 1.0, t0=time.time())
+        ov = hub.overseer()
+        await ov.human("Start building: the variant is announced now (minute 0). Kick off the build-hour plan.",
+                       PEOPLE[hub.person])
+        return web.json_response({"ok": True, "text": s})
+
+    r.add_post("/api/props/{id}/ask", ask_prop)
+    r.add_post("/api/start", start_event)
     r.add_post("/api/props", new_prop)
     r.add_post("/api/props/{id}/act", act_prop)
     return app

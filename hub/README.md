@@ -26,8 +26,8 @@ Ctrl+C stops it.
 - **Any agent can message any agent** on either laptop (`send_message`, kinds `task`, `question`, `answer`,
   `fyi`; `fyi` doesn't wake the receiver). Decisions belong to the two Overseers; only Overseers talk to
   humans.
-- **Clock:** set minute 0 once (Home page, the `--start HH:MM` option, or an Overseer); it can be changed
-  later on Home. Both laptops share it. It wakes the Overseers at each build-hour milestone (minutes 0, 10,
+- **Clock:** set minute 0 once (Start building on the board, the `--start HH:MM` option, or telling an Overseer); a
+  human can change it later by telling an Overseer. Both laptops share it. It wakes the Overseers at each build-hour milestone (minutes 0, 10,
   15, 20, 30, 40, 50) and at each step of every scored round's window (T-20, T-13, T-12, T-10, T-9, T-8, T-6,
   T-5, T-3; each person gets their own steps). Every Overseer turn starts with a situation brief: the
   phase, the current step, the next deadline. If there's no decision by T-5, the live bot plays.
@@ -40,15 +40,23 @@ Ctrl+C stops it.
 
 ## The screen
 
-- **Needs you** (top of the sidebar): every permission request and every decision an Overseer needs,
-  with buttons. The browser tab shows the count, e.g. `(2) Avalon`.
-- **Home:** the clock, the declared live bot, the link to the other laptop, and a card for every agent and
-  service on both laptops.
-- **An agent's page:** its conversation, with tool steps folded into one line ("▸ 9 steps · Bash ×5, Read
-  ×4") and agent-to-agent messages as one-line entries you can expand. The latest report is pinned at the
-  top. Labels say what it's doing: Working · 3m, Ready, Waiting for you, Usage limit · resumes 21:40,
-  Error · retrying, Off. "Usage" shows how much of the Claude allowance is used.
-- Messages you send while an agent is busy show as **queued** until it reads them.
+- **Board** (the default and usually the only thing open): sticky notes, one per idea, analysis,
+  suggestion or live-bot decision, each with a one-sentence plain-English headline (agents must write one
+  when they post). Colour and label say the kind: Live bot (green), Suggestion (yellow), Analysis
+  (lavender), Research (teal), Your idea (blue). Rows: Needs your call, Being worked on (+ New idea),
+  Recent.
+- **Click a note:** a side panel with details, evidence and a chat. What you type goes to the note
+  author's Overseer (`/api/props/{id}/ask`), which routes it and answers in the chat with
+  `update_proposal(note=...)`. If it's your call, Greenlight / Reject are there and typed text is a
+  "do this instead".
+- **Start building** (before minute 0): starts the shared clock now (`/api/start`) and tells the
+  Overseer to begin; both Overseers then dispatch work at each minute from the `DISPATCH` table in
+  `hub.py` and check the `CHECKPOINTS` list (behind schedule → optional work is skipped).
+- **Agents ▾:** the hidden side panel with Overview, your agents, services and, behind Show, the other
+  person's agents. An agent's page has its pinned brief, its activity (tool steps folded, messages as
+  one-liners) and a message box.
+- **Bell:** permission requests, notes needing your call, and Overseer messages; new ones pop up in the
+  corner and the tab title shows the count.
 
 ## Reliability
 
@@ -98,7 +106,7 @@ Start with a fresh state folder and a fresh message line so nothing from rehears
 ./hub/start.sh dylan ~/<sunday-repo> --data ~/.avalon-hub-live/dylan --namespace=-live
 ```
 
-Set minute 0 on Home as soon as the variant is announced. After the first practice round, copy the
+Press **Start building** on the board as soon as the variant is announced. After the first practice round, copy the
 hand-history download link from the portal's team page and restart Samuel's hub with
 `--hands-url '<link with the round id replaced by {tid} and the subset part by {q}>'` (the portal's code
 doesn't reveal it). Keep both laptops plugged in with lids open.

@@ -32,6 +32,19 @@ clock, the portal and the declared live bot: the phase, the current step of the 
 deadline. It is exact; trust it over memory and act on its current step (START_HERE.md section 6 has the
 details). Workers act on their Overseer's tasks, which carry that context.
 
+**Running the day (Overseers).** The hub's clock wakes you at every step of the plan with a **Dispatch now**
+list: which worker gets which task, from which part of FIRST_PROMPT.md, marked CRITICAL or optional. Send those
+tasks at once as `task` messages, adding the context only you have (which bot played, what's already done).
+Every turn your situation brief lists **checkpoints that should be true now**. Compare them with your workers'
+briefs: if you're behind, drop optional work (tell the worker to stop it, and close or block its card with the
+reason), put everyone on the critical path, and say so in your brief. Never start optional research when behind.
+When a human says **"start building"** (or the variant is announced), call `set_schedule(event="minute0",
+in_minutes=0)` if the clock isn't set yet, then dispatch the minute-0 list straight away.
+
+**Note chats.** Humans can chat on any Decisions card. Their messages reach the Overseer of the card's side as
+`[card #id chat]`. Answer in that card with `update_proposal(id, note=...)`, short and plain, and if it's an
+instruction, pass it to the right agent and say so in the note.
+
 **Times from humans.** If Samuel or Dylan tells you a time ("round 1 is in 5 minutes", "practice 3 moved to
 22:58", "the variant dropped at 14:02"), call `set_schedule` with it straight away (Overseers only); the clock on
 both laptops updates. Never change the clock on your own.
@@ -49,6 +62,8 @@ watcher's latest notice or the files it saved, with its time. If you are relying
   Body: what, why, the evidence (numbers ± error, files), the risk, and what happens if it's rejected.
   Decisions carry `deadline_minutes` (until T-5); no greenlight by then means the default (the live bot stays).
 - Analysis results go on the board as `propose(kind="finding")` (no greenlight needed) so humans can react.
+- Every card needs a `headline`: one plain-English sentence a tired human understands in 5 seconds (what it
+  means for us, not how you got it). The board shows the headline; the body holds the evidence.
 - Humans' replies (GREENLIT / REJECTED / a suggestion) arrive as messages: act on them first, and update the
   card. A suggestion is an instruction to revise, not a vote.
 

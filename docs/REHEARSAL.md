@@ -41,15 +41,15 @@ cd ~/NoLimit/NO-LIMIT && git pull
 ./hub/start.sh dylan ~/nolimit-rehearsal --data ~/.avalon-hub-reh3/dylan --namespace=-reh3
 ```
    For a sped-up run, the Claude session sets the clock's speed for you.
-3. **Both: open http://127.0.0.1:7777**, pick your name, and check the sidebar says "linked".
-4. **Samuel: set minute 0** on Home (or tell your Overseer the time).
+3. **Both: open http://127.0.0.1:7777**, pick your name, and check there is no red "Not linked" bar.
+4. **Samuel: press Start building** on the board at minute 0 (or tell your Overseer the time).
 5. **Play the day exactly as in `docs/SUNDAY.md`.** The only differences:
    - **Dylan uploads on the portal copy** (the Tailscale link above): Upload a zip, then **Make active**.
      The upload test runs at once; a rejected upload shows the reason.
    - The kit is already in the rehearsal repo (`starter-kit/`).
    - No hand-history link to copy: the watcher already knows where the portal copy keeps them.
 6. **Debrief afterwards** (15 minutes):
-   - Which reminder or card was late, unclear or wrong?
+   - Which reminder or note was late, unclear or wrong?
    - Did anything need you that never reached the bell?
    - Did an agent ask for something you couldn't do?
    - Which findings were wrong, and did anyone catch them?
@@ -59,7 +59,7 @@ cd ~/NoLimit/NO-LIMIT && git pull
 ## Simulated teammates (optional, for finding bugs without you)
 
 The Claude session can also run AI stand-ins for you both (`hub/simhuman.py`). They look at each hub's
-screen like a person would, answer the bell, greenlight or reject cards, post ideas, and (as Dylan)
+screen like a person would, answer the bell, greenlight or reject notes, post ideas, and (as Dylan)
 upload bots to the portal copy, and they write down anything confusing. Tonight's run with them found
 eight problems, all fixed.
 

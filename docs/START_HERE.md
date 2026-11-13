@@ -84,47 +84,41 @@ How sure we are of each of these: `docs/EVIDENCE_TABLE.md`.
 
 Each of you opens **http://127.0.0.1:7777** on your own laptop and clicks your name.
 
-- **Sidebar:**
-  - Home;
-  - Decisions;
-  - your agents, each with a coloured dot and one line saying what it's doing;
-  - hub services;
-  - the other person's agents, greyed out if their laptop goes quiet.
-- **Countdown strip** (under the header): time left to the next step of the plan, and what that step is.
-  It turns amber under 3 minutes and red under 1.
-- **Bell** (top right): everything that needs you. These are permission requests, notes from your
-  Overseer and cards waiting for your call. New ones pop up briefly in that corner, and the browser
-  tab shows the count, e.g. `(2) Avalon`.
-- **Home:** the clock, the live bot, the Decisions summary, the link to the other laptop, and a card for
-  every agent on both laptops.
-- **An agent's page:**
+**The board is the whole screen by default.** Everything the agents want you to see is a sticky note
+with a one-sentence, plain-English headline. The note's colour and label say what it is:
+
+| Note | Label | What it is |
+|---|---|---|
+| Green | **Live bot** | which bot plays the next scored round; needs a greenlight (either of you) |
+| Yellow | **Suggestion** | a proposed change to the bot; needs a greenlight |
+| Lavender | **Analysis** | a finding from the latest round |
+| Teal | **Research** | work an agent is running |
+| Blue | **Your idea** | something you or your teammate posted |
+
+The board has three rows: **Needs your call** (big notes with Greenlight / Reject on them),
+**Being worked on** (with a **+ New idea** note to post your own) and **Recent**.
+
+**Click a note** to open it on the right: the headline, the details and evidence (folded), and a
+**chat**. Ask anything ("why?", "how sure are you?") or give an instruction ("try it at 30bb instead").
+Your Overseer gets it, sends it to the right agent and answers in that chat. If it's your call, the
+Greenlight and Reject buttons are there too, and anything you type counts as "do this instead".
+
+**Header:** your name, a big countdown to the next step of the day (amber under 3 minutes, red under 1),
+**Agents ▾** and the **bell**.
+
+- **Bell:** everything that needs you: notes waiting for your call, permission requests, and messages
+  from your Overseer. New ones pop up briefly in the corner; the browser tab shows the count.
+- **Agents ▾** opens a side panel, hidden until you want it: Board, Overview (every agent at a glance),
+  your agents, hub services and, behind its own **Show** button, your teammate's agents. Clicking an agent
+  opens its page:
   - a **brief** pinned at the top (Now / Latest result / Next / Needs from you);
-  - then its activity, with tool steps folded into one line and messages to and from other agents shown
-    as one-liners you can expand;
-  - a message box with quick buttons: Status?, Why?, What's blocking you?, Change priority,
-    Post it as a card.
-- **Decisions:**
-  - **Needs a call:** cards waiting for a greenlight.
-  - **New idea:** where you post your own ideas.
-  - **In progress / Findings / Decided:** everything else.
+  - its activity, with tool steps folded into one line and agent-to-agent messages as one-liners;
+  - a message box with quick buttons (Status?, Why?, Blocked?, Change priority).
+- **Before minute 0** the board shows a big **Start building** button. Press it the moment the variant
+  is announced: the clock starts on both laptops and your Overseer starts the plan. (If you're late, type
+  the announcement time next to it instead.)
 
-**Colours:**
-
-| Colour | Means |
-|---|---|
-| Green dot | working |
-| Grey dot | ready (idle) |
-| Dashed ring | off |
-| Amber | waiting for you |
-| Red | error or usage limit |
-
-| Card stripe | Kind |
-|---|---|
-| Blue | idea |
-| Teal | research |
-| Violet | finding |
-| Orange | proposed change |
-| Green | live-bot decision |
+Agent dots: green working, grey ready, dashed off, amber waiting for you, red error or usage limit.
 
 Samuel's things are marked indigo, Dylan's rose.
 
@@ -159,14 +153,14 @@ Samuel's things are marked indigo, Dylan's rose.
 
 - **Talk to your Overseer** in plain language: "focus on the flop leak first", "why did you pick
   style B?", "round 1 is in 5 minutes". It updates the clock on both laptops from times you give it.
-- **Post ideas** on Decisions → New idea. Your Overseer plans them, runs them and posts the result back
-  on the card. Your ideas come before its own plans.
+- **Post ideas** on the board → + New idea. Your Overseer plans them, runs them and posts the result back
+  on the note. Your ideas come before its own plans.
 - **Greenlight, reject or redirect.** Agents can't act on their own analysis:
   - every **finding** goes on the board for you to see;
   - every **proposed change** and every **live-bot decision** waits for a greenlight;
   - "Suggest instead" sends your alternative back as an instruction.
 
-  Live-bot decisions can be greenlit by either of you. Other cards say whose call they are.
+  Live-bot decisions can be greenlit by either of you. Other notes say whose call they are.
 - **Defaults keep things moving.** If nobody answers a live-bot decision by T-5, the live bot stays. If
   nobody answers a permission request in 3 minutes, it's refused and the agent finds another way.
 - **Permissions:** ordinary commands are approved automatically. Risky ones always wait for a click.
@@ -206,7 +200,7 @@ whatever bot is active, so each window has two uploads.
 | T-12 | Challenger uploaded and active (skip if not ready) | Dylan |
 | T-10 | Practice round plays the challenger | |
 | T-9 | Live bot put back as active straight away | Dylan |
-| T-8 | **Decide:** live bot, live bot + one tested change, or the challenger. The card is on the Decisions board | Both |
+| T-8 | **Decide:** live bot, live bot + one tested change, or the challenger. The green Live bot note is on the board | Both |
 | T-6 | Chosen bot tested with no time bank | Dylan's side |
 | T-5 | No decision means the live bot plays | |
 | T-3 | Chosen bot uploaded; active bot confirmed | Dylan |
