@@ -2,6 +2,16 @@
 
 This is team avalon's working repo (Dylan Nguyen and Samuel Choi) for the No Limit pokerbot competition. We finished 6th of 148 at the Menlo Park regional on 2026-11-06 and qualified for the **Finals on Sunday, November 15, 2026 in San Francisco** as a wildcard. The Finals use the same format with a **different, unannounced poker variant**. Prizes: $100k / $50k / $25k for 1st-3rd.
 
+## The Finals plan (current, as of 2026-11-12)
+
+Questions about what we're doing on Sunday: start with `docs/START_HERE.md`, then `docs/Finals_Handbook.pdf`
+(the same plus tonight's rehearsal sheet, the game-plan visual and compute/roles). The prompts we paste on the
+day are `docs/FIRST_PROMPT.md` (Parts 0-5); `docs/TWIST_NOTES.md` goes to the coding agent at minute 0;
+`docs/EVIDENCE_TABLE.md` grades every finding (only tested changes go into the live bot);
+`docs/FINALS_PLAYBOOK.md` has the longer reasoning; `research/finals_prep/` holds the studies behind it
+(reports, scripts, and clean-room tests of the prompts); `emu/` is the rehearsal emulator. Where these disagree
+with older docs (`rebuild/`, the write-up), the Finals docs are newer and win.
+
 ## Working in parallel (task board): do this before anything else
 
 Several agents on different machines work in this repo at once. They coordinate through one shared board (`coord/coord.py`, details in `coord/README.md`). A session-start hook prints it; an edit hook blocks edits to files another agent holds.
