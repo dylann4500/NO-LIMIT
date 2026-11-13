@@ -12,7 +12,7 @@ For Dylan and Samuel. A full Finals day compressed into one evening:
 
 | Time | Event |
 |---|---|
-| 7:30 | Samuel tells the Claude session that built this to set up the rehearsal. It takes about 10 minutes and nothing plays until 8:00 |
+| 7:15 | The Claude session that built this sets up the rehearsal by itself (nothing for you to do). Your team folder appears within a few minutes; nothing plays until 8:00 |
 | 8:00 | **Build starts** (minute 0) |
 | 8:20 / 8:30 / 8:40 / 8:50 | Practice rounds 1-4 |
 | 9:00 | Scored round 1 (x1) |
