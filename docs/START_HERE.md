@@ -130,12 +130,14 @@ Samuel's things are marked indigo, Dylan's rose.
 | | Samuel's laptop | Dylan's laptop |
 |---|---|---|
 | **Overseer** (the one you talk to) | Runs analysis and testing. Turns each round into findings and a recommendation, sent to Dylan's Overseer at T-8 | Owns the bot and the plan. Decides what plays, with Dylan's greenlight, and tells Dylan exactly which file to upload |
-| Worker | **Data**: our leaks and opponent profiles from each round's hand histories | **Platform**: the shared bot code; packs and checks every release |
-| Worker | **Tester**: a verdict on every candidate, both "correct?" (bugs) and "stronger?" (paired tests, sparring, simulations on Modal) | **Builder**: styles A, B and C plus the challenger, in its own copy of the repo |
+| Worker | **Pipeline**: turns each round's hand data into a standard "round card" of numbers within a minute; woken automatically when data lands | **Platform**: the only one editing the main bot code; sets the rules card at minute 0; packs and checks every release (v1, v2, ...) |
+| Worker | **Analyst**: what the numbers mean: our biggest leak, opponents, the one change worth making | **Builder**: styles A, B and C plus challengers, each in its own folder of its own copy of the repo |
+| Worker | **Tester**: a verdict on every candidate, "correct?" and "stronger?" (paired tests on Modal, at the table size on the rules card) | |
+| Worker | **Skeptic**: re-runs the numbers behind anything a decision rests on; marks results validated or disputed; can invalidate a wrong method, which flags everything built on it | |
 | Hub services (plain code, not agents) | **Clock**, **Portal watcher**, **Codex** | **Clock**, **Codex** |
 
 - **Overseers talk to people. Workers talk to their Overseer and to any other agent, on either laptop,
-  directly.** Nobody needs you to carry messages: Samuel's Data can hand a fix straight to Dylan's
+  directly.** Nobody needs you to carry messages: Samuel's Analyst can hand a fix straight to Dylan's
   Builder, and Dylan's Overseer asks Samuel's Overseer for the analysis itself.
 - **The Clock** knows the schedule. It wakes the Overseers at every step and reminds you directly when a
   step needs your hands, e.g. "Dylan: put the live bot back as active now". Every Overseer turn starts
