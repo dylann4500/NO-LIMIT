@@ -258,6 +258,7 @@ class Hub:
         self.report_busy: set[str] = set()
         self.last_landed = 0.0
         self.worker_model: str | None = None
+        self.view_only = False
         self.traffic: list = []
         self.card_ok = False
 
@@ -1217,6 +1218,11 @@ class Agent:
             await self.start()
 
     async def human(self, text: str, who: str):
+        if self.hub.view_only:
+            if self.name.endswith("overview"):
+                await self.ov_log(who, text)
+                await self.ov_log("Hub", "This is a view-only preview: no agents are running, so nothing will answer.")
+            return
         self.record({"type": "user", "text": text, "from": who, "queued": self.state in ("working", "waiting")})
         if self.name.endswith("overview"):
             await self.ov_log(who, text)
@@ -1417,6 +1423,8 @@ class Agent:
 
     # ---------------------------------------------------------------- lifecycle
     async def start(self, first_task: str | None = None):
+        if self.hub.view_only:   # a preview never runs agents (no usage, no actions)
+            return
         self.paused = False
         if first_task:
             await self.add_item({"kind": "human", "from": "overseer", "text": first_task})
@@ -3183,6 +3191,14 @@ def make_app(hub: Hub) -> web.Application:
             return web.json_response({"error": "Empty file."}, status=400)
         return web.json_response(await hub.take_upload(name, data, PEOPLE[hub.person], notify=req.query.get("hold") != "1"))
     r.add_post("/api/upload", upload)
+
+    async def inbox_file(req):
+        fid = re.sub(r"[^A-Z0-9]", "", req.match_info["fid"].upper())
+        f = next(iter((hub.repo / "inbox").glob(f"{fid}-*")), None) if (hub.repo / "inbox").exists() and fid else None
+        if not f:
+            return web.json_response({"error": "not on this laptop"}, status=404)
+        return web.FileResponse(f)
+    r.add_get("/api/inbox/{fid}", inbox_file)
     r.add_post("/api/props", new_prop)
     r.add_post("/api/props/{id}/act", act_prop)
     return app
@@ -3229,6 +3245,7 @@ async def main():
         if merged != other:
             asyncio.create_task(hub.bus.set_shared("prop:" + pr["id"], merged))
     hub.default_scale = a.scale
+    hub.view_only = a.view_only
     hub.worker_model = a.worker_model
     hub.bus.scale = a.scale
     if a.start:

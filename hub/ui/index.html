@@ -449,6 +449,15 @@ function liveMenu() {
       return `<button class="botrow ${isAct ? "cur" : ""}" data-dlbot="${esc(b.name)}" ${["ready", "shelved"].includes(b.status) ? "" : "disabled"} title="${b.status === "ready" ? "Download " + esc(b.name) + ".zip" : "Not built yet"}"><b>${esc(b.name)}${isAct ? " · active" : isNext ? " · next" : ""}</b><span class="st">${esc(ST[b.status] || b.status)}${["ready", "shelved"].includes(b.status) ? " ⤓" : ""}</span>${b.note ? `<span class="nt">${esc(b.note)}</span>` : ""}</button>`; }).join("") : `<div class="empty" style="padding:10px">No bots yet. They appear as the agents build them.</div>`}<div class="hint" id="dlHint" style="padding:4px 8px"></div></div>`;
 }
 function ovName(person) { return (person === "samuel" ? "s" : "d") + "-overview"; }
+function attachView(text) {   // "[attached image: name, N KB, saved at …, shared as file id F…]" -> a chip (+ thumbnail)
+  const chips = []; let rest = String(text || "");
+  rest = rest.replace(/\[attached (image|hand data|file): ([^,\]]+), (\d+) KB, saved at [^\]]*?(?:shared as file id (F[0-9A-F]+)[^\]]*)?\]\s*/g, (m, kind, name, kb, fid) => {
+    const id = fid || ((m.match(/inbox\/(F[0-9A-F]+)-/) || [])[1] || "");
+    chips.push(`<span class="sfile">${kind === "image" && id ? `<img src="/api/inbox/${esc(id)}" alt="">` : kind === "hand data" ? "🃏" : "📄"}<span>${esc(name)} · ${esc(kb)} KB</span></span>`);
+    return ""; });
+  rest = rest.replace(/^Route (it|these) to the right agents? (now )?\(see your role\)\.?\s*$/m, "").trim();
+  return (chips.length ? `<div class="staged" style="margin:4px 0">${chips.join("")}</div>` : "") + esc(rest);
+}
 function overviewChatHtml() {
   if (!S.ov) return "";
   const who = S.ovWho || S.st.me, name = ovName(who), items = (S.st.overviews || {})[name] || [];
@@ -460,7 +469,7 @@ function overviewChatHtml() {
   return `<aside class="dock" aria-label="Chat" style="${S.dockW ? `width:${S.dockW}px` : ""}"><div class="dock-grip" id="dockGrip" title="Drag to resize" role="separator" aria-orientation="vertical"></div><div class="dock-hd"><b>Chat</b><span class="hint">knows everything the Overseer knows</span>${tabs}<button class="tbtn" id="ovX" title="Hide the chat">✕</button></div>
     <div class="dock-body" id="ovBody">
       ${who === S.st.me && (needCall().length || S.st.approvals.length) ? `<div class="waiting"><b>Waiting for you</b>${needCall().map((p) => `<button class="mini" data-open="${esc(p.id)}">${esc(NOTE[kindOf(p)] || "")}: ${esc(headOf(p).slice(0, 70))}${p.deadline ? " · by " + hhmm(p.deadline) : ""}</button>`).join("")}${S.st.approvals.length ? `<button class="mini" id="bellGo">${S.st.approvals.length} permission request(s)</button>` : ""}</div>` : ""}
-      ${items.length ? items.map((t) => people.includes(t.who) ? `<div class="cv-me"><span class="by">${esc(t.who)} · ${hhmm(t.at)}</span>${esc(t.text)}</div>` : `<div class="cv-ag ${t.urgent ? "urgent" : ""}"><div class="by">${t.urgent ? "⚠ " : ""}${esc(t.who === "Hub" ? "Needs you" : t.who === "Chat" || t.who === "Overview" ? "Chat" : t.who)} · ${hhmm(t.at)}</div><div class="a md">${md(t.text)}</div></div>`).join("")
+      ${items.length ? items.map((t) => people.includes(t.who) ? `<div class="cv-me"><span class="by">${esc(t.who)} · ${hhmm(t.at)}</span>${attachView(t.text)}</div>` : `<div class="cv-ag ${t.urgent ? "urgent" : ""}"><div class="by">${t.urgent ? "⚠ " : ""}${esc(t.who === "Hub" ? (t.urgent ? "Needs you" : "Hub") : t.who === "Chat" || t.who === "Overview" ? "Chat" : t.who)} · ${hhmm(t.at)}</div><div class="a md">${md(t.text)}</div></div>`).join("")
         : `<div class="note2" style="margin-top:24px;text-align:left">${S.st.schedule ? `Ask anything about ${esc(S.st.people[who])}'s side, or tell it what to change: it passes instructions to the Overseer and reports back.` : `<b>Start here.</b> When the competition starts, tell the Chat (“the competition starts now”, or the announcement time). That sets the clock on both laptops and starts the Overseer with the whole game plan. Tell it any other times as you learn them (“round 1 is at 14:25”).`}</div>`}
       ${busy ? `<div class="note2">Chat is reading the team's context…</div>` : ""}
     </div>
