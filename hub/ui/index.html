@@ -89,11 +89,15 @@ button:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent);
 .send { width: 32px; height: 32px; border-radius: 9px; border: 0; background: var(--accent); color: #fff; font-size: 1rem; }
 .send:disabled { opacity: .35; cursor: default; }
 /* picker */
-.pick { height: 100%; display: grid; place-items: center; }
-.pick .card { text-align: center; } .pick h1 { font: 400 2rem var(--serif); margin: 0 0 6px; } .pick p { color: var(--muted); margin: 0 0 22px; }
-.pick .ps { display: flex; gap: 14px; justify-content: center; }
-.pick button { width: 170px; padding: 22px 10px; border-radius: 16px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); font: 500 1.15rem var(--serif); }
-.pick button:hover { border-color: var(--accent); } .pick small { display: block; font: .74rem var(--sans); color: var(--muted); margin-top: 4px; }
+#root { min-height: 100%; }
+.pick { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 56px 16px; }
+.pick .card { text-align: center; width: 100%; max-width: 460px; }
+.pick h1 { font: 400 2.1rem/1.2 var(--serif); margin: 0 0 8px; } .pick p { color: var(--muted); margin: 0 0 26px; }
+.pick .ps { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 420px) { .pick .ps { grid-template-columns: 1fr; } }
+.pick button { padding: 24px 12px; border-radius: 16px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); font: 500 1.2rem var(--serif); }
+.pick button.mine { border-color: var(--accent); } .pick button:hover { border-color: var(--accent); }
+.pick small { display: block; font: .76rem var(--sans); color: var(--muted); margin-top: 6px; } .pick button.mine small { color: var(--accent); }
 </style>
 </head>
 <body>
@@ -121,7 +125,7 @@ function isLocal(n) { return S.st.agents.some((a) => a.name === n); }
 function myList() { return S.view === S.st.me ? S.st.agents : S.st.remote.filter((a) => a.person === S.view); }
 function renderPicker() {
   $("#root").innerHTML = `<div class="pick"><div class="card"><h1>Avalon Hub</h1><p>Who's at this laptop?</p><div class="ps">${
-    Object.entries(S.st.people).map(([k, v]) => `<button data-p="${k}">${v}<small>${k === S.st.me ? "agents on this laptop" : "view their agents"}</small></button>`).join("")}</div></div></div>`;
+    Object.entries(S.st.people).map(([k, v]) => `<button data-p="${k}" class="${k === S.st.me ? "mine" : ""}">${v}<small>${k === S.st.me ? "This laptop · your agents" : "Their agents, read-only"}</small></button>`).join("")}</div></div></div>`;
   document.querySelectorAll("[data-p]").forEach((b) => b.onclick = () => { S.view = b.dataset.p; try { localStorage.setItem("hub-view", S.view); } catch (e) {} S.sel = myList()[0]?.name; render(); if (S.sel && isLocal(S.sel)) loadEvents(S.sel); stream(); });
 }
 function sidebar() {
