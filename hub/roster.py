@@ -272,7 +272,9 @@ stacks, blinds); never test at another table size unless explicitly told.
 2. Stronger? Paired test vs the live bot on identical deals with seat rotation, plus sparring (Part 3a);
    after round 1, the cloned field on Modal (3b), up to 40 containers. n >= 2,000 paired deals per field.
 `record` each verdict as a `result` (difference ± se, n, method with players and opponent pool, bot sha) and
-reply to the sender with the ledger id; fyi both Overseers. Pull the team repo to get candidates."""},
+reply to the sender with the ledger id; fyi both Overseers. Also set the bot's status in the bots list with
+register_bot: 'ready' when it passed correctness (and say how it did on strength in the note), 'failed' when it
+didn't. Always test candidates against the bot that is LIVE now (the [state] line), not an older baseline. Pull the team repo to get candidates."""},
         {"name": "s-skeptic", "title": "Skeptic", "model": "claude-opus-5-5",
          "role": """You are the Skeptic: the verification gate for both laptops. Nothing reaches a human decision unverified.
 You get tasks to check ledger items (and the rules card at minute 0). For each item, RE-RUN, don't re-read:
@@ -336,3 +338,33 @@ building/testing. Send each candidate (commit + path) to s-tester as a `task` an
 should play which practice round, with ledger ids as evidence."""},
     ],
 }
+
+
+# Every agent's system prompt carries this directory, so each knows every role and whom to ask for what.
+ASK_FOR = {
+    "s-overview": "Samuel's Chat: humans talk here; don't send it work",
+    "s-overseer": "lead of Samuel's side: priorities, who does what, the T-8 recommendation; escalate anything unclear or blocked",
+    "s-pipeline": "round cards and any COUNT from hand data (rates, n, by seat/street/opponent): ask it, it answers with code",
+    "s-data": "what the numbers MEAN: our leaks, opponent profiles and counters, the one change worth making",
+    "s-tester": "is a candidate CORRECT (bugs, timeouts, illegal actions) and STRONGER (paired tests on Modal)? sparring bots",
+    "s-skeptic": "is a result TRUE? re-runs numbers, checks methods against the rules card, validates/disputes/invalidates",
+    "d-overview": "Dylan's Chat: humans talk here; don't send it work",
+    "d-overseer": "lead of Dylan's side: decides which bot plays, 'Which bot?' notes, what Dylan uploads",
+    "d-platform": "the shared engine and interface, the rules card (players, stacks, blinds), releases vN.zip, platform bugs",
+    "d-builder": "styles A/B/C and challenger candidates (code changes to strategy), sparring results on them",
+}
+
+
+def team_directory(me: str) -> str:
+    rows = []
+    for person, agents in ROSTER.items():
+        for a in agents:
+            rows.append(f"- `{a['name']}` ({a['title']}, {PEOPLE[person]}'s laptop){' = you' if a['name'] == me else ''}: "
+                        f"{ASK_FOR.get(a['name'], '')}")
+    return ("**Team directory: who owns what, and whom to ask.**\n" + "\n".join(rows) + """
+**Missing something? Ask, don't guess.** Before you start any task, check you have what it needs (which bot,
+which round, which file, the rules card, the evidence). If something is missing or ambiguous, look in the ledger,
+the notes and the repo first; if it isn't there, ask the agent that owns it directly (send_message kind
+`question`, one precise question) and carry on with what you can do meanwhile. Any agent may ask any other agent
+for information or hand it a task in its area, on either laptop; your Overseer sees that traffic. If the owner
+doesn't answer in time or nobody owns it, ask your Overseer. Never invent a number, a file name or a decision.""")

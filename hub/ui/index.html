@@ -102,7 +102,9 @@ button:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-
 .hero input { font: inherit; width: 90px; padding: 6px 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg); }
 .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: .74rem; color: var(--muted); text-transform: none; letter-spacing: 0; font-weight: 500; }
 .legend span::before { content: ""; display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: 5px; background: var(--nb); vertical-align: -1px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
-.dock { width: min(430px, 40vw); flex: none; border-left: 1px solid var(--line); background: var(--panel); display: flex; flex-direction: column; min-height: 0; }
+.dock { width: min(430px, 40vw); flex: none; border-left: 1px solid var(--line); background: var(--panel); display: flex; flex-direction: column; min-height: 0; position: relative; }
+.dock-grip { position: absolute; left: -4px; top: 0; bottom: 0; width: 8px; cursor: col-resize; z-index: 3; }
+.dock-grip:hover, .dock-grip.drag { background: linear-gradient(90deg, transparent 3px, var(--accent) 3px, var(--accent) 5px, transparent 5px); }
 .dock-hd { display: flex; gap: 6px; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
 .dock-hd .tbtn { display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; } .dock-hd .hint { flex: 1 1 120px; min-width: 0; } .dock-hd b { font: 500 1.1rem var(--serif); } .dock-hd .hint { margin-left: 4px; }
 .dock-body { flex: 1; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 12px; }
@@ -251,7 +253,7 @@ const headOf = (p) => p.headline || p.title;
 async function load() {
   S.st = await api("/api/state");
   if (S.st.error) { $("#root").innerHTML = `<div class="pick"><div class="empty">${esc(S.st.error)}</div></div>`; return; }
-  try { S.view = localStorage.getItem("hub-view"); S.ov = localStorage.getItem("hub-chat") !== "0"; } catch (e) { S.ov = true; }
+  try { S.view = localStorage.getItem("hub-view"); S.ov = localStorage.getItem("hub-chat") !== "0"; S.dockW = +localStorage.getItem("hub-dockw") || 0; } catch (e) { S.ov = true; }
   const h = location.hash.slice(1); if (S.st.people[h]) S.view = h;
   if (!S.view || !S.st.people[S.view]) return renderPicker();
   render(); S.st.agents.forEach((a) => loadEvents(a.name)); stream();
@@ -416,12 +418,15 @@ function liveChip() {
 function liveMenu() {
   if (!S.liveOpen) return "";
   const live = S.st.live, act = (S.st.portal_active || {}), bots = S.st.bots || [];
-  const ST = { ready: "built", building: "building…", testing: "testing…", failed: "failed" };
+  const ST = { ready: "built", building: "building…", testing: "testing…", failed: "failed", shelved: "shelved (older than the live bot, no update)" };
   const r = $("#liveT")?.getBoundingClientRect(); const right = r ? Math.max(16, window.innerWidth - r.right) : 16;
   const ago2 = act.at ? " · checked " + ago(act.at) : "";
   return `<div class="livemenu" id="liveMenu" style="right:${right}px"><div class="hd">Active on the portal: <b>${esc(act.filename || "unknown")}</b>${esc(ago2)}${live && bname(live.filename) !== bname(act.filename) ? `<br>Chosen to play next: <b>${esc(live.filename)}</b>` : ""}<br>Click a built bot to download its zip, then upload it on the No Limit dashboard.</div>
-    ${bots.length ? bots.map((b) => { const isAct = bname(act.filename) === b.name, isNext = live && bname(live.filename) === b.name && !isAct;
-      return `<button class="botrow ${isAct ? "cur" : ""}" data-dlbot="${esc(b.name)}" ${b.status === "ready" ? "" : "disabled"} title="${b.status === "ready" ? "Download " + esc(b.name) + ".zip" : "Not built yet"}"><b>${esc(b.name)}${isAct ? " · active" : isNext ? " · next" : ""}</b><span class="st">${esc(ST[b.status] || b.status)}${b.status === "ready" ? " ⤓" : ""}</span>${b.note ? `<span class="nt">${esc(b.note)}</span>` : ""}</button>`; }).join("") : `<div class="empty" style="padding:10px">No bots yet. They appear as the agents build them.</div>`}<div class="hint" id="dlHint" style="padding:4px 8px"></div></div>`;
+    ${bots.length ? bots.map((b0) => { const actN = +(bname(act.filename).match(/^v(\d+)$/) || [])[1] || 0, n = +(b0.name.match(/^v(\d+)$/) || [])[1] || 0;
+      const stale = ["building", "testing"].includes(b0.status) && Date.now() / 1000 - (b0.updated || b0.at || 0) > 600 && n && actN && n < actN;
+      const b = stale ? { ...b0, status: "shelved" } : b0;
+      const isAct = bname(act.filename) === b.name, isNext = live && bname(live.filename) === b.name && !isAct;
+      return `<button class="botrow ${isAct ? "cur" : ""}" data-dlbot="${esc(b.name)}" ${["ready", "shelved"].includes(b.status) ? "" : "disabled"} title="${b.status === "ready" ? "Download " + esc(b.name) + ".zip" : "Not built yet"}"><b>${esc(b.name)}${isAct ? " · active" : isNext ? " · next" : ""}</b><span class="st">${esc(ST[b.status] || b.status)}${["ready", "shelved"].includes(b.status) ? " ⤓" : ""}</span>${b.note ? `<span class="nt">${esc(b.note)}</span>` : ""}</button>`; }).join("") : `<div class="empty" style="padding:10px">No bots yet. They appear as the agents build them.</div>`}<div class="hint" id="dlHint" style="padding:4px 8px"></div></div>`;
 }
 function ovName(person) { return (person === "samuel" ? "s" : "d") + "-overview"; }
 function overviewChatHtml() {
@@ -432,7 +437,7 @@ function overviewChatHtml() {
   const tabs = Object.entries(S.st.people).map(([k, v]) => `<button class="tbtn ${k === who ? "on" : ""}" data-ovwho="${esc(k)}"><span class="pdot ${esc(k)}"></span> ${esc(v)}</button>`).join("");
   const chips = S.st.schedule ? ["What's going on right now?", "What should I be doing?", "What changed in the last 10 minutes?", "Explain the next decision"]
     : ["The competition starts now", "The variant was announced at …", "Round 1 is at …"];
-  return `<aside class="dock" aria-label="Chat"><div class="dock-hd"><b>Chat</b><span class="hint">knows everything the Overseer knows</span>${tabs}<button class="tbtn" id="ovX" title="Hide the chat">✕</button></div>
+  return `<aside class="dock" aria-label="Chat" style="${S.dockW ? `width:${S.dockW}px` : ""}"><div class="dock-grip" id="dockGrip" title="Drag to resize" role="separator" aria-orientation="vertical"></div><div class="dock-hd"><b>Chat</b><span class="hint">knows everything the Overseer knows</span>${tabs}<button class="tbtn" id="ovX" title="Hide the chat">✕</button></div>
     <div class="dock-body" id="ovBody">
       ${items.length ? items.map((t) => people.includes(t.who) ? `<div class="cv-me"><span class="by">${esc(t.who)} · ${hhmm(t.at)}</span>${esc(t.text)}</div>` : `<div class="cv-ag"><div class="by">Chat · ${hhmm(t.at)}</div><div class="a md">${md(t.text)}</div></div>`).join("")
         : `<div class="note2" style="margin-top:24px;text-align:left">${S.st.schedule ? `Ask anything about ${esc(S.st.people[who])}'s side, or tell it what to change: it passes instructions to the Overseer and reports back.` : `<b>Start here.</b> When the competition starts, tell the Chat (“the competition starts now”, or the announcement time). That sets the clock on both laptops and starts the Overseer with the whole game plan. Tell it any other times as you learn them (“round 1 is at 14:25”).`}</div>`}
@@ -563,6 +568,11 @@ function wire(a) {
   $("#ovT")?.addEventListener("click", () => { S.ov = !S.ov; try { localStorage.setItem("hub-chat", S.ov ? "1" : "0"); } catch (e) {} render(); setTimeout(() => $("#ovTa")?.focus(), 30); });
   $("#ovX")?.addEventListener("click", () => { S.ov = false; try { localStorage.setItem("hub-chat", "0"); } catch (e) {} render(); });
   document.querySelectorAll("[data-ovwho]").forEach((b) => b.onclick = () => { S.ovWho = b.dataset.ovwho; render(); });
+  const grip = $("#dockGrip"); if (grip) grip.onmousedown = (e) => { e.preventDefault(); grip.classList.add("drag"); const dock = grip.parentElement;
+    const move = (ev) => { const w = Math.max(320, Math.min(window.innerWidth - 360, window.innerWidth - ev.clientX)); dock.style.width = w + "px"; S.dockW = w; };
+    const up = () => { document.removeEventListener("mousemove", move); document.removeEventListener("mouseup", up); grip.classList.remove("drag"); S.mouseDown = false;
+      try { localStorage.setItem("hub-dockw", String(S.dockW)); } catch (x) {} soon(); };
+    document.addEventListener("mousemove", move); document.addEventListener("mouseup", up); };
   const ovta = $("#ovTa"); if (ovta) { ovta.addEventListener("input", () => autosize(ovta)); ovta.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); $("#ovForm").requestSubmit(); } });
     document.querySelectorAll("[data-ovchip]").forEach((b) => b.onclick = () => { const c = b.dataset.ovchip; if (c.endsWith("…")) { ovta.value = c.slice(0, -1); ovta.focus(); autosize(ovta); } else { ovta.value = c; $("#ovForm").requestSubmit(); } });
     $("#ovForm").addEventListener("submit", async (e) => { e.preventDefault(); const t = ovta.value.trim(); if (!t) return; ovta.value = ""; autosize(ovta);

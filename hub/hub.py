@@ -30,7 +30,7 @@ from claude_agent_sdk import (query as sdk_query, HookMatcher, AssistantMessage,
                               ToolUseBlock, UserMessage, create_sdk_mcp_server, tool)
 
 from bus import Bus, atomic_write, load_json, new_id
-from roster import COMMON_RULES, KICKOFF, PEOPLE, PROTOCOL, ROSTER
+from roster import COMMON_RULES, KICKOFF, PEOPLE, PROTOCOL, ROSTER, team_directory
 
 HERE = Path(__file__).resolve().parent
 STATES = ("working", "waiting", "blocked", "done", "idle")
@@ -209,6 +209,7 @@ class Hub:
         self.bus = Bus(person, data, self.deliver, self.bounce, namespace)
         self.agents: dict[str, Agent] = {s["name"]: Agent(self, s) for s in ROSTER[person]}
         self.bus.local_names = set(self.agents)
+        self.bus.all_names = {a["name"] for agents in ROSTER.values() for a in agents} | {"s-portal", "s-clock", "d-clock", "hub"}
         self.services: dict[str, dict] = {}
         self.local_props: dict[str, dict] = load_json(data / "props.json", {})
         self.clock = Clock(self)
@@ -219,6 +220,7 @@ class Hub:
         self.report_busy: set[str] = set()
         self.last_landed = 0.0
         self.worker_model: str | None = None
+        self.traffic: list = []
 
     def emit(self, kind: str, payload: dict):
         ev = {"kind": kind, **payload}
@@ -942,7 +944,8 @@ class Agent:
         self.ov_last = 0.0
         self.ovchat: list = load_json(self.dir / "ovchat.json", []) if self.name.endswith("overview") else []
         self.led_seen: set = set()
-        self.queue_nudged: set = set()          # ledger ids this agent was shown or wrote (for invalidation notices)
+        self.queue_nudged: set = set()
+        self.traffic_seen = 0.0          # ledger ids this agent was shown or wrote (for invalidation notices)
         self.led_digest: dict = {}
         self.digest_full = True          # first turn after (re)start: the whole team picture
         self.context_tokens = 0
@@ -1195,6 +1198,16 @@ class Agent:
         self.led_seen |= {x["id"] for x in shown}
         if rows:
             out.append("[ledger: changed since your last turn, most important first]\n" + "\n".join(rows))
+        if ov:   # workers talking to each other directly, on both laptops: the Overseer oversees without relaying
+            tr = []
+            for k, v in hub.bus.shared.items():
+                if k.startswith("traffic:") and isinstance(v, dict):
+                    tr += v.get("items", [])
+            new_tr = [t for t in sorted(tr, key=lambda t: t["at"]) if t["at"] > self.traffic_seen]
+            if new_tr:
+                self.traffic_seen = new_tr[-1]["at"]
+                out.append("[workers talking to each other since your last turn]\n" + "\n".join(
+                    f"- {hhmm(t['at'])} {t['from']} → {t['to']} ({t['kind']}): {t['text']}" for t in new_tr[-12:]))
         if ov or self.name in ("s-data", "s-skeptic"):
             dis = disagreements(led)
             if dis:
@@ -1302,7 +1315,7 @@ class Agent:
                 f"Your working folder is {self.cwd}; the team repo is {self.hub.repo}. This run's results and hand data are "
                 f"in {self.hub.portal_data} (one folder per round); use only these, never older data elsewhere. Every board note's "
                 f"full conversation is mirrored as markdown in {self.hub.data / 'board'} (<note id>.md)."
-                f"\n{PROTOCOL}\n{COMMON_RULES}")
+                f"\n{PROTOCOL}\n{team_directory(self.name)}\n{COMMON_RULES}")
         return ClaudeAgentOptions(
             system_prompt={"type": "preset", "preset": "claude_code", "append": role},
             mcp_servers={"hub": self.tool_server()},
@@ -1577,6 +1590,10 @@ class Agent:
                 kind = "question"
             msg = {"id": new_id(), "from": me.name, "from_kind": "agent", "to": a["to"].strip(), "text": a["text"],
                    "kind": kind, "reply_to": a.get("reply_to") or None}
+            if not me.name.endswith(("overseer", "overview")) and not msg["to"].endswith(("overseer", "overview")):
+                hub.traffic = (hub.traffic + [{"at": time.time(), "from": me.name, "to": msg["to"], "kind": kind,
+                                               "text": a["text"][:160]}])[-30:]
+                asyncio.create_task(hub.bus.set_shared("traffic:" + hub.person, {"items": hub.traffic, "updated": time.time()}))
             if kind == "answer" and msg["reply_to"]:
                 orig = next((e for e in reversed(me.events) if e.get("type") == "msg_in" and e.get("id") == msg["reply_to"]), None)
                 if orig and orig.get("kind") in ("answer", "fyi"):

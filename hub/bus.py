@@ -82,6 +82,7 @@ class Bus:
         except Exception:  # noqa: BLE001
             pass
         self.local_names: set[str] = set()
+        self.all_names: set[str] = set()   # every agent on both laptops (from the roster)
         self.online = False
         self.error = ""
         self.q = self.d = None
@@ -120,6 +121,8 @@ class Bus:
         if e and time.time() - e.get("seen", 0) < FRESH:
             return e.get("person")
         # an agent on the other laptop that is offline or not yet listed: queue for it (delivered when it is back)
+        if self.all_names and agent not in self.all_names:
+            return None   # a typo or an invented name: the sender gets an error at once instead of a 30-minute silence
         if agent.startswith("s-") and self.person != "samuel":
             return "samuel"
         if agent.startswith("d-") and self.person != "dylan":
