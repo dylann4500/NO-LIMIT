@@ -12,6 +12,11 @@
       "at": "2026-11-13T04:59:15Z",
       "by": "samuel",
       "text": "claimed"
+    },
+    {
+      "at": "2026-11-13T05:58:59Z",
+      "by": "samuel",
+      "text": "v2 pushed: hub/ (README has Sunday procedure)"
     }
   ],
   "owner": "samuel",
@@ -24,5 +29,5 @@
   "result": "",
   "state": "active",
   "title": "Agent hub: per-laptop web UI running Claude Agent SDK agents, cross-laptop messaging over Modal Queue",
-  "updated_at": "2026-11-13T04:59:15Z"
+  "updated_at": "2026-11-13T05:58:59Z"
 }
