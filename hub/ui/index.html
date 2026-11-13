@@ -380,7 +380,7 @@ function noteNum(p) {
   const k = kindOf(p), th = p.thread || [];
   const m = th.map((t) => String(t.text || "").match(/we were (\d+) of (\d+) with ([\d.]+) \(±([\d.]+)\)/)).filter(Boolean).pop();
   if ((k === "live" || k === "analysis") && m) return `<div class="knum">${ORD(+m[1])} of ${m[2]} <small>· ${m[3]} ± ${m[4]} pts/table</small></div>`;
-  if (k === "bot" && p.bot) return `<div class="knum">${esc(bname(p.bot))}?${p.deadline && p.status === "needs_call" ? ` <small>· decide in <span data-dl="${p.deadline}">${mmss(p.deadline - Date.now() / 1000)}</span></small>` : ""}</div>`;
+  if (k === "bot" && p.bot && p.deadline && p.status === "needs_call") return `<div class="knum"><small>decide in <span data-dl="${p.deadline}">${mmss(p.deadline - Date.now() / 1000)}</span></small></div>`;
   return "";
 }
 function noteOnIt(p) {
@@ -448,11 +448,12 @@ function boardHtml() {
     const nowIdx = order.indexOf(cur), isPrev = nowIdx >= 0 ? i === nowIdx + 1 : i === 1;
     const live = xs.some((p) => p.status === "needs_call" || (["running", "planned", "new"].includes(p.status) && kindOf(p) !== "build"
       && Date.now() / 1000 - (p.updated || 0) < 1200));   // an older stage stays open only while something in it is actually moving
-    const open = isNow || isPrev || live || S.openStages[st];
+    const auto = isNow || isPrev || live;
+    const open = isNow || (st in S.openStages ? S.openStages[st] : auto);   // your click wins over the automatic default
     const tag = isNow && sch ? `<span class="now">NOW</span>` : isPrev ? `<span class="prev">previous</span>` : "";
     const done = xs.filter((p) => ["done", "approved", "rejected", "expired"].includes(p.status)).length;
     if (!open) return `<div class="stage past"><button class="stage-fold" data-stage="${esc(st)}">${esc(nice(st))} · ${xs.length} note${xs.length === 1 ? "" : "s"}${done === xs.length ? " · all done" : ""} ▸</button></div>`;
-    return `<div class="stage ${isNow ? "" : "past"}"><h2>${esc(nice(st))} ${tag}${!isNow && !isPrev ? `<button class="tbtn" data-stage="${esc(st)}" style="text-transform:none;letter-spacing:0">collapse</button>` : ""}</h2><div class="wall">${isNow ? newNote : ""}${xs.map((p) => noteHtml(p, isNow)).join("")}</div></div>`; }).join("");
+    return `<div class="stage ${isNow ? "" : "past"}"><h2>${esc(nice(st))} ${tag}${!isNow ? `<button class="tbtn" data-stage="${esc(st)}" data-open-now="1" style="text-transform:none;letter-spacing:0">collapse</button>` : ""}</h2><div class="wall">${isNow ? newNote : ""}${xs.map((p) => noteHtml(p, isNow)).join("")}</div></div>`; }).join("");
   return `<div class="board">${hero}${nowHtml()}
     ${call.length ? `<div><h2>Needs your call <span class="c">${call.length}</span></h2><div class="wall">${call.map((p) => noteHtml(p, true)).join("")}</div></div>` : ""}
     ${rows || `<div class="stage"><div class="wall">${newNote}</div></div>`}
@@ -721,7 +722,8 @@ function wire(a) {
         t = lines.join("\n") + (t ? "\n" + t : "\nRoute these to the right agents (see your role).") }
       const name = ovName(S.ovWho || S.st.me); const ov = (S.st.overviews[name] = S.st.overviews[name] || []); ov.push({ who: S.st.people[S.st.me], at: Date.now() / 1000, text: t }); render();
       const r = await api(`/api/agents/${encodeURIComponent(name)}/send`, { text: t }); if (r.error) { const h = $("#ovHint"); if (h) { h.textContent = "Not sent: " + r.error; h.className = "hint bad"; } } }); }
-  document.querySelectorAll("[data-stage]").forEach((b) => b.onclick = () => { const st = b.dataset.stage; S.openStages = S.openStages || {}; S.openStages[st] = !S.openStages[st]; render(); });
+  document.querySelectorAll("[data-stage]").forEach((b) => b.onclick = () => { const st = b.dataset.stage; S.openStages = S.openStages || {};
+    S.openStages[st] = !b.dataset.openNow; render(); });   // collapse button -> closed; folded row -> open
   $("#cvBack")?.addEventListener("click", () => { S.card = null; render(); });
   $("#repGo")?.addEventListener("click", () => makeReport(S.card));
   $("#cardX")?.addEventListener("click", () => { S.card = null; render(); });
