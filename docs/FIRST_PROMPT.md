@@ -271,6 +271,14 @@ HOW TO WORK
   clearly best. So the real field must pick, and the challenger should be the best response to the
   field's measured mix of styles (profiles), not simply to whoever is winning. A tight bot that only folds busts around hand 100 and finishes 4th, so C must win chips.
   All three share the post-flop equity logic (fold to bets near break-even, adjusted per seat).
+  Shared defaults (from the measured priors above; every style keeps them unless its design deliberately
+  overrides one and says so in VERSIONS.md): no open-limping (a limp-or-jam style limps by design, with its
+  planned re-shove); no flat-calling an open at 10 big blinds or more except big-blind defence at the right
+  price; shove-or-fold first in at about 12 big blinds or less; fold one pair to raises and to large late
+  bets unless that seat is shown to bluff. The check run counts each (open-limp rate, flat calls of opens at
+  10bb+ outside the big blind, first-in non-shove raises under 12bb, one-pair calls of raises) and a style that
+  breaks one by accident fails the check. In a rehearsal, bots v1-v10 limped and flat-called because nothing
+  checked, and the leak was still there in scored round 1.
   Each must pass every check below. I'll rotate which one is active through the practice rounds, so each
   gets a real score against this field. The best scorer plays scored round 1; the next best stays alive as
   the challenger, which plays the practice round between scored rounds and takes the bigger, riskier
@@ -365,6 +373,10 @@ variant's own phase as its own class); and the hand's value to that team: its to
 after the hand minus before (both are in the file). Compare actions only within the same cell, and
 before the flop only within the same position: pooled across positions, big-blind calls against other
 seats' folds looked like a 0.76-point leak that was really about 0.1.
+
+Before the questions, the defaults check (one line each, ours vs the field): open-limp rate; flat calls of an
+open at 10bb+ outside the big blind; first-in raises that aren't all-in under 12bb; one-pair calls of raises
+and large late bets. Flag any of ours that is far from the field and not intended by the live bot's style.
 
 Then answer, for <YOUR AREA: before the flop | after the flop | the variant's own phase | short stacks,
 all-ins and the last four players | how the field treats us>:
@@ -545,7 +557,9 @@ candidates/<short-name>/ that changes this one thing (other builders handle the 
 independent ones are bundled into the live bot, each behind its own setting), behind a named setting that defaults to the
 old behaviour. Don't touch anything else. Run the standard checks (legal actions, no exceptions, latency,
 the branch-fired counts) and write in NOTES.md what you changed, the rates you expect to move, and what
-would show it's wrong. The test rig picks it up from that folder.
+would show it's wrong. If the change targets a rate (e.g. fold to 3-bets at 74%), measure that rate in a local
+run against sparring bots that re-raise like this field and report it: within about 5 points of the target, or
+it doesn't ship (a rehearsal change aimed at 74.6% played at 92.8% because only "it fired" was checked). The test rig picks it up from that folder.
 ```
 
 **Bug hunters** (two per window, independent of the builders)

@@ -208,6 +208,10 @@ EVENT_CAP = 4000
 UPLOAD_ASK = re.compile(r"upload\W{0,3}(v\d+)(?:\.zip)?\W{0,3}(?:now|by|before|immediately|asap)\b", re.I)
 
 
+# a greenlight that sets a condition ("approve if the tester passes it", "only once...", "provided ...")
+CONDITIONAL = re.compile(r"\b(if|once|only when|only after|provided|as long as|unless|assuming|conditions?|after (?:the|s-|it))\b", re.I)
+
+
 def norm_bot(x: str) -> str:
     """'releases/v3.zip', 'v3 (1).zip' (a browser's second download) -> 'v3'."""
     return re.sub(r"\s*\(\d+\)$", "", re.sub(r"\.zip$", "", (x or "").strip().split("/")[-1].lower()).strip())
@@ -944,7 +948,13 @@ class Hub:
         target = p.get("owner") or p.get("author")
         if action == "approve" and p.get("deadline") and time.time() > p["deadline"]:
             raise ValueError("Too late: the deadline for this decision has passed, so the default applies.")
-        if action == "approve" and p.get("bot"):
+        if action == "approve" and p.get("bot") and CONDITIONAL.search(text or ""):
+            # "yes, once the tester passes it": not live yet, so no upload ask until the Overseer confirms the condition
+            p["status"], p["decided_by"], p["condition"] = "approved", who, text
+            note = (f"GREENLIT ON A CONDITION by {who}: #{p['id']} use {p['bot']} only if: \"{text}\". It is NOT live yet "
+                    "and Dylan has not been asked to upload. Check the condition; when it holds, declare_live it (that asks "
+                    "Dylan to upload) and say so in the note; if it can't hold by T-3, the live bot stays and say why.")
+        elif action == "approve" and p.get("bot"):
             await self.make_live(p["bot"], who, f"greenlit on note #{p['id']}", tell=False)
             p["status"], p["decided_by"] = "approved", who
             note = f"GREENLIT by {who}: #{p['id']} use {p['bot']}. It is now the declared live bot; Dylan uploads it."
