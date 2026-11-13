@@ -59,6 +59,7 @@ BUILD_NOTES = [  # (person, agent, name): one note per build-hour work stream, c
     ("samuel", "s-tester", "Test rig (paired runs, sparring)"),
     ("samuel", "s-pipeline", "Round card: today's hand data in numbers within a minute"),
     ("samuel", "s-theory", "Theory: ranking, ICM, push/fold, twist tables for today's variant"),
+    ("samuel", "s-scout", "Opponents: first profiles and fingerprints from practices 1-2, and how identifiable we are"),
 ]
 
 
