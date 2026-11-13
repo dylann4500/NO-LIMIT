@@ -75,8 +75,8 @@ points by finishing place (default 50/30/20 for 1st-3rd, nothing for 4th-8th) an
 points per table over thousands of tables. The bot is one Python file with act(state, memory) that must
 return in 1 ms. The kit in this folder is the authority on everything: read README.md, RULES.md, AGENTS.md
 and the SDK source before writing anything, and tell me the variant's new phase(s), action kinds and
-state.variant fields, the round weights and anything unusual in state.config. Round weights today:
-<weights from the Format page>. Our research notes are in <notes folder, or "none">.
+state.variant fields, and anything unusual in state.config. Our notes are in <notes folder>; read
+TWIST_NOTES.md there first (a checklist for any new phase, and how to value plausible twists).
 
 FIRST 10 MINUTES: A BOT THAT CANNOT LOSE US THE ROUND
 Before any strategy, get a minimal legal bot into submission/ and tell me to upload it. A team with no
@@ -103,7 +103,9 @@ The upload test gives no time bank, and the slowest decisions come from garbage-
 first calls and machine jitter, not from our logic. So: build all tables at import; run one full throwaway
 decision of every phase at import; then collect garbage once, freeze it and raise the collector's
 thresholds; cap any sampling by an iteration count and by a deadline of 0.15-0.2 ms from the start of
-the call (the rest of the decision needs time too), so typical compute stays near 0.1 ms. A deadline
+the call (the rest of the decision needs time too), so typical compute stays near 0.1 ms. Exception: a
+twist decision whose failure default is cheap (check the rules; a failed bid that just bids nothing is
+cheap) may take up to 0.5 ms while the time bank is healthy, if the extra time measurably buys points. A deadline
 can't protect against the process being paused mid-call, so keep the work small. Measure the maximum and
 the 99.9th percentile over 100,000 varied states, and always measure the kit's check-or-fold example in
 the same run as a baseline: the build machine is usually busy, so judge our numbers against it, and if
@@ -127,7 +129,12 @@ expensive scoring with a cheap rule of thumb and keep the cheap one if it is as 
   opponents can hold, and remove every card we know is dead from all sampling.
 - model what our OWN twist choice reveals to the others.
 - if the twist has a budget or resource (chips of another kind, a limited number of uses), plan it over
-  a whole table of roughly 120-140 hands, and check what a failed decision costs under the rules.
+  a whole table of roughly 120-140 hands (a currency left at the end is worth nothing), read opponents'
+  public balance changes as information about their hands, and check what a failed decision costs.
+- when everyone's choices decide the twist together (an auction, a vote), tune ours against opponents
+  who also play it well, not only against sparring bots that play it badly.
+- the twist can be worth more than all our other tuning: in one mock variant, bidding well against not
+  bidding was worth about 8 points per table. Measure points against the compute we give it.
 Preflop hand rankings change when the rules do, sometimes completely (in one mock variant pocket pairs
 became the worst hands). By minute 20, simulate today's ranking and the twist's value at build time and
 embed them. Define every style as a fraction of TODAY's ranking plus stack-depth rules; the regional
@@ -192,9 +199,12 @@ randomly and some well; ones that ignore it flatter us.
 
 CHECKS, BEFORE I UPLOAD ANYTHING (report the numbers, not "passed")
 1. The packed upload imports from an empty folder; the upload-test conditions (heads-up against the kit's
-   check-or-fold bot, 20 hands, no time bank) give zero failed decisions on several seeds.
-2. 100,000 random legal states, including 2 and 3 players, all-in seats, cut or garbage memory: zero
-   illegal actions, zero exceptions, zero catch-all hits, and the latency figures above.
+   check-or-fold bot, 20 hands, no time bank) give zero failed decisions on several seeds. That bot folds
+   to everything, so the twist never fires: run the same conditions against a bot that calls everything
+   and confirm the twist phase fired (count it).
+2. 100,000 states harvested from local play against sparring bots (generating legal states from scratch is
+   hard), including 2 and 3 players and all-in seats, with memory rotated between real, cut, garbage and
+   empty: zero illegal actions, zero exceptions, zero catch-all hits, and the latency figures above.
 3. Tournament equity: equal stacks get equal shares; shares sum to the prize pool; a busted player gets
    exactly their place's payout; 2- and 3-player cases match hand calculation. Then test the CALL/FOLD
    wrapper around it, where both build tests put their bugs: heads-up, its break-even equity must equal
@@ -211,6 +221,9 @@ CHECKS, BEFORE I UPLOAD ANYTHING (report the numbers, not "passed")
    absurd counts mean it's broken.
 8. A style report from local play, by players remaining: how often we enter pots, raise, re-raise, fold
    to a re-raise, fold to bets by street and size, bet when checked to, and our heads-up open rate.
+9. A scripted current-hand rebuild: a hand with preflop, twist, flop and turn raises; assert the street,
+   who raised before the flop, and every dead and known card. (A one-line "harmless" deletion broke the
+   street counter in a test build for 11 minutes and nothing else noticed.)
 
 HOW WE JUDGE STRENGTH (THIS IS WHERE TEAMS FOOL THEMSELVES)
 Beating our own earlier versions means nothing: a bot of ours beat them by 4.4 points locally and came
@@ -235,8 +248,9 @@ HOW TO WORK
   places and the practice rounds can tell us which style this field pays. You own the platform and
   style A; spawn two subagents for B and C once the platform's interface is fixed, each in its own folder,
   changing only its style layer. A style may set parameters or wrap shared functions, never copy them (a
-  copied function silently misses every later platform fix), and uses only platform counters. Subagents
-  report suspected platform bugs in their first message, not their last:
+  copied function silently misses every later platform fix), and uses only platform counters. Give each subagent a 10-minute deadline for a first report that
+  lists suspected platform bugs, then continue it with a second brief. Treat "harmless" remarks in any
+  subagent's report as claims: rerun the checks before acting on them:
     A. pressure: opens and re-raises wide (the regional winner's style), with planned responses to the
        next raise, and bets when checked to while the field folds enough;
     B. shove-heavy: few small raises before the flop; mostly shove or fold, with wide shoves and

@@ -82,6 +82,18 @@ Knowledge, not code: the one-line tests describe checks for the coding agent to 
 - Preflop: near the bubble, all-in calls become slightly better for short stacks.
 - Leak: accept/decline is public and minor.
 
+**T13. Auction over board cards (auction, separate currency).** Tested on a mock flop auction: players bid a
+separate currency on candidate flop cards, and the result picks the flop.
+- Value: score every possible board outcome on the same sampled opponent hands and runouts, then bid on the
+  cards of the best outcome. Size bids from the budget: balance / auctions expected to remain, scaled by how
+  much the outcomes differ and by the pot. Cap bids relative to the richest live opponent's balance.
+- Measured: never bidding scored 14.5 points per table; a cheap rule 17.7; simulated bidding 20.6-22.1;
+  points rose with thinking time (0.1 ms 18.6, 0.6 ms 20.4). A budget 3x too large fell back to 18.8.
+- Classic mistakes: tuning the budget only against bad bidders; crediting a balance drop to the wrong hand
+  (when we folded preflop); leaving the unchosen cards in the deck.
+- Preflop: controlling the board devalues pocket pairs (22 ranked 118th of 169) and raises high cards.
+- Always simulate the twist's preflop effect: in three mock variants, pairs lost value in two of them.
+
 ## 2. First 15 minutes: checklist for the coding agent
 
 1. Read the rules page end to end. Write down: the phase name (`state.phase`), the action kind, the meaning of `cards` (indices or card values, and in what order), whether `amount` must be 0, `max_amount`, the new `state.variant` keys, and the failure default.
@@ -105,7 +117,7 @@ Knowledge, not code: the one-line tests describe checks for the coding agent to 
    - Reset everything for each hand (key it by hand id).
 7. Equity routine: `equity(mine, board, known_by_opp, dead, n_unknown_opps, deadline)`.
    - Build eval7 Card objects and integer lookups for all 52 cards at import time.
-   - Loop until `perf_counter()` reaches the deadline. Use about 0.6 ms of the 1 ms; also measure, and use the time bank only in emergencies.
+   - Loop until `perf_counter()` reaches the deadline. Betting decisions: 0.15-0.2 ms. A twist decision whose failure default is cheap may use up to 0.5 ms while the time bank is healthy; measure points against compute time, and use the bank only in emergencies.
    - Weight opponents with simple rejection sampling from a preflop range (for example, a raiser holds the top 30% by the precomputed table).
 8. Performance: time 1,000 evaluations at import. Expect roughly 150–300 heads-up samples per ms with eval7 and about 50–100 in pure Python [unsure; measure on their hardware]. Divide by the number of opponents. Build the preflop 169-class equity table (by number of opponents) during the hour with an offline script and paste it in as a literal; don't compute it at import.
 9. Per-table memory: store only small counts (VPIP, aggression, twist-choice frequencies per seat), never hand histories.
