@@ -148,8 +148,9 @@ Samuel's things are marked indigo, Dylan's rose.
 |---|---|---|
 | **Overseer** (the one you talk to) | Runs analysis and testing. Turns each round into findings and a recommendation, sent to Dylan's Overseer at T-8 | Owns the bot and the plan. Decides what plays, with Dylan's greenlight, and tells Dylan exactly which file to upload |
 | Worker | **Pipeline**: turns each round's hand data into a standard "round card" of numbers within a minute; woken automatically when data lands | **Platform**: the only one editing the main bot code; sets the rules card at minute 0; packs and checks every release (v1, v2, ...) |
-| Worker | **Analyst**: what the numbers mean: our biggest leaks, opponents, the changes worth making (up to three) | **Builder**: styles A, B and C plus challengers, each in its own folder of its own copy of the repo |
+| Worker | **Analyst**: what the numbers mean: our biggest leaks, opponents, the changes worth making (up to three) | **Builder**: styles A, B and C, then opponent counters and the live bot's fixes, in its own copy of the repo |
 | Worker | **Tester**: a verdict on every candidate, "correct?" and "stronger?" (paired tests on Modal, at the table size on the rules card) | |
+| Worker | | **Challenger**: owns the challenger slot (the bot that plays each window's practice round): new styles, fresh rewrites, the best response to the field's measured mix, in its own copy of the repo |
 | Worker | **Theory**: from minute 0, solves what can be solved for today's variant (hand ranking, ICM, push/fold and call tables, the twist's value) and hands Platform tables; refits them from each practice round | |
 | Worker | **Scout**: opponents: which team sits where (fingerprints learned from each download), team profiles and counters, whether anyone has profiled us, and disguise when it pays (`docs/FINGERPRINTING.md`) | |
 | Worker | **Skeptic**: re-runs the numbers behind anything a decision rests on; marks results validated or disputed; can invalidate a wrong method, which flags everything built on it | |

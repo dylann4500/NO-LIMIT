@@ -55,6 +55,7 @@ KINDS = ("idea", "build", "live", "analysis", "bot", "question", "research", "fi
 BUILD_NOTES = [  # (person, agent, name): one note per build-hour work stream, created at minute 0
     ("dylan", "d-platform", "Legal bot v1, test harness, today's hand ranking"),
     ("dylan", "d-builder", "Styles A, B and C"),
+    ("dylan", "d-challenger", "Challenger: a fresh design for the field's mix"),
     ("samuel", "s-tester", "Test rig (paired runs, sparring)"),
     ("samuel", "s-pipeline", "Round card: today's hand data in numbers within a minute"),
     ("samuel", "s-theory", "Theory: ranking, ICM, push/fold, twist tables for today's variant"),
@@ -1173,7 +1174,8 @@ class Agent:
             return r.stdout.strip() if r.returncode == 0 else None
         try:
             if not wt.exists():
-                subprocess.run(["git", "-C", str(repo), "worktree", "add", "-B", "builder", str(wt)],
+                branch = self.spec.get("branch") or self.name.split("-", 1)[-1]   # builder, challenger, ...
+                subprocess.run(["git", "-C", str(repo), "worktree", "add", "-B", branch, str(wt)],
                                check=True, capture_output=True, timeout=60)
             if common(wt) and common(wt) == common(repo):
                 return wt
@@ -2164,6 +2166,7 @@ DISPATCH = {
             ("samuel", "crit", "s-data", "Practice 2 leaks; compare styles A vs B on the real field"),
             ("samuel", "opt", "s-data", "Opponent profiles (Part 4) from practice rounds so far")],
     "b40": [("dylan", "crit", "d-builder", "Style C for practice 3"),
+            ("dylan", "crit", "d-challenger", "From practices 1-2 (real-field scores, s-scout's first profiles, the field's measured style mix): design the first challenger as the best response to that mix; ready for the practice before scored round 2"),
             ("samuel", "crit", "s-tester", "Rank A, B, C (paired tests + real practice scores) for the round-1 choice")],
     "b50": [("dylan", "crit", "d-platform", "Release the best real-field scorer as the live bot for scored round 1"),
             ("samuel", "crit", "s-data", "Which style did the field reward? One paragraph for the round-1 decision")],
@@ -2171,10 +2174,11 @@ DISPATCH = {
             ("samuel", "crit", "s-skeptic", "Re-run the numbers behind every proposed result the T-8 decision may rest on (card headline, s-tester verdicts, s-data's change); verify each"),
             ("samuel", "crit", "s-tester", "Verdict on every pending candidate: correct? and paired test vs the live bot"),
             ("samuel", "crit", "s-data", "Opponent profiles and counters (Part 4) for the teams where a profile pays most (often at our tables, stable between rounds, far from the field)"),
-            ("dylan", "crit", "d-builder", "Two candidate builders: the next challenger idea and an opponent counter, each in its own folder"),
+            ("dylan", "crit", "d-builder", "Opponent counters from s-scout and this window's live-bot fixes (up to three, each behind a setting), each in its own folder"),
+            ("dylan", "crit", "d-challenger", "The next challenger: revise it from this round's data (or start a fresh rewrite if we're outside the top 6 after 15% of the weight); hand it to s-tester"),
             ("samuel", "crit", "s-scout", "Fingerprint card: counters on/off by the gate, counters.json to d-platform, accuracy/drift to s-skeptic, by T-9"),
             ("samuel", "opt", "s-tester", "Cloned field on Modal (Part 3b) for the challenger"),
-            ("dylan", "crit", "d-builder", "Challenger packed and tested, ready for the T-12 upload"),
+            ("dylan", "crit", "d-challenger", "Challenger packed and tested, ready for the T-12 upload"),
             ("dylan", "crit", "d-platform", "Fix bugs s-tester reported; build this window's live-bot changes (up to three independent, each behind a setting)")],
     "T20": [("samuel", "crit", "s-skeptic", "Verify the challenger's paired-test verdicts and methods now (they don't depend on the new round), and pre-arm analysis/verify_change.py + a Codex brief that recompute the card's headline numbers from a hand file, so at T-12 only the data path changes"),
             ("dylan", "crit", "d-overseer", "Draft the 'Which bot?' note for the next scored round now: the pre-registered rule, both bots' numbers as they land, and the rule's answer (no assumed default)")],
@@ -2260,7 +2264,8 @@ OVERSEER_WAKES = ("task", "question")   # fyi/answers to an Overseer ride along 
 # How wide each dispatched job should fan out (effort scaling: the lead sets the budget, the worker splits).
 FANOUT = {
     "d-platform": "fan out: one subagent per independent piece (engine adapter / hand ranking / packaging+checks); Sonnet for packaging and scripts",
-    "d-builder": "fan out: one subagent per style or candidate, in parallel, each in its own folder; Modal (up to 20) for sparring each",
+    "d-builder": "fan out: one subagent per style, counter or fix, in parallel, each in its own folder; Modal (up to 20) for sparring each",
+    "d-challenger": "fan out: 2-3 subagents on alternative challenger designs in parallel, each in its own folder; Modal (up to 20) for sparring and the cloned field; Codex for an independent review",
     "s-tester": "fan out: shard paired runs across Modal (up to 40 containers); one subagent per candidate for the 'correct?' review",
     "s-data": "one-change proposal: 3 lens subagents in ONE message (3-min cap) + 1 Codex recompute, aggregate by T-9; other work: one subagent per question, Sonnet for counting",
     "s-scout": "fan out: one subagent per team for specialist studies; Codex for an independent re-implementation of the accuracy numbers; Modal for counter A/B sims",
