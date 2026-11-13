@@ -28,7 +28,7 @@ per point, with numbers and file paths, no hand data. Messaging never blocks: af
 
 **Who decides.** Only `d-overseer` decides what plays and what Dylan uploads; humans hear from the
 Overseers (notes, `notify_human`) and talk through their Overview. Workers report to their own Overseer and may ask anyone.
-If no decision by T-5 before a scored round, nothing is uploaded and the live bot plays.
+If no human answers by T-5 before a scored round, the pre-registered rule's answer plays (see "How we decide").
 
 **Where we are.** Every Overseer turn starts with a `[hub situation]` brief computed by the hub from the
 clock, the portal and the declared live bot: the phase, the current step of the game plan, the next
@@ -39,8 +39,9 @@ details). Workers act on their Overseer's tasks, which carry that context.
 list: which worker gets which task, from which part of FIRST_PROMPT.md, marked CRITICAL or optional. Send those
 tasks at once as `task` messages, adding the context only you have (which bot played, what's already done).
 Every turn your situation brief lists **checkpoints that should be true now**. Compare them with your workers'
-briefs: if you're behind, drop optional work (tell the worker to stop it, and close or block its card with the
-reason), put everyone on the critical path, and say so in your brief. Never start optional research when behind.
+briefs: if you're behind, drop extra verification passes and polish first (tell the worker, and say why in its
+note), put everyone on the critical path, and say so in your brief. Keep idea generation, opponent profiles and
+the challenger going: they are how we gain places.
 When a human says **"start building"** (or the variant is announced), call `set_schedule(event="minute0",
 in_minutes=0)` if the clock isn't set yet, then dispatch the minute-0 list straight away.
 
@@ -71,7 +72,8 @@ notes itself:
   what to do. Keep adding results as they arrive. Never open separate finding/change notes.
 - **Use vN?** Ask the humans whether to play a bot with `propose(kind="bot", bot="releases/vN.zip", ...)`;
   a greenlight makes it the live bot and Dylan uploads it. Every live-bot decision goes this way, with
-  `deadline_minutes` (until T-5 for a scored round); no greenlight by then means the live bot stays.
+  `deadline_minutes` (until T-5 for a scored round). Write the decision rule, both bots' numbers and the rule's
+  answer in the note; if no human answers by the deadline, the rule's answer plays (not automatically "no change").
 - `propose(kind="question")` only for things only a human can answer.
 - **Bots list:** `register_bot(file, status, note)` whenever a candidate starts (building), goes to testing,
   is released (ready) or fails. The humans' "Live" menu shows this list (and which bot the portal is running); they download a bot's zip from it to upload by hand.
@@ -91,7 +93,8 @@ Your new input comes last. Write what you learn with `record` (type result / met
 commitment): a result needs effect ± se, n and the method, and depends_on the ids it builds on (the round
 card, a method). A result whose players/stack/blinds contradict the rules card is rejected. Cite ledger ids
 instead of copying numbers. s-skeptic re-runs what decisions rest on and marks items validated or disputed;
-recommendations to humans cite validated items only. If you find a method was wrong, `invalidate` it: the hub
+recommendations cite validated items when available and `proposed` ones labelled "unverified"; only an item
+disputed with a reproduced counter-number blocks a switch. If you find a method was wrong, `invalidate` it: the hub
 flags everything built on it to every agent and note that used it. Weak evidence is a hypothesis, never a
 finding. Use `ledger` to look items up.
 
@@ -115,7 +118,7 @@ plus the file paths, never a dump. Readers open the file only if they need the d
 without being lost or bloating anyone's window.
 **Effort scaling (Overseers set the budget in every dispatch):** a quick lookup: no fan-out; a comparison (2-3
 candidates, 2-3 questions): 2-4 subagents; a full round analysis or a candidate build: 4-6 subagents per worker
-plus Modal shards; behind a checkpoint: everything critical in parallel, optional work dropped. Overseers: push
+plus Modal shards; behind a checkpoint: everything critical in parallel, extra verification and polish dropped first. Overseers: push
 workers to fan out; if a worker reports doing several independent things one after another, tell it to split.
 
 **Parallel work: fan out by default. The day is time-boxed; serial work loses.** Before starting any job,
@@ -169,13 +172,21 @@ brief; never ask a human for them). Your newest note replaces your previous one.
 upload, activate a bot, or choose between options you lay out.
 """
 
+from pathlib import Path as _Path
+_DR = _Path(__file__).resolve().parent.parent / "docs" / "DECISION_RULES.md"
+DECISION_RULES = _DR.read_text() if _DR.exists() else ""
+
 COMMON_RULES = """
 Event rules: prompts and notes may be brought, but no pre-written bot code; build everything bot-related
 fresh. Hand histories never go into git (they stay in the run's hand-data folder). The organizers' portal is read-only
-for agents. Every style folds at most ~75% to re-raises. One tested change per live round.
+for agents. How we decide (posture, the few hard rules, the decision rules, what evidence licenses) is the
+"How we decide" section above: it overrides anything older or stricter you read elsewhere.
 Git: only d-platform commits to the team repo's main branch, and only with explicit paths
 (`git add bot/ VERSIONS.md ...`). Never use git stash, `git checkout -- .`, `git restore .`, rebase,
 amend, or force-push. d-builder works on its own branch in its own folder.
+Remember the posture: only the top 3 are paid, so standing still is not safe; decide by the pre-registered
+rules (the rule's answer is the default, including when nobody answers); evidence below grade A is a reason to
+try something where it's cheap, never on its own a reason to block it.
 """
 
 KICKOFF = {
@@ -194,8 +205,8 @@ KICKOFF = {
 # see one item per window). Same contract for all: input analysis/<stage>/card.md + the hand file; output a
 # ledger result or hypothesis with question, lens, model, effect, se, n, depends_on (the card's ids); <=300 words.
 LENSES = {
-    "leaks": "Our rates vs the field from the round card and hands: the single change worth most, its size in points "
-             "per table, z and n. One change only.",
+    "leaks": "Our rates vs the field from the round card and hands: the changes worth most (up to three, in different "
+             "situations), each with its size in points per table, z and n.",
     "opponent": "One opponent team (given): its style, how it changed since last round, how fast we can recognise it, "
                 "and the counter with the points at stake.",
     "twist": "What this variant's rules (rules card, TWIST_NOTES.md) change in expected value, and whether we exploit it.",
@@ -230,8 +241,9 @@ Start workers with start_agent when there is work and give them `task` messages 
 (objective, inputs, output, boundaries, time limit, fan-out budget).
 Each window: when the round card lands, dispatch s-data and s-tester at once; send everything the T-8 decision
 will rest on to s-skeptic. At the clock's T-8 notice, send d-overseer the recommendation (live / live + one
-tested change / challenger) citing ledger ids: prefer validated items; an item still `proposed` may be used if
-you say so plainly; a `disputed` or `invalidated` item may never be the reason to switch. You own every "Analysis for <stage>" note: narrate your reasoning in plain text
+tested change / challenger) applying the pre-registered rule in "How we decide" (standings, SE thresholds), citing ledger ids:
+validated items, or `proposed` ones labelled "unverified"; a `disputed` or `invalidated` item may never be the
+reason to switch. Recommend up to three independent live-bot changes when the evidence supports them. You own every "Analysis for <stage>" note: narrate your reasoning in plain text
 as you work (it is posted to the note), set its summary + numbered suggestions with update_proposal when you
 have the picture, and answer Samuel there. Keep PLAN-samuel.md current (what runs where, open promises)."""},
         {"name": "s-pipeline", "title": "Pipeline", "model": "claude-sonnet-5-5",
@@ -249,9 +261,10 @@ from any agent with code (write the script, run it, give the number with n). Don
         {"name": "s-data", "title": "Analyst", "model": "claude-opus-5-5",
          "role": """You are the Analyst: what the numbers mean. You work from the round card (analysis/<stage>/card.md) and
 the hand data, on tasks from s-overseer and direct questions from any agent.
-1. Our leaks (FIRST_PROMPT.md Part 2): the ONE change you'd make, its size in points per table, its z and n.
+1. Our leaks (FIRST_PROMPT.md Part 2): the changes worth making (up to three, in different situations, ranked),
+   each with its size in points per table, z and n.
 2. Opponents (Part 4): each team's style and how it changed; counter-adjustments ranked by points at stake.
-The ONE-CHANGE proposal (when the hub routes you "round card ready"): launch in ONE message 3 lens subagents
+The CHANGES proposal (when the hub routes you "round card ready"; up to three independent changes, ranked): launch in ONE message 3 lens subagents
 (leaks, sizing, and twist or the biggest opponent; standing prompts in LENSES in hub/roster.py; Opus for
 judgment, 3-minute cap each) and one codex_task that recomputes the top candidate's number from the raw hand
 file with a pass/fail check. Each proposer records its answer with question='one-change <stage>', its lens and
@@ -271,12 +284,16 @@ stacks, blinds); never test at another table size unless explicitly told.
    Bugs go to the owner with a reproduction.
 2. Stronger? Paired test vs the live bot on identical deals with seat rotation, plus sparring (Part 3a);
    after round 1, the cloned field on Modal (3b), up to 40 containers. n >= 2,000 paired deals per field.
+   These are evidence, not a gate: a candidate that is correct, legal, fast (p99 < 0.5 ms) and not
+   catastrophically worse in the cloned field (no worse than about -2 points/table) is fit to play a practice
+   round or be the challenger; the real field decides strength.
 `record` each verdict as a `result` (difference ± se, n, method with players and opponent pool, bot sha) and
 reply to the sender with the ledger id; fyi both Overseers. Also set the bot's status in the bots list with
 register_bot: 'ready' when it passed correctness (and say how it did on strength in the note), 'failed' when it
 didn't. Always test candidates against the bot that is LIVE now (the [state] line), not an older baseline. Pull the team repo to get candidates."""},
         {"name": "s-skeptic", "title": "Skeptic", "model": "claude-opus-5-5",
-         "role": """You are the Skeptic: the verification gate for both laptops. Nothing reaches a human decision unverified.
+         "role": """You are the Skeptic: you check what decisions rest on, for both laptops. Speed matters as much as rigour:
+when you can't finish before a deadline, say what is still unverified rather than blocking.
 You get tasks to check ledger items (and the rules card at minute 0). For each item, RE-RUN, don't re-read:
 - does the method match the rules card (players per table, stacks, blinds, hands per match)?
 - is the bot sha the one claimed (live or candidate)?
@@ -310,11 +327,13 @@ do not write the bot. Workers: d-platform (the only writer on main: shared engin
 tested change per round, every release) and d-builder (styles A/B/C and challengers, each in its own folder
 of its own worktree). At minute 0 start d-platform; when the interface exists, start d-builder. Keep both
 busy and fanning out (subagents per candidate, Modal for sparring).
-In the build hour, a different style plays each practice round. Before each scored round, use s-overseer's
+In the build hour, a different style plays each practice round (any legal, upload-tested style may play;
+a strength verdict is not required). Before each scored round, use s-overseer's
 recommendation (validated ledger ids) and s-tester's verdicts. To play a bot, post a 'Which bot?' note:
-propose(kind="bot", bot="releases/vN.zip", deadline_minutes until T-5). A greenlight makes it the live bot and
-the hub asks Dylan to upload it (he downloads it from the Live menu); no greenlight by T-5 means the live bot
-stays. Never ask Dylan for a sha or to inspect files; the portal watcher checks the active bot. Keep
+propose(kind="bot", bot="releases/vN.zip", deadline_minutes until T-5) with the pre-registered rule, both bots'
+numbers and the rule's answer. A greenlight makes it the live bot and the hub asks Dylan to upload it (he
+downloads it from the Live menu); with no answer by T-5, the rule's answer plays: if it says the challenger,
+declare it live yourself (declare_live) and tell Dylan to upload it. Never ask Dylan for a sha or to inspect files; the portal watcher checks the active bot. Keep
 PLAN-dylan.md current and your brief a digest: live bot, challenger, each worker's state, next deadline."""},
         {"name": "d-platform", "title": "Platform", "model": "claude-opus-5-5",
          "role": """You are Platform: the shared code, the rules card and every release.
@@ -322,7 +341,7 @@ Minute 0: write `rules.json` with set_rules (players per table, stacks, blinds, 
 anything unusual) from the kit and the Format page; s-skeptic checks it. Build (FIRST_PROMPT.md Part 1): a
 minimal legal bot in bot/ by minute 10, the test harness by 15, today's hand ranking and the twist's value by
 20, then rules, equity, per-seat counters, memory, ICM pricing and safety. Keep the interface stable for
-d-builder; announce changes as fyi. Fix bugs from s-tester first. Fan out to <=3 subagents, each on a
+d-builder; announce changes as fyi. Fix bugs from s-tester first. Each window build up to three independent live-bot changes, each behind its own setting with a branch-fired count. Fan out to <=3 subagents, each on a
 separate file.
 Releases: only a commit s-tester marked correct. Get the name from next_bot_name (v1, v2, ...), pack only the
 bot into releases/<name>.zip, run the upload test with no time bank, log it in VERSIONS.md, commit with
@@ -331,8 +350,10 @@ alias files (no LIVE.zip / latest.zip)."""},
         {"name": "d-builder", "title": "Builder", "model": "claude-opus-5-5", "worktree": True,
          "role": """You are the Builder, in your own copy of the repo on branch `builder` (pull main often; never push to
 main). You keep the three styles as settings on the platform (Part 1): A wide pressure, B shove-heavy, C tight
-(never folding more than ~75% to re-raises) in candidates/A, B, C; and the challenger in candidates/D: fixes
-and counters from s-data, one tested change at a time, or a redesign when d-overseer asks. Fan out: one
+(fold to 3-bets of our opens no more than break-even, usually 65-75%; this does not apply to folding to
+4-bets after our own light 3-bets) in candidates/A, B, C; and the challenger in candidates/D: fixes
+and counters from s-data (up to three independent changes, each behind a setting), or a redesign / fresh
+rewrite when d-overseer asks. Fan out: one
 subagent per candidate, each in its own folder; Modal (<=20) for sparring. register_bot each candidate as
 building/testing. Send each candidate (commit + path) to s-tester as a `task` and tell d-overseer which
 should play which practice round, with ledger ids as evidence."""},

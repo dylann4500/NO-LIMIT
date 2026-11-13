@@ -200,8 +200,10 @@ it in the rehearsal so the first use isn't on the day.
   big cases right (v4's collapse, v6's gain), which doesn't prove its rankings; a fuller ordering test is
   pending. A large predicted loss means "find out why before shipping", not an automatic veto.
 - Every finding is graded before it changes the bot (`docs/EVIDENCE_TABLE.md`): a measured fact, a tested
-  change, or a candidate. Candidates get built and tested; only tested changes become defaults. The
-  quickest way to lose is a persuasive analysis that goes straight into the live bot.
+  change, or a candidate. Candidates get built and tested on the real field (practice rounds, the
+  challenger) fast; only tested changes become live defaults, and a grade C rule is never on its own a
+  reason to block a change (`DECISION_RULES.md` §4). The quickest way to lose is a persuasive analysis that
+  goes straight into the live bot; the second quickest is standing still.
 - Never gate a change on looking like the average team. Our regional gate would have blocked the winner.
 
 **Prompts:** all in `docs/FIRST_PROMPT.md` (Parts 0-5), with the evidence for each line in Part 6. The

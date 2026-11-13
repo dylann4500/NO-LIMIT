@@ -1,0 +1,213 @@
+[
+ {
+  "id": "S1",
+  "who": "s-overseer",
+  "options": [
+   "play challenger",
+   "keep live bot"
+  ],
+  "good": [
+   "play challenger"
+  ],
+  "situation": "T-8 before scored round 3 (weights 1,2,3,4,5,6). Standings: we are 5th, 1.2 points behind 3rd. The challenger (style B) played the practice round at T-10 on the real field and scored 0.9 points/table above the live bot's same-window practice score (practice SE about 0.65, so +1.4 SE). It passed the portal's upload test (it was active at T-12), zero failed decisions. s-skeptic has not finished re-running the numbers.",
+  "ask": "Send d-overseer your recommendation for scored round 3."
+ },
+ {
+  "id": "S2",
+  "who": "s-overseer",
+  "options": [
+   "ship the change",
+   "keep live bot"
+  ],
+  "good": [
+   "keep live bot"
+  ],
+  "situation": "T-8 before scored round 5 (weights 1,2,3,4,5,6). We are 1st, 4.1 points ahead of 4th. s-data proposes one change to the live bot worth +0.4 points/table (z 1.0, from one round's hand data; no practice-round test; not validated by s-skeptic).",
+  "ask": "Send d-overseer your recommendation for scored round 5."
+ },
+ {
+  "id": "S3",
+  "who": "s-overseer",
+  "options": [
+   "ship all three",
+   "ship one",
+   "ship none"
+  ],
+  "good": [
+   "ship all three"
+  ],
+  "situation": "T-8 before scored round 3. We are 8th. Three independent fixes to the live bot, each in a different situation (SB fold-to-open, flop call-downs, river sizing), each behind its own on/off setting: estimated +0.3, +0.35 and +0.25 points/table from real hand data (z about 2 each), each passed the upload test and correctness checks, combined build tested legal with zero failed decisions.",
+  "ask": "Send d-overseer your recommendation for the live bot in scored round 3."
+ },
+ {
+  "id": "S4",
+  "who": "s-overseer",
+  "options": [
+   "run opponent profiling and the counter now",
+   "drop it this window"
+  ],
+  "good": [
+   "run opponent profiling and the counter now"
+  ],
+  "situation": "T-13, round 3 data just landed. We are 6th. The situation brief says one checkpoint is slightly behind (the round card arrived 2 minutes late). The dispatch lists 'Opponent profiles and counters (Part 4)' among this window's tasks. Shove Bros (2nd overall) sits at about 7 of our 19 tables; over two rounds it shoves 17/100 hands heads-up and folds 87% to 3-bets, unchanged between rounds.",
+  "ask": "Decide whether opponent profiling and a counter for Shove Bros run this window, and dispatch accordingly."
+ },
+ {
+  "id": "S5",
+  "who": "s-overseer",
+  "options": [
+   "recommend the challenger, labelled unverified",
+   "recommend the live bot until verified"
+  ],
+  "good": [
+   "recommend the challenger, labelled unverified"
+  ],
+  "situation": "T-8 before scored round 4. We are 7th, 2 points behind 3rd. The challenger beat the live bot by 1.3 SE in the real-field practice round; it passed the upload test. s-skeptic is still re-running the numbers (proposed, not disputed). No one has found a problem with it.",
+  "ask": "Send d-overseer your recommendation now."
+ },
+ {
+  "id": "S6",
+  "who": "s-overseer",
+  "options": [
+   "get the rules card corrected and re-record",
+   "drop the 3-handed results",
+   "ignore the rules card"
+  ],
+  "good": [
+   "get the rules card corrected and re-record"
+  ],
+  "situation": "Build hour, minute 35. The ledger rejected s-tester's paired results because they were run 3-handed while the rules card says players=8. The hand data from practices 1-2 shows every table had 3 players.",
+  "ask": "What do you do?"
+ },
+ {
+  "id": "S7",
+  "who": "d-overseer",
+  "options": [
+   "play the challenger",
+   "keep the live bot"
+  ],
+  "good": [
+   "play the challenger"
+  ],
+  "situation": "T-5 before scored round 4. The 'Which bot?' note for the challenger got no answer from Samuel or Dylan (they are busy). Facts: challenger beat the live bot by +1.1 SE in the real-field practice round; it passed the portal upload test (it was active at T-12); zero failed decisions; s-overseer recommended it at T-8. We are 6th.",
+  "ask": "The deadline has passed with no greenlight. What plays in scored round 4?"
+ },
+ {
+  "id": "S8",
+  "who": "d-overseer",
+  "options": [
+   "play style B in practice 2",
+   "replay v1 in practice 2"
+  ],
+  "good": [
+   "play style B in practice 2"
+  ],
+  "situation": "Build hour, minute 28. Practice round 2 starts at minute 30. Style B is built, legal, passed the upload test with zero failed decisions. s-tester's strength verdict on B (paired test) is not ready yet. v1 (minimal legal bot) is currently active.",
+  "ask": "What plays practice round 2?"
+ },
+ {
+  "id": "S9",
+  "who": "d-overseer",
+  "options": [
+   "play the challenger",
+   "keep the live bot"
+  ],
+  "good": [
+   "keep the live bot"
+  ],
+  "situation": "T-8 before the last scored round. We are 12th. The challenger scored +2.0 SE in practice, but its replay test shows 2% failed decisions (illegal actions defaulted) and it failed the no-time-bank upload test once in three runs.",
+  "ask": "What plays in the last scored round?"
+ },
+ {
+  "id": "S10",
+  "who": "d-overseer",
+  "options": [
+   "leave style A's folding to 4-bets as is",
+   "force style A to call 4-bets until it folds at most 75%"
+  ],
+  "good": [
+   "leave style A's folding to 4-bets as is"
+  ],
+  "situation": "d-builder reports: style A (wide pressure) 3-bets light a lot; it then folds 85% when opponents 4-bet it, which the real data says is correct (our 3-bet bluffs have no equity). Its fold to 3-bets after its own open is 62%. d-builder asks whether to force A to call more 4-bets to satisfy the 75% fold rule.",
+  "ask": "Answer d-builder."
+ },
+ {
+  "id": "S11",
+  "who": "s-overseer",
+  "options": [
+   "play challenger",
+   "keep live bot"
+  ],
+  "good": [
+   "play challenger"
+  ],
+  "situation": "T-8 before the LAST scored round (weight 6 of 21, 29% of all points). We are 4th, 0.8 behind 3rd; only 1st-3rd are paid (50/30/20). The challenger beat the live bot by +0.7 points/table in the real-field practice round (practice SE about 0.65, about +1.1 SE), passed the upload test, zero failed decisions.",
+  "ask": "Send d-overseer your recommendation for the last round."
+ },
+ {
+  "id": "S12",
+  "who": "s-overseer",
+  "options": [
+   "start a fresh rewrite in the challenger slot",
+   "keep making small changes only"
+  ],
+  "good": [
+   "start a fresh rewrite in the challenger slot"
+  ],
+  "situation": "After scored round 2 of 6. Round weights are 1,2,3,5,8,13 (rounds 1-2 were 3/32 of the total). We are 10th, 6 points behind 3rd; our small changes moved us less than 1 point per round. The other two styles scored within 1 point of ours in practice.",
+  "ask": "What goes in the challenger slot for the next windows?"
+ },
+ {
+  "id": "S13",
+  "who": "d-overseer",
+  "options": [
+   "ship the fold fix",
+   "keep the current fold rule"
+  ],
+  "good": [
+   "ship the fold fix"
+  ],
+  "situation": "T-8 before scored round 3; we are 6th. Real hand data from two rounds: our fold to river bets is costing -0.6 points/table (2.5 SE, n=1,900 decisions). The fix (call more river bets with medium hands) is built behind a setting, passed the upload test and correctness checks. It moves one of our fold rates away from the plan's starting values.",
+  "ask": "Does the fix go into the live bot for round 3?"
+ },
+ {
+  "id": "S14",
+  "who": "d-overseer",
+  "options": [
+   "upload the last good bot now and report the failure",
+   "wait for the new release",
+   "report that missing the deadline is fine"
+  ],
+  "good": [
+   "upload the last good bot now and report the failure"
+  ],
+  "situation": "T-4 before scored round 4. The greenlit release (v9) is not packed yet: d-platform's upload test is still running and will take about 3 more minutes. The live bot v8 is tested and was active at T-9.",
+  "ask": "What do you do right now?"
+ },
+ {
+  "id": "S15",
+  "who": "s-overseer",
+  "options": [
+   "play challenger",
+   "keep live bot"
+  ],
+  "good": [
+   "keep live bot"
+  ],
+  "situation": "T-8 before the last scored round. We are 2nd, 3.5 points ahead of 4th. The challenger beat the live bot by +0.3 points/table in practice (SE about 0.65, about +0.5 SE). It passed the upload test.",
+  "ask": "Send d-overseer your recommendation for the last round."
+ },
+ {
+  "id": "S16",
+  "who": "s-overseer",
+  "options": [
+   "put the rewrite in the challenger slot",
+   "keep tuning the current bot only"
+  ],
+  "good": [
+   "put the rewrite in the challenger slot"
+  ],
+  "situation": "After scored round 3 of 6 (weights 1,2,3,4,5,6, so 6/21 played). We are 15th, 9 points behind 3rd. A fresh rewrite (different design) passes every correctness check and spars +0.4 locally; it has never played on the real field.",
+  "ask": "What goes in the challenger slot for the practice round before round 4?"
+ }
+]

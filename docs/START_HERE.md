@@ -75,8 +75,9 @@ How sure we are of each of these: `docs/EVIDENCE_TABLE.md`.
 3. **Adapt to individual seats, not to the "table mood".** Per-seat counts are blended with what we know
    about each team, and every adjustment is capped. Against seats that raise a lot, call down and re-raise
    wider; folding more is the wrong answer to aggression.
-4. **Evidence before shipping.** An analysis that sounds convincing is a candidate until it's tested.
-   Every style folds at most about 75% to re-raises.
+4. **Evidence before shipping, but standing still isn't safe.** An analysis that sounds convincing is a
+   candidate until the real field (a practice round) has tested it; candidates go into the challenger and
+   practice rounds quickly. Folding to a 3-bet of our open: no more than break-even (usually 65-75%).
 
 ## 4. The hub: how it works
 
@@ -147,7 +148,7 @@ Samuel's things are marked indigo, Dylan's rose.
 |---|---|---|
 | **Overseer** (the one you talk to) | Runs analysis and testing. Turns each round into findings and a recommendation, sent to Dylan's Overseer at T-8 | Owns the bot and the plan. Decides what plays, with Dylan's greenlight, and tells Dylan exactly which file to upload |
 | Worker | **Pipeline**: turns each round's hand data into a standard "round card" of numbers within a minute; woken automatically when data lands | **Platform**: the only one editing the main bot code; sets the rules card at minute 0; packs and checks every release (v1, v2, ...) |
-| Worker | **Analyst**: what the numbers mean: our biggest leak, opponents, the one change worth making | **Builder**: styles A, B and C plus challengers, each in its own folder of its own copy of the repo |
+| Worker | **Analyst**: what the numbers mean: our biggest leaks, opponents, the changes worth making (up to three) | **Builder**: styles A, B and C plus challengers, each in its own folder of its own copy of the repo |
 | Worker | **Tester**: a verdict on every candidate, "correct?" and "stronger?" (paired tests on Modal, at the table size on the rules card) | |
 | Worker | **Skeptic**: re-runs the numbers behind anything a decision rests on; marks results validated or disputed; can invalidate a wrong method, which flags everything built on it | |
 | Hub services (plain code, not agents) | **Clock**, **Portal watcher**, **Codex** | **Clock**, **Codex** |
@@ -183,7 +184,8 @@ Samuel's things are marked indigo, Dylan's rose.
   - "Suggest instead" sends your alternative back as an instruction.
 
   Live-bot decisions can be greenlit by either of you. Other notes say whose call they are.
-- **Defaults keep things moving.** If nobody answers a live-bot decision by T-5, the live bot stays. If
+- **Defaults keep things moving.** If nobody answers a live-bot decision by T-5, the pre-registered rule's
+  answer plays (the challenger if it cleared the bar, else the live bot). If
   nobody answers a permission request in 3 minutes, it's refused and the agent finds another way.
 - **Permissions:** ordinary commands are approved automatically. Risky ones always wait for a click.
   Risky means deleting outside `/tmp`, force pushes, killing processes, Modal deletes, any write to
@@ -222,24 +224,31 @@ whatever bot is active, so each window has two uploads.
 | T-12 | Challenger uploaded and active (skip if not ready) | Dylan |
 | T-10 | Practice round plays the challenger | |
 | T-9 | Live bot put back as active straight away | Dylan |
-| T-8 | **Decide:** live bot, live bot + one tested change, or the challenger. The green Live bot note is on the board | Both |
+| T-8 | **Decide** by the pre-registered rule (`DECISION_RULES.md` §3): the challenger if it clears the bar for our standing, else the live bot with this window's changes (up to three). The "Which bot?" note shows the rule's answer | Both |
 | T-6 | Chosen bot tested with no time bank | Dylan's side |
-| T-5 | No decision means the live bot plays | |
+| T-5 | No human answer means the rule's answer plays | |
 | T-3 | Chosen bot uploaded; active bot confirmed | Dylan |
 
-Once the live bot is back at T-9, a missed deadline just means the previous live bot plays. Never rush
-an untested upload.
+Once the live bot is back at T-9, a missed deadline means the previous live bot plays: that is a failure to
+fix, not a safe outcome (bots that stood still lost as much as bots that changed). Only tested zips are ever
+uploaded.
 
 ## 7. How we decide
 
-- **Live bot:** one tested change per round (two only if they touch unrelated situations).
-- **Challenger:** two to four changes, or a redesign. It only plays practice rounds. Default choice:
-  the style that beats whatever is currently winning.
-- **Every style:** never fold more than about 75% to re-raises.
-- **Outside the top 3:** take the bolder option when the evidence is roughly even. A challenger ahead
-  by about one standard error is worth playing.
-- **Inside the top 3:** protect what works, more so in the heavy late rounds.
-- **Stuck mid-table after two rounds:** put a fresh rewrite in the challenger slot.
+The full rules are in `docs/DECISION_RULES.md`; every agent has them in its instructions on every turn.
+
+- **Goal:** a top-3 finish (only 1st-3rd pay). Standing still is not safe.
+- **Live bot:** up to three independent changes per round, each in a different situation and behind its own
+  setting.
+- **Challenger:** two to four changes, a new style, or a fresh rewrite. Default design: the best response to
+  the field's measured mix of styles, not to the leader.
+- **Which bot plays:** the challenger if it beats the live bot on the real field by 1.0 SE or more when we're
+  outside the top 3 or behind 3rd (0.5 SE in the last two rounds), or by 1.5 SE when we're in the top 3. If
+  nobody answers in time, the rule's answer plays.
+- **Folding to re-raises:** fold to a 3-bet of our open no more than break-even (usually 65-75%); this is a
+  starting value, and it doesn't apply to folding to 4-bets after our own light 3-bets.
+- **Bolder:** a fresh rewrite in the challenger slot when we're outside the top 6 after 15% of the total weight;
+  plan the last round (often 25-40% of all points) from the round before.
 - **What counts as evidence, in order:**
   1. real-field results (practice and scored);
   2. replay testing;

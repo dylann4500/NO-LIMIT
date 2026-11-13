@@ -30,7 +30,7 @@ from claude_agent_sdk import (query as sdk_query, HookMatcher, AssistantMessage,
                               ToolUseBlock, UserMessage, create_sdk_mcp_server, tool)
 
 from bus import Bus, atomic_write, load_json, new_id
-from roster import COMMON_RULES, KICKOFF, PEOPLE, PROTOCOL, ROSTER, team_directory
+from roster import COMMON_RULES, DECISION_RULES, KICKOFF, PEOPLE, PROTOCOL, ROSTER, team_directory
 
 HERE = Path(__file__).resolve().parent
 STATES = ("working", "waiting", "blocked", "done", "idle")
@@ -336,6 +336,8 @@ class Hub:
     def rule_conflict(self, it: dict) -> str:
         """A result or method that contradicts the rules card is rejected when it is written."""
         r = self.rules()
+        if it.get("scope") == "subgame":   # a deliberate study of part of the game (heads-up endgame, later blinds)
+            return "" if it.get("players") not in (None, "") else "a subgame study must state its own players"
         for k in ("players", "stack", "big_blind", "hands_per_match"):
             if r.get(k) not in (None, "") and it.get(k) not in (None, ""):
                 try:
@@ -871,11 +873,13 @@ class Hub:
                     (p.get("author") in self.agents):
                 p["status"] = "expired"
                 p.setdefault("thread", []).append({"who": "Hub", "at": now, "action": "expire",
-                                                   "text": "No greenlight before the deadline: the default applies."})
+                                                   "text": "No human answer before the deadline: the pre-registered rule decides."})
                 await self.save_prop(p)
                 a = self.agents[p["author"]]
-                await a.add_item({"kind": "hub", "wake": True, "text": f"Card #{p['id']} \"{p['title']}\" got no greenlight "
-                                  "before its deadline. Apply the default (for a live-bot decision: the live bot stays)."})
+                await a.add_item({"kind": "hub", "wake": True, "text": f"Note #{p['id']} \"{p['title']}\" got no human answer "
+                                  "before its deadline. Apply the pre-registered rule (How we decide §3): if it says this bot "
+                                  "plays, declare it live and tell Dylan to upload it now; otherwise the live bot plays. Say "
+                                  "which in the note."})
 
     def set_service(self, name: str, title: str, state: str, task: str, summary: str = ""):
         s = self.services.setdefault(name, {"name": name, "title": title, "log": []})
@@ -1338,7 +1342,7 @@ class Agent:
                 f"Your working folder is {self.cwd}; the team repo is {self.hub.repo}. This run's results and hand data are "
                 f"in {self.hub.portal_data} (one folder per round); use only these, never older data elsewhere. Every board note's "
                 f"full conversation is mirrored as markdown in {self.hub.data / 'board'} (<note id>.md)."
-                f"\n{PROTOCOL}\n{team_directory(self.name)}\n{COMMON_RULES}")
+                f"\n{PROTOCOL}\n{team_directory(self.name)}\n\n{DECISION_RULES}\n{COMMON_RULES}")
         return ClaudeAgentOptions(
             system_prompt={"type": "preset", "preset": "claude_code", "append": role},
             mcp_servers={"hub": self.tool_server()},
@@ -1848,7 +1852,8 @@ class Agent:
                                          "players": "integer", "stack": "number", "big_blind": "number",
                                          "hands_per_match": "integer", "bot": "string", "data": "string",
                                          "tags": "array", "depends_on": "array", "file": "string", "note": "string",
-                                         "question": "string", "lens": "string", "model": "string", "proposer_of": "array"}))
+                                         "question": "string", "lens": "string", "model": "string", "proposer_of": "array",
+                                         "scope": "string"}))
         async def record(a):
             if a.get("note"):
                 a["note"] = a["note"].lstrip("#")
@@ -1873,10 +1878,12 @@ class Agent:
             return ok(f"Invalidated: {', '.join(bad)}" if bad else f"No ledger item {a['id']}.")
 
         @tool("set_rules", "d-platform at minute 0 (s-skeptic checks it): the rules card every harness and result must match: "
-              "players (per table), stack, big_blind, hands_per_match, time_per_decision, variant, notes. Also written to "
+              "players (per table), stack, big_blind, hands_per_match, time_per_decision, variant, notes, weights (the scored "
+              "rounds' weights in order, e.g. [1,2,3,5,8,13]), payouts. Also written to "
               "rules.json in the repo.",
               schema(["players"], {"players": "integer", "stack": "number", "big_blind": "number", "hands_per_match": "integer",
-                                   "time_per_decision": "string", "variant": "string", "notes": "string"}))
+                                   "time_per_decision": "string", "variant": "string", "notes": "string",
+                                   "weights": "array", "payouts": "string"}))
         async def set_rules(a):
             r = dict(hub.rules(), **{k: v for k, v in a.items() if v not in (None, "")}, set_by=me.name, at=time.time())
             await hub.bus.set_shared("rules", r)
@@ -2002,9 +2009,9 @@ WINDOW = [  # (minutes before a scored round, who, what)
     (12, "dylan", "Upload the challenger and confirm it is active (it plays the practice round). Skip if not ready."),
     (10, "both", "Practice round starts and plays the challenger."),
     (9, "dylan", "Put the live bot back as active straight away."),
-    (8, "both", "DECIDE: live bot, live bot + this window's one tested change, or the challenger. s-overseer's recommendation is due to d-overseer now."),
+    (8, "both", "DECIDE with the pre-registered rule (How we decide §3): the challenger if it clears the SE bar for our standing, else the live bot with this window's changes (up to three, independent, behind settings). s-overseer's recommendation is due to d-overseer now."),
     (6, "dylan", "Test the chosen bot under upload-test conditions (no time bank)."),
-    (5, "both", "No decision by now means the live bot plays; no upload."),
+    (5, "both", "No human answer by now: the rule's answer plays (the challenger if it qualified, else the live bot)."),
     (3, "dylan", "Upload the chosen bot and confirm the active bot on the portal. After this, nothing changes."),
 ]
 
@@ -2021,7 +2028,7 @@ DISPATCH = {
            ("samuel", "opt", "s-data", "Read the Format page and twist; list the questions each round's analysis must answer today")],
     "b10": [("dylan", "crit", "d-platform", "v1 must be released (releases/v1.zip) and Dylan told to upload it now if not done")],
     "b15": [("samuel", "crit", "s-tester", "Test rig must run now: first verdict on v1 (correct? timing?)")],
-    "b20": [("dylan", "crit", "d-builder", "Style A ready (tested by s-tester) for practice round 1; B next"),
+    "b20": [("dylan", "crit", "d-builder", "Style A ready (legal and upload-tested is enough) for practice round 1; B next"),
             ("samuel", "crit", "s-data", "When practice 1's round card lands: leaks of the bot that played (Part 2), top change in 5 minutes")],
     "b30": [("dylan", "crit", "d-builder", "Style B for practice 2; C next"),
             ("samuel", "crit", "s-data", "Practice 2 leaks; compare styles A vs B on the real field"),
@@ -2033,14 +2040,15 @@ DISPATCH = {
     "T13": [("samuel", "crit", "s-data", "(The hub routes the round card straight to s-data, s-skeptic and s-tester when it lands: check they have it, don't re-send.) As soon as DATA LANDED (not before; if it hasn't, wait for it), from the round card (s-pipeline writes it within a minute of the data): our leaks first (Part 2), one recommended change with size, z and n, recorded in the ledger"),
             ("samuel", "crit", "s-skeptic", "Re-run the numbers behind every proposed result the T-8 decision may rest on (card headline, s-tester verdicts, s-data's change); verify each"),
             ("samuel", "crit", "s-tester", "Verdict on every pending candidate: correct? and paired test vs the live bot"),
-            ("samuel", "opt", "s-data", "Opponent profiles and counters (Part 4)"),
+            ("samuel", "crit", "s-data", "Opponent profiles and counters (Part 4) for the teams where a profile pays most (often at our tables, stable between rounds, far from the field)"),
+            ("dylan", "crit", "d-builder", "Two candidate builders: the next challenger idea and an opponent counter, each in its own folder"),
             ("samuel", "opt", "s-tester", "Cloned field on Modal (Part 3b) for the challenger"),
             ("dylan", "crit", "d-builder", "Challenger packed and tested, ready for the T-12 upload"),
-            ("dylan", "crit", "d-platform", "Fix bugs s-tester reported; build this window's one tested change on the live bot")],
+            ("dylan", "crit", "d-platform", "Fix bugs s-tester reported; build this window's live-bot changes (up to three independent, each behind a setting)")],
     "T20": [("samuel", "crit", "s-skeptic", "Verify the challenger's paired-test verdicts and methods now (they don't depend on the new round), and pre-arm analysis/verify_change.py + a Codex brief that recompute the card's headline numbers from a hand file, so at T-12 only the data path changes"),
-            ("dylan", "crit", "d-overseer", "Draft the 'Which bot?' note for the next scored round now (default: the live bot); fill in the evidence as it lands")],
+            ("dylan", "crit", "d-overseer", "Draft the 'Which bot?' note for the next scored round now: the pre-registered rule, both bots' numbers as they land, and the rule's answer (no assumed default)")],
     "T12": [("dylan", "crit", "d-platform", "Release the challenger (releases/<name>.zip) so Dylan can upload it for the practice round")],
-    "T8": [("samuel", "crit", "s-overseer", "Send d-overseer the recommendation now (live / live + one tested change / challenger) with evidence"),
+    "T8": [("samuel", "crit", "s-overseer", "Send d-overseer the recommendation now, applying the pre-registered rule (standings, SE bar), with evidence (validated, or labelled unverified)"),
            ("dylan", "crit", "d-overseer", "Post the live-bot decision card now (deadline_minutes until T-5)")],
     "T6": [("dylan", "crit", "d-platform", "Test the chosen bot with no time bank; release it as releases/<name>.zip")],
     "T3": [("dylan", "crit", "d-platform", "The greenlit bot's release must be ready; Dylan uploads it now")],
@@ -2164,7 +2172,9 @@ def situation(hub: "Hub") -> str:
             else:
                 ts = rounds[k - 1]
                 T = (ts - now) / U
-                lines.append(f"PHASE: window before scored round {k} (weight x{k}) at {hhmm(ts)}: T-{math.ceil(T)} min.")
+                w = (hub.rules().get("weights") or [])
+                wtxt = f"weight {w[k - 1]} of {sum(w)}" if isinstance(w, list) and len(w) >= k else "weight: read it from the rules card / Format page"
+                lines.append(f"PHASE: window before scored round {k} ({wtxt}) at {hhmm(ts)}: T-{math.ceil(T)} min.")
                 past = [(o, w) for o, who, w in WINDOW if o >= T and who in ("both", me)]
                 nxt = next(((o, w) for o, who, w in WINDOW if o < T and who in ("both", me)), None)
                 if past:
@@ -2191,8 +2201,8 @@ def situation(hub: "Hub") -> str:
                         due.append(f"by T-{off} of scored round {k}: {what}")
         if due:
             lines.append("Checkpoints that should be TRUE now (check against your workers' briefs): " + "; ".join(due) +
-                         ". If any isn't, you're behind: drop optional work, put every worker on the critical path, "
-                         "and say so in your brief.")
+                         ". If any isn't, you're behind: drop extra verification and polish first, put every worker on the "
+                         "critical path, keep idea generation, opponent profiles and the challenger going, and say so in your brief.")
     if sch:   # who is free right now, on both laptops, so idle capacity gets used
         now2, load = time.time(), []
         for a in hub.agents.values():

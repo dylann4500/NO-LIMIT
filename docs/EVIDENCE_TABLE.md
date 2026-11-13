@@ -10,12 +10,15 @@ a friend's Boston files. Nothing here has been tested on a 20-team field.
 
 ## Grades
 
+On the day, what each grade licenses is set by `DECISION_RULES.md` §4 (A: act; B: act in the challenger and
+practice, ship live when consistent with real-field signals; C: try where it's cheap to be wrong).
+
 | Grade | Meaning | What it may change |
 |---|---|---|
 | **A. Measured fact** | A description of what happened, checked against the data, with no causal claim | Facts and numbers in the docs |
 | **B. Tested change** | A change to the bot or process whose effect was measured on full-table results (real rounds, or simulation that passed its own validation) | A default in the prompt pack |
-| **C. Candidate** | A plausible change supported by observation or argument, not yet tested | The candidate list only: build it, test it, then decide |
-| **D. Withdrawn** | Contradicted by data or by a sound objection | Removed from the docs |
+| **C. Candidate** | A plausible change supported by observation or argument, not yet tested | On the day: may be played as the challenger or in a practice round, ship behind a setting, or go live outside the top 3 when the decision rule fires; say "grade C, untested on the real field". Never on its own a reason to block a change |
+| **D. Withdrawn** | Contradicted by data or by a sound objection | Removed from the docs; never the sole reason for a switch |
 
 Three kinds of evidence are kept apart throughout: **chip accounting** at one decision (exact), **modelled
 tournament value** (chips converted to points by a model), and **real tournament results** (the only

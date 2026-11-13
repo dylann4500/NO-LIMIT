@@ -264,8 +264,8 @@ HOW TO WORK
        all-in with strong hands, and goes shove-or-fold by stack depth before the blinds drain it.
   These three sit at the corners of a cycle we found in simulation: wide re-raising beats tight fields,
   limp-or-shove beats wide re-raisers, and tight beats shove-heavy fields; against a strong field none was
-  clearly best. So the real field must pick, and the challenger should be the style that beats whatever
-  is winning. A tight bot that only folds busts around hand 100 and finishes 4th, so C must win chips.
+  clearly best. So the real field must pick, and the challenger should be the best response to the
+  field's measured mix of styles (profiles), not simply to whoever is winning. A tight bot that only folds busts around hand 100 and finishes 4th, so C must win chips.
   All three share the post-flop equity logic (fold to bets near break-even, adjusted per seat).
   Each must pass every check below. I'll rotate which one is active through the practice rounds, so each
   gets a real score against this field. The best scorer plays scored round 1; the next best stays alive as
@@ -273,8 +273,10 @@ HOW TO WORK
   changes; the third is dropped. If you have ideas for further styles, build them too and let the test rig
   filter them: only three can get practice rounds, but more can be tried in simulation. A local field of
   our own styles is a sanity check, not a verdict: in it, whichever style the cycle favours wins.
-- Whatever the style, never fold more than about 75% to re-raises over a table: at our regional we
-  folded 82-89%, opponents re-raised us after a single fold, and strong bots folded 70-77%. Tight play is
+- Whatever the style, fold to a 3-bet of our open no more than the break-even rate for our open size and
+  range (usually 65-75%; a starting value, not a cap): at our regional we folded 82-89%, opponents
+  re-raised us after a single fold, and strong bots folded 70-77%. This is about our opens facing 3-bets,
+  not about folding to 4-bets after our own light 3-bets. Tight play is
   the wrong answer to seats that re-raise a lot; against them call off and re-shove wider.
 - Adapt to specific seats, not to a vague "table mood": "this opener has folded to our re-raise twice at
   this stack depth" is useful; "the table is aggressive, switch to tight mode" is not. Every adjustment is
@@ -284,7 +286,8 @@ HOW TO WORK
   play tighter only against seats that call too much, and tighten survival play only when other seats are
   measurably busting each other (count all-ins per table).
 - Each adaptive rule is a named setting that can be switched off, so the test rig can compare the bot
-  with and without it. None of them is assumed to help until that comparison says so.
+  with and without it. Adaptive rules can't be judged by local tests (our sparring bots don't adapt), so
+  ship them ON in the challenger and let the practice round judge them.
 - Tell me plainly when something is untested or a number looks wrong. I'd rather hear "I'm not sure this
   branch fires" now than find it in round 3.
 Start by reading the kit, then give me the summary and the minimal bot.
@@ -375,10 +378,11 @@ decision time.
 - Sparring fields, for sanity only: calls everything, shoves constantly, plays only premiums, re-raises
   wide; each as seven copies, plus a mixed field. They must play the variant's own decision too, some at
   random and some well. A candidate that loses to one of these by more than 2 standard errors has a hole.
-- Pick up any folder under candidates/ and test it. Fit to be the challenger: paired difference on FRESH
-  deals above 2 standard errors, no sparring loss above 2 standard errors, zero failed decisions, the
-  kit's check passes, and 99th-percentile time under 0.5 ms measured on an idle core (timings under load
-  are not the platform's).
+- Pick up any folder under candidates/ and test it. Fit to play a practice round or be the challenger:
+  zero failed decisions, the kit's check passes, 99th-percentile time under 0.5 ms measured on an idle core
+  (timings under load are not the platform's), and no catastrophic loss (about -2 points/table) in the
+  cloned field. Report the paired difference and sparring results as evidence; they are not a gate, because
+  local wins don't predict the field. The practice round decides strength.
 - As soon as a practice-round download exists, add replay testing: rebuild each of our tables in the
   engine with a rigged deck (our cards, the board, every card shown or exposed; random filler for the
   rest), replay the logged actions, and ask each candidate at each of our decisions. Find the deck order
@@ -482,18 +486,19 @@ for each team ahead of us, and six to ten candidate builders once the first find
 clear, separate task and folder so they never edit the same files.
 Within <minutes available>, hand me ONE page: (1) failures and bugs found, with fixes ready; (2) the ranked
 leaks and gaps with sizes and uncertainty, noting where two analyses agree; (3) the candidates tested, with
-the rig's first-run and confirmation-run numbers; (4) your recommendation under our rules: one change to
-the live bot (two only if they touch unrelated situations), which bot plays the next practice round, and
-whether the challenger should replace the live bot. Our rules: bug fixes and refreshed profiles go into
-both bots every window; only the top 3 win, so outside the top 3 prefer the bolder option when the
-evidence is roughly even, and inside it protect what's working, more so as the round weights grow.
+the rig's first-run and confirmation-run numbers; (4) your recommendation under our rules: up to three
+independent changes to the live bot, which bot plays the next practice round, and whether the challenger
+should replace the live bot under our pre-registered rule (DECISION_RULES.md §3). Our rules: bug fixes and
+refreshed profiles go into both bots every window; only the top 3 win, so standing still is not safe:
+outside the top 3 the bar to switch is 1.0 SE on the real field, inside it 1.5 SE.
 Say plainly what you're unsure of.
 ```
 
 **Candidate builders** (six to ten per window, one idea each)
 ```
 Here is our live bot (<folder>) and one finding from this round's analysis: <finding>. Make a copy in
-candidates/<short-name>/ that changes exactly this one thing, behind a named setting that defaults to the
+candidates/<short-name>/ that changes this one thing (other builders handle the other findings; the best
+independent ones are bundled into the live bot, each behind its own setting), behind a named setting that defaults to the
 old behaviour. Don't touch anything else. Run the standard checks (legal actions, no exceptions, latency,
 the branch-fired counts) and write in NOTES.md what you changed, the rates you expect to move, and what
 would show it's wrong. The test rig picks it up from that folder.
@@ -526,7 +531,8 @@ team's profile, not as changes to our default play.
 
 | Claim in the prompts | Evidence | Strength |
 |---|---|---|
-| The first hour decides most of the placing | Round-to-round rank correlation 0.76-0.83 (Bay Area), median 0.68 (Boston); 2 Curry scored 20+ from round 1 | Strong, two regionals |
+| The first hour matters, but places keep moving | Whole field: round-to-round rank correlation 0.76-0.83 (Bay Area), median 0.68 (Boston). Among the top 20: 0.41-0.79, with moves of 3-4.5 places per round | Strong, two regionals (top-20 figures corrected) |
+| Standing still is not safe | Top-20 bots that never changed lost 0.67 ± 0.12 points/table per round (18 bots, 0 improved); changed minus unchanged: -0.01 ± 0.18 | Measured, one regional |
 | Wide 3-betting with disciplined folds won | 2 Curry: 12 3-bets/table vs our 5-6, ~+0.4 points each; head-to-head it beat us by 1.6-3.3 points/table; sized 3-bet rate correlates with points (rho 0.38-0.49) | Good; observational, one field |
 | One-pair call-downs are the commonest leak | 17 of 30 self-reviewing AI-built bots; our flop fold-to-bet 33% vs the leaders' ~60%; fixing it gained ~2.3 points/table | Strong |
 | Over-folding is the next leak | We folded 73/66/78% to heads-up bets vs the field's 52/45/48%; 16 of 30 bots over-folded preflop | Good |
@@ -537,7 +543,7 @@ team's profile, not as changes to our default play.
 | The own-outcome leak list works | On real files it ranked "calling a flop raise" first from practice 1 (z 6.6); its round-2 size (+2.6) matches v6's realized gain (+2.3) | Tested retrospectively |
 | Reference-gap sizes are unreliable | The frequency-gap score undersized the over-calling leak 20x and had the wrong sign when valued by others' outcomes | Tested retrospectively |
 | Three styles, rotated through practice rounds | Practice rounds play the active bot on the real field at 1,000-12,500 iterations; the regional's top two used opposite styles (wide 3-bets; limp-or-jam) and both beat every "balanced" bot; a Boston team gained 18 places with a fresh design | Reasoned from data; untested as a procedure |
-| Take risks: only top 3 pays | Payoff is all-or-nothing beyond 3rd; our most cautious calls (a style band, "don't copy the winner") cost more than our risky ones | Judgment |
+| Take risks: only top 3 pays | Payoff is all-or-nothing beyond 3rd; our most cautious calls (a stats band on releases that blocked a winning feature; a freeze on the fold rules that kept a costly leak through rounds 3-6) cost more than our risky ones | Judgment, from our regional |
 | Modal scale for the test rig | Measured: 6,000 tables in about 2 minutes of play on 40 containers; a first image build takes several minutes | Measured |
 | Cloned-field predictions | Clones fitted from one regional download, each bot on 4,000-5,000 tables: v4 vs v3b predicted -5.6 to -7.8 (real about -9), including from the practice-3 data we had before uploading v4; v6 vs v5r predicted +1.6 to +2.9 (real +2.3); our same-round score within 0.7 points. v5r vs v3b came out -0.7 to +0.6 depending on bluff settings, so differences under about 1 point are not resolved. Forward predictions ran 0-1.8 points high. Fit, calibration and three candidates took about 10 minutes on a 12-core laptop | Tested on one regional (one variant, our own bots) |
 | Best-of-many looks better than it is | With 10 candidates each measured to about ±0.3 points, the best appears about +0.5 better by chance alone | Arithmetic |
