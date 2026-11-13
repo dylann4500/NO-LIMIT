@@ -1459,7 +1459,7 @@ class Agent:
                 if isinstance(b, TextBlock) and b.text.strip():
                     self.record({"type": "text", "text": b.text, "sub": bool(m.parent_tool_use_id)})
                     if self.name.endswith("overview") and not m.parent_tool_use_id:
-                        asyncio.create_task(self.ov_log("Overview", b.text))
+                        asyncio.create_task(self.ov_log("Chat", b.text))
                 elif isinstance(b, ToolUseBlock):
                     self.record({"type": "tool", "name": b.name, "input": short(b.input), "id": b.id,
                                  "sub": bool(m.parent_tool_use_id)})
