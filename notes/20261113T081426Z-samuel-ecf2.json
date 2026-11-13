@@ -1,0 +1,8 @@
+{
+  "agent": "Samuels-MacBook-Pro-4",
+  "at": "2026-11-13T08:14:26Z",
+  "by": "samuel",
+  "pin": false,
+  "task": "agent-hub",
+  "text": "Board-first UI (sticky notes, note chat, hidden Agents drawer), Start building button, timed dispatch + checkpoints for Overseers"
+}

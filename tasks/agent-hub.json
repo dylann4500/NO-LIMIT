@@ -17,6 +17,11 @@
       "at": "2026-11-13T05:58:59Z",
       "by": "samuel",
       "text": "v2 pushed: hub/ (README has Sunday procedure)"
+    },
+    {
+      "at": "2026-11-13T08:14:26Z",
+      "by": "samuel",
+      "text": "Board-first UI (sticky notes, note chat, hidden Agents drawer), Start building button, timed dispatch + checkpoints for Overseers"
     }
   ],
   "owner": "samuel",
@@ -29,5 +34,5 @@
   "result": "",
   "state": "active",
   "title": "Agent hub: per-laptop web UI running Claude Agent SDK agents, cross-laptop messaging over Modal Queue",
-  "updated_at": "2026-11-13T05:58:59Z"
+  "updated_at": "2026-11-13T08:14:26Z"
 }
