@@ -89,7 +89,7 @@ button:active:not(:disabled) { transform: scale(.97); }
 .board h2 { font: 600 .74rem var(--sans); text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
 .board h2 .c { background: var(--warn); color: #1f1e1c; border-radius: 999px; padding: 0 7px; font-size: .7rem; letter-spacing: 0; }
 .wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
-.note { cursor: pointer; position: relative; background: var(--nb); color: var(--fg); border-radius: var(--r-surface); padding: 14px 15px 12px; min-height: 168px; display: flex; flex-direction: column; gap: 8px; text-align: left; border: 0; box-shadow: var(--lift-1); transform: rotate(var(--rot, 0deg)); transition: transform .12s, box-shadow .12s; }
+.note { cursor: pointer; position: relative; min-height: 0 !important; background: var(--nb); color: var(--fg); border-radius: var(--r-surface); padding: 14px 15px 12px; min-height: 168px; display: flex; flex-direction: column; gap: 8px; text-align: left; border: 0; box-shadow: var(--lift-1); transform: rotate(var(--rot, 0deg)); transition: transform .12s, box-shadow .12s; }
 .note:hover { transform: rotate(0deg) translateY(-3px); box-shadow: var(--lift-2); }
 .note .rm { position: absolute; top: -8px; right: -8px; width: 22px; height: 22px; border-radius: 50%; background: var(--panel); color: var(--muted); border: 1px solid var(--line); display: grid; place-items: center; font-size: .7rem; opacity: 0; transition: opacity .12s; cursor: pointer; }
 .note:hover .rm, .note:focus-within .rm { opacity: 1; } .note .rm:hover { color: var(--bad); border-color: var(--bad); }
@@ -99,7 +99,7 @@ button:active:not(:disabled) { transform: scale(.97); }
 .note .stamp { font: 600 .64rem var(--sans); letter-spacing: .04em; border: 1.5px solid currentColor; border-radius: 4px; padding: 0 5px; text-transform: uppercase; white-space: nowrap; }
 .note .stamp.call { color: var(--bad); } .note .stamp.ok { color: var(--ok); } .note .stamp.no { color: var(--bad); opacity: .8; }
 .note .head { font: 600 1.02rem/1.35 var(--display); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; }
-.note .gist { font-size: .84rem; line-height: 1.42; color: var(--fg); opacity: .82; flex: 1; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; }
+.note .gist { font-size: .84rem; line-height: 1.45; color: var(--muted); flex: 1; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .note .sub { font-size: .76rem; color: var(--muted); } .note .sub .pdot { margin-right: 3px; }
 .note .dl { color: var(--bad); font-weight: 700; font-family: var(--mono); }
 .note .acts { display: flex; gap: 6px; }
@@ -400,21 +400,25 @@ function noteFx(p) {
   const prev = SEEN.notes.get(p.id), n = (p.thread || []).length;
   return fxStyle("note:" + p.id, prev === undefined ? "enter" : n > prev ? "bump" : "");
 }
+const SIMPLE_NOTES = true;   // the plain card; set false to bring back progress steps, who's on it, author and chat count
 function noteHtml(p, big) {
   const call = p.status === "needs_call" && myCall(p), left = p.deadline ? p.deadline - Date.now() / 1000 : null;
   const stampCls = call ? "call" : p.status === "approved" ? "ok" : ["rejected", "expired"].includes(p.status) ? "no" : "";
   const dim = ["rejected", "expired"].includes(p.status);
   const nchat = (p.thread || []).filter((t) => !["result", "expire"].includes(t.action)).length;
+  const subHtml = SIMPLE_NOTES
+    ? `<div class="sub">${ago(p.updated || p.created)}${left !== null && call ? ` · <span class="dl" data-dl="${p.deadline}">${mmss(left)}</span> left` : ""}</div>`
+    : `<div class="sub">${pdot(p.author)} ${esc(titleOf(p.author))} · ${ago(p.updated || p.created)}${nchat ? ` · ${nchat} in chat` : ""}${left !== null && call ? ` · <span class="dl" data-dl="${p.deadline}">${mmss(left)}</span>` : ""}${p.status === "needs_call" && !myCall(p) ? ` · ${esc(S.st.people[p.decider] || "")}'s call` : ""}</div>`;
   const [fxc, fxs] = noteFx(p);
   return `<div class="note k-${esc(kindOf(p))} ${big ? "big" : ""} ${dim ? "dim" : ""} ${fxc}" style="--rot:${rot(p.id)}deg;${fxs}" data-open="${esc(p.id)}" role="button" tabindex="0" aria-label="${esc(NOTE[kindOf(p)] || "")}: ${esc(p.title || "")}">
     <span class="rm" data-rm="${esc(p.id)}" role="button" title="Remove from the board" aria-label="Remove">✕</span>
     <div class="lab"><span>${esc(NOTE[kindOf(p)] || p.kind)}</span><span class="stamp ${stampCls}">${esc(call ? "your call" : stampOf(p))}</span></div>
     <div class="head">${Date.now() / 1000 - (p.updated || 0) < 90 && p.status !== "done" ? `<span class="livepulse" title="Updated in the last 90 s"></span>` : ""}${esc(p.title && ["build", "live", "analysis"].includes(kindOf(p)) ? p.title : headOf(p))}</div>
     ${noteNum(p)}
-    ${noteSteps(p) ? `<div class="steps2">${noteSteps(p)}</div>` : ""}
+    ${SIMPLE_NOTES ? "" : (noteSteps(p) ? `<div class="steps2">${noteSteps(p)}</div>` : "")}
     ${["build", "live", "analysis"].includes(kindOf(p)) && gist(p) ? `<div class="gist">${esc(gist(p))}</div>` : ""}
-    ${noteOnIt(p)}
-    <div class="sub">${pdot(p.author)} ${esc(titleOf(p.author))} · ${ago(p.updated || p.created)}${nchat ? ` · ${nchat} in chat` : ""}${left !== null && call ? ` · <span class="dl" data-dl="${p.deadline}">${mmss(left)}</span>` : ""}${p.status === "needs_call" && !myCall(p) ? ` · ${esc(S.st.people[p.decider] || "")}'s call` : ""}</div>
+    ${SIMPLE_NOTES ? "" : noteOnIt(p)}
+    ${subHtml}
     ${call ? `<div class="acts"><button class="go" data-pa="approve" data-pid="${esc(p.id)}">${p.bot ? "Use it" : "Greenlight"}</button><button class="no" data-pa="reject" data-pid="${esc(p.id)}">${p.bot ? "Not now" : "Reject"}</button></div>` : ""}
   </div>`;
 }
