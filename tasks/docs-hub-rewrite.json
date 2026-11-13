@@ -12,6 +12,11 @@
       "at": "2026-11-13T07:45:51Z",
       "by": "samuel",
       "text": "claimed"
+    },
+    {
+      "at": "2026-11-13T07:49:52Z",
+      "by": "samuel",
+      "text": "done: START_HERE rewritten, SUNDAY.md + REHEARSAL.md added, handbook rebuilt (16 pp), on emu/rehearsal"
     }
   ],
   "owner": "samuel",
@@ -26,8 +31,8 @@
   "posted_at": "",
   "posted_by": "",
   "priority": 0,
-  "result": "",
-  "state": "active",
+  "result": "START_HERE rewritten, SUNDAY.md + REHEARSAL.md added, handbook rebuilt (16 pp), on emu/rehearsal",
+  "state": "done",
   "title": "Rewrite START_HERE, add SUNDAY and REHEARSAL guides for the hub setup; rebuild handbook",
-  "updated_at": "2026-11-13T07:45:51Z"
+  "updated_at": "2026-11-13T07:49:52Z"
 }
