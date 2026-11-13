@@ -656,7 +656,7 @@ class Hub:
         import modal
         return modal.Dict.from_name("avalon-files" + self.bus.ns, create_if_missing=True)
 
-    async def take_upload(self, name: str, data: bytes, who: str) -> dict:
+    async def take_upload(self, name: str, data: bytes, who: str, notify: bool = True) -> dict:
         """A file a human dropped into the Chat: saved here, copied to the shared store (both laptops can fetch it),
         and handed to the Chat with instructions to route it."""
         safe = re.sub(r"[^A-Za-z0-9._-]+", "_", Path(name).name)[:80] or "file"
@@ -675,11 +675,11 @@ class Hub:
         kind = ("hand data" if re.search(r"\.(gz|jsonl|csv|json|txt|log)$", safe, re.I) else
                 "image" if re.search(r"\.(png|jpe?g|gif|webp|heic)$", safe, re.I) else "file")
         ov = next((a for a in self.agents.values() if a.name.endswith("overview")), None)
-        if ov:
+        if ov and notify:
             await ov.human(f"[attached {kind}: {safe}, {len(data) // 1024} KB, saved at {path}"
                            + (f", shared as file id {fid} (agents on the other laptop: fetch_file('{fid}'))" if shared else "")
                            + "] Route it to the right agent now (see your role).", who)
-        return {"id": fid, "path": str(path), "shared": shared, "kind": kind}
+        return {"id": fid, "path": str(path), "shared": shared, "kind": kind, "name": safe, "kb": len(data) // 1024}
 
     def bot_store(self):
         import modal
@@ -3181,7 +3181,7 @@ def make_app(hub: Hub) -> web.Application:
         data = await req.read()
         if not data:
             return web.json_response({"error": "Empty file."}, status=400)
-        return web.json_response(await hub.take_upload(name, data, PEOPLE[hub.person]))
+        return web.json_response(await hub.take_upload(name, data, PEOPLE[hub.person], notify=req.query.get("hold") != "1"))
     r.add_post("/api/upload", upload)
     r.add_post("/api/props", new_prop)
     r.add_post("/api/props/{id}/act", act_prop)

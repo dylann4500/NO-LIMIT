@@ -115,6 +115,10 @@ button:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-
 .waiting { border: 1px solid var(--bad); background: var(--bad-soft); border-radius: 12px; padding: 8px 10px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-size: .82rem; position: sticky; top: 0; z-index: 2; }
 .waiting b { color: var(--bad); margin-right: 4px; }
 .cv-ag.urgent { border-left: 3px solid var(--bad); padding-left: 10px; background: var(--bad-soft); border-radius: 8px; }
+.staged { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+.sfile { display: inline-flex; gap: 6px; align-items: center; border: 1px solid var(--line); border-radius: 10px; padding: 3px 6px 3px 3px; font-size: .76rem; background: var(--bg); max-width: 220px; }
+.sfile img { width: 34px; height: 34px; object-fit: cover; border-radius: 7px; } .sfile span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sfile .x { border: 0; background: none; color: var(--faint); cursor: pointer; }
 .dock.drop { outline: 3px dashed var(--accent); outline-offset: -6px; }
 .dock-ft { border-top: 1px solid var(--line); padding: 8px 10px 10px; display: flex; flex-direction: column; gap: 6px; } .dock-ft .box { max-width: none; margin: 0; }
 .dock-ft textarea { width: 100%; border: 0; resize: none; background: none; color: var(--fg); font: 15px/1.5 var(--sans); min-height: 26px; max-height: 180px; outline: none; }
@@ -461,7 +465,7 @@ function overviewChatHtml() {
       ${busy ? `<div class="note2">Chat is reading the team's context…</div>` : ""}
     </div>
     <div class="dock-ft"><div class="chips">${chips.map((c) => `<button data-ovchip="${esc(c)}">${esc(c)}</button>`).join("")}</div>
-      <form id="ovForm" class="box"><textarea id="ovTa" rows="1" placeholder="Message ${esc(S.st.people[who])}'s Chat… (drop or paste files here)"></textarea><div class="row">${who === S.st.me ? `<label class="tbtn" title="Attach a file (hand data, screenshot)" style="cursor:pointer">📎<input type="file" id="ovFile" multiple hidden></label>` : ""}<span class="hint" id="ovHint">Enter to send</span><button class="send" id="ovSend" aria-label="Send">↑</button></div></form></div></aside>`;
+      <form id="ovForm" class="box">${(S.staged || []).length ? `<div class="staged">${S.staged.map((f, i) => `<span class="sfile">${f.url ? `<img src="${f.url}" alt="">` : "📄"}<span>${esc(f.file.name || "pasted image")}</span><button type="button" class="x" data-unstage="${i}" title="Remove">✕</button></span>`).join("")}</div>` : ""}<textarea id="ovTa" rows="1" placeholder="Message ${esc(S.st.people[who])}'s Chat… (drop or paste files here)"></textarea><div class="row">${who === S.st.me ? `<label class="tbtn" title="Attach a file (hand data, screenshot)" style="cursor:pointer">📎<input type="file" id="ovFile" multiple hidden></label>` : ""}<span class="hint" id="ovHint">Enter to send</span><button class="send" id="ovSend" aria-label="Send">↑</button></div></form></div></aside>`;
 }
 function sideHtml() {
   if (!S.side) return "";
@@ -585,12 +589,11 @@ function wire(a) {
   $("#ovT")?.addEventListener("click", () => { S.ov = !S.ov; try { localStorage.setItem("hub-chat", S.ov ? "1" : "0"); } catch (e) {} render(); setTimeout(() => $("#ovTa")?.focus(), 30); });
   $("#ovX")?.addEventListener("click", () => { S.ov = false; try { localStorage.setItem("hub-chat", "0"); } catch (e) {} render(); });
   document.querySelectorAll("[data-ovwho]").forEach((b) => b.onclick = () => { S.ovWho = b.dataset.ovwho; render(); });
-  const sendFiles = async (files) => { const h = $("#ovHint");
-    for (const f of files) { if (h) { h.textContent = `Uploading ${f.name}…`; h.className = "hint"; }
-      const r = await fetch(`/api/upload?name=${encodeURIComponent(f.name || "pasted.png")}`, { method: "POST", headers: { "X-Avalon": "1", "Content-Type": "application/octet-stream" }, body: f });
-      let j = {}; try { j = await r.json(); } catch (x) {}
-      if (h) { h.textContent = r.ok ? `Sent ${f.name || "image"} to the Chat (${j.kind}); it will route it.` : `Upload failed: ${j.error || r.status}`; h.className = r.ok ? "hint" : "hint bad"; } }
-    refresh(); };
+  const sendFiles = (files) => {   // stage: nothing is sent until the message is
+    S.staged = (S.staged || []).concat(files.map((f) => ({ file: f, url: /^image\//.test(f.type) ? URL.createObjectURL(f) : "" })));
+    render(); setTimeout(() => $("#ovTa")?.focus(), 20); };
+  document.querySelectorAll("[data-unstage]").forEach((b) => b.onclick = (e) => { e.preventDefault(); const i = +b.dataset.unstage;
+    const f = S.staged[i]; if (f && f.url) URL.revokeObjectURL(f.url); S.staged.splice(i, 1); render(); });
   $("#ovFile")?.addEventListener("change", (e) => sendFiles([...e.target.files]));
   $("#bellGo")?.addEventListener("click", (e) => { e.stopPropagation(); S.bell = true; render(); });
   const dock = $(".dock"); if (dock && (S.ovWho || S.st.me) === S.st.me) {
@@ -605,7 +608,18 @@ function wire(a) {
     document.addEventListener("mousemove", move); document.addEventListener("mouseup", up); };
   const ovta = $("#ovTa"); if (ovta) { ovta.addEventListener("input", () => autosize(ovta)); ovta.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); $("#ovForm").requestSubmit(); } });
     document.querySelectorAll("[data-ovchip]").forEach((b) => b.onclick = () => { const c = b.dataset.ovchip; if (c.endsWith("…")) { ovta.value = c.slice(0, -1); ovta.focus(); autosize(ovta); } else { ovta.value = c; $("#ovForm").requestSubmit(); } });
-    $("#ovForm").addEventListener("submit", async (e) => { e.preventDefault(); const t = ovta.value.trim(); if (!t) return; ovta.value = ""; autosize(ovta);
+    $("#ovForm").addEventListener("submit", async (e) => { e.preventDefault(); let t = ovta.value.trim(); const staged = S.staged || [];
+      if (!t && !staged.length) return; ovta.value = ""; autosize(ovta);
+      if (staged.length) { const h = $("#ovHint"); if (h) { h.textContent = `Uploading ${staged.length} file(s)…`; h.className = "hint"; }
+        const lines = [];
+        for (const sf of staged) { const f = sf.file;
+          const r = await fetch(`/api/upload?hold=1&name=${encodeURIComponent(f.name || "pasted.png")}`, { method: "POST", headers: { "X-Avalon": "1", "Content-Type": "application/octet-stream" }, body: f });
+          let j = {}; try { j = await r.json(); } catch (x) {}
+          if (!r.ok) { if (h) { h.textContent = `Upload failed: ${j.error || r.status}`; h.className = "hint bad"; } ovta.value = t; return; }
+          lines.push(`[attached ${j.kind}: ${j.name}, ${j.kb} KB, saved at ${j.path}${j.shared ? `, shared as file id ${j.id} (agents on the other laptop: fetch_file('${j.id}'))` : ""}]`);
+          if (sf.url) URL.revokeObjectURL(sf.url); }
+        S.staged = []; if (h) { h.textContent = "Enter to send"; }
+        t = lines.join("\n") + (t ? "\n" + t : "\nRoute these to the right agents (see your role).") }
       const name = ovName(S.ovWho || S.st.me); const ov = (S.st.overviews[name] = S.st.overviews[name] || []); ov.push({ who: S.st.people[S.st.me], at: Date.now() / 1000, text: t }); render();
       const r = await api(`/api/agents/${encodeURIComponent(name)}/send`, { text: t }); if (r.error) { const h = $("#ovHint"); if (h) { h.textContent = "Not sent: " + r.error; h.className = "hint bad"; } } }); }
   document.querySelectorAll("[data-stage]").forEach((b) => b.onclick = () => { const st = b.dataset.stage; S.openStages = S.openStages || {}; S.openStages[st] = !S.openStages[st]; render(); });
