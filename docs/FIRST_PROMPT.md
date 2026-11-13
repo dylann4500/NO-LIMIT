@@ -1,5 +1,10 @@
 # The prompt pack: building and improving a strong bot for an unknown variant
 
+> **With the agent hub (`hub/`, see `docs/START_HERE.md` section 4), nobody pastes these by hand any more.**
+> The hub's agents read this file and run the parts themselves: Dylan's Platform and Builder run Part 1,
+> Samuel's Data runs Parts 2 and 4, Samuel's Tester runs Part 3, and the Overseers follow Part 5. "Who
+> pastes it" below describes the old manual setup; read it as "which agent runs it".
+
 For Dylan and Samuel. Every prompt we bring on Sunday is here, in the order it gets used; the operating
 model (roles, how many bots and changes, decision rules) is in `docs/FINALS_PLAYBOOK.md`. Part 6 is the
 evidence, so you can judge how far to trust each line. Nothing here is code; it is knowledge, checks and

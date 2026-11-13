@@ -1600,6 +1600,7 @@ async def main():
     ap.add_argument("--data", default=None, help="hub state folder (default ~/.avalon-hub/<person>)")
     ap.add_argument("--namespace", default="", help="message-line suffix, e.g. --namespace=-live on Sunday")
     ap.add_argument("--no-autostart", action="store_true")
+    ap.add_argument("--view-only", action="store_true", help="show the screen with saved data; start no agents or services")
     ap.add_argument("--model", default=None, help="run every agent on this model (e.g. claude-haiku-5-5 for tests)")
     ap.add_argument("--start", default=None, help="event minute 0 as HH:MM[:SS] (sets the shared clock)")
     ap.add_argument("--scale", type=float, default=1.0, help="simulations only: event-minutes run this fast (0.25 = 4x)")
@@ -1620,13 +1621,16 @@ async def main():
     await hub.bus.start()
     for ag in hub.agents.values():
         hub.bus.publish(ag.name, {"title": ag.title, "state": ag.state, "task": ag.task, "summary": ag.summary})
+    for pr in hub.local_props.values():   # re-share this laptop's cards (e.g. after a restart)
+        asyncio.create_task(hub.bus.set_shared("prop:" + pr["id"], pr))
     if a.start:
         await hub.clock.set_start(a.start, scale=a.scale)
-    asyncio.create_task(hub.clock.loop())
-    if not a.no_codex:
+    if not a.view_only:
+        asyncio.create_task(hub.clock.loop())
+    if not a.no_codex and not a.view_only:
         hub.codex = Codex(hub, a.codex_model, a.codex_max)
         hub.codex.status()
-    if a.portal_base and a.portal_key_file:
+    if a.portal_base and a.portal_key_file and not a.view_only:
         hub.portal = PortalWatcher(hub, a.portal_base, Path(a.portal_key_file), a.hands_url,
                                    Path(a.portal_data) if a.portal_data else None, a.small_hands)
         asyncio.create_task(hub.portal.loop())
@@ -1639,6 +1643,9 @@ async def main():
         if ag.worktree_problem:
             await hub.add_alert(ag.name, f"{ag.title} {ag.worktree_problem}; it is working in the main repo instead. "
                                 "Ask your Overseer to keep its edits to its own folders.", True)
+    if a.view_only:
+        print("view-only: no agents or services started", flush=True)
+        await asyncio.Event().wait()
     restarted = any(ag.was_running for ag in hub.agents.values())
     for ag in hub.agents.values():
         if ag.was_running:
