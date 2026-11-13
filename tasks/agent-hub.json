@@ -1,0 +1,28 @@
+{
+  "agent": "Samuels-MacBook-Pro-4",
+  "assignee": "",
+  "claimed_at": "2026-11-13T04:59:15Z",
+  "cmd": "",
+  "compute": "",
+  "details": "",
+  "expires_at": "2026-11-13T12:59:15Z",
+  "id": "agent-hub",
+  "log": [
+    {
+      "at": "2026-11-13T04:59:15Z",
+      "by": "samuel",
+      "text": "claimed"
+    }
+  ],
+  "owner": "samuel",
+  "paths": [
+    "hub"
+  ],
+  "posted_at": "",
+  "posted_by": "",
+  "priority": 0,
+  "result": "",
+  "state": "active",
+  "title": "Agent hub: per-laptop web UI running Claude Agent SDK agents, cross-laptop messaging over Modal Queue",
+  "updated_at": "2026-11-13T04:59:15Z"
+}
