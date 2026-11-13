@@ -616,6 +616,7 @@ function renderToasts() {
 }
 function toast(x) { S.toasts.push({ ...x, until: Date.now() + (x.type === "ap" ? 180000 : x.type === "pc" ? 60000 : x.urgent ? 30000 : 9000) }); S.toasts = S.toasts.slice(-4); renderToasts(); setTimeout(renderToasts, 181000); }
 async function makeReport(pid) {
+  if (demoNote(pid)) { const d = demoNote(pid); d.report = { text: "**Where it stands** (demo)\nThis is a demo note: in the real hub this summary is written fresh from the agents' work when you open the note.", at: Date.now() / 1000, n: (d.thread || []).length }; render(); return; }
   if (!pid || S.reporting === pid) return; S.reporting = pid; render();
   const r = await api(`/api/props/${encodeURIComponent(pid)}/report`, {}); S.reporting = null;
   if (!r.error) { const i = S.st.props.findIndex((x) => x.id === pid); if (i >= 0) S.st.props[i] = r; }
@@ -626,7 +627,16 @@ function maybeReport(pid) {   // on opening a note: write a fresh update if ther
   const n = (p.thread || []).length, rep = p.report;
   if (!rep || (n > (rep.n || 0) && Date.now() / 1000 - rep.at > 45)) makeReport(pid);
 }
-async function act(pid, action, text) { const r = await api(`/api/props/${encodeURIComponent(pid)}/act`, { action, text: text || "" }); if (!r.error) { const i = S.st.props.findIndex((p) => p.id === pid); if (i >= 0) S.st.props[i] = r; } render(); }
+function demoNote(pid) { return S.demo && String(pid).startsWith("DEMO") ? props().find((x) => x.id === pid) : null; }
+async function act(pid, action, text) {
+  const d = demoNote(pid);
+  if (d) {   // demo notes live only in this browser: play the action out locally
+    const now = Date.now() / 1000;
+    d.status = { approve: "approved", reject: "rejected", remove: "removed", comment: "revise" }[action] || d.status;
+    d.thread = (d.thread || []).concat([{ who: S.st.people[S.st.me], at: now, action, text: text || action }],
+      action === "approve" ? [{ who: "Hub", at: now, action: "update", text: "(demo) Greenlit: in the real hub this bot becomes the live bot and Dylan is asked to upload it." }] : []);
+    d.updated = now; if (action === "remove" && S.card === pid) S.card = null; render(); return;
+  } const r = await api(`/api/props/${encodeURIComponent(pid)}/act`, { action, text: text || "" }); if (!r.error) { const i = S.st.props.findIndex((p) => p.id === pid); if (i >= 0) S.st.props[i] = r; } render(); }
 function wireActions(root) {
   root.querySelectorAll("[data-ap]").forEach((b) => b.onclick = async (e) => { e.stopPropagation(); b.parentElement.querySelectorAll("button").forEach((x) => x.disabled = true); await api(`/api/approvals/${b.dataset.ap}`, { decision: b.dataset.d }); S.st.approvals = S.st.approvals.filter((x) => x.id !== b.dataset.ap); render(); });
   root.querySelectorAll("[data-pa]").forEach((b) => b.onclick = async (e) => { e.stopPropagation(); b.parentElement.querySelectorAll("button").forEach((x) => x.disabled = true); await act(b.dataset.pid, b.dataset.pa, ""); });
@@ -708,6 +718,9 @@ function wire(a) {
     $("#cardForm").addEventListener("submit", async (e) => { e.preventDefault(); const t = cta.value.trim(); if (!t) return; $("#cardSend").disabled = true;
       cta.value = ""; autosize(cta);   // clear at once; a re-render while sending must not bring the text back
       const p = props().find((x) => x.id === S.card); const call = p && ["needs_call", "revise"].includes(p.status) && myCall(p);
+      if (demoNote(S.card)) { const now = Date.now() / 1000; p.thread = (p.thread || []).concat([{ who: S.st.people[S.st.me], at: now, action: "ask", text: t },
+        { who: "Overseer", at: now + 1, action: "reply", text: "(demo) In the real hub, the Overseer answers here and passes instructions to the right agent." }]);
+        cta.value = ""; $("#cardSend").disabled = false; p.updated = now; render(); return; }
       const r = call ? await api(`/api/props/${encodeURIComponent(S.card)}/act`, { action: "comment", text: t }) : await api(`/api/props/${encodeURIComponent(S.card)}/ask`, { text: t });
       const sb = $("#cardSend"); if (sb) sb.disabled = false;
       if (r.error) { const ta2 = $("#cardTa"); if (ta2 && !ta2.value) ta2.value = t; const h = $("#cardHint"); if (h) { h.textContent = r.error; h.className = "hint bad"; } return; }

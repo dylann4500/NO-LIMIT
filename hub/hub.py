@@ -883,7 +883,7 @@ class Hub:
     async def human_act(self, pid: str, action: str, text: str) -> dict:
         p = self.get_prop(pid)
         if not p:
-            raise ValueError("That card no longer exists.")
+            raise ValueError("That note no longer exists.")
         who = PEOPLE[self.person]
         p.setdefault("thread", []).append({"who": who, "at": time.time(), "action": action, "text": text})
         if action in ("approve", "reject", "comment"):
@@ -931,7 +931,7 @@ class Hub:
     async def card_ask(self, pid: str, text: str) -> dict:
         p = self.get_prop(pid)
         if not p:
-            raise ValueError("That card no longer exists.")
+            raise ValueError("That note no longer exists.")
         who = PEOPLE[self.person]
         p.setdefault("thread", []).append({"who": who, "at": time.time(), "action": "ask", "text": text})
         await self.human_item(f"on note \"{p['title']}\": {text}", p["id"])
