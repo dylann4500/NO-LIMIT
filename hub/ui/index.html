@@ -319,7 +319,7 @@ function clockHtml() {
 function bellHtml() { const nd = needs(); const urgent = nd.some((x) => x.urgent || x.type === "ap"); return `<button class="bell ${nd.length ? "has" : ""} ${urgent ? "urgent" : ""}" id="bell" aria-label="Needs you">${BELL}${nd.length ? `<span class="n">${nd.length}</span>` : ""}</button>`; }
 function needHtml(x, compact) {
   if (x.type === "ap") return `<div class="need"><span class="who2">${pdot(x.agent)} ${esc(titleOf(x.agent))}</span> wants to run ${esc(x.tool)}${x.risky ? " <b style='color:var(--bad)'>(risky)</b>" : ""}<code>${esc(x.input)}</code><div class="nacts"><button class="mini go" data-ap="${esc(x.id)}" data-d="allow">Allow</button>${x.risky ? "" : `<button class="mini" data-ap="${esc(x.id)}" data-d="always">Always</button>`}<button class="mini no" data-ap="${esc(x.id)}" data-d="deny">Deny</button></div></div>`;
-  if (x.type === "pc") return `<div class="need"><b>${esc(NOTE[x.kind] || x.kind)}</b> · your call${x.deadline ? " by " + hhmm(x.deadline) : ""}<div class="txt">${esc(headOf(x))}</div><div class="nacts"><button class="mini go" data-pa="approve" data-pid="${esc(x.id)}">Greenlight</button><button class="mini no" data-pa="reject" data-pid="${esc(x.id)}">Reject</button><button class="mini" data-open="${esc(x.id)}">Open</button></div></div>`;
+  if (x.type === "pc") return `<div class="need"><b>${esc(NOTE[x.kind] || x.kind)}</b> · your call${x.deadline ? " by " + hhmm(x.deadline) : ""}<div class="txt">${esc(cardTitle(x))}</div><div class="nacts"><button class="mini go" data-pa="approve" data-pid="${esc(x.id)}">Greenlight</button><button class="mini no" data-pa="reject" data-pid="${esc(x.id)}">Reject</button><button class="mini" data-open="${esc(x.id)}">Open</button></div></div>`;
   return `<div class="need"><span class="who2">${pdot(x.agent)} ${esc(titleOf(x.agent))}</span> · ${hhmm(x.at)}${x.urgent ? " · <b style='color:var(--bad)'>urgent</b>" : ""}<div class="txt md">${md(x.text)}</div>${compact ? "" : `<div class="nacts"><button class="mini" data-dis="${esc(x.id)}">Done</button></div>`}</div>`;
 }
 function panelHtml() {
@@ -405,7 +405,12 @@ function noteFx(p) {
   const prev = SEEN.notes.get(p.id), n = (p.thread || []).length;
   return fxStyle("note:" + p.id, prev === undefined ? "enter" : n > prev ? "bump" : "");
 }
-const SIMPLE_NOTES = true;   // the plain card; set false to bring back progress steps, who's on it, author and chat count
+const SIMPLE_NOTES = true;
+function cardTitle(p) {
+  const k = kindOf(p);
+  if (k === "bot" && p.bot) return "Which bot? " + bname(p.bot);
+  return p.title && ["build", "live", "analysis"].includes(k) ? p.title : headOf(p);
+}   // the plain card; set false to bring back progress steps, who's on it, author and chat count
 function noteHtml(p, big) {
   const call = p.status === "needs_call" && myCall(p), left = p.deadline ? p.deadline - Date.now() / 1000 : null;
   const stampCls = call ? "call" : p.status === "approved" ? "ok" : ["rejected", "expired"].includes(p.status) ? "no" : "";
@@ -418,7 +423,7 @@ function noteHtml(p, big) {
   return `<div class="note k-${esc(kindOf(p))} ${big ? "big" : ""} ${dim ? "dim" : ""} ${fxc}" style="--rot:${rot(p.id)}deg;${fxs}" data-open="${esc(p.id)}" role="button" tabindex="0" aria-label="${esc(NOTE[kindOf(p)] || "")}: ${esc(p.title || "")}">
     <span class="rm" data-rm="${esc(p.id)}" role="button" title="Remove from the board" aria-label="Remove">✕</span>
     <div class="lab"><span>${esc(NOTE[kindOf(p)] || p.kind)}</span><span class="stamp ${stampCls}">${esc(call ? "your call" : stampOf(p))}</span></div>
-    <div class="head">${Date.now() / 1000 - (p.updated || 0) < 90 && p.status !== "done" ? `<span class="livepulse" title="Updated in the last 90 s"></span>` : ""}${esc(p.title && ["build", "live", "analysis"].includes(kindOf(p)) ? p.title : headOf(p))}</div>
+    <div class="head">${Date.now() / 1000 - (p.updated || 0) < 90 && p.status !== "done" ? `<span class="livepulse" title="Updated in the last 90 s"></span>` : ""}${esc(cardTitle(p))}</div>
     ${noteNum(p)}
     ${SIMPLE_NOTES ? "" : (noteSteps(p) ? `<div class="steps2">${noteSteps(p)}</div>` : "")}
     ${["build", "live", "analysis"].includes(kindOf(p)) && gist(p) ? `<div class="gist">${esc(gist(p))}</div>` : ""}
@@ -466,7 +471,7 @@ function drawerHtml() {
     : `<div class="cv-ag"><div class="by">${esc(t.who)} · ${hhmm(t.at)}</div><div class="a md">${md(t.text)}</div></div>`;
   return `<div class="cv-back" id="cvBack"></div><div class="cv k-${esc(k)}" role="dialog" aria-label="${esc(p.title)}">
     <div class="cv-hd"><div class="cv-lab">${esc(p.stage ? p.stage + " · " : "")}${esc(NOTE[k] || p.kind)} · ${esc(call ? "your call" : stampOf(p))}</div>
-      <div class="cv-title">${esc(p.title && ["build", "live", "analysis"].includes(k) ? p.title : headOf(p))}</div>
+      <div class="cv-title">${esc(cardTitle(p))}</div>
       <div class="cv-tools"><button class="tbtn" data-rm="${esc(p.id)}">Close note</button><button class="tbtn" id="cardX" aria-label="Back to the board">✕</button></div></div>
     <div class="cv-body"><div class="cv-col">
       <div class="cv-report"><div class="cv-rh"><span>What's going on</span><span class="hint">${busy ? "Writing a fresh update…" : rep ? "Updated " + hhmm(rep.at) : ""}</span><button class="tbtn" id="repGo" ${busy ? "disabled" : ""}>${rep ? "Refresh" : "Write it"}</button></div>
@@ -493,7 +498,7 @@ function liveChip() {
 function liveMenu() {
   if (!S.liveOpen) return "";
   const live = S.st.live, act = (S.st.portal_active || {}), bots = S.st.bots || [];
-  const ST = { ready: "built", building: "building…", testing: "testing…", failed: "failed", shelved: "shelved (older than the live bot, no update)" };
+  const ST = { ready: "built", building: "building…", testing: "testing…", failed: "failed", shelved: "shelved" };
   const r = $("#liveT")?.getBoundingClientRect(); const right = r ? Math.max(16, window.innerWidth - r.right) : 16;
   const ago2 = act.at ? " · checked " + ago(act.at) : "";
   return `<div class="livemenu" id="liveMenu" style="right:${right}px"><div class="hd">Active on the portal: <b>${esc(act.filename || "unknown")}</b>${esc(ago2)}${live && bname(live.filename) !== bname(act.filename) ? `<br>Chosen to play next: <b>${esc(live.filename)}</b>` : ""}<br>Click a built bot to download its zip, then upload it on the No Limit dashboard.</div>
@@ -501,7 +506,7 @@ function liveMenu() {
       const stale = ["building", "testing"].includes(b0.status) && Date.now() / 1000 - (b0.updated || b0.at || 0) > 600 && n && actN && n < actN;
       const b = stale ? { ...b0, status: "shelved" } : b0;
       const isAct = bname(act.filename) === b.name, isNext = live && bname(live.filename) === b.name && !isAct;
-      return `<button class="botrow ${isAct ? "cur" : ""}" data-dlbot="${esc(b.name)}" ${["ready", "shelved"].includes(b.status) ? "" : "disabled"} title="${b.status === "ready" ? "Download " + esc(b.name) + ".zip" : "Not built yet"}"><b>${esc(b.name)}${isAct ? " · active" : isNext ? " · next" : ""}</b><span class="st">${esc(ST[b.status] || b.status)}${["ready", "shelved"].includes(b.status) ? " ⤓" : ""}</span>${b.note ? `<span class="nt">${esc(b.note)}</span>` : ""}</button>`; }).join("") : `<div class="empty" style="padding:10px">No bots yet. They appear as the agents build them.</div>`}<div class="hint" id="dlHint" style="padding:4px 8px"></div></div>`;
+      return `<button class="botrow ${isAct ? "cur" : ""}" data-dlbot="${esc(b.name)}" ${["ready", "shelved"].includes(b.status) ? "" : "disabled"} title="${b.status === "ready" ? "Download " + esc(b.name) + ".zip" : "Not built yet"}"><b>${esc(b.name)}${isAct ? " · active" : isNext ? " · next" : ""}</b><span class="st">${esc(ST[b.status] || b.status)}${["ready", "shelved"].includes(b.status) ? " ⤓" : ""}</span></button>`; }).join("") : `<div class="empty" style="padding:10px">No bots yet. They appear as the agents build them.</div>`}<div class="hint" id="dlHint" style="padding:4px 8px"></div></div>`;
 }
 function ovName(person) { return (person === "samuel" ? "s" : "d") + "-overview"; }
 function attachView(text) {   // "[attached image: name, N KB, saved at …, shared as file id F…]" -> a chip (+ thumbnail)
@@ -523,7 +528,7 @@ function overviewChatHtml() {
     : ["The competition starts now", "The variant was announced at …", "Round 1 is at …"];
   return `<aside class="dock" aria-label="Chat" style="${S.dockW ? `width:${S.dockW}px` : ""}"><div class="dock-grip" id="dockGrip" title="Drag to resize" role="separator" aria-orientation="vertical"></div><div class="dock-hd"><b>Chat</b><span class="hint">knows everything the Overseer knows</span>${tabs}<button class="tbtn" id="ovX" title="Hide the chat">✕</button></div>
     <div class="dock-body" id="ovBody">
-      ${who === S.st.me && (needCall().length || S.st.approvals.length) ? `<div class="waiting"><b>Waiting for you</b>${needCall().map((p) => `<button class="mini" data-open="${esc(p.id)}">${esc(NOTE[kindOf(p)] || "")}: ${esc(headOf(p).slice(0, 70))}${p.deadline ? " · by " + hhmm(p.deadline) : ""}</button>`).join("")}${S.st.approvals.length ? `<button class="mini" id="bellGo">${S.st.approvals.length} permission request(s)</button>` : ""}</div>` : ""}
+      ${who === S.st.me && (needCall().length || S.st.approvals.length) ? `<div class="waiting"><b>Waiting for you</b>${needCall().map((p) => `<button class="mini" data-open="${esc(p.id)}">${esc(kindOf(p) === "bot" && p.bot ? "Which bot? " + bname(p.bot) : (NOTE[kindOf(p)] || "") + ": " + headOf(p).slice(0, 70))}${p.deadline ? " · by " + hhmm(p.deadline) : ""}</button>`).join("")}${S.st.approvals.length ? `<button class="mini" id="bellGo">${S.st.approvals.length} permission request(s)</button>` : ""}</div>` : ""}
       ${items.length ? items.map((t, i) => people.includes(t.who) ? `<div class="cv-me ${i >= (SEEN.chat[name] ?? items.length) ? "msg-in" : ""}"><span class="by">${esc(t.who)} · ${hhmm(t.at)}</span>${attachView(t.text)}</div>` : `<div class="cv-ag ${t.urgent ? "urgent" : ""} ${i >= (SEEN.chat[name] ?? items.length) ? "msg-in" : ""}"><div class="by">${t.urgent ? "⚠ " : ""}${esc(t.who === "Hub" ? (t.urgent ? "Needs you" : "Hub") : t.who === "Chat" || t.who === "Overview" ? "Chat" : t.who)} · ${hhmm(t.at)}</div><div class="a md">${md(t.text)}</div></div>`).join("")
         : `<div class="note2" style="margin-top:24px;text-align:left">${S.st.schedule ? `Ask anything about ${esc(S.st.people[who])}'s side, or tell it what to change: it passes instructions to the Overseer and reports back.` : `<b>Start here.</b> When the competition starts, tell the Chat (“the competition starts now”, or the announcement time). That sets the clock on both laptops and starts the Overseer with the whole game plan. Tell it any other times as you learn them (“round 1 is at 14:25”).`}</div>`}
       ${busy ? `<div class="note2">Chat is reading the team's context…</div>` : ""}
