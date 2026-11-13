@@ -1,0 +1,28 @@
+{
+  "agent": "Dylans-MacBook-Pro-1228",
+  "assignee": "",
+  "claimed_at": "2026-11-13T02:33:51Z",
+  "cmd": "",
+  "compute": "",
+  "details": "",
+  "expires_at": "2026-11-13T06:33:51Z",
+  "id": "auto-handoff",
+  "log": [
+    {
+      "at": "2026-11-13T02:33:51Z",
+      "by": "dylann29",
+      "text": "claimed"
+    }
+  ],
+  "owner": "dylann29",
+  "paths": [
+    "docs/AUTO_HANDOFF.md"
+  ],
+  "posted_at": "",
+  "posted_by": "",
+  "priority": 0,
+  "result": "",
+  "state": "active",
+  "title": "Automatic agent hand-offs between the two laptops: new doc docs/AUTO_HANDOFF.md (folders, watcher add-on prompts, who pastes what tonight), on branch auto-handoff off emu/rehearsal",
+  "updated_at": "2026-11-13T02:33:51Z"
+}
