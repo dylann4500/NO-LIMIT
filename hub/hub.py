@@ -48,7 +48,8 @@ DANGER = re.compile("|".join([
 ]))
 HUB_TOOLS = ["send_message", "list_agents", "read_agent", "set_status", "notify_human", "start_agent", "stop_agent",
              "declare_live", "set_schedule", "propose", "update_proposal", "list_proposals", "codex_task", "register_bot",
-             "record", "verify", "invalidate", "set_rules", "ledger", "next_bot_name"]
+             "record", "verify", "invalidate", "set_rules", "ledger", "next_bot_name",
+             "queue_post", "queue_claim", "queue_done"]
 API_KEY_FILE = Path.home() / ".config" / "avalon-hub" / "anthropic-api-key"
 KINDS = ("idea", "build", "live", "analysis", "bot", "question", "research", "finding", "change", "decision")
 BUILD_NOTES = [  # (person, agent, name): one note per build-hour work stream, created at minute 0
@@ -76,6 +77,26 @@ def merge_note(a: dict, b: dict) -> dict:
     if not m.get("body") and old.get("body"):
         m["body"] = old["body"]
     return m
+
+
+def disagreements(items: list[dict]) -> list[str]:
+    """Answers to the same question from different lenses/models that point different ways: the escalation signal."""
+    by_q: dict[str, list[dict]] = {}
+    for x in items:
+        if x.get("type") == "result" and x.get("question") and x.get("status") not in ("invalidated",) and \
+                isinstance(x.get("effect"), (int, float)) and x.get("lens") != "aggregate":
+            by_q.setdefault(x["question"], []).append(x)
+    out = []
+    for q, xs in by_q.items():
+        if len(xs) < 2:
+            continue
+        signs = {1 if x["effect"] > 0 else -1 if x["effect"] < 0 else 0 for x in xs}
+        apart = any(abs(a["effect"] - b["effect"]) > 2 * ((a.get("se") or 0) ** 2 + (b.get("se") or 0) ** 2) ** 0.5
+                    for i, a in enumerate(xs) for b in xs[i + 1:] if a.get("se") is not None and b.get("se") is not None)
+        if len(signs - {0}) > 1 or apart:
+            out.append(f"- DISAGREE on '{q}': " + "; ".join(
+                f"{x.get('lens') or '?'}/{x.get('model') or '?'} {x['effect']:+g}±{x.get('se', '?')} ({x['id']})" for x in xs))
+    return out
 
 
 def stage_of(sch: dict | None, t: float) -> str:
@@ -318,10 +339,15 @@ class Hub:
                 return "", f"REJECTED: {bad}. Re-run it under the rules card, or ask d-platform to correct the card."
             if typ == "result" and (it.get("n") in (None, "") or not (it.get("method") or it.get("method_id"))):
                 return "", "A result needs n and method (or record it as a hypothesis)."
+        if it.get("question") and not it.get("lens"):
+            return "", "An answer to a question needs lens= (leaks, sizing, opponent:<team>, twist, aggregate, ...)."
         stage = stage_of(self.bus.shared.get("schedule"), time.time())
         n = sum(1 for x in self.ledger() if x.get("type") == typ) + 1
         iid = f"{typ[0].upper()}{n}-{by.split('-')[0]}{int(time.time()) % 10000:04d}"
         it = {k: v for k, v in it.items() if v not in (None, "", [])}
+        if by == "s-pipeline" and "card" in (it.get("tags") or []):
+            asyncio.create_task(self.route("card_ready", it.get("stage") or stage, stage=it.get("stage") or stage,
+                                           card=it.get("file") or "analysis/<stage>/card.md", note_id=it.get("note")))
         it.update({"id": iid, "type": typ, "by": by, "stage": it.get("stage") or stage, "at": time.time(),
                    "status": "validated" if typ in ("human", "commitment") else "proposed"})
         await self.put_item(it)
@@ -359,7 +385,8 @@ class Hub:
         users = {items[b].get("by") for b in bad} | {a.name for a in self.agents.values() if bad & a.led_seen}
         for u in {x for x in users if x}:
             try:
-                await self.bus.send({"id": new_id(), "from": "hub", "from_kind": "hub", "to": u, "kind": "task", "text": msg})
+                await self.bus.send({"id": new_id(), "from": "hub", "from_kind": "hub", "to": u, "kind": "task", "text": msg,
+                                     "priority": "high"})
             except Exception:  # noqa: BLE001
                 pass
         for b in bad:
@@ -371,7 +398,8 @@ class Hub:
         for u in {it.get("by"), self.owner_overseer("samuel"), self.owner_overseer("dylan")}:
             if u:
                 try:
-                    await self.bus.send({"id": new_id(), "from": "hub", "from_kind": "hub", "to": u, "kind": "fyi", "text": text})
+                    await self.bus.send({"id": new_id(), "from": "hub", "from_kind": "hub", "to": u, "kind": "fyi", "text": text,
+                                         "priority": "high"})
                 except Exception:  # noqa: BLE001
                     pass
         if it.get("note"):
@@ -384,6 +412,81 @@ class Hub:
             return
         await self.record_item({"type": "human", "claim": f"{PEOPLE[self.person]}: {text.strip()[:600]}", "note": note},
                                PEOPLE[self.person].lower())
+
+    # ---------------- work queue: idle experts pull (expert-choice routing; balances load by construction)
+    def queue(self) -> list[dict]:
+        xs = [v for k, v in self.bus.shared.items() if k.startswith("queue:") and isinstance(v, dict)]
+        return sorted(xs, key=lambda x: (x.get("priority") != "crit", x.get("at", 0)))
+
+    def queue_for(self, agent: str) -> list[dict]:
+        return [x for x in self.queue() if not x.get("claimed_by") and not x.get("done")
+                and (not x.get("for") or agent in x["for"] or agent.split("-", 1)[-1] in x["for"])]
+
+    async def queue_post(self, task: str, for_: list, priority: str, note: str | None, by: str) -> str:
+        qid = "Q" + new_id()[1:7].upper()
+        await self.bus.set_shared("queue:" + qid, {"id": qid, "task": task[:2000], "for": for_ or [], "note": note,
+                                                   "priority": "crit" if priority == "crit" else "opt", "by": by,
+                                                   "at": time.time(), "updated": time.time()})
+        for a in self.agents.values():   # wake an idle expert who can take it
+            if a.state in ("idle", "done") and not a.name.endswith(("overseer", "overview")) and self.queue_for(a.name) \
+                    and qid not in a.queue_nudged and (not for_ or a.name in for_ or a.name.split("-", 1)[-1] in for_):
+                a.queue_nudged.add(qid)
+                await a.add_item({"kind": "hub", "wake": True, "text": f"A queued task is waiting for you ({qid}): call queue_claim."})
+                break
+        return qid
+
+    async def queue_claim(self, agent: str) -> dict | None:
+        for x in self.queue_for(agent):
+            won = True
+            if self.bus.d is not None:   # atomic across both laptops: the first claim wins
+                try:
+                    won = await asyncio.wait_for(self.bus.d.put.aio("claim:" + x["id"], agent, skip_if_exists=True), 10)
+                except Exception:  # noqa: BLE001
+                    won = False
+            if won:
+                x = dict(x, claimed_by=agent, claimed_at=time.time(), updated=time.time())
+                await self.bus.set_shared("queue:" + x["id"], x)
+                return x
+        return None
+
+    async def queue_done(self, qid: str, result: str, agent: str) -> str:
+        x = self.bus.shared.get("queue:" + qid)
+        if not x:
+            return f"No queued task {qid}."
+        await self.bus.set_shared("queue:" + qid, dict(x, done=True, result=result[:600], updated=time.time()))
+        if x.get("by") and x["by"] != agent:
+            try:
+                await self.bus.send({"id": new_id(), "from": agent, "from_kind": "agent", "to": x["by"], "kind": "fyi",
+                                     "text": f"Queued task {qid} done: {result[:600]}"})
+            except Exception:  # noqa: BLE001
+                pass
+        return f"{qid} done."
+
+    async def route(self, event: str, key: str, **ctx):
+        """Send an event straight to its experts (once per key), with an fyi for their Overseer's digest."""
+        done = self.bus.shared.get("routed:" + event + ":" + key)
+        if done:
+            return
+        await self.bus.set_shared("routed:" + event + ":" + key, {"at": time.time(), "updated": time.time()})
+        for who, kind, text in ROUTES.get(event, []):
+            try:
+                body = text.format(**{k: ctx.get(k, "") for k in ("stage", "card", "bot", "status", "by", "note")})
+            except (KeyError, IndexError):
+                body = text
+            try:
+                await self.bus.send({"id": new_id(), "from": "hub", "from_kind": "hub", "to": who, "kind": kind,
+                                     "note": ctx.get("note_id"), "text": "[routed by the hub] " + body})
+            except Exception:  # noqa: BLE001
+                pass
+        for ov in ("s-overseer", "d-overseer"):
+            if any(w.startswith(ov[0]) for w, _, _ in ROUTES.get(event, [])):
+                try:
+                    await self.bus.send({"id": new_id(), "from": "hub", "from_kind": "hub", "to": ov, "kind": "fyi",
+                                         "text": f"[routed] {event} {key}: sent to "
+                                                 + ", ".join(f"{w} ({k})" for w, k, _ in ROUTES.get(event, []))
+                                                 + ". No need to re-dispatch; check it lands."})
+                except Exception:  # noqa: BLE001
+                    pass
 
     async def ensure_note(self, pid: str, **fields) -> dict:
         """Create a hub-made note once (deterministic id, so a restart or the other laptop doesn't duplicate it)."""
@@ -821,7 +924,8 @@ class Agent:
         self.turn_note_refs: set = set()
         self.ov_last = 0.0
         self.ovchat: list = load_json(self.dir / "ovchat.json", []) if self.name.endswith("overview") else []
-        self.led_seen: set = set()          # ledger ids this agent was shown or wrote (for invalidation notices)
+        self.led_seen: set = set()
+        self.queue_nudged: set = set()          # ledger ids this agent was shown or wrote (for invalidation notices)
         self.led_digest: dict = {}
         self.digest_full = True          # first turn after (re)start: the whole team picture
         self.context_tokens = 0
@@ -956,7 +1060,10 @@ class Agent:
             await self.ov_log(msg["from"], msg["text"])
         self.record({"type": "msg_in", "from": msg["from"], "text": msg["text"], "id": msg["id"],
                      "kind": kind, "reply_to": msg.get("reply_to"), "from_kind": msg.get("from_kind")})
-        wake = kind not in ("fyi", "answer_to_answer") or msg.get("from") in ("s-pipeline", "s-skeptic", "hub") or bool(msg.get("note"))
+        if self.name.endswith("overseer"):   # the lead wakes for what needs a lead (each wake re-reads ~100k+ tokens)
+            wake = kind in OVERSEER_WAKES or msg.get("from_kind") == "human" or msg.get("priority") == "high"
+        else:
+            wake = kind != "fyi" or msg.get("priority") == "high"
         await self.add_item({"kind": "msg", "wake": wake, "urgent": msg.get("from_kind") == "human" and kind != "fyi", **msg})
         if self.state == "stopped" and not self.paused and kind != "fyi":
             await self.start()
@@ -1071,6 +1178,10 @@ class Agent:
         self.led_seen |= {x["id"] for x in shown}
         if rows:
             out.append("[ledger: changed since your last turn, most important first]\n" + "\n".join(rows))
+        if ov or self.name in ("s-data", "s-skeptic"):
+            dis = disagreements(led)
+            if dis:
+                out.append("[experts disagree: resolve (re-run, or the skeptic decides) before citing these]\n" + "\n".join(dis[:6]))
         rows = [(a.name, a.title, a.state, a.summary) for a in hub.agents.values() if a is not self]
         rows += [(n, v.get("title", n), v.get("state"), v.get("summary") or "") for n, v in hub.bus.directory.items()
                  if v.get("person") != hub.person and not v.get("service")]
@@ -1266,6 +1377,12 @@ class Agent:
                     asyncio.create_task(self.hub.narrate(self, buf, self.turn_notes, True, self.narr_mark, set(self.turn_note_refs)))
                 await self.maybe_compact()
                 await self.set_state("idle")
+                if not self.name.endswith(("overseer", "overview")) and not any(not i.get("taken") for i in self.items):
+                    fresh = [x for x in self.hub.queue_for(self.name) if x["id"] not in self.queue_nudged]
+                    if fresh:   # free now and there's work meant for you: pull it
+                        self.queue_nudged |= {x["id"] for x in fresh}
+                        await self.add_item({"kind": "hub", "wake": True, "text": f"You're free and {len(fresh)} queued "
+                                             f"task(s) are waiting for you (top: {fresh[0]['task'][:120]}): call queue_claim."})
                 if any(i.get("wake", True) for i in self.items if not i.get("taken")):
                     self.wake.set()
             except asyncio.CancelledError:
@@ -1656,12 +1773,15 @@ class Agent:
               "rules card is rejected) | method (how something is measured: table size, opponents, paired deals) | "
               "hypothesis (weak evidence; never present it as a finding) | commitment (who does what by when). "
               "depends_on: ledger ids it builds on (the card, a method). note: the board note it belongs to. file: where "
-              "the detail is. Returns the id; cite ids, not copies.",
+              "the detail is. question: a short key shared by every answer to the same question (e.g. 'one-change Round 2'); "
+              "lens: the angle (leaks, opponent:<team>, twist, sizing, engine, styles, aggregate); model: who produced it "
+              "(opus, sonnet, codex); proposer_of: for an aggregate, the ids it combines. Returns the id; cite ids.",
               schema(["type", "claim"], {"type": "string", "claim": "string", "effect": "number", "se": "number",
                                          "n": "integer", "unit": "string", "method": "string", "method_id": "string",
                                          "players": "integer", "stack": "number", "big_blind": "number",
                                          "hands_per_match": "integer", "bot": "string", "data": "string",
-                                         "tags": "array", "depends_on": "array", "file": "string", "note": "string"}))
+                                         "tags": "array", "depends_on": "array", "file": "string", "note": "string",
+                                         "question": "string", "lens": "string", "model": "string", "proposer_of": "array"}))
         async def record(a):
             if a.get("note"):
                 a["note"] = a["note"].lstrip("#")
@@ -1713,6 +1833,29 @@ class Agent:
             me.led_seen |= {x["id"] for x in xs[-30:]}
             return ok("\n".join(json.dumps(x)[:700] for x in reversed(xs[-30:])) or "Nothing.")
 
+        @tool("queue_post", "Post a task to the team's work queue instead of pushing it on a busy agent: idle experts "
+              "pull it. for: agent names or roles that can do it (e.g. ['s-data', 'tester']); empty = any worker. "
+              "priority: crit | opt.",
+              schema(["task"], {"task": "string", "for": "array", "priority": "string", "note": "string"}))
+        async def queue_post(a):
+            qid = await hub.queue_post(a["task"], a.get("for") or [], a.get("priority") or "opt", a.get("note"), me.name)
+            return ok(f"Queued {qid}.")
+
+        @tool("queue_claim", "Take the most important unclaimed queued task meant for you (atomic: nobody else gets it).",
+              schema([], {}))
+        async def queue_claim(a):
+            x = await hub.queue_claim(me.name)
+            if not x:
+                return ok("Nothing queued for you.")
+            if x.get("note"):
+                me.turn_note_refs.add(x["note"])
+            return ok(f"You claimed {x['id']} ({x['priority']}, from {x['by']}): {x['task']}\nWhen finished: queue_done(id, result).")
+
+        @tool("queue_done", "Mark a claimed queued task done, with a one-line result (the poster is told).",
+              schema(["id", "result"], {"id": "string", "result": "string"}))
+        async def queue_done(a):
+            return ok(await hub.queue_done(a["id"], a["result"], me.name))
+
         @tool("next_bot_name", "The next free release name (v1, v2, ...). Use it for every release.", schema([], {}))
         async def next_bot_name(a):
             ns = [int(m.group(1)) for b in hub.bots() if (m := re.fullmatch(r"v(\d+)", b["name"]))]
@@ -1728,6 +1871,9 @@ class Agent:
             if not re.fullmatch(r"v\d+", bot_name(a["file"])):
                 return ok("Bots are named v1, v2, ... (get one from next_bot_name); register 'releases/vN.zip'.")
             await hub.register_bot(a["file"], st, a.get("note") or "", me.name)
+            if st in ("testing", "ready") and me.name.startswith("d-"):
+                await hub.route("candidate", bot_name(a["file"]) + ":" + st, bot=a["file"], status=st, by=me.name,
+                                note=a.get("note") or "")
             return ok(f"{bot_name(a['file'])}: {st}.")
 
         @tool("update_proposal", "Update a note: note= a progress line or a result shown in its chat; summary= replaces the "
@@ -1769,7 +1915,8 @@ class Agent:
         return create_sdk_mcp_server("hub", tools=[send_message, list_agents, read_agent, set_status, notify_human,
                                                    start_agent, stop_agent, declare_live, set_schedule, propose,
                                                    update_proposal, list_proposals, codex_task, register_bot,
-                                                   record, verify, invalidate, set_rules, ledger, next_bot_name])
+                                                   record, verify, invalidate, set_rules, ledger, next_bot_name,
+                                                   queue_post, queue_claim, queue_done])
 
 
 # ======================================================================== playbook (START_HERE.md section 6)
@@ -1816,14 +1963,14 @@ DISPATCH = {
             ("samuel", "crit", "s-tester", "Rank A, B, C (paired tests + real practice scores) for the round-1 choice")],
     "b50": [("dylan", "crit", "d-platform", "Release the best real-field scorer as the live bot for scored round 1"),
             ("samuel", "crit", "s-data", "Which style did the field reward? One paragraph for the round-1 decision")],
-    "T13": [("samuel", "crit", "s-data", "As soon as DATA LANDED (not before; if it hasn't, wait for it), from the round card (s-pipeline writes it within a minute of the data): our leaks first (Part 2), one recommended change with size, z and n, recorded in the ledger"),
+    "T13": [("samuel", "crit", "s-data", "(The hub routes the round card straight to s-data, s-skeptic and s-tester when it lands: check they have it, don't re-send.) As soon as DATA LANDED (not before; if it hasn't, wait for it), from the round card (s-pipeline writes it within a minute of the data): our leaks first (Part 2), one recommended change with size, z and n, recorded in the ledger"),
             ("samuel", "crit", "s-skeptic", "Re-run the numbers behind every proposed result the T-8 decision may rest on (card headline, s-tester verdicts, s-data's change); verify each"),
             ("samuel", "crit", "s-tester", "Verdict on every pending candidate: correct? and paired test vs the live bot"),
             ("samuel", "opt", "s-data", "Opponent profiles and counters (Part 4)"),
             ("samuel", "opt", "s-tester", "Cloned field on Modal (Part 3b) for the challenger"),
             ("dylan", "crit", "d-builder", "Challenger packed and tested, ready for the T-12 upload"),
             ("dylan", "crit", "d-platform", "Fix bugs s-tester reported; build this window's one tested change on the live bot")],
-    "T20": [("samuel", "crit", "s-skeptic", "Verify the challenger's paired-test verdicts and methods now (they don't depend on the new round), so only the new round's card is left to check at T-13"),
+    "T20": [("samuel", "crit", "s-skeptic", "Verify the challenger's paired-test verdicts and methods now (they don't depend on the new round), and pre-arm analysis/verify_change.py + a Codex brief that recompute the card's headline numbers from a hand file, so at T-12 only the data path changes"),
             ("dylan", "crit", "d-overseer", "Draft the 'Which bot?' note for the next scored round now (default: the live bot); fill in the evidence as it lands")],
     "T12": [("dylan", "crit", "d-platform", "Release the challenger (releases/<name>.zip) so Dylan can upload it for the practice round")],
     "T8": [("samuel", "crit", "s-overseer", "Send d-overseer the recommendation now (live / live + one tested change / challenger) with evidence"),
@@ -1843,12 +1990,31 @@ CHECKPOINTS = [
 ]
 
 
+# The gate: which expert gets which event, decided by rules, not by a model (the split of work is known in
+# advance, so hand-written routing beats a learned router; RouteLLM-style routers fail out of distribution).
+# Each event goes to ONE owner (top-1) plus, for decision-critical items only, a verifier (top-2). The Overseer
+# is woken only for what needs a lead: disputes, invalidations, humans, deadlines and anything unrouted.
+ROUTES = {
+    "card_ready": [("s-data", "task", "Round card for {stage} is ready: {card}. Run the one-change proposal now (LENSES: 3 lens "
+                                      "subagents in one message + 1 Codex recompute of the top number), aggregate by T-9, "
+                                      "record with question='one-change {stage}'."),
+                   ("s-skeptic", "task", "Round card for {stage} is ready: {card}. Check the card's headline numbers against "
+                                         "the raw files (run your pre-armed verify script); verify the card's ledger items."),
+                   ("s-tester", "fyi", "Round card for {stage} is ready: {card}. Use its opponent table to recalibrate sparring "
+                                       "bots before the next paired test.")],
+    "candidate": [("s-tester", "task", "New candidate {bot} ({status}) from {by}: give it a verdict (correct? stronger? paired, "
+                                       "at the rules card's table size). {note}"),
+                  ("s-skeptic", "fyi", "New candidate {bot} from {by}; you'll verify s-tester's verdict on it.")],
+}
+OVERSEER_WAKES = ("task", "question")   # fyi/answers to an Overseer ride along with its next turn unless urgent
+
+
 # How wide each dispatched job should fan out (effort scaling: the lead sets the budget, the worker splits).
 FANOUT = {
     "d-platform": "fan out: one subagent per independent piece (engine adapter / hand ranking / packaging+checks); Sonnet for packaging and scripts",
     "d-builder": "fan out: one subagent per style or candidate, in parallel, each in its own folder; Modal (up to 20) for sparring each",
     "s-tester": "fan out: shard paired runs across Modal (up to 40 containers); one subagent per candidate for the 'correct?' review",
-    "s-data": "fan out: one subagent per question (our leaks / each top-5 opponent / the twist), Sonnet for counting; Codex for a second-opinion check",
+    "s-data": "one-change proposal: 3 lens subagents in ONE message (3-min cap) + 1 Codex recompute, aggregate by T-9; other work: one subagent per question, Sonnet for counting",
     "s-pipeline": "fan out: at most 2 Sonnet subagents (parser / card); keep the card script under 60 s",
     "s-skeptic": "fan out: 1-2 subagents plus one Codex re-implementation for numbers that matter; 2 minutes per item before T-8",
     "s-overseer": "", "d-overseer": "",
@@ -1975,6 +2141,11 @@ def situation(hub: "Hub") -> str:
             lines.append(f"IDLE NOW: {', '.join(idle)} (skip any whose brief says it's waiting on a background Modal/Codex job). Idle agents are wasted time: give each a slice of the critical path "
                          "(split the biggest job: one candidate, one analysis, one test shard each), or the next optional item "
                          "if you're on track. Message the other Overseer if the idle agent is theirs.")
+    q = [x for x in hub.queue() if not x.get("done")]
+    if q:
+        lines.append(f"Work queue: {sum(1 for x in q if not x.get('claimed_by'))} unclaimed "
+                     f"({sum(1 for x in q if not x.get('claimed_by') and x.get('priority') == 'crit')} critical), "
+                     f"{sum(1 for x in q if x.get('claimed_by'))} in progress.")
     live = hub.bus.shared.get("live")
     lines.append(f"Declared live bot: {live['filename']} ({hhmm(live['at'])})." if live else "Declared live bot: none yet.")
     p = hub.services.get("s-portal") or hub.bus.directory.get("s-portal")
@@ -2372,6 +2543,8 @@ class PortalWatcher:
         if quiet:
             return
         card = await self.run_card(folder, stage) if files else ""
+        if card.startswith("(exit 0)"):
+            await self.hub.route("card_ready", stage, stage=stage, card=f"analysis/{stage}/card.md (the hub ran it)", note_id=aid)
         pl = self.hub.agents.get("s-pipeline")
         if pl:   # standing order: numbers first, no Overseer hop (the decision window is only 5 minutes)
             await pl.add_item({"kind": "portal", "wake": True, "urgent": True, "note": aid, "text": (

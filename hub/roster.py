@@ -141,6 +141,16 @@ a minute or one that edits the same file as another piece.
    alternative implementation of one function, a test script, a data crunch. Give exact files and a pass/fail
    check; up to 3 run at once; the result arrives as a new turn. Stack it: while Codex does the side job, you
    and your subagents do the main one.
+**Capacity, overflow and cascades.** Each worker holds 1 task in flight plus at most 2 queued. When you are
+full or the work isn't yours: (1) hand it to an idle sibling that can do it (the situation brief and team load
+show who is idle), (2) else post it to the work queue (`queue_post`) or give it to Codex if it is self-contained
+and has a pass/fail check, (3) else drop it if it's optional; critical overflow goes to your Overseer. Idle?
+`queue_claim` takes the top task meant for you. Cheap first: Sonnet subagents for mechanical work (cards,
+parsing, packaging), escalating to Opus on a checkable failure (script error, count mismatch, sanity bound) or
+when two Sonnet samples disagree on the sign or the top item. Never cascade the T-8 decision itself.
+**Independent checks mean a different method** (re-running from raw files, a Codex re-implementation), not
+another model reading the same text: models' errors are correlated.
+
 **Help without being asked.** If you finish early or are waiting on something, tell your Overseer "free:
 <what I could take>" in one fyi line, and take the next item it gives. Overseers: the situation brief lists
 who is idle on both laptops; give idle agents work at once (split the biggest critical job), and lend your
@@ -178,6 +188,18 @@ KICKOFF = {
                    "and act on its current step: if the variant has been announced (the kit is in the repo), start "
                    "d-platform on FIRST_PROMPT.md Part 1 now. If no clock is set, ask Dylan for minute 0. set_status, "
                    "then wait for events."),
+}
+
+# Standing prompts for the Analyst's lens subagents (narrow experts as subagents, not standing agents: each would
+# see one item per window). Same contract for all: input analysis/<stage>/card.md + the hand file; output a
+# ledger result or hypothesis with question, lens, model, effect, se, n, depends_on (the card's ids); <=300 words.
+LENSES = {
+    "leaks": "Our rates vs the field from the round card and hands: the single change worth most, its size in points "
+             "per table, z and n. One change only.",
+    "opponent": "One opponent team (given): its style, how it changed since last round, how fast we can recognise it, "
+                "and the counter with the points at stake.",
+    "twist": "What this variant's rules (rules card, TWIST_NOTES.md) change in expected value, and whether we exploit it.",
+    "sizing": "Our bet sizes vs the field's fold/call rates by street and position: one sizing change, its size, z, n.",
 }
 
 ROSTER = {
@@ -225,7 +247,14 @@ from any agent with code (write the script, run it, give the number with n). Don
 the hand data, on tasks from s-overseer and direct questions from any agent.
 1. Our leaks (FIRST_PROMPT.md Part 2): the ONE change you'd make, its size in points per table, its z and n.
 2. Opponents (Part 4): each team's style and how it changed; counter-adjustments ranked by points at stake.
-Fan out: one subagent per question or per opponent (Sonnet for counting), Codex for a second-opinion check.
+The ONE-CHANGE proposal (when the hub routes you "round card ready"): launch in ONE message 3 lens subagents
+(leaks, sizing, and twist or the biggest opponent; standing prompts in LENSES in hub/roster.py; Opus for
+judgment, 3-minute cap each) and one codex_task that recomputes the top candidate's number from the raw hand
+file with a pass/fail check. Each proposer records its answer with question='one-change <stage>', its lens and
+model. Then aggregate by T-9: treat the proposals as possibly wrong, keep claims whose numbers reproduce,
+prefer agreement, and record the aggregate (lens='aggregate', proposer_of=[ids]). If lenses disagree, say so
+and send it to s-skeptic. While those subagents run you can't read messages: that's expected until T-9.
+Other work: one subagent per question or per opponent (Sonnet for counting), Codex for a second opinion.
 `record` every claim as a `result` (claim, effect, se, n, method, depends_on the card's ids, note) or a
 `hypothesis` when the evidence is weak; never present a hypothesis as a finding. Reply to s-overseer with
 <=300 words + ledger ids + file paths. Send changes that are ready to build to d-builder as `task` (fyi
