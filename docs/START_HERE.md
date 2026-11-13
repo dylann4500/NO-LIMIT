@@ -95,7 +95,10 @@ with a one-sentence, plain-English headline. The note's colour and label say wha
 | Teal | **Research** | work an agent is running |
 | Blue | **Your idea** | something you or your teammate posted |
 
-The board has three rows: **Needs your call** (big notes with Greenlight / Reject on them),
+At the top of the board, **Now** shows the stage, which bot the portal is running, decisions waiting for you,
+and what every agent on both laptops is doing at this moment. Each note shows its progress (e.g. Data ✓ ·
+Numbers ✓ · Angles 2/3 · Checked · Summary), its key number (e.g. 3rd of 3 · 27.75 pts/table), who is on it,
+and a green pulse while it is being updated. The board has three rows: **Needs your call** (big notes with Greenlight / Reject on them),
 **Being worked on** (with a **+ New idea** note to post your own) and **Recent**.
 To tidy up, hover a note and click the small **x** in its corner (or **Remove** inside it), or press **Clear finished** next
 to Recent. Removing a note that's still being worked on tells the agents to stop work on it; it's gone
@@ -108,20 +111,23 @@ folded activity log. Ask anything ("why?", "how sure are you?") or give an instr
 instead"): it goes to the Overseer, which hands it to the right agent and answers there. If it's your call,
 the Greenlight and Reject buttons are there too, and anything you type counts as "do this instead".
 
-**Overview** (button in the header) is your main conversation: a readable chat that knows everything your
+**Chat** (docked on the right of the board; the header button shows or hides it) is your main conversation, and
+together with the board it is all you need on the day. Tell it when the competition starts ("the competition
+starts now", or the announcement time) and any times you learn ("round 1 is at 14:25"): that sets the clock on
+both laptops and starts the Overseer with the whole game plan. It is a readable chat that knows everything your
 Overseer knows (the ledger, every agent's brief, the notes, the Overseer's recent work). Ask "what's going
 on?", "what should I be doing?", "why v5?"; tell it what to change and it passes that to the Overseer and
-reports back. Tabs switch between **your Overview and your teammate's**, so either of you can ask about, or
+reports back. Tabs switch between **your Chat and your teammate's**, so either of you can ask about, or
 steer, the other side. You don't prompt the Overseer directly: it coordinates the agents and keeps the
-context; the Overview is the window onto it.
+context; the Chat is the window onto it.
 
 **Header:** your name, a big countdown to the next step of the day (amber under 3 minutes, red under 1),
-**Overview**, **Live** (the bot the portal is running; the menu lists every bot, built or in progress, and
-downloads a bot's zip for you to upload), **Agents ▾** and the **bell**.
+**Live**, **Chat** (the bot the portal is running; the menu lists every bot, built or in progress, and
+downloads a bot's zip for you to upload), the **bell** and **⋯** (the agents' own pages, for emergencies only).
 
 - **Bell:** everything that needs you: notes waiting for your call, permission requests, and messages
   from your Overseer. New ones pop up briefly in the corner; the browser tab shows the count.
-- **Agents ▾** opens a side panel, hidden until you want it: Board, Overview (every agent at a glance),
+- **⋯** opens the agents' side panel, which you shouldn't need: Board, Overview (every agent at a glance),
   your agents, hub services and, behind its own **Show** button, your teammate's agents. Clicking an agent
   opens its page:
   - a **brief** pinned at the top (Now / Latest result / Next / Needs from you);
@@ -166,7 +172,7 @@ Samuel's things are marked indigo, Dylan's rose.
 
 ### How you steer
 
-- **Talk to your Overview** in plain language: "focus on the flop leak first", "why did you pick
+- **Talk to your Chat** in plain language: "focus on the flop leak first", "why did you pick
   style B?", "round 1 is in 5 minutes". It passes instructions (and times, which update the clock on both
   laptops) to the Overseer. Your instructions go to the top of every agent's context.
 - **Post ideas** on the board → + New idea. Your Overseer plans them, runs them and posts the result back

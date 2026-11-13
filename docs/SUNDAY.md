@@ -62,12 +62,12 @@ cd ~/NoLimit/NO-LIMIT
 
 ## Minute 0: the variant is announced
 
-1. **Samuel: press Start building** on the board the moment the variant is announced (or, if you're
-   late, type the announcement time next to it, or tell your Overview "the variant was announced at
+1. **Samuel: tell the Chat "the competition starts now"** (or press Start building) the moment the variant is announced (or, if you're
+   late, type the announcement time next to it, or tell your Chat "the variant was announced at
    14:02"). Both laptops' clocks start and both Overseers start the plan: they send each agent its
    instructions at the right minute, so you don't have to.
 2. **Both:** read the Format page on the portal: round weights, payouts, anything unusual. If the times
-   differ from the usual schedule, tell your Overview, e.g. "practice 1 is at 14:25".
+   differ from the usual schedule, tell your Chat, e.g. "practice 1 is at 14:25".
 3. **Dylan:** fetch the kit. Either run the setup skill with `/no-limit-2026-setup` in Claude Code with
    the API key, or download it from the portal. Put it in `~/avalon-finals/starter-kit/`, then tell your
    Overseer "the kit is in starter-kit/". The Overseer starts Platform on the first prompt and the twist
@@ -119,7 +119,7 @@ Between those, steer when you like: ask "why?", redirect, post ideas.
 | An agent shows **Error · retrying** | It retries by itself. If it stays red for over 5 minutes, open it and read the last error; tell your Overseer |
 | **Upload rejected** (bell) | The previous bot stays active. Tell your Overseer; Platform fixes it and gives you a new file |
 | **No active bot / wrong active bot** (urgent bell) | Make the right file active on the portal now |
-| The clock is wrong | Tell your Overview the right time ("scored round 3 is at 15:42"), or tell it when minute 0 was |
+| The clock is wrong | Tell your Chat the right time ("scored round 3 is at 15:42"), or tell it when minute 0 was |
 | A permission request you don't understand | Deny it. The agent finds another way |
 | The hub page won't load | Look at its Terminal window. It restarts itself after a crash; if the window is closed, start it again with the same command (agents resume) |
 | Codex jobs fail | Nothing to do; agents fall back to Claude helpers. The bell says if Codex needs a login |

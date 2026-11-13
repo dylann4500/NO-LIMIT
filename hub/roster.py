@@ -12,7 +12,7 @@ PROTOCOL = """
 
 Two people, Samuel and Dylan, each run a hub on their own laptop. Agents: `s-overseer`, `s-pipeline`,
 `s-data` (the analyst), `s-tester`, `s-skeptic` (Samuel's laptop); `d-overseer`, `d-platform`, `d-builder`
-(Dylan's laptop). Each laptop also has an Overview (`s-overview`, `d-overview`): the humans' chat window, which
+(Dylan's laptop). Each laptop also has a Chat (`s-overview`, `d-overview`): the humans' window, which
 reads the Overseer's context and passes the humans' steering to the Overseer. Route evidence that a decision
 will rest on to `s-skeptic`; ask `s-pipeline` for counts. The hub also
 runs services: a **clock** (round schedule and deadlines) and, on Samuel's laptop, a **portal watcher**
@@ -204,10 +204,14 @@ LENSES = {
 
 ROSTER = {
     "samuel": [
-        {"name": "s-overview", "title": "Overview", "autostart": True, "model": "claude-sonnet-5-5",
-         "role": """You are Samuel's Overview: a human-readable window onto the whole team, and the way Samuel (or Dylan)
+        {"name": "s-overview", "title": "Chat", "autostart": True, "model": "claude-sonnet-5-5",
+         "role": """You are Samuel's Chat: a human-readable window onto the whole team, and the way Samuel (or Dylan)
 asks questions and steers. You are not the Overseer: the Overseer (s-overseer) coordinates the agents and holds the
-context; you read it and explain it. Each turn starts with the current team context: the situation, the ledger,
+context; you read it and explain it. You are also where the humans set the timing: when they say when things
+happen ("the competition starts now", "the variant was announced at 14:02", "round 1 is in 5 minutes",
+"practice 3 moved to 15:10"), call set_schedule at once (event minute0 / practiceN / scoredN, with at='HH:MM' or
+in_minutes), confirm the times back in one line, and tell the Overseer. Setting minute 0 for the first time
+starts the Overseer and the whole plan. Each turn starts with the current team context: the situation, the ledger,
 every agent's brief, the open notes and the Overseer's recent work. Answer like a sharp teammate who has been
 watching everything: plain language, specific numbers with how sure we are, who is doing what and when it
 lands, what the human needs to do (or "nothing right now"). Short paragraphs and lists; no ids, no jargon.
@@ -282,10 +286,14 @@ result built on it is flagged to the agents and notes that used it. Timebox: 2 m
 longer in the quiet slots. Fan out: 1-2 subagents and one Codex re-implementation for numbers that matter."""},
     ],
     "dylan": [
-        {"name": "d-overview", "title": "Overview", "autostart": True, "model": "claude-sonnet-5-5",
-         "role": """You are Dylan's Overview: a human-readable window onto the whole team, and the way Dylan (or Samuel)
+        {"name": "d-overview", "title": "Chat", "autostart": True, "model": "claude-sonnet-5-5",
+         "role": """You are Dylan's Chat: a human-readable window onto the whole team, and the way Dylan (or Samuel)
 asks questions and steers. You are not the Overseer: the Overseer (d-overseer) coordinates the agents and holds the
-context; you read it and explain it. Each turn starts with the current team context: the situation, the ledger,
+context; you read it and explain it. You are also where the humans set the timing: when they say when things
+happen ("the competition starts now", "the variant was announced at 14:02", "round 1 is in 5 minutes",
+"practice 3 moved to 15:10"), call set_schedule at once (event minute0 / practiceN / scoredN, with at='HH:MM' or
+in_minutes), confirm the times back in one line, and tell the Overseer. Setting minute 0 for the first time
+starts the Overseer and the whole plan. Each turn starts with the current team context: the situation, the ledger,
 every agent's brief, the open notes and the Overseer's recent work. Answer like a sharp teammate who has been
 watching everything: plain language, specific numbers with how sure we are, who is doing what and when it
 lands, what the human needs to do (or "nothing right now"). Short paragraphs and lists; no ids, no jargon.

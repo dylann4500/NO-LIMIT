@@ -102,6 +102,25 @@ button:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-
 .hero input { font: inherit; width: 90px; padding: 6px 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg); }
 .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: .74rem; color: var(--muted); text-transform: none; letter-spacing: 0; font-weight: 500; }
 .legend span::before { content: ""; display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: 5px; background: var(--nb); vertical-align: -1px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
+.dock { width: min(430px, 40vw); flex: none; border-left: 1px solid var(--line); background: var(--panel); display: flex; flex-direction: column; min-height: 0; }
+.dock-hd { display: flex; gap: 6px; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.dock-hd .tbtn { display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; } .dock-hd .hint { flex: 1 1 120px; min-width: 0; } .dock-hd b { font: 500 1.1rem var(--serif); } .dock-hd .hint { margin-left: 4px; }
+.dock-body { flex: 1; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 12px; }
+.dock-body .a { font: .98rem/1.6 var(--serif); } .dock-body .cv-me { max-width: 92%; }
+.dock-ft { border-top: 1px solid var(--line); padding: 8px 10px 10px; display: flex; flex-direction: column; gap: 6px; } .dock-ft .box { max-width: none; margin: 0; }
+.dock-ft textarea { width: 100%; border: 0; resize: none; background: none; color: var(--fg); font: 15px/1.5 var(--sans); min-height: 26px; max-height: 180px; outline: none; }
+@media (max-width: 900px) { .dock { position: fixed; inset: 56px 0 0 0; width: auto; z-index: 22; } }
+.now { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
+.now-top { display: flex; gap: 18px; flex-wrap: wrap; align-items: baseline; } .now-stage { font: 500 1.3rem var(--serif); } .now-kv { font-size: .86rem; color: var(--muted); } .now-kv b { color: var(--fg); font-weight: 600; }
+.now-kv .warn { color: var(--warn); font-weight: 700; } .now-kv .bad { color: var(--bad); font-weight: 700; }
+.team { display: flex; gap: 6px; flex-wrap: wrap; } .tchip { display: inline-flex; gap: 6px; align-items: center; border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px 2px 8px; font-size: .76rem; max-width: 330px; background: var(--bg); }
+.tchip .dot { margin: 0; width: 7px; height: 7px; } .tchip b { font-weight: 600; } .tchip span.t { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.steps2 { display: flex; gap: 4px; flex-wrap: wrap; } .st2 { font-size: .66rem; font-weight: 600; border-radius: 999px; padding: 1px 7px; background: rgba(0,0,0,.06); color: var(--muted); }
+.st2.ok { background: var(--ok); color: #fff; } .st2.now { background: var(--warn); color: #1f1e1c; animation: pulse 1.6s infinite; }
+@media (prefers-color-scheme: dark) { .st2 { background: rgba(255,255,255,.08); } }
+.knum { font: 600 1.05rem var(--sans); font-variant-numeric: tabular-nums; } .knum small { font-weight: 500; color: var(--muted); font-size: .76rem; }
+.onit { display: flex; gap: 4px; flex-wrap: wrap; font-size: .7rem; color: var(--muted); align-items: center; } .onit .dot { margin: 0; width: 6px; height: 6px; }
+.livepulse { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--ok); animation: pulse 1.2s infinite; margin-right: 4px; vertical-align: 1px; }
 .cv-back { position: fixed; inset: 0; background: rgba(20,18,15,.38); z-index: 26; }
 .cv { position: fixed; inset: 2.5vh 3vw; z-index: 27; background: var(--panel); border-radius: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.35); display: flex; flex-direction: column; overflow: hidden; }
 .cv-hd { background: var(--nb); padding: 14px 22px 12px; display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; }
@@ -232,7 +251,7 @@ const headOf = (p) => p.headline || p.title;
 async function load() {
   S.st = await api("/api/state");
   if (S.st.error) { $("#root").innerHTML = `<div class="pick"><div class="empty">${esc(S.st.error)}</div></div>`; return; }
-  try { S.view = localStorage.getItem("hub-view"); } catch (e) {}
+  try { S.view = localStorage.getItem("hub-view"); S.ov = localStorage.getItem("hub-chat") !== "0"; } catch (e) { S.ov = true; }
   const h = location.hash.slice(1); if (S.st.people[h]) S.view = h;
   if (!S.view || !S.st.people[S.view]) return renderPicker();
   render(); S.st.agents.forEach((a) => loadEvents(a.name)); stream();
@@ -275,6 +294,54 @@ function stampOf(p) {
   if (k === "build") return st === "done" ? "built" : "building";
   return STAMP[st] || st;
 }
+const ORD = (n) => n + (["th", "st", "nd", "rd"][(n % 100 - 20) % 10] || ["th", "st", "nd", "rd"][n % 100] || "th");
+function allAgents() {
+  const loc = S.st.agents.map((a) => ({ ...a, person: S.st.me }));
+  const rem = (S.st.remote || []).filter((a) => !a.service).map((a) => ({ ...a, person: a.person || personOf(a.name) }));
+  return loc.concat(rem).filter((a) => !/overview$/.test(a.name));
+}
+function nowHtml() {
+  const sch = S.st.schedule; if (!sch) return "";
+  const act = (S.st.portal_active || {}).filename, live = S.st.live, calls = needCall().length;
+  const pend = live && act && bname(live.filename) !== bname(act);
+  const team = allAgents().sort((a, b) => (b.state === "working") - (a.state === "working") || a.name.localeCompare(b.name));
+  return `<div class="now"><div class="now-top"><span class="now-stage">${esc(S.st.stage || "")}</span>
+      <span class="now-kv">Portal running <b>${esc(act ? bname(act) : "nothing")}</b>${pend ? ` · <span class="warn">${esc(bname(live.filename))} chosen, upload pending</span>` : ""}</span>
+      <span class="now-kv">${calls ? `<span class="bad">${calls} waiting for your call</span>` : "No decisions waiting"}</span>
+      <span class="now-kv">${team.filter((a) => a.state === "working").length} of ${team.length} agents working</span></div>
+    <div class="team">${team.map((a) => { const [l, c] = label(a); return `<span class="tchip" title="${esc(l)}: ${esc(a.task || "")}"><span class="dot ${esc(c)}"></span>${pdot(a.name)}<b>${esc(clean(a.title || a.name))}</b><span class="t">${esc(a.state === "working" ? (a.task || "working") : l)}</span></span>`; }).join("")}</div></div>`;
+}
+function noteSteps(p) {
+  const k = kindOf(p), th = p.thread || [], led = (S.st.noteled || {})[p.id] || [];
+  const has = (re) => th.some((t) => re.test(String(t.text || "")));
+  if (k === "analysis") {
+    const lenses = led.filter((x) => x.lens && x.lens !== "aggregate").length, checked = led.some((x) => ["validated", "disputed"].includes(x.status));
+    const steps = [["Data", has(/Hand data downloaded/i)], ["Numbers", led.some((x) => x.by === "s-pipeline") || has(/round card|card\.md/i)],
+      [`Angles ${lenses}/3`, lenses >= 3], ["Checked", checked], ["Summary", !!p.body]];
+    const first = steps.findIndex((x) => !x[1]);
+    return steps.map(([t, d], i) => `<span class="st2 ${d ? "ok" : i === first && p.status !== "done" ? "now" : ""}">${d ? "✓ " : ""}${esc(t)}</span>`).join("");
+  }
+  if (k === "live") return `<span class="st2 ${p.status === "done" ? "ok" : "now"}">${p.status === "done" ? "✓ Finished" : "Playing"}</span>`;
+  if (k === "bot") return [["Built", true], ["Your call", p.status !== "needs_call"], ["Uploaded", p.status === "approved" && bname((S.st.portal_active || {}).filename) === bname(p.bot)]]
+    .map(([t, d], i, arr) => `<span class="st2 ${d ? "ok" : arr.findIndex((x) => !x[1]) === i ? "now" : ""}">${d ? "✓ " : ""}${esc(t)}</span>`).join("");
+  if (k === "build") return `<span class="st2 ${p.status === "done" ? "ok" : "now"}">${p.status === "done" ? "✓ Built" : "Building"}</span>`;
+  return "";
+}
+function noteNum(p) {
+  const k = kindOf(p), th = p.thread || [];
+  const m = th.map((t) => String(t.text || "").match(/we were (\d+) of (\d+) with ([\d.]+) \(±([\d.]+)\)/)).filter(Boolean).pop();
+  if ((k === "live" || k === "analysis") && m) return `<div class="knum">${ORD(+m[1])} of ${m[2]} <small>· ${m[3]} ± ${m[4]} pts/table</small></div>`;
+  if (k === "bot" && p.bot) return `<div class="knum">${esc(bname(p.bot))}?${p.deadline && p.status === "needs_call" ? ` <small>· decide in <span data-dl="${p.deadline}">${mmss(p.deadline - Date.now() / 1000)}</span></small>` : ""}</div>`;
+  return "";
+}
+function noteOnIt(p) {
+  const people = Object.values(S.st.people), seen = new Set(), names = [];
+  [...(p.thread || [])].reverse().forEach((t) => { const w = t.who; if (!w || people.includes(w) || ["Portal", "Clock", "Hub"].includes(w) || seen.has(w)) return; seen.add(w); names.push(w); });
+  const ags = allAgents(); const owner = ags.find((a) => a.name === p.owner);
+  const list = names.slice(0, 4).map((w) => ags.find((a) => clean(a.title) === w && (!owner || a.person === owner.person)) || ags.find((a) => clean(a.title) === w) || { title: w, state: "idle" });
+  if (!list.length) return "";
+  return `<div class="onit">${list.map((a) => { const [, c] = label(a); return `<span class="dot ${esc(c)}"></span>${esc(clean(a.title || a.name))}`; }).join(" · ")}</div>`;
+}
 function noteHtml(p, big) {
   const call = p.status === "needs_call" && myCall(p), left = p.deadline ? p.deadline - Date.now() / 1000 : null;
   const stampCls = call ? "call" : p.status === "approved" ? "ok" : ["rejected", "expired"].includes(p.status) ? "no" : "";
@@ -283,15 +350,18 @@ function noteHtml(p, big) {
   return `<button class="note k-${esc(kindOf(p))} ${big ? "big" : ""} ${dim ? "dim" : ""}" style="--rot:${rot(p.id)}deg" data-open="${esc(p.id)}">
     <span class="rm" data-rm="${esc(p.id)}" role="button" title="Remove from the board" aria-label="Remove">✕</span>
     <div class="lab"><span>${esc(NOTE[kindOf(p)] || p.kind)}</span><span class="stamp ${stampCls}">${esc(call ? "your call" : stampOf(p))}</span></div>
-    <div class="head">${esc(p.title && ["build", "live", "analysis"].includes(kindOf(p)) ? p.title : headOf(p))}</div>
+    <div class="head">${Date.now() / 1000 - (p.updated || 0) < 90 && p.status !== "done" ? `<span class="livepulse" title="Updated in the last 90 s"></span>` : ""}${esc(p.title && ["build", "live", "analysis"].includes(kindOf(p)) ? p.title : headOf(p))}</div>
+    ${noteNum(p)}
+    ${noteSteps(p) ? `<div class="steps2">${noteSteps(p)}</div>` : ""}
     ${["build", "live", "analysis"].includes(kindOf(p)) && gist(p) ? `<div class="gist">${esc(gist(p))}</div>` : ""}
+    ${noteOnIt(p)}
     <div class="sub">${pdot(p.author)} ${esc(titleOf(p.author))} · ${ago(p.updated || p.created)}${nchat ? ` · ${nchat} in chat` : ""}${left !== null && call ? ` · <span class="dl" data-dl="${p.deadline}">${mmss(left)}</span>` : ""}${p.status === "needs_call" && !myCall(p) ? ` · ${esc(S.st.people[p.decider] || "")}'s call` : ""}</div>
     ${call ? `<div class="acts"><button class="go" data-pa="approve" data-pid="${esc(p.id)}">${p.bot ? "Use it" : "Greenlight"}</button><button class="no" data-pa="reject" data-pid="${esc(p.id)}">${p.bot ? "Not now" : "Reject"}</button></div>` : ""}
   </button>`;
 }
 function boardHtml() {
   const ps = props(), sch = S.st.schedule, cur = S.st.stage;
-  const hero = sch ? "" : `<div class="hero"><div style="flex:1;min-width:260px"><h1>Ready when you are</h1><p>Press <b>Start building</b> the moment the variant is announced. The clock starts on both laptops and the Overseers start the plan. Notes appear here as each part of the day happens. If the announcement was a while ago, type its time instead.</p></div><button class="bigbtn" id="startBtn">Start building</button><div><input id="schin" placeholder="HH:MM"> <button class="mini" id="schgo">Set time</button></div></div>`;
+  const hero = sch ? "" : `<div class="hero"><div style="flex:1;min-width:260px"><h1>Ready when you are</h1><p>When the competition starts, tell the <b>Chat</b> on the right (“the competition starts now”, or the announcement time). That sets the clock on both laptops and starts the Overseer with the whole game plan. Notes appear here as each part of the day happens. The button does the same thing.</p></div><button class="bigbtn" id="startBtn">Start building</button><div><input id="schin" placeholder="HH:MM"> <button class="mini" id="schgo">Set time</button></div></div>`;
   const call = ps.filter((p) => p.status === "needs_call" && myCall(p)).sort((a, b) => (a.deadline || 9e12) - (b.deadline || 9e12));
   const newNote = `<div class="note newnote" style="--rot:0deg">${S.ideaOpen ? `<textarea id="ideaBody" placeholder="An idea to try, or a question for the agents…"></textarea><div class="row"><span class="hint" id="ideaHint" style="flex:1"></span><button class="mini" id="ideaX">Cancel</button><button class="mini go" id="ideaGo">Post</button></div>` : `<button class="big" id="ideaOpen" style="border:0;background:none;color:inherit;height:100%;width:100%">＋ New idea<br><span style="font-weight:400;font-size:.8rem">Ask a question or suggest something to try</span></button>`}</div>`;
   const stages = {}; ps.forEach((p) => { const st = p.stage || "Earlier"; (stages[st] = stages[st] || []).push(p); });
@@ -301,7 +371,7 @@ function boardHtml() {
   const rows = order.map((st) => { const xs = stages[st].slice().sort((a, b) => (b.status === "needs_call") - (a.status === "needs_call") || (rank[kindOf(a)] ?? 5) - (rank[kindOf(b)] ?? 5) || (a.created || 0) - (b.created || 0));
     const isNow = st === cur || (!sch && st === order[0]);
     return `<div class="stage ${isNow ? "" : "past"}"><h2>${esc(st)} ${isNow && sch ? `<span class="now">NOW</span>` : ""}</h2><div class="wall">${isNow ? newNote : ""}${xs.map((p) => noteHtml(p, isNow)).join("")}</div></div>`; }).join("");
-  return `<div class="board">${hero}
+  return `<div class="board">${hero}${nowHtml()}
     ${call.length ? `<div><h2>Needs your call <span class="c">${call.length}</span></h2><div class="wall">${call.map((p) => noteHtml(p, true)).join("")}</div></div>` : ""}
     ${rows || `<div class="stage"><div class="wall">${newNote}</div></div>`}
     <div class="legend" style="justify-content:flex-end">${Object.entries(NOTE).map(([k, v]) => `<span class="k-${k}">${v}</span>`).join("")}${ps.some((p) => ["done", "rejected", "expired"].includes(p.status)) ? `<button class="tbtn" id="clearDone">Clear finished</button>` : ""}</div>
@@ -359,19 +429,17 @@ function overviewChatHtml() {
   const who = S.ovWho || S.st.me, name = ovName(who), items = (S.st.overviews || {})[name] || [];
   const ag = agentByName(name), busy = ag && ["working", "starting"].includes(ag.state);
   const people = Object.values(S.st.people);
-  const tabs = Object.entries(S.st.people).map(([k, v]) => `<button class="tbtn ${k === who ? "on" : ""}" data-ovwho="${esc(k)}"><span class="pdot ${esc(k)}"></span> ${esc(v)}'s Overview</button>`).join("");
-  const chips = ["What's going on right now?", "What should I be doing?", "What changed in the last 10 minutes?", "Explain the next decision and what it rests on"];
-  return `<div class="cv-back" id="ovBack"></div><div class="cv k-idea" role="dialog" aria-label="Overview">
-    <div class="cv-hd"><div class="cv-lab">Overview · a readable window onto ${esc(S.st.people[who])}'s whole side</div><div class="cv-title" style="display:flex;gap:8px;flex-wrap:wrap">${tabs}</div>
-      <div class="cv-tools"><button class="tbtn" id="ovX" aria-label="Close">✕</button></div></div>
-    <div class="cv-body" id="ovBody"><div class="cv-col">
-      ${items.length ? items.map((t) => people.includes(t.who) ? `<div class="cv-me"><span class="by">${esc(t.who)} · ${hhmm(t.at)}</span>${esc(t.text)}</div>` : `<div class="cv-ag"><div class="by">Overview · ${hhmm(t.at)}</div><div class="a md">${md(t.text)}</div></div>`).join("")
-        : `<div class="note2" style="margin-top:30px">Ask anything about ${esc(S.st.people[who])}'s side: what's happening, why, what's next, what you need to do. To change something, just say it; the Overview passes it to the Overseer and reports back.</div>`}
-      ${busy ? `<div class="note2">Overview is reading the team's context…</div>` : ""}
-    </div></div>
-    <div class="cv-ft"><div class="cv-col"><div class="chips">${chips.map((c) => `<button data-ovchip="${esc(c)}">${esc(c)}</button>`).join("")}</div>
-      <form id="ovForm" class="box"><textarea id="ovTa" rows="1" placeholder="Ask ${esc(S.st.people[who])}'s Overview, or steer…"></textarea><div class="row"><span class="hint" id="ovHint">Enter to send</span><button class="send" id="ovSend" aria-label="Send">↑</button></div></form>
-    </div></div></div>`;
+  const tabs = Object.entries(S.st.people).map(([k, v]) => `<button class="tbtn ${k === who ? "on" : ""}" data-ovwho="${esc(k)}"><span class="pdot ${esc(k)}"></span> ${esc(v)}</button>`).join("");
+  const chips = S.st.schedule ? ["What's going on right now?", "What should I be doing?", "What changed in the last 10 minutes?", "Explain the next decision"]
+    : ["The competition starts now", "The variant was announced at …", "Round 1 is at …"];
+  return `<aside class="dock" aria-label="Chat"><div class="dock-hd"><b>Chat</b><span class="hint">knows everything the Overseer knows</span>${tabs}<button class="tbtn" id="ovX" title="Hide the chat">✕</button></div>
+    <div class="dock-body" id="ovBody">
+      ${items.length ? items.map((t) => people.includes(t.who) ? `<div class="cv-me"><span class="by">${esc(t.who)} · ${hhmm(t.at)}</span>${esc(t.text)}</div>` : `<div class="cv-ag"><div class="by">Chat · ${hhmm(t.at)}</div><div class="a md">${md(t.text)}</div></div>`).join("")
+        : `<div class="note2" style="margin-top:24px;text-align:left">${S.st.schedule ? `Ask anything about ${esc(S.st.people[who])}'s side, or tell it what to change: it passes instructions to the Overseer and reports back.` : `<b>Start here.</b> When the competition starts, tell the Chat (“the competition starts now”, or the announcement time). That sets the clock on both laptops and starts the Overseer with the whole game plan. Tell it any other times as you learn them (“round 1 is at 14:25”).`}</div>`}
+      ${busy ? `<div class="note2">Chat is reading the team's context…</div>` : ""}
+    </div>
+    <div class="dock-ft"><div class="chips">${chips.map((c) => `<button data-ovchip="${esc(c)}">${esc(c)}</button>`).join("")}</div>
+      <form id="ovForm" class="box"><textarea id="ovTa" rows="1" placeholder="Message ${esc(S.st.people[who])}'s Chat…"></textarea><div class="row"><span class="hint" id="ovHint">Enter to send</span><button class="send" id="ovSend" aria-label="Send">↑</button></div></form></div></aside>`;
 }
 function sideHtml() {
   if (!S.side) return "";
@@ -431,9 +499,9 @@ function render() {
   const linkDown = !S.st.bus.online || S.st.bus.oldest > 60;
   const main = S.page === "agent" ? agentHtml(a) : S.page === "overview" ? overviewHtml() : boardHtml();
   const comp = S.page === "agent" && a && !svc(a.name) ? `<div class="comp"><div class="quick">${QUICK.map(([t], i) => `<button data-q="${i}">${esc(t)}</button>`).join("")}</div><form class="box" id="form"><textarea id="ta" rows="1" placeholder="Ask or steer ${esc(titleOf(a.name))}…"></textarea><div class="row"><span class="hint ${S.hintBad ? "bad" : ""}" id="hint">${esc(S.hint || (a.queued ? a.queued + " waiting for its next turn · " : "") + "Enter to send")}</span><button class="send" id="sendb">↑</button></div></form></div>` : "";
-  $("#root").innerHTML = `<div class="shell"><div class="hdr"><span class="brand">Avalon <button class="who" id="who"><span class="pdot ${esc(S.view)}"></span>${esc(S.st.people[S.view])}</button></span>${clockHtml()}<button class="hbtn ${S.ov ? "on" : ""}" id="ovT" style="font-weight:600;color:var(--fg)">Overview</button>${liveChip()}<button class="hbtn ${S.side ? "on" : ""}" id="sideT">Agents ▾</button>${bellHtml()}</div>
+  $("#root").innerHTML = `<div class="shell"><div class="hdr"><span class="brand">Avalon <button class="who" id="who"><span class="pdot ${esc(S.view)}"></span>${esc(S.st.people[S.view])}</button></span>${clockHtml()}${liveChip()}<button class="hbtn ${S.ov ? "on" : ""}" id="ovT" style="font-weight:600;color:var(--fg)">Chat</button>${bellHtml()}<button class="hbtn ${S.side ? "on" : ""}" id="sideT" title="Agents (advanced)" aria-label="Agents">⋯</button></div>
     ${linkDown ? `<div class="linkbar">Not linked to ${esc(S.st.people[otherPerson()])}'s laptop${S.st.bus.outbox ? ` · ${S.st.bus.outbox} message(s) waiting` : ""}. Agents keep working; talk to each other directly.</div>` : ""}
-    ${liveMenu()}${overviewChatHtml()}<div class="body">${sideHtml()}<div style="flex:1;display:flex;flex-direction:column;min-width:0;min-height:0"><div class="scroll" id="scroll">${main}</div>${comp}</div>${S.page === "board" ? drawerHtml() : ""}</div></div>${panelHtml()}`;
+    ${liveMenu()}<div class="body">${sideHtml()}<div style="flex:1;display:flex;flex-direction:column;min-width:0;min-height:0"><div class="scroll" id="scroll">${main}</div>${comp}</div>${overviewChatHtml()}${S.page === "board" ? drawerHtml() : ""}</div></div>${panelHtml()}`;
   document.querySelectorAll("details[data-k]").forEach((d) => { if (openD.has(d.dataset.k)) d.open = true; });
   Object.entries(keep).forEach(([id, k]) => { const el = document.getElementById(id); if (el) { el.value = k.v; autosize(el); if (k.f) { el.focus(); try { el.setSelectionRange(k.s[0], k.s[1]); } catch (e) {} } } });
   const s2 = $("#scroll"); s2.scrollTop = changedView ? (S.page === "agent" ? s2.scrollHeight : (S.page === "board" ? prevTop : 0)) : (S.page === "agent" && atEnd ? s2.scrollHeight : prevTop);
@@ -492,12 +560,11 @@ function wire(a) {
     const url = URL.createObjectURL(await r.blob()); const a = document.createElement("a"); a.href = url; a.download = n + ".zip"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
     if (h) h.textContent = `Downloaded ${n}.zip. Upload it on the No Limit dashboard and make it active.`; });
   document.querySelectorAll("[data-chip]").forEach((b) => b.onclick = () => { const t = $("#cardTa"); if (!t) return; t.value = b.dataset.chip; $("#cardForm").requestSubmit(); });
-  $("#ovT")?.addEventListener("click", () => { S.ov = !S.ov; S.card = null; render(); setTimeout(() => $("#ovTa")?.focus(), 30); });
-  $("#ovX")?.addEventListener("click", () => { S.ov = false; render(); });
-  $("#ovBack")?.addEventListener("click", () => { S.ov = false; render(); });
+  $("#ovT")?.addEventListener("click", () => { S.ov = !S.ov; try { localStorage.setItem("hub-chat", S.ov ? "1" : "0"); } catch (e) {} render(); setTimeout(() => $("#ovTa")?.focus(), 30); });
+  $("#ovX")?.addEventListener("click", () => { S.ov = false; try { localStorage.setItem("hub-chat", "0"); } catch (e) {} render(); });
   document.querySelectorAll("[data-ovwho]").forEach((b) => b.onclick = () => { S.ovWho = b.dataset.ovwho; render(); });
   const ovta = $("#ovTa"); if (ovta) { ovta.addEventListener("input", () => autosize(ovta)); ovta.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); $("#ovForm").requestSubmit(); } });
-    document.querySelectorAll("[data-ovchip]").forEach((b) => b.onclick = () => { ovta.value = b.dataset.ovchip; $("#ovForm").requestSubmit(); });
+    document.querySelectorAll("[data-ovchip]").forEach((b) => b.onclick = () => { const c = b.dataset.ovchip; if (c.endsWith("…")) { ovta.value = c.slice(0, -1); ovta.focus(); autosize(ovta); } else { ovta.value = c; $("#ovForm").requestSubmit(); } });
     $("#ovForm").addEventListener("submit", async (e) => { e.preventDefault(); const t = ovta.value.trim(); if (!t) return; ovta.value = ""; autosize(ovta);
       const name = ovName(S.ovWho || S.st.me); const ov = (S.st.overviews[name] = S.st.overviews[name] || []); ov.push({ who: S.st.people[S.st.me], at: Date.now() / 1000, text: t }); render();
       const r = await api(`/api/agents/${encodeURIComponent(name)}/send`, { text: t }); if (r.error) { const h = $("#ovHint"); if (h) { h.textContent = "Not sent: " + r.error; h.className = "hint bad"; } } }); }
@@ -545,7 +612,7 @@ function stream() {
     if (ev.kind === "event") { const arr = S.ev[ev.agent] = S.ev[ev.agent] || []; if (!arr.some((e) => e.i === ev.event.i)) { arr.push(ev.event); if (ev.event.i > (S.last[ev.agent] ?? -1)) S.last[ev.agent] = ev.event.i; }
       if (!(S.page === "agent" && S.sel === ev.agent) && ((ev.event.type === "text" && !ev.event.sub) || ev.event.type === "msg_in")) S.unread[ev.agent] = (S.unread[ev.agent] || 0) + 1;
       if (S.page === "agent" || S.side) soon(); }
-    else if (ev.kind === "agent") { const i = S.st.agents.findIndex((a) => a.name === ev.name); if (i >= 0) S.st.agents[i] = { ...S.st.agents[i], ...ev }; if (S.side || S.page !== "board") soon(); }
+    else if (ev.kind === "agent") { const i = S.st.agents.findIndex((a) => a.name === ev.name); if (i >= 0) S.st.agents[i] = { ...S.st.agents[i], ...ev }; soon(); }
     else if (ev.kind === "service") { const i = S.st.services.findIndex((s) => s.name === ev.name); if (i >= 0) S.st.services[i] = ev; else S.st.services.push(ev); if (S.side || S.page !== "board") soon(); }
     else if (ev.kind === "approval") { S.st.approvals.push(ev); toast({ type: "ap", ...ev }); soon(); }
     else if (ev.kind === "approval_done") { S.st.approvals = S.st.approvals.filter((a) => a.id !== ev.id); soon(); }
@@ -563,7 +630,7 @@ function stream() {
   document.addEventListener("focusout", () => { if (S.pending) setTimeout(soon, 0); });
   document.addEventListener("click", (e) => { if (S.liveOpen && !e.target.closest("#liveMenu") && !e.target.closest("#liveT")) { S.liveOpen = false; soon(); }
     if (S.bell && !e.target.closest("#panel") && !e.target.closest("#bell") && !e.target.closest(".toasts")) { S.bell = false; soon(); } });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") { if (S.ov) S.ov = false; else if (S.liveOpen) S.liveOpen = false; else if (S.bell) S.bell = false; else if (S.card) S.card = null; else if (S.side) S.side = false; soon(); } });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") { if (S.liveOpen) S.liveOpen = false; else if (S.bell) S.bell = false; else if (S.card) S.card = null; else if (S.side) S.side = false; soon(); } });
 }
 load();
 </script>

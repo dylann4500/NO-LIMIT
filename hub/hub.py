@@ -306,6 +306,22 @@ class Hub:
         out = [v for k, v in self.bus.shared.items() if k.startswith("led:") and isinstance(v, dict)]
         return sorted(out, key=lambda x: x.get("at", 0))
 
+    def note_ledger(self) -> dict:
+        """Per note: the ledger items that belong to it (by note id, or a question naming its stage), compact."""
+        out: dict[str, list] = {}
+        notes = {p["id"]: p for p in self.props() if p.get("status") != "removed"}
+        stage_note = {p.get("stage"): pid for pid, p in notes.items() if p.get("kind") == "analysis"}
+        for x in self.ledger():
+            if x.get("type") == "human":
+                continue
+            nid = x.get("note") if x.get("note") in notes else None
+            if not nid and x.get("question"):
+                nid = next((v for k, v in stage_note.items() if k and k in x["question"]), None)
+            if nid:
+                out.setdefault(nid, []).append({k: x.get(k) for k in ("id", "type", "status", "lens", "by", "effect", "se", "n")}
+                                                | {"claim": str(x.get("claim", ""))[:140]})
+        return out
+
     def rules(self) -> dict:
         return self.bus.shared.get("rules") or {}
 
@@ -861,6 +877,7 @@ class Hub:
                 "bots": self.bots()[:40], "portal_active": self.bus.shared.get("portal_active"),
                 "overviews": {k[7:]: v.get("items", []) for k, v in self.bus.shared.items()
                               if k.startswith("ovchat:") and isinstance(v, dict)},
+                "noteled": self.note_ledger(),
                 "stage": stage_of(self.bus.shared.get("schedule"), time.time()),
                 "next_step": self.clock.next_step(),
                 "bus": {"online": self.bus.online, "error": self.bus.error, "outbox": len(self.bus.outbox),
@@ -1682,11 +1699,21 @@ class Agent:
               "laptops update. Never change it on your own initiative.",
               schema(["event"], {"event": "string", "at": "string", "in_minutes": "number", "scored_rounds": "integer"}))
         async def set_schedule(a):
-            if not me.name.endswith("overseer"):
-                return ok("Only Overseers set the clock.")
+            if not me.name.endswith(("overseer", "overview")):
+                return ok("Only the Chat and the Overseers set the clock.")
             if hub.bus.shared.get("schedule") and not me.human_in_turn:
                 return ok("The clock is set. Only change it when a human tells you a time in this turn; otherwise tell "
                           "your human with notify_human.")
+            if me.name.endswith("overview") and not hub.bus.shared.get("schedule"):
+                ov = hub.agents.get(me.name.replace("overview", "overseer"))
+                if ov:
+                    await ov.add_item({"kind": "hub", "wake": True, "urgent": True, "text": (
+                        f"{PEOPLE[hub.person]} told the Chat the competition timing ({a.get('event')}"
+                        + (f" at {a['at']}" if a.get("at") else f" in {a.get('in_minutes')} min" if a.get("in_minutes") is not None else "")
+                        + "). The clock is now set on both laptops. Start the plan: read the game plan (START_HERE.md, "
+                        "FIRST_PROMPT.md, TWIST_NOTES.md) and follow the clock's dispatches.")})
+                    if ov.state == "stopped":
+                        await ov.start()
             ev = (a.get("event") or "minute0").lower().replace(" ", "").replace("round", "")
             sch = hub.bus.shared.get("schedule") or {}
             scale = sch.get("scale", hub.default_scale)
