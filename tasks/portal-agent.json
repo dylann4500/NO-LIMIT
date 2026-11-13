@@ -1,0 +1,28 @@
+{
+  "agent": "Samuels-MacBook-Pro-4",
+  "assignee": "",
+  "claimed_at": "2026-11-13T04:25:55Z",
+  "cmd": "",
+  "compute": "",
+  "details": "",
+  "expires_at": "2026-11-13T08:25:55Z",
+  "id": "portal-agent",
+  "log": [
+    {
+      "at": "2026-11-13T04:25:55Z",
+      "by": "samuel",
+      "text": "claimed"
+    }
+  ],
+  "owner": "samuel",
+  "paths": [
+    "docs/PORTAL_AGENT.md"
+  ],
+  "posted_at": "",
+  "posted_by": "",
+  "priority": 0,
+  "result": "",
+  "state": "active",
+  "title": "Portal agent prompt + real-portal API notes; mock portal in emu/portal_server.py",
+  "updated_at": "2026-11-13T04:25:55Z"
+}
