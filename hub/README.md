@@ -50,16 +50,16 @@ Then open **http://127.0.0.1:7777** and choose your name.
 Options: `--port`, `--model claude-haiku-5-5` (cheap test runs), `--no-autostart`, `--namespace=-test`
 (a separate message line for testing), `--data` (state folder).
 
-## Roster
+## Roster (4 per laptop)
 
 | Samuel | Dylan |
 |---|---|
-| Overseer: runs Samuel's side, digest of it, the one-page recommendation | Overseer: owns the bot, decides what ships, digest of the builders |
-| Portal: reads the organizers' portal, saves hand data, alerts | Builder A: wide pressure |
-| Leak finder (Part 2) | Builder B: shove-heavy |
-| Analyst: results, trend, style, challenger vs live | Builder C: tight |
-| Bug hunter: reviews every new version | Platform: the shared code every style builds on |
-| Opponents: team profiles and fingerprints (Part 4) | Release: packs, checks and readies each upload |
-| Simulator: paired tests, sparring, cloned field on Modal (Part 3) | Builder D: challenger (fixes, redesigns) |
+| **Overseer**: runs Samuel's side and is its analyst (results, trend, style, challenger vs live); sends the one-page recommendation before each scored round | **Overseer**: owns the plan, decides what plays and what ships; coordinates, never codes |
+| **Portal**: reads the organizers' portal, saves hand data, alerts (cheap model) | **Platform**: the shared code (legal bot by minute 10, harness by 15, ranking and twist by 20) and every release: packing, upload test, version log, active-bot check |
+| **Data**: our leaks and the opponents' profiles from each round's hand histories | **Styles**: styles A, B, C as settings on the platform, tuned in parallel |
+| **Tester**: one verdict per candidate: correct? (bug review) and stronger? (paired test, sparring, cloned field on Modal) | **Challenger**: builds Data's fixes and counters one at a time, or a redesign |
+
+Each agent can run its own helpers in parallel inside its chat (Claude Code subagents), so fewer
+agents does not mean less capacity.
 
 Edit `roster.py` to change roles, models or who starts automatically.
