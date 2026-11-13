@@ -204,6 +204,10 @@ class LimitHit(Exception):
 EVENT_CAP = 4000
 
 
+# "Upload v4.zip now", "**Upload v4 now**", "upload **v13.zip** now (greenlit ...)": an ask to upload, not a report about one
+UPLOAD_ASK = re.compile(r"upload\W{0,3}(v\d+)(?:\.zip)?\W{0,3}now", re.I)
+
+
 def norm_bot(x: str) -> str:
     """'releases/v3.zip', 'v3 (1).zip' (a browser's second download) -> 'v3'."""
     return re.sub(r"\s*\(\d+\)$", "", re.sub(r"\.zip$", "", (x or "").strip().split("/")[-1].lower()).strip())
@@ -819,8 +823,8 @@ class Hub:
             if live.get("filename") and norm_bot(act) == norm_bot(live.get("filename")):
                 for al in [x for x in self.alerts if "Upload " in x.get("text", "") and live["filename"] in x.get("text", "")]:
                     self.dismiss(al["id"])
-            for al in [x for x in self.alerts if re.search(r"Upload \*{0,2}(v\d+)", x.get("text", ""))]:
-                want = re.search(r"Upload \*{0,2}(v\d+)", al["text"]).group(1)
+            for al in [x for x in self.alerts if UPLOAD_ASK.search(x.get("text", "")) and not re.search(r"reject", x.get("text", ""), re.I)]:
+                want = UPLOAD_ASK.search(al["text"]).group(1)
                 if live.get("filename") and norm_bot(want) != norm_bot(live["filename"]):
                     self.dismiss(al["id"])   # superseded: another bot is live now
             if live.get("at") and live.get("at") != seen:
@@ -2669,6 +2673,20 @@ class Clock:
         U = 60 * scale
         return f"minute 0 at {hhmm(t0)}; scored round 1 at {hhmm(t0 + 60 * U)}; last scored round at {hhmm(t0 + (60 + 20 * (scored - 1)) * U)}."
 
+    def tidy_bell(self, s: dict):
+        """Clock and deadline notices go stale: a decision prompt once nothing waits for a decision, any clock notice
+        after 10 event-minutes, an upload ask once that bot is active (or another bot is live)."""
+        hub, now, U = self.hub, time.time(), 60 * s.get("scale", 1.0)
+        waiting = any(p.get("kind") == "bot" and p.get("status") in ("needs_call", "revise") for p in hub.props())
+        act = norm_bot((hub.bus.shared.get("portal_active") or {}).get("filename"))
+        live = norm_bot((hub.bus.shared.get("live") or {}).get("filename"))
+        for al in list(hub.alerts):
+            t, mine = al.get("text", ""), al.get("agent", "").endswith("-clock")
+            up = None if re.search(r"reject|fail", t, re.I) else UPLOAD_ASK.search(t)   # never clear a rejection
+            if (mine and "Decision time" in t and not waiting) or (mine and now - al["at"] > 10 * U) or \
+                    (up and (norm_bot(up.group(1)) == act or (live and norm_bot(up.group(1)) != live))):
+                hub.dismiss(al["id"])
+
     async def announce_change(self, old: dict, t0: float, scored: int):
         """A clock that moves silently leaves the Chats and Overseers quoting the old time: tell everyone."""
         fmt = lambda t: time.strftime("%H:%M:%S", time.localtime(t))   # noqa: E731
@@ -2802,6 +2820,7 @@ class Clock:
                                              urgent=key.endswith(("-8", "-3")))
         if s:
             await self.hub.close_build_notes(s)
+            self.tidy_bell(s)
         if s:   # the clock may have been set on the other laptop: clear "need minute 0" notices here too
             for al in list(self.hub.alerts):
                 if re.search(r"minute 0|set the clock|no clock", al["text"], re.I):
@@ -2864,8 +2883,14 @@ class DeadlineGuard:
             landed = hub.landed_at.get(prev, 0)
             if landed <= start - 2 * U:
                 return None   # no data, no card due ("data" covers it)
-            f = hub.repo / "analysis" / stage_slug(prev) / "card.md"
-            if f.is_file() and f.stat().st_mtime > landed - 60:
+            roots = [hub.repo / "analysis"] + [Path(getattr(a, "cwd", hub.repo)) / "analysis" for a in hub.agents.values() if getattr(a, "cwd", hub.repo) != hub.repo]
+            for root in roots:   # agents name the folder their own way (Round-1, round1, r1...): any card counts
+                try:
+                    if any(f.stat().st_mtime > landed - 60 for f in root.rglob("*card*.md")):
+                        return True
+                except OSError:
+                    pass
+            if any("card" in (x.get("tags") or []) and x.get("at", 0) > landed - 60 for x in hub.ledger()):
                 return True
             return None if time.time() < landed + 3 * U else False
         if gid == "change":
@@ -2952,7 +2977,7 @@ class DeadlineGuard:
                  "change": "no change from this round's data in time. The live bot plays with already-validated changes.",
                  "card": "the round-card script failed or was too slow. Data is computing the decision numbers by hand.",
                  "note": "no 'Which bot?' note by T-7. The clock posted one with the live bot as default."}[gid]
-        await hub.alert_all(f"{hub.person[0]}-clock", f"Round {k}: {human}", urgent=gid in ("chosen", "challenger"))
+        await hub.alert_all(f"{hub.person[0]}-clock", f"Before scored round {k}: {human}", urgent=gid in ("chosen", "challenger"))
         self.note(k, "cut", owner, what)
 
     def note(self, k, kind, owner, what):
@@ -3165,6 +3190,10 @@ class PortalWatcher:
         self.st.setdefault("note_of", {})[r["id"]] = aid
         await self.hub.ensure_note(aid, kind="analysis", stage=stage, owner="s-overseer", author="s-portal",
                                    author_person="samuel", title=f"Analysis for {stage}", status="running")
+        older = sorted([p for p in self.hub.props() if p.get("kind") == "analysis" and p["id"] != aid
+                        and p.get("status") in ("running", "planned", "new")], key=lambda p: p.get("created", 0))
+        for p in older[:-1]:   # superseded by two newer rounds: the round's analysis is over
+            await self.hub.note_append(p["id"], "Portal", "Closed: two newer rounds have landed since.", status="done")
         ours = next((i for i, x in enumerate(items, 1) if x.get("team_name") == self.team_name), None)
         me = items[ours - 1] if ours else None
         line = (f"{label} finished: we were {ours} of {len(items)} with {(me.get('average_points') or 0):.2f} "
