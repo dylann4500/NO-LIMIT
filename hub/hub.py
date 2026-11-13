@@ -623,11 +623,18 @@ class Hub:
         mine = [(i, x) for i, x in enumerate(BUILD_NOTES, 1) if x[0] == self.person]
         for i, (who, agent, name) in mine:
             task = next((t for (pp, pr, ag, t) in DISPATCH.get("b0", []) if ag == agent), "")
+            if task:
+                first = f"Started at minute 0. Plan: {task}"
+            else:   # this agent's first task comes later in the build hour
+                at = next((int(k[1:]) for k in sorted(DISPATCH, key=lambda k: int(k[1:]) if k[1:].isdigit() else 999)
+                           if k.startswith("b") and any(ag == agent for (_, _, ag, _) in DISPATCH[k])), None)
+                t1 = next((t for k in DISPATCH if k == f"b{at}" for (_, _, ag, t) in DISPATCH[k] if ag == agent), "")
+                first = (f"Starts at minute {at}: {t1}" if at is not None else "Starts when its first task arrives.")
             await self.ensure_note(f"B{i}-{t0}", kind="build", stage="Build", owner=self.owner_overseer(who),
                                    author=agent, title=f"Build {i} of {len(BUILD_NOTES)} · {name}",
                                    headline=f"{name}: {agent.split('-', 1)[1].title()} is on it.",
                                    thread=[{"who": "Clock", "at": time.time(), "action": "update",
-                                            "text": f"Started at minute 0. Plan: {task}"}])
+                                            "text": first}])
 
     async def close_build_notes(self, sch: dict):
         """Build notes end on their own: Build 1 once a bot is active on the portal, Build 4 once the round card has run,
@@ -780,14 +787,14 @@ class Hub:
         if ov:
             await ov.ov_log("Hub", text, urgent=True)
 
-    async def alert_all(self, agent: str, text: str, urgent: bool):
+    async def alert_all(self, agent: str, text: str, urgent: bool, chat: bool = False):
         """An alert for both screens (the portal watcher runs on one laptop, but Dylan's hands do the uploads)."""
         await self.add_alert(agent, text, urgent)
         if urgent:
             await self.chat_ping(text)
         aid = new_id()
         await self.bus.set_shared("palert:" + aid, {"id": aid, "agent": agent, "text": text, "urgent": urgent,
-                                                    "from": self.person, "updated": time.time()})
+                                                    "chat": chat, "from": self.person, "updated": time.time()})
 
     async def watch_live(self):
         """Dylan's laptop: when the live bot changes and the portal isn't running it yet, ask Dylan to upload it."""
@@ -803,11 +810,19 @@ class Hub:
                         await self.add_alert(v.get("agent", "s-portal"), v.get("text", ""), bool(v.get("urgent")))
                         if v.get("urgent"):
                             await self.chat_ping(v.get("text", ""))
+                        elif v.get("chat"):
+                            ov = next((a for a in self.agents.values() if a.name.endswith("overview")), None)
+                            if ov:
+                                await ov.ov_log("Hub", v.get("text", ""))
             live = self.bus.shared.get("live") or {}
             act = (self.bus.shared.get("portal_active") or {}).get("filename")
             if live.get("filename") and norm_bot(act) == norm_bot(live.get("filename")):
                 for al in [x for x in self.alerts if "Upload " in x.get("text", "") and live["filename"] in x.get("text", "")]:
                     self.dismiss(al["id"])
+            for al in [x for x in self.alerts if re.search(r"Upload \*{0,2}(v\d+)", x.get("text", ""))]:
+                want = re.search(r"Upload \*{0,2}(v\d+)", al["text"]).group(1)
+                if live.get("filename") and norm_bot(want) != norm_bot(live["filename"]):
+                    self.dismiss(al["id"])   # superseded: another bot is live now
             if live.get("at") and live.get("at") != seen:
                 seen = live["at"]
                 act = (self.bus.shared.get("portal_active") or {}).get("filename")
@@ -880,7 +895,8 @@ class Hub:
                     elif t in ("msg_in", "msg_out"):
                         rows.append(f"[{hhmm(e['t'])}] {'from ' + str(e.get('from')) if t == 'msg_in' else 'to ' + str(e.get('to'))}: {str(e.get('text'))[:900]}")
                 work = "\n".join(rows)[-16000:]
-            briefs = "\n".join(f"- {a.name} ({a.state}): {a.task} | {(a.summary or '')[:500]}" for a in self.agents.values())
+            briefs = "\n".join(f"- {a.name} ({a.state}{', status ' + str(int((time.time() - a.status_at) / 60)) + ' min old' if a.status_at else ''}): "
+                               f"{a.task} | {(a.summary or '')[:500]}" for a in self.agents.values())
             briefs += "\n" + "\n".join(f"- {n} ({v.get('state')}): {v.get('task', '')} | {(v.get('summary') or '')[:500]}"
                                          for n, v in self.bus.directory.items() if v.get("person") != self.person and not v.get("service"))
             thread = "\n".join(f"[{hhmm(t['at'])}] {t['who']}: {str(t['text'])[:1200]}" for t in p.get("thread", [])[-40:])
@@ -1129,7 +1145,8 @@ class Agent:
         self.turn_started = 0.0
         self.interrupted = False
         self.preempting = False
-        self.eta: float | None = None   # when this agent expects its current deliverable (set_status eta_minutes)
+        self.eta: float | None = None
+        self.status_at = 0.0   # when the agent last called set_status   # when this agent expects its current deliverable (set_status eta_minutes)
         self.last_msg_at = 0.0          # last message from Claude in the current turn (the stall watchdog reads it)
         self.stall_kicked = 0.0
         self.human_in_turn = False
@@ -1173,7 +1190,7 @@ class Agent:
                 "model": self.model(), "usage": self.usage, "api_key": self.use_api_key,
                 "queued": sum(1 for i in self.items if not i.get("taken")), "cost": round(self.cost, 2),
                 "overseer": self.name.endswith("overseer"), "since": self.turn_started, "last_i": self.next_i - 1,
-                "cwd": str(self.cwd), "context": self.context_tokens}
+                "cwd": str(self.cwd), "context": self.context_tokens, "status_at": self.status_at}
 
     def model(self):
         if self.hub.model_override:
@@ -1427,8 +1444,10 @@ class Agent:
             dis = disagreements(led)
             if dis:
                 out.append("[experts disagree: resolve (re-run, or the skeptic decides) before citing these]\n" + "\n".join(dis[:6]))
-        rows = [(a.name, a.title, a.state, a.summary) for a in hub.agents.values() if a is not self]
-        rows += [(n, v.get("title", n), v.get("state"), v.get("summary") or "") for n, v in hub.bus.directory.items()
+        def stale(t):   # a brief not updated for a while may be out of date: say so instead of passing it on as fact
+            return f"(brief last updated {(time.time() - t) / 60:.0f} min ago; may be stale) " if t and time.time() - t > 600 else ""
+        rows = [(a.name, a.title, a.state, stale(a.status_at) + (a.summary or "")) for a in hub.agents.values() if a is not self]
+        rows += [(n, v.get("title", n), v.get("state"), stale(v.get("status_at")) + (v.get("summary") or "")) for n, v in hub.bus.directory.items()
                  if v.get("person") != hub.person and not v.get("service")]
         briefs = []
         for n, title, st, summ in sorted(rows):
@@ -1743,9 +1762,10 @@ class Agent:
                 return "limited"
             if info.status == "allowed_warning" and prev != "allowed_warning":
                 pct = f"{info.utilization * 100:.0f}%" if info.utilization is not None else "most"
-                asyncio.create_task(self.hub.add_alert(self.name, f"{self.title} has used {pct} of its Claude "
-                                    f"{(info.rate_limit_type or '').replace('_', ' ')} allowance"
-                                    + (f" (resets {hhmm(info.resets_at)})" if info.resets_at else "") + ".", False))
+                asyncio.create_task(self.hub.add_alert("hub-usage", f"The Claude {(info.rate_limit_type or '').replace('_', ' ')} "
+                                    f"allowance is at {pct} (shared by every agent on this laptop)"
+                                    + (f"; resets {hhmm(info.resets_at)}" if info.resets_at else "") + ". Work continues; "
+                                    "at 100% agents switch to Sonnet, then to the API key if one is saved.", False))
         return None
 
     # ---------------------------------------------------------------- permissions
@@ -1870,6 +1890,8 @@ class Agent:
             return ok(f"No agent named {n}.")
 
         @tool("set_status", "Update your state (working/waiting/blocked/done/idle), one-line task and markdown summary. "
+              "Update it whenever a step finishes or your task changes: the humans and the Chat read it, and a stale "
+              "status ('blocked on the kit' after the kit arrived) misleads them. "
               "eta_minutes: your honest estimate of event-minutes until your current deliverable is finished (the "
               "deadline guard uses it to re-plan early; it never makes anyone hurry, so don't shade it).",
               schema([], {"state": "string", "task": "string", "summary": "string", "eta_minutes": "number"}))
@@ -1877,6 +1899,7 @@ class Agent:
             if a.get("task") and a["task"] != me.task:
                 me.eta = None   # a new task: the old estimate no longer applies
             me.task = (a.get("task") or me.task)[:200]
+            me.status_at = time.time()
             if a.get("eta_minutes") is not None:
                 try:
                     sc = (hub.bus.shared.get("schedule") or {}).get("scale", 1.0)
@@ -1899,7 +1922,9 @@ class Agent:
             await me.set_state(st or me.state)
             return ok("Status updated.")
 
-        @tool("notify_human", "Overseers only: ask your human to decide or act. Shown prominently on their screen.",
+        @tool("notify_human", "Overseers only: ask your human to decide or act. Shown prominently on their screen. Say "
+              "exactly what to do and where (e.g. 'open the Format page on the portal and paste its text into your Chat'). "
+              "Don't repeat an ask within 10 minutes unless it became urgent: your new note replaces the old one.",
               schema(["text"], {"text": "string", "urgent": "boolean"}))
         async def notify_human(a):
             if not me.name.endswith("overseer"):
@@ -2491,7 +2516,8 @@ def situation(hub: "Hub") -> str:
         now2, load = time.time(), []
         for a in hub.agents.values():
             if not a.name.endswith(("overseer", "overview")):
-                load.append((a.name, a.state, a.task, a.idle_since))
+                age = (time.time() - a.status_at) / 60 if a.status_at else None
+                load.append((a.name, a.state, (a.task or "") + (f" [status {age:.0f} min old]" if age and age > 10 else ""), a.idle_since))
         for n, v in hub.bus.directory.items():
             if v.get("person") != me and not v.get("service") and not n.endswith(("overseer", "overview")) and now2 - v.get("seen", 0) < 120:
                 load.append((n, v.get("state"), v.get("task"), v.get("idle_since")))
@@ -2630,15 +2656,38 @@ class Clock:
                 raise ValueError("use HH:MM (24-hour), e.g. 14:02")
             lt = time.localtime()
             t0 = time.mktime((lt.tm_year, lt.tm_mon, lt.tm_mday, int(m.group(1)), int(m.group(2)), int(m.group(3) or 0), 0, 0, -1))
+        old = self.hub.bus.shared.get("schedule") or {}
         await self.hub.bus.set_shared("schedule", {"start": t0, "scored": scored, "scale": scale,
                                                    "set_by": self.hub.person, "at": time.time()})
-        self.sent = set()
+        # marks are keyed by the start time: a new start gets new keys, the same start keeps "already sent"
+        if old.get("start") and (abs(old["start"] - t0) > 1 or old.get("scored") != scored):
+            await self.announce_change(old, t0, scored)
         self.hub.emit("shared", {"schedule": self.hub.bus.shared["schedule"]})
         for al in list(self.hub.alerts):   # notices asking for the start time are now answered
             if re.search(r"minute 0|set the clock|no clock", al["text"], re.I):
                 self.hub.dismiss(al["id"])
         U = 60 * scale
         return f"minute 0 at {hhmm(t0)}; scored round 1 at {hhmm(t0 + 60 * U)}; last scored round at {hhmm(t0 + (60 + 20 * (scored - 1)) * U)}."
+
+    async def announce_change(self, old: dict, t0: float, scored: int):
+        """A clock that moves silently leaves the Chats and Overseers quoting the old time: tell everyone."""
+        fmt = lambda t: time.strftime("%H:%M:%S", time.localtime(t))   # noqa: E731
+        text = (f"The clock was changed by {PEOPLE[self.hub.person]}: minute 0 is now {fmt(t0)} (was {fmt(old['start'])})"
+                + (f", {scored} scored rounds" if old.get("scored") != scored else "") + ". Use the new times; any time "
+                "quoted earlier is out of date.")
+        await self.hub.alert_all(f"{self.hub.person[0]}-clock", text, False, chat=True)   # both Chats show it
+        ov = next((a for a in self.hub.agents.values() if a.name.endswith("overview")), None)
+        if ov:
+            await ov.ov_log("Hub", text)
+        for a in self.hub.agents.values():
+            if a.name.endswith("overseer"):
+                await a.add_item({"kind": "clock", "wake": True, "text": "[clock changed] " + text})
+        other = "d-overseer" if self.hub.person == "samuel" else "s-overseer"
+        try:
+            await self.hub.bus.send({"id": new_id(), "from": f"{self.hub.person[0]}-clock", "from_kind": "hub", "to": other,
+                                     "kind": "task", "text": "[clock changed] " + text})
+        except Exception as e:  # noqa: BLE001
+            self.hub.note_error("clock-change", e)
 
     def next_step(self):
         """The next clock step for this laptop's person: (epoch, text) or None."""
@@ -2647,7 +2696,9 @@ class Clock:
             return None
         now, me = time.time(), self.hub.person
         t0, U = s["start"], 60 * s.get("scale", 1.0)
-        cands = [(t0 + mi * U, f"min {mi}: {w}") for mi, who, w in BUILD if who in ("both", me)]
+        strip = {20: "Practice round 1 starts: the bot chosen for it should be active", 30: "Practice round 2 starts",
+                 40: "Practice round 3 starts", 50: "Practice round 4 starts; after it, the bot for scored round 1 goes active"}
+        cands = [(t0 + mi * U, f"min {mi}: {strip.get(mi, w)}") for mi, who, w in BUILD if who in ("both", me)]
         for k in range(1, s.get("scored", 6) + 1):
             ts = t0 + (60 + 20 * (k - 1)) * U
             cands += [(ts - o * U, f"Scored {k} T-{o}: {w}") for o, who, w in WINDOW
@@ -2719,10 +2770,15 @@ class Clock:
                               "everything for the current and next step on track? Nudge your workers or tell your human if not; "
                               "if all is on track, just update set_status (no messages needed)."))
         for key, at, text in marks:
-            grace = max(60, 2 * (60 * (s or {}).get("scale", 1.0)))
+            U_ = 60 * (s or {}).get("scale", 1.0)
+            grace = max(60, 2 * U_)
+            if not key.split(":", 1)[1].startswith("p"):   # a step missed during a hub restart still fires, marked late
+                grace = max(grace, min(300, 5 * U_))
             if key.endswith(("-13", "-8", "-3")):
-                grace = max(grace, 300)   # decision steps still fire after a hub restart across them
+                grace = max(grace, 300)   # decision steps: always within 5 minutes
             if key not in self.sent and at <= now < at + grace:
+                if now - at > 90 and text != "[reminders-only]":
+                    text = f"(LATE: this step was due at {hhmm(at)}; the hub was down then) " + text
                 self.sent.add(key)
                 atomic_write(self.hub.data / "clock_sent.json", json.dumps(sorted(self.sent)))
                 if text == "[reminders-only]":
@@ -3119,8 +3175,9 @@ class PortalWatcher:
         await self.hub.note_append(aid, "Portal", line + " " + (f"Hand data downloaded ({', '.join(Path(f).name for f in files)}). "
                                    "Analysis starting." if files else "Hand data isn't downloadable yet; I'll keep trying."))
         lid = "L-" + r["id"][:12]
-        if self.hub.get_prop(lid):
-            await self.hub.note_append(lid, "Portal", line, status="done")
+        for lp in [p for p in self.hub.props() if p.get("kind") == "live" and p.get("status") not in ("done", "removed")
+                   and (p["id"] == lid or p.get("stage") == stage)]:
+            await self.hub.note_append(lp["id"], "Portal", line, status="done")
         if quiet:
             self.st["done"].append(r["id"])
             self.save()
@@ -3626,6 +3683,7 @@ async def main():
             await asyncio.sleep(30)
             for ag in hub.agents.values():
                 hub.bus.publish(ag.name, {"title": ag.title, "state": ag.state, "task": ag.task, "summary": ag.summary[:2000],
+                                          "status_at": ag.status_at,
                                           "idle_since": ag.idle_since})
                 ag.save_meta()
             if hub.bus.outbox and hub.bus.oldest_unsent_age() > 120:

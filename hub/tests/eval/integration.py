@@ -216,6 +216,15 @@ async def main():
         check("N3a", "7 Build notes on Samuel's board", bool(bS), str(len(bS or [])))
         check("N3b", "the same Build notes on Dylan's board", bool(bD) and {p["id"] for p in bS} == {p["id"] for p in bD})
 
+        # C9: changing the clock is announced in both Chats (same minute 0, 3 scored rounds instead of 6)
+        sch = (await state(S))["schedule"]
+        c, d, _ = await api(s, S, "POST", "/api/schedule", {"start": time.strftime("%H:%M:%S", time.localtime(sch["start"])),
+                                                           "scored": 3, "scale": 0.05})
+        async def told(base, ovn):
+            return any("clock was changed" in str(t.get("text")) for t in (await state(base)).get("overviews", {}).get(ovn, []))
+        check("C9a", "a clock change is announced in Samuel's Chat", c == 200 and bool(await wait_for(lambda: told(S, "s-overview"), 20)))
+        check("C9b", "… and in Dylan's Chat", bool(await wait_for(lambda: told(D, "d-overview"), 40, 2)))
+
         # N5 + N8: new idea, then close it
         c, idea, _ = await api(s, S, "POST", "/api/props", {"title": "Try a 2.2x open in late position", "body": ""})
         check("N5", "idea posted", c == 200 and idea.get("id"), json.dumps(idea)[:200])
