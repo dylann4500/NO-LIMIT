@@ -221,6 +221,7 @@ class Hub:
         self.last_landed = 0.0
         self.worker_model: str | None = None
         self.traffic: list = []
+        self.card_ok = False
 
     def emit(self, kind: str, payload: dict):
         ev = {"kind": kind, **payload}
@@ -527,6 +528,28 @@ class Hub:
                                    headline=f"{name}: {agent.split('-', 1)[1].title()} is on it.",
                                    thread=[{"who": "Clock", "at": time.time(), "action": "update",
                                             "text": f"Started at minute 0. Plan: {task}"}])
+
+    async def close_build_notes(self, sch: dict):
+        """Build notes end on their own: Build 1 once a bot is active on the portal, Build 4 once the round card has run,
+        and every Build note at minute 60 (the build hour is over; open work moves to the round notes)."""
+        t0 = int(sch["start"])
+        over = time.time() >= sch["start"] + 60 * 60 * sch.get("scale", 1.0)
+        act = (self.bus.shared.get("portal_active") or {}).get("filename")
+        for i, (who, agent, name) in enumerate(BUILD_NOTES, 1):
+            if who != self.person:
+                continue
+            p = self.get_prop(f"B{i}-{t0}")
+            if not p or p.get("status") in ("done", "removed"):
+                continue
+            why = ""
+            if agent == "d-platform" and act:
+                why = f"Done: {act} is active on the portal."
+            elif agent == "s-pipeline" and self.card_ok:
+                why = "Done: the round-card script ran on real round data."
+            elif over:
+                why = "The build hour is over; anything still open continues in the round notes."
+            if why:
+                await self.note_append(p["id"], "Clock", why, status="done")
 
     async def note_append(self, pid: str, who: str, text: str, action: str = "update", **fields):
         p = self.get_prop(pid)
@@ -2400,6 +2423,8 @@ class Clock:
                 if human:   # a step a person must do: remind them directly
                     await self.hub.add_alert(f"{me[0]}-clock", text.split(": ", 1)[0] + ": " + human,
                                              urgent=key.endswith(("-8", "-3")))
+        if s:
+            await self.hub.close_build_notes(s)
         if s:   # the clock may have been set on the other laptop: clear "need minute 0" notices here too
             for al in list(self.hub.alerts):
                 if re.search(r"minute 0|set the clock|no clock", al["text"], re.I):
@@ -2588,6 +2613,7 @@ class PortalWatcher:
             return
         card = await self.run_card(folder, stage) if files else ""
         if card.startswith("(exit 0)"):
+            self.hub.card_ok = True
             await self.hub.route("card_ready", stage, stage=stage, card=f"analysis/{stage}/card.md (the hub ran it)", note_id=aid)
         pl = self.hub.agents.get("s-pipeline")
         if pl:   # standing order: numbers first, no Overseer hop (the decision window is only 5 minutes)
