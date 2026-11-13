@@ -87,5 +87,8 @@ hand-history download link from the portal's team page and restart Samuel's hub 
 `--hands-url '<link with the round id replaced by {tid} and the subset part by {q}>'` (the portal's code
 doesn't reveal it). Keep both laptops plugged in with lids open.
 
+On a phone hotspot add `--small-hands` to Samuel's command: the watcher then downloads only the small
+first-1,000 hand file per round (a scored round's full file can be several hundred MB).
+
 Other options: `--port`, `--model claude-haiku-5-5` (cheap test runs), `--no-autostart`, `--start HH:MM`,
 `--portal-data`.

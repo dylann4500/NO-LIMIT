@@ -718,7 +718,8 @@ class PortalWatcher:
 
     UA = "avalon-portal-watcher/1.0"
 
-    def __init__(self, hub: Hub, base: str, keyfile: Path, hands_url: str | None, out: Path | None = None):
+    def __init__(self, hub: Hub, base: str, keyfile: Path, hands_url: str | None, out: Path | None = None,
+                 small_only: bool = False):
         self.hub, self.base = hub, base.rstrip("/")
         self.key = keyfile.expanduser().read_text().strip()
         # {tid} = round id, {q} = "?subset=first-1000" for the small file and "" for the full one
@@ -727,6 +728,7 @@ class PortalWatcher:
         self.out.mkdir(parents=True, exist_ok=True)
         self.st = load_json(hub.data / "portal_state.json", {"done": [], "subs": [], "standings": None})
         self.fails = 0
+        self.small_only = small_only   # on a phone hotspot: only the first-1000 file, to save data
         self.team = self.cid = None
         self.checked: set[str] = set(self.st.get("checked", []))
 
@@ -794,7 +796,7 @@ class PortalWatcher:
         folder.mkdir(parents=True, exist_ok=True)
         (folder / "results.json").write_text(json.dumps(res, indent=1))
         files = []
-        for suffix, q in (("first-1000", "?subset=first-1000"), ("full", "")):
+        for suffix, q in (("first-1000", "?subset=first-1000"),) + ((("full", ""),) if not self.small_only else ()):
             try:
                 url = self.hands_url.replace("{tid}", r["id"]).replace("{q}", q)
                 data = await self.aget(url, raw=True)
@@ -1004,6 +1006,7 @@ async def main():
     ap.add_argument("--portal-base", default=None, help="portal API base, e.g. http://127.0.0.1:8765/tournament/api")
     ap.add_argument("--portal-key-file", default=None)
     ap.add_argument("--portal-data", default=None, help="where the portal watcher saves results and hand data (default ~/portal-data)")
+    ap.add_argument("--small-hands", action="store_true", help="download only the first-1000 hand file (phone hotspot)")
     ap.add_argument("--hands-url", default=None, help="hand-history URL template with {tid} (real portal: copy it on the day)")
     a = ap.parse_args()
     data = Path(a.data or Path.home() / ".avalon-hub" / a.person).expanduser()
@@ -1017,7 +1020,7 @@ async def main():
     asyncio.create_task(hub.clock.loop())
     if a.portal_base and a.portal_key_file:
         hub.portal = PortalWatcher(hub, a.portal_base, Path(a.portal_key_file), a.hands_url,
-                                   Path(a.portal_data) if a.portal_data else None)
+                                   Path(a.portal_data) if a.portal_data else None, a.small_hands)
         asyncio.create_task(hub.portal.loop())
     runner = web.AppRunner(make_app(hub))
     await runner.setup()
