@@ -1006,9 +1006,10 @@ def situation(hub: "Hub") -> str:
     p = hub.services.get("s-portal") or hub.bus.directory.get("s-portal")
     if p:
         lines.append(f"Portal watcher ({hhmm(p.get('updated') or p.get('seen') or now)}): {p.get('task')}")
-    nd = len(hub.approvals) + sum(1 for a in hub.alerts if a.get("urgent") and now - a["at"] < 1800)
-    if nd:
-        lines.append(f"{nd} item(s) are waiting for a human on this laptop.")
+    act = hub.bus.shared.get("portal_active")
+    if act:
+        lines.append(f"Portal's active bot (checked {hhmm(act['at'])} by the portal watcher): {act.get('filename') or 'none'}"
+                     + (f", sha256 {act['sha256'][:12]}…" if act.get("sha256") else "") + ". Never ask a human for this.")
     return "[hub situation]\n" + "\n".join(lines) + "\nFollow START_HERE.md section 6 for this phase; trust this brief over memory."
 
 
@@ -1310,6 +1311,10 @@ class PortalWatcher:
         team["submissions"] = subs.get("items", subs) if isinstance(subs, dict) else subs
         act = next((x for x in team["submissions"] if x["id"] == team.get("active_submission_id")), None)
         team["active_filename"] = team.get("active_filename") or (act or {}).get("filename")
+        cur = {"filename": team["active_filename"], "sha256": (act or {}).get("sha256") or "", "at": time.time()}
+        prev = self.hub.bus.shared.get("portal_active") or {}
+        if prev.get("filename") != cur["filename"] or time.time() - prev.get("at", 0) > 300:
+            await self.hub.bus.set_shared("portal_active", cur)   # both laptops' briefs show the active bot
         await self.check_team(team)
         self.save()
         ours = next((x for x in standings if x["team_name"] == self.team_name), None)

@@ -92,7 +92,7 @@ class Human:
         for a in st["alerts"]:
             L.append(f"  [note {a['id']}] from {a['agent']}{' URGENT' if a['urgent'] else ''} at {time.strftime('%H:%M', time.localtime(a['at']))}: {a['text'][:400]}")
         for p in st.get("props", []):
-            if p["status"] == "needs_call" and (not p.get("decider") or p["decider"] == me):
+            if p["status"] == "needs_call" and (not p.get("decider") or p["decider"] in (me, "both")):
                 dl = f" decide by {time.strftime('%H:%M:%S', time.localtime(p['deadline']))}" if p.get("deadline") else ""
                 L.append(f"  [card {p['id']}] {p['kind'].upper()} needs your call{dl}: {p['title']}\n      {p.get('body', '')[:900]}")
         L.append("YOUR AGENTS (brief):")

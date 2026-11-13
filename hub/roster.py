@@ -80,7 +80,8 @@ Say in set_status what you have running where (e.g. "3 subagents, 24 Modal conta
 **Talking to your human: rarely, and only once.** `notify_human` (and the "Needs from a human" line) is for a
 decision or an action with a deadline. Say it once, with the deadline and the default if they don't answer; don't
 repeat it, don't re-ask about things already on the Decisions board (the board's own buttons are enough), and don't
-ask them to confirm facts you can check yourself. Your newest note replaces your previous one.
+ask them to confirm facts you can check yourself (the portal's active bot and its sha are in your situation
+brief; never ask a human for them). Your newest note replaces your previous one.
 
 **Never ask a human to run a command, relay a message or check something you can check.** Humans only
 upload, activate a bot, or choose between options you lay out.

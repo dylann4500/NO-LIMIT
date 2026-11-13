@@ -312,7 +312,8 @@ function countdownHtml() {
 function stripHtml() {
   const ns = S.st.next_step, sch = S.st.schedule;
   if (!sch) return `<div class="strip none">No clock set. Set minute 0 on Home, or tell your Overseer ("the variant was announced at 14:02").</div>`;
-  if (!ns) return `<div class="strip none">The event is over.</div>`;
+  if (!ns) { const last = sch.start + (60 + 20 * ((sch.scored || 6) - 1)) * 60 * (sch.scale || 1); const due = last + 8 * 60 * (sch.scale || 1);
+    return `<div class="strip none">${Date.now() / 1000 < due ? `The last scored round is playing; results due about ${hhmm(due)}.` : "The event is over."}</div>`; }
   const left = ns[0] - Date.now() / 1000;
   const mins = (Date.now() / 1000 - sch.start) / (60 * (sch.scale || 1));
   return `<div class="strip"><span class="t ${left < 60 ? "now" : left < 180 ? "soon" : ""}" id="cdn2" data-at="${ns[0]}">${mmss(left)}</span><span class="what">until <b>${esc(ns[1])}</b> · ${hhmm(ns[0])}</span><span class="ph">${mins < 0 ? "before the event" : mins < 60 ? "build hour · minute " + Math.floor(mins) : "event minute " + Math.floor(mins)}${sch.scale && sch.scale < 1 ? " · simulation ×" + Math.round(1 / sch.scale) : ""}</span></div>`;
