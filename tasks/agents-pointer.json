@@ -1,0 +1,28 @@
+{
+  "agent": "Samuels-MacBook-Pro-4",
+  "assignee": "",
+  "claimed_at": "2026-11-13T01:00:07Z",
+  "cmd": "",
+  "compute": "",
+  "details": "",
+  "expires_at": "2026-11-13T02:00:07Z",
+  "id": "agents-pointer",
+  "log": [
+    {
+      "at": "2026-11-13T01:00:07Z",
+      "by": "samuel",
+      "text": "claimed"
+    }
+  ],
+  "owner": "samuel",
+  "paths": [
+    "AGENTS.md"
+  ],
+  "posted_at": "",
+  "posted_by": "",
+  "priority": 0,
+  "result": "",
+  "state": "active",
+  "title": "Point AGENTS.md at the Finals plan docs",
+  "updated_at": "2026-11-13T01:00:07Z"
+}
