@@ -743,6 +743,9 @@ class Clock:
         await self.hub.bus.set_shared("schedule", {"start": t0, "scored": scored, "set_by": self.hub.person, "at": time.time()})
         self.sent = set()
         self.hub.emit("shared", {"schedule": self.hub.bus.shared["schedule"]})
+        for al in list(self.hub.alerts):   # notices asking for the start time are now answered
+            if re.search(r"minute 0|set the clock|no clock", al["text"], re.I):
+                self.hub.dismiss(al["id"])
         return f"minute 0 at {hhmm(t0)}; scored round 1 at {hhmm(t0 + 3600)}; last scored round at {hhmm(t0 + 3600 + 1200 * (scored - 1))}."
 
     def next_text(self):
@@ -785,6 +788,10 @@ class Clock:
                 await ov.add_item({"kind": "clock", "wake": True, "text": text})
                 if ov.state == "stopped" and not ov.paused:
                     await ov.start()
+        if s:   # the clock may have been set on the other laptop: clear "need minute 0" notices here too
+            for al in list(self.hub.alerts):
+                if re.search(r"minute 0|set the clock|no clock", al["text"], re.I):
+                    self.hub.dismiss(al["id"])
         self.hub.set_service("hub-clock", "Clock", "working" if s else "idle", self.next_text())
 
 
