@@ -102,6 +102,11 @@ class Bus:
         e = self.directory.get(agent)
         if e and time.time() - e.get("seen", 0) < FRESH:
             return e.get("person")
+        # an agent on the other laptop that is offline or not yet listed: queue for it (delivered when it is back)
+        if agent.startswith("s-") and self.person != "samuel":
+            return "samuel"
+        if agent.startswith("d-") and self.person != "dylan":
+            return "dylan"
         return None
 
     def known(self) -> list[str]:

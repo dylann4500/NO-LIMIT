@@ -213,7 +213,6 @@ function needHtml(x, compact) {
   return `<div class="need"><span class="who2">${esc(titleOf(x.agent))}</span> · ${hhmm(x.at)}${x.urgent ? " · <b style='color:var(--bad)'>urgent</b>" : ""}<div class="txt md">${md(x.text)}</div>${compact ? "" : `<div class="acts"><button class="mini" data-dis="${esc(x.id)}">Done</button>${local(x.agent) ? `<button class="mini" data-sel="${esc(x.agent)}">Open ${esc(titleOf(x.agent))}</button>` : ""}</div>`}</div>`;
 }
 function bellHtml() {
-  if (S.view !== S.st.me) return "";
   const nd = needs(); const urgent = nd.some((x) => x.urgent || x.type === "ap");
   const svg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>`;
   return `<button class="bell ${nd.length ? "has" : ""} ${urgent ? "urgent" : ""}" id="bell" aria-label="Notifications">${svg}${nd.length ? `<span class="n">${nd.length}</span>` : ""}</button>`;
@@ -228,17 +227,19 @@ function renderToasts() {
   if (!box) { box = document.createElement("div"); box.id = "toasts"; box.className = "toasts"; document.body.appendChild(box); }
   const now = Date.now();
   S.toasts = S.toasts.filter((t) => t.until > now && (t.type === "ap" ? S.st.approvals.some((a) => a.id === t.id) : S.st.alerts.some((a) => a.id === t.id)));
-  box.innerHTML = S.bell ? "" : S.toasts.map((t) => `<div class="toast ${t.urgent || t.type === "ap" ? "urgent" : ""}"><button class="x" data-tx="${esc(t.id)}" aria-label="Hide">✕</button>${needHtml(t, t.type !== "ap")}</div>`).join("");
+  const html = S.bell ? "" : S.toasts.map((t) => `<div class="toast ${t.urgent || t.type === "ap" ? "urgent" : ""}"><button class="x" data-tx="${esc(t.id)}" aria-label="Hide">✕</button>${needHtml(t, t.type !== "ap")}</div>`).join("");
+  if (html === S.toastHtml) return;
+  S.toastHtml = html; box.innerHTML = html;
   box.querySelectorAll("[data-tx]").forEach((b) => b.onclick = () => { S.toasts = S.toasts.filter((t) => t.id !== b.dataset.tx); renderToasts(); });
   box.querySelectorAll("[data-ap]").forEach((b) => b.onclick = () => answer(b));
   box.querySelectorAll(".toast .need").forEach((el, i) => { const t = S.toasts[i]; if (t && t.type !== "ap") { el.style.cursor = "pointer"; el.onclick = () => { S.bell = true; S.toasts = []; render(); }; } });
 }
-function toast(x) { if (S.view !== S.st.me) return; S.toasts.push({ ...x, until: Date.now() + (x.type === "ap" ? 180000 : x.urgent ? 30000 : 9000) }); S.toasts = S.toasts.slice(-4); renderToasts(); setTimeout(renderToasts, x.type === "ap" ? 180500 : x.urgent ? 30500 : 9500); }
+function toast(x) { S.toasts.push({ ...x, until: Date.now() + (x.type === "ap" ? 180000 : x.urgent ? 30000 : 9000) }); S.toasts = S.toasts.slice(-4); renderToasts(); setTimeout(renderToasts, x.type === "ap" ? 180500 : x.urgent ? 30500 : 9500); }
 async function answer(b) { b.parentElement.querySelectorAll("button").forEach((x) => x.disabled = true); const r = await api(`/api/approvals/${b.dataset.ap}`, { decision: b.dataset.d }); S.st.approvals = S.st.approvals.filter((x) => x.id !== b.dataset.ap); render(); renderToasts(); }
 function sidebar() {
   const mine = myAgents(), other = otherAgents();
   const ov = mine.filter((a) => isOv(a.name)), wk = mine.filter((a) => !isOv(a.name));
-  const nd = S.view === S.st.me ? needs() : [];
+  const nd = needs();
   const row = (a, cls = "") => { const [l, c] = label(a); const n = nd.filter((x) => x.agent === a.name).length; const u = S.unread[a.name];
     return `<button class="item ${cls} ${a.stale ? "stale" : ""} ${S.sel === a.name ? "on" : ""}" data-sel="${esc(a.name)}"><span class="dot ${esc(c)}"></span><span style="min-width:0"><div class="nm">${esc(clean(a.title || a.name))}<span class="st">${esc(l)}</span></div><div class="ln">${esc(a.task || (c === "stopped" ? "Not started" : "No task yet"))}</div></span>${n ? `<span class="pill">needs you</span>` : u ? `<span class="badge">${u}</span>` : ""}</button>`; };
   const services = S.view === S.st.me ? S.st.services : [];
@@ -257,7 +258,7 @@ function homeHtml() {
   const live = S.st.live, sch = S.st.schedule;
   return `<div class="home">
     <div class="facts">
-      <div class="fact"><div class="k2">Clock</div>${sch ? esc(S.st.clock) + `<div style="color:var(--faint);font-size:.76rem">minute 0 was ${hhmm(sch.start)}</div>` : `Set minute 0 (the variant announcement):<br><input id="schin" placeholder="HH:MM"> <button class="mini go" id="schgo">Set</button>`}</div>
+      <div class="fact"><div class="k2">Clock</div>${sch ? esc(S.st.clock) + `<div style="color:var(--faint);font-size:.76rem;margin-bottom:4px">minute 0: ${hhmm(sch.start)}</div>` : `Set minute 0 (the variant announcement):<br>`}<input id="schin" placeholder="HH:MM" aria-label="Minute 0 (HH:MM)"> <button class="mini go" id="schgo">${sch ? "Change" : "Set"}</button></div>
       <div class="fact"><div class="k2">Live bot</div>${live ? esc(live.filename) + (live.note ? " · " + esc(live.note) : "") + `<div style="color:var(--faint);font-size:.76rem">declared by Dylan's Overseer ${ago(live.at)}</div>` : "Not declared yet"}</div>
       <div class="fact"><div class="k2">Link to ${esc(otherName())}'s laptop</div>${S.st.bus.online ? "Connected" : `<span style="color:var(--bad)">${esc(S.st.bus.error || "Down")}</span>`}${S.st.bus.outbox ? ` · ${S.st.bus.outbox} waiting to send` : ""}</div>
     </div>
@@ -289,7 +290,7 @@ function convHtml(a) {
     if (e.type === "tool_result" || e.type === "turn") return;
     flush(false);
     switch (e.type) {
-      case "user": { const pending = a.state !== "idle" && e.queued && (!lastResult || lastResult.i < e.i || lastResult.type === "turn");
+      case "user": { const pending = !evs.some((x) => x.type === "turn" && x.i > e.i) && a.state !== "stopped";
         out.push(`<div class="u ${pending ? "queued" : ""}"><span class="by">${esc(e.from && e.from !== S.st.people[S.st.me] ? titleOf(e.from) : "You")}${pending ? " · queued: it reads this after its current step" : ""}</span>${esc(e.text)}</div>`); break; }
       case "text": out.push(`<div class="a md ${e.sub ? "sub" : ""}">${md(e.text)}</div>`); break;
       case "msg_in": case "msg_out": { const inb = e.type === "msg_in"; const other = inb ? e.from : e.to; const first = String(e.text).split("\n")[0].slice(0, 160);
@@ -310,17 +311,21 @@ const serviceHtml = (s) => `<div class="conv">${s.summary ? `<div class="pin"><d
 
 function render() {
   if (!S.view) return renderPicker();
+  const ae = document.activeElement;
+  if ((ae && ae.id === "schin") || S.composing || S.mouseDown) { S.pendingRender = true; return; }
   const selTxt = window.getSelection ? window.getSelection().toString() : "";
   if (selTxt && $("#scroll") && $("#scroll").contains(window.getSelection().anchorNode)) { S.pendingRender = true; return; }
   S.pendingRender = false;
   const a = S.sel === "home" ? null : agentByName(S.sel);
   const isLocal = a && local(a.name), isSvc = a && svc(a.name);
   const draft = $("#ta")?.value || "", tf = document.activeElement && document.activeElement.id === "ta";
+  const caret = tf ? [$("#ta").selectionStart, $("#ta").selectionEnd] : null;
+  const panelTop = $("#panel")?.scrollTop || 0;
   const sc = $("#scroll"); const atEnd = !sc || sc.scrollHeight - sc.scrollTop - sc.clientHeight < 80; const prevTop = sc ? sc.scrollTop : 0;
   const openD = new Set([...document.querySelectorAll("details[open][data-k]")].map((d) => d.dataset.k));
   const [l, c] = label(a);
   const nd = needs().length;
-  document.title = (nd && S.view === S.st.me ? `(${nd}) ` : "") + "Avalon";
+  document.title = (nd ? `(${nd}) ` : "") + "Avalon";
   const linkDown = !S.st.bus.online || S.st.bus.oldest > 60;
   const top = a ? `<div class="top"><button class="tbtn back" id="menuBtn">☰</button><h1>${esc(clean(a.title || a.name))}</h1><span class="lbl ${esc(c)}">${esc(l)}</span>${isLocal && a.usage && a.usage.used != null ? `<span class="lbl ${a.usage.status === "allowed" ? "" : "waiting"}" title="Share of this Claude account's ${esc(String(a.usage.type || "").replace(/_/g, " "))} allowance used">Usage ${Math.round(a.usage.used * 100)}%</span>` : ""}${isLocal ? `<span class="lbl" title="Model">${esc(String(a.model).replace("claude-", "").replace(/-\d.*/, ""))}</span>` : ""}${!isLocal && !isSvc ? `<span class="lbl">${esc(S.st.people[a.person] || "")}'s laptop</span>` : ""}<span class="sp"></span>
       ${isLocal ? `${a.state === "working" || a.state === "waiting" ? `<button class="tbtn" id="intr" title="Stop the current step; it keeps its memory and its queued messages">Pause</button>` : ""}
@@ -332,7 +337,8 @@ function render() {
   const comp = a && !isSvc ? `<div class="comp"><form class="box" id="form"><textarea id="ta" rows="1" placeholder="Message ${esc(titleOf(a.name))}"></textarea><div class="row"><span class="hint ${S.hintBad ? "bad" : ""}" id="hint">${esc(hintTxt)}</span><button class="send" id="sendb" aria-label="Send">↑</button></div></form></div>` : "";
   $("#root").innerHTML = `<div class="app" id="app">${sidebar()}<div class="main">${top}${linkDown ? `<div class="linkbar">Not linked to ${esc(otherName())}'s laptop${S.st.bus.outbox ? ` · ${S.st.bus.outbox} message(s) waiting to send` : ""}. Agents keep working; talk to your teammate directly until it's back.</div>` : ""}<div class="scroll" id="scroll">${body}</div>${comp}</div></div>${panelHtml()}`;
   document.querySelectorAll("details[data-k]").forEach((d) => { if (openD.has(d.dataset.k)) d.open = true; });
-  const ta = $("#ta"); if (ta) { ta.value = draft; autosize(ta); if (tf) ta.focus(); }
+  const ta = $("#ta"); if (ta) { ta.value = draft; autosize(ta); if (tf) { ta.focus(); try { ta.setSelectionRange(caret[0], caret[1]); } catch (e) {} } }
+  if ($("#panel")) $("#panel").scrollTop = panelTop;
   const s2 = $("#scroll"); s2.scrollTop = atEnd ? s2.scrollHeight : prevTop;
   wire(a);
   renderToasts();
@@ -355,7 +361,8 @@ function wire(a) {
   $("#bell")?.addEventListener("click", (e) => { e.stopPropagation(); S.bell = !S.bell; S.toasts = []; render(); });
   $("#clearAll")?.addEventListener("click", async (e) => { e.stopPropagation(); const ids = S.st.alerts.map((x) => x.id); for (const id of ids) await api(`/api/alerts/${id}/dismiss`, {}); S.st.alerts = []; render(); });
   document.querySelectorAll("#root [data-dis]").forEach((b) => b.onclick = async (e) => { e.stopPropagation(); b.disabled = true; await api(`/api/alerts/${b.dataset.dis}/dismiss`, {}); S.st.alerts = S.st.alerts.filter((x) => x.id !== b.dataset.dis); render(); });
-  $("#schgo")?.addEventListener("click", async () => { const r = await api("/api/schedule", { start: $("#schin").value }); if (r.error) { $("#schin").style.borderColor = "var(--bad)"; $("#schin").title = r.error; } else refresh(); });
+  $("#schin")?.addEventListener("keydown", (e) => { if (e.key === "Enter") $("#schgo").click(); });
+  $("#schgo")?.addEventListener("click", async () => { const r = await api("/api/schedule", { start: $("#schin").value }); if (r.error) { $("#schin").style.borderColor = "var(--bad)"; $("#schin").title = r.error; } else { $("#schin").value = ""; $("#schin").blur(); refresh(); } });
   $("#setsch")?.addEventListener("click", (e) => { e.preventDefault(); select("home"); setTimeout(() => $("#schin")?.focus(), 50); });
   const ta = $("#ta"); if (!ta) return;
   ta.addEventListener("input", () => { autosize(ta); if (S.hint) { S.hint = ""; S.hintBad = false; alertHint("Enter to send · Shift+Enter for a new line", false); S.hint = ""; } });
@@ -396,6 +403,11 @@ function stream() {
   };
   setInterval(refresh, 8000);
   document.addEventListener("selectionchange", () => { if (S.pendingRender && !window.getSelection().toString()) soon(); });
+  document.addEventListener("compositionstart", () => { S.composing = true; });
+  document.addEventListener("compositionend", () => { S.composing = false; if (S.pendingRender) soon(); });
+  document.addEventListener("mousedown", () => { S.mouseDown = true; });
+  document.addEventListener("mouseup", () => { S.mouseDown = false; if (S.pendingRender) setTimeout(soon, 0); });
+  document.addEventListener("focusout", (e) => { if (e.target && e.target.id === "schin" && S.pendingRender) setTimeout(soon, 0); });
   document.addEventListener("click", (e) => { let ch = false; if (S.menu && !e.target.closest(".menu")) { S.menu = false; ch = true; } if (S.bell && !e.target.closest("#panel") && !e.target.closest("#bell")) { S.bell = false; ch = true; } if (ch) soon(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && (S.bell || S.menu)) { S.bell = false; S.menu = false; soon(); } });
 }

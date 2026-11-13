@@ -171,6 +171,8 @@ class Agent:
         self.policy, self.cost = m.get("policy", "auto"), m.get("cost", 0.0)
         self.was_running = m.get("running", False)
         self.items: list[dict] = load_json(self.dir / "inbox.json", [])   # pending inputs, saved
+        for i in self.items:
+            i.pop("taken", None)   # a hard kill mid-turn: process these again
         self.wake = asyncio.Event()
         if any(i.get("wake", True) for i in self.items):
             self.wake.set()
@@ -182,9 +184,11 @@ class Agent:
         self.runner: asyncio.Task | None = None
         self.fails = 0
         self.turn_started = 0.0
+        self.interrupted = False
         self.usage: dict = {}             # latest usage-limit notice from Claude
         self.limit_reset: float | None = None
         self.model_switch: str | None = None
+        self.worktree_problem = ""
         self.cwd = self.workdir()
 
     # ---------------------------------------------------------------- persistence
@@ -233,13 +237,21 @@ class Agent:
         if not self.spec.get("worktree"):
             return repo
         wt = repo.parent / f"{repo.name}-{self.name}"
-        if not wt.exists():
-            try:
+
+        def common(d):
+            r = subprocess.run(["git", "-C", str(d), "rev-parse", "--path-format=absolute", "--git-common-dir"],
+                               capture_output=True, text=True, timeout=20)
+            return r.stdout.strip() if r.returncode == 0 else None
+        try:
+            if not wt.exists():
                 subprocess.run(["git", "-C", str(repo), "worktree", "add", "-B", "builder", str(wt)],
                                check=True, capture_output=True, timeout=60)
-            except Exception:  # noqa: BLE001
-                return repo
-        return wt
+            if common(wt) and common(wt) == common(repo):
+                return wt
+            self.worktree_problem = f"{wt} exists but is not a working copy of {repo}"
+        except Exception as e:  # noqa: BLE001
+            self.worktree_problem = f"could not create its own working copy ({type(e).__name__})"
+        return repo
 
     # ---------------------------------------------------------------- inputs
     async def add_item(self, item: dict):
@@ -288,6 +300,9 @@ class Agent:
 
     async def stop(self):
         self.paused = True
+        for ap in list(self.hub.approvals.values()):
+            if ap["agent"] == self.name and not ap["future"].done():
+                ap["future"].set_result("deny")
         if self.runner:
             self.runner.cancel()
         if self.client:
@@ -357,6 +372,9 @@ class Agent:
                         ok = False
                     elif r == "limited":
                         ok, limited = False, True
+                if self.interrupted:            # paused by a human: the turn is over, don't replay it
+                    ok, limited, self.interrupted = True, False, False
+                    self.record({"type": "note", "text": "Paused."})
                 if limited:
                     raise LimitHit("usage limit reached")
                 if not ok:
@@ -378,13 +396,14 @@ class Agent:
                     i.pop("taken", None)
                 self.save_items()
                 text = f"{type(e).__name__}: {e}"
-                is_limit = isinstance(e, LimitHit) or (bool(LIMIT_RX.search(text)) and
-                                                       not isinstance(e, (TypeError, ValueError, KeyError, AttributeError)))
+                is_limit = isinstance(e, LimitHit) or self.usage.get("status") == "rejected"
+                transient = not is_limit and bool(LIMIT_RX.search(text)) and \
+                    not isinstance(e, (TypeError, ValueError, KeyError, AttributeError))
                 self.fails += 1
-                wait = min(5 * 2 ** min(self.fails, 5), 120)
+                wait = 90 if transient else min(5 * 2 ** min(self.fails, 5), 120)
                 if is_limit:
                     kind = self.usage.get("type") or ""
-                    if "opus" in kind and "sonnet" not in self.model():
+                    if "opus" in kind and "sonnet" not in self.model() and not self.hub.model_override:
                         self.model_switch = "claude-sonnet-5-5"   # Opus allowance used up: carry on with Sonnet
                         wait = 5
                         msg = f"{self.title} used up its Opus allowance; it switched to Sonnet and carries on."
@@ -445,7 +464,8 @@ class Agent:
             prev = self.usage.get("status")
             self.usage = {"status": info.status, "used": info.utilization, "type": info.rate_limit_type,
                           "resets_at": info.resets_at}
-            self.limit_reset = float(info.resets_at) if info.resets_at else None
+            if info.status == "rejected":
+                self.limit_reset = float(info.resets_at) if info.resets_at else None
             self.hub.emit("agent", self.view())
             if info.status == "rejected":
                 return "limited"
@@ -685,6 +705,15 @@ def situation(hub: "Hub") -> str:
                 lines.append("Should be done by now: " + " | ".join(done[-2:]))
             if nxt:
                 lines.append(f"Next (minute {nxt[0]}, {hhmm(t0 + nxt[0] * 60)}): {nxt[1]}")
+            T1 = (rounds[0] - now) / 60
+            if T1 <= 9:
+                r1 = [(o, w) for o, who, w in WINDOW if o <= 8 and who in ("both", me)]
+                cur = [x for x in r1 if x[0] >= T1]
+                nx = next((x for x in r1 if x[0] < T1), None)
+                if cur:
+                    lines.append(f"Scored round 1, T-{math.ceil(T1)}: current step (T-{cur[-1][0]}): {cur[-1][1]}")
+                if nx:
+                    lines.append(f"Next step at T-{nx[0]} ({hhmm(rounds[0] - nx[0] * 60)}): {nx[1]}")
         elif now > rounds[-1] + 1200:
             lines.append("PHASE: the event is over.")
         else:
@@ -706,7 +735,7 @@ def situation(hub: "Hub") -> str:
     p = hub.services.get("s-portal") or hub.bus.directory.get("s-portal")
     if p:
         lines.append(f"Portal watcher ({hhmm(p.get('updated') or p.get('seen') or now)}): {p.get('task')}")
-    nd = len(hub.approvals) + len(hub.alerts)
+    nd = len(hub.approvals) + sum(1 for a in hub.alerts if a.get("urgent") and now - a["at"] < 1800)
     if nd:
         lines.append(f"{nd} item(s) are waiting for a human on this laptop.")
     return "[hub situation]\n" + "\n".join(lines) + "\nFollow START_HERE.md section 6 for this phase; trust this brief over memory."
@@ -773,14 +802,15 @@ class Clock:
         marks = []
         if s:
             t0 = s["start"]
+            tk = int(t0)
             for mi, who, w in BUILD:
                 if who in ("both", me):
-                    marks.append((f"b{mi}", t0 + mi * 60, f"Build hour, minute {mi}: {w}"))
+                    marks.append((f"{tk}:b{mi}", t0 + mi * 60, f"Build hour, minute {mi}: {w}"))
             for k in range(1, s.get("scored", 6) + 1):
                 ts = t0 + (60 + 20 * (k - 1)) * 60
                 for o, who, w in WINDOW:
-                    if who in ("both", me) and not (k == 1 and o > 10):   # round 1's window starts inside the build hour
-                        marks.append((f"s{k}-{o}", ts - o * 60, f"Scored round {k} at {hhmm(ts)}, T-{o}: {w}"))
+                    if who in ("both", me) and not (k == 1 and o > 8):   # round 1: the build hour covers T-20..T-9
+                        marks.append((f"{tk}:s{k}-{o}", ts - o * 60, f"Scored round {k} at {hhmm(ts)}, T-{o}: {w}"))
         for key, at, text in marks:
             if key not in self.sent and at <= now < at + 120:
                 self.sent.add(key)
@@ -792,7 +822,7 @@ class Clock:
             for al in list(self.hub.alerts):
                 if re.search(r"minute 0|set the clock|no clock", al["text"], re.I):
                     self.hub.dismiss(al["id"])
-        self.hub.set_service("hub-clock", "Clock", "working" if s else "idle", self.next_text())
+        self.hub.set_service(f"{me[0]}-clock", "Clock", "working" if s else "idle", self.next_text())
 
 
 # ======================================================================== portal watcher
@@ -811,6 +841,7 @@ class PortalWatcher:
         self.out = (out or Path.home() / "portal-data").expanduser()
         self.out.mkdir(parents=True, exist_ok=True)
         self.st = load_json(hub.data / "portal_state.json", {"done": [], "subs": [], "standings": None})
+        self.st.setdefault("need_hands", {})   # round id -> folder, until its hand files are saved
         self.fails = 0
         self.small_only = small_only   # on a phone hotspot: only the first-1000 file, to save data
         self.team = self.cid = None
@@ -894,6 +925,7 @@ class PortalWatcher:
                 new_done = []
         for r in sorted(new_done, key=lambda r: r["created_at"]):
             await self.landed(r)
+        await self.retry_hands()
         standings = (await self.aget(f"/competitions/{self.cid}/standings"))["items"]
         self.st["standings"] = standings
         team = await self.aget(f"/teams/{self.team}")
@@ -922,17 +954,9 @@ class PortalWatcher:
         folder = self.out / f"{n:02d}-{re.sub(r'[^a-z0-9]+', '-', label.lower()).strip('-')}"
         folder.mkdir(parents=True, exist_ok=True)
         (folder / "results.json").write_text(json.dumps(res, indent=1))
-        files = []
-        for suffix, q in (("first-1000", "?subset=first-1000"),) + ((("full", ""),) if not self.small_only else ()):
-            try:
-                url = self.hands_url.replace("{tid}", r["id"]).replace("{q}", q)
-                data = await self.aget(url, raw=True)
-                if data[:2] == b"\x1f\x8b" and len(data) > 100:
-                    p = folder / f"hands-{suffix}.jsonl.gz"
-                    p.write_bytes(data)
-                    files.append(str(p))
-            except Exception:  # noqa: BLE001
-                pass
+        files = await self.fetch_hands(r["id"], folder)
+        if not files:
+            self.st["need_hands"][r["id"]] = {"folder": str(folder), "label": label, "since": time.time()}
         items = sorted(res["items"], key=lambda x: -x["average_points"])
         ours = next((i for i, x in enumerate(items, 1) if x["team_name"] == self.team_name), None)
         me = items[ours - 1] if ours else None
@@ -950,12 +974,48 @@ class PortalWatcher:
             await ov.add_item({"kind": "portal", "wake": True, "text": "NEW ROUND RESULT. " + line + paths})
             if ov.state == "stopped" and not ov.paused:
                 await ov.start()
+        await self.tell("d-overseer", "fyi", line)
+        self.hub.set_service("s-portal", "Portal", "working", line)
+
+    async def fetch_hands(self, tid: str, folder: Path) -> list[str]:
+        files = []
+        for suffix, q in (("first-1000", "?subset=first-1000"),) + ((("full", ""),) if not self.small_only else ()):
+            p = folder / f"hands-{suffix}.jsonl.gz"
+            if p.exists() and p.stat().st_size > 100:
+                files.append(str(p))
+                continue
+            try:
+                data = await self.aget(self.hands_url.replace("{tid}", tid).replace("{q}", q), raw=True)
+                if data[:2] == b"\x1f\x8b" and len(data) > 100:
+                    p.write_bytes(data)
+                    files.append(str(p))
+            except Exception:  # noqa: BLE001
+                pass
+        return files
+
+    async def retry_hands(self):
+        for tid, info in list(self.st["need_hands"].items()):
+            files = await self.fetch_hands(tid, Path(info["folder"]))
+            if files:
+                del self.st["need_hands"][tid]
+                self.save()
+                ov = self.hub.agents.get("s-overseer")
+                if ov:
+                    await ov.add_item({"kind": "portal", "wake": True, "text": f"Hand history for {info['label']} is now "
+                                       "saved:\n" + "\n".join(f"Hands: {f}" for f in files)})
+            elif time.time() - info["since"] > 1200 and not info.get("warned"):
+                info["warned"] = True
+                self.save()
+                await self.hub.add_alert("s-portal", f"The hand history for {info['label']} still can't be downloaded after "
+                                         "20 minutes. On the real portal, copy the download link from the team page and "
+                                         "restart the hub with --hands-url.", True)
+
+    async def tell(self, to: str, kind: str, text: str):
         try:
-            await self.hub.bus.send({"id": new_id(), "from": "s-portal", "from_kind": "hub", "to": "d-overseer",
-                                     "kind": "fyi", "text": line})
+            await self.hub.bus.send({"id": new_id(), "from": "s-portal", "from_kind": "hub", "to": to, "kind": kind,
+                                     "text": text})
         except Exception:  # noqa: BLE001
             pass
-        self.hub.set_service("s-portal", "Portal", "working", line)
 
     async def check_team(self, team: dict):
         for s in team.get("submissions") or []:
@@ -966,31 +1026,29 @@ class PortalWatcher:
                 if s["status"] == "rejected":
                     text = f"Upload {s['filename']} was REJECTED by the portal: {s.get('rejection_reason')}. The previous bot stays active."
                     await self.hub.add_alert("s-portal", text, True)
-                    await self.hub.bus.send({"id": new_id(), "from": "s-portal", "from_kind": "hub", "to": "d-overseer",
-                                             "kind": "question", "text": text})
+                    await self.tell("d-overseer", "question", text)
         live = self.hub.bus.shared.get("live")
         now = time.time()
+        if not self.team:
+            return
+        sch = self.hub.bus.shared.get("schedule") or {}
         for kind, k, ts in self.hub.clock.events():
-            # scored rounds: check after the live bot is back (T-7) and just before (T-2); practice: just before
+            # scored rounds: some bot active at T-7; the declared live bot at T-2. Practice: some bot at T-2.
             for mins in ((7, 2) if kind == "scored" else (2,)):
-                key = f"{kind}{k}-{mins}"
-                if key in self.checked or not (ts - mins * 60 <= now < ts - mins * 60 + 90):
+                key = f"{int(sch.get('start', 0))}:{kind}{k}-{mins}"
+                if key in self.checked or not (ts - mins * 60 <= now < ts):
                     continue
                 self.checked.add(key)
                 active = team.get("active_filename")
                 if not active:
                     msg = f"{kind.title()} round {k} starts at {hhmm(ts)} and there is NO active bot. We forfeit unless one is made active."
-                elif kind == "scored" and live and live.get("filename") and live["filename"] != active:
+                elif kind == "scored" and mins == 2 and live and live.get("filename") and live["filename"] != active:
                     msg = (f"{kind.title()} round {k} starts at {hhmm(ts)}: the portal's active bot is {active}, but "
                            f"d-overseer declared {live['filename']}.")
                 else:
                     continue
                 await self.hub.add_alert("s-portal", msg, True)
-                try:
-                    await self.hub.bus.send({"id": new_id(), "from": "s-portal", "from_kind": "hub", "to": "d-overseer",
-                                             "kind": "question", "text": msg})
-                except Exception:  # noqa: BLE001
-                    pass
+                await self.tell("d-overseer", "question", msg)
 
 
 # ======================================================================== web
@@ -1070,6 +1128,7 @@ def make_app(hub: Hub) -> web.Application:
         elif act == "stop":
             await a.stop()
         elif act == "interrupt" and a.client:
+            a.interrupted = True
             try:
                 await a.client.interrupt()
             except Exception:  # noqa: BLE001
@@ -1154,6 +1213,10 @@ async def main():
     await web.TCPSite(runner, "127.0.0.1", a.port).start()
     print(f"avalon hub ({PEOPLE[a.person]}): http://127.0.0.1:{a.port}   link: "
           f"{'online' if hub.bus.online else hub.bus.error}", flush=True)
+    for ag in hub.agents.values():
+        if ag.worktree_problem:
+            await hub.add_alert(ag.name, f"{ag.title} {ag.worktree_problem}; it is working in the main repo instead. "
+                                "Ask your Overseer to keep its edits to its own folders.", True)
     restarted = any(ag.was_running for ag in hub.agents.values())
     for ag in hub.agents.values():
         if ag.was_running:

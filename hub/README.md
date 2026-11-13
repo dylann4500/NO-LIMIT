@@ -26,9 +26,11 @@ Ctrl+C stops it.
 - **Any agent can message any agent** on either laptop (`send_message`, kinds `task`, `question`, `answer`,
   `fyi`; `fyi` doesn't wake the receiver). Decisions belong to the two Overseers; only Overseers talk to
   humans.
-- **Clock:** set minute 0 once (Home page, the `--start HH:MM` option, or an Overseer). Both laptops share
-  it. It wakes the Overseers at T-13, T-8, T-5 and T-3 before scored rounds and at T-3 before practice
-  rounds. If there's no decision by T-5, the live bot plays.
+- **Clock:** set minute 0 once (Home page, the `--start HH:MM` option, or an Overseer); it can be changed
+  later on Home. Both laptops share it. It wakes the Overseers at each build-hour milestone (minutes 0, 10,
+  15, 20, 30, 40, 50) and at each step of every scored round's window (T-20, T-13, T-12, T-10, T-9, T-8, T-6,
+  T-5, T-3; each person gets their own steps). Every Overseer turn starts with a situation brief: the
+  phase, the current step, the next deadline. If there's no decision by T-5, the live bot plays.
 - **Portal watcher** (Samuel's laptop): reads the portal every minute (read-only), saves each finished
   round's results and our hand histories in `~/portal-data/`, wakes the Overseer and Data, tells Dylan's
   Overseer, and raises an alert if an upload is rejected, if there's no active bot, or if the active bot
@@ -72,12 +74,26 @@ Ctrl+C stops it.
 5. The team repo cloned, containing START_HERE.md, FIRST_PROMPT.md, TWIST_NOTES.md, PORTAL_AGENT.md and a
    `.gitignore` that excludes `*.gz`, `*.csv` and `portal-data/`.
 
+## Starting a fresh run (each rehearsal, and Sunday)
+
+Old state makes agents resume old conversations and the clock show an old schedule, so each run gets its
+own state folder and message line. Pick a name per run (e.g. `reh2`) and use it on both laptops:
+
+```
+./hub/start.sh samuel ~/nolimit-rehearsal --data ~/.avalon-hub-reh2/samuel --namespace=-reh2 \
+    --portal-data ~/portal-data-reh2 \
+    --portal-base http://127.0.0.1:8765/tournament/api --portal-key-file ~/.config/avalon-rehearsal/portal-key
+./hub/start.sh dylan ~/nolimit-rehearsal --data ~/.avalon-hub-reh2/dylan --namespace=-reh2
+```
+
+Also delete old `PLAN-*.md` and `data/RATES.md` from the team repo (and push) so the Overseers start clean.
+
 ## Sunday
 
 Start with a fresh state folder and a fresh message line so nothing from rehearsals carries over:
 
 ```
-./hub/start.sh samuel ~/<sunday-repo> --data ~/.avalon-hub-live/samuel --namespace=-live \
+./hub/start.sh samuel ~/<sunday-repo> --data ~/.avalon-hub-live/samuel --namespace=-live --portal-data ~/portal-data-live \
     --portal-base https://pokerbot.sequoiacap.com/tournament/api --portal-key-file ~/.config/no-limit-2026/api-key
 ./hub/start.sh dylan ~/<sunday-repo> --data ~/.avalon-hub-live/dylan --namespace=-live
 ```
