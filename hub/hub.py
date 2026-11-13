@@ -24,7 +24,7 @@ import urllib.request
 from pathlib import Path
 
 from aiohttp import web
-from claude_agent_sdk import (AssistantMessage, ClaudeAgentOptions, ClaudeSDKClient, PermissionResultAllow,
+from claude_agent_sdk import (HookMatcher, AssistantMessage, ClaudeAgentOptions, ClaudeSDKClient, PermissionResultAllow,
                               PermissionResultDeny, ResultMessage, SystemMessage, TextBlock, ToolResultBlock,
                               ToolUseBlock, UserMessage, create_sdk_mcp_server, tool)
 
@@ -282,6 +282,14 @@ class Hub:
                         "oldest": round(self.bus.oldest_unsent_age())}}
 
 
+async def _subagent_foreground(inp, tool_use_id, ctx):
+    """Subagents run in the foreground (still in parallel when launched together), so their results land in the
+    agent's turn instead of arriving after it ends. Their own tool calls still go through can_use_tool."""
+    ti = inp.get("tool_input") or {}
+    return {"hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision": "allow",
+                                   "updatedInput": dict(ti, run_in_background=False)}}
+
+
 # ======================================================================== agent
 class Agent:
     def __init__(self, hub: Hub, spec: dict):
@@ -359,7 +367,7 @@ class Agent:
             self.idle_since = None
         self.state, self.substate = state, substate
         self.hub.emit("agent", self.view())
-        self.hub.bus.publish(self.name, {"title": self.title, "state": self.state, "task": self.task,
+        self.hub.bus.publish(self.name, {"title": self.title, "state": self.state, "task": self.task, "idle_since": self.idle_since,
                                          "summary": self.summary})
 
     def record(self, ev: dict):
@@ -476,6 +484,7 @@ class Agent:
             fallback_model=None if self.hub.model_override else "claude-sonnet-5-5",
             resume=self.session_id if resume else None,
             setting_sources=[],       # no repo allow-rules can bypass the hub's permission check
+            hooks={"PreToolUse": [HookMatcher(matcher="Agent|Task", hooks=[_subagent_foreground])]},
             permission_mode="default",
         )
 
@@ -1089,6 +1098,21 @@ def situation(hub: "Hub") -> str:
             lines.append("Checkpoints that should be TRUE now (check against your workers' briefs): " + "; ".join(due) +
                          ". If any isn't, you're behind: drop optional work, put every worker on the critical path, "
                          "and say so in your brief.")
+    if sch:   # who is free right now, on both laptops, so idle capacity gets used
+        now2, load = time.time(), []
+        for a in hub.agents.values():
+            if not a.name.endswith("overseer"):
+                load.append((a.name, a.state, a.task, a.idle_since))
+        for n, v in hub.bus.directory.items():
+            if v.get("person") != me and not v.get("service") and not n.endswith("overseer") and now2 - v.get("seen", 0) < 120:
+                load.append((n, v.get("state"), v.get("task"), v.get("idle_since")))
+        idle = [n for n, st, t, since in load if st in ("idle", "done") and (not since or now2 - since > 60)]
+        lines.append("Team load: " + "; ".join(f"{n} {st}" + (f" ({(t or '')[:60]})" if st == 'working' and t else "")
+                                              for n, st, t, _ in load) + ".")
+        if idle:
+            lines.append(f"IDLE NOW: {', '.join(idle)} (skip any whose brief says it's waiting on a background Modal/Codex job). Idle agents are wasted time: give each a slice of the critical path "
+                         "(split the biggest job: one candidate, one analysis, one test shard each), or the next optional item "
+                         "if you're on track. Message the other Overseer if the idle agent is theirs.")
     live = hub.bus.shared.get("live")
     lines.append(f"Declared live bot: {live['filename']} ({hhmm(live['at'])})." if live else "Declared live bot: none yet.")
     p = hub.services.get("s-portal") or hub.bus.directory.get("s-portal")

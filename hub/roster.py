@@ -75,22 +75,35 @@ plus at most 8 lines of detail. Update it whenever you start or finish something
 **Long work.** Never sleep or loop inside a turn. Anything that runs over a minute: start it in the
 background, end your turn, and check on it when you are next woken.
 
-**Parallel work: use every engine, never wait in line.** Every window has more work than one agent can do
-serially, so fan out. Three engines, each with its own budget:
-1. **Claude subagents** (your Task/Agent tool): for reasoning and code that needs the plan's context, e.g.
-   building one candidate, one analysis. Up to 4 at once per agent; give each a self-contained brief and a
-   10-minute first-report deadline.
+**Parallel work: fan out by default. The day is time-boxed; serial work loses.** Before starting any job,
+ask: can it be split? If yes, split it and run the pieces at the same time. Nobody tells you to; you decide.
+Split when: there are several candidates/styles/opponents/rounds to handle; a job will take over ~3 minutes;
+you are behind a checkpoint; or a second opinion would catch a bug before an upload. Don't split a job under
+a minute or one that edits the same file as another piece.
+1. **Claude subagents** (the Agent/Task tool): for reasoning and code that need context, e.g. one candidate,
+   one style, one analysis question, one opponent's profile, an independent review of a diff before release.
+   Launch them **in the same message** (several Agent calls at once) so they run in parallel. Workers: up to
+   6 at once. Overseers: at most 2 short ones (under 3 minutes); hand anything longer to a worker so you stay
+   free to answer messages. Brief each like a new teammate who knows nothing: goal, exact files, what's
+   ruled out, the output format (a short report + file paths), and a time limit. Use `model: "sonnet"` for
+   mechanical jobs (scripts, parsing, counting, packaging) to save the Opus allowance; Opus for judgment.
+   After they return, check their claims (run the code, read the numbers) before you report them.
 2. **Modal** (`modal run` in the team workspace): for compute: paired matches, sparring, the cloned field,
    ranking simulations. Shard across containers (s-tester up to 40, d-platform/d-builder up to 20 each,
    never more than 80 in total while a tournament round may also be using Modal). Start jobs in the
    background, end your turn, collect results when woken. Check `modal app list` before starting more.
 3. **Codex** (the `codex_task` tool): OpenAI's coding agent, on separate credits, so it adds capacity without
    using Claude limits. Use it for independent, well-specified jobs: a second-opinion bug hunt on a file, an
-   alternative implementation of one function, a test script, a data crunch, a literature-style check. Give exact
-   files and a pass/fail check; up to 3 run at once; the result arrives as a new turn. Stack it: while Codex
-   does the side job, you and your subagents do the main one.
-Rule of thumb: if two jobs don't depend on each other, start them at the same time on different engines.
-Say in set_status what you have running where (e.g. "3 subagents, 24 Modal containers, 2 Codex jobs"). Modal budget: about $300 for the event; check `modal app list` before big runs.
+   alternative implementation of one function, a test script, a data crunch. Give exact files and a pass/fail
+   check; up to 3 run at once; the result arrives as a new turn. Stack it: while Codex does the side job, you
+   and your subagents do the main one.
+**Help without being asked.** If you finish early or are waiting on something, tell your Overseer "free:
+<what I could take>" in one fyi line, and take the next item it gives. Overseers: the situation brief lists
+who is idle on both laptops; give idle agents work at once (split the biggest critical job), and lend your
+idle workers to the other Overseer when your side is ahead.
+Say in set_status what you have running where (e.g. "4 subagents, 24 Modal containers, 2 Codex jobs"). If you
+hit a usage limit, fewer subagents, more Codex. Modal budget: about $300 for the event; check `modal app list`
+before big runs.
 
 **Talking to your human: rarely, and only once.** `notify_human` (and the "Needs from a human" line) is for a
 decision or an action with a deadline. Say it once, with the deadline and the default if they don't answer; don't

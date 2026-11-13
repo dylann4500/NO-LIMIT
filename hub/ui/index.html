@@ -75,9 +75,9 @@ button:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-
 .k-idea { --nb: var(--n-idea); --ink: var(--n-idea-ink); }
 .newnote { border: 2px dashed var(--n-idea-ink); background: transparent; box-shadow: none; color: var(--n-idea-ink); align-items: stretch; justify-content: center; }
 .newnote:hover { transform: none; box-shadow: none; }
-.newnote input, .newnote textarea, .newnote select { font: inherit; font-size: .9rem; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--fg); padding: 6px 9px; width: 100%; }
-.newnote select { width: auto; } .newnote textarea { min-height: 60px; resize: vertical; }
-.newnote .big { font: 600 1rem var(--sans); text-align: center; } .newnote .row { display: flex; gap: 6px; align-items: center; font-size: .78rem; color: var(--muted); }
+.newnote input, .newnote textarea { font: inherit; font-size: .9rem; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--fg); padding: 6px 9px; width: 100%; }
+.newnote textarea { flex: 1; min-height: 96px; resize: none; }
+.newnote .big { font: 600 1rem var(--sans); text-align: center; } .newnote .row { display: flex; gap: 6px; align-items: center; justify-content: flex-end; flex-wrap: wrap; font-size: .78rem; color: var(--muted); }
 .empty { color: var(--muted); font-size: .9rem; }
 .hero { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 26px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
 .hero h1 { font: 500 1.6rem var(--serif); margin: 0 0 4px; } .hero p { margin: 0; color: var(--muted); max-width: 60ch; }
@@ -243,7 +243,7 @@ function boardHtml() {
   const work = ps.filter((p) => ["new", "planned", "running", "blocked"].includes(p.status));
   const recent = ps.filter((p) => !call.includes(p) && !work.includes(p)).slice(0, 24);
   const hero = sch ? "" : `<div class="hero"><div style="flex:1;min-width:260px"><h1>Ready when you are</h1><p>Press <b>Start building</b> the moment the variant is announced. The clock starts on both laptops and your Overseer kicks off the plan. If the announcement was a while ago, type its time instead.</p></div><button class="bigbtn" id="startBtn">Start building</button><div><input id="schin" placeholder="HH:MM"> <button class="mini" id="schgo">Set time</button></div></div>`;
-  const newNote = `<div class="note newnote" style="--rot:0deg">${S.ideaOpen ? `<input id="ideaTitle" placeholder="Your idea or question" maxlength="160"><textarea id="ideaBody" placeholder="Details (optional)"></textarea><div class="row">for <select id="ideaFor">${Object.entries(S.st.people).map(([k, v]) => `<option value="${esc(k)}" ${k === S.st.me ? "selected" : ""}>${esc(v)}'s side</option>`).join("")}</select><span style="flex:1"></span><button class="mini" id="ideaX">Cancel</button><button class="mini go" id="ideaGo">Post</button></div><div class="hint" id="ideaHint"></div>` : `<button class="big" id="ideaOpen" style="border:0;background:none;color:inherit;height:100%;width:100%">＋ New idea<br><span style="font-weight:400;font-size:.8rem">Ask a question or suggest something to try</span></button>`}</div>`;
+  const newNote = `<div class="note newnote" style="--rot:0deg">${S.ideaOpen ? `<textarea id="ideaBody" placeholder="An idea to try, or a question for the agents…"></textarea><div class="row"><span class="hint" id="ideaHint" style="flex:1"></span><button class="mini" id="ideaX">Cancel</button><button class="mini go" id="ideaGo">Post</button></div>` : `<button class="big" id="ideaOpen" style="border:0;background:none;color:inherit;height:100%;width:100%">＋ New idea<br><span style="font-weight:400;font-size:.8rem">Ask a question or suggest something to try</span></button>`}</div>`;
   return `<div class="board">${hero}
     <div><h2>Needs your call ${call.filter(myCall).length ? `<span class="c">${call.filter(myCall).length}</span>` : ""}</h2>${call.length ? `<div class="wall">${call.map((p) => noteHtml(p, true)).join("")}</div>` : `<div class="empty">Nothing waiting. Suggestions and live-bot decisions land here for a greenlight.</div>`}</div>
     <div><h2>Being worked on</h2><div class="wall">${newNote}${work.map((p) => noteHtml(p)).join("")}</div></div>
@@ -309,7 +309,7 @@ const QUICK = [["Status?", "In 3 lines: what are you doing, what's your latest r
 function render() {
   if (!S.view) return renderPicker();
   const ae = document.activeElement;
-  if ((ae && ["schin", "ideaTitle", "ideaBody", "ideaFor"].includes(ae.id)) || S.composing || S.mouseDown) { S.pending = true; return; }
+  if ((ae && ["schin", "ideaBody"].includes(ae.id)) || S.composing || S.mouseDown) { S.pending = true; return; }
   const selTxt = window.getSelection ? window.getSelection().toString() : ""; if (selTxt) { S.pending = true; return; }
   S.pending = false;
   const keep = {}; ["ta", "cardTa"].forEach((id) => { const el = document.getElementById(id); if (el) keep[id] = { v: el.value, f: ae === el, s: [el.selectionStart, el.selectionEnd] }; });
@@ -363,10 +363,11 @@ function wire(a) {
   $("#startBtn")?.addEventListener("click", async () => { $("#startBtn").disabled = true; $("#startBtn").textContent = "Starting…"; const r = await api("/api/start", {}); if (r.error) $("#startBtn").textContent = r.error; refresh(); });
   $("#schin")?.addEventListener("keydown", (e) => { if (e.key === "Enter") $("#schgo").click(); });
   $("#schgo")?.addEventListener("click", async () => { const r = await api("/api/schedule", { start: $("#schin").value }); if (r.error) $("#schin").style.borderColor = "var(--bad)"; else { $("#schin").blur(); refresh(); } });
-  $("#ideaOpen")?.addEventListener("click", () => { S.ideaOpen = true; render(); setTimeout(() => $("#ideaTitle")?.focus(), 20); });
+  $("#ideaOpen")?.addEventListener("click", () => { S.ideaOpen = true; render(); setTimeout(() => $("#ideaBody")?.focus(), 20); });
   $("#ideaX")?.addEventListener("click", () => { S.ideaOpen = false; render(); });
-  $("#ideaGo")?.addEventListener("click", async () => { const t = $("#ideaTitle").value.trim(); if (!t) { $("#ideaHint").textContent = "Give it a short title."; return; } $("#ideaGo").disabled = true;
-    const r = await api("/api/props", { title: t, body: $("#ideaBody").value.trim(), for: $("#ideaFor").value }); if (r.error) { $("#ideaHint").textContent = r.error; $("#ideaGo").disabled = false; return; }
+  $("#ideaGo")?.addEventListener("click", async () => { const t = $("#ideaBody").value.trim(); if (!t) { $("#ideaHint").textContent = "Type something first."; return; } $("#ideaGo").disabled = true;
+    const first = t.split("\n")[0], title = first.length > 110 ? first.slice(0, 107).replace(/\s+\S*$/, "") + "…" : first;
+    const r = await api("/api/props", { title, body: t === title ? "" : t }); if (r.error) { $("#ideaHint").textContent = r.error; $("#ideaGo").disabled = false; return; }
     S.ideaOpen = false; document.activeElement?.blur(); S.st.props.unshift(r); render(); });
   const cta = $("#cardTa"); if (cta) { cta.addEventListener("input", () => autosize(cta)); cta.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); $("#cardForm").requestSubmit(); } });
     $("#cardForm").addEventListener("submit", async (e) => { e.preventDefault(); const t = cta.value.trim(); if (!t) return; $("#cardSend").disabled = true;
