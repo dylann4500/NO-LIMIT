@@ -88,8 +88,13 @@ default action for anything unfamiliar), and it needs the safety shell every lat
 - a catch-all around the whole decision that plays the passive action, and COUNTS every time it fires.
   A swallowed exception doesn't crash us, it silently switches off part of the strategy; that has cost
   other bots whole features. The count must be zero in every local run.
-- everything the bot remembers about a table lives in the memory bytes, parsed defensively. Nothing in
-  globals or on self; any copy of the bot can answer any table.
+- everything the bot remembers ACROSS hands lives in the memory bytes, parsed defensively. Nothing in
+  globals or on self; any copy of the bot can answer any table. Rebuild the CURRENT hand (who opened, who
+  raised, who folded to whom) from the state's history on every call, never from memory: when memory is
+  cut, a bot that kept the hand there misreads a raised pot as unopened. And never reconstruct a past
+  moment from the seats' CURRENT status: by the time we see our raise in the events, the seats that
+  folded to it already show as folded (that is how our "folded to our raise" counter came to count
+  nothing, twice).
 - one file, with every table it needs embedded in it. A previous upload of ours was rejected because the
   file opened a data file that wasn't there. Test the exact artifact from an empty folder.
 
@@ -97,9 +102,12 @@ SPEED: DESIGN FOR THE WORST DECISION, NOT THE AVERAGE
 The upload test gives no time bank, and the slowest decisions come from garbage-collection pauses, cold
 first calls and machine jitter, not from our logic. So: build all tables at import; run one full throwaway
 decision of every phase at import; then collect garbage once, freeze it and raise the collector's
-thresholds; cap any sampling by both an iteration count and a deadline around 0.3 ms from the start of
-the call. Measure the maximum and the 99.9th percentile over 100,000 varied states on an idle machine,
-not the mean. Aim for 99.9% under 0.3 ms.
+thresholds; cap any sampling by an iteration count and by a deadline of 0.15-0.2 ms from the start of
+the call (the rest of the decision needs time too), so typical compute stays near 0.1 ms. A deadline
+can't protect against the process being paused mid-call, so keep the work small. Measure the maximum and
+the 99.9th percentile over 100,000 varied states, and always measure the kit's check-or-fold example in
+the same run as a baseline: the build machine is usually busy, so judge our numbers against it, and if
+even the baseline fails decisions, trust only the upload test and say so.
 
 ARCHITECTURE: THREE LAYERS, SO THE VARIANT TOUCHES ONE OF THEM
 1. Platform: the safety shell above, memory, and a per-seat record of what each opponent has done.
@@ -108,16 +116,22 @@ ARCHITECTURE: THREE LAYERS, SO THE VARIANT TOUCHES ONE OF THEM
 3. Strategy: decisions from equity, pot odds, tournament equity and opponent tendencies.
 
 THE TWIST IS WHERE THE EDGE IS; VALUE IT BY ENUMERATION
-Whatever decision the variant adds (a discard, a draw, a bid, a pass), list the legal options, score each
-with the same equity function, and take the best, inside the time limit. Three traps:
+Whatever decision the variant adds (a discard, a draw, a bid, a pass), list the legal options and score
+them ALL on the same random deals in one interleaved loop, so each gets equal samples and the noise
+cancels; scoring them one after another under one deadline starves the later options. Then compare the
+expensive scoring with a cheap rule of thumb and keep the cheap one if it is as good. Four traps:
 - compute equity against opponents who ALSO use the twist well. Tables built against opponents who
   ignore it overstate our hands; that mistake sank a past winner's bot.
-- use every piece of information the twist makes public (exposed cards, bid totals, thrown cards) to
-  narrow what opponents can hold, and remove every card we know is dead from all sampling.
+- use every piece of information the twist reveals to us, publicly or privately (exposed or thrown
+  cards, bid totals, a card we passed or received, what an opponent chose to give away), to narrow what
+  opponents can hold, and remove every card we know is dead from all sampling.
+- model what our OWN twist choice reveals to the others.
 - if the twist has a budget or resource (chips of another kind, a limited number of uses), plan it over
   a whole table of roughly 120-140 hands, and check what a failed decision costs under the rules.
-Preflop hand rankings change when the rules do. Build today's ranking by simulation at import or at build
-time rather than assuming standard hold'em values.
+Preflop hand rankings change when the rules do, sometimes completely (in one mock variant pocket pairs
+became the worst hands). By minute 20, simulate today's ranking and the twist's value at build time and
+embed them. Define every style as a fraction of TODAY's ranking plus stack-depth rules; the regional
+numbers below are hold'em numbers and apply only as far as today's ranking resembles hold'em's.
 
 STRATEGY: WHAT WON AND WHAT LOST AT OUR REGIONAL (127 TEAMS, MOSTLY AI-BUILT BOTS)
 Treat these as starting values to be replaced by today's data, not as truths about today's field.
@@ -164,16 +178,17 @@ and moves as evidence arrives. Three things we got wrong and want right:
   cards), so even a called river bet is not a fair sample of the bettor's range, and earlier streets
   are shown only when the bettor kept going. Use showdowns to bound a seat's bluff share (a low and a
   high estimate), not as its rate.
-Build in team recognition from the start, even though the profiles arrive later. With only 19 opponents,
-a seat's exact open-raise size and its bet sizes as a fraction of the pot identify the team within a few
-dozen hands (in our regional data: the right team 54% of the time after 10 hands, 67% after 20, 73% after
-40, from profiles two rounds old). So: record those sizes for every seat from hand 1; keep a running
-match score for each seat against each team profile embedded in the bot; and make every prior a blend of
-the field's rate and the candidate teams' rates, weighted by how well each matches so far. Use the blend
-from the first hand, with no waiting for certainty: a weighted guess is better than ignoring evidence, and
-a wrong guess is diluted automatically. Until we have downloads, the profile table is empty and the blend
-is just the field's rate. Nothing learned at one table is carried to another; profiles come only from the
-hand histories between rounds.
+HOUR ONE STOPS HERE for opponents: per-seat counters with priors, and recording each seat's exact open and
+bet sizes from hand 1. Profile matching, blends and showdown replay come after the first download, with a
+separate prompt.
+
+TEST HARNESS, BY MINUTE 15
+The kit's command-line runner can't show the bot's memory and has no time-bank switch, so build your own
+in-process runner on the kit's engine (its sit-and-go and table-rules classes; check their names in the
+SDK): it plays any mix of bot files, and reports per-decision time, the catch-all count and the
+branch counts read from memory, and the style report in check 8. Also an upload test: two players, 20
+hands, time bank 0, against the kit's check-or-fold example. Sparring bots must use the twist too, some
+randomly and some well; ones that ignore it flatter us.
 
 CHECKS, BEFORE I UPLOAD ANYTHING (report the numbers, not "passed")
 1. The packed upload imports from an empty folder; the upload-test conditions (heads-up against the kit's
@@ -181,12 +196,17 @@ CHECKS, BEFORE I UPLOAD ANYTHING (report the numbers, not "passed")
 2. 100,000 random legal states, including 2 and 3 players, all-in seats, cut or garbage memory: zero
    illegal actions, zero exceptions, zero catch-all hits, and the latency figures above.
 3. Tournament equity: equal stacks get equal shares; shares sum to the prize pool; a busted player gets
-   exactly their place's payout; 2- and 3-player cases match hand calculation.
-4. Scripted event sequences for every statistic: a seat folds to our bet three times -> 3 of 3; a seat
-   that never raises in ten chances -> a rate below the prior.
+   exactly their place's payout; 2- and 3-player cases match hand calculation. Then test the CALL/FOLD
+   wrapper around it, where both build tests put their bugs: heads-up, its break-even equity must equal
+   plain pot odds; 8 equal stacks on hand 1, about 56%; three equal stacks, about 57%; four equal stacks,
+   about 62-65%. Count the pot once, and when the bettor covers us, only the matched part is ours to win.
+4. Scripted event sequences for EVERY statistic, one test each: a seat folds to our bet three times ->
+   3 of 3; a seat that never raises in ten chances -> a rate below the prior; every rate between 0 and 1.
+   Run the same sequences with memory cut halfway through a hand.
 5. Position, blinds, who acts first and effective stack are right at 8, 3 and 2 players and after a bust.
-6. A hand made entirely by the board counts as no hand of ours; equity for a fixed hand falls as the
-   opponent's action strengthens from check to bet to raise.
+6. A hand made entirely by the board counts as no hand of ours; equity for a fixed hand falls clearly as
+   the opponent's action strengthens from check to bet to raise (top pair facing a bet and a raise
+   heads-up should be well below its unopposed equity, not a few points lower).
 7. Every strategy branch and every variant option reports how often it fired over 1,000 hands; zero or
    absurd counts mean it's broken.
 8. A style report from local play, by players remaining: how often we enter pots, raise, re-raise, fold
@@ -214,7 +234,9 @@ HOW TO WORK
   different styles on it, because a different design is the only thing that has ever moved a team many
   places and the practice rounds can tell us which style this field pays. You own the platform and
   style A; spawn two subagents for B and C once the platform's interface is fixed, each in its own folder,
-  changing only its style layer:
+  changing only its style layer. A style may set parameters or wrap shared functions, never copy them (a
+  copied function silently misses every later platform fix), and uses only platform counters. Subagents
+  report suspected platform bugs in their first message, not their last:
     A. pressure: opens and re-raises wide (the regional winner's style), with planned responses to the
        next raise, and bets when checked to while the field folds enough;
     B. shove-heavy: few small raises before the flop; mostly shove or fold, with wide shoves and
@@ -226,14 +248,15 @@ HOW TO WORK
   clearly best. So the real field must pick, and the challenger should be the style that beats whatever
   is winning. A tight bot that only folds busts around hand 100 and finishes 4th, so C must win chips.
   All three share the post-flop equity logic (fold to bets near break-even, adjusted per seat).
-- Whatever the style, never fold more than about 75% to re-raises over a table: at our regional we
-  folded 82-89%, opponents re-raised us after a single fold, and strong bots folded 70-77%. Tight play is
-  the wrong answer to seats that re-raise a lot; against them call off and re-shove wider.
   Each must pass every check below. I'll rotate which one is active through the practice rounds, so each
   gets a real score against this field. The best scorer plays scored round 1; the next best stays alive as
   the challenger, which plays the practice round between scored rounds and takes the bigger, riskier
   changes; the third is dropped. If you have ideas for further styles, build them too and let the test rig
-  filter them: only three can get practice rounds, but more can be tried in simulation.
+  filter them: only three can get practice rounds, but more can be tried in simulation. A local field of
+  our own styles is a sanity check, not a verdict: in it, whichever style the cycle favours wins.
+- Whatever the style, never fold more than about 75% to re-raises over a table: at our regional we
+  folded 82-89%, opponents re-raised us after a single fold, and strong bots folded 70-77%. Tight play is
+  the wrong answer to seats that re-raise a lot; against them call off and re-shove wider.
 - Adapt to specific seats, not to a vague "table mood": "this opener has folded to our re-raise twice at
   this stack depth" is useful; "the table is aggressive, switch to tight mode" is not. Every adjustment is
   a blend of the seat's live count with a prior, moves a decision by an amount that grows with the number
