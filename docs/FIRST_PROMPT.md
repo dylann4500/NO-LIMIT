@@ -295,6 +295,45 @@ Start by reading the kit, then give me the summary and the minimal bot.
 
 ---
 
+## Part 1b · Theory: solve what can be solved (s-theory, from minute 0)
+
+Run in parallel with Part 1. It computes the parts of today's game that converge in minutes and hands them to
+Platform and Builder as tables; the real field then refits them. s-theory has this brief in its instructions;
+it is here for reference and evidence.
+
+**What converges in the hour, and what doesn't** (research of 13 November; sources below):
+- **Push/fold at short stacks: yes.** Heads-up jam/fold is near-optimal at short stacks (Miltersen-Sorensen
+  2007, as restated in Ganzfried-Sandholm 2008). Three-player jam/fold by fictitious play converged in under
+  100 iterations per stack vector, and ICM was within about $0.37 per $100 of equilibrium values on average
+  (Ganzfried-Sandholm 2008). Measured on our laptop: a 7-card evaluation in 0.46 µs; 2,000 heads-up
+  fictitious-play iterations on a 169x169 matrix in 0.09 s; a 3-way equity table is about 2 minutes on Modal.
+- **The twist: yes**, by enumerating options on common random numbers, or as a small game solved by regret
+  matching when it reveals information.
+- **CFR: only on small subgames** (a river on equity buckets). Discounted CFR (alpha 1.5, beta 0, gamma 2) beat
+  CFR+ by 2-3x in no-limit subgames (Brown-Sandholm). Real-time subgame solving can't fit in 1 ms.
+- **No:** full-game CFR, deep RL or self-play (Pluribus' blueprint took 12,400 core-hours; we have about 30),
+  and CMA-ES-style parameter search (each evaluation is ±0.4 points against effects of 0.3-1).
+- **Exploit robustly:** restricted Nash / data-biased responses beat pure best responses when the opponent
+  model is uncertain (Johanson et al. 2007, 2009). In tables: equilibrium cells plus best-response columns
+  keyed by the opponent's measured rate, blended by the count behind it (the prior-blend from Part 1).
+
+**The brief** (s-theory's instructions; deliverables at minutes 15, 22, 25, 30, 40, 45): today's hand ranking;
+ICM thresholds (a busted player keeps their place's payout); the twist's option values; push and call tables
+keyed by players left, position and stack, with call tables as best responses to opponent shove widths of
+10-70% (the regional field shoved 40-60% at 20bb or less, so equilibrium call ranges fold too much); break-even
+fold, bluff and 4-bet thresholds; a hand-off note. Stop rules: fictitious play at best-response gain below
+0.02bb (or 0.05% of the prize pool with ICM), 2,000 iterations or 2 minutes; a missed checkpoint ships the
+fallback, labelled. Checks: equity symmetry, card removal, blind and position spots, microsecond lookups, and a
+paired-seed sim where the tables gain against a 50% shover and lose under 0.3 points against an equilibrium
+shover. After each practice download, refit the call and fold columns from the real field.
+
+Sources: Ganzfried & Sandholm, 3-player jam/fold (AAMAS 2008); Brown & Sandholm, Discounted CFR (2019) and
+Safe and Nested Subgame Solving (2017); Lanctot et al., MCCFR (2009); Tammelin et al., CFR+ (2015); Johanson et al.,
+Restricted Nash Response (2007) and Data-Biased Robust Counter Strategies (2009); Neller & Lanctot's CFR tutorial;
+HoldemResources heads-up push/fold charts (hold'em cross-check only).
+
+---
+
 ## Part 2 · The leak finder (with the first practice-round download, then every round)
 
 Tested on our regional files: step 2 below would have ranked our biggest leak first from the first practice

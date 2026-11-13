@@ -150,6 +150,7 @@ Samuel's things are marked indigo, Dylan's rose.
 | Worker | **Pipeline**: turns each round's hand data into a standard "round card" of numbers within a minute; woken automatically when data lands | **Platform**: the only one editing the main bot code; sets the rules card at minute 0; packs and checks every release (v1, v2, ...) |
 | Worker | **Analyst**: what the numbers mean: our biggest leaks, opponents, the changes worth making (up to three) | **Builder**: styles A, B and C plus challengers, each in its own folder of its own copy of the repo |
 | Worker | **Tester**: a verdict on every candidate, "correct?" and "stronger?" (paired tests on Modal, at the table size on the rules card) | |
+| Worker | **Theory**: from minute 0, solves what can be solved for today's variant (hand ranking, ICM, push/fold and call tables, the twist's value) and hands Platform tables; refits them from each practice round | |
 | Worker | **Skeptic**: re-runs the numbers behind anything a decision rests on; marks results validated or disputed; can invalidate a wrong method, which flags everything built on it | |
 | Hub services (plain code, not agents) | **Clock**, **Portal watcher**, **Codex** | **Clock**, **Codex** |
 

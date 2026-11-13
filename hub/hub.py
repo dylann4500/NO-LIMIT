@@ -57,6 +57,7 @@ BUILD_NOTES = [  # (person, agent, name): one note per build-hour work stream, c
     ("dylan", "d-builder", "Styles A, B and C"),
     ("samuel", "s-tester", "Test rig (paired runs, sparring)"),
     ("samuel", "s-pipeline", "Round card: today's hand data in numbers within a minute"),
+    ("samuel", "s-theory", "Theory: ranking, ICM, push/fold, twist tables for today's variant"),
 ]
 
 
@@ -2023,6 +2024,7 @@ DISPATCH = {
     "b0": [("dylan", "crit", "d-platform", "set_rules first (players per table, stacks, blinds, hands per match, time limits) from the kit and Format page, then FIRST_PROMPT.md Part 1 with TWIST_NOTES.md: minimal legal bot in bot/ and releases/v1.zip by minute 10; test harness by 15; today's hand ranking and the twist's value by 20; then the shared platform with every Part 1 check passing"),
            ("dylan", "crit", "d-builder", "Read Part 1 (styles) and TWIST_NOTES.md; draft styles A (wide pressure), B (shove-heavy), C (tight, fold <=75% to re-raises) as settings; build them on Platform's interface as soon as it's published"),
            ("samuel", "crit", "s-tester", "Part 3a: paired runner on identical deals plus sparring bots, running by minute 15"),
+           ("samuel", "crit", "s-theory", "Start the theory brief (FIRST_PROMPT.md Part 1b): ranking by m15, ICM by m22, twist by m25, push/fold + call tables by m30, exploit thresholds by m40, HANDOFF by m45"),
            ("samuel", "crit", "s-pipeline", "Parsers for today's hand-history format and analysis/roundcard.py (round card in <60 s); test it on practice 1"),
            ("samuel", "crit", "s-skeptic", "Check the rules card against the kit and Format page as soon as d-platform sets it; then check the test rig's method (table size, paired deals, seat rotation)"),
            ("samuel", "opt", "s-data", "Read the Format page and twist; list the questions each round's analysis must answer today")],
@@ -2030,7 +2032,8 @@ DISPATCH = {
     "b15": [("samuel", "crit", "s-tester", "Test rig must run now: first verdict on v1 (correct? timing?)")],
     "b20": [("dylan", "crit", "d-builder", "Style A ready (legal and upload-tested is enough) for practice round 1; B next"),
             ("samuel", "crit", "s-data", "When practice 1's round card lands: leaks of the bot that played (Part 2), top change in 5 minutes")],
-    "b30": [("dylan", "crit", "d-builder", "Style B for practice 2; C next"),
+    "b30": [("samuel", "crit", "s-theory", "Refit the call tables' shove-width and fold-rate columns from practice 1's real data and re-issue"),
+            ("dylan", "crit", "d-builder", "Style B for practice 2; C next"),
             ("samuel", "crit", "s-data", "Practice 2 leaks; compare styles A vs B on the real field"),
             ("samuel", "opt", "s-data", "Opponent profiles (Part 4) from practice rounds so far")],
     "b40": [("dylan", "crit", "d-builder", "Style C for practice 3"),
@@ -2061,6 +2064,7 @@ CHECKPOINTS = [
     ("dylan", "T8", "the decision card is posted"), ("dylan", "T3", "the chosen bot's release is ready"),
     ("dylan", "b10", "the rules card is set (players per table, stacks, blinds)"),
     ("samuel", "T12", "the round card for the round that just landed is written"),
+    ("samuel", "b20", "s-theory's ranking and ICM tables are with d-platform"),
     ("samuel", "T8", "the recommendation is with d-overseer, citing ledger ids (validated preferred; none disputed)"),
 ]
 
@@ -2090,6 +2094,7 @@ FANOUT = {
     "d-builder": "fan out: one subagent per style or candidate, in parallel, each in its own folder; Modal (up to 20) for sparring each",
     "s-tester": "fan out: shard paired runs across Modal (up to 40 containers); one subagent per candidate for the 'correct?' review",
     "s-data": "one-change proposal: 3 lens subagents in ONE message (3-min cap) + 1 Codex recompute, aggregate by T-9; other work: one subagent per question, Sonnet for counting",
+    "s-theory": "fan out: one subagent per deliverable once the evaluator is verified (ICM / twist / push-fold), Modal <= 20 containers for equity tables and sims",
     "s-pipeline": "fan out: at most 2 Sonnet subagents (parser / card); keep the card script under 60 s",
     "s-skeptic": "fan out: 1-2 subagents plus one Codex re-implementation for numbers that matter; 2 minutes per item before T-8",
     "s-overseer": "", "d-overseer": "",
