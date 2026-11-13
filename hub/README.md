@@ -38,6 +38,13 @@ Ctrl+C stops it.
 - **Parallel work:** each agent fans out on Claude subagents (up to 4), Modal (shared cap of 80
   containers) and Codex (if installed; separate credits). `roster.py` has the exact rules.
 
+- **Shared context:** at the top of every turn, each agent sees the other agents' briefs (both laptops)
+  that changed since its last turn; after a compaction, all of them plus the open notes.
+- **Compaction:** between turns, an agent whose context passes 180k tokens (Overseers) or 250k (workers)
+  compacts itself with a fixed keep-list (live bot, candidates, human decisions, numbers, running jobs,
+  promises), except from T-9 to T-2 of a scored round. The agent page shows "Context Nk".
+  `AVALON_COMPACT_AT=<tokens>` overrides the threshold for tests.
+
 ## The screen
 
 - **Board** (the default and usually the only thing open): sticky notes, one per idea, analysis,

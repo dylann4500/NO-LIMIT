@@ -49,6 +49,14 @@ HUB_TOOLS = ["send_message", "list_agents", "read_agent", "set_status", "notify_
 API_KEY_FILE = Path.home() / ".config" / "avalon-hub" / "anthropic-api-key"
 KINDS = ("idea", "research", "finding", "change", "decision")
 OPEN = ("new", "planned", "running", "needs_call", "revise")
+COMPACT_AT_OVERSEER = int(os.environ.get("AVALON_COMPACT_AT", 180_000))   # tokens of context; above this, compact between turns (outside the T-9..T-2 crunch)
+COMPACT_AT_WORKER = int(os.environ.get("AVALON_COMPACT_AT", 250_000))
+COMPACT_KEEP = ("Summarize for yourself to continue the day without loss. Keep, exactly: your role and current "
+                "assignments; the event phase and schedule; the declared live bot (exact file) and every candidate "
+                "with its status, test results and file path; every human decision and instruction, near-verbatim; "
+                "open notes on the board by id; numbers from analyses with sample sizes and confidence; what is "
+                "running where (subagents, Modal app ids, Codex job ids) and where results will land; promises you "
+                "made to other agents; open questions. Drop: raw tool output, logs, superseded plans, chit-chat.")
 LIMIT_RX = re.compile(r"usage limit|rate.?limit|overloaded|429|quota|limit reached|too many requests", re.I)
 APPROVAL_TIMEOUT = 180
 
@@ -335,6 +343,9 @@ class Agent:
         self.human_in_turn = False
         self.last_need = ""
         self.idle_since: float | None = None
+        self.digest_seen: dict[str, int] = {}
+        self.digest_full = True          # first turn after (re)start: the whole team picture
+        self.context_tokens = 0
         self.usage: dict = {}             # latest usage-limit notice from Claude
         self.limit_reset: float | None = None
         self.model_switch: str | None = None
@@ -358,7 +369,7 @@ class Agent:
                 "model": self.model(), "usage": self.usage, "api_key": self.use_api_key,
                 "queued": sum(1 for i in self.items if not i.get("taken")), "cost": round(self.cost, 2),
                 "overseer": self.name.endswith("overseer"), "since": self.turn_started, "last_i": self.next_i - 1,
-                "cwd": str(self.cwd)}
+                "cwd": str(self.cwd), "context": self.context_tokens}
 
     def model(self):
         return self.hub.model_override or self.model_switch or self.spec.get("model", "claude-opus-5-5")
@@ -433,6 +444,70 @@ class Agent:
         if self.state == "stopped":
             self.paused = False
             await self.start()
+
+    def team_digest(self) -> str:
+        """Every other agent's brief (both laptops) that changed since this agent's last turn, so context flows
+        between agents automatically. After a compaction, all of them."""
+        full = self.digest_full
+        self.digest_full = False
+        rows = [(a.name, a.title, a.state, a.summary) for a in self.hub.agents.values() if a is not self]
+        rows += [(n, v.get("title", n), v.get("state"), v.get("summary") or "") for n, v in self.hub.bus.directory.items()
+                 if v.get("person") != self.hub.person and not v.get("service")]
+        out = []
+        for n, title, st, summ in sorted(rows):
+            summ = (summ or "").strip()
+            if not summ:
+                continue
+            h = hash(summ)
+            if not full and self.digest_seen.get(n) == h:
+                continue
+            self.digest_seen[n] = h
+            keep = [ln.strip() for ln in summ.splitlines() if ln.strip()][:5]
+            out.append(f"- {n} ({st}): " + " / ".join(keep)[:600])
+        if not out:
+            return ""
+        head = ("[team context: every agent's current brief]" if full else
+                "[team context: briefs that changed since your last turn]")
+        if full:
+            ps = [p for p in self.hub.props() if p.get("status") in OPEN]
+            if ps:
+                out.append("Open notes on the board: " + "; ".join(f"#{p['id']} {p['kind']}/{p['status']}: {p['title'][:80]}"
+                                                                   for p in ps[:12]))
+        return head + "\n" + "\n".join(out)
+
+    def crunch(self) -> bool:
+        """True in the minutes where a pause to compact would cost a deadline (T-9..T-2 of a scored round)."""
+        sch = self.hub.bus.shared.get("schedule")
+        if not sch:
+            return False
+        U, now = 60 * sch.get("scale", 1.0), time.time()
+        for k in range(1, sch.get("scored", 6) + 1):
+            ts = sch["start"] + (60 + 20 * (k - 1)) * U
+            if ts - 9 * U <= now < ts - 2 * U:
+                return True
+        return False
+
+    async def maybe_compact(self):
+        """Compact proactively, between turns, before the context gets long and slow, with a role-specific
+        list of what must survive. Skipped in the decision crunch and when work is queued urgently."""
+        try:
+            u = await self.client.get_context_usage()
+            tokens = int((u or {}).get("totalTokens") or 0)
+        except Exception:  # noqa: BLE001
+            return
+        self.context_tokens = tokens
+        limit = COMPACT_AT_OVERSEER if self.name.endswith("overseer") else COMPACT_AT_WORKER
+        if tokens < limit or self.crunch():
+            return
+        await self.set_state("working", "compacting")
+        self.record({"type": "note", "text": f"Compacting its context ({tokens // 1000}k tokens) to stay fast."})
+        try:
+            await self.client.query("/compact " + COMPACT_KEEP + (" " + self.spec.get("keep", "")))
+            async for m in self.client.receive_response():
+                self.handle(m)
+            self.digest_full = True
+        except Exception as e:  # noqa: BLE001
+            self.record({"type": "note", "text": f"Compaction failed ({e}); it carries on."})
 
     def format(self, b: dict) -> str:
         if b["kind"] == "human":
@@ -520,6 +595,9 @@ class Agent:
                 self.save_items()
                 self.human_in_turn = any(b["kind"] == "human" or b.get("from_kind") == "human" for b in batch)
                 prompt = "\n\n".join(self.format(b) for b in batch)
+                digest = self.team_digest()
+                if digest:
+                    prompt = digest + "\n\n" + prompt
                 if self.name.endswith("overseer"):
                     prompt = situation(self.hub) + "\n\n" + prompt
                 self.turn_started = time.time()
@@ -544,6 +622,7 @@ class Agent:
                 self.items = [i for i in self.items if i["id"] not in done]
                 self.save_items()
                 self.fails = 0
+                await self.maybe_compact()
                 await self.set_state("idle")
                 if any(i.get("wake", True) for i in self.items if not i.get("taken")):
                     self.wake.set()
@@ -622,10 +701,13 @@ class Agent:
                 if sid:
                     self.session_id = sid
                     self.save_meta()
-            elif "compact" in (m.subtype or ""):
+            elif m.subtype == "compact_boundary":
+                self.digest_full = True
                 self.items.append({"id": new_id(), "at": time.time(), "kind": "hub", "wake": False,
                                    "text": "Your context was just compacted. Re-read your PLAN file and your role "
-                                           "before continuing; facts about rounds must come from the portal watcher."})
+                                           "before continuing; facts about rounds must come from the portal watcher. "
+                                           "The team context above your next message lists every agent's brief and "
+                                           "the open notes."})
                 self.save_items()
         elif type(m).__name__ == "RateLimitEvent":
             info = m.rate_limit_info

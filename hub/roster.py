@@ -72,6 +72,13 @@ is working / waiting / blocked / done / idle; task is one line; summary is markd
 `**Now:** ...` / `**Latest result:** ...` / `**Next:** ...` / `**Needs from a human:** ... (or "nothing")`,
 plus at most 8 lines of detail. Update it whenever you start or finish something.
 
+**Context flows through your brief.** Every agent sees, at the top of each turn, the other agents' briefs
+that changed since its last turn (both laptops). So keep yours current and concrete: numbers, file paths,
+what's done, what's next. When you finish something another agent depends on, also send it a one-line `fyi`
+with the file path. Keep a short PLAN file in your folder (assignments, what's running where, open promises)
+and update it as you go: the hub compacts your context automatically between turns when it gets long, and
+the PLAN file plus the briefs are how you pick up again without losing anything.
+
 **Long work.** Never sleep or loop inside a turn. Anything that runs over a minute: start it in the
 background, end your turn, and check on it when you are next woken.
 
