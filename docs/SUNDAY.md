@@ -63,11 +63,11 @@ cd ~/NoLimit/NO-LIMIT
 ## Minute 0: the variant is announced
 
 1. **Samuel: press Start building** on the board the moment the variant is announced (or, if you're
-   late, type the announcement time next to it, or tell your Overseer "the variant was announced at
+   late, type the announcement time next to it, or tell your Overview "the variant was announced at
    14:02"). Both laptops' clocks start and both Overseers start the plan: they send each agent its
    instructions at the right minute, so you don't have to.
 2. **Both:** read the Format page on the portal: round weights, payouts, anything unusual. If the times
-   differ from the usual schedule, tell your Overseer, e.g. "practice 1 is at 14:25".
+   differ from the usual schedule, tell your Overview, e.g. "practice 1 is at 14:25".
 3. **Dylan:** fetch the kit. Either run the setup skill with `/no-limit-2026-setup` in Claude Code with
    the API key, or download it from the portal. Put it in `~/avalon-finals/starter-kit/`, then tell your
    Overseer "the kit is in starter-kit/". The Overseer starts Platform on the first prompt and the twist
@@ -77,8 +77,8 @@ cd ~/NoLimit/NO-LIMIT
 
 | When | Who | What to do |
 |---|---|---|
-| ~10 | Dylan | When your Overseer says "upload releases/v1.zip", upload it on the portal and make it **active**. Check the team page shows it as the active bot |
-| 20, 30, 40 | Dylan | Before each practice round your Overseer posts which style plays and the file. Upload, make active |
+| ~10 | Dylan | When the bell says "Upload v1.zip now": Live menu → click v1 to download it → upload it on the portal and make it **active**. The Live chip turns green when the portal runs it |
+| 20, 30, 40 | Dylan | Before each practice round a "Which bot?" note asks which style plays. Answer it; if a new bot goes live, the bell says "Upload … now": download it from the Live menu, upload, make active |
 | after practice 1 | Samuel | **Step 7 below:** give the watcher the hand-history link |
 | any time | Both | Read the bell. Greenlight or reject notes; click one to ask about it. Post ideas with + New idea |
 | 50-60 | Dylan | The best real-field scorer goes active for scored round 1. Your Overseer posts it as a Live bot note; greenlight, upload, make active |
@@ -119,7 +119,7 @@ Between those, steer when you like: ask "why?", redirect, post ideas.
 | An agent shows **Error · retrying** | It retries by itself. If it stays red for over 5 minutes, open it and read the last error; tell your Overseer |
 | **Upload rejected** (bell) | The previous bot stays active. Tell your Overseer; Platform fixes it and gives you a new file |
 | **No active bot / wrong active bot** (urgent bell) | Make the right file active on the portal now |
-| The clock is wrong | Tell your Overseer the right time ("scored round 3 is at 15:42"), or tell it when minute 0 was |
+| The clock is wrong | Tell your Overview the right time ("scored round 3 is at 15:42"), or tell it when minute 0 was |
 | A permission request you don't understand | Deny it. The agent finds another way |
 | The hub page won't load | Look at its Terminal window. It restarts itself after a crash; if the window is closed, start it again with the same command (agents resume) |
 | Codex jobs fail | Nothing to do; agents fall back to Claude helpers. The bell says if Codex needs a login |

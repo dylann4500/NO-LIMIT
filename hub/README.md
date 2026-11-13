@@ -121,5 +121,7 @@ doesn't reveal it). Keep both laptops plugged in with lids open.
 On a phone hotspot add `--small-hands` to Samuel's command: the watcher then downloads only the small
 first-1,000 hand file per round (a scored round's full file can be several hundred MB).
 
+`--worker-model claude-sonnet-5-5` runs the workers on Sonnet (Overseers stay on Opus) to save the Opus/weekly allowance.
+
 Other options: `--port`, `--model claude-haiku-5-5` (cheap test runs), `--no-autostart`, `--start HH:MM`,
 `--portal-data`.

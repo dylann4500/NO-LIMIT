@@ -197,6 +197,7 @@ class Hub:
         self.default_scale = 1.0
         self.report_busy: set[str] = set()
         self.last_landed = 0.0
+        self.worker_model: str | None = None
 
     def emit(self, kind: str, payload: dict):
         ev = {"kind": kind, **payload}
@@ -473,7 +474,7 @@ class Hub:
         while True:
             try:
                 for z in sorted((self.repo / "releases").glob("*.zip")):
-                    if z.is_symlink() or not re.fullmatch(r"v\d+[a-z]?", z.stem):
+                    if z.is_symlink() or not re.fullmatch(r"v\d+", z.stem):
                         continue   # aliases, not bots
                     cur = self.bus.shared.get("bot:" + bot_name(z.name)) or {}
                     if cur.get("status") != "failed" and (cur.get("status") != "ready" or cur.get("size") != z.stat().st_size):
@@ -851,7 +852,13 @@ class Agent:
                 "cwd": str(self.cwd), "context": self.context_tokens}
 
     def model(self):
-        return self.hub.model_override or self.model_switch or self.spec.get("model", "claude-opus-5-5")
+        if self.hub.model_override:
+            return self.hub.model_override
+        if self.model_switch:
+            return self.model_switch
+        if self.hub.worker_model and not self.name.endswith(("overseer", "overview")):
+            return self.hub.worker_model   # saves the Opus allowance: Overseers keep Opus, workers use this
+        return self.spec.get("model", "claude-opus-5-5")
 
     async def set_state(self, state: str, substate: str = ""):
         if self.pending_approvals > 0 and state not in ("stopped", "error", "limited"):
@@ -1622,8 +1629,12 @@ class Agent:
                 kind = "question"
             if kind not in ("bot", "question", "build"):
                 kind = "question"
-            if kind == "bot" and not a.get("bot"):
-                return ok("Give bot= the exact release file (e.g. 'releases/v3.zip').")
+            if kind == "bot":
+                if not a.get("bot") or not re.fullmatch(r"v\d+", bot_name(a["bot"])):
+                    return ok("A 'Which bot?' note needs bot= a released file named vN (e.g. 'releases/v6.zip'). Have "
+                              "d-platform release the candidate first (next_bot_name), then ask.")
+                if not hub.find_bot_file(a["bot"]) and (hub.bus.shared.get("bot:" + bot_name(a["bot"])) or {}).get("status") != "ready":
+                    return ok(f"{a['bot']} isn't released yet (no zip, not marked ready). Release it first, then ask.")
             sch = hub.bus.shared.get("schedule")
             p = {"id": "P" + new_id()[1:7].upper(), "kind": kind, "title": a["title"][:160], "body": a["body"][:8000],
                  "headline": (a.get("headline") or "")[:300], "bot": a.get("bot") or None,
@@ -1714,7 +1725,7 @@ class Agent:
               schema(["file", "status"], {"file": "string", "status": "string", "note": "string"}))
         async def register_bot(a):
             st = a["status"] if a["status"] in ("building", "testing", "ready", "failed") else "building"
-            if not re.fullmatch(r"v\d+[a-z]?", bot_name(a["file"])):
+            if not re.fullmatch(r"v\d+", bot_name(a["file"])):
                 return ok("Bots are named v1, v2, ... (get one from next_bot_name); register 'releases/vN.zip'.")
             await hub.register_bot(a["file"], st, a.get("note") or "", me.name)
             return ok(f"{bot_name(a['file'])}: {st}.")
@@ -2487,8 +2498,16 @@ class PortalWatcher:
 
 
 # ======================================================================== web
+@web.middleware
+async def json_only(request, handler):
+    """Every state-changing call must be JSON: a plain form or text POST from another web page can't trigger it."""
+    if request.method == "POST" and not request.content_type.startswith("application/json"):
+        return web.json_response({"error": "JSON only"}, status=403)
+    return await handler(request)
+
+
 def make_app(hub: Hub) -> web.Application:
-    app = web.Application(client_max_size=2 * 1024 * 1024)
+    app = web.Application(client_max_size=2 * 1024 * 1024, middlewares=[json_only])
     r = app.router
 
     async def index(_):
@@ -2532,8 +2551,6 @@ def make_app(hub: Hub) -> web.Application:
         return resp
 
     async def body(req):
-        if req.method == "POST" and not req.content_type.startswith("application/json"):
-            raise web.HTTPForbidden(text="JSON only")
         try:
             return await req.json()
         except Exception:  # noqa: BLE001
@@ -2701,6 +2718,8 @@ async def main():
     ap.add_argument("--no-autostart", action="store_true")
     ap.add_argument("--view-only", action="store_true", help="show the screen with saved data; start no agents or services")
     ap.add_argument("--model", default=None, help="run every agent on this model (e.g. claude-haiku-5-5 for tests)")
+    ap.add_argument("--worker-model", default=None, help="run the workers (not the Overseers) on this model, e.g. "
+                    "claude-sonnet-5-5 to save the Opus allowance")
     ap.add_argument("--start", default=None, help="event minute 0 as HH:MM[:SS] (sets the shared clock)")
     ap.add_argument("--scale", type=float, default=1.0, help="simulations only: event-minutes run this fast (0.25 = 4x)")
     ap.add_argument("--portal-base", default=None, help="portal API base, e.g. http://127.0.0.1:8765/tournament/api")
@@ -2730,6 +2749,7 @@ async def main():
         if merged != other:
             asyncio.create_task(hub.bus.set_shared("prop:" + pr["id"], merged))
     hub.default_scale = a.scale
+    hub.worker_model = a.worker_model
     hub.bus.scale = a.scale
     if a.start:
         await hub.clock.set_start(a.start, scale=a.scale)

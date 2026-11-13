@@ -101,13 +101,23 @@ To tidy up, hover a note and click the small **x** in its corner (or **Remove** 
 to Recent. Removing a note that's still being worked on tells the agents to stop work on it; it's gone
 from both laptops.
 
-**Click a note** to open it on the right: the headline, the details and evidence (folded), and a
-**chat**. Ask anything ("why?", "how sure are you?") or give an instruction ("try it at 30bb instead").
-Your Overseer gets it, sends it to the right agent and answers in that chat. If it's your call, the
-Greenlight and Reject buttons are there too, and anything you type counts as "do this instead".
+**Click a note** to open it almost full screen, like a Claude chat. At the top, **What's going on** is
+written fresh when you open it (about 10 seconds), in plain language: where it stands, what we found (with
+how sure we are), what's running, what's next, and what we need from you. Below are the conversation and a
+folded activity log. Ask anything ("why?", "how sure are you?") or give an instruction ("try it at 30bb
+instead"): it goes to the Overseer, which hands it to the right agent and answers there. If it's your call,
+the Greenlight and Reject buttons are there too, and anything you type counts as "do this instead".
+
+**Overview** (button in the header) is your main conversation: a readable chat that knows everything your
+Overseer knows (the ledger, every agent's brief, the notes, the Overseer's recent work). Ask "what's going
+on?", "what should I be doing?", "why v5?"; tell it what to change and it passes that to the Overseer and
+reports back. Tabs switch between **your Overview and your teammate's**, so either of you can ask about, or
+steer, the other side. You don't prompt the Overseer directly: it coordinates the agents and keeps the
+context; the Overview is the window onto it.
 
 **Header:** your name, a big countdown to the next step of the day (amber under 3 minutes, red under 1),
-**Agents ▾** and the **bell**.
+**Overview**, **Live** (the bot the portal is running; the menu lists every bot, built or in progress, and
+downloads a bot's zip for you to upload), **Agents ▾** and the **bell**.
 
 - **Bell:** everything that needs you: notes waiting for your call, permission requests, and messages
   from your Overseer. New ones pop up briefly in the corner; the browser tab shows the count.
@@ -156,8 +166,9 @@ Samuel's things are marked indigo, Dylan's rose.
 
 ### How you steer
 
-- **Talk to your Overseer** in plain language: "focus on the flop leak first", "why did you pick
-  style B?", "round 1 is in 5 minutes". It updates the clock on both laptops from times you give it.
+- **Talk to your Overview** in plain language: "focus on the flop leak first", "why did you pick
+  style B?", "round 1 is in 5 minutes". It passes instructions (and times, which update the clock on both
+  laptops) to the Overseer. Your instructions go to the top of every agent's context.
 - **Post ideas** on the board → + New idea. Your Overseer plans them, runs them and posts the result back
   on the note. Your ideas come before its own plans.
 - **Greenlight, reject or redirect.** Agents can't act on their own analysis:
