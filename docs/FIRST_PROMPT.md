@@ -276,7 +276,10 @@ Start by reading the kit, then give me the summary and the minimal bot.
 ## Part 2 · The leak finder (with the first practice-round download, then every round)
 
 Tested on our regional files: step 2 below would have ranked our biggest leak first from the first practice
-round. Run it as one extraction pass plus five area agents in parallel, each given the same extracted
+round. Re-tested clean-room on 12 November (an agent with only this prompt, the kit and our round-1
+sample): in under 3 minutes it ranked "calling a raise of our flop bet" first after the flop (-1.8
+points per table, z -7.2), the leak v6 fixed for +2.3 real points, once actions were pooled across
+cells; the fixes it suggested for this prompt are in. Run it as one extraction pass plus five area agents in parallel, each given the same extracted
 tables and one area; the manager (Part 5) merges their answers.
 
 ```
@@ -285,22 +288,31 @@ one script that streams it once and saves tables every analysis can share. A ful
 under a minute. Count only non-filler seats and use team names from the header: entry ids change every
 round.
 
-For every decision by every team, record: street (number of board deals so far), situation (unopened;
-checked to; facing one bet or raise; facing a re-raise), players still in the tournament (6-8, 4-5, 2-3),
-effective stack in big blinds, the action (fold, check, call, small raise, large raise, all-in; the
-variant's own phase as its own class), and the hand's value to that team: its tournament-points equity
-after the hand minus before (both are in the file).
+For every decision by every team, record: street (number of board deals so far); situation (unopened,
+with limped pots counted as unopened; checked to, including the big blind's option; facing one bet or
+raise; facing a re-raise); before the flop, position (small blind, big blind, other; heads-up the button
+counts as the small blind); players still in the tournament (6-8, 4-5, 2-3); effective stack in big blinds
+at the decision (the smaller of our stack and the biggest stack still in the hand), bucketed <10, 10-20,
+20-40, 40+; the action (fold, check, call, small raise, large raise, all-in; small = raise to at most 2.5x
+the bet faced before the flop, or at most 55% of the pot after it; an all-in call counts as a call; the
+variant's own phase as its own class); and the hand's value to that team: its tournament-points equity
+after the hand minus before (both are in the file). Compare actions only within the same cell, and
+before the flop only within the same position: pooled across positions, big-blind calls against other
+seats' folds looked like a 0.76-point leak that was really about 0.1.
 
 Then answer, for <YOUR AREA: before the flop | after the flop | the variant's own phase | short stacks,
 all-ins and the last four players | how the field treats us>:
 
-1. Failures first: any automatic or failed decisions in this area.
+1. Failures first: any automatic or failed decisions of ours in this area (only ours are in the file).
 2. Our own losing actions: every action of ours whose average value is WORSE than our own fold (or check,
-   when checking is free) in the same situation, with uses per table, the difference, and a z-score from
-   splitting the tables into 20 blocks. Rank by uses per table x difference. An action we chose that still
+   when checking is free) in the same cell, with uses per table, the difference, and a z-score (split the
+   tables into 20 blocks in file order; z = mean of the block differences / (their SD / sqrt(20)); drop a
+   block that lacks either action). Then pool each action across stack and player-count cells (sum of
+   uses x difference) and rank on the POOLED figure: per cell, one leak splits into many small rows. An action we chose that still
    does worse than folding is a real leak, and this figure is a floor on what stopping it recovers.
 3. What the best teams do that we don't: take the 10 best other teams in this file by points per table
-   (with 20 teams: the 5 best). For each situation and action, their frequency and ours, and how that
+   (with 20 teams: the 5 best), pooled into one group, and only cells where they have at least 30 uses;
+   say how many tables they played (in a 1,000-table sample, about 55 each, so their ranking is noisy). For each situation and action, their frequency and ours, and how that
    action performs for THEM against their own fold. Rank the biggest "they do it more, and it pays for
    them" gaps. Trust the direction, not the size: they choose their hands, so the average overstates what
    a marginal hand earns.
