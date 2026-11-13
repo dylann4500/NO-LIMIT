@@ -220,6 +220,8 @@ button:active:not(:disabled) { transform: scale(.97); }
 .lbl { font-size: .74rem; border-radius: 999px; padding: 1px 10px; background: var(--hover); color: var(--muted); white-space: nowrap; }
 .lbl.working { background: var(--ok-soft); color: var(--ok); } .lbl.waiting, .lbl.blocked { background: var(--warn-soft); color: var(--warn); } .lbl.error, .lbl.limited { background: var(--bad-soft); color: var(--bad); }
 .tbtn { background: none; border: 1px solid var(--line); border-radius: 8px; padding: 3px 10px; color: var(--muted); font-size: .8rem; }
+.fold-btn { text-transform: none; letter-spacing: 0; margin-left: 10px; font: 600 .8rem var(--sans, inherit); color: var(--fg); background: var(--panel); vertical-align: middle; cursor: pointer; }
+.fold-btn:hover { border-color: var(--fg); }
 .tbtn.on { color: var(--fg); background: var(--panel); border-color: var(--ink, var(--muted)); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
 .brief { border: 1px solid var(--line); background: var(--panel); border-radius: var(--r-surface); padding: 12px 16px; position: sticky; top: 0; z-index: 2; box-shadow: 0 4px 16px rgba(0,0,0,.05); }
 .brief.need { border-color: var(--warn); } .brief .k2 { font-size: .64rem; text-transform: uppercase; letter-spacing: .09em; color: var(--faint); font-weight: 700; }
@@ -282,6 +284,9 @@ const kindOf = (p) => KMAP[p.kind] || p.kind;
 const NOTE = { build: "Build", live: "Live", analysis: "Analysis", bot: "Which bot?", question: "Question", idea: "Your idea" };
 const STAGE_ORDER = (st) => { st = st || ""; if (/^Before/.test(st)) return -1; if (st === "Build") return 0; let m = st.match(/^Practice (\d+)/); if (m) return +m[1];
   m = st.match(/^Round (\d+)(\.5)?/); return m ? 10 + 2 * +m[1] + (m[2] ? 1 : 0) : -2; };
+// the stage just before st in time (Round 6 -> Round 5.5 -> Round 5 ... Round 1 -> Practice 4 ... Practice 1 -> Build)
+const PREV_STAGE = (st) => { let m = (st || "").match(/^Round (\d+)(\.5)?$/); if (m) return m[2] ? `Round ${m[1]}` : (+m[1] > 1 ? `Round ${+m[1] - 1}.5` : "Practice 4");
+  m = (st || "").match(/^Practice (\d+)$/); if (m) return +m[1] > 1 ? `Practice ${+m[1] - 1}` : "Build"; return ""; };
 const STAMP = { new: "new", planned: "planned", running: "working on it", needs_call: "your call", revise: "being revised", approved: "greenlit", rejected: "rejected", done: "done", expired: "no answer · default", blocked: "paused" };
 const BELL = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>`;
 function label(a) { if (!a) return ["", ""]; if (a.stale) return ["Offline", "offline"]; const st = a.state;
@@ -445,7 +450,7 @@ function boardHtml() {
   S.openStages = S.openStages || {};
   const rows = order.map((st, i) => { const xs = stages[st].slice().sort((a, b) => (b.status === "needs_call") - (a.status === "needs_call") || (rank[kindOf(a)] ?? 5) - (rank[kindOf(b)] ?? 5) || (a.created || 0) - (b.created || 0));
     const isNow = st === cur || (!sch && st === order[0]);
-    const nowIdx = order.indexOf(cur), isPrev = nowIdx >= 0 ? i === nowIdx + 1 : i === 1;
+    const isPrev = sch ? st === PREV_STAGE(cur) : i === 1;   // only the stage right before this one, never an older one
     const live = xs.some((p) => p.status === "needs_call" || (["running", "planned", "new"].includes(p.status) && kindOf(p) !== "build"
       && Date.now() / 1000 - (p.updated || 0) < 1200));   // an older stage stays open only while something in it is actually moving
     const auto = isNow || isPrev || live;
@@ -453,7 +458,7 @@ function boardHtml() {
     const tag = isNow && sch ? `<span class="now">NOW</span>` : isPrev ? `<span class="prev">previous</span>` : "";
     const done = xs.filter((p) => ["done", "approved", "rejected", "expired"].includes(p.status)).length;
     if (!open) return `<div class="stage past"><button class="stage-fold" data-stage="${esc(st)}">${esc(nice(st))} · ${xs.length} note${xs.length === 1 ? "" : "s"}${done === xs.length ? " · all done" : ""} ▸</button></div>`;
-    return `<div class="stage ${isNow ? "" : "past"}"><h2>${esc(nice(st))} ${tag}${!isNow ? `<button class="tbtn" data-stage="${esc(st)}" data-open-now="1" style="text-transform:none;letter-spacing:0">collapse</button>` : ""}</h2><div class="wall">${isNow ? newNote : ""}${xs.map((p) => noteHtml(p, isNow)).join("")}</div></div>`; }).join("");
+    return `<div class="stage ${isNow ? "" : "past"}"><h2>${esc(nice(st))} ${tag}${!isNow ? `<button class="tbtn fold-btn" data-stage="${esc(st)}" data-open-now="1" aria-expanded="true">▾ Collapse</button>` : ""}</h2><div class="wall">${isNow ? newNote : ""}${xs.map((p) => noteHtml(p, isNow)).join("")}</div></div>`; }).join("");
   return `<div class="board">${hero}${nowHtml()}
     ${call.length ? `<div><h2>Needs your call <span class="c">${call.length}</span></h2><div class="wall">${call.map((p) => noteHtml(p, true)).join("")}</div></div>` : ""}
     ${rows || `<div class="stage"><div class="wall">${newNote}</div></div>`}
