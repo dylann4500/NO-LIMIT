@@ -99,6 +99,8 @@ class Portal:
             if start > now:
                 continue
             name = f"{e['kind']}{e['n']}"
+            if not (self.dir / "rounds" / name).exists():
+                continue  # the tournament never started this round (e.g. the run was stopped)
             rj = self.dir / "rounds" / name / "round.json"
             r = json.loads(rj.read_text()) if rj.exists() else {}
             done = bool(r.get("scores"))

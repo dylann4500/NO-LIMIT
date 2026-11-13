@@ -141,9 +141,19 @@ function sidebar() {
 }
 function banners() {
   if (S.view !== S.st.me) return "";
-  const ap = S.st.approvals.map((a) => `<div class="banner ${a.risky ? "risky" : ""}"><div class="tx"><b>${esc(titleOf(a.agent))}</b> wants to run ${esc(a.tool)}${a.risky ? " <b style='color:var(--bad)'>(risky)</b>" : ""}<br><code>${esc(a.input)}</code></div><div class="act"><button class="pbtn" data-ap="${a.id}" data-d="allow">Allow</button>${a.risky ? "" : `<button class="pbtn ghost" data-ap="${a.id}" data-d="always">Always for this agent</button>`}<button class="pbtn ghost" data-ap="${a.id}" data-d="deny">Deny</button></div></div>`).join("");
-  const al = S.st.alerts.map((a) => `<div class="banner ${a.urgent ? "urgent" : ""}"><div class="tx"><b>${esc(titleOf(a.agent))}</b> · ${hhmm(a.at)}<br>${esc(a.text)}</div><div class="act"><button class="pbtn ghost" data-dis="${a.id}">Done</button></div></div>`).join("");
-  return ap || al ? `<div class="banners">${ap}${al}</div>` : "";
+  const a = S.st.agents.find((x) => x.name === S.sel);
+  const isOv = a && /overseer$/.test(a.name);
+  // Approvals and alerts show on the agent that raised them; the Overseer shows everything.
+  const mine = (x) => isOv || x.agent === S.sel;
+  const aps = S.st.approvals.filter(mine), als = S.st.alerts.filter(mine);
+  const elsewhere = S.st.approvals.length + S.st.alerts.length - aps.length - als.length;
+  const ap = aps.map((a) => `<div class="banner ${a.risky ? "risky" : ""}"><div class="tx"><b>${esc(titleOf(a.agent))}</b> wants to run ${esc(a.tool)}${a.risky ? " <b style='color:var(--bad)'>(risky)</b>" : ""}<br><code>${esc(a.input)}</code></div><div class="act"><button class="pbtn" data-ap="${a.id}" data-d="allow">Allow</button>${a.risky ? "" : `<button class="pbtn ghost" data-ap="${a.id}" data-d="always">Always for this agent</button>`}<button class="pbtn ghost" data-ap="${a.id}" data-d="deny">Deny</button></div></div>`).join("");
+  const open = S.alertsOpen;
+  const latest = als.slice(-1)[0];
+  const al = !als.length ? "" : `<div class="banner ${latest.urgent ? "urgent" : ""}"><div class="tx"><b>${esc(titleOf(latest.agent))}</b> · ${hhmm(latest.at)} · needs you<br>${esc(latest.text.length > 260 && !open ? latest.text.slice(0, 260) + "…" : latest.text)}</div><div class="act">${als.length > 1 ? `<button class="pbtn ghost" id="alx">${open ? "Hide" : "+" + (als.length - 1) + " more"}</button>` : ""}<button class="pbtn ghost" data-dis="${latest.id}">Done</button>${als.length > 1 ? `<button class="pbtn ghost" id="alall">Clear all</button>` : ""}</div></div>`
+    + (open ? als.slice(0, -1).reverse().map((x) => `<div class="banner"><div class="tx"><b>${esc(titleOf(x.agent))}</b> · ${hhmm(x.at)}<br>${esc(x.text)}</div><div class="act"><button class="pbtn ghost" data-dis="${x.id}">Done</button></div></div>`).join("") : "");
+  const hint = elsewhere && !isOv ? `<div class="note" style="align-self:flex-start">${elsewhere} item${elsewhere > 1 ? "s" : ""} waiting on other agents · open the Overseer to see all</div>` : "";
+  return ap || al || hint ? `<div class="banners">${ap}${al}${hint}</div>` : "";
 }
 function convHtml() {
   const a = allAgents().find((x) => x.name === S.sel);
@@ -196,6 +206,8 @@ function wire() {
   $("#intr")?.addEventListener("click", () => api(`/api/agents/${S.sel}/interrupt`, {}));
   $("#ss")?.addEventListener("click", () => { const a = S.st.agents.find((x) => x.name === S.sel); api(`/api/agents/${S.sel}/${a.state === "stopped" ? "start" : "stop"}`, {}); });
   document.querySelectorAll("[data-ap]").forEach((b) => b.onclick = () => api(`/api/approvals/${b.dataset.ap}`, { decision: b.dataset.d }));
+  $("#alx")?.addEventListener("click", () => { S.alertsOpen = !S.alertsOpen; render(); });
+  $("#alall")?.addEventListener("click", async () => { const a = S.st.agents.find((x) => x.name === S.sel); const ids = S.st.alerts.filter((x) => /overseer$/.test(S.sel) || x.agent === S.sel).map((x) => x.id); for (const id of ids) await api(`/api/alerts/${id}/dismiss`, {}); S.st.alerts = S.st.alerts.filter((x) => !ids.includes(x.id)); render(); });
   document.querySelectorAll("[data-dis]").forEach((b) => b.onclick = async () => { await api(`/api/alerts/${b.dataset.dis}/dismiss`, {}); S.st.alerts = S.st.alerts.filter((x) => x.id !== b.dataset.dis); render(); });
   const ta = $("#ta");
   ta.addEventListener("input", () => autosize(ta));
