@@ -381,6 +381,10 @@ class Hub:
         while True:
             await asyncio.sleep(3)
             live = self.bus.shared.get("live") or {}
+            act = (self.bus.shared.get("portal_active") or {}).get("filename")
+            if live.get("filename") and act == live.get("filename"):
+                for al in [x for x in self.alerts if "Upload " in x.get("text", "") and live["filename"] in x.get("text", "")]:
+                    self.dismiss(al["id"])
             if live.get("at") and live.get("at") != seen:
                 seen = live["at"]
                 act = (self.bus.shared.get("portal_active") or {}).get("filename")
@@ -1800,7 +1804,10 @@ class PortalWatcher:
                 self.hub.set_service("s-portal", "Portal", "error", f"Portal not answering ({type(e).__name__}); retrying")
                 if self.fails == 3:
                     await self.hub.add_alert("s-portal", "The portal has not answered for 3 checks in a row.", True)
-            await asyncio.sleep(30 if fast else 60)
+            live = self.hub.bus.shared.get("live") or {}
+            act = self.hub.bus.shared.get("portal_active") or {}
+            waiting = live.get("filename") and live.get("filename") != act.get("filename") and time.time() - live.get("at", 0) < 1800
+            await asyncio.sleep(10 if waiting else 30 if fast else 60)   # an upload is pending: confirm it fast
 
     async def identify(self):
         """Our team and competition. The real portal answers /auth/api-key for API keys (/me is browser-only)."""
@@ -1862,7 +1869,7 @@ class PortalWatcher:
         team["active_filename"] = team.get("active_filename") or (act or {}).get("filename")
         cur = {"filename": team["active_filename"], "sha256": (act or {}).get("sha256") or "", "at": time.time()}
         prev = self.hub.bus.shared.get("portal_active") or {}
-        if prev.get("filename") != cur["filename"] or time.time() - prev.get("at", 0) > 300:
+        if prev.get("filename") != cur["filename"] or time.time() - prev.get("at", 0) > 45:
             await self.hub.bus.set_shared("portal_active", cur)   # both laptops' briefs show the active bot
         await self.check_team(team)
         for r in rounds:   # a round that is playing gets a "<bot> live · <stage>" note

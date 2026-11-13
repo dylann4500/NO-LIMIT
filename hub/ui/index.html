@@ -445,18 +445,20 @@ function wire(a) {
     S.ideaOpen = false; document.activeElement?.blur(); S.st.props.unshift(r); render(); });
   const cta = $("#cardTa"); if (cta) { cta.addEventListener("input", () => autosize(cta)); cta.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); $("#cardForm").requestSubmit(); } });
     $("#cardForm").addEventListener("submit", async (e) => { e.preventDefault(); const t = cta.value.trim(); if (!t) return; $("#cardSend").disabled = true;
+      cta.value = ""; autosize(cta);   // clear at once; a re-render while sending must not bring the text back
       const p = props().find((x) => x.id === S.card); const call = p && ["needs_call", "revise"].includes(p.status) && myCall(p);
       const r = call ? await api(`/api/props/${encodeURIComponent(S.card)}/act`, { action: "comment", text: t }) : await api(`/api/props/${encodeURIComponent(S.card)}/ask`, { text: t });
-      $("#cardSend").disabled = false; if (r.error) { $("#cardHint").textContent = r.error; $("#cardHint").className = "hint bad"; return; }
-      cta.value = ""; const i = S.st.props.findIndex((x) => x.id === r.id); if (i >= 0) S.st.props[i] = r; render(); }); }
+      const sb = $("#cardSend"); if (sb) sb.disabled = false;
+      if (r.error) { const ta2 = $("#cardTa"); if (ta2 && !ta2.value) ta2.value = t; const h = $("#cardHint"); if (h) { h.textContent = r.error; h.className = "hint bad"; } return; }
+      const i = S.st.props.findIndex((x) => x.id === r.id); if (i >= 0) S.st.props[i] = r; render(); }); }
   $("#intr")?.addEventListener("click", () => api(`/api/agents/${encodeURIComponent(a.name)}/interrupt`, {}));
   $("#ss")?.addEventListener("click", async () => { await api(`/api/agents/${encodeURIComponent(a.name)}/${a.state === "stopped" ? "start" : "stop"}`, {}); refresh(); });
   const ta = $("#ta"); if (!ta) return;
   document.querySelectorAll("[data-q]").forEach((b) => b.onclick = () => { const q = QUICK[+b.dataset.q][1]; ta.value = q; if (q.endsWith(": ")) { ta.focus(); autosize(ta); } else $("#form").requestSubmit(); });
   ta.addEventListener("input", () => autosize(ta)); ta.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); $("#form").requestSubmit(); } });
-  $("#form").addEventListener("submit", async (e) => { e.preventDefault(); const t = ta.value.trim(); if (!t || S.sending) return; S.sending = true; $("#sendb").disabled = true;
+  $("#form").addEventListener("submit", async (e) => { e.preventDefault(); const t = ta.value.trim(); if (!t || S.sending) return; S.sending = true; $("#sendb").disabled = true; ta.value = ""; autosize(ta);
     const r = await api(`/api/agents/${encodeURIComponent(a.name)}/send`, { text: t }); S.sending = false; const b = $("#sendb"); if (b) b.disabled = false;
-    const h = $("#hint"); if (r.error) { if (h) { h.textContent = "Not sent: " + r.error; h.className = "hint bad"; } } else { const t2 = $("#ta"); if (t2) { t2.value = ""; autosize(t2); } } });
+    const h = $("#hint"); if (r.error) { const t2 = $("#ta"); if (t2 && !t2.value) t2.value = t; if (h) { h.textContent = "Not sent: " + r.error; h.className = "hint bad"; } } });
 }
 async function loadEvents(n) { const r = await api(`/api/agents/${encodeURIComponent(n)}/events?since=${S.last[n] ?? -1}`); if (r.error) return;
   if (r.last_i !== undefined && S.last[n] !== undefined && r.last_i < S.last[n]) { S.ev[n] = []; S.last[n] = -1; return loadEvents(n); }
