@@ -97,7 +97,8 @@ reports a measured value outside a solved grid.
   team Python has no `modal` package: launch with the `modal` command (its own interpreter, which has no eval7), and
   redeploy after a code change (warm containers ran stale code for 1.5 minutes in a 14 November run).
 - **Parallel runs:** share code through `theory/lib/` (import, never copy); if a module you need doesn't exist yet,
-  write your own in your own file and say so. If your brief holds several deliverables, write each file and its LEDGER
+  write your own in your own file and say so. Only run (3) writes `theory/HANDOFF.md`; runs (1) and (2) put their
+  tables' entries in `theory/HANDOFF-1.md` and `theory/HANDOFF-2.md`, and run (3) links them. If your brief holds several deliverables, write each file and its LEDGER
   line as soon as it passes, so platform can take it from `theory/out/` before your report arrives.
 - **Use the real rules** from `bot/rules.json`, never regional defaults.
 
