@@ -31,6 +31,7 @@ size; the rules say points per place vary), but you should know the order of eve
 
 | # | Choose | What I found |
 |---|---|---|
+| 0 | **Usage for Sunday: the most urgent item on this page** | At 06:15 on Saturday the desktop app's account (plan shown as Ultra) had used **71% of its weekly all-models limit** (Fable alone: 25%), and the week does not reset until **Wednesday 18 November**, after the Finals. Extra usage is switched off. Sunday is two sessions with up to 40 subagents each for four hours. The terminal `claude` on this laptop is signed in to a different login (it reports a Max plan), with its own limits. Decide before the rehearsal: which account runs Sunday, whether to switch on extra usage as insurance, and keep Saturday's remaining spending on the Sunday account small (the rehearsal itself will cost a lot) |
 | 10 | **Terminal tabs or the desktop app on Sunday** | Every mechanics check passed in desktop-app sessions under Remote Control. `START.md` is written for terminal tabs; nothing has been tested there |
 | 11 | **Which Claude account** | Samuel's computer must be signed in to the same account as this laptop for Remote Control. This laptop is on a Max plan login |
 | 12 | **Connectors off for the Finals sessions** | Each trivial subagent cost about 56,000 tokens of start-up context here, mostly this account's tools, connectors and skills |
