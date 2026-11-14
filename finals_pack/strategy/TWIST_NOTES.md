@@ -10,9 +10,9 @@ setup the coding agent is `platform` (BUILDER); `theory`, `stylist` and `challen
 - **Monte Carlo noise.** With N samples the standard error of an equity is about 0.5/√N: 0.035 at N=200 and 0.05 at N=100. Treat options closer than about 3–5% as ties. Break ties with simple rules or at random, never by over-reading the noise.
 - **Measuring the best option.** To measure what the best option is worth, choose it on half the samples and score it on the other half: the maximum of several noisy estimates overstates it. Break exact ties at random, then check that option shares are symmetric (a first-index tie-break put 30% of votes on index 0 instead of 25% [drill]).
 - **Offline tables for a payoff twist** (one that changes what a pot is worth, not who wins it): 1,000,000 deals per class, counting outcomes keyed by the bonus condition in one loop, so every state comes from the same deals.
-- **[drill]** marks a figure measured on 14 November in a timed drill: heads-up, all-in before the flop, against a random hand. It is not general. Detail: `notes/pre/variants.md`.
+- **[drill]** marks a figure measured on 14 November in a timed drill: heads-up, all-in before the flop, against a random hand. It is not general. **[drill, model]** is weaker: a small budget model with unverified assumptions. Detail: `notes/pre/variants.md`.
 
-## 1. Eighteen plausible twists
+## 1. Nineteen plausible twists
 
 **T1. Face-up discard from three cards (exchange + reveal).** You get 3 hole cards. After preflop betting, each player throws 1 face up before the flop. The thrown card is dead.
 - Value: only 3 options, so use CRN Monte Carlo over 2-card keeps (about 150 shared runouts against weighted ranges, with every exposed discard removed). Fastest acceptable shortcut: pick the keep with the highest score in a 169-class preflop equity table built during the hour.
@@ -46,14 +46,14 @@ setup the coding agent is `platform` (BUILDER); `theory`, `stylist` and `challen
 - Leak: peeking shows you face a close decision. If you are peeked, assume the peeker knows your stronger card.
 
 **T6. Sealed auction for a third hole card (auction).** After the flop, one extra card is shown. Players submit sealed bids in poker chips. The winner pays into the pot and adds the card as a public third hole card.
-- Value: with CRN, compute your equity with the card (Eq_me) and your equity if the strongest opponent gets it (Eq_opp). The card is worth about (Eq_me − Eq_opp) × final pot.
+- Value: with CRN, compute your equity with the card (Eq_me) and your equity if the strongest opponent gets it (Eq_opp). The card is worth (Eq_me − Eq_opp) × final pot. For an unseen card on the flop that is 33 points of pot, twice "with minus without" [drill].
 - Classic mistakes: assuming the card stays neutral if you lose the auction (it goes to an opponent); forgetting that a bid paid into the pot partly comes back to you when you win, so the effective cost is bid × (1 − your share).
-- Preflop: little change.
-- Leak: bid size reveals how well the card fits your hand. Shade first-price bids and add ±20% noise.
+- Preflop: little change for a shown card. For an unseen one, pairs lose 4.8 points, 87s–54s gain 2.7–5.4 [drill].
+- Leak: bid size reveals how well the card fits your hand. Shade first-price bids and add ±20% noise. An unseen card tends to go to the weaker hand [drill].
 
 **T7. Position auction in a separate currency (ordering).** Using non-replenishing "position chips" (like flop-chips), players bid each hand to act last postflop.
-- Value: pace the budget. Bid about balance ÷ (expected hands you will contest at this table) × pot-size factor, and bid more with playable, position-dependent hands. What position is worth in chips is [unsure]; start at about 5–10% of the pot.
-- Classic mistakes: spending everything early, or hoarding to the end of the table where the balance is worth nothing. Reading your own balance instead of the per-seat balances.
+- Value: pace the budget by table time. If every bidder pays, bid about balance ÷ (expected hands you will contest at this table) × pot-size factor. If only the winner pays, that spends under half the balance: bid about 3 × balance ÷ auctions left × pot ÷ mean remaining pot [drill, model]. Bid more with playable, position-dependent hands. What position is worth in chips is [unsure]; start at about 5–10% of the pot.
+- Classic mistakes: spending everything early, or hoarding to the end of the table where the balance is worth nothing (guessing too many auctions cost more than guessing too few [drill, model]). Reading your own balance instead of the per-seat balances.
 - Preflop: suited connectors and other position-dependent hands can be opened wider from early seats when you can afford to buy position.
 - Leak: a big bid signals you plan to continue. Add noise.
 
@@ -99,11 +99,12 @@ separate currency on candidate flop cards, and the result picks the flop.
 - Preflop: controlling the board devalues pocket pairs (22 ranked 118th of 169) and raises high cards.
 - Always simulate the twist's preflop effect: in three mock variants, pairs lost value in two of them.
 
-**T14. Two boards, split pot (payoff; Pittsburgh's regional, with three hole cards and a discard after the turn).** Two boards are dealt side by side; the same hole cards play on both, and each board pays half the pot.
-- Value: your share is the mean of the two board equities on the same sampled opponent hands. With one river left per board, enumerate both rivers exactly. Compute the scoop rate too: winning one board returns only half.
-- Classic mistakes: one card dealt to both boards; pot odds from "win probability" instead of expected share; a keep or discard chosen for one board only.
-- Preflop: not measured. Simulate before trusting hold'em ranks.
-- Detail: `notes/pre/variants.md` §1 and §3.
+**T14. Two boards, split pot (payoff; Pittsburgh's regional: three hole cards, discard after the turn).** Two boards are dealt; the same hole cards play on both, and each board pays half the pot.
+- Value: your share is the mean of the two board equities, so score each board on its own river and add. The best discard beats the default by 10.8 points and "keep the two highest" by 6.0. In the bot, 100 shared samples lose 0.13 in 0.6 ms [drill].
+- Split pot [drill]: scoop 23.5%, one board each 47.9%, nothing 23.5%. Pot odds use expected share, but an all-in busts only by losing both boards: an ICM call needing 1.5 to 1 needs a 55 share, not 60.
+- Classic mistakes: one card dealt to both boards; pot odds from "win probability"; a keep chosen for one board only; summing raw evaluator values over the boards (mis-keeps small pairs).
+- Preflop [drill]: table the 1,755 three-card classes. Ranking by the best two hold'em cards moves 23% of hands 10+ percentiles (trips −7.8 points, pairs 22–77 −4.1).
+- Detail: `notes/pre/variants.md` §5.
 
 **T15. Bounty on pots won (payoff).** Each player has a private bounty rank. A pot won with that rank in the winner's hole cards or on the board pays a bonus of b × the chips won (drill: b = 0.5).
 - Value: equity × M, with M = 1 + b × P(hit | I win). Rank in hand or on the board: M = 1 + b. Otherwise the hit chance is 1 − C(unseen − 4, k)/C(unseen, k): 35.3% preflop to river, 16.5% from the flop. Call when equity ≥ price ÷ M: with the bounty hit, a pot-size call needs 22.2%.
@@ -128,6 +129,12 @@ separate currency on candidate flop cards, and the result picks the flop.
 - Measured in the speedrun (heads-up): a good pass rule beat the default pass by 13.3 points of equity; pocket pairs ranked 157th–169th of 169 and ace-low hands best.
 - Classic mistakes: the passed card dealt again from the deck (it happened heads-up); assuming `state.cards` keeps its order (after the pass: kept card, then received).
 - Leak: what you pass tells the receiver what you didn't want, and what you receive tells you the same about the passer.
+
+**T19. Split hands (allocation; a mock in the organizers' style).** Four hole cards and two boards; after the flops each player secretly assigns two cards to each board (six options). Each board pays half the pot.
+- Value: share is the mean of the two board equities, so score the six two-card subsets on each flop and take the best sum: +12.9 points over the default [drill]. Score against the cards an opponent puts on that board, not a random hand (worth 0.27 [drill]). A 12-lookup table rule loses 0.26–0.45 [drill]. Three-way, lean to the strongest single board.
+- Classic mistakes: giving eval7 all four hole cards; keeping suited cards together (right 40% of the time; pocket pairs 90%) [drill]; pot odds from win probability.
+- Preflop [drill]: hold'em ranks fail (best two-card subset errs by 3.2 points). Fit a regression on sampled hands (error 0.6); trips are worth 8 less.
+- Leak: assignments show at showdown; a seat stuck on the default is identified in two. Detail: `notes/pre/variants.md` §5.
 
 ## 2. First 15 minutes: checklist for the coding agent
 
