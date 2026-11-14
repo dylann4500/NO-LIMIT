@@ -112,8 +112,8 @@ happen again.
 - **Fan out.** The day is time-boxed; serial work loses. Independent pieces run in parallel: several subagents in
   one message (each in its own folder), Modal for compute, Codex (`codex exec`) for second opinions if logged in.
   Subagents may spawn their own helpers (nesting stops at 3 levels; at most about 4 helpers each, one job and one
-  output file per helper). About 20 subagents can run at once per session (more if the session was started with
-  `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` raised); past that a spawn fails, so finish or stop idle ones first.
+  output file per helper). Up to 40 subagents can run at once per session (`.claude/settings.json` sets
+  `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40`; the default is 20); past that a spawn fails, so finish or stop idle ones first.
 - **Brief subagents like new teammates**: objective, exact input files, output (files plus a report of at most 300
   words with paths), what not to touch, a time limit. Point them at their role file and the strategy docs.
 - **Results go to files**, and the report is a summary plus paths. Record every measured result in
