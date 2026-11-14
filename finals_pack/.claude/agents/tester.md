@@ -50,7 +50,9 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   tables in 5 minutes when one tester has the app and a third of that each when three share it; a deploy took 4-10 s.
   Start with small shards, time the first job on today's kit and resize. It's one of only two
   deployed apps (with theory's `avalon-theory`): the other roles call it instead of running their own, so write in
-  `rig/NOTES.md` how to call it.
+  `rig/NOTES.md` how to call it. The team Python has no `modal` package: launch with the `modal` command (its own
+  interpreter, which has no eval7; the kit's code runs inside the image). Warm containers keep the code they started
+  with: redeploy after a change.
   Hand histories never leave this machine; fitted parameters may go to our Modal workspace.
 - **From the first practice download, replay testing:** rebuild our tables with a rigged deck (our cards, the board,
   every card shown or exposed, random filler; find the deck order by probing the engine), replay the logged actions,

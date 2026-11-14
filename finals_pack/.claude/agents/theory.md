@@ -86,7 +86,9 @@ reports a measured value outside a solved grid.
 - **Speed to expect:** a 7-card evaluation about 0.32 µs and a full heads-up deal with the twist 2.2-4.4 µs (laptop,
   measured 14 November), so 169 classes × 100,000 deals run in 37 s on 2 local workers without Modal. Time 50,000
   deals before designing anything. 2,000 heads-up fictitious-play iterations on 169×169 in 0.09 s; a 3-way equity
-  table about 2 minutes on Modal (one app `avalon-theory`, deployed once, `.map` over shards, up to 20 containers).
+  table about 2 minutes on Modal (one app `avalon-theory`, deployed once, `.map` over shards, up to 20 containers). The
+  team Python has no `modal` package: launch with the `modal` command (its own interpreter, which has no eval7), and
+  redeploy after a code change (warm containers ran stale code for 1.5 minutes in a 14 November run).
 - **Parallel runs:** share code through `theory/lib/` (import, never copy); if a module you need doesn't exist yet,
   write your own in your own file and say so. If your brief holds several deliverables, write each file and its LEDGER
   line as soon as it passes, so platform can take it from `theory/out/` before your report arrives.
