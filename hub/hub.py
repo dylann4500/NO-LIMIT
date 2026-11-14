@@ -3328,21 +3328,45 @@ class PortalWatcher:
     async def aget(self, path, raw=False):
         return await asyncio.to_thread(self.get, path, raw)
 
+    FAST, SLOW = 6, 30   # seconds between checks: around the moment a round should finish / the rest of the time
+
+    def finishing(self) -> bool:
+        """True while a round the clock knows about should be finishing: from 2 to 15 event-minutes after it starts,
+        until its result has landed."""
+        sch = self.hub.bus.shared.get("schedule")
+        if not sch:
+            return False
+        now, U = time.time(), 60 * sch.get("scale", 1.0)
+        landed = set(self.st.get("done_stages", []))
+        return any(ts + 2 * U <= now < ts + 15 * U and stage_of_round(kind, k) not in landed
+                   for kind, k, ts in self.hub.clock.events())
+
+    async def round_ids(self) -> tuple:
+        """The light check: just the round list (which rounds exist, which have finished)."""
+        rounds = (await self.aget(f"/competitions/{self.cid}/tournaments"))["items"]
+        return tuple(sorted((r["id"], bool(r.get("completed_at"))) for r in rounds))
+
     async def loop(self):
+        last_full, seen = 0.0, None
         while True:
-            fast = False
             try:
-                fast = await self.poll()
+                fast = self.finishing()
+                if not fast or time.time() - last_full >= self.SLOW or seen is None:
+                    await self.poll()          # the full check: rounds, results, standings, the active bot
+                    last_full = time.time()
+                    seen = await self.round_ids() if fast else None
+                else:   # in the fast window, a 6 s check reads only the round list; a change triggers the full check
+                    now_ids = await self.round_ids()
+                    if now_ids != seen:
+                        await self.poll()
+                        last_full, seen = time.time(), now_ids
                 self.fails = 0
             except Exception as e:  # noqa: BLE001
                 self.fails += 1
                 self.hub.set_service("s-portal", "Portal", "error", f"Portal not answering ({type(e).__name__}); retrying")
                 if self.fails == 3:
                     await self.hub.add_alert("s-portal", "The portal has not answered for 3 checks in a row.", True)
-            live = self.hub.bus.shared.get("live") or {}
-            act = self.hub.bus.shared.get("portal_active") or {}
-            waiting = live.get("filename") and norm_bot(live.get("filename")) != norm_bot(act.get("filename")) and time.time() - live.get("at", 0) < 1800
-            await asyncio.sleep(10 if waiting else 30 if fast else 60)   # an upload is pending: confirm it fast
+            await asyncio.sleep(self.FAST if self.finishing() else self.SLOW)
 
     async def identify(self):
         """Our team and competition. The real portal answers /auth/api-key for API keys (/me is browser-only)."""
@@ -3520,6 +3544,7 @@ class PortalWatcher:
             await self.hub.note_append(lp["id"], "Portal", line, status="done")
         if quiet:
             self.st["done"].append(r["id"])
+            self.st.setdefault("done_stages", []).append(stage)
             self.save()
             return
         has_card = (self.hub.repo / "analysis" / "roundcard.py").exists() and bool(files)
@@ -3546,6 +3571,7 @@ class PortalWatcher:
                 await ov.start()
         await self.tell("d-overseer", "fyi", line)
         self.st["done"].append(r["id"])   # only now: a crash before this re-announces the round after the restart
+        self.st.setdefault("done_stages", []).append(stage)
         self.save()
         self.hub.set_service("s-portal", "Portal", "working", line)
         if files:

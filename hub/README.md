@@ -31,7 +31,7 @@ Ctrl+C stops it.
   15, 20, 30, 40, 50) and at each step of every scored round's window (T-20, T-13, T-12, T-10, T-9, T-8, T-6,
   T-5, T-3; each person gets their own steps). Every Overseer turn starts with a situation brief: the
   phase, the current step, the next deadline. If there's no decision by T-5, the live bot plays.
-- **Portal watcher** (Samuel's laptop): reads the portal every minute (read-only), saves each finished
+- **Portal watcher** (Samuel's laptop): reads the portal every 30 s, and every 6 s while a round should be finishing (read-only), saves each finished
   round's results and our hand histories in `~/portal-data/`, wakes the Overseer and Data, tells Dylan's
   Overseer, and raises an alert if an upload is rejected, if there's no active bot, or if the active bot
   isn't the one Dylan's Overseer declared (checked at T-9 and T-2).
