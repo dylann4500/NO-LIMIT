@@ -5,7 +5,7 @@
   "cmd": "",
   "compute": "",
   "details": "",
-  "expires_at": "2026-11-14T21:24:54Z",
+  "expires_at": "2026-11-14T22:13:44Z",
   "id": "finals-saturday",
   "log": [
     {
@@ -27,6 +27,11 @@
       "at": "2026-11-14T14:06:30Z",
       "by": "dylann29",
       "text": "emu/rehearsal now has 8 reviewed pre-event notes in finals_pack/notes/pre/ (Pittsburgh's variant found; challenger bar independently checked: no change), factual fixes across the bundle, in-session mechanics checks passed (desktop-app sessions), subagent limit 40 via settings env. Decisions for Dylan+Samuel: finals_pack/prep/PROPOSALS_14NOV.md. AWS tooling in progress on branch aws-compute."
+    },
+    {
+      "at": "2026-11-14T14:13:44Z",
+      "by": "dylann29",
+      "text": "renewed 8h"
     }
   ],
   "owner": "dylann29",
@@ -39,5 +44,5 @@
   "result": "",
   "state": "active",
   "title": "Saturday handoff (HANDOFF.md section 5): laptop setup, mechanics checks, bundle fixes, rehearsal prep on Dylan's Mac",
-  "updated_at": "2026-11-14T14:06:30Z"
+  "updated_at": "2026-11-14T14:13:44Z"
 }
