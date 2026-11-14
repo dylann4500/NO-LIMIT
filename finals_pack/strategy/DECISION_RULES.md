@@ -237,4 +237,5 @@ that counter-wave.
 4. After the flop, big bets and raises are mostly strong hands (one pair should fold to raises).
 5. Our base style is the best response to the field's measured mix (no style the top 5 share beats it).
 6. The twist is worth what `theory`'s tables say, and the field uses it about as well as we do.
-7. Scores are compressed near 12.5 points per table; differences under 1.4 between two practice rounds are noise.
+7. Scores are compressed near 12.5 points per table; differences under 2.0 between two practice rounds (1.4 between a
+   practice round and a scored round) are noise.
