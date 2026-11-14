@@ -51,7 +51,9 @@ running before you spawn anything.
 1. **The kit:** Dylan runs `/no-limit-2026-setup` in this session (it fetches the kit into `starter-kit/` and sets up
    its Python) or downloads it from the portal into `starter-kit/`. **The Format page:** Dylan pastes or screenshots
    it to you; save it as `notes/format.md` (RESEARCH's tester checks the rules card against it). Check the variant
-   loads in the kit's engine with the kit's Python; if it doesn't, tell Dylan and RESEARCH at once.
+   loads in the kit's engine with the kit's Python; if it doesn't, tell Dylan and RESEARCH at once. (No
+   `starter-kit/.venv` yet, because the kit was downloaded by hand: `platform`'s first step builds it and makes this
+   check; confirm it from its announcement.)
    **A head start:** when the portal watcher posts "THE VARIANT IS ANNOUNCED", the portal's rules text is already in
    `state/variant.md` and the cooldown the portal states is in `state/status.md`. Name both in the briefs below so
    your subagents read the rules while the kit unpacks; the kit and the Format page still decide the rules card.
