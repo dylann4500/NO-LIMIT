@@ -26,6 +26,7 @@ setup the coding agent is `platform` (BUILDER); `theory`, `stylist` and `challen
 - Classic mistakes: computing equity against random hands instead of the stronger range that played preflop; letting the replacement be an exposed or dead card; conditioning on other players' throws, which aren't visible when you choose.
 - Preflop [drill]: 22–66 lose 9.5 points and 59 places; suited connectors lose 1.8 and 19 places. Open fewer of both.
 - Leak: the thrown card tells others what you don't hold. Keeping with air costs 17 points [drill].
+- A free draw on the turn, measured in a 14 November timed run on a mock variant (not general): worth 9.9 points heads-up over always keeping (8.9 / 7.7 / 6.1 / 5.0 at 3 / 4 / 6 / 8 players; 7.1 against top-35% ranges), with best play throwing about 85% of the time; pairs lose about 10 points (22 from 50.3 to 39.5; AA 77.7 against a random hand); with a betting round still to come the draw is worth about 1.3 times its showdown value; and keeping or throwing is a signal (top pair is 49-51% against an opponent who kept both cards, 71-74% against one who threw).
 
 **T3. Public draft (ordering + reveal).** After preflop betting, k+1 cards (k = players left) are dealt face up. In a fixed order, each player takes one as a public third hole card. Showdown uses the best 5 of 8 cards.
 - Value: at most 9 candidates. With CRN (about 60 runouts each), score each as (your equity if you take it) minus (equity of the strongest opponent if they take it). Denying a card counts.
