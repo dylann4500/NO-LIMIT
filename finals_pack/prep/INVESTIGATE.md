@@ -103,9 +103,12 @@ releases? Does `scout` reuse its fingerprint model between rounds? If a role kee
 
 ## 6. Two humans, one laptop
 
-Both sessions run on Dylan's laptop. Decide how Samuel types into RESEARCH: side by side at one laptop, or from his
-own laptop (`ssh` into Dylan's over Tailscale and run the RESEARCH session inside `tmux` so it survives a dropped
-connection). Test whichever you choose in the rehearsal.
+Both sessions run on Dylan's laptop. **Decided (Dylan, 14 Nov):** Samuel types into RESEARCH from his own computer
+through Claude Code's Remote Control: both sessions are started with `--remote-control <name>` (START.md), and
+Samuel opens claude.ai/code signed in to the same Claude account. Check in the rehearsal, because the docs don't
+say: that an inbox line (the Monitor) wakes an idle session that is under Remote Control; what happens when both
+type into one session at once; that Samuel can answer a question the session asks; and that `ListAgents` still
+shows the other session by its name (sessions under Remote Control list fewer details, hence `-n <name>`).
 
 ## 7. Strategy research still worth doing (if time allows)
 

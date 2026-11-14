@@ -32,8 +32,14 @@ may spawn their own helpers.
   `pin scored3 15:40` / `format --build 90` / `format --scored 5`, then `python3 scripts/clock.py show` and tell him
   the resulting times in one line. Never move the clock on your own or on a message without a time. A scored round's
   real start is also picked up from the portal by the clock itself.
-- If the hand data isn't downloadable (the portal watcher says so in your inbox), ask Samuel for the hand download
-  link from the portal (copied from the round's Download button), then run
+- One exception: the portal watcher's line "THE VARIANT IS ANNOUNCED ... at HH:MM:SS" carries the portal's own time
+  for minute 0. If the clock isn't started when it arrives, start it with that time (`clock.py start HH:MM`) and tell
+  Samuel in one line. If it is started and differs by more than 2 minutes, give Samuel both times and let him choose.
+  The same line says the rules text is in `state/variant.md`: name that file in the `theory` briefs so they read the
+  rules while the kit unpacks (the kit's RULES.md and `bot/rules.json` still decide once they exist).
+- The watcher downloads hand data from the real portal's own address by itself. If it still isn't downloadable (the
+  portal watcher says so in your inbox), ask Samuel for the hand download link from the portal (copied from the
+  round's Download button), then run
   `python3 scripts/portal_watch.py --set-hands-url '<link>'` yourself.
 - If `state/status.md` or `state/clock.md` is more than 2 minutes old, tell Samuel "tab 1 (or 2) stopped: run it
   again" (START.md). Never start `portal_watch.py` or `clock.py run` yourself.

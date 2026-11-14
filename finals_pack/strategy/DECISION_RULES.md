@@ -39,7 +39,8 @@ never block your turn; Modal has only two deployed apps, `avalon-rig` (`tester`,
    practice round, and have a tested bot active by T-3 every round. *(A missed upload or an untested zip can zero
    a round. A missed deadline is a failure to report and fix, not a safe outcome.)* Each round plays a snapshot of
    every team's **active** bot taken at its start. Making an already-uploaded bot active is a click on the portal, not
-   an upload. Assume the upload **cooldown** may be up to 5 minutes (read it from the Format page at minute 0), so
+   an upload. Assume the upload **cooldown** may be up to 5 minutes (read it from the Format page at minute 0;
+   `state/status.md` shows the figure the portal itself states), so
    plan at most two real uploads per window (§3, "Uploads").
 3. **The rules card is right**: players per table, stacks, blinds, hands per match, round weights, payouts
    and the cooldown come from the kit and the Format page. *(At a rehearsal we ran every test at the wrong

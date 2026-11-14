@@ -44,6 +44,9 @@ running before you spawn anything.
    its Python) or downloads it from the portal into `starter-kit/`. **The Format page:** Dylan pastes or screenshots
    it to you; save it as `notes/format.md` (RESEARCH's tester checks the rules card against it). Check the variant
    loads in the kit's engine with the kit's Python; if it doesn't, tell Dylan and RESEARCH at once.
+   **A head start:** when the portal watcher posts "THE VARIANT IS ANNOUNCED", the portal's rules text is already in
+   `state/variant.md` and the cooldown the portal states is in `state/status.md`. Name both in the briefs below so
+   your subagents read the rules while the kit unpacks; the kit and the Format page still decide the rules card.
 2. Spawn in ONE message, in the background:
    - `platform`: set up the team Python (`starter-kit/.venv`, plus the `.venv` link) and announce it; the rules card
      `bot/rules.json` from the kit and `notes/format.md` (players, stacks, blinds, hands per match, time limits,

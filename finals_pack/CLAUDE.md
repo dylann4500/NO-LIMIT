@@ -39,7 +39,8 @@ Your own start-up instructions are in `prompts/BUILDER.md` or `prompts/RESEARCH.
 | Path | What | Written by |
 |---|---|---|
 | `strategy/` | the plan and the research (read-only on the day): `DECISION_RULES.md` (how we decide: always applies), `PLAN.md` (the game plan + timeline), `FIRST_PROMPT.md` (the build prompt pack), `TWIST_NOTES.md`, `FINGERPRINTING.md`, `EVIDENCE_TABLE.md`, `LESSONS.md` (what broke in rehearsals) | humans, before the day |
-| `state/status.md` | the portal right now: active bot, rounds, standings, last results | portal watcher |
+| `state/status.md` | the portal right now: active bot, rounds, standings, last results, the upload cooldown the portal states | portal watcher |
+| `state/variant.md` | the variant's rules text as the portal's own API gives it, saved the moment it is announced, with the portal's time for minute 0. A head start while the kit unpacks: the kit and the Format page still decide the rules card | portal watcher |
 | `state/schedule.json`, `state/clock.md` | minute 0, the round times, the next steps | clock |
 | `state/live.json` | the bot we have **decided** should be active next: each build-hour practice pick, then the round-1 bot, then each scored round's bot (never a window's challenger: BUILDER tells Dylan that file directly) | BUILDER only: `python3 scripts/live.py vN "why"` |
 | `state/decisions.md` | every decision asked of the humans: question, evidence, the rule's answer, deadline, the human's words, outcome | BUILDER (bots), RESEARCH (plan challenges) |
@@ -63,7 +64,9 @@ Your own start-up instructions are in `prompts/BUILDER.md` or `prompts/RESEARCH.
 2. **Only tested zips are released and uploaded.** A tested bot is active by T-3 of every scored round. Each round
    plays the bot that is **active when it starts**. Making an already-uploaded bot active is a click on the portal.
 3. **The rules card is right**: players per table, stacks, blinds, hands per match, weights, payouts and the upload
-   cooldown come from the kit and the Format page (`bot/rules.json`, written by `platform` at minute 0).
+   cooldown come from the kit and the Format page (`bot/rules.json`, written by `platform` at minute 0). What the
+   portal itself states (the cooldown in `state/status.md`, the rules text in `state/variant.md`) is a cross-check:
+   a mismatch goes to Dylan at once.
 4. **No pre-written bot code** (everything bot-related is written today); hand histories never go into git.
 5. The organizers' portal is read-only for agents. Only Dylan uploads.
 6. **Never kill processes by name or pattern** (`pkill`, `killall`, `pgrep | xargs kill`): every Claude process's

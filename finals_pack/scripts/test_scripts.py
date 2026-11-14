@@ -480,6 +480,11 @@ class MockPortal:
         self.health: list = []
         self.log: list = []
         self.cdn_port = cdn_port
+        self.real = False           # True: hands as the real portal serves them (/teams/<team>/tournaments/<round>/hands,
+        #                             ?tables=1000 = the small file, ?subset=... ignored); the rehearsal's address 404s
+        self.variant = None         # the answer of /competitions/<cid>/variant (None: 404)
+        self.key_teams = None       # the key's team list, when it is more than this competition's one team
+        self.comps = None           # the /competitions list, when it is more than this competition
         mock = self
 
         class H(http.server.BaseHTTPRequestHandler):
@@ -510,9 +515,11 @@ class MockPortal:
                     return self.send(401, {"detail": "Missing or invalid API key"})
                 p = path[4:]
                 if p == "/auth/api-key":
-                    return self.send(200, {"teams": [{"competition_id": mock.cid, "team_id": mock.team}]})
+                    return self.send(200, {"teams": mock.key_teams or [{"competition_id": mock.cid, "team_id": mock.team}]})
                 if p == "/competitions":
-                    return self.send(200, {"items": [mock.comp]})
+                    return self.send(200, {"items": mock.comps or [mock.comp]})
+                if p == f"/competitions/{mock.cid}/variant":
+                    return self.send(200, mock.variant) if mock.variant else self.send(404, {"code": "not_found"})
                 if p == f"/competitions/{mock.cid}":
                     return self.send(200, mock.comp)
                 if p == f"/competitions/{mock.cid}/tournaments":
@@ -530,10 +537,13 @@ class MockPortal:
                     return self.send(200, {"items": mock.subs})
                 if p == f"/teams/{mock.team}/health":
                     return self.send(200, {"items": mock.health})
+                m = re.fullmatch(r"/teams/([^/]+)/tournaments/([^/]+)/hands", p)
+                if m and mock.real and m.group(1) == mock.team:
+                    return self.reply_hands(m.group(2), "tables=1000" in q.split("&"))
                 m = re.fullmatch(r"/tournaments/([^/]+)/(results|hands)", p)
                 if m and m.group(2) == "results":
                     return self.send(200, mock.results[m.group(1)]) if m.group(1) in mock.results else self.send(404, {})
-                if m:
+                if m and not mock.real:
                     return self.reply_hands(m.group(1), "subset=first-1000" in q)
                 return self.send(404, {"detail": "not found"})
 
@@ -778,6 +788,111 @@ def test_portal_mock():
     cdn.srv.shutdown()
 
 
+def test_portal_real():
+    """What the real portal does (checked on 14 Nov against the regional's rounds): the hand address, the small-file
+    query, a key that still lists only the regional, the Finals appearing on the key, the variant's announcement."""
+    print("\n== portal_watch.py: the real portal's shapes (hand address, old rounds, a new competition, the variant)")
+    import portal_watch as PW
+    d = sandbox()
+    keyf = d / "key"
+    keyf.write_text(KEY + "\n")
+    mp = MockPortal()
+    mp.real = True
+    base = f"http://127.0.0.1:{mp.port}/api"
+    now = time.time()
+    day = 86400
+    # 1. the key lists only the regional: two rounds that finished days ago, their hand files still on the portal
+    mp.cid, mp.team = "comp-regional", "team-reg"
+    regional = {"id": "comp-regional", "name": "Bay Area (mock)", "created_at": iso(now - 9 * day),
+                "submission_cooldown_seconds": 30, "variant": "bay_area", "variant_announced_at": iso(now - 8 * day)}
+    mp.comp = regional
+    mp.variant = {"id": "bay_area", "title": "Bay Area", "rules": "# Bay Area\n\nthe regional's rules\n"}
+    mp.rounds = [{"id": "old1", "kind": "practice", "weight": 0, "created_at": iso(now - 8 * day), "completed_at": iso(now - 8 * day + 300)},
+                 {"id": "old2", "kind": "scored", "weight": 1, "created_at": iso(now - 8 * day + 600), "completed_at": iso(now - 8 * day + 900)}]
+    for tid in ("old1", "old2"):
+        mp.results[tid] = results_for(tid)
+        mp.hands[(tid, True)], mp.hands[(tid, False)] = hands_gz(40, tid + "s"), hands_gz(80, tid + "f")
+    w = PW.Watcher(d, base, str(keyf), echo=False)
+    w.poll()
+    w.wait_jobs(20)
+    asked = [path for _, path, *_ in mp.log if "/hands" in path]
+    check("a competition whose rounds all finished days ago: results saved, NO hand file asked for or saved",
+          not asked and (d / "data" / "rounds" / "01-practice-1" / "results.json").exists()
+          and not list((d / "data" / "rounds").rglob("hands-*")), asked)
+    cu = [x for x in inbox(d, "research") if "catch-up" in x]
+    check("...one catch-up line that says it is not today's event and that the watcher switches by itself",
+          len(cu) == 1 and "not today's event" in cu[0] and "switches by itself" in cu[0], cu)
+    st = (d / "state" / "status.md").read_text()
+    check("status.md: 'finished long ago · results only', the warning, and the portal's upload cooldown (30 s)",
+          "finished long ago · results only" in st and "NOT today's event" in st and "upload cooldown per the portal: 30 s" in st, st[:500])
+    check("the regional's old announcement is not saved as today's variant", not (d / "state" / "variant.md").exists()
+          and not any("VARIANT IS ANNOUNCED" in x for x in inbox(d, "builder")))
+    n_before = len(mp.log)
+    w.poll()
+    check("...nothing is repeated on the next poll, and the key isn't asked about again within the minute",
+          len([x for x in inbox(d, "research") if "catch-up" in x]) == 1
+          and not any(path.endswith("/auth/api-key") for _, path, *_ in mp.log[n_before:]))
+
+    # 2. the Finals appears on the same key (listed FIRST, so only the creation dates tell which is newer)
+    finals = {"id": "comp-finals", "name": "Finals (mock)", "created_at": iso(now - 3600),
+              "submission_cooldown_seconds": 300, "variant": None, "variant_announced_at": None}
+    mp.key_teams = [{"competition_id": "comp-finals", "team_id": "team-fin"}, {"competition_id": "comp-regional", "team_id": "team-reg"}]
+    mp.comps = [finals, regional]
+    mp.cid, mp.team, mp.comp, mp.variant = "comp-finals", "team-fin", finals, None
+    mp.rounds = []
+    w.ident_at = 0          # a minute later: the watcher's next look at the key
+    w.poll()
+    b = inbox(d, "builder")
+    check("a newer competition on the key: the running watcher switches to it by itself (no restart)",
+          w.cid == "comp-finals" and w.team == "team-fin" and any("new competition on this key" in x for x in b), b[-3:])
+    check("...the regional's round data is moved aside, the status shows the Finals and its cooldown (300 s)",
+          list((d / "data").glob("rounds.old-comp-reg*")) and "Finals (mock)" in (d / "state" / "status.md").read_text()
+          and "upload cooldown per the portal: 300 s" in (d / "state" / "status.md").read_text())
+
+    # 3. the variant is announced: the portal stamps the time and serves the rules text
+    t0 = time.time() - 40
+    finals["variant"], finals["variant_announced_at"] = "finals_x", iso(t0)
+    w.poll()
+    check("announced but the rules text isn't readable yet: nothing said, nothing saved",
+          not (d / "state" / "variant.md").exists() and not any("VARIANT IS ANNOUNCED" in x for x in inbox(d, "builder")))
+    mp.variant = {"id": "finals_x", "title": "Finals X", "rules": "# Finals X\n\nFour hole cards.\n\n- rule one\n"}
+    w.poll()
+    ann = [x for x in inbox(d, "builder") if "VARIANT IS ANNOUNCED" in x]
+    vm = (d / "state" / "variant.md").read_text() if (d / "state" / "variant.md").exists() else ""
+    hhmm = time.strftime("%H:%M", time.localtime(t0))
+    check("'THE VARIANT IS ANNOUNCED' to both, with the portal's own time, the cooldown and the clock command",
+          len(ann) == 1 and "Finals X" in ann[0] and "state/variant.md" in ann[0] and "300 s" in ann[0]
+          and f"clock.py start {hhmm}" in ann[0] and any("VARIANT IS ANNOUNCED" in x for x in inbox(d, "research")), ann)
+    check("state/variant.md holds the portal's rules text", "Four hole cards." in vm and "minute 0" in vm, vm[:200])
+    w.poll()
+    check("...said once", len([x for x in inbox(d, "builder") if "VARIANT IS ANNOUNCED" in x]) == 1)
+
+    # 4. a round finishes: hands come from /teams/<team>/tournaments/<round>/hands; ?tables=1000 is the small file
+    mp.rounds = [{"id": "f1", "kind": "practice", "weight": 0, "created_at": iso(time.time() - 400), "completed_at": iso(time.time() - 5)}]
+    mp.results["f1"] = results_for("f1")
+    mp.hands[("f1", True)], mp.hands[("f1", False)] = hands_gz(40, "small"), hands_gz(900, "full")
+    w.poll()
+    w.wait_jobs(20)
+    f1 = d / "data" / "rounds" / "01-practice-1"
+    small = gzip.decompress((f1 / "hands-first-1000.jsonl.gz").read_bytes()) if (f1 / "hands-first-1000.jsonl.gz").exists() else b""
+    full = gzip.decompress((f1 / "hands-full.jsonl.gz").read_bytes()) if (f1 / "hands-full.jsonl.gz").exists() else b""
+    check("the real address: the first-1000 file is the SMALL one (?tables=1000), the full file the full one",
+          small.count(b"\n") == 40 and b'"small"' in small and full.count(b"\n") == 900, (len(small), len(full)))
+    got = [path for _, path, *_ in mp.log if "/hands" in path]
+    check("...asked at /teams/<team>/tournaments/<round>/hands, first try (no 404 on the way)",
+          got and all(path.startswith("/api/teams/team-fin/tournaments/f1/hands") for path in got), got)
+    check("...DATA LANDED to RESEARCH, no 'hands NOT downloaded' left", any("DATA LANDED Practice 1" in x for x in inbox(d, "research"))
+          and not w.st.get("need_hands"))
+
+    # 5. a link copied from the real round page becomes a template that still asks for the small file correctly
+    tpl, _ = PW.to_template(f"{base}/teams/team-fin/tournaments/f1/hands?tables=1000", {"f1"})
+    check("--set-hands-url on a copied real link: the round id becomes {tid}, 'tables=1000' is not frozen into the full file's address",
+          tpl == f"{base}/teams/team-fin/tournaments/{{tid}}/hands{{q}}", tpl)
+    every = "".join(x.read_text() for x in (d / "inbox").glob("*.log")) + (d / "state" / "status.md").read_text()
+    check("only GET requests; the key never appears in the inboxes or the status", {m for m, *_ in mp.log} == {"GET"} and KEY not in every)
+    mp.stop()
+
+
 def test_portal_loop():
     print("\n== portal_watch.py: the polling loop (every 6 s while a round should be finishing)")
     d = sandbox()
@@ -999,12 +1114,13 @@ def main() -> int:
     ap.add_argument("--emu", action="store_true", help="also test against the rehearsal portal (emu/), if present")
     ap.add_argument("--emu-repo", default=str(HERE.parent.parent), help="the NO-LIMIT repo that holds emu/")
     ap.add_argument("--only", default="", help="comma-separated test names (say, math, carry, cutoffs, autopin, guard, "
-                                               "portal, loop, sim, emu)")
+                                               "portal, real, loop, sim, emu)")
     ap.add_argument("--keep", action="store_true", help="keep the temporary folders (printed) for a look")
     a = ap.parse_args()
     t0 = time.time()
     tests = [("say", test_say_feed_live), ("math", test_clock_math), ("carry", test_carry), ("cutoffs", test_cutoffs),
-             ("autopin", test_autopin_hold), ("guard", test_guard), ("portal", test_portal_mock), ("loop", test_portal_loop)]
+             ("autopin", test_autopin_hold), ("guard", test_guard), ("portal", test_portal_mock), ("real", test_portal_real),
+             ("loop", test_portal_loop)]
     if not a.quick:
         tests.append(("sim", test_daemon_sim))
     if a.emu:

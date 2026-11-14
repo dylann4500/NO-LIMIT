@@ -28,6 +28,8 @@ analysis/counters.json` for anything newer than what you've built in. Continued 
   time bank, memory limit, payouts, round weights and count, upload cooldown, fillers, the variant's phases, action
   kinds, `state.variant` keys, failure defaults, anything unusual in `state.config`; each with its source (kit
   file:line or "Format page", which Dylan gives BUILDER). Unconfirmed fields are marked so and named in your report.
+  Cross-check against what the portal itself states, when the files exist: the rules text in `state/variant.md`
+  and the upload cooldown in `state/status.md`. A mismatch with the kit or the Format page is your report's first line.
 - **by 10, `releases/v1.zip`:** a minimal legal bot handling every phase (the kit's default for anything unfamiliar)
   inside the safety shell, through the upload test. No strategy first: no active bot scores zero.
 - **by ~12, `bot/INTERFACE.md`:** settings (names, defaults), the decision hooks a style or fix may wrap, the

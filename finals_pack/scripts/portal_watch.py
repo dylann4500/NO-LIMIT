@@ -9,21 +9,29 @@ state/status.md current, and post every event to the inboxes. A human starts it 
 Options:
   --base URL          default https://pokerbot.sequoiacap.com/tournament/api (rehearsal: http://<mac>:8765/tournament/api)
   --key-file PATH     default ~/.config/no-limit-2026/api-key (never printed)
-  --hands-url TPL     hand download template: {tid} = round id, {q} = '?subset=first-1000' or '' (full), {qa} = the
-                      same with '&' (links that already have a query); default <base>/tournaments/{tid}/hands{q}
+  --hands-url TPL     hand download template, or a copied link: {tid} = round id, {team} = our team id, {q} = the
+                      first-1000 query ('?tables=1000&subset=first-1000') or '' (full), {qa} = the same with '&'
+                      (links that already have a query). Not needed normally: the watcher tries the real portal's
+                      <base>/teams/{team}/tournaments/{tid}/hands{q}, then the rehearsal copy's
+                      <base>/tournaments/{tid}/hands{q}
   --small-hands       only the first-1000 file (on a phone hotspot)
 
 GET requests only, User-Agent avalon-portal-watch/1.0, Bearer key (sent only to the portal's own site; dropped on
 a redirect elsewhere). Polls every 15 s; every 6 s from 2 to 15 event-minutes after a round's scheduled start
 (state/schedule.json) until its result lands.
 Writes: data/rounds/NN-<stage>/ (results.json, round.json, hands-first-1000.jsonl.gz, hands-full.jsonl.gz,
-played_by.txt), state/status.md, state/rounds_seen.json (for the clock), state/portal.json (its own state).
+played_by.txt), state/status.md, state/rounds_seen.json (for the clock), state/portal.json (its own state), and
+state/variant.md (the variant's rules text from the portal, once, when it is announced).
 Runs analysis/roundcard.py and analysis/fp_train.py on each new round folder if they exist.
+A round that finished more than 12 hours before the watcher first saw it (the regional's, while the Finals isn't on
+our key yet) keeps its results but gets no hand files. Once a minute the watcher looks whether a newer competition
+has appeared on the key and switches to it by itself.
 """
 
 from __future__ import annotations
 
 import argparse
+import copy
 import gzip
 import io
 import ipaddress
@@ -53,9 +61,20 @@ UA = "avalon-portal-watch/1.0"
 BASE = "https://pokerbot.sequoiacap.com/tournament/api"
 KEYFILE = "~/.config/no-limit-2026/api-key"
 SLOW, FAST = 15, 6
-SMALL_Q = "subset=first-1000"
+# Hand downloads. The real portal (checked on 14 Nov against the regional's rounds, byte for byte against our files):
+#   GET <base>/teams/<team>/tournaments/<round>/hands             the full file
+#   GET <base>/teams/<team>/tournaments/<round>/hands?tables=1000 the first 1,000 tables
+# It IGNORES ?subset=... (and then sends the full file), so the small query carries both names: the rehearsal copy
+# (emu/portal_server.py) serves <base>/tournaments/<round>/hands and reads ?subset=first-1000. The shapes are tried
+# in this order until one gives hand data; a link set with --set-hands-url goes first.
+SMALL_Q = "tables=1000&subset=first-1000"
+SMALL_KEYS = ("tables=", "subset=")
+HANDS_TEMPLATES = ("{base}/teams/{team}/tournaments/{tid}/hands{q}", "{base}/tournaments/{tid}/hands{q}")
+OLD_ROUND_S = 12 * 3600   # a round that finished longer ago than this isn't today's: its results are kept, no hand files
+FOLLOW_KEY_S = 60         # how often to look whether a newer competition (the Finals) has appeared on our key
+# "submission_cooldown_seconds" and "frozen" are the real portal's names; "upload_cooldown_seconds" the rehearsal copy's
 COMP_KEYS = ("final_weight", "final_revealed_at", "leaderboard_held", "round_weighting", "weights",
-             "icm_luck_correction", "upload_cooldown_seconds")
+             "icm_luck_correction", "upload_cooldown_seconds", "submission_cooldown_seconds", "frozen")
 RUNPY = ("import runpy, sys; sys.path.insert(0, sys.argv[1]); sys.argv = sys.argv[2:]; "
          "runpy.run_path(sys.argv[0], run_name='__main__')")
 DEFAULT_ST = {"done": [], "done_stages": [], "subs": [], "need_hands": {}, "landed_at": {}, "played_by": {},
@@ -118,9 +137,14 @@ def to_template(url: str, known_ids) -> tuple:
         url = url.replace(hit, "{tid}")
     if "{q}" not in url and "{qa}" not in url:
         u = urlsplit(url)
-        rest = [p for p in u.query.split("&") if p and not p.startswith("subset=")]   # keep a signature as it was
+        rest = [p for p in u.query.split("&") if p and not p.startswith(SMALL_KEYS)]   # keep a signature as it was
         url = urlunsplit(u._replace(query="&".join(rest))) + ("{qa}" if rest else "{q}")
     return url, f"Hand-history link set: {url}"
+
+
+def first_reason(old, new: str) -> str:
+    """Which download failure to show when several addresses were tried: the first, unless it was only a 404."""
+    return new if (old is None or ("404" in old and "404" not in new)) else old
 
 
 def rel(root: Path, p) -> str:
@@ -147,13 +171,15 @@ class Watcher:
             raise ValueError(f"the key file {keyfile} is empty")
         self.opener = urllib.request.build_opener(_KeyStaysHome)
         self.small_only, self.echo = small_only, echo
-        self.st = dict(DEFAULT_ST, **C.load_json(self.statef, {}))
+        self.st = dict(copy.deepcopy(DEFAULT_ST), **C.load_json(self.statef, {}))   # never share the default's lists
         self.checked = set(self.st.get("checked") or [])
         self.cid, self.team = None, None
         self.team_name, self.comp_name = self.st.get("team_name") or "avalon", self.st.get("comp_name") or ""
         self.threads: list = []
         self.full_jobs: set = set()
         self.posted: list = []
+        self.hands_ok = None     # the download shape that last gave hand data (tried first from then on)
+        self.ident_at = 0.0      # when we last asked the portal which competition this key plays in
         self.cli_hands = bool(hands_url)
         if hands_url:
             tpl, msg = to_template(hands_url, self.known_ids())
@@ -172,9 +198,13 @@ class Watcher:
         return set(self.st.get("done") or []) | set((self.st.get("need_hands") or {}).keys()) | \
             set((self.st.get("seen_start") or {}).keys())
 
-    @property
-    def hands_url(self) -> str:
-        return self.st.get("hands_url") or (self.base + "/tournaments/{tid}/hands{q}")
+    def hands_urls(self) -> list:
+        """The hand-download shapes to try, best first: a link a human set, the shape that last worked, the known ones."""
+        out = []
+        for t in [self.st.get("hands_url"), self.hands_ok] + [t.replace("{base}", self.base) for t in HANDS_TEMPLATES]:
+            if t and t not in out:
+                out.append(t)
+        return out
 
     def adopt(self, disk: dict) -> None:
         """A hands link set from the command line while this runs (newer than ours): use it, retry at once."""
@@ -212,7 +242,9 @@ class Watcher:
         return C.load_json(C.sp(self.root, "schedule.json"), None)
 
     # -------------------------------------------------- who we are
-    def identify(self) -> None:
+    def pick_team(self) -> dict:
+        """The team (and its competition) this key plays for right now: the newest competition when the key lists
+        several (the regional and the Finals), or the one named by AVALON_COMPETITION_ID."""
         teams, last, answered = [], None, False
         for path in ("/auth/api-key", "/me"):   # the real portal answers /auth/api-key for API keys
             try:
@@ -237,7 +269,10 @@ class Watcher:
             comps = {c.get("id"): c for c in ((self.get("/competitions") or {}).get("items") or [])}
             teams.sort(key=lambda t: str((comps.get(t["competition_id"]) or {}).get("created_at")
                                          or (comps.get(t["competition_id"]) or {}).get("starts_at") or ""))
-        t = teams[-1]
+        return teams[-1]
+
+    def identify(self, t: dict | None = None) -> None:
+        t = t or self.pick_team()
         if self.st.get("cid") and self.st["cid"] != t["competition_id"]:
             self.archive(self.st["cid"], t["competition_id"])
         self.cid, self.team = t["competition_id"], t["id"]
@@ -245,6 +280,21 @@ class Watcher:
         self.comp_name = comp.get("name") or self.cid
         self.team_name = (self.get(f"/teams/{self.team}") or {}).get("name") or "avalon"
         self.st.update(cid=self.cid, team_id=self.team, team_name=self.team_name, comp_name=self.comp_name)
+        self.ident_at = time.time()
+
+    def follow_key(self, now: float) -> None:
+        """Once a minute: has the key moved to a newer competition (the watcher was started while the key still
+        listed only the regional, and the Finals has appeared since)? Then switch to it, with no restart. A look
+        that fails changes nothing: the poll itself reports a portal that doesn't answer."""
+        if now - self.ident_at < FOLLOW_KEY_S:
+            return
+        self.ident_at = now
+        try:
+            t = self.pick_team()
+        except Exception:  # noqa: BLE001
+            return
+        if t.get("competition_id") and t["competition_id"] != self.cid:
+            self.identify(t)
 
     def archive(self, old_cid: str, new_cid: str) -> None:
         """A different competition on this key (the rehearsal, then Sunday): start fresh; keep the old data aside."""
@@ -254,14 +304,15 @@ class Watcher:
             dest = self.out.with_name(f"rounds.old-{str(old_cid)[:8]}-{stamp}")
             self.out.rename(dest)
             moved = f"; the old round data moved to {rel(self.root, dest)}/"
-        for name in ("rounds_seen.json",):
+        for name in ("rounds_seen.json", "variant.md"):
             try:
                 C.sp(self.root, name).unlink()
             except FileNotFoundError:
                 pass
+        self.hands_ok = None
         C.write_json(C.sp(self.root, f"portal.old-{str(old_cid)[:8]}.json"), self.st)
         keep = {k: self.st[k] for k in ("hands_url", "hands_url_at") if k in self.st and self.cli_hands}
-        self.st = dict(DEFAULT_ST, **keep)   # a hands link from the old portal doesn't fit the new one
+        self.st = dict(copy.deepcopy(DEFAULT_ST), **keep)   # a hands link from the old portal doesn't fit the new one
         self.checked = set()
         self.say("both", f"new competition on this key ({new_cid}; was {old_cid}): starting fresh{moved}.")
 
@@ -306,6 +357,8 @@ class Watcher:
         self.sync()
         if not self.cid:
             self.identify()
+        else:
+            self.follow_key(now)
         rounds = self.rounds()
         prev_ok = self.st.get("last_ok") or 0
         newly = self.track_starts(rounds, now, prev_ok)
@@ -332,9 +385,18 @@ class Watcher:
                     self.say("both", f"URGENT: gave up reading the result of {r['stage']} after 40 tries "
                                      f"({type(e).__name__}). Download it from the portal's round page into data/rounds/.")
         if caught:
-            self.say("both", f"catch-up: {len(caught)} round(s) had already finished before the portal watcher started; "
-                             "results and our hand data are saved in " + ", ".join(caught) + ". These are NOT new rounds; "
-                             "check notes/PLAN-research.md for what was already analysed.")
+            n_old = sum(1 for r in new_done if r["id"] in (self.st.get("old_rounds") or []))
+            if n_old == len(caught):   # e.g. started on the regional's competition before the Finals is on the key
+                self.say("both", f"catch-up: the portal shows {self.comp_name or self.cid} with {n_old} round(s) that all "
+                                 f"finished more than {OLD_ROUND_S // 3600} hours ago: not today's event. Their results "
+                                 "are saved (no hand files). The watcher switches by itself when a newer competition "
+                                 "appears on this key.")
+            else:
+                self.say("both", f"catch-up: {len(caught)} round(s) had already finished before the portal watcher "
+                                 "started; results and our hand data are saved in " + ", ".join(caught) + ". These are NOT "
+                                 "new rounds; check notes/PLAN-research.md for what was already analysed."
+                                 + (f" ({n_old} of them finished more than {OLD_ROUND_S // 3600} hours ago: results only, "
+                                    "no hand files.)" if n_old else ""))
         self.retry_hands()
         standings = self.read_standings()
         self.watch_competition()
@@ -468,9 +530,14 @@ class Watcher:
         C.write_json(folder / "round.json", meta)
         if pbot and pbot != "no bot":
             C.write_text(folder / "played_by.txt", pbot + "\n")
-        files = self.fetch_hands(r["id"], folder, small_first=True)
+        # A round first seen long after it finished (the regional's, when the Finals isn't on the key yet) is not
+        # today's data: keep its results, but never pull gigabytes of old hand files over the venue's Wi-Fi.
+        old = quiet and (ts_of(r.get("completed_at")) or time.time()) < time.time() - OLD_ROUND_S
+        files = [] if old else self.fetch_hands(r["id"], folder, small_first=True)
         if files:
             self.st.setdefault("landed_at", {})[stage] = time.time()
+        elif old:
+            self.st.setdefault("old_rounds", []).append(r["id"])
         else:
             self.st["need_hands"][r["id"]] = {"folder": str(folder), "label": label, "stage": stage, "since": time.time()}
         items = sorted(res["items"], key=lambda x: -(x.get("average_points") or 0))
@@ -568,28 +635,34 @@ class Watcher:
             if p.exists() and p.stat().st_size > 100:
                 files.append(str(p))
                 continue
-            try:
-                url = self.hands_url.replace("{tid}", tid).replace("{q}", q).replace("{qa}", q.replace("?", "&"))
-                data = self.get(url, raw=True)
-                head = data[:400].lower()
-                if data[:1] in (b"{", b"[") and len(data) > 100 and b"<html" not in head:
-                    data = gzip.compress(data)   # plain JSON lines: keep them, in the format everything reads
-                if data[:2] != b"\x1f\x8b":
-                    why = "an HTML page (a login or error page?)" if b"<html" in head or b"<!doctype" in head else "not gzip"
-                    err = f"got {len(data)} bytes that aren't hand data ({why}: {data[:40]!r})"
-                    continue
-                if len(data) <= 100:
-                    err = f"got only {len(data)} bytes"
-                    continue
-                with gzip.GzipFile(fileobj=io.BytesIO(data)) as g:   # a truncated download never counts as saved
-                    while g.read(1 << 20):
-                        pass
-                tmp = p.with_name(p.name + ".tmp")
-                tmp.write_bytes(data)
-                os.replace(tmp, p)
-                files.append(str(p))
-            except Exception as e:  # noqa: BLE001
-                err = f"{type(e).__name__}: {str(e)[:160]}"
+            why = None   # why this file failed: the first reason, but a 404 (no such address here) yields to a later,
+            for tpl in self.hands_urls():   # more telling one (an HTML page, a broken file); None once the file is saved
+                try:
+                    url = (tpl.replace("{tid}", tid).replace("{team}", str(self.team or ""))
+                           .replace("{q}", q).replace("{qa}", q.replace("?", "&")))
+                    data = self.get(url, raw=True)
+                    head = data[:400].lower()
+                    if data[:1] in (b"{", b"[") and len(data) > 100 and b"<html" not in head:
+                        data = gzip.compress(data)   # plain JSON lines: keep them, in the format everything reads
+                    if data[:2] != b"\x1f\x8b":
+                        kind = "an HTML page (a login or error page?)" if b"<html" in head or b"<!doctype" in head else "not gzip"
+                        why = first_reason(why, f"got {len(data)} bytes that aren't hand data ({kind}: {data[:40]!r})")
+                        continue
+                    if len(data) <= 100:
+                        why = first_reason(why, f"got only {len(data)} bytes")
+                        continue
+                    with gzip.GzipFile(fileobj=io.BytesIO(data)) as g:   # a truncated download never counts as saved
+                        while g.read(1 << 20):
+                            pass
+                    tmp = p.with_name(p.name + ".tmp")
+                    tmp.write_bytes(data)
+                    os.replace(tmp, p)
+                    files.append(str(p))
+                    self.hands_ok, why = tpl, None
+                    break
+                except Exception as e:  # noqa: BLE001
+                    why = first_reason(why, f"{type(e).__name__}: {str(e)[:160]}")
+            err = why or err
         if err and shared:
             self.st["hands_err"] = err
         return files
@@ -729,6 +802,48 @@ class Watcher:
             diff = "; ".join(f"{k}: {old.get(k)} -> {now_.get(k)}" for k in COMP_KEYS if old.get(k) != now_.get(k))
             self.say("both", f"URGENT: the organizers changed the competition settings: {diff}. BUILDER updates the rules "
                              "card (bot/rules.json); RESEARCH re-checks the bar for the next decision.")
+        try:
+            self.note_variant(comp)
+        except Exception as e:  # noqa: BLE001   an extra: it must never stop the round and active-bot checks
+            if self.echo:
+                C.quiet(f"couldn't save the variant's rules text ({type(e).__name__}: {str(e)[:120]})")
+
+    def cooldown(self):
+        """The upload cooldown in seconds as the portal itself states it (None if it doesn't)."""
+        cs = self.st.get("comp_settings") or {}
+        v = cs.get("submission_cooldown_seconds", cs.get("upload_cooldown_seconds"))
+        return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None
+
+    def note_variant(self, comp: dict) -> None:
+        """The real portal stamps the announcement (variant_announced_at = minute 0) and serves the variant's rules
+        text at /competitions/<id>/variant. Once per announcement, and only for today's (not the regional's): save the
+        text to state/variant.md and tell both sessions the portal's own time for minute 0."""
+        at = comp.get("variant_announced_at")
+        t = ts_of(at)
+        if not t or self.st.get("variant_at") == at:
+            return
+        if t < time.time() - OLD_ROUND_S:
+            self.st["variant_at"] = at
+            return
+        v = self.get(f"/competitions/{self.cid}/variant") or {}
+        rules = v.get("rules") if isinstance(v, dict) else None
+        if not isinstance(rules, str) or not rules.strip():
+            return                      # not readable yet: look again at the next poll
+        title = str(v.get("title") or v.get("id") or comp.get("variant") or "?")
+        cd = self.cooldown()
+        C.write_text(C.sp(self.root, "variant.md"),
+                     f"<!-- Saved {C.hms(time.time())} by scripts/portal_watch.py from the portal's own API. Variant "
+                     f"\"{title}\" (id {v.get('id') or comp.get('variant')}), announced at {C.hms(t)} = minute 0. "
+                     "The kit's RULES.md and state.config and the Format page still decide the rules card. -->\n\n"
+                     + rules.rstrip() + "\n")
+        self.st["variant_at"] = at
+        s = self.schedule()
+        clock = ("" if C.started(s) else
+                 f" The clock isn't started: RESEARCH runs python3 scripts/clock.py start {time.strftime('%H:%M', time.localtime(t))}.")
+        self.say("both", f"THE VARIANT IS ANNOUNCED on the portal: \"{title}\", at {C.hms(t)} (the portal's own time = "
+                         f"minute 0). Its rules text is saved in state/variant.md ({len(rules.splitlines())} lines): read it "
+                         "now, before the kit is unpacked; the kit and the Format page still decide the rules card."
+                         + (f" Upload cooldown per the portal: {cd:g} s." if cd is not None else "") + clock)
 
     def read_team(self, now: float):
         team = self.get(f"/teams/{self.team}") or {}
@@ -807,7 +922,9 @@ class Watcher:
         L.append(f"Last poll {C.hms(self.st.get('last_poll') or now)}: " +
                  ("OK" if not error else f"**FAILED** ({error}); last OK {C.hms(ok) if ok else 'never'}")
                  + (f" · base {self.base}" if self.base != BASE else ""))
-        L.append(f"Competition: {self.comp_name or '?'} · team **{self.team_name}**")
+        cd = self.cooldown()
+        L.append(f"Competition: {self.comp_name or '?'} · team **{self.team_name}**"
+                 + (f" · upload cooldown per the portal: {cd:g} s" if cd is not None else ""))
         act = self.st.get("active") or {}
         a = act.get("filename")
         line = f"**Active bot on the portal: {a or 'NONE (a round starting now is forfeited)'}**"
@@ -838,6 +955,8 @@ class Watcher:
                 state = "**running**"
             elif rid in (self.st.get("need_hands") or {}):
                 state = "finished · hands NOT downloaded yet"
+            elif rid in (self.st.get("old_rounds") or []):
+                state = "finished long ago · results only"
             elif rid in self.st.get("done", []):
                 state = "finished · data saved"
             else:
@@ -865,6 +984,11 @@ class Watcher:
         warn = []
         if error:
             warn.append(f"the last poll failed: {error} ({self.st.get('fails', 0)} in a row)")
+        rv = self.st.get("rounds_view") or []
+        if rv and len(self.st.get("old_rounds") or []) == len(rv):
+            warn.append(f"every round of {self.comp_name or 'this competition'} finished more than {OLD_ROUND_S // 3600} "
+                        "hours ago: this is NOT today's event. The watcher switches by itself when a newer competition "
+                        "appears on this key; if it never does, the key file isn't on the Finals team")
         for tid, info in (self.st.get("need_hands") or {}).items():
             warn.append(f"hand data for {info.get('stage')} not downloaded since {C.hhmm(info.get('since'))} "
                         f"(last error: {self.st.get('hands_err') or 'none'}); fix: python3 scripts/portal_watch.py "
@@ -985,6 +1109,13 @@ def main(argv=None) -> int:
     if w.st.get("need_hands"):
         print(f"Hand data missing for: {', '.join(i.get('stage') for i in w.st['need_hands'].values())} "
               f"(last error: {w.st.get('hands_err')})")
+    if rv and len(w.st.get("old_rounds") or []) == len(rv):
+        print(f"NOTE: every round here finished more than {OLD_ROUND_S // 3600} hours ago, so \"{w.comp_name}\" is not "
+              "today's event (results saved, no hand files). The running watcher switches by itself when a newer "
+              "competition appears on this key.")
+    cd = w.cooldown()
+    if cd is not None:
+        print(f"Upload cooldown per the portal: {cd:g} s")
     print(f"Posted {len(w.posted)} inbox line(s); status in state/status.md")
     return 0
 

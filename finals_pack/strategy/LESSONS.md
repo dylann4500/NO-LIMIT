@@ -212,3 +212,20 @@ neither exists any more.
 - In that variant the kit's do-nothing bot scored as well as ours in a field that busts itself. **Rule:** every
   verdict reports the floor bot; if folding is that strong on the real field, it's a PLAN CHALLENGE.
 - A fresh repo ignored `.claude/settings.json` until the folder was trusted. **Rule:** START.md step: trust it once.
+
+## From the 14 November checks against the real portal (read-only, the regional's finished rounds)
+
+- The watcher's hand-download address was a guess copied from our own rehearsal portal; the real portal answered it
+  with 404. The first-1000 query was a guess too: the real portal ignores a query it doesn't know and sends the full
+  270 MB file. One `--once` against the regional's rounds found both, a day early. **Rule:** whatever talks to the
+  organizers' systems is checked against the real thing before the day (GET only), never only against our copy of
+  it; a download is judged by its size and checksum, not by "it answered 200".
+- A watcher started while our key still listed only the regional would have stayed on the regional all day: it asked
+  "which competition?" once, at start-up. **Rule:** a script that runs for hours re-checks what it assumed at
+  start-up. The watcher now follows the key by itself and says "not today's event" until the Finals appears.
+- The watcher's "start fresh" state shared its lists with the old state, so after a switch the first Finals round
+  would have been filed as round 16 with the regional's rounds marked done. A test of the switch itself found it.
+  **Rule:** test the transition, not only each side of it.
+- The portal's API states the upload cooldown, the announcement time and the variant's rules text; we had planned
+  to read all three off web pages by hand. **Rule:** take a fact from the system that owns it (`state/status.md`,
+  `state/variant.md`) and keep the human reading as the cross-check.

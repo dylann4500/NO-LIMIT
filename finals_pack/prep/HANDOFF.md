@@ -75,9 +75,10 @@ Key design choices and why:
   `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40`), built-in cross-session messaging (ListAgents/SendMessage; not in
   bypass-permissions mode), hooks applying to subagents in every mode, deny-beats-allow, effort levels,
   `autoCompactWindow`.
-- **Scripts:** `python3 scripts/test_scripts.py` (202 quick / 223 full checks pass on Python 3.9 and 3.14): the
-  portal watcher against the simulator's portal copy, the clock through restarts (each step and cut-off once), 44
-  guard decisions, the key never printed.
+- **Scripts:** `python3 scripts/test_scripts.py` (218 quick / 228 full checks pass on Python 3.9 and 3.14): the
+  portal watcher against the simulator's portal copy and against the real portal's shapes (16 checks added on
+  14 Nov, section 9), the clock through restarts (each step and cut-off once), 44 guard decisions, the key never
+  printed.
 - **A timed speedrun** (`prep/SPEEDRUN_14NOV.md`): headless BUILDER + RESEARCH (Opus 5.5, high effort) on an unseen
   mock variant, no humans, no portal. Every build-hour target landed early: rules card 1.3 min, v1 released with a
   passing no-time-bank upload test at 2-3 min, all theory tables by 12, interface 10, styles A/B/C legal by 12, design
@@ -89,8 +90,9 @@ Key design choices and why:
   T-15 / activated T-12, one theory schedule, the round-1 rule, git and zip handling, Modal caps, stage folder names).
 
 **Not yet tested** (your Saturday): two humans with real Claude Code sessions end to end, the Monitor waking an idle
-interactive session on this laptop, the real portal (its hand-download link, cooldown, round naming), an 8-seat
-field with Opus agents over 6 rounds.
+interactive session on this laptop, the real portal during a live round (its hand-download address, cooldown and
+round naming were checked on 14 Nov against the regional's finished rounds: section 9), an 8-seat field with Opus
+agents over 6 rounds.
 
 ## 5. What to do on Saturday (in order)
 
@@ -136,9 +138,12 @@ field with Opus agents over 6 rounds.
 
 ## 7. Open questions and known risks
 
-- **The real portal's hand-download URL** isn't known; the watcher guesses `/tournaments/{tid}/hands`. If downloads
-  fail on Sunday, Samuel copies the link and RESEARCH runs `portal_watch.py --set-hands-url '<link>'`.
-- **The upload cooldown:** assume up to 5 minutes (a public summary says 5; the regional portal said 30 s). The
+- **The real portal's hand-download URL** is known now (section 9) and built into the watcher; the old guess,
+  `/tournaments/{tid}/hands`, answers 404 there. `--set-hands-url '<link>'` stays as the fallback. Not known yet:
+  whether the first-1000 file can be fetched while a round is still running (worth one try in practice 1: it would
+  bring the data forward by minutes).
+- **The upload cooldown:** the portal's API states it (the regional's competition says 30 s) and the watcher shows it
+  in `state/status.md`. Until Sunday's figure is read, assume up to 5 minutes (a public summary says 5). The
   window has at most two real uploads (challenger ~T-15/T-12, a new chosen bot ~T-4); everything else is a click.
 - **Does a Monitor event wake an idle interactive session reliably on this laptop?** The bundle depends on it for the
   clock and portal events; test it (§5 step 2). Fallback in `prompts/BUILDER.md`.
@@ -154,3 +159,53 @@ field with Opus agents over 6 rounds.
 - Why each decision rule exists: `strategy/DECISION_RULES.md` (with the research grades in `EVIDENCE_TABLE.md`).
 - The scenario walk-throughs of the retired hub (many still apply): `hub/tests/scenarios/` in the main repo.
 - The speedrun reports: `prep/SPEEDRUN_14NOV.md`. The Saturday test list: `prep/INVESTIGATE.md`.
+
+## 9. Saturday update from Dylan's laptop (14 November, 05:30, Dylan's Claude)
+
+**The laptop (section 5, step 1).** Ready: `claude` 2.1.317 logged in; Python 3.12.13; `uv` 0.13.8; `modal` 1.6.4
+on the PATH and logged in to Dylan's workspace (`modal app list` shows `nolimit-emu-teams`); `codex` 0.162.1 logged
+in; Tailscale sees Samuel's Mac; the setup skill is in `~/.claude/skills/no-limit-2026-setup/`; the portal key file
+works (team avalon; the key expires on 6 December). Open, each needing a human: which Claude account this laptop
+uses on Sunday (it is on a Max plan login now; see "Decisions"), trusting the Sunday folder, the Sunday GitHub repo,
+the rehearsal portal's key file.
+
+**The real portal, read-only (GET), with our key, on the regional's 15 finished rounds.**
+- The key lists one team today: avalon in "Bay Area". The Finals competition is not on the key yet.
+- Hand files: `GET /teams/<team>/tournaments/<round>/hands` (full) and `?tables=1000` (first 1,000 tables; any
+  number works, e.g. `?tables=200`). The download through the watcher's own code has the same sha256 as our file
+  from the night. `GET /tournaments/<round>/hands` is 404, and `?subset=first-1000` is ignored (the full file comes).
+- The competition object carries `submission_cooldown_seconds` (30 at the regional), `variant` (an id),
+  `variant_announced_at` (minute 0: the regional's first practice round started about 20 minutes after it),
+  `round_weighting`, `final_weight`, `frozen`, `leaderboard_held`. `GET /competitions/<id>/variant` returns
+  `{id, title, rules}` with the full rules text in Markdown.
+- A round carries `iterations`, `entries`, `forfeits`, `jobs`, `jobs_done`, `score_multiplier`, `culling`,
+  `icm_luck_correction`.
+
+**What changed in the bundle** (`scripts/portal_watch.py`, tests, and the docs that describe them):
+1. Hand downloads use the real address first and the rehearsal copy's second; the small file asks for
+   `tables=1000`.
+2. Old rounds: a round first seen more than 12 hours after it finished keeps its results and gets no hand files.
+   Without this, fixing the address would have made a watcher started on the regional pull about 2 GB.
+3. The watcher follows the key: once a minute it looks whether a newer competition has appeared and switches to it
+   with no restart. Before, a watcher started while the key listed only the regional stayed there.
+4. A bug the switch exposed: the "fresh" state shared its lists with the old one (fixed with a deep copy).
+5. From the portal's API into files: the upload cooldown (`state/status.md`), and at the announcement the rules
+   text (`state/variant.md`) with the portal's time for minute 0, posted to both inboxes as "THE VARIANT IS
+   ANNOUNCED". RESEARCH may start the clock from that line if no human has given a time.
+6. `START.md`: Remote Control and session names on the two `claude` commands; three new rows in "When something
+   goes wrong". `CLAUDE.md`, both prompts, `platform.md`, `DECISION_RULES.md`, `scripts/README.md` and
+   `LESSONS.md` say the same.
+
+**Decisions (Dylan, 14 Nov).** Samuel types into RESEARCH from his own computer through Claude Code's Remote Control
+(claude.ai/code, signed in to the same Claude account as this laptop), not over ssh. Sub-agents and side sessions
+get a model and effort chosen for the task: Fable 5.2 at high effort for research, xhigh only for hard reasoning
+bottlenecks, Opus 5.5 for implementation and debugging.
+
+**Running now.** Three research sessions on this laptop are drafting Sunday's morning notes, each on its own branch
+cut from `emu/rehearsal`: `field.md` and `contrarian.md`; `variants.md` (the other regionals, twist priors, timed
+valuation drills); `whatwins.md`, `buildplan.md` and `testplan.md`. They are merged only when Dylan says so.
+
+**Still open from section 5.** Step 2's in-session checks (trust and `/permissions`, the Monitor waking an idle
+session, including one under Remote Control, messaging between the two sessions, the guard from inside a session
+and a subagent, background subagents, concurrency): they need Dylan at the keyboard. Step 3, the rehearsal. Step 6,
+the Sunday repo.

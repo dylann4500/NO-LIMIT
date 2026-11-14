@@ -9,9 +9,13 @@ plus two scripts (the **clock** and the **portal watcher**). No dashboard. You t
    minus `prep/` (that's for Saturday's checks only). Clone it on Dylan's laptop: `git clone <url> ~/avalon-finals`.
    No bot code goes in it. Never run a rehearsal in this clone (see the end).
 2. **Accounts on Dylan's laptop:**
-   - `claude` logged in to the Ultra account (`claude`, then `/login`).
+   - `claude` logged in to the account you both use on Sunday (`claude`, then `/login`). Samuel types into RESEARCH
+     from his own computer through Remote Control, and he only sees this laptop's sessions if his computer is
+     signed in to the **same Claude account** (he opens claude.ai/code there).
    - The portal key in `~/.config/no-limit-2026/api-key` (Samuel's key: AirDrop the file, never paste it in a chat
-     or the repo). Check it: `python3 scripts/portal_watch.py --once` should print the team and competition.
+     or the repo). Check it: `python3 scripts/portal_watch.py --once` should print the team and competition. Until
+     the organizers put us in the Finals competition it prints the regional ("Bay Area") with a note that this is
+     not today's event; the running watcher switches to the Finals by itself when it appears on the key.
    - `modal` logged in to the team workspace (`modal app list` works). Optional: `codex` logged in.
       - `uv` installed (`brew install uv`) and Python 3.12 (`python3.12 --version`; else `brew install python@3.12`):
      the kit's environment needs it.
@@ -32,8 +36,13 @@ Open four terminal tabs in `~/avalon-finals` (keep the laptop plugged in; run `c
 |---|---|---|
 | 1 | `python3 scripts/portal_watch.py` | reads the portal every 15 s, saves data, posts events (leave it running) |
 | 2 | `python3 scripts/clock.py run` | posts each step to the sessions and prints Dylan's upload/activate reminders here, with a beep |
-| 3 | `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40 claude` → `/model`, `/effort high` → paste the BUILDER starter (below) | Dylan's session |
-| 4 | `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40 claude` → `/model`, `/effort high` → paste the RESEARCH starter (below) | Samuel's session |
+| 3 | `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40 claude -n BUILDER --remote-control BUILDER` → `/model`, `/effort high` → paste the BUILDER starter (below) | Dylan's session |
+| 4 | `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40 claude -n RESEARCH --remote-control RESEARCH` → `/model`, `/effort high` → paste the RESEARCH starter (below) | Samuel's session: he types into it from his own computer (claude.ai/code, the same Claude account, the session named RESEARCH) |
+
+**Remote Control:** `--remote-control <name>` shows the session on claude.ai/code for anyone signed in to the same
+account; `-n <name>` names it so the two sessions can find each other. Both of you can type into either session, from
+the laptop or remotely. Agree who types where: nobody has tested two people typing into one session at the same
+moment. Never start a session with `--dangerously-skip-permissions` (it holds the other session's messages).
 
 **Model and effort:** the strongest model you have (Opus 5.5 or Fable 5.2) at **high** effort for both sessions
 (`/model`, `/effort high`; `xhigh`/`max` think longer and answer slower). Subagents use the session's model and effort
@@ -58,7 +67,9 @@ research (notes only, no code), and RESEARCH merges it into `notes/plan.md`.
 ## Minute 0 (the variant is announced)
 
 1. **Samuel** tells RESEARCH: "the variant was announced at 14:02" (or "it starts now"). RESEARCH starts the clock.
-   (Or run it yourself in any tab: `python3 scripts/clock.py start now`.)
+   (Or run it yourself in any tab: `python3 scripts/clock.py start now`.) Tab 1 helps: within 15 seconds of the
+   announcement it posts "THE VARIANT IS ANNOUNCED" with the portal's own time and saves the rules text to
+   `state/variant.md`; if nobody has given RESEARCH a time yet, it starts the clock from that and tells Samuel.
 2. **Dylan** runs `/no-limit-2026-setup` in BUILDER (it fetches the kit into `starter-kit/` and builds its Python),
    or downloads the kit from the portal into `starter-kit/`, and tells BUILDER "the kit is in starter-kit/".
 3. **Both** read the portal's Format page: weights, payouts, the upload cooldown, anything unusual. If the shape
@@ -81,7 +92,8 @@ research (notes only, no code), and RESEARCH merges it into `notes/plan.md`.
   answer a bot decision in RESEARCH; it relays his words.
 - **Steer** by typing to your session: "why?", "do X first", "research Y". It hands the work to the right subagent and
   answers you first.
-- **Hand data not downloading?** Copy the hand download link from the portal and run
+- **Hand data not downloading?** It should by itself: the watcher uses the real portal's own address (checked on
+  14 November). If it doesn't, copy the hand download link from the portal and run
   `python3 scripts/portal_watch.py --set-hands-url '<link>'` (no restart).
 
 ## When something goes wrong
@@ -92,7 +104,9 @@ research (notes only, no code), and RESEARCH merges it into `notes/plan.md`.
 | No active bot / wrong active bot (tab 1, urgent) | Make the right bot active on the portal now |
 | The clock is wrong | Tell RESEARCH the right time ("round 3 starts at 15:42"), or `python3 scripts/clock.py pin scored3 15:42` |
 | A session seems stuck | Type "status?" in it. If it doesn't answer within a minute, press Esc and ask again |
-| A session crashed or closed | In its tab: `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40 claude --resume`, pick the conversation that starts "You are the BUILDER (or RESEARCH) session", `/effort high`, then say "re-read prompts/BUILDER.md (or RESEARCH.md) and your PLAN file, and re-arm your Monitor". Don't use `--continue` (it may pick the other session's conversation) and never `--dangerously-skip-permissions` (it holds the other session's messages) |
+| A session crashed or closed | In its tab: `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40 claude --resume`, pick the conversation that starts "You are the BUILDER (or RESEARCH) session", `/effort high`, then say "re-read prompts/BUILDER.md (or RESEARCH.md) and your PLAN file, and re-arm your Monitor". Don't use `--continue` (it may pick the other session's conversation) and never `--dangerously-skip-permissions` (it holds the other session's messages). Remote Control normally reconnects by itself; if Samuel can't see the session, type `/remote-control RESEARCH` in it |
+| Samuel can't see RESEARCH on his computer | His computer must be signed in to the same Claude account as this laptop; then, in the session's tab: `/remote-control RESEARCH` |
+| Tab 1 still says "not today's event" at minute 0 | The key doesn't list the Finals yet. Ask the organizers whether avalon is in the Finals competition; if the Finals team has its own key (Settings → API keys on the portal), put it in `~/.config/no-limit-2026/api-key` (a file, never pasted into a chat) and restart tab 1 |
 | Tab 1 or 2 stopped | Run its command again; both resume from `state/` |
 | Modal "rate limit" | Tell the session: one Modal app per purpose, no bursts; wait a minute |
 | You disagree at T-8 and there's no time | The rule's answer plays |
