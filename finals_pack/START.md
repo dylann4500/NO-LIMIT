@@ -42,7 +42,9 @@ Open four terminal tabs in `~/avalon-finals` (keep the laptop plugged in; run `c
 **Remote Control:** `--remote-control <name>` shows the session on claude.ai/code for anyone signed in to the same
 account; `-n <name>` names it so the two sessions can find each other. Both of you can type into either session, from
 the laptop or remotely. Agree who types where: nobody has tested two people typing into one session at the same
-moment. Never start a session with `--dangerously-skip-permissions` (it holds the other session's messages).
+moment. **Start both sessions in the same permission mode:** a session holds messages that come from a session in
+a different mode until a human approves them. So never start just one of them with
+`--dangerously-skip-permissions`; the repo's settings already remove the permission prompts.
 
 **Model and effort:** the strongest model you have (Opus 5.5 or Fable 5.2) at **high** effort for both sessions
 (`/model`, `/effort high`; `xhigh`/`max` think longer and answer slower). Subagents use the session's model and effort

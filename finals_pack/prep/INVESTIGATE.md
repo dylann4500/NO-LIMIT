@@ -68,6 +68,25 @@ failures, and both humans able to follow what's happening by reading their own t
 - **Concurrency:** both sessions at full fan-out can exceed 20 concurrent subagents per session; if so, start the
   sessions with `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40 claude` and note it in `START.md`.
 
+**Results so far (14 Nov, Dylan's laptop).** The sessions tested were desktop-app sessions with Remote Control on,
+in bypass-permissions mode (Claude Code 2.1.321), not terminal sessions:
+- **Monitor.** With the Monitor on `scripts/feed.py builder`, a line posted with `say.py` reached a busy session
+  within seconds (twice) and **woke an idle one** (posted 05:36:52; the session was working by 05:36:59).
+- **Cross-session messaging.** `ListAgents` lists other sessions by name: 41 on this laptop, most from other
+  projects, so the two sessions need exact names. A `SendMessage` to an idle session woke it, and its reply came
+  back about a second later. Both were in the same permission mode. The tool states the rule: a session in a
+  **different** permission mode than the sender holds the message for its user's approval. So start both sessions
+  in the same mode.
+- **Guard**, run directly (`echo '{...}' | python3 scripts/guard.py`): refuses `pkill -f x`, `killall`, `sleep 60`,
+  `rm -rf ~/x`, a force push and a POST to the portal; allows `rm -rf build/`, `sleep 10`, the setup skill's GETs
+  (the key check and the kit download) and `python3.12 -m venv`.
+- **The kit at minute 0.** Downloading the regional's kit and building its Python the way the setup skill does took
+  31 s here (26 s of it `pip install -r requirements.txt` with a warm cache); `check` passed and `play` had 0 failed
+  decisions. Our team has no remote build machine, so the skill's answer is "only on this computer".
+- **Still to do, with Dylan at the keyboard:** trust the folder and look at `/permissions`; the guard from inside
+  a trusted session and from a subagent; three background subagents at once; more than 20 at once; and all of the
+  above once more in a terminal `claude` session if Sunday runs in terminal tabs.
+
 ## 3. Build-hour throughput (where most of the outcome is set)
 
 The bot at the end of the build hour matters a lot (rank correlations between rounds 0.84-0.91 for the whole field;

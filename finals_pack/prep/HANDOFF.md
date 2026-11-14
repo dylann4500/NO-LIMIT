@@ -205,7 +205,18 @@ bottlenecks, Opus 5.5 for implementation and debugging.
 cut from `emu/rehearsal`: `field.md` and `contrarian.md`; `variants.md` (the other regionals, twist priors, timed
 valuation drills); `whatwins.md`, `buildplan.md` and `testplan.md`. They are merged only when Dylan says so.
 
-**Still open from section 5.** Step 2's in-session checks (trust and `/permissions`, the Monitor waking an idle
-session, including one under Remote Control, messaging between the two sessions, the guard from inside a session
-and a subagent, background subagents, concurrency): they need Dylan at the keyboard. Step 3, the rehearsal. Step 6,
-the Sunday repo.
+**Step 2's checks so far** (details in `prep/INVESTIGATE.md` section 2, "Results so far"). Done in desktop-app
+sessions under Remote Control: an inbox line wakes an idle session through the Monitor (7 seconds); `SendMessage`
+wakes an idle session and the reply comes back (1 second), provided both sessions are in the same permission mode;
+the guard's decisions, run directly; the kit download and Python build (31 seconds). The rehearsal clone
+`~/avalon-rehearsal` exists (the bundle at `4a3f85f` minus `prep/`, its own local git repo) and passes the quick
+suite; the rehearsal portal's key file is in place.
+
+**Still open from section 5.** The rest of step 2 needs Dylan at the keyboard: trust and `/permissions`, the guard
+from inside a session and a subagent, background subagents, concurrency, and a repeat in terminal sessions if
+Sunday runs in terminal tabs. Step 3, the rehearsal. Step 6, the Sunday repo.
+
+**Research merged since** (`finals_pack/notes/pre/`): `field.md` and `contrarian.md`. They found that the bundle
+gave 50/30/20 as the prizes; the prizes are $100,000 / $50,000 / $25,000 (corrected in `CLAUDE.md` and
+`DECISION_RULES.md` section 1). The memo's proposals to change decision rules are not applied: an independent
+check is running, and the humans decide.
