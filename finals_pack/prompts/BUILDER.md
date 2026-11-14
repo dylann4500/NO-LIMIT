@@ -151,8 +151,9 @@ alternative for the next practice. A challenge never waits for the next schedule
 
 ## If the Monitor isn't available
 
-If the Monitor tool is refused or missing, start a background shell loop that ends when the inbox grows, with a time
-cap, e.g. `n=$(wc -l < inbox/builder.log); until [ $(wc -l < inbox/builder.log) -gt $n ] || [ $SECONDS -gt 600 ]; do sleep 5; done`
+If the Monitor tool is refused or missing, start a shell loop that ends when the inbox grows, with a time cap, as a
+Bash call with `run_in_background: true` (the hook refuses the same loop in the foreground or as a Monitor's command),
+e.g. `n=$(wc -l < inbox/builder.log); until [ $(wc -l < inbox/builder.log) -gt $n ] || [ $SECONDS -gt 600 ]; do sleep 5; done`
 (in the background): it notifies you once when it ends. Read the new lines, then start it again.
 
 ## If a script stops

@@ -83,7 +83,8 @@ a path written `finals_pack/<x>` there is `<x>` here.
    what you started, by PID (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`; later `kill $(cat /tmp/<job>.pid)`) or
    `modal app stop --yes <id>` (without `--yes` it asks for confirmation and aborts when there is no terminal). A hook
    refuses pattern kills.
-7. **Never block your turn**: no foreground `wait`, no `sleep` of 20 s or more, no loops that poll. Start long jobs in the
+7. **Never block your turn**: no foreground `wait`, no `sleep` of 20 s or more, no loops that poll (the hook refuses a shell loop that sleeps, also
+   as a Monitor's command: a watcher must be a script, as `scripts/feed.py` is). Start long jobs in the
    background with a log, end your turn, and check when woken. Main sessions: spawn subagents in the background
    (the default from a main session; say `run_in_background: true` if asked), so you stay free for the humans and
    the inbox.
