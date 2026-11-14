@@ -43,7 +43,7 @@ Tables per candidate for a paired difference to reach 2 standard errors (arith.,
 - **The best of several looks better than it is**: by 0.85 standard errors for the best of 3, 1.03 of 4, 1.54 of 10 (arith.). To pick a true 1-point winner among four designs: about 4,000 tables each, then section 6.
 - **Heads-up**: 600 tables gave ±0.38 (A), so 1 point needs about 400.
 - **Local**: 20-31 tables a second on 4 processes against simple bots, 7 against clones (A). An 1,800-table pair takes 2-3 minutes; a 400-table run sees only 2-point holes.
-- **Modal**: measured 6,000 tables in 2 minutes on 40 containers, 50 a second (A). Measured again on 14 November at the whole 80-container cap: 20,000 tables in 144 s, 139 a second, and the paired difference between two bots came out at ±0.27 (95%), which is the 21/√tables figure (A). The pack's target (20,000 tables for 3-4 candidates in 5 minutes) needs 200-270 a second and has never been run (C). At the measured rate a window affords four candidates at 4,000 tables.
+- **Modal**: measured 6,000 tables in 2 minutes on 40 containers, 50 a second (A). Measured again on 14 November at the whole 80-container cap: 20,000 tables in 144 s, 139 a second, and the paired difference between two bots came out at ±0.27 (95%), which is the 21/√tables figure (A). The pack's target (20,000 tables for 3-4 candidates in 5 minutes) needs 200-270 a second and has never been run (C). On `avalon-rig`'s 40 containers a five-minute window affords about 15,000-20,000 tables in all: three candidates at about 5,000 each, four at 4,000, or one 20,000-table confirmation.
 
 ## 3. Sparring bots to write
 
