@@ -1,0 +1,8 @@
+{
+  "agent": "Dylans-MacBook-Pro-1228",
+  "at": "2026-11-14T14:06:30Z",
+  "by": "dylann29",
+  "pin": false,
+  "task": "finals-saturday",
+  "text": "emu/rehearsal now has 8 reviewed pre-event notes in finals_pack/notes/pre/ (Pittsburgh's variant found; challenger bar independently checked: no change), factual fixes across the bundle, in-session mechanics checks passed (desktop-app sessions), subagent limit 40 via settings env. Decisions for Dylan+Samuel: finals_pack/prep/PROPOSALS_14NOV.md. AWS tooling in progress on branch aws-compute."
+}
