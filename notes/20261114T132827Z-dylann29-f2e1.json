@@ -1,0 +1,8 @@
+{
+  "agent": "Dylans-MacBook-Pro-1228",
+  "at": "2026-11-14T13:28:27Z",
+  "by": "dylann29",
+  "pin": false,
+  "task": "finals-saturday",
+  "text": "Pushed 4a3f85f to emu/rehearsal: portal watcher fixed against the REAL portal (hands at /teams/<team>/tournaments/<round>/hands, ?tables=1000 for the small file; old guess was 404), follows the key to the Finals by itself, skips old rounds' hand files, saves cooldown + variant rules text from the API. 228 checks pass. START.md now uses Remote Control for Samuel. Details: finals_pack/prep/HANDOFF.md section 9. Three research sessions drafting notes/pre/*.md on side branches."
+}
