@@ -273,7 +273,7 @@ has a wider spread. Its percentages are directions, not forecasts.
 ## Sources
 
 - `strategy/DECISION_RULES.md` sections 1-5, `strategy/PLAN.md`, `notes/pre/contrarian.md` section 4,
-  `notes/pre/field.md`; `notes/pre/stat_definitions.md` on branch `claude/pre-field-e01a4b`.
+  `notes/pre/field.md`; `notes/pre/stat_definitions.md`.
 - `research/finals_prep/adaptation/REPORT.md` sections 1 and 5 with `res_q1_top.txt`, `res_q5.txt`,
   `res_q5b.txt` (changes against standing still, who changed, the fixed-bot practice shift of +0.37 ± 0.06,
   which my +0.35 matches); `research/finals_prep/redteam/REPORT.md` checks 2, 5 and 7 and Fix B.
