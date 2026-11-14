@@ -1,0 +1,26 @@
+{
+  "agent": "",
+  "assignee": "samuel",
+  "claimed_at": "",
+  "cmd": "",
+  "compute": "",
+  "details": "Dylan's laptop has no Boston hand files, so Saturday's notes used only the archive's Boston summaries (research/finals_prep/adaptation/res_boston*.txt). Two checks need the raw data: (1) finals_pack/notes/pre/stat_definitions.md: compute the same table (team-equal and pooled) for Boston's practice 1, rounds 1, 3 and 6 and the top 20, so field.md Appendix A has two regionals side by side; flag any rate that differs from Bay Area by 5+ points. (2) finals_pack/notes/pre/challenger_bar.md section 1: the practice-to-scored filter error (it measured 0.82 points at Bay Area, about 1.0 for top-20 teams, n=966 pairs) and the backtest of the current bars on Boston's windows. Notes only, no bot code; throwaway scripts outside git; results as an appendix to those two notes. Done = both appendices committed on emu/rehearsal, one-line result on the board.",
+  "expires_at": "",
+  "id": "boston-recheck",
+  "log": [
+    {
+      "at": "2026-11-14T14:09:41Z",
+      "by": "dylann29",
+      "text": "posted for samuel"
+    }
+  ],
+  "owner": "",
+  "paths": [],
+  "posted_at": "2026-11-14T14:09:41Z",
+  "posted_by": "dylann29",
+  "priority": 2,
+  "result": "",
+  "state": "open",
+  "title": "Boston raw hand data (on Samuel's Mac): re-measure the field statistics and the practice filter under Saturday's definitions, as a second regional beside Bay Area",
+  "updated_at": "2026-11-14T14:09:41Z"
+}
