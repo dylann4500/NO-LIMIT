@@ -80,7 +80,7 @@ below the bar, a `hypothesis:` line for the challenger or the next practice. Cha
 situations). A leak seen in two rounds in the same direction is strong: write `persistent (also L<k>)` in the claim.
 Detail goes in `analysis/<stage>/lens-<name>.md`.
 
-**Before scored round 1 (about minute 50):** which style the field rewarded and what the best teams do, in one
+**Before scored round 1 (asked at about minute 40, due by minute 50):** which style the field rewarded and what the best teams do, in one
 paragraph with numbers (the practice cards, the winners lens, `tester`'s adjusted ranking); if no style we built
 matches what wins, a PLAN CHALLENGE.
 
