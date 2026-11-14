@@ -77,7 +77,8 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   is unchanged; practice SE at least 0.7 points per table; z = edge / SE. Write `rig/out/<stage>-edge.md`, and give
   the practice score the challenger needs as soon as the live side's numbers exist.
 - **T-6, on the chosen zip:** the upload test with no time bank (2 players, 20 hands, time bank 0, vs the kit's
-  check-or-fold, several seeds; vs a call-everything bot so the twist fires). With the recogniser on: posteriors match
+  check-or-fold, several seeds; vs a call-everything bot so the twist fires). The kit's command-line runner can't
+  run it (no switch for the hand count or the time bank): use your own runner in `rig/`, written in the build hour. With the recogniser on: posteriors match
   offline within 1e-4 on 200 tables, added p99.9 latency at most 0.2 ms, memory under 4 KB, truncation raises nothing.
 
 ## How to do it well
