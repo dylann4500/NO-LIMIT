@@ -91,7 +91,9 @@ hand-history README; `state.config`; where two of its files disagree, test what 
   checked to, raise a bet, call an all-in; exact sizes). Estimate = (did + 4 × prior) / (chances + 4), never a weight
   above 10 for a field prior; priors from `analysis/field_priors.json` once it exists. Count responses to OUR bets;
   every rate opportunity-based, inside [0, 1].
-- **ICM** (Malmuth-Harville, payouts from `rules.json`): a busted player keeps their place's payout; the pot counted
+- **ICM** (Malmuth-Harville; payouts from `state.config.payouts` at every table, which a round may draw per table,
+  with `rules.json` only as the check; at the hand cap the organizers' pages split the remaining points by ICM on the
+  stacks, so chips still score there): a busted player keeps their place's payout; the pot counted
   once; when the bettor covers us, only the matched part is ours.
 - **Settings:** every change and adaptive rule is a named setting with a branch count; old behaviour stays the default
   until BUILDER decides. **Shared defaults are a report, not a gate:** count open-limps, flat calls of opens at 10bb+

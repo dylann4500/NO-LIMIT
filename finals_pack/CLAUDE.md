@@ -213,5 +213,8 @@ statement of the platform's rules: re-read Sunday's own pages at minute 0.
   each table starts with a full one. The upload test has none: a heads-up match of up to 20 hands at the 1 ms limit
   against a check-or-fold bot, rejected if the bot does not start within the start-up allowance, crashes, or fails
   more than 10% of its decisions. Our own bar stays zero failed decisions (hard rule 1).
+- Payouts can be drawn per table inside one round, and a round can change the table defaults: the bot reads
+  `state.config.payouts` (and the rest of `state.config`) at every table. At the hand cap the bots still seated
+  split the remaining points by ICM on their stacks.
 
 More, with what it changes for the bot: `notes/pre/format_finals.md`.
