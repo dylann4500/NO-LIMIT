@@ -86,7 +86,9 @@ running before you spawn anything.
   "Exploration"): one practice must be design D; every style rebuilt with the newest shared tables before its upload,
   so practice scores compare styles, not timing. By 3 minutes before each practice the pick is released and
   upload-tested, and you **declare it: `python3 scripts/live.py vN "practice k pick"`** (the clock's reminder to
-  Dylan names the declared bot), then tell Dylan exactly which file to upload or activate.
+  Dylan names the declared bot), then tell Dylan exactly which file to upload or activate. `state/live.json` holds one
+  bot: declare practice k+1's pick only after practice k has started (its "started" line is in your inbox), or the
+  reminder and the watcher's active-bot check point at the wrong bot.
 - Keep `platform` building in RESEARCH's tables as they land (`theory/out/*.json`, including `twist_rule.json`).
 - **Broadcast the first variant-level finding** (theory's ranking or twist rule, or any report that flips a hold'em
   assumption): `SendMessage` it to every running `stylist` and `challenger` at once, so nobody re-derives it (in the
