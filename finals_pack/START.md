@@ -23,7 +23,8 @@ plus two scripts (the **clock** and the **portal watcher**). No dashboard. You t
      the kit's environment needs it.
    - The starter-kit setup skill: copy Samuel's `~/.claude/skills/no-limit-2026-setup/` folder to the same place on
      Dylan's laptop. On Sunday it fetches the kit into `starter-kit/` and builds its Python (answer "only on this
-     computer" if it asks where to set up).
+     computer" when it asks where to set up: our team has a build box assigned for the Finals, `finals-team-6`, so the
+     skill will offer it, but everything in this plan runs on this laptop).
 3. **Check the scripts:** `cd ~/avalon-finals && python3 scripts/test_scripts.py` (all pass).
 4. **Trust the folder once:** run `claude` in `~/avalon-finals` and accept the "trust this folder?" question. Until
    you do, Claude Code ignores the repo's settings (the no-permission-prompt list), and every command asks you.
@@ -78,7 +79,8 @@ research (notes only, no code: it checks and extends Saturday's drafts in `notes
    (Or run it yourself in any tab: `python3 scripts/clock.py start now`.) Tab 1 helps: within 15 seconds of the
    announcement it posts "THE VARIANT IS ANNOUNCED" with the portal's own time and saves the rules text to
    `state/variant.md`; if nobody has given RESEARCH a time yet, it starts the clock from that and tells Samuel.
-2. **Dylan** runs `/no-limit-2026-setup` in BUILDER (it fetches the kit into `starter-kit/` and builds its Python),
+2. **Dylan** runs `/no-limit-2026-setup` in BUILDER (it fetches the kit into `starter-kit/` and builds its Python;
+   answer "only on this computer", not the build box),
    or downloads the kit from the portal into `starter-kit/`, and tells BUILDER "the kit is in starter-kit/".
 3. **Both** read the portal's Format page: table size, stacks and antes, weights, payouts, the upload cooldown,
    anything unusual (`CLAUDE.md` §8 says what may differ from the regional). If the shape
