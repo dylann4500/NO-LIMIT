@@ -1,0 +1,333 @@
+[
+ {
+  "arm": "base",
+  "id": "S1",
+  "decision": "play challenger",
+  "why": "We're 5th, outside the top 3, so the pre-registered bar is +1.0 SE; the challenger is +1.4 SE (+0.9 points/table vs. the live bot, SE about 0.65) and passed the upload test with zero failed decisions. s-tester's re-run isn't finished, but an unverified item only blocks a switch if disputed with a reproduced counter-number, so I'm recommending it labelled 'unverified'."
+ },
+ {
+  "arm": "base",
+  "id": "S2",
+  "decision": "keep live bot",
+  "why": "We're in the top 3, so a change needs 1.5 SE of real-data support, or 1.0 SE if our lead over 4th is smaller than one round's typical swing. At z 1.0 it misses the 1.5 bar, and our 4.1-point lead exceeds that swing (about 3 points per table times round 5's weight share, which is under 3 since the weights run 1 to 6 and round 5 is 5 of 21). So the change goes into the next practice round to be measured first."
+ },
+ {
+  "arm": "base",
+  "id": "S3",
+  "decision": "ship all three",
+  "why": "We're 8th (outside the top 3), where the rule requires z \u2265 1 per change; each change has z about 2, sits behind its own setting, and the combined build is legal with zero failed decisions, so all three clear the bar. Standing still isn't safe, and the changes are independent, so attribution comes from the settings and branch-fired counts."
+ },
+ {
+  "arm": "base",
+  "id": "S4",
+  "decision": "run opponent profiling and the counter now",
+  "why": "Opponent exploitation is core work, not optional, and the policy says that when behind schedule we drop extra verification and polish first while keeping opponent profiles and the challenger. Shove Bros is 2nd overall, sits at about 7 of our 19 tables, and its stable pattern (17/100 heads-up shoves, 87% fold to 3-bets over two rounds) is a persistent, exploitable leak that a 3-bet counter can target, so the 2-minute-late card is no reason to skip it."
+ },
+ {
+  "arm": "base",
+  "id": "S5",
+  "decision": "recommend the challenger, labelled unverified",
+  "why": "We are outside the top 3 (7th, 2 behind 3rd), so the rule's bar is 1.0 SE, and the challenger's +1.3 SE on the real field clears it; it also passed the upload test (rule 2.1). The tester's re-run is only pending, not disputed, and only an item disputed with a reproduced counter-number blocks a switch, so the live bot stays active as the T-9 fallback."
+ },
+ {
+  "arm": "base",
+  "id": "S6",
+  "decision": "get the rules card corrected and re-record",
+  "why": "The hand data from practices 1-2 shows every table had 3 players, so the evidence contradicts the rules card (players=8), and rule 3 says the card must come from the kit and Format page; I'd have d-platform verify against the kit and Format page, correct the card, then have s-tester re-record the 3-handed results so they're accepted. Dropping the results or ignoring the card would repeat the rehearsal mistake of testing at the wrong table size, and 3-handed play changes strategy a lot."
+ },
+ {
+  "arm": "base",
+  "id": "S7",
+  "decision": "play the challenger",
+  "why": "We are 6th, outside the top 3, so the rule's bar is 1.0 SE, and the challenger is +1.1 SE ahead in the real-field practice round, passed the upload test, and had zero failed decisions. The rule's answer is the default when no human answers by T-5, so I declare it live and tell Dylan to upload it."
+ },
+ {
+  "arm": "base",
+  "id": "S8",
+  "decision": "play style B in practice 2",
+  "why": "Practice rounds are experiments and any bot that passes rule 2.1 (legal, zero failed decisions, upload test) may play; B qualifies and a strength verdict from local tests isn't required. Replaying v1 would teach us nothing new, while B gets measured on the real field."
+ },
+ {
+  "arm": "base",
+  "id": "W1",
+  "decision": "re-tune it until the local rate is near 74%, then send it",
+  "why": "The rule says a change that targets a rate must show a measured rate within about 5 points of the target in a local run before it goes to s-tester, and 91% vs 74% is far outside that (it's the same failure as the rehearsal where a 74.6% target played at 92.8%). Firing as expected isn't enough, so I fix the calibration first, with the T-12 to T-4 window leaving time for a re-run on Modal."
+ },
+ {
+  "arm": "base",
+  "id": "W2",
+  "decision": "report the limp rate as the top finding",
+  "why": "A 19% open-limp rate against a 3% field, when the live bot never intends to limp, points to an unintended bug or default-branch leak that is likely worth far more than 0.2 points/table, and the defaults check is meant to be read first. The flop c-bet leak should follow as the second item, with the limp rate's source and fix flagged for d-builder as a candidate change."
+ },
+ {
+  "arm": "base",
+  "id": "W3",
+  "decision": "wait for s-tester's verdict before releasing",
+  "why": "Hard rule 2.2 says only a commit s-tester marked correct can be released, and their verdict is due in about 4 minutes, which is around T-10, so the T-12 challenger slot is likely missed. If so, practice plays the live bot and v9 keeps building for the next window, which is the defined fallback and costs less than shipping an unverified zip."
+ },
+ {
+  "arm": "remind",
+  "id": "S1",
+  "decision": "play challenger",
+  "why": "We are 5th and 1.2 behind 3rd, so the bar is 1.0 SE. The challenger is +0.9 (+1.4 SE) on the real field, passed the upload test with zero failed decisions, and s-tester's unfinished re-run is only 'unverified', not a dispute, so it doesn't block the switch. Round 3 is weighted 3 of 21, so the upside is meaningful."
+ },
+ {
+  "arm": "remind",
+  "id": "S2",
+  "decision": "keep live bot",
+  "why": "We are in the top 3, so a change needs 1.5 SE of real-data support, and this one has only z 1.0 from a single round (our lead over 4th is 4.1 points, more than one round's typical swing, so the 1.0 SE exception doesn't apply). It should be played in the next practice round to be measured first."
+ },
+ {
+  "arm": "remind",
+  "id": "S3",
+  "decision": "ship all three",
+  "why": "We are 8th (outside the top 3), so the bar is 1.0 SE and each change has z of about 2, is behind its own on/off setting, and the combined build passed the legality and upload tests with zero failed decisions. They cover independent situations, so bundling them is allowed under the rule (up to three changes), and the settings and branch-fired counts keep attribution clean."
+ },
+ {
+  "arm": "remind",
+  "id": "S4",
+  "decision": "run opponent profiling and the counter now",
+  "why": "Opponent exploitation is core work, and the guidance says to keep opponent profiles and the challenger going even when behind schedule; the only slight delay is a round card that arrived 2 minutes late. Shove Bros sits at about 7 of our 19 tables and its tendencies held steady across two rounds (17/100 heads-up shoves, 87% fold to 3-bets, unchanged), so a counter such as 3-betting its opens wider is well supported, and it goes behind its own setting so attribution stays clean."
+ },
+ {
+  "arm": "remind",
+  "id": "S5",
+  "decision": "recommend the challenger, labelled unverified",
+  "why": "We are 7th and behind 3rd, so the bar is 1.0 SE. The challenger is +1.3 SE over the live bot on the real field and passed the upload test with no time bank. The rule's answer is to play it, and s-tester's re-run is only proposed, with nothing disputed, which does not block a switch. If s-tester reproduces a counter-number before T-5, I will flag it at once."
+ },
+ {
+  "arm": "remind",
+  "id": "S6",
+  "decision": "get the rules card corrected and re-record",
+  "why": "The hand data from practices 1-2 shows every table had 3 players, which is grade A evidence that the rules card (players=8) is wrong, and hard rule 3 says the card must come from the kit and Format page, so d-platform should verify it against the kit and fix it. Once the card is corrected, the 3-handed results can be re-recorded and s-tester should re-run any remaining tests at the true table size, rather than dropping valid work or ignoring the card."
+ },
+ {
+  "arm": "remind",
+  "id": "S7",
+  "decision": "play the challenger",
+  "why": "We are 6th (outside the top 3), so the bar is 1.0 SE, and the challenger's +1.1 SE on the real field clears it, and it passed the upload test with zero failed decisions (rule 2.1). The rule's answer is the default when nobody answers by T-5, so I declare it live and tell Dylan to upload it."
+ },
+ {
+  "arm": "remind",
+  "id": "S8",
+  "decision": "play style B in practice 2",
+  "why": "Practice rounds are experiments: any bot that passes hard rule 2.1 (legal, zero failed decisions, upload test passed) may play, and a local strength verdict is not required. Replaying minimal v1 would teach us nothing new, while B on the real field gives grade-A data."
+ },
+ {
+  "arm": "remind",
+  "id": "W1",
+  "decision": "re-tune it until the local rate is near 74%, then send it",
+  "why": "The rule requires a change targeting a rate to show a measured rate within about 5 points of the target before it goes to s-tester, and 91% vs 74% is far outside that, so 'the branch fired' is not enough. Re-tuning is cheap (sparring on Modal in parallel), and I'll send it as soon as the local rate is within ~5 points, or ship without this change if it can't be fixed before the T-8 proposal cut-off."
+ },
+ {
+  "arm": "remind",
+  "id": "W2",
+  "decision": "report the limp rate as the top finding",
+  "why": "A 19% open-limp rate against a 3% field rate (n=2,400) contradicts the live bot's intended style, so it is likely a bug or unintended branch and the defaults check comes first in the round workflow. It probably costs more than the roughly 0.2 points/table flop c-bet leak, so report it first with the n and a request to d-builder to find the cause, then give the flop leak second as the asked-for item."
+ },
+ {
+  "arm": "remind",
+  "id": "W3",
+  "decision": "wait for s-tester's verdict before releasing",
+  "why": "My instructions say to release only a commit s-tester has marked correct, and their review finishes in about 4 minutes, which is before the T-12 cut-off for the challenger, so waiting costs nothing. If the verdict comes late, the cut-off just means practice plays an already-tested bot, so there is no reason to skip the check."
+ },
+ {
+  "arm": "card",
+  "id": "S1",
+  "decision": "play challenger",
+  "why": "We're 5th and 1.2 behind 3rd, so the bar is 1.0 SE; the challenger's +0.9 (+1.4 SE) on the real field clears it, and it passed the upload test with zero failed decisions. s-tester's re-run is unfinished but unverified isn't disputed, so it doesn't block the switch (label it 'unverified'); the live bot stays as the fallback active at T-9."
+ },
+ {
+  "arm": "card",
+  "id": "S2",
+  "decision": "keep live bot",
+  "why": "We're in the top 3 (1st, 4.1 ahead of 4th), so a live-bot change needs at least 1.5 SE, and this one has only z 1.0 from a single round's data with no practice-round test or s-tester validation. It should go to the next practice round to be measured first."
+ },
+ {
+  "arm": "card",
+  "id": "S3",
+  "decision": "ship all three",
+  "why": "We're 8th (outside the top 3), so the bar is z >= 1.0 SE per change; each of the three fixes clears it at about z=2, they cover independent situations, each sits behind its own setting with branch-fired counts, and the combined build is legal with zero failed decisions. This matches the pre-registered rule's worked example, so the live bot plays with all three, provided the combined build passes the upload test with no time bank and the live bot stays as the T-9 fallback."
+ },
+ {
+  "arm": "card",
+  "id": "S4",
+  "decision": "run opponent profiling and the counter now",
+  "why": "Opponent exploitation is core work, and Shove Bros (2nd overall) sits at about 7 of our 19 tables with a stable, consistent signal (17/100 shoves heads-up, 87% folds to 3-bets, unchanged across two rounds), so it is a persistent leak worth countering while we're 6th and need to gain places. We're only slightly behind on the round card, so dispatch s-scout and s-data now, and keep any counter behind its own setting, shown locally to hit its target rate within about 5 points and passing the 1.0 SE bar."
+ },
+ {
+  "arm": "card",
+  "id": "S5",
+  "decision": "recommend the challenger, labelled unverified",
+  "why": "We are 7th and 2 points behind 3rd, so the bar is 1.0 SE, and the challenger's +1.3 SE on the real field clears it and it passed the upload test. s-tester's re-run is still only pending, not disputed, and only an item disputed with a reproduced counter-number blocks a switch, so the rule's answer is to play the challenger, with the live bot as fallback at T-4 if it fails release or testing."
+ },
+ {
+  "arm": "card",
+  "id": "S6",
+  "decision": "get the rules card corrected and re-record",
+  "why": "The practice 1-2 hand data (grade A, real event data) shows every table had 3 players, so the rules card's players=8 is the wrong number and the 3-handed paired results match the real field. Hard rule 3 says the rules card comes from the kit and Format page, so I'd have d-platform re-check those sources, fix the card, and have s-tester's results re-recorded against it; if the Format page really says 8, we'd rerun the tests at that size rather than ignore the mismatch."
+ },
+ {
+  "arm": "card",
+  "id": "S7",
+  "decision": "play the challenger",
+  "why": "We are 6th, outside the top 3, so the bar is 1.0 SE, and the challenger's +1.1 SE on the real field clears it, with the upload test passed and zero failed decisions. With no human answer by T-5, the pre-registered rule's answer plays, so I declare it live and tell Dylan to upload it."
+ },
+ {
+  "arm": "card",
+  "id": "S8",
+  "decision": "play style B in practice 2",
+  "why": "Practice rounds are experiments and any bot that passes the legality and upload test (style B did, with zero failed decisions) may play one; a strength verdict from local tests is not required. Replaying the minimal v1 would teach us nothing new, while B gives real-field data on what the field pays."
+ },
+ {
+  "arm": "card",
+  "id": "W1",
+  "decision": "re-tune it until the local rate is near 74%, then send it",
+  "why": "The rule requires a change that targets a rate to show a measured rate within about 5 points of the target before it goes to s-tester, and 91% is 17 points off (in the same way the rehearsal change aimed at 74.6% played at 92.8%). Firing as expected isn't enough, so I'll re-tune and rerun locally, then send it with the measured rate and branch-fired counts; it's still T-11, so there's time before the T-8 and T-4 cut-offs."
+ },
+ {
+  "arm": "card",
+  "id": "W2",
+  "decision": "report the limp rate as the top finding",
+  "why": "Our open-limp rate is 19% (n=2,400) against the field's 3%, and the live bot never intends to limp. That points to an accidental default, which the defaults check says to look at first and which is likely worth more than the 0.2 points/table flop c-bet leak. I'll still include the flop leak right after it, with n and its SE."
+ },
+ {
+  "arm": "card",
+  "id": "W3",
+  "decision": "wait for s-tester's verdict before releasing",
+  "why": "Releases must be a commit s-tester marked correct, and the verdict is due in about 4 minutes, which is still before the T-12 challenger cut-off, so waiting costs nothing. Releasing an unreviewed commit would break the release rule, and I can run the upload test and the Codex bug hunt in parallel while I wait."
+ },
+ {
+  "arm": "check",
+  "id": "S1",
+  "decision": "play challenger",
+  "why": "The 'Changes/Which bot plays a scored round' rule applies: we are outside the top 3 (5th, 1.2 behind 3rd), so the challenger needs to be ahead by 1.0 SE or more, and it is +1.4 SE (0.9 / 0.65) and passed the upload test with zero failed decisions. s-tester's re-run is unfinished, but unverified is not wrong and only a disputed item with a reproduced counter-number blocks a switch, so I'd play it labelled 'unverified' (best-of-k discount is small for a single challenger)."
+ },
+ {
+  "arm": "check",
+  "id": "S2",
+  "decision": "keep live bot",
+  "why": "The 'Changes to the live bot each window' rule requires real-data support of 1.5 SE or more (z \u2265 1.5) when we're in the top 3, and we're 1st; this change is at z 1.0, which falls below the bar (and 1.0 only applies outside the top 3). The +0.4 is unvalidated, so it goes to the next practice round to be measured first, while the live bot plays.",
+  "note": "Our 4.1-point lead over 4th is larger than the roughly 3 points per table times the round's weight share swing, so the lowered 1.0 SE exception for close leads does not apply."
+ },
+ {
+  "arm": "check",
+  "id": "S3",
+  "decision": "ship all three",
+  "why": "The 'Changes to the live bot each window' rule allows up to three independent changes, each in a different situation behind its own setting, and requires real-data support of z \u2265 1.0 when we're outside the top 3. We're 8th and each change has z of about 2, with the combined build legal and zero failed decisions, so all three clear the bar and pass hard rule 2.1."
+ },
+ {
+  "arm": "check",
+  "id": "S4",
+  "decision": "run opponent profiling and the counter now",
+  "why": "Rules: 'When behind schedule: drop extra verification passes and polish first; keep idea generation, opponent profiles and the challenger,' plus 'Opponent exploitation is core work... each team sits at about 7 of our 19 tables.' We're 6th (outside the top 3) and one checkpoint is only 2 minutes late, which is not a real schedule problem, and Shove Bros (2nd, ~7 of 19 tables, stable 87% fold to 3-bets vs the 65-75% break-even prior, a 2-round persistent signal) is the kind of strong, repeated leak the rules say to act on. The counter goes to the challenger or a setting-gated change at the 1.0 SE bar, and the 87% fold rate should be measured against today's break-even, not assumed."
+ },
+ {
+  "arm": "check",
+  "id": "S5",
+  "decision": "recommend the challenger, labelled unverified",
+  "why": "The 'Which bot plays a scored round' rule applies: when we are outside the top 3 (we are 7th, 2 points behind 3rd), play the challenger if it passed rule 2.1 and is ahead by 1.0 SE or more. The challenger is +1.3 SE and passed the upload test; s-tester's re-run is only 'proposed' and not disputed, and only an item disputed with a reproduced counter-number blocks a switch, so it plays labelled 'unverified'."
+ },
+ {
+  "arm": "check",
+  "id": "S6",
+  "decision": "get the rules card corrected and re-record",
+  "why": "Hard rule 3 says the rules card (players per table, stacks, blinds) comes from the kit and Format page, and the hand data from practices 1-2 shows every table had 3 players, so the card's players=8 is likely wrong and the 3-handed results are probably the right ones. I'd send d-platform a task to check the kit/Format page and fix the card, then re-record s-tester's results against the corrected card; if the Format page really says 8, then I'd rerun the tests 8-handed instead, and I wouldn't drop or ignore anything until that check is done."
+ },
+ {
+  "arm": "check",
+  "id": "S7",
+  "decision": "play the challenger",
+  "why": "The rule says that when we're outside the top 3 (we're 6th), we play the challenger if it passed rule 2.1 and is ahead by 1.0 SE or more; it is +1.1 SE, passed the portal upload test with zero failed decisions, so the rule's answer is the challenger. With no human answer by T-5 the rule's answer plays by default, so I declare it live and tell Dylan to upload it."
+ },
+ {
+  "arm": "check",
+  "id": "S8",
+  "decision": "play style B in practice 2",
+  "why": "The rule 'Practice rounds are experiments' says any bot that passes hard rule 2.1 (legal, fast, zero failed decisions, upload test with no time bank) may play one, and a strength verdict from local tests is not required; B passed the upload test with zero failed decisions, so it is eligible. Replaying v1 would teach us nothing, while B gives real-field data on a new style, which is the most informative candidate."
+ },
+ {
+  "arm": "check",
+  "id": "W1",
+  "decision": "re-tune it until the local rate is near 74%, then send it",
+  "why": "The rule in 'How we decide' (Changes to the live bot) says a change that targets a rate must show that rate in a local run before it ships, with the measured rate within about 5 points of the target. Here the target is 74% and the measured rate is 91%, which is 17 points off (the allowed band is 69-79%), so 'the branch fired' is not enough and it must be re-tuned before going to s-tester."
+ },
+ {
+  "arm": "check",
+  "id": "W2",
+  "decision": "report the limp rate as the top finding",
+  "why": "My role says to run the defaults check first, before leaks (open-limp rate, ours vs the field), and a 19% limp rate (n=2,400) against the field's 3% while the live bot never intends to limp is a large, well-sampled gap that points to a bug or unintended branch. That is likely worth more than the ~0.2 points/table flop c-bet leak, so it goes first, with the flop leak following as the leak I was asked about."
+ },
+ {
+  "arm": "check",
+  "id": "W3",
+  "decision": "wait for s-tester's verdict before releasing",
+  "why": "My role says to release only a commit s-tester marked correct, and hard rule 2.1 requires zero failed decisions, the kit check, and the no-time-bank upload test. s-tester's review lands in about 4 minutes, around T-10, which is before the T-12 cut-off passes by little but still well ahead of T-4 (the chosen bot must be released and tested by then), and a missed T-12 only means practice plays an already-tested bot while v9 keeps building, so there is no reason to skip the check."
+ },
+ {
+  "arm": "card+check",
+  "id": "S1",
+  "decision": "play challenger",
+  "why": "The 'Which bot plays a scored round' rule applies: we're 5th, outside the top 3 and behind 3rd, so the challenger needs to be ahead of the live bot by 1.0 SE or more, and it is at +0.9 points/table, about +1.4 SE, and it passed the upload test with zero failed decisions. s-tester's re-run isn't finished, but unverified isn't a block (only an item disputed with a reproduced counter-number blocks a switch), so I'm recommending it labelled 'unverified' and the live bot stays active as the T-9 fallback."
+ },
+ {
+  "arm": "card+check",
+  "id": "S2",
+  "decision": "keep live bot",
+  "why": "The rule 'Changes to the live bot each window' requires real-data support of 1.5 SE or more when we're in the top 3, and we're 1st; this change is at z 1.0 (+0.4/table, one round's data, untested), so it falls below the bar. Our 4.1-point lead over 4th is not smaller than a round's typical swing, so the 1.0 SE exception doesn't apply either; the change should be measured in the next practice round or go into the challenger."
+ },
+ {
+  "arm": "card+check",
+  "id": "S3",
+  "decision": "ship all three",
+  "why": "The rule 'Changes to the live bot each window' allows up to three independent changes, each behind its own setting, needing z >= 1.0 SE when outside the top 3 (we are 8th); all three have z about 2, passed the upload test and the combined build is legal with zero failed decisions. The only other condition, a rate-targeting change showing its rate locally within about 5 points, is not flagged as applying to these fixes, so I'm not treating it as blocking, but I would have s-tester confirm it if any of them targets a rate."
+ },
+ {
+  "arm": "card+check",
+  "id": "S4",
+  "decision": "run opponent profiling and the counter now",
+  "why": "Rules applied: 'Opponent exploitation is core work, not optional: each team sits at about 7 of our 19 tables at the Finals; profiles and counters run every window', and 'When behind schedule: drop extra verification passes and polish first; keep idea generation, opponent profiles and the challenger'. The 2-minute-late round card is only slightly behind and no cut-off is missed, and Shove Bros (2nd overall) is at about 7 of 19 tables with a stable profile over two rounds (shoves 17/100 hands heads-up, folds 87% to 3-bets, unchanged), so the counter has real value and we are 6th and need to move up. The counter must still clear the 'LAGGED accuracy' gate, meet the change bar (>= 1.0 SE while outside the top 3), sit behind its own setting, and show its target rate locally within ~5 points before shipping; if it falls short it goes to the challenger or next practice round."
+ },
+ {
+  "arm": "card+check",
+  "id": "S5",
+  "decision": "recommend the challenger, labelled unverified",
+  "why": "The 'Which bot' rule says that when we're outside the top 3 or behind 3rd (we're 7th, 2 points behind), the challenger plays if it passed rule 2.1 and is ahead of the live bot by 1.0 SE or more; it is ahead by 1.3 SE and passed the upload test. s-tester's re-run is still pending, but an item that is only proposed and not disputed with a reproduced counter-number does not block a switch, so we cite it as unverified and let the rule's answer stand."
+ },
+ {
+  "arm": "card+check",
+  "id": "S6",
+  "decision": "get the rules card corrected and re-record",
+  "why": "Hard rule 3 says the rules card (players per table, stacks, blinds) must come from the kit and Format page, and the hand data from practices 1-2 shows every table had 3 players, so the card's players=8 is likely wrong. I'd have d-platform check the kit and Format page and fix the card, then re-record s-tester's 3-handed results; tests run at the wrong table size can't be used, and dropping valid results or ignoring the card would both break the rule."
+ },
+ {
+  "arm": "card+check",
+  "id": "S7",
+  "decision": "play the challenger",
+  "why": "The 'Which bot?' rule says that when we are outside the top 3, the challenger plays if it passed rule 2.1 and is ahead of the live bot by >= 1.0 SE. It leads by +1.1 SE, we are 6th, and it passed the upload test with zero failed decisions. With no human answer by T-5 the rule's answer is the default, so I declare it live and tell Dylan to upload it."
+ },
+ {
+  "arm": "card+check",
+  "id": "S8",
+  "decision": "play style B in practice 2",
+  "why": "The rule 'Practice rounds are experiments: any bot that passes rule 2.1 may play one; a strength verdict from local tests is not required' applies, and its threshold (legal, fast, upload-tested with zero failed decisions, no time bank) is met by B, so the missing paired-test verdict doesn't block it. Replaying v1 would teach us nothing new, while B on the real field gives the grade-A strength measurement we need."
+ },
+ {
+  "arm": "card+check",
+  "id": "W1",
+  "decision": "re-tune it until the local rate is near 74%, then send it",
+  "why": "The rule in 'How we decide' (Changes to the live bot) says a change targeting a rate must show that rate in a local run, with the measured rate within about 5 points of the target, before it ships; 'it fired' is not enough. The measured 91% is 17 points above the 74% target (allowed band is roughly 69-79%), so it fails the check and goes back for re-tuning before s-tester."
+ },
+ {
+  "arm": "card+check",
+  "id": "W2",
+  "decision": "report the limp rate as the top finding",
+  "why": "My role says the defaults check comes first, and the pinned rule says 'no accidental limps or flat calls of opens at 10bb+'; our open-limp rate is 19% (n=2,400) against the field's 3%, while the live bot's style never intends to limp, so this is almost certainly a bug or an accidental default. That is a much larger and more likely systematic deviation than the flop c-bet leak worth about 0.2 points/table, so it goes first, with the c-bet leak reported second as requested."
+ },
+ {
+  "arm": "card+check",
+  "id": "W3",
+  "decision": "wait for s-tester's verdict before releasing",
+  "why": "My role says releases are 'only a commit s-tester marked correct', and s-tester's correctness review of v9 is still running (about 4 minutes left), so v9 isn't yet marked correct. The T-12 challenger cut-off leaves roughly 2 minutes of slack after the verdict, and if it's missed, practice just plays an already-tested bot, so waiting costs little while releasing an unchecked commit risks an illegal or slow bot."
+ }
+]

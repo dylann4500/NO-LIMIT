@@ -2,7 +2,7 @@
 
 > **With the agent hub (`hub/`, see `docs/START_HERE.md` section 4), nobody pastes these by hand any more.**
 > The hub's agents read this file and run the parts themselves: Dylan's Platform and Builder run Part 1,
-> Samuel's Data runs Parts 2 and 4, Samuel's Tester runs Part 3, and the Overseers follow Part 5. "Who
+> Samuel's Analyst runs Part 1b and Part 2, Opponents runs Part 4, Samuel's Tester runs Part 3, and the two Chats (the leads) follow Part 5. "Who
 > pastes it" below describes the old manual setup; read it as "which agent runs it".
 
 For Dylan and Samuel. Every prompt we bring on Sunday is here, in the order it gets used; the operating
@@ -183,7 +183,7 @@ this costs microseconds and a few hundred bytes. For each tendency (how often th
 fold to a re-raise, fold to a bet on each street, bet when checked to, raise a bet, call an all-in), the
 estimate is (times they did it + weight x prior rate) / (chances + weight), so it starts at the field's rate
 and moves as evidence arrives. Use weight 4 (the spread between teams at both regionals implies 3-7); before
-the first download the field's rate is the regional value, after it the Finals field's (s-pipeline publishes
+the first download the field's rate is the regional value, after it the Finals field's (s-data publishes
 them). Never use a weight above 10 for a field prior. Three things we got wrong and want right:
 - our own bets and raises change the situation for everyone else, so count opponents' responses to OUR
   actions too. Ours silently never did, and the bot never learned who folded to it.
@@ -307,10 +307,10 @@ Start by reading the kit, then give me the summary and the minimal bot.
 
 ---
 
-## Part 1b · Theory: solve what can be solved (s-theory, from minute 0)
+## Part 1b · Theory: solve what can be solved (the Analyst, s-data, from minute 0)
 
 Run in parallel with Part 1. It computes the parts of today's game that converge in minutes and hands them to
-Platform and Builder as tables; the real field then refits them. s-theory has this brief in its instructions;
+Platform and Builder as tables; the real field then refits them. s-data has this brief in its instructions;
 it is here for reference and evidence.
 
 **What converges in the hour, and what doesn't** (research of 13 November; sources below):
@@ -329,7 +329,7 @@ it is here for reference and evidence.
   model is uncertain (Johanson et al. 2007, 2009). In tables: equilibrium cells plus best-response columns
   keyed by the opponent's measured rate, blended by the count behind it (the prior-blend from Part 1).
 
-**The brief** (s-theory's instructions; deliverables at minutes 15, 22, 25, 30, 40, 45): today's hand ranking;
+**The brief** (s-data's instructions; deliverables at minutes 15, 22, 25, 30, 40, 45): today's hand ranking;
 ICM thresholds (a busted player keeps their place's payout); the twist's option values; push and call tables
 keyed by players left, position and stack, with call tables as best responses to opponent shove widths of
 10-70% (both regional fields open-shoved 35-50% at 10bb or less and 10-35% at 10-20bb, so equilibrium call
@@ -534,7 +534,7 @@ Nothing learned at one table may be carried to another; profiles come only from 
 Run these in parallel as soon as a download lands. Agents are cheap and the windows are short: start them
 all at once and let the manager sort the results.
 
-**Manager** (one, all event; Samuel's main session)
+**Manager** (one, all event: Samuel's Chat in the hub; Samuel's main session if we fall back to manual mode)
 ```
 You coordinate our agents between rounds. When I give you a new download, start in parallel: the extraction
 and the five area analyses (Part 2), the profile refresh (Part 4), two bug hunters, an opponent specialist

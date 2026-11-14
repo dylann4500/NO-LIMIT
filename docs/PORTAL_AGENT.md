@@ -50,15 +50,15 @@ Sunday against the real one. Only the base address and the key change.
 > - **Status:** `set_status` with task (e.g. "Practice 3 finished, data saved") and summary = a markdown page with the current standings table, the latest
 >   round's results table (our row in bold), our active bot's file name and upload time, and the time of
 >   the next round. 
-> - **Alerts** (a message to `s-overseer` and `d-overseer`; `notify_human` if urgent):
+> - **Alerts** (a message to `s-overview` and `d-overview`; `notify_human` if urgent):
 >   - an upload of ours was rejected (say why);
 >   - a round is about to start (2 minutes before, from the round times) and our active bot is not the
->     one d-overseer last announced, or there is no active bot;
+>     one d-overview last announced, or there is no active bot;
 >   - our `missed` decisions in a finished round are above 1% of `decisions`, or `restarts` > 0;
 >   - the portal stops answering for 3 passes in a row.
-> - **New hand data:** send a message to `s-overseer` and `s-data`: "Round <label> finished: we were
+> - **New hand data:** send a message to `s-overview` and `s-data`: "Round <label> finished: we were
 >   <rank> with <points> (±<margin>). Hand history: <path to first-1000> and <path to full>.
->   Results: <path>." Send the same summary, without paths, to `d-overseer`.
+>   Results: <path>." Send the same summary, without paths, to `d-overview`.
 > - **Standings change:** put our rank, total, and the gap to 3rd place in your summary.
 >
 > Messages to you arrive as new turns; answer questions about the portal from your saved data.

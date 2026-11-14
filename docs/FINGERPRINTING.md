@@ -1,6 +1,6 @@
 # Fingerprinting opponents and disguising ourselves
 
-Owner: s-scout (judgment), s-pipeline (`analysis/fp_train.py`), d-platform (in the bot), s-skeptic (checks).
+Owner: s-scout (Opponents: judgment and `analysis/fp_train.py`), d-platform (in the bot), s-tester (checks).
 Everything here is written live on the day from this description; no code is brought.
 
 ## What we know (verified)
@@ -114,9 +114,9 @@ matters most.
 
 | When | Who | What |
 |---|---|---|
-| Data lands (T-13) | hub runs `analysis/fp_train.py` (s-pipeline owns it) | download → `analysis/<stage>/fp/` (profiles, likelihood table, counters, metrics, drift, profiled_us, adapt, card) in <= 2 min; automatic records and invalidations |
-| T-12 to T-9 | s-scout | counters on/off by the gate; counters.json → d-platform; items → s-skeptic; confirm or overrule invalidations |
-| T-12 to T-9 | s-skeptic | re-run lagged accuracy and calibration on a different split (or a Codex re-implementation); verify |
+| Data lands (T-13) | hub runs `analysis/fp_train.py` (s-scout owns it) | download → `analysis/<stage>/fp/` (profiles, likelihood table, counters, metrics, drift, profiled_us, adapt, card) in <= 2 min; automatic records and invalidations |
+| T-12 to T-9 | s-scout | counters on/off by the gate; counters.json → d-platform; items → s-tester; confirm or overrule invalidations |
+| T-12 to T-9 | s-tester | re-run lagged accuracy and calibration on a different split (or a Codex re-implementation); verify |
 | Practice download (about T-8) | script, quick mode | practice vs scored drift per team ("team X is testing a new bot") |
 | T-8 to T-6 | d-platform | embed the data file behind FP_ON, CTR_<team>, ANTI_ADAPT_<team>, DISGUISE_* (outside the three-change count) |
 | T-6 | s-tester | replay equivalence (bot posteriors = offline within 1e-4 on 200 tables), latency, memory, truncation |

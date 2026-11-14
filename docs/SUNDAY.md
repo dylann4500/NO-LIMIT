@@ -60,20 +60,20 @@ cd ~/NoLimit/NO-LIMIT
 ./hub/start.sh dylan ~/avalon-finals --data ~/.avalon-hub-live/dylan --namespace=-live
 ```
   `--small-hands` saves hotspot data by downloading only the first-1000 hand file; drop it on good Wi-Fi.
-- **Both:** open http://127.0.0.1:7777 and click your name. Your Overseer starts and reads the plan.
+- **Both:** open http://127.0.0.1:7777 and click your name. Your Chat (the lead of your side) starts and reads the plan. Type "run the check" in it.
 - **Dylan:** have the organizers' portal open in a browser tab, logged in. Uploads happen there.
 
 ## Minute 0: the variant is announced
 
 1. **Samuel: tell the Chat "the competition starts now"** (or press Start building) the moment the variant is announced (or, if you're
    late, type the announcement time next to it, or tell your Chat "the variant was announced at
-   14:02"). Both laptops' clocks start and both Overseers start the plan: they send each agent its
+   14:02"). Both laptops' clocks start and the clock gives each agent its
    instructions at the right minute, so you don't have to.
 2. **Both:** read the Format page on the portal: round weights, payouts, anything unusual. If the times
    differ from the usual schedule, tell your Chat, e.g. "practice 1 is at 14:25".
 3. **Dylan:** fetch the kit. Either run the setup skill with `/no-limit-2026-setup` in Claude Code with
    the API key, or download it from the portal. Put it in `~/avalon-finals/starter-kit/`, then tell your
-   Overseer "the kit is in starter-kit/". The Overseer starts Platform on the first prompt and the twist
+   Chat "the kit is in starter-kit/". Platform starts on the first prompt and the twist
    notes.
 
 ## The build hour
@@ -84,7 +84,7 @@ cd ~/NoLimit/NO-LIMIT
 | 20, 30, 40 | Dylan | Before each practice round a "Which bot?" note asks which style plays. Answer it; if a new bot goes live, the bell says "Upload … now": download it from the Live menu, upload, make active |
 | after practice 1 | Samuel | **Step 7 below:** give the watcher the hand-history link |
 | any time | Both | Read the bell. Open notes waiting for you, read the red box and answer in words; ask anything first. Post ideas with + New idea |
-| 50-60 | Dylan | The best real-field scorer goes active for scored round 1. Your Overseer posts it as a "Which bot?" note; answer it, then upload and make active |
+| 50-60 | Dylan | The best real-field scorer goes active for scored round 1. Your Chat asks "which bot?"; answer it in words, then upload and make active |
 
 ### Step 7 (Samuel, once): the hand-history link
 
@@ -104,8 +104,8 @@ The countdown strip shows the next step. The clock reminds each of you when a st
 
 | Time to scored round | Who | What to do |
 |---|---|---|
-| T-13 | Samuel | Results land. Read your Overseer's brief and new findings. Push back if something looks off |
-| T-12 | Dylan | If your Overseer says the challenger is ready: upload it and make it active (it plays the practice round) |
+| T-13 | Samuel | Results land. Open the Analyst (or ask your Chat) for the findings. Push back if something looks off |
+| T-12 | Dylan | If your Chat says the challenger is ready: upload it and make it active (it plays the practice round) |
 | T-9 | Dylan | **Put the live bot back as active straight away** |
 | T-8 | Both | **Decide.** Open the "Which bot?" note, read what's being asked, answer in words ("yes, use v13" / "no, keep v8"). Either of you can decide |
 | T-5 | | No decision means the live bot plays; nothing to upload |
@@ -118,9 +118,9 @@ Between those, steer when you like: ask "why?", redirect, post ideas.
 | What you see | What to do |
 |---|---|
 | A red bar: "Not linked to …'s laptop" | Agents keep working; messages wait and are delivered later. Talk to each other directly. If it lasts, check the hotspot |
-| An agent shows **Usage limit · resumes HH:MM** | Its messages are kept. Ask your Overseer to move urgent work to another agent or to Codex. Optional: add an API key (`START_HERE.md` section 8) |
-| An agent shows **Error · retrying** | It retries by itself. If it stays red for over 5 minutes, open it and read the last error; tell your Overseer |
-| **Upload rejected** (bell) | The previous bot stays active. Tell your Overseer; Platform fixes it and gives you a new file |
+| An agent shows **Usage limit · resumes HH:MM** | Its messages are kept. Ask your Chat to move urgent work to another agent or to Codex. Optional: add an API key (`START_HERE.md` section 8) |
+| An agent shows **Error · retrying** | It retries by itself. If it stays red for over 5 minutes, open it and read the last error; tell your Chat |
+| **Upload rejected** (bell) | The previous bot stays active. Tell your Chat; Platform fixes it and gives you a new file |
 | **No active bot / wrong active bot** (urgent bell) | Make the right file active on the portal now |
 | The clock is wrong | Tell your Chat the right time ("scored round 3 is at 15:42"), or tell it when minute 0 was |
 | A permission request you don't understand | Deny it. The agent finds another way |

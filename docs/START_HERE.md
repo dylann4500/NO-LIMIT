@@ -2,7 +2,7 @@
 
 For Dylan and Samuel. This assumes you remember the Bay Area regional and nothing since. Read this first
 (about 20 minutes). Then read `docs/SUNDAY.md` (the day itself, minute by minute) and, before any practice
-run, `docs/REHEARSAL.md`. Everything else is reference. Last updated Thursday 12 November, night.
+run, `docs/REHEARSAL.md`. Everything else is reference. Last updated Friday 13 November, night (lean hub: four agents per laptop, progress board, decisions in the Chat).
 
 ## 1. The short version
 
@@ -10,13 +10,14 @@ run, `docs/REHEARSAL.md`. Everything else is reference. Last updated Thursday 12
   at the start. We may bring prompts and notes, but no pre-written bot code. Andrew Gu (organizer)
   confirmed that general infrastructure that isn't bot code is allowed, which includes the hub below.
 - **What changed since the regional:** we no longer run a pile of Claude sessions by hand. Each of you
-  runs one **hub** on your laptop, a web page with a team of Claude agents behind it. You talk to **one
-  agent, your Overseer**. It runs everything else, and asks you only for what needs a person: ideas,
-  greenlights, uploads.
+  runs one **hub** on your laptop, a web page with four Claude agents behind it, each with one clear job
+  (your **Chat**, which leads your side, plus three workers). The clock gives every worker its task at the
+  right minute; the board shows plain progress tiles; you open any agent to read its work, steer it or ask
+  it to research something. Decisions are asked in your Chat in plain words.
 - **Your jobs on the day:**
-  - **Samuel** steers analysis and testing, and greenlights or redirects what the agents find.
-  - **Dylan** decides what plays, with his Overseer, and does the uploads on the organizers' website.
-  - **Both** of you post ideas and catch what the agents miss. Agents miss things, so we keep you in the loop.
+  - **Samuel** follows analysis, testing and opponents (open the Analyst, the Tester, Opponents), and steers.
+  - **Dylan** decides what plays with his Chat, and does the uploads on the organizers' website.
+  - **Both** of you answer decisions in words and catch what the agents miss. Agents miss things, so we keep you in the loop.
 
 ## 2. What we learned since the regional
 
@@ -57,7 +58,7 @@ How sure we are of each of these: `docs/EVIDENCE_TABLE.md`.
 
 ## 3. The game plan
 
-1. **Build hour.** At minute 0 Dylan's Overseer starts building:
+1. **Build hour.** At minute 0 the clock starts Dylan's Platform agent building:
    - a minimal legal bot by minute 10;
    - a test harness by minute 15;
    - today's hand ranking and the twist's value by minute 20;
@@ -71,7 +72,7 @@ How sure we are of each of these: `docs/EVIDENCE_TABLE.md`.
    2. Samuel's side analyses it;
    3. Dylan's side builds a challenger and fixes;
    4. the challenger plays the practice round 10 minutes before the next scored round;
-   5. you decide together what plays: the live bot, the live bot plus **one** tested change, or the challenger.
+   5. you decide together what plays: the live bot, the live bot plus up to **three** tested changes, or the challenger.
 3. **Adapt to individual seats, not to the "table mood".** Per-seat counts are blended with what we know
    about each team, and every adjustment is capped. Against seats that raise a lot, call down and re-raise
    wider; folding more is the wrong answer to aggression.
@@ -85,127 +86,92 @@ How sure we are of each of these: `docs/EVIDENCE_TABLE.md`.
 
 Each of you opens **http://127.0.0.1:7777** on your own laptop and clicks your name.
 
-**The board is the whole screen by default.** Everything the agents want you to see is a sticky note
-with a one-sentence, plain-English headline. The note's colour and label say what it is:
+**On the left: Board, then your agents (your Chat first), then hub services, then your teammate's side** (behind
+**Show**). That list is how you get around: click the agent whose job you want to check.
 
-| Note | Label | What it is |
-|---|---|---|
-| Green | **Live bot** | which bot plays the next scored round; needs a greenlight (either of you) |
-| Yellow | **Suggestion** | a proposed change to the bot; needs a greenlight |
-| Lavender | **Analysis** | a finding from the latest round |
-| Teal | **Research** | work an agent is running |
-| Blue | **Your idea** | something you or your teammate posted |
+**The Board** shows progress only, as plain tiles grouped by stage (Build hour, Practice 1, ..., Round 2), newest
+stage first; past stages fold away (click to open, "▾ Collapse" to close). A tile says what and where it stands,
+nothing else: "Round 1 data · in progress" (the download started) → "done"; "Round 1 analysis · in progress" →
+"done"; "Bot v4 · testing" → "done"; "Practice 3 · playing v4" → "finished"; "Build · Maths tables · in progress".
+**Click a tile to open the agent doing it.** At the top, **Now** shows the stage, which bot the portal is running
+and every agent's state. A red bar appears when a decision waits for your answer.
 
-At the top of the board, **Now** shows the stage, which bot the portal is running, decisions waiting for you,
-and what every agent on both laptops is doing at this moment. Each note shows its progress (e.g. Data ✓ ·
-Numbers ✓ · Angles 2/3 · Checked · Summary), its key number (e.g. 3rd of 3 · 27.75 pts/table), who is on it,
-and a green pulse while it is being updated. The board has three rows: **Needs your call** (notes waiting for your answer: open one to read and answer it),
-**Being worked on** (with a **+ New idea** note to post your own) and **Recent**.
-To tidy up, hover a note and click the small **x** in its corner (or **Remove** inside it), or press **Clear finished** next
-to Recent. Removing a note that's still being worked on tells the agents to stop work on it; it's gone
-from both laptops.
+**Your Chat** is the lead of your side and your main conversation. Tell it when the competition starts ("the
+competition starts now", or the announcement time; the hub starts the clock on both laptops itself) and any times
+you learn ("round 1 is at 14:25"). Ask it anything ("what's going on?", "why v5?"); tell it what to change and it
+hands the work to the right agent and reports back. **Decisions are asked here**: a red box pinned at the top
+says what is being decided, the evidence and the rule, what each answer means, and the deadline. You answer in
+your own words ("yes, use v13", "no, keep v8 because…"); nothing is decided until you answer clearly, and with no
+answer by the deadline the pre-registered rule decides. Tabs switch between **your Chat and your teammate's**.
+Drop or paste files (hand data, screenshots) into the Chat: they're staged and sent with your next message.
+Type "run the check" before the start to test everything (link, portal reading and a hand download, Claude,
+Codex, the repo, disk) on both laptops.
 
-**Click a note** to open it almost full screen, like a Claude chat. At the top, **What's going on** is
-written fresh when you open it (about 10 seconds), in plain language: where it stands, what we found (with
-how sure we are), what's running, what's next, and what we need from you. Below are the conversation and a
-folded activity log. Ask anything ("why?", "how sure are you?") or give an instruction ("try it at 30bb
-instead"): it goes to the Overseer, which hands it to the right agent and answers there. If it's your call,
-a red box at the top says what you're being asked and by when. There are no Greenlight buttons: answer in your
-own words ("yes, use v13", "no, keep v8 because…"). The Overseer records the decision only when your answer is
-clear, and asks back if it isn't, so you never approve something you haven't understood.
+**An agent's page:** its **brief** pinned at the top (Now / Latest result / Next / Needs from you), then its
+activity in plain text (tool steps folded into one line, messages to other agents as one-liners), and a message
+box with quick buttons (Status?, Why?, Blocked?, Change priority). What you type there is an instruction to that
+agent: it does it first or says why it can't. Use it to steer ("do the 3-bet sizing first") or to ask for research
+("check whether team X adapts to us after hand 40").
 
-**Chat** (docked on the right of the board; the header button shows or hides it) is your main conversation, and
-together with the board it is all you need on the day. Tell it when the competition starts ("the competition
-starts now", or the announcement time) and any times you learn ("round 1 is at 14:25"): that sets the clock on
-both laptops and starts the Overseer with the whole game plan. It is a readable chat that knows everything your
-Overseer knows (the ledger, every agent's brief, the notes, the Overseer's recent work). Ask "what's going
-on?", "what should I be doing?", "why v5?"; tell it what to change and it passes that to the Overseer and
-reports back. Tabs switch between **your Chat and your teammate's**, so either of you can ask about, or
-steer, the other side. You don't prompt the Overseer directly: it coordinates the agents and keeps the
-context; the Chat is the window onto it.
-
-**Header:** your name, a big countdown to the next step of the day (amber under 3 minutes, red under 1),
-**Live**, **Chat** (the bot the portal is running; the menu lists every bot, built or in progress, and
-downloads a bot's zip for you to upload), the **bell** and **⋯** (the agents' own pages, for emergencies only).
-
-- **Bell:** everything that needs you: notes waiting for your call, permission requests, and messages
-  from your Overseer. New ones pop up briefly in the corner; the browser tab shows the count.
-- **⋯** opens the agents' side panel, which you shouldn't need: Board, Overview (every agent at a glance),
-  your agents, hub services and, behind its own **Show** button, your teammate's agents. Clicking an agent
-  opens its page:
-  - a **brief** pinned at the top (Now / Latest result / Next / Needs from you);
-  - its activity, with tool steps folded into one line and agent-to-agent messages as one-liners;
-  - a message box with quick buttons (Status?, Why?, Blocked?, Change priority).
-- **Before minute 0** the board shows a big **Start building** button. Press it the moment the variant
-  is announced: the clock starts on both laptops and your Overseer starts the plan. (If you're late, type
-  the announcement time next to it instead.)
+**Header:** your name, the countdown to the next step (amber under 3 minutes, red under 1), **Live** (the bot the
+portal is running; the menu lists every bot and downloads a bot's zip for you to upload), the **bell**
+(permission requests, decisions waiting, urgent messages; the screen edges pulse red while something needs an
+answer within minutes) and **☰** (show or hide the agents list).
 
 Agent dots: green working, grey ready, dashed off, amber waiting for you, red error or usage limit.
-
 Samuel's things are marked indigo, Dylan's rose.
 
 ### Who's who
 
+Four agents per laptop, one job each, so you know which one to open:
+
 | | Samuel's laptop | Dylan's laptop |
 |---|---|---|
-| **Overseer** (the one you talk to) | Runs analysis and testing. Turns each round into findings and a recommendation, sent to Dylan's Overseer at T-8 | Owns the bot and the plan. Decides what plays, with Dylan's greenlight, and tells Dylan exactly which file to upload |
-| Worker | **Pipeline**: turns each round's hand data into a standard "round card" of numbers within a minute; woken automatically when data lands | **Platform**: the only one editing the main bot code; sets the rules card at minute 0; packs and checks every release (v1, v2, ...) |
-| Worker | **Analyst**: what the numbers mean: our biggest leaks, opponents, the changes worth making (up to three) | **Builder**: styles A, B and C, then opponent counters and the live bot's fixes, in its own copy of the repo |
-| Worker | **Tester**: a verdict on every candidate, "correct?" and "stronger?" (paired tests on Modal, at the table size on the rules card) | |
-| Worker | | **Challenger**: owns the challenger slot (the bot that plays each window's practice round): new styles, fresh rewrites, the best response to the field's measured mix, in its own copy of the repo |
-| Worker | **Theory**: from minute 0, solves what can be solved for today's variant (hand ranking, ICM, push/fold and call tables, the twist's value) and hands Platform tables; refits them from each practice round | |
-| Worker | **Scout**: opponents: which team sits where (fingerprints learned from each download), team profiles and counters, whether anyone has profiled us, and disguise when it pays (`docs/FINGERPRINTING.md`) | |
-| Worker | **Skeptic**: re-runs the numbers behind anything a decision rests on; marks results validated or disputed; can invalidate a wrong method, which flags everything built on it | |
-| Hub services (plain code, not agents) | **Clock**, **Portal watcher**, **Codex** | **Clock**, **Codex** |
+| **Chat** (the lead; you talk here) | Leads analysis, testing and opponents; sends Dylan's Chat the recommendation at T-8 | Leads the bot; asks the "which bot?" decision; tells Dylan exactly which file to upload |
+| Worker | **Analyst**: build hour, the maths tables for today's variant (hand ranking, ICM, push/fold, the twist's value) and the round-card script; rounds, what the data means (leaks, the defaults check, up to three changes) | **Platform & releases**: the only one editing the main bot code; the rules card at minute 0; v1 by minute 10; every release (v1, v2, ...) |
+| Worker | **Tester**: is a candidate correct and stronger (paired tests on Modal), and are the numbers decisions rest on true (re-runs, validates or disputes) | **Styles & fixes**: styles A, B, C, then opponent counters and the live bot's fixes, in its own copy of the repo |
+| Worker | **Opponents**: fingerprints (which team sits where), team profiles and counters, whether anyone has profiled us (`docs/FINGERPRINTING.md`) | **Challenger**: the bigger-swing bot for each window's practice round, in its own copy of the repo |
+| Hub services (plain code) | **Clock**, **Portal watcher**, **Deadlines**, **Codex** | **Clock**, **Deadlines**, **Codex** |
 
-- **Overseers talk to people. Workers talk to their Overseer and to any other agent, on either laptop,
-  directly.** Nobody needs you to carry messages: Samuel's Analyst can hand a fix straight to Dylan's
-  Builder, and Dylan's Overseer asks Samuel's Overseer for the analysis itself.
-- **The Clock** knows the schedule. It wakes the Overseers at every step and reminds you directly when a
-  step needs your hands, e.g. "Dylan: put the live bot back as active now". Every Overseer turn starts
-  with a brief from the hub: the exact phase, the current step, the next deadline, the live bot, and
-  what's active on the portal.
-- **The Portal watcher** (Samuel's laptop) reads the organizers' website every minute. It's read-only and
-  never uploads. It saves each finished round's results and our hand histories, wakes the Overseer, and
-  raises an alert if an upload is rejected, if there's no active bot, or if the active bot isn't the
-  one we decided on.
-- **Parallel work.** Each agent can start its own helpers:
-  - up to 4 Claude subagents;
-  - jobs on **Modal**: shared cap of 80 containers, about $300 budget;
-  - jobs on **Codex** (OpenAI, separate credits), up to 3 at once.
-
-  So more work happens at once without more screens for you.
+- **The Clock** knows the schedule and gives every worker its own task at the right minute, straight from the game
+  plan (no relay). It reminds you directly when a step needs your hands ("Dylan: put the live bot back as active
+  now"). The **Deadlines** service enforces the cut-offs in `DECISION_RULES.md` (a late step loses its slot; the safe
+  default plays; nobody is told to hurry).
+- **The Portal watcher** (Samuel's laptop) reads the organizers' website every 30 s (every 6 s near the end of a
+  round, every 10 s while an upload is pending). It's read-only. It saves each round's results and our hand
+  histories, runs the round card and fingerprinting the moment data lands, and raises an alert if an upload is
+  rejected, if there's no active bot, if the active bot isn't the one we decided on, or if the clock is off.
+- **Agents talk to each other directly**, on either laptop. Samuel's Analyst hands a fix straight to Dylan's
+  Styles & fixes; Dylan's Chat asks Samuel's Chat for the recommendation.
+- **Nothing is left hanging.** A message you type that isn't answered is raised again with that agent; a
+  contradiction the hub notices (clock vs portal, live vs active bot, two numbers for one thing) is posted to
+  your Chat.
+- **Parallel work.** Each agent starts its own helpers: Claude subagents, jobs on **Modal** (shared cap of 80
+  containers, about $300) and on **Codex** (separate credits, up to 6 at once).
 
 ### How you steer
 
-- **Talk to your Chat** in plain language: "focus on the flop leak first", "why did you pick
-  style B?", "round 1 is in 5 minutes". It passes instructions (and times, which update the clock on both
-  laptops) to the Overseer. Your instructions go to the top of every agent's context.
-- **Post ideas** on the board → + New idea. Your Overseer plans them, runs them and posts the result back
-  on the note. Your ideas come before its own plans.
-- **Answer, refuse or redirect, in words.** Agents can't act on their own analysis:
-  - every **finding** goes on the board for you to see;
-  - every **proposed change** and every **live-bot decision** waits for your answer in its note;
-  - anything else you type there is an instruction ("try v12 instead").
-
-  Live-bot decisions can be answered by either of you. Other notes say whose call they are.
-- **Defaults keep things moving.** If nobody answers a live-bot decision by T-5, the pre-registered rule's
-  answer plays (the challenger if it cleared the bar, else the live bot). If
-  nobody answers a permission request in 3 minutes, it's refused and the agent finds another way.
-- **Permissions:** ordinary commands are approved automatically. Risky ones always wait for a click.
-  Risky means deleting outside `/tmp`, force pushes, killing processes, Modal deletes, any write to
-  the organizers' website, and writes outside the repo.
+- **Talk to your Chat** for anything about your side; **open an agent** to steer or question that one job.
+  Instructions go to the top of the agent's context and are done first.
+- **Ask for research** the same way: open the agent whose job it is and say what you want and by when.
+- **Decide in words**, in the Chat. Either of you can answer a live-bot decision.
+- **Defaults keep things moving.** If nobody answers a live-bot decision by T-5, the pre-registered rule's answer
+  plays (the challenger if it cleared the bar, else the live bot). If nobody answers a permission request in 3
+  minutes, it's refused and the agent finds another way.
+- **Permissions:** ordinary commands are approved automatically. Risky ones always wait for a click (deleting
+  outside `/tmp`, force pushes, killing processes, Modal deletes, any write to the organizers' website, writes
+  outside the repo).
 
 ## 5. Who does what
 
 | | Dylan | Samuel |
 |---|---|---|
-| Owns | The bot and what plays; **every upload** on the organizers' website; confirming the active bot | Analysis and testing; the recommendation each window; the portal watcher runs on his laptop |
-| Talks to | Dylan's Overseer | Samuel's Overseer |
-| Greenlights | Live-bot decisions, changes to the bot | Findings and changes from his side; live-bot decisions too |
-| Hands-on moments | Upload at minute 10, before each practice round in the build hour, T-12 (challenger), T-9 (live bot back), T-3 (chosen bot) | Set the clock at minute 0; copy the hand-history link after practice round 1 (`SUNDAY.md` step 7) |
+| Owns | The bot and what plays; **every upload** on the organizers' website; confirming the active bot | Analysis, testing and opponents; the recommendation each window; the portal watcher runs on his laptop |
+| Talks to | Dylan's Chat; opens Platform, Styles & fixes, Challenger to check on them | Samuel's Chat; opens Analyst, Tester, Opponents to check on them |
+| Decides | Live-bot decisions (in words, in the Chat) | Live-bot decisions too |
+| Hands-on moments | Upload at minute 10, before each practice round in the build hour, T-12 (challenger), T-9 (live bot back), T-3 (chosen bot) | Tell the Chat at minute 0; copy the hand-history link after practice round 1 (`SUNDAY.md` step 7) |
 
-You decide together at T-8. If you disagree and there's no time, the live bot plays.
+You decide together at T-8. If you disagree and there's no time, the rule's answer plays.
 
 ## 6. The timeline (the agents follow this too)
 
@@ -213,7 +179,7 @@ You decide together at T-8. If you disagree and there's no time, the live bot pl
 
 | Minute | What happens | Who |
 |---|---|---|
-| 0-5 | Kit fetched; Format page read (round weights, payouts, anything unusual); Dylan's Overseer starts Platform on the first prompt with `TWIST_NOTES.md` | Both |
+| 0-5 | Kit fetched; Format page read (round weights, payouts, anything unusual); the clock starts Platform on the first prompt with `TWIST_NOTES.md` | Both |
 | by 10 | Minimal legal bot uploaded and active | Dylan |
 | 15 | Test rig running (paired runs, sparring) | Samuel's side |
 | 20, 30, 40 | Each practice round plays a different style | Dylan uploads |

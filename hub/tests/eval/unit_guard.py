@@ -12,9 +12,9 @@ class FakeHub:
         s.person, s.data = person, Path(tempfile.mkdtemp()); s.repo = s.data / "repo"; s.repo.mkdir()
         s.landed_at, s._ledger, s._bots, s._props, s.alerts, s.lives = {}, [], [], [], [], []
         s.bus = types.SimpleNamespace(shared={"schedule": sch})
-        names = ["s-overseer", "s-data", "s-pipeline"] if person == "samuel" else ["d-overseer", "d-platform", "d-challenger"]
+        names = ["s-overview", "s-data", "s-tester"] if person == "samuel" else ["d-overview", "d-platform", "d-challenger"]
         s.agents = {n: Ag(n) for n in names}
-    def overseer(s): return next(a for a in s.agents.values() if a.name.endswith("overseer"))
+    def overseer(s): return next(a for a in s.agents.values() if a.name.endswith("overview"))
     def ledger(s): return s._ledger
     def bots(s): return s._bots
     def props(s): return s._props
@@ -22,6 +22,7 @@ class FakeHub:
     def set_service(s, *a, **k): pass
     async def alert_all(s, ag, text, urgent): s.alerts.append((text, urgent))
     async def save_prop(s, p): s._props.append(p)
+    async def tile(s, *a, **k): s.tiles_set = getattr(s, "tiles_set", []) + [a]
     async def make_live(s, f, who, note="", tell=True): s.lives.append(f); s.bus.shared["live"] = {"file": f, "filename": Path(f).name, "at": time.time()}
 
 def run(g): asyncio.run(g.tick())
@@ -42,11 +43,11 @@ h, g, ts = mk("samuel", 9.5)
 h.landed_at["Round 1"] = ts - 13 * U
 run(g)
 check("data met when landed", f"{int(ts)}:data" in g.done and f"{int(ts)}:data:cut" not in g.done)
-check("card cut 3 min after landing", f"{int(ts)}:card:cut" in g.done and any("Cut-off" in i["text"] and i.get("urgent") for i in h.agents["s-pipeline"].items))
+check("card cut 3 min after landing", f"{int(ts)}:card:cut" in g.done and any("Cut-off" in i["text"] and i.get("urgent") for i in h.agents["s-data"].items))
 # 2. heads-up on change at T-10 goes only to the overseer, not the worker
-check("change heads-up to overseer only", any("isn't done" in i["text"] for i in h.agents["s-overseer"].items)
+check("change heads-up to overseer only", any("isn't done" in i["text"] for i in h.agents["s-overview"].items)
       and not any("isn't done" in i["text"] for i in h.agents["s-data"].items))
-check("heads-up never says hurry", all("Do NOT tell anyone to hurry" in i["text"] for i in h.agents["s-overseer"].items if "isn't done" in i["text"]))
+check("heads-up never says hurry", all("Do NOT tell anyone to hurry" in i["text"] for i in h.agents["s-overview"].items if "isn't done" in i["text"]))
 # 3. change cut at T-8 when nothing recorded
 h, g, ts = mk("samuel", 7.5); h.landed_at["Round 1"] = ts - 13 * U
 (h.repo / "analysis" / "Round-1").mkdir(parents=True); (h.repo / "analysis" / "Round-1" / "card.md").write_text("x")
@@ -65,10 +66,10 @@ check("data cut at T-10", f"{int(ts)}:data:cut" in g.done and f"{int(ts)}:card:c
 h, g, ts = mk("samuel", 16); h.landed_at["Round 1"] = ts - 17 * U
 (h.repo / "analysis" / "Round-1").mkdir(parents=True); (h.repo / "analysis" / "Round-1" / "card.md").write_text("x")
 h.agents["s-data"].eta = ts - 5 * U; run(g)
-check("late ETA triggers early heads-up", any("expects to finish" in i["text"] for i in h.agents["s-overseer"].items))
+check("late ETA triggers early heads-up", any("expects to finish" in i["text"] for i in h.agents["s-overview"].items))
 h, g, ts = mk("samuel", 16); h.agents["s-data"].eta = ts - 12 * U; h.landed_at["Round 1"] = ts - 17 * U
 (h.repo / "analysis" / "Round-1").mkdir(parents=True); (h.repo / "analysis" / "Round-1" / "card.md").write_text("x")
-run(g); check("on-time ETA: silence", not h.agents["s-overseer"].items)
+run(g); check("on-time ETA: silence", not h.agents["s-overview"].items)
 # 7. dylan: challenger cut at T-12 doesn't interrupt the challenger
 h, g, ts = mk("dylan", 11.5); run(g)
 ch = h.agents["d-challenger"].items

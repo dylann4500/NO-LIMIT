@@ -222,13 +222,18 @@ async def main():
         x = await state(S)
         check("C4", "stage is Build at minute 0", x.get("stage") == "Build", x.get("stage"))
 
-        # N3: build notes on both screens
+        # N3: build-hour progress tiles on both screens (one per work stream, both laptops)
+        def tiles_of(st_, prefix):
+            return [x for x in st_.get("tiles", []) if x["id"].startswith(prefix)]
         async def builds(base):
-            ps_ = [p for p in (await state(base))["props"] if p.get("kind") == "build"]
-            return ps_ if len(ps_) >= 7 else None
+            ts_ = tiles_of(await state(base), "build-")
+            return ts_ if len(ts_) >= 7 else None
         bS, bD = await wait_for(lambda: builds(S), 40), await wait_for(lambda: builds(D), 40)
-        check("N3a", "7 Build notes on Samuel's board", bool(bS), str(len(bS or [])))
-        check("N3b", "the same Build notes on Dylan's board", bool(bD) and {p["id"] for p in bS} == {p["id"] for p in bD})
+        check("N3a", "7 build-hour tiles on Samuel's board", bool(bS), str(len(bS or [])))
+        check("N3b", "the same tiles on Dylan's board", bool(bD) and {x["id"] for x in bS} == {x["id"] for x in bD})
+        check("N3t", "tiles are plain (label + state + owner, no prompting)", bool(bS) and all(set(x) >= {"label", "state", "owner"} and len(x["label"]) < 60 for x in bS),
+              json.dumps((bS or [{}])[0]))
+        check("N3o", "every tile's owner is a real agent", bool(bS) and all(x["owner"] in ("d-platform", "d-builder", "d-challenger", "s-tester", "s-data", "s-scout") for x in bS))
 
         # C9: changing the clock is announced in both Chats (same minute 0, 3 scored rounds instead of 6)
         sch = (await state(S))["schedule"]
@@ -299,15 +304,18 @@ async def main():
         portal.subs.append({"id": "sub2", "filename": "v1.zip", "status": "ready"})
         portal.active = "sub2"
         portal.rounds.append({"id": "t-practice-1-abcdef", "kind": "practice", "created_at": now, "completed_at": None})
-        async def live_note():
-            return next((p for p in (await state(S))["props"] if p.get("kind") == "live"), None)
-        ln = await wait_for(live_note, 90, 3)
-        check("N3c", "'v1 live · Practice 1' note when the round starts", bool(ln) and "v1" in ln["title"], (ln or {}).get("title", ""))
+        async def live_tile():
+            return next((x for x in (await state(S)).get("tiles", []) if x["id"] == "round-Practice-1" and "playing" in x["state"]), None)
+        ln = await wait_for(live_tile, 90, 3)
+        check("N3c", "'Practice 1 · playing v1' tile when the round starts", bool(ln) and "v1" in ln["state"], json.dumps(ln or {}))
         portal.rounds[-1]["completed_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
-        async def an_note():
-            return next((p for p in (await state(S))["props"] if p.get("kind") == "analysis" and "Practice 1" in p.get("title", "")), None)
-        an = await wait_for(an_note, 90, 3)
-        check("P2a", "'Analysis for Practice 1' note when results land", bool(an))
+        async def an_tile():
+            return next((x for x in (await state(S)).get("tiles", []) if x["id"] == "analysis-Practice-1"), None)
+        an = await wait_for(an_tile, 90, 3)
+        check("P2a", "'Practice 1 analysis · in progress' tile when results land", bool(an) and an["state"] == "in progress", json.dumps(an or {}))
+        tl = {x["id"]: x["state"] for x in (await state(S)).get("tiles", [])}
+        check("P2t", "'Practice 1 data · done' and 'Practice 1 · finished' tiles", tl.get("data-Practice-1") == "done" and tl.get("round-Practice-1") == "finished", json.dumps(tl))
+        check("P2u", "the same tiles on Dylan's board", bool(await wait_for(_async_state(D, lambda st_: any(x["id"] == "analysis-Practice-1" for x in st_.get("tiles", []))), 40, 2)))
         files = list((out / "pd").rglob("hands-*.jsonl.gz"))
         check("P2b", "results and hand file saved", bool(files) and any((out / "pd").rglob("results.json")))
         await api(s, S, "POST", "/api/agents/s-overview/send", {"text": "run the check"})
@@ -323,25 +331,25 @@ async def main():
             return any("Round card for Practice 1" in i.get("text", "") for i in inbox("s-data"))
         check("P3b", "card_ready routed to s-data although fp_train failed", bool(await wait_for(_async(routed), 30)))
         check("P3c", "fp_train failure reported to s-scout", any("fp_train.py" in i.get("text", "") for i in inbox("s-scout")))
-        check("P2c", "s-pipeline and s-overseer woken with DATA LANDED / NEW ROUND RESULT",
-              any("DATA LANDED" in i.get("text", "") for i in inbox("s-pipeline")) and
-              any("NEW ROUND RESULT" in i.get("text", "") for i in inbox("s-overseer")))
+        check("P2c", "the Analyst and Samuel's Chat woken with DATA LANDED / NEW ROUND RESULT",
+              any("DATA LANDED" in i.get("text", "") for i in inbox("s-data")) and
+              any("NEW ROUND RESULT" in i.get("text", "") for i in inbox("s-overview")))
         dinbox = lambda n: json.loads((out / "data-d" / "agents" / n / "inbox.json").read_text()) \
             if (out / "data-d" / "agents" / n / "inbox.json").exists() else []
-        check("P2d", "d-overseer told of the result on Dylan's laptop",
+        check("P2d", "Dylan's Chat told of the result on Dylan's laptop",
               bool(await wait_for(_async(lambda: any("Practice round 1" in i.get("text", "") or "finished" in i.get("text", "")
-                                                     for i in dinbox("d-overseer"))), 40)))
+                                                     for i in dinbox("d-overview"))), 40)))
         # N4: build note B1 closes when the portal runs a bot
         async def b1_done():
-            return next((p for p in (await state(S))["props"] if p.get("kind") == "build" and p.get("status") == "done"), None)
-        check("N4", "a Build note closes once the portal runs a bot", bool(await wait_for(b1_done, 30)))
+            return next((x for x in (await state(S)).get("tiles", []) if x["id"] == "build-1" and x["state"] == "done"), None)
+        check("N4", "'Build · v1 and the platform' turns done once the portal runs a bot", bool(await wait_for(b1_done, 40)))
 
         # P7: results that fail at first are retried, not skipped
         portal.results_fail = 2
         portal.rounds.append({"id": "t-practice-2-abcdef", "kind": "practice", "created_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
                               "completed_at": time.strftime("%Y-%m-%dT%H:%M:%S")})
         async def an2():
-            return next((p for p in (await state(S))["props"] if p.get("kind") == "analysis" and "Practice 2" in p.get("title", "")), None)
+            return next((x for x in (await state(S)).get("tiles", []) if x["id"] == "analysis-Practice-2"), None)
         check("P7", "a round whose results fail twice is retried and analysed", bool(await wait_for(an2, 240, 5)))
         pst = json.loads((out / "data-s" / "portal_state.json").read_text())
         check("G6", "landing times are saved (the deadline guard survives a restart)", "Practice 1" in pst.get("landed_at", {}))
@@ -396,11 +404,14 @@ async def main():
         check("S3b", "notes survive the restart", props_before <= {p["id"] for p in x["props"]},
               str(len(props_before - {p['id'] for p in x['props']})))
         check("S3c", "clock and live bot survive", bool(x.get("schedule")) and (x.get("live") or {}).get("filename") == "v1.zip")
-        ov_s = inbox("s-overseer")
+        ov_s = inbox("s-overview")
         n_b0 = sum(1 for i in ov_s if "Build hour, minute 0" in i.get("text", ""))
+        n_w0 = sum(1 for i in inbox("s-data") if "[clock: Build hour, minute 0]" in i.get("text", ""))
+        check("S3w", "the clock gave the Analyst its minute-0 task directly, once", n_w0 == 1, f"{n_w0} copies")
         check("S3d", "the minute-0 dispatch was not sent twice", n_b0 <= 1, f"{n_b0} copies; sent marks {len(sent_before)}")
         check("S3e", "the rounds already analysed aren't re-processed as new",
-              sum(1 for p in x["props"] if p.get("kind") == "analysis") == 2)
+              sum(1 for y in x.get("tiles", []) if y["id"].startswith("analysis-")) == 2 and
+              sum(1 for i in inbox("s-data") if "DATA LANDED" in i.get("text", "")) <= 2)
         errs = (out / "data-s" / "errors.log").read_text() if (out / "data-s" / "errors.log").exists() else ""
         check("S8", "no background errors recorded on Samuel's hub", not errs.strip(), errs[:300])
 
@@ -449,6 +460,14 @@ def _exists(p: Path):
     async def f():
         return p.exists()
     return f()
+
+
+def _async_state(base, pred):
+    async def f():
+        async with ClientSession(timeout=ClientTimeout(total=20)) as s2:
+            async with s2.get(base + "/api/state") as r:
+                return pred(await r.json())
+    return f
 
 
 def _async(fn):

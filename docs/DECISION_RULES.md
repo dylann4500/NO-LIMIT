@@ -31,7 +31,7 @@ These protect against losing a whole round. Nothing else on this page is a hard 
 
 The rule's answer **is** the default. If nobody answers in time, the rule's answer plays, not "no change".
 
-**Which bot plays a scored round** (worked out by s-overseer at T-8, decided by d-overseer and the humans):
+**Which bot plays a scored round** (worked out by Samuel's Chat at T-8, asked by Dylan's Chat and decided by the humans):
 - Measure the challenger against the live bot on the **real field**: its practice-round score minus the
   live bot's most recent comparable score, in standard errors (practice SE is about 0.65 points per table).
 - Play the challenger if it passed rule 2.1 and:
@@ -59,18 +59,18 @@ past T-3 for a release.
 made bots rush and ship untested. Here a late step simply loses its slot and the safe default plays, so there
 is nothing to gain by hurrying, and you are never asked to. If you won't make a cut-off, deliver a smaller
 version or let the fallback happen; never skip a test to make one. Give an honest `eta_minutes` in set_status:
-a late estimate only lets your Overseer re-scope early.
+a late estimate only lets your Chat (the lead) re-scope early.
 
 | Cut-off | If it hasn't happened | Who is told |
 |---|---|---|
-| T-12: a new challenger released | Practice plays an already-tested bot (else the live bot); the challenger keeps building for next window | Overseer, Dylan (the challenger isn't interrupted) |
-| T-10: last round's data landed | No change from new data; live bot plus already-validated changes | Overseer, both humans |
-| 3 min after data: round card written | s-data computes the decision numbers by hand; the card script is fixed after T-3 | s-pipeline stopped, Overseer |
-| T-8: one-change proposal recorded | No new-data change in the live bot; the idea goes to the challenger or next practice | s-data stopped, Overseer |
-| T-7: "Which bot?" note posted | The hub posts it with the live bot as default | Overseer, both humans |
-| T-4: the chosen bot released and tested | The live bot (active since T-9) plays; nothing is uploaded | d-platform stopped, Overseer, both humans (urgent) |
+| T-12: a new challenger released | Practice plays an already-tested bot (else the live bot); the challenger keeps building for next window | the lead, Dylan (the challenger isn't interrupted) |
+| T-10: last round's data landed | No change from new data; live bot plus already-validated changes | the lead, both humans |
+| 3 min after data: round card written | s-data computes the decision numbers by hand; the card script is fixed after T-3 | s-data stopped, the leadeer |
+| T-8: one-change proposal recorded | No new-data change in the live bot; the idea goes to the challenger or next practice | s-data stopped, the lead |
+| T-7: "Which bot?" decision asked | The hub asks it with the live bot as default | the lead, both humans |
+| T-4: the chosen bot released and tested | The live bot (active since T-9) plays; nothing is uploaded | d-platform stopped, the lead, both humans (urgent) |
 
-Before a cut-off only the Overseer gets a heads-up (at the times above, or earlier if an ETA is late), so it can
+Before a cut-off only the lead (your laptop's Chat) gets a heads-up (at the times above, or earlier if an ETA is late), so it can
 cut scope or add a helper. A missed cut-off is reported with its cause at the next T-20 sync.
 
 **The challenger:** two to four changes, a new style, or a fresh rewrite. Its job is to find what the field
@@ -89,7 +89,7 @@ candidate; a strength verdict from local tests is not required.
 
 **Worked examples** (how these rules play out):
 - We're 5th, 1.2 behind 3rd before round 3; the challenger beat the live bot by +0.9 in practice (+1.4 SE),
-  passed the upload test; the skeptic isn't done. → Play the challenger, labelled "unverified".
+  passed the upload test; the Tester's verification isn't done. → Play the challenger, labelled "unverified".
 - We're 1st by 4 points before round 5; a +0.4 change is unvalidated at 1.0 SE. → Keep the live bot; play the
   change in the next practice round to measure it.
 - We're 8th; three independent fixes (+0.3, +0.35, +0.25, z about 2 each, each behind a setting, combined
@@ -119,22 +119,22 @@ When you pick the best of k candidates, discount its edge by about 0.5 x SE x sq
 it with the bar (the best of 10 looks about +0.5 better than it is by chance alone).
 
 **Unverified is not wrong.** A `proposed` ledger item may be cited with the label "unverified". Only an item
-**disputed with a reproduced counter-number** blocks a switch. If s-skeptic runs out of time, say so and decide.
+**disputed with a reproduced counter-number** blocks a switch. If s-tester runs out of time verifying, say so and decide.
 
 ## 5. Starting values, not limits
 
 Two regionals with different variants (Bay Area discard-and-expose, Boston flop auction) produced nearly the
 same field: fold to 3-bets 67% in both, open-shove at 10bb or less 41% in both, the same drift toward
 aggression, and 75-90% of teams changing bots each round. So **behaviour rates and arithmetic are priors;
-hand rankings, equity cut-offs, twist values and the style cycle's sizes are not** (s-theory recomputes those
+hand rankings, equity cut-offs, twist values and the style cycle's sizes are not** (s-data recomputes those
 for today's variant).
 - **Seat priors:** start each seat at the field rate with weight 4 (as if 4 observations). Until the first
-  practice download use the regional values (FIRST_PROMPT Part 1); from that download on, s-pipeline replaces
+  practice download use the regional values (FIRST_PROMPT Part 1); from that download on, s-data replaces
   them with the Finals field's rates (analysis/field_priors.json). Never use a weight above 10 for a field
   prior; team-profile priors from Finals rounds get weight about 30, capped.
 - Use them, measure them, override them when this event's data says otherwise, and say why.
 - **Folding to re-raises:** fold to a 3-bet of our open no more than the break-even rate for our open size and
-  range (usually 65-75% for 3-bets of 3-3.5x; s-theory recomputes it for today's sizes; we folded 82-89% at the
+  range (usually 65-75% for 3-bets of 3-3.5x; s-data recomputes it for today's sizes; we folded 82-89% at the
   regional, the strong bots and both regional fields 63-68%). This is about our opens
   facing 3-bets; it does not apply to folding to 4-bets after our own light 3-bets.
 - **Styles A/B/C are three corners to try, not a ranking:** the cycle (wide beats tight, shove beats wide,

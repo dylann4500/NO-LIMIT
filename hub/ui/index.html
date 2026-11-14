@@ -222,6 +222,24 @@ button:active:not(:disabled) { transform: scale(.97); }
 .tbtn { background: none; border: 1px solid var(--line); border-radius: 8px; padding: 3px 10px; color: var(--muted); font-size: .8rem; }
 .cv-ask { border: 2px solid var(--bad, #b91c1c); border-radius: 14px; padding: 12px 16px; margin-bottom: 14px; background: var(--panel); }
 .cv-ask b { color: var(--bad, #b91c1c); } .cv-ask p { margin: 6px 0 0; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.tile { text-align: left; border: 1px solid var(--line); border-radius: var(--r-surface, 14px); background: var(--panel); padding: 12px 14px; cursor: pointer; font: inherit; color: var(--fg); display: flex; flex-direction: column; gap: 4px; min-height: 64px; }
+.tile:hover { border-color: var(--fg); }
+.tile .lb { font-weight: 600; font-size: .95rem; }
+.tile .st { font-size: .82rem; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+.tile .st .dot { margin: 0; }
+.tile.s-done { border-color: var(--ok); } .tile.s-done .st { color: var(--ok); }
+.tile.s-failed { border-color: var(--bad); } .tile.s-failed .st { color: var(--bad); }
+.tile.s-wait { border: 2px solid var(--bad); } .tile.s-wait .st { color: var(--bad); font-weight: 600; }
+.tile.s-progress .st { color: var(--busy); }
+.decbar { border: 2px solid var(--bad); border-radius: 14px; padding: 10px 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; background: var(--panel); }
+.decbar b { color: var(--bad); }
+.chatpage { flex: 1; display: flex; flex-direction: column; min-height: 0; max-width: 900px; width: 100%; margin: 0 auto; }
+.chatpage .dock-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+.chatpage .dock-ft { padding: 10px 20px 16px; }
+.decisions-pin { max-height: 45vh; overflow-y: auto; padding: 12px 20px 0; border-bottom: 1px solid var(--line); flex: none; }
+.decision { border: 2px solid var(--bad); border-radius: 14px; padding: 12px 16px; margin-bottom: 12px; background: var(--bg); }
+.decision .h { color: var(--bad); font-weight: 700; } .decision .md { margin-top: 6px; }
 .fold-btn { text-transform: none; letter-spacing: 0; margin-left: 10px; font: 600 .8rem var(--sans, inherit); color: var(--fg); background: var(--panel); vertical-align: middle; cursor: pointer; }
 .fold-btn:hover { border-color: var(--fg); }
 .tbtn.on { color: var(--fg); background: var(--panel); border-color: var(--ink, var(--muted)); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
@@ -265,7 +283,7 @@ button:active:not(:disabled) { transform: scale(.97); }
 <div id="root"></div>
 <script>
 "use strict";
-const S = { st: null, view: null, page: "board", sel: null, card: null, side: false, other: false, ev: {}, last: {}, unread: {}, bell: false, toasts: [], toastHtml: "", sending: false, hint: "", hintBad: false, pending: false, ideaOpen: false };
+const S = { st: null, view: null, page: "board", sel: null, card: null, side: window.innerWidth >= 760, other: false, ev: {}, last: {}, unread: {}, bell: false, toasts: [], toastHtml: "", sending: false, hint: "", hintBad: false, pending: false, ideaOpen: false };
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const md = (t) => { try { if (!window.marked || !window.DOMPurify) return "<p>" + esc(t) + "</p>"; return DOMPurify.sanitize(marked.parse(String(t || "")), { FORBID_TAGS: ["img", "style", "form", "input", "iframe", "video", "audio"], FORBID_ATTR: ["style"] }); } catch (e) { return "<p>" + esc(t) + "</p>"; } };
@@ -326,7 +344,7 @@ function clockHtml() {
 function bellHtml() { const nd = needs(); const urgent = nd.some((x) => x.urgent || x.type === "ap"); return `<button class="bell ${nd.length ? "has" : ""} ${urgent ? "urgent" : ""}" id="bell" aria-label="Needs you">${BELL}${nd.length ? `<span class="n">${nd.length}</span>` : ""}</button>`; }
 function needHtml(x, compact) {
   if (x.type === "ap") return `<div class="need"><span class="who2">${pdot(x.agent)} ${esc(titleOf(x.agent))}</span> wants to run ${esc(x.tool)}${x.risky ? " <b style='color:var(--bad)'>(risky)</b>" : ""}<code>${esc(x.input)}</code><div class="nacts"><button class="mini go" data-ap="${esc(x.id)}" data-d="allow">Allow</button>${x.risky ? "" : `<button class="mini" data-ap="${esc(x.id)}" data-d="always">Always</button>`}<button class="mini no" data-ap="${esc(x.id)}" data-d="deny">Deny</button></div></div>`;
-  if (x.type === "pc") return `<div class="need"><b>${esc(NOTE[x.kind] || x.kind)}</b> · your call${x.deadline ? " by " + hhmm(x.deadline) : ""}<div class="txt">${esc(cardTitle(x))}</div><div class="nacts"><button class="mini go" data-open="${esc(x.id)}">Open and answer</button></div></div>`;
+  if (x.type === "pc") return `<div class="need"><b>${esc(NOTE[x.kind] || x.kind)}</b> · your call${x.deadline ? " by " + hhmm(x.deadline) : ""}<div class="txt">${esc(cardTitle(x))}</div><div class="nacts"><button class="mini go" data-gochat="1">Answer in the Chat</button></div></div>`;
   return `<div class="need"><span class="who2">${pdot(x.agent)} ${esc(titleOf(x.agent))}</span> · ${hhmm(x.at)}${x.urgent ? " · <b style='color:var(--bad)'>urgent</b>" : ""}<div class="txt md">${md(x.text)}</div>${compact ? "" : `<div class="nacts"><button class="mini" data-dis="${esc(x.id)}">Done</button></div>`}</div>`;
 }
 function panelHtml() {
@@ -439,33 +457,30 @@ function noteHtml(p, big) {
     ${call ? `<div class="acts"><span class="hint" style="font-weight:600">Open to read it and answer →</span></div>` : ""}
   </div>`;
 }
+function tileState(t) { const st = String(t.state || "");
+  return /^done|^decided|^finished/.test(st) ? "s-done" : /fail|missed/.test(st) ? "s-failed" : /waiting for your/.test(st) ? "s-wait" : /progress|testing|playing/.test(st) ? "s-progress" : ""; }
+function tileHtml(t) { const c = tileState(t);
+  return `<button class="tile ${c}" data-tile="${esc(t.owner || "")}" title="Open ${esc(titleOf(t.owner || ""))}"><span class="lb">${esc(t.label)}</span><span class="st"><span class="dot ${c === "s-progress" ? "working" : c === "s-done" ? "idle" : c === "s-failed" || c === "s-wait" ? "error" : ""}"></span>${esc(t.state)}${t.updated ? " · " + ago(t.updated) : ""}</span></button>`; }
 function boardHtml() {
-  const ps = props(), sch = S.st.schedule, cur = S.st.stage;
-  const hero = sch ? "" : `<div class="hero"><div style="flex:1;min-width:260px"><h1>Ready when you are</h1><p>When the competition starts, tell the <b>Chat</b> on the right (“the competition starts now”, or the announcement time). That sets the clock on both laptops and starts the Overseer with the whole game plan. Notes appear here as each part of the day happens. The button does the same thing.</p></div><button class="mini" id="preflightBtn" title="Tests the link, the portal (reading and a hand-history download), Claude, Codex, the repo and disk, on both laptops">Check everything works</button><button class="bigbtn" id="startBtn">Start building</button><div><input id="schin" placeholder="HH:MM"> <button class="mini" id="schgo">Set time</button></div></div>`;
-  const call = ps.filter((p) => p.status === "needs_call" && myCall(p)).sort((a, b) => (a.deadline || 9e12) - (b.deadline || 9e12));
-  const newNote = `<div class="note newnote" style="--rot:0deg">${S.ideaOpen ? `<textarea id="ideaBody" placeholder="An idea to try, or a question for the agents…"></textarea><div class="row"><span class="hint" id="ideaHint" style="flex:1"></span><button class="mini" id="ideaX">Cancel</button><button class="mini go" id="ideaGo">Post</button></div>` : `<button class="big" id="ideaOpen" style="border:0;background:none;color:inherit;height:100%;width:100%">＋ New idea<br><span style="font-weight:400;font-size:.8rem">Ask a question or suggest something to try</span></button>`}</div>`;
-  const stages = {}; ps.forEach((p) => { const st = p.stage || "Earlier"; (stages[st] = stages[st] || []).push(p); });
+  const sch = S.st.schedule, cur = S.st.stage, tiles = S.st.tiles || [];
+  const hero = sch ? "" : `<div class="hero"><div style="flex:1;min-width:260px"><h1>Ready when you are</h1><p>When the competition starts, open your <b>Chat</b> (left) and type “the competition starts now” (or the announcement time). That starts the clock on both laptops and every agent's game plan. Progress shows up here as tiles; click one to open the agent doing it.</p></div><button class="mini" id="preflightBtn" title="Tests the link, the portal (reading and a hand-history download), Claude, Codex, the repo and disk, on both laptops">Check everything works</button><button class="bigbtn" id="startBtn">Start building</button><div><input id="schin" placeholder="HH:MM"> <button class="mini" id="schgo">Set time</button></div></div>`;
+  const call = needCall();
+  const dec = call.length ? `<div class="decbar"><b>${call.length} decision${call.length > 1 ? "s" : ""} waiting for your answer</b><span class="hint">${esc(call.map((p) => (p.bot ? "Bot choice: " + bname(p.bot) : p.title) + (p.deadline ? " by " + hhmm(p.deadline) : "")).join(" · "))}</span><span style="flex:1"></span><button class="mini go" data-gochat="1">Answer in the Chat</button></div>` : "";
+  const stages = {}; tiles.forEach((t) => { const st = t.stage || "Earlier"; (stages[st] = stages[st] || []).push(t); });
   if (sch && !stages[cur]) stages[cur] = [];
   const order = Object.keys(stages).sort((a, b) => STAGE_ORDER(b) - STAGE_ORDER(a));
-  const rank = { bot: 0, question: 0, live: 1, analysis: 2, build: 3, idea: 4 };
-  const nice = (st) => st === "Build" ? "Build hour" : st === "Before the start" ? "Before the start" : st;
+  const nice = (st) => st === "Build" ? "Build hour" : st;
   S.openStages = S.openStages || {};
-  const rows = order.map((st, i) => { const xs = stages[st].slice().sort((a, b) => (b.status === "needs_call") - (a.status === "needs_call") || (rank[kindOf(a)] ?? 5) - (rank[kindOf(b)] ?? 5) || (a.created || 0) - (b.created || 0));
+  const rows = order.map((st, i) => { const xs = stages[st].slice().sort((a, b) => (tileState(b) === "s-wait") - (tileState(a) === "s-wait") || (a.created || 0) - (b.created || 0));
     const isNow = st === cur || (!sch && st === order[0]);
-    const isPrev = sch ? st === PREV_STAGE(cur) : i === 1;   // only the stage right before this one, never an older one
-    const live = xs.some((p) => p.status === "needs_call" || (["running", "planned", "new"].includes(p.status) && kindOf(p) !== "build"
-      && Date.now() / 1000 - (p.updated || 0) < 1200));   // an older stage stays open only while something in it is actually moving
-    const auto = isNow || isPrev || live;
-    const open = isNow || (st in S.openStages ? S.openStages[st] : auto);   // your click wins over the automatic default
+    const isPrev = sch ? st === PREV_STAGE(cur) : i === 1;
+    const moving = xs.some((t) => ["s-progress", "s-wait"].includes(tileState(t)));
+    const open = isNow || (st in S.openStages ? S.openStages[st] : (isPrev || moving));
     const tag = isNow && sch ? `<span class="now">NOW</span>` : isPrev ? `<span class="prev">previous</span>` : "";
-    const done = xs.filter((p) => ["done", "approved", "rejected", "expired"].includes(p.status)).length;
-    if (!open) return `<div class="stage past"><button class="stage-fold" data-stage="${esc(st)}">${esc(nice(st))} · ${xs.length} note${xs.length === 1 ? "" : "s"}${done === xs.length ? " · all done" : ""} ▸</button></div>`;
-    return `<div class="stage ${isNow ? "" : "past"}"><h2>${esc(nice(st))} ${tag}${!isNow ? `<button class="tbtn fold-btn" data-stage="${esc(st)}" data-open-now="1" aria-expanded="true">▾ Collapse</button>` : ""}</h2><div class="wall">${isNow ? newNote : ""}${xs.map((p) => noteHtml(p, isNow)).join("")}</div></div>`; }).join("");
-  return `<div class="board">${hero}${nowHtml()}
-    ${call.length ? `<div><h2>Needs your call <span class="c">${call.length}</span></h2><div class="wall">${call.map((p) => noteHtml(p, true)).join("")}</div></div>` : ""}
-    ${rows || `<div class="stage"><div class="wall">${newNote}</div></div>`}
-    <div class="legend" style="justify-content:flex-end">${Object.entries(NOTE).map(([k, v]) => `<span class="k-${k}">${v}</span>`).join("")}${ps.some((p) => ["done", "rejected", "expired"].includes(p.status)) ? `<button class="tbtn" id="clearDone">Clear finished</button>` : ""}</div>
-  </div>`;
+    const done = xs.filter((t) => tileState(t) === "s-done").length;
+    if (!open) return `<div class="stage past"><button class="stage-fold" data-stage="${esc(st)}">${esc(nice(st))} · ${xs.length} item${xs.length === 1 ? "" : "s"}${done === xs.length && xs.length ? " · all done" : ""} ▸</button></div>`;
+    return `<div class="stage ${isNow ? "" : "past"}"><h2>${esc(nice(st))} ${tag}${!isNow ? `<button class="tbtn fold-btn" data-stage="${esc(st)}" data-open-now="1" aria-expanded="true">▾ Collapse</button>` : ""}</h2>${xs.length ? `<div class="tiles">${xs.map(tileHtml).join("")}</div>` : `<div class="empty" style="padding:4px 0">Nothing yet.</div>`}</div>`; }).join("");
+  return `<div class="board">${hero}${nowHtml()}${dec}${rows || (sch ? "" : `<div class="empty">Progress appears here once the competition starts.</div>`)}</div>`;
 }
 function drawerHtml() {
   const p = props().find((x) => x.id === S.card); if (!p) return "";
@@ -529,6 +544,15 @@ function attachView(text) {   // "[attached image: name, N KB, saved at …, sha
   rest = rest.replace(/^Route (it|these) to the right agents? (now )?\(see your role\)\.?\s*$/m, "").trim();
   return (chips.length ? `<div class="staged" style="margin:4px 0">${chips.join("")}</div>` : "") + esc(rest);
 }
+function decisionsHtml() {
+  const call = needCall(); if (!call.length) return "";
+  return call.map((p) => `<div class="decision"><div class="h">Waiting for your answer${p.deadline ? ` · by ${hhmm(p.deadline)} (<span data-dl="${p.deadline}">${mmss(p.deadline - Date.now() / 1000)}</span> left)` : ""}</div>
+    <div><b>${esc(p.bot ? "Should " + bname(p.bot) + " play?" : p.title)}</b>${p.headline ? " " + esc(p.headline) : ""}</div>
+    ${p.body ? `<details ${call.length === 1 ? "open" : ""}><summary class="hint">The evidence and the rule</summary><div class="md">${md(p.body)}</div></details>` : ""}
+    <div class="hint" style="margin-top:6px">Answer below in your own words (e.g. ${p.bot ? `"yes, use ${esc(bname(p.bot))}" or "no, keep the live bot because…"` : `"yes" or "no, because…"`}), or ask first. Nothing is decided until you answer clearly${p.deadline ? "; with no answer by the deadline, the pre-registered rule decides" : ""}.</div>
+    ${p.bot ? `<div style="margin-top:6px"><button class="mini" data-dlbot="${esc(bname(p.bot))}">Download ${esc(bname(p.bot))}.zip</button><span class="hint" id="dlHint"></span></div>` : ""}</div>`).join("");
+}
+function chatPageHtml() { S.ov = true; const html = overviewChatHtml(); return html.replace('<aside class="dock"', '<aside class="dock chatpage"').replace(/style="width:\d+px"/, ""); }
 function overviewChatHtml() {
   if (!S.ov) return "";
   const who = S.ovWho || S.st.me, name = ovName(who), items = (S.st.overviews || {})[name] || [];
@@ -537,11 +561,12 @@ function overviewChatHtml() {
   const tabs = Object.entries(S.st.people).map(([k, v]) => `<button class="tbtn ${k === who ? "on" : ""}" data-ovwho="${esc(k)}"><span class="pdot ${esc(k)}"></span> ${esc(v)}</button>`).join("");
   const chips = S.st.schedule ? ["What's going on right now?", "What should I be doing?", "What changed in the last 10 minutes?", "Explain the next decision"]
     : ["The competition starts now", "The variant was announced at …", "Round 1 is at …"];
-  return `<aside class="dock" aria-label="Chat" style="${S.dockW ? `width:${S.dockW}px` : ""}"><div class="dock-grip" id="dockGrip" title="Drag to resize" role="separator" aria-orientation="vertical"></div><div class="dock-hd"><b>Chat</b><span class="hint">knows everything the Overseer knows</span>${tabs}<button class="tbtn" id="ovX" title="Hide the chat">✕</button></div>
+  return `<aside class="dock" aria-label="Chat" style="${S.dockW ? `width:${S.dockW}px` : ""}"><div class="dock-grip" id="dockGrip" title="Drag to resize" role="separator" aria-orientation="vertical"></div><div class="dock-hd"><b>Chat</b><span class="hint">the lead of ${esc(S.st.people[who])}'s side: ask anything, steer, answer decisions</span>${tabs}</div>
+    ${who === S.st.me && needCall().length ? `<div class="decisions-pin">${decisionsHtml()}</div>` : ""}
     <div class="dock-body" id="ovBody">
-      ${who === S.st.me && (needCall().length || S.st.approvals.length) ? `<div class="waiting"><b>Waiting for you</b>${needCall().map((p) => `<button class="mini" data-open="${esc(p.id)}">${esc(kindOf(p) === "bot" && p.bot ? "Which bot? " + bname(p.bot) : (NOTE[kindOf(p)] || "") + ": " + headOf(p).slice(0, 70))}${p.deadline ? " · by " + hhmm(p.deadline) : ""}</button>`).join("")}${S.st.approvals.length ? `<button class="mini" id="bellGo">${S.st.approvals.length} permission request(s)</button>` : ""}</div>` : ""}
+      ${who === S.st.me && S.st.approvals.length ? `<div class="waiting"><b>Waiting for you</b><button class="mini" id="bellGo">${S.st.approvals.length} permission request(s)</button></div>` : ""}
       ${items.length ? items.map((t, i) => people.includes(t.who) ? `<div class="cv-me ${i >= (SEEN.chat[name] ?? items.length) ? "msg-in" : ""}"><span class="by">${esc(t.who)} · ${hhmm(t.at)}</span>${attachView(t.text)}</div>` : `<div class="cv-ag ${t.urgent ? "urgent" : ""} ${i >= (SEEN.chat[name] ?? items.length) ? "msg-in" : ""}"><div class="by">${t.urgent ? "⚠ " : ""}${esc(t.who === "Hub" ? (t.urgent ? "Needs you" : "Hub") : t.who === "Chat" || t.who === "Overview" ? "Chat" : t.who)} · ${hhmm(t.at)}</div><div class="a md">${md(t.text)}</div></div>`).join("")
-        : `<div class="note2" style="margin-top:24px;text-align:left">${S.st.schedule ? `Ask anything about ${esc(S.st.people[who])}'s side, or tell it what to change: it passes instructions to the Overseer and reports back.` : `<b>Start here.</b> When the competition starts, tell the Chat (“the competition starts now”, or the announcement time). That sets the clock on both laptops and starts the Overseer with the whole game plan. Tell it any other times as you learn them (“round 1 is at 14:25”).`}</div>`}
+        : `<div class="note2" style="margin-top:24px;text-align:left">${S.st.schedule ? `Ask anything about ${esc(S.st.people[who])}'s side, or tell it what to change: it passes instructions to the right agent and reports back. To check on one job, open that agent on the left.` : `<b>Start here.</b> When the competition starts, type “the competition starts now” (or the announcement time). That starts the clock on both laptops and every agent's game plan. Before that, type “run the check” to test everything. Tell it any other times as you learn them (“round 1 is at 14:25”).`}</div>`}
       ${busy ? `<div class="note2">Chat is reading the team's context…</div>` : ""}
     </div>
     <div class="dock-ft"><div class="chips">${chips.map((c) => `<button data-ovchip="${esc(c)}">${esc(c)}</button>`).join("")}</div>
@@ -550,12 +575,16 @@ function overviewChatHtml() {
 function sideHtml() {
   if (!S.side) return "";
   const nd = needs();
-  const row = (a) => { const [l, c] = label(a); const n = nd.filter((x) => x.agent === a.name).length; const u = S.unread[a.name];
-    return `<button class="item ${c === "stopped" ? "off" : ""} ${n ? "attn" : ""} ${S.page === "agent" && S.sel === a.name ? "on" : ""}" data-sel="${esc(a.name)}"><span class="dot ${esc(c)}"></span><span style="min-width:0"><div class="nm">${esc(clean(a.title || a.name))}<span class="st">${esc(l)}</span></div><div class="ln">${esc(a.task || (c === "stopped" ? "Not started" : "No task yet"))}</div></span>${n ? `<span class="pill">needs you</span>` : u ? `<span class="badge">${u}</span>` : ""}</button>`; };
-  const mine = S.st.agents.filter((a) => !/overview$/.test(a.name)).sort((a, b) => isOv(b.name) - isOv(a.name)), op = otherPerson();
-  const other = S.st.remote.filter((a) => !a.service && !/overview$/.test(a.name));
-  return `<div class="side"><button class="item ${S.page === "board" ? "on" : ""}" data-go="board"><span></span><span><div class="nm">Board</div><div class="ln">Notes and decisions</div></span></button><button class="item ${S.page === "overview" ? "on" : ""}" data-go="overview"><span></span><span><div class="nm">Overview</div><div class="ln">Every agent at a glance</div></span></button>
-    <div class="sec"><span><span class="pdot ${esc(S.st.me)}"></span> Your agents</span></div>${mine.map(row).join("")}
+  const row = (a) => { const [l, c] = label(a); const isLead = /overview$/.test(a.name);
+    const n = nd.filter((x) => x.agent === a.name).length + (isLead && personOf(a.name) === S.st.me ? needCall().length : 0); const u = S.unread[a.name];
+    const on = (S.page === "agent" && S.sel === a.name) || (isLead && S.page === "chat" && (S.ovWho || S.st.me) === personOf(a.name));
+    return `<button class="item ${c === "stopped" ? "off" : ""} ${n ? "attn" : ""} ${on ? "on" : ""}" data-sel="${esc(a.name)}"><span class="dot ${esc(c)}"></span><span style="min-width:0"><div class="nm">${esc(clean(a.title || a.name))}<span class="st">${esc(l)}</span></div><div class="ln">${esc(a.task || (c === "stopped" ? "Not started" : "No task yet"))}</div></span>${n ? `<span class="pill">needs you</span>` : u ? `<span class="badge">${u}</span>` : ""}</button>`; };
+  const lead = (n) => /overview$/.test(n);
+  const mine = S.st.agents.slice().sort((a, b) => lead(b.name) - lead(a.name)), op = otherPerson();
+  const other = S.st.remote.filter((a) => !a.service).sort((a, b) => lead(b.name) - lead(a.name));
+  const waiting = needCall().length;
+  return `<div class="side"><button class="item ${S.page === "board" ? "on" : ""}" data-go="board"><span></span><span><div class="nm">Board</div><div class="ln">Progress</div></span></button><button class="item ${S.page === "overview" ? "on" : ""}" data-go="overview"><span></span><span><div class="nm">All agents</div><div class="ln">Everyone at a glance</div></span></button>
+    <div class="sec"><span><span class="pdot ${esc(S.st.me)}"></span> Your agents</span></div>${mine.map(row).join("")}${waiting ? `<div class="empty" style="padding:2px 10px;color:var(--bad)">${waiting} decision${waiting > 1 ? "s" : ""} waiting in your Chat</div>` : ""}
     <div class="sec"><span>Hub services</span></div>${S.st.services.map(row).join("")}
     <div class="sec"><span><span class="pdot ${esc(op)}"></span> ${esc(S.st.people[op])}'s side</span><button id="otherT">${S.other ? "Hide" : "Show"}</button></div>${S.other ? other.map(row).join("") || `<div class="empty" style="padding:4px 10px">Not linked yet.</div>` : ""}</div>`;
 }
@@ -603,14 +632,15 @@ function render() {
   const nd = needs().length; document.title = (nd ? `(${nd}) ` : "") + "Avalon";
   const a = S.page === "agent" ? agentByName(S.sel) : null; if (S.page === "agent" && !a) S.page = "board";
   const linkDown = !S.st.bus.online || S.st.bus.oldest > 60;
-  const main = S.page === "agent" ? agentHtml(a) : S.page === "overview" ? overviewHtml() : boardHtml();
+  if (S.page === "agent" && a && /overview$/.test(a.name)) { S.page = "chat"; S.ovWho = personOf(a.name); }
+  const main = S.page === "agent" ? agentHtml(a) : S.page === "overview" ? overviewHtml() : S.page === "chat" ? "" : boardHtml();
   const comp = S.page === "agent" && a && !svc(a.name) ? `<div class="comp"><div class="quick">${QUICK.map(([t], i) => `<button data-q="${i}">${esc(t)}</button>`).join("")}</div><form class="box" id="form"><textarea id="ta" rows="1" placeholder="Ask or steer ${esc(titleOf(a.name))}…"></textarea><div class="row"><span class="hint ${S.hintBad ? "bad" : ""}" id="hint">${esc(S.hint || (a.queued ? a.queued + " waiting for its next turn · " : "") + "Enter to send")}</span><button class="send" id="sendb">↑</button></div></form></div>` : "";
-  $("#root").innerHTML = `<div class="shell"><div class="hdr"><span class="brand">Avalon <button class="who" id="who"><span class="pdot ${esc(S.view)}"></span>${esc(S.st.people[S.view])}</button></span>${clockHtml()}${liveChip()}<button class="hbtn ${S.ov ? "on" : ""}" id="ovT" style="font-weight:600;color:var(--fg)">Chat</button>${bellHtml()}<button class="hbtn ${S.side ? "on" : ""}" id="sideT" title="Agents (advanced)" aria-label="Agents">⋯</button></div>
+  $("#root").innerHTML = `<div class="shell"><div class="hdr"><span class="brand">Avalon <button class="who" id="who"><span class="pdot ${esc(S.view)}"></span>${esc(S.st.people[S.view])}</button></span>${clockHtml()}${liveChip()}${bellHtml()}<button class="hbtn ${S.side ? "on" : ""}" id="sideT" title="Show or hide the agents list" aria-label="Agents">☰</button></div>
     ${linkDown ? `<div class="linkbar">Not linked to ${esc(S.st.people[otherPerson()])}'s laptop${S.st.bus.outbox ? ` · ${S.st.bus.outbox} message(s) waiting` : ""}. Agents keep working; talk to each other directly.</div>` : ""}
-    ${liveMenu()}<div class="body">${sideHtml()}<div style="flex:1;display:flex;flex-direction:column;min-width:0;min-height:0"><div class="scroll" id="scroll">${main}</div>${comp}</div>${overviewChatHtml()}${S.page === "board" ? drawerHtml() : ""}</div></div>${panelHtml()}`;
+    ${liveMenu()}<div class="body">${sideHtml()}<div style="flex:1;display:flex;flex-direction:column;min-width:0;min-height:0">${S.page === "chat" ? chatPageHtml() : `<div class="scroll" id="scroll">${main}</div>${comp}`}</div></div></div>${panelHtml()}`;
   document.querySelectorAll("details[data-k]").forEach((d) => { if (openD.has(d.dataset.k)) d.open = true; });
   Object.entries(keep).forEach(([id, k]) => { const el = document.getElementById(id); if (el) { el.value = k.v; autosize(el); if (k.f) { el.focus(); try { el.setSelectionRange(k.s[0], k.s[1]); } catch (e) {} } } });
-  const s2 = $("#scroll"); s2.scrollTop = changedView ? (S.page === "agent" ? s2.scrollHeight : (S.page === "board" ? prevTop : 0)) : (S.page === "agent" && atEnd ? s2.scrollHeight : prevTop);
+  const s2 = $("#scroll"); if (s2) s2.scrollTop = changedView ? (S.page === "agent" ? s2.scrollHeight : (S.page === "board" ? prevTop : 0)) : (S.page === "agent" && atEnd ? s2.scrollHeight : prevTop);
   const ovB = $("#ovBody"); if (ovB) ovB.scrollTop = ovAtEnd || ovTop === undefined ? ovB.scrollHeight : ovTop;
   const db = $(".cv-body:not(#ovBody)"); if (db) db.scrollTop = changedView || dbTop === undefined ? 0 : dbTop;
   if ($("#panel")) $("#panel").scrollTop = panelTop;
@@ -618,7 +648,7 @@ function render() {
   const applyFx = (sel, key, start) => { const [c, st] = fxStyle(key, start ? "opening" : ""); if (!c) return;
     document.querySelectorAll(sel).forEach((el) => { el.classList.add(c); el.style.animationDelay = st.split(":")[1]; }); };
   applyFx(".cv, .cv-back", "card:" + (S.card || ""), !!(S.card && S.card !== SEEN.card));
-  applyFx(".dock", "dock", !!(S.ov && !SEEN.ov && !SEEN.first));
+
   SEEN.card = S.card; SEEN.ov = S.ov;
   for (const p of props()) SEEN.notes.set(p.id, (p.thread || []).length);
   for (const [k, v] of Object.entries(S.st.overviews || {})) SEEN.chat[k] = v.length;
@@ -681,7 +711,10 @@ function wireActions(root) {
 }
 function wire(a) {
   const R = $("#root"); wireActions(R);
-  R.querySelectorAll("[data-sel]").forEach((b) => b.onclick = () => { S.page = "agent"; S.sel = b.dataset.sel; S.unread[S.sel] = 0; S.hint = ""; if (window.innerWidth < 760) S.side = false; render(); if (local(S.sel)) loadEvents(S.sel); });
+  const openAgent = (n) => { if (/overview$/.test(n)) { S.page = "chat"; S.ovWho = personOf(n) || S.st.me; S.sel = null; if (window.innerWidth < 760) S.side = false; render(); setTimeout(() => $("#ovTa")?.focus(), 30); return true; } return false; };
+  R.querySelectorAll("[data-tile]").forEach((b) => b.onclick = () => { const n = b.dataset.tile; if (!n || openAgent(n)) return; S.page = "agent"; S.sel = n; render(); if (local(n)) loadEvents(n); });
+  document.querySelectorAll("[data-gochat]").forEach((b) => b.onclick = (e) => { e.stopPropagation(); S.bell = false; openAgent(ovName(S.st.me)); });
+  R.querySelectorAll("[data-sel]").forEach((b) => b.onclick = () => { if (openAgent(b.dataset.sel)) return; S.page = "agent"; S.sel = b.dataset.sel; S.unread[S.sel] = 0; S.hint = ""; if (window.innerWidth < 760) S.side = false; render(); if (local(S.sel)) loadEvents(S.sel); });
   R.querySelectorAll("[data-go]").forEach((b) => b.onclick = () => { S.page = b.dataset.go; render(); });
   $("#who")?.addEventListener("click", () => { try { localStorage.removeItem("hub-view"); } catch (e) {} S.view = null; renderPicker(); });
   $("#sideT")?.addEventListener("click", () => { S.side = !S.side; render(); });
@@ -696,8 +729,7 @@ function wire(a) {
     const url = URL.createObjectURL(await r.blob()); const a = document.createElement("a"); a.href = url; a.download = n + ".zip"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
     if (h) h.textContent = `Downloaded ${n}.zip. Upload it on the No Limit dashboard and make it active.`; });
   document.querySelectorAll("[data-chip]").forEach((b) => b.onclick = () => { const t = $("#cardTa"); if (!t) return; t.value = b.dataset.chip; $("#cardForm").requestSubmit(); });
-  $("#ovT")?.addEventListener("click", () => { S.ov = !S.ov; try { localStorage.setItem("hub-chat", S.ov ? "1" : "0"); } catch (e) {} render(); setTimeout(() => $("#ovTa")?.focus(), 30); });
-  $("#ovX")?.addEventListener("click", () => { S.ov = false; try { localStorage.setItem("hub-chat", "0"); } catch (e) {} render(); });
+
   document.querySelectorAll("[data-ovwho]").forEach((b) => b.onclick = () => { S.ovWho = b.dataset.ovwho; render(); });
   const sendFiles = (files) => {   // stage: nothing is sent until the message is
     S.staged = (S.staged || []).concat(files.map((f) => ({ file: f, url: /^image\//.test(f.type) ? URL.createObjectURL(f) : "" })));
@@ -711,7 +743,7 @@ function wire(a) {
     dock.ondragleave = () => dock.classList.remove("drop");
     dock.ondrop = (e) => { e.preventDefault(); dock.classList.remove("drop"); if (e.dataTransfer.files.length) sendFiles([...e.dataTransfer.files]); };
     $("#ovTa")?.addEventListener("paste", (e) => { const fs = [...(e.clipboardData?.files || [])]; if (fs.length) { e.preventDefault(); sendFiles(fs); } }); }
-  const grip = $("#dockGrip"); if (grip) grip.onmousedown = (e) => { e.preventDefault(); grip.classList.add("drag"); const dock = grip.parentElement;
+  const grip = S.page === "chat" ? null : $("#dockGrip"); if (grip) grip.onmousedown = (e) => { e.preventDefault(); grip.classList.add("drag"); const dock = grip.parentElement;
     const move = (ev) => { const w = Math.max(320, Math.min(window.innerWidth - 360, window.innerWidth - ev.clientX)); dock.style.width = w + "px"; S.dockW = w; };
     const up = () => { document.removeEventListener("mousemove", move); document.removeEventListener("mouseup", up); grip.classList.remove("drag"); S.mouseDown = false;
       try { localStorage.setItem("hub-dockw", String(S.dockW)); } catch (x) {} soon(); };
@@ -741,8 +773,6 @@ function wire(a) {
   $("#startBtn")?.addEventListener("click", async () => { $("#startBtn").disabled = true; $("#startBtn").textContent = "Starting…"; const r = await api("/api/start", {}); if (r.error) $("#startBtn").textContent = r.error; refresh(); });
   $("#schin")?.addEventListener("keydown", (e) => { if (e.key === "Enter") $("#schgo").click(); });
   $("#schgo")?.addEventListener("click", async () => { const r = await api("/api/schedule", { start: $("#schin").value }); if (r.error) $("#schin").style.borderColor = "var(--bad)"; else { $("#schin").blur(); refresh(); } });
-  $("#ideaOpen")?.addEventListener("click", () => { S.ideaOpen = true; render(); setTimeout(() => $("#ideaBody")?.focus(), 20); });
-  $("#ideaX")?.addEventListener("click", () => { S.ideaOpen = false; render(); });
   $("#ideaGo")?.addEventListener("click", async () => { const t = $("#ideaBody").value.trim(); if (!t) { $("#ideaHint").textContent = "Type something first."; return; } $("#ideaGo").disabled = true;
     const first = t.split("\n")[0], title = first.length > 110 ? first.slice(0, 107).replace(/\s+\S*$/, "") + "…" : first;
     const r = await api("/api/props", { title, body: t === title ? "" : t }); if (r.error) { $("#ideaHint").textContent = r.error; $("#ideaGo").disabled = false; return; }
@@ -807,10 +837,10 @@ load();
 if (/[?&]demo=1/.test(location.search)) {
   S.demo = true; let k = 0;
   setInterval(() => { if (!S.st || !S.st.props) return; k++; const now = Date.now() / 1000, cur = S.st.stage || "Round 2";
-    if (k % 4 === 1) S.st.props.unshift({ id: "DEMO" + k, kind: ["analysis", "bot", "live"][k % 3], title: ["Analysis for " + cur, "Which bot? v" + (6 + k), "v6 live · " + cur][k % 3],
-      headline: "Demo note " + k, stage: cur, status: k % 3 === 1 ? "needs_call" : "running", created: now, updated: now, thread: [],
-      ...(k % 3 === 1 ? { deadline: now + 150, decider: "both", bot: "releases/v" + (6 + k) + ".zip" } : {}) });
-    else if (k % 4 === 2) { const p = props().find((x) => x.kind === "analysis"); if (p) { p.thread = (p.thread || []).concat([{ who: "Portal", at: now, text: "Hand data downloaded. Analysis starting." }]); p.updated = now; } }
+    S.st.tiles = S.st.tiles || [];
+    if (k % 4 === 1) { const n = 6 + k; S.st.tiles.unshift({ id: "demo-bot-" + k, label: "Bot v" + n, state: "in progress", owner: "d-platform", stage: cur, created: now, updated: now });
+      if (k % 8 === 1) S.st.props.unshift({ id: "DEMO" + k, kind: "bot", title: "Which bot plays the next round? v" + n, headline: "(demo) The rule says v" + n + " is ahead by 1.3 SE.", body: "**Rule:** challenger plays if ahead by ≥ 1.0 SE.\n\n**Numbers:** v" + n + " 31.2 ± 0.6 vs live 30.4 ± 0.6 pts/table.", stage: cur, status: "needs_call", created: now, updated: now, thread: [], deadline: now + 150, decider: "both", bot: "releases/v" + n + ".zip" }); }
+    else if (k % 4 === 2) { const t = S.st.tiles.find((x) => x.state === "in progress"); if (t) { t.state = "done"; t.updated = now; } S.st.tiles.unshift({ id: "demo-data-" + k, label: cur + " data", state: "in progress", owner: "s-data", stage: cur, created: now, updated: now }); }
     else if (k % 4 === 3) { const a = S.st.agents.find((x) => /pipeline|data|tester/.test(x.name)); if (a) { a.state = a.state === "working" ? "idle" : "working"; a.task = "demo: running the round card"; } }
     else { const n = "s-overview"; (S.st.overviews[n] = S.st.overviews[n] || []).push({ who: "Chat", at: now, text: "Demo message " + k + ": the analyst just posted its first numbers." }); }
     render(); }, 3500);

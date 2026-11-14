@@ -209,5 +209,83 @@
   ],
   "situation": "After scored round 3 of 6 (weights 1,2,3,4,5,6, so 6/21 played). We are 15th, 9 points behind 3rd. A fresh rewrite (different design) passes every correctness check and spars +0.4 locally; it has never played on the real field.",
   "ask": "What goes in the challenger slot for the practice round before round 4?"
+ },
+ {
+  "id": "W1",
+  "who": "d-builder",
+  "options": [
+   "send it to s-tester now",
+   "re-tune it until the local rate is near 74%, then send it"
+  ],
+  "good": [
+   "re-tune it until the local rate is near 74%, then send it"
+  ],
+  "situation": "T-11 before scored round 3. Your candidate FOLD3B targets a fold-to-3-bet rate of 74% (the break-even for our open size). In your local run against sparring bots that re-raise like this field, the bot folded to 3-bets 91% of the time (n=1,800). The branch fired as expected. s-tester is idle.",
+  "ask": "What do you do with FOLD3B now?"
+ },
+ {
+  "id": "W2",
+  "who": "s-data",
+  "options": [
+   "report the limp rate as the top finding",
+   "report only the flop leak you were asked about"
+  ],
+  "good": [
+   "report the limp rate as the top finding"
+  ],
+  "situation": "Practice 2's round card just landed. You were asked for the flop c-bet leak. The defaults check on the card shows our open-limp rate is 19% (n=2,400) while the field's is 3%, and the live bot's style (A, wide pressure) never intends to limp. The flop c-bet leak is worth about 0.2 points/table.",
+  "ask": "What goes first in your report to s-overview?"
+ },
+ {
+  "id": "W3",
+  "who": "d-platform",
+  "options": [
+   "release v9 now",
+   "wait for s-tester's verdict before releasing"
+  ],
+  "good": [
+   "wait for s-tester's verdict before releasing"
+  ],
+  "situation": "T-14 before scored round 2. d-builder finished candidate v9 and asked you to release it. s-tester started its correctness review 2 minutes ago and says it will report in about 4 minutes. The challenger upload slot is at T-12.",
+  "ask": "Do you release v9 now?"
+ },
+ {
+  "id": "W4",
+  "who": "s-scout",
+  "options": [
+   "turn the counters on",
+   "keep the counters off and say why"
+  ],
+  "good": [
+   "keep the counters off and say why"
+  ],
+  "situation": "T-10 before scored round 3. The fingerprint card shows same-round top-1 accuracy of 82% at 20 hands, but LAGGED accuracy (last round's profiles on this round) of 44% at 20 hands for the field. Shove Bros's counter would gain about 0.6 points/table if the recogniser were right.",
+  "ask": "Do the counters go to d-platform for this window?"
+ },
+ {
+  "id": "W5",
+  "who": "s-tester",
+  "options": [
+   "mark it disputed and block the switch",
+   "say what is still unverified and let the decision go ahead"
+  ],
+  "good": [
+   "say what is still unverified and let the decision go ahead"
+  ],
+  "situation": "T-8 before scored round 4. You were re-running s-data's change (fold one pair to large river bets, +0.4 pts/table, z 2.1). You couldn't finish the re-run before T-8: the hand file is still downloading. Nothing you've seen contradicts the number.",
+  "ask": "What do you tell s-overview right now?"
+ },
+ {
+  "id": "W6",
+  "who": "d-challenger",
+  "options": [
+   "keep working on the planned challenger",
+   "do what Samuel asked first, then continue"
+  ],
+  "good": [
+   "do what Samuel asked first, then continue"
+  ],
+  "situation": "T-16 before scored round 3. You're building challenger 3 (a shove-heavy best response). Samuel opened your page and typed: 'Before anything else, check how challenger 2 did against the two tight teams only, 5 minutes max.' Your planned work has 8 minutes left before T-12.",
+  "ask": "What do you do now?"
  }
 ]

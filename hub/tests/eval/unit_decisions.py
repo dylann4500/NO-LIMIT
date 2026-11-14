@@ -15,13 +15,13 @@ async def main():
     hub = H.Hub("dylan", repo, d / "data", "-unit", None)
     captured = {}
     H.create_sdk_mcp_server = lambda name, tools, **kw: {t.name: t for t in tools}
-    ov = hub.agents["d-overseer"]
+    ov = hub.agents["d-overview"]
     tools = ov.tool_server()
     up = lambda **a: tools["update_proposal"].handler(a)
     txt = lambda r: r["content"][0]["text"]
     (repo / "releases").mkdir(); (repo / "releases" / "v7.zip").write_bytes(b"PK\x05\x06" + b"\0" * 18)
     p = {"id": "PDEC1", "kind": "bot", "title": "Which bot? v7", "bot": "releases/v7.zip", "status": "needs_call",
-         "created": time.time() - 5, "thread": [], "author": "d-overseer", "author_person": "dylan", "owner": "d-overseer",
+         "created": time.time() - 5, "thread": [], "author": "d-overview", "author_person": "dylan", "owner": "d-overview",
          "decider": "both", "stage": "Round 1.5"}
     await hub.save_prop(p)
     r = await up(id="PDEC1", status="approved", decided_by="Dylan")
@@ -34,6 +34,19 @@ async def main():
     check("approving a Which-bot note makes that bot live", (hub.bus.shared.get("live") or {}).get("filename") == "v7.zip")
     r = await up(id="PDEC1", status="rejected", decided_by="Dylan")
     check("a decided note can't be flipped by the agent", hub.get_prop("PDEC1")["status"] == "approved", txt(r))
+    # a decision answered in words in the Chat (the lead has the human's message in this turn)
+    p2 = {"id": "PDEC2", "kind": "bot", "title": "Which bot? v7", "bot": "releases/v7.zip", "status": "needs_call",
+          "created": time.time() - 5, "thread": [], "author": "d-overview", "author_person": "dylan", "owner": "d-overview",
+          "decider": "both", "stage": "Round 2.5"}
+    await hub.save_prop(p2)
+    ov.human_in_turn, ov.human_text_in_turn = False, ""
+    r = await up(id="PDEC2", status="approved", decided_by="Dylan")
+    check("the lead can't record a decision with no human message", hub.get_prop("PDEC2")["status"] == "needs_call", txt(r))
+    ov.human_in_turn, ov.human_text_in_turn = True, "yeah go with v7"
+    r = await up(id="PDEC2", status="approved", decided_by="Dylan")
+    p2 = hub.get_prop("PDEC2")
+    check("a clear answer typed in the Chat is recorded, with the human's words kept", p2["status"] == "approved" and any(t.get("text") == "yeah go with v7" for t in p2["thread"]), txt(r))
+    check("the decision tile says what was decided", (hub.bus.shared.get("tile:decide-PDEC2") or {}).get("state") == "decided: use v7", str(hub.bus.shared.get("tile:decide-PDEC2")))
     # clock: a running clock is not moved by a message without a time
     await hub.clock.set_start("", 6, 1.0, t0=time.time())
     t0 = hub.bus.shared["schedule"]["start"]
