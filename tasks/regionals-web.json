@@ -12,6 +12,11 @@
       "at": "2026-11-14T23:05:51Z",
       "by": "samuel",
       "text": "claimed"
+    },
+    {
+      "at": "2026-11-14T23:13:24Z",
+      "by": "samuel",
+      "text": "For finals-saturday (holds finals_pack): research/regionals_web/REPORT.md \u00a70 is worth folding into notes/pre/field.md + variants.md: Pittsburgh weights 1,2,3,5,8,13 (R6=41%), 146 teams, top 5 = Pluto/Cold Decks/Poker is all you need/Hold Em Trophies/Claude Mythos 5.5 (16 of 20 finalists now known)."
     }
   ],
   "owner": "samuel",
@@ -24,5 +29,5 @@
   "result": "",
   "state": "active",
   "title": "Web/GitHub/X sweep for traces of top teams at each regional + Pittsburgh standings analysis",
-  "updated_at": "2026-11-14T23:05:51Z"
+  "updated_at": "2026-11-14T23:13:24Z"
 }
