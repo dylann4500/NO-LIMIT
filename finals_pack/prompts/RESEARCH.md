@@ -95,7 +95,8 @@ Then, still in the build hour:
 - **About minute 12 (when the first tables are in): theory wave 2.** The twist's value with betting, multiway all-in
   tables, the value of what the twist reveals about neighbours, and the tables' field columns refitted against
   variant-aware sparring. Don't let `theory` sit idle.
-- **On every release** (BUILDER sends "RELEASED vN <sha256> ..."): spawn a fresh `tester` for that release, in parallel
+- **On every release after v1** (BUILDER sends "RELEASED vN <sha256> ..."; v1's verdict comes from the minute-0
+  `tester`, which has the rig): spawn a fresh `tester` for that release, in parallel
   with any others (one tester continued serially fell behind by three releases). Its verdict goes to BUILDER for the
   `VERSIONS.md` line. **No bot plays a scored round without a tester verdict that includes a heads-up run** (heads-up
   decides 50 vs 30 points). Every verdict reports the kit's `check_or_fold` floor in the same field and the load

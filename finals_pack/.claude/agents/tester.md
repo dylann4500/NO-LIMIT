@@ -20,7 +20,8 @@ verdicts given). Read-only: `bot/`, `candidates/`, `releases/`, `analysis/`, `th
 
 **Pre-event** (if briefed; notes only, NO code): `notes/pre/testplan.md` (FIRST_PROMPT Part 0, topic D). A draft from 14 November is already there: check and extend it in place and list what changed at the top; don't start over.
 
-**Every release, from v1 on** (RESEARCH spawns one fresh tester per release): its verdict (below), always including a
+**Every release, from v1 on** (v1's from the build-hour tester that builds the rig; from v2 on RESEARCH spawns one fresh
+tester per release): its verdict (below), always including a
 heads-up run (`--players 2`). A bot plays a scored round only with a tester verdict that includes one.
 
 **Build hour:**
