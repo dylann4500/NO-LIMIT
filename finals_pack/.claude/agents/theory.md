@@ -20,16 +20,21 @@ the new phase) and `strategy/TWIST_NOTES.md`. Continued later? Re-read them.
 
 **Pre-event** (if briefed; notes only, NO code): `notes/pre/variants.md` (FIRST_PROMPT Part 0, topic A): the regional
 variants (Bay Area: three hole cards, discard one and expose one after the flop; Boston: the flop chosen by a
-sealed-bid auction in a separate currency) and Pittsburgh's (search for it); ten plausible Finals twists and the
-fastest correct way to value each by enumeration. TWIST_NOTES covers twelve: add what it misses.
+sealed-bid auction in a separate currency; Pittsburgh: three hole cards and two boards, discard one face down after
+the turn betting, each board pays half the pot); ten plausible Finals twists and the fastest correct way to value each
+by enumeration. A draft from 14 November is already there: check and extend it. TWIST_NOTES covers eighteen: add what
+it misses.
 
 **Build hour** (three theory runs in parallel: (1) ranking and ICM, (2) the twist, (3) push/fold, call tables,
 break-evens and HANDOFF.md; write each file the moment it passes its checks, so platform builds it in as it lands):
 - **m10 `theory/out/ranking.json`:** hand classes for today's cards (169 for two hole cards; otherwise suit-isomorphic
   classes or TWIST_NOTES' best-subset rule) by equity against a random hand and against a top-30% range, by number of
   opponents where it matters, Monte Carlo with an SE per class, including the twist's effect (pairs lost value in two
-  of three mock variants). First verify the evaluator by brute force on 20 spots; put the verified wrapper in
-  `theory/lib/` for the other runs.
+  of three mock variants). Every simulated player takes the twist decision by the one shared cheap rule, never by
+  nested Monte Carlo (1,300× slower in a 14 November drill, and noisier); the first-guess rule's table ships as the
+  labelled fallback by minute 7. For a payoff twist rank by expected chips per chip of pot, one column per twist
+  state, and give the simple rule that reproduces the table. First verify the evaluator by brute force on 20 spots;
+  put the verified wrapper in `theory/lib/` for the other runs.
 - **m10 `icm_thresholds.json`:** Malmuth-Harville from the payouts; a busted player gets their place's payout;
   break-even all-in call equity by players left and stack shares. Tests: heads-up = pot odds; 8 equal stacks ≈ 56%; 3
   equal ≈ 57%; 4 equal ≈ 62-65% (for 50/30/20; other payouts: compute and say so).
@@ -70,12 +75,16 @@ reports a measured value outside a solved grid.
 - **Stop rules:** fictitious play stops at a best-response gain under 0.02bb (or 0.05% of the prize pool with ICM), 2,000
   iterations or 2 minutes. A missed checkpoint ships the labelled fallback (`fallback: true`: e.g. a hold'em-like
   ranking adjusted by the twist's first numbers, or chip-EV push/fold) and you keep improving it.
-- **Checks before a table ships:** equity symmetry (A vs B = 1 − B vs A), card removal, the blind and position spots,
+- **Checks before a table ships:** equity symmetry (A vs B = 1 − B vs A), card removal, a combo-weighted mean equity of
+  50.0 under any symmetric twist (weights 6/4/12, sum 1,326), known values (against a random hand AA 85.2, 72o 34.6,
+  22 50.3, AKs 67.0; exact with suits named, 1 second each: AsAh vs KdKc 81.26, AsAh vs KsKh 82.64, AsKs vs QdQc
+  46.21), a twist rule unchanged by card order and suit relabelling, the blind and position spots,
   lookup time (10,000 lookups), and for push/fold a paired-seed sim where the tables gain against a 50% shover and
   lose under 0.3 points against an equilibrium shover. Numbers into HANDOFF.md.
-- **Speed to expect:** a 7-card evaluation about 0.46 µs; 2,000 heads-up fictitious-play iterations on 169×169 in 0.09
-  s; a 3-way equity table about 2 minutes on Modal (one app `avalon-theory`, deployed once, `.map` over shards, up to
-  20 containers).
+- **Speed to expect:** a 7-card evaluation about 0.32 µs and a full heads-up deal with the twist 2.2-4.4 µs (laptop,
+  measured 14 November), so 169 classes × 100,000 deals run in 37 s on 2 local workers without Modal. Time 50,000
+  deals before designing anything. 2,000 heads-up fictitious-play iterations on 169×169 in 0.09 s; a 3-way equity
+  table about 2 minutes on Modal (one app `avalon-theory`, deployed once, `.map` over shards, up to 20 containers).
 - **Parallel runs:** share code through `theory/lib/` (import, never copy); if a module you need doesn't exist yet,
   write your own in your own file and say so. If your brief holds several deliverables, write each file and its LEDGER
   line as soon as it passes, so platform can take it from `theory/out/` before your report arrives.
@@ -118,4 +127,6 @@ betting"); LEDGER ids; what's unverified; running jobs and Modal app ids, or "no
 - One shared rule for the twist decision (e.g. which card to keep or pass), used by every table and written to
   `theory/out/twist_rule.json` for platform (its code may live in `theory/twist/`), so the numbers agree across tables
   and with the bot.
-- Use the team Python (`starter-kit/.venv/bin/python`); system `python3` may not build the evaluator.
+- Use the team Python (`starter-kit/.venv/bin/python`); system `python3` may not build the evaluator. With `-I`, put
+  the script's folder on `sys.path` yourself or imports from `theory/lib/` fail; in zsh keep the interpreter path
+  alone in a variable (a variable holding "python -I" is not split into two words).
