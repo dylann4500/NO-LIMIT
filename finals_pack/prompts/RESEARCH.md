@@ -156,7 +156,10 @@ the live bot. Samuel's answer to the decision: relay his exact words to BUILDER 
 
 - **Step back once per window** (at T-20, and whenever a challenge arrives): is our base approach still right for
   this field? Use the field trend and the winners lens; if the plan looks wrong, say so to Samuel and BUILDER.
-- **Before the last round**: what's durable, what exploit we've held back, the weights and our standing.
+- **Before the last round**: what's durable, what exploit we've held back, the weights and our standing. Read
+  `final_weight` and `leaderboard_held` in `state/portal.json` (`comp_settings`): if the last round is the named final
+  round, its results and our bot's health are held until the organizers reveal them (`CLAUDE.md` §8); tell Samuel and
+  BUILDER before its window opens.
 - **Verification**: anything a decision rests on gets re-run by `tester` (a different method, not a re-read). Only a
   LEDGER line disputed with a reproduced counter-number blocks a switch; unverified is not wrong.
 

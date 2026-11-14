@@ -644,7 +644,8 @@ team's profile, not as changes to our default play.
 
 **What we could not establish.** Whether aggression wins in a field of 20 strong teams (the regional
 field was softer; published evidence is mixed). Whether Sunday's organizers switch on options the platform
-has (a late-revealed final weight, a hidden leaderboard, culling, ICM luck correction). How any of the
+has (a final round whose results are held until the organizers reveal them, a held leaderboard, culling, ICM luck
+correction: `CLAUDE.md` §8). How any of the
 strategy numbers transfer to a variant we haven't seen: that is why Part 2 exists and why every number in
 Part 1 is labelled a starting value.
 

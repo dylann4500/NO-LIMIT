@@ -187,4 +187,12 @@ shown as "Culled at look k". Its round still scores, on the tables it played, an
 normal (read from the portal's code; it was off at the regional). For us: fewer tables that round, so a noisier
 score, and nothing else: no rule or bar changes.
 
+**The last round may be dark, and the leaderboard can be held at any moment** (read from the portal's code; neither
+was used at the regional). If the competition names a final round (`final_weight` in `state/portal.json`,
+`comp_settings`), that round's results and our own bot's health report are held until the organizers reveal them:
+nothing from it reaches us. When the leaderboard is held, the standings are hidden and every round that finishes
+during the hold has its results held too, practice rounds included. What we do is already written: with the
+standings hidden we count as outside the top 3 unless we were clearly in it, and with no practice result by T-6 the
+rule's answer is the live bot (`DECISION_RULES.md` §3, `prompts/RESEARCH.md`).
+
 More, with what it changes for the bot: `notes/pre/format_finals.md`.

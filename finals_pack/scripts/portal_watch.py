@@ -777,7 +777,8 @@ class Watcher:
                 self.st["standings_held"] = True
                 self.say("both", "the portal marks the standings as held: totals may be stale. Until they're back, "
                                  "DECISION_RULES treats us as outside the top 3 unless we were clearly in it; RESEARCH works "
-                                 "out our total from each round's results x weights.")
+                                 "out our total from each round's results x weights (rounds that finish during the hold have their "
+                                 "results held too: no score for those until release).")
             elif not held and self.st.get("standings_held"):
                 self.st["standings_held"] = False
                 self.say("both", "the standings can be read again.")

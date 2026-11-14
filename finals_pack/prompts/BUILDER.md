@@ -110,7 +110,7 @@ running before you spawn anything.
 
 | When | You |
 |---|---|
-| T-20 | The previous round started. Sync with RESEARCH in 3 lines (what changed, what you need, the plan). Start the "Which bot?" draft in `state/decisions.md`. If `state/clock.md` shows these are the last two rounds, apply the last-rounds bar (DECISION_RULES §3) and plan the last round. The challenger for this window should be packed and tested by T-16. |
+| T-20 | The previous round started. Sync with RESEARCH in 3 lines (what changed, what you need, the plan). Start the "Which bot?" draft in `state/decisions.md`. If `state/clock.md` shows these are the last two rounds, apply the last-rounds bar (DECISION_RULES §3) and plan the last round (if it is the named final round, the portal holds its results and our bot's health report: `CLAUDE.md` §8). The challenger for this window should be packed and tested by T-16. |
 | T-15 | `platform` releases the challenger (`releases/vN.zip`, VERSIONS line with its sha256). Nothing tested: pick the most informative released bot instead. |
 | T-13 | Data lands (RESEARCH analyses it). Spawn in ONE message: `challenger` (start the NEXT window's challenger from the data in hand: D matured, the best response to the measured mix, a PLAN CHALLENGE's alternative, or a rewrite; say why); `stylist` (this window's live-bot fixes from the one-change lines already in the LEDGER, persistent leaks first; one stylist per new line as RESEARCH sends it, due by T-9; scout's counters); `platform` (bug fixes; integrate the fixes). |
 | T-12 | Tell Dylan the challenger's exact file: "activate releases/vC.zip now (upload it if it isn't on the portal yet)". Don't `live.py` it: `state/live.json` stays the scored-round bot. |
