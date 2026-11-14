@@ -12,6 +12,11 @@
       "at": "2026-11-14T14:09:18Z",
       "by": "dylann29",
       "text": "claimed"
+    },
+    {
+      "at": "2026-11-14T14:13:33Z",
+      "by": "dylann29",
+      "text": "done: 20,000 tables (80 shards x 250, regional kit, v10/v9s/v6/v3b x2) in 143.9 s wall = 139 tables/s; 6 failed decisions in 18.7M; paired diff +-0.27 (95%). Per-table results: cloud/results/bench80_20k.json (local). tester.md and FIRST_PROMPT updated on emu/rehearsal."
     }
   ],
   "owner": "dylann29",
@@ -19,8 +24,8 @@
   "posted_at": "",
   "posted_by": "",
   "priority": 0,
-  "result": "",
-  "state": "active",
+  "result": "20,000 tables (80 shards x 250, regional kit, v10/v9s/v6/v3b x2) in 143.9 s wall = 139 tables/s; 6 failed decisions in 18.7M; paired diff +-0.27 (95%). Per-table results: cloud/results/bench80_20k.json (local). tester.md and FIRST_PROMPT updated on emu/rehearsal.",
+  "state": "done",
   "title": "Modal scaling check at Sunday's 80-container cap: 20,000 tables, regional kit and bots, to replace the tester's unmeasured throughput target",
-  "updated_at": "2026-11-14T14:09:18Z"
+  "updated_at": "2026-11-14T14:13:33Z"
 }
