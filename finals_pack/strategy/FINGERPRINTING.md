@@ -14,8 +14,8 @@ Everything here is written live on the day from this description; no code is bro
 - **No timing data** exists in downloads; don't use timing.
 - **Bot limits:** memory 64 KB (keep under 16 KB, survive truncation), no cross-table globals; the bot may read
   data files shipped in its zip. Profiles ship as data; per-table state lives in memory.
-- **Tables:** at 8 seats, 8 + 8 + 4 teams with 4 fillers at the short table, each team at about 7 of our 19 tables;
-  at 6 seats (`CLAUDE.md` §8), four tables with 4 filler seats, each team at about 5 in 23 of ours. Take the table
+- **Tables:** 21 teams make 24 seats an iteration with 3 filler seats: three tables at 8 seats, each opponent at
+  roughly a third of ours; four tables at 6 seats (`CLAUDE.md` §8), each opponent at roughly a quarter of ours. Take the table
   size from the rules card. Each team appears at most once per table (a free constraint).
 - **Regional results** (`research/finals_prep/identity/REPORT.md`): recognition 59/73/79% at 10/20/40 hands
   with sizes (21/31/41% without); same-round held-out 73/90/96%; profiles two rounds old 53/66/72% (expect
@@ -29,9 +29,9 @@ Everything here is written live on the day from this description; no code is bro
   limp, iso, 3-bet, 4-bet, c-bet, donk, probe, raise vs bet, twist), heads-up or multiway, stack depth
   (<=15, 15-40, >40 bb). Outcome: binned size (opens 0.25 bb, bets 0.1 pot, 3-bets 0.25x the raise), an
   exact-chip token, a rounding token (amount mod 5/10/25), min-raise and all-in flags; plus fold/call/raise.
-- **Classifier:** multinomial naive Bayes over 21 classes (19 opponents, filler, unknown/new bot). The
-  likelihood table (about 600 tokens x 21, float32, about 50 KB) ships as a data file; per seat, memory holds
-  21 log-scores and a count (about 90 B; under 2 KB for 7 seats). Each new event adds a row (under 60 µs per
+- **Classifier:** multinomial naive Bayes over 22 classes (20 opponents, filler, unknown/new bot). The
+  likelihood table (about 600 tokens x 22, float32, about 50 KB) ships as a data file; per seat, memory holds
+  22 log-scores and a count (about 90 B; under 2 KB for 7 seats). Each new event adds a row (under 60 µs per
   turn). Posterior per hand: softmax(score/T + log prior), T fitted for calibration; then 3 Sinkhorn passes so
   each team's mass across the table's seats is at most 1 (fillers exempt).
 - **Unknown gate:** if the best class's mean log-likelihood per event is below that team's 5th percentile on

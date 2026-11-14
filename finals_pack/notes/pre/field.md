@@ -7,7 +7,7 @@ rates may not survive the twist. Reference values: Appendix A.
 
 ## 1. One page: the crowded styles
 
-| Style on Sunday | Share of the 19 (confidence) | Evidence | What punishes it |
+| Style on Sunday | Share of the other teams (confidence; written for 19, there are 20) | Evidence | What punishes it |
 |---|---|---|---|
 | **Wide pressure with seat learning**: opens 40%, 3-bets 25-40%, re-raises a seat again once it folds, c-bets 80-90% | 40-50% as a first scored bot (medium) | Regional top 20: 5% of teams in round 1, 37% in round 6 (top 5: 20% to 60%); ten of 19 had a per-seat response (A). The public winning story | 4-bets: these bots folded 66-86% to them and the field 4-bet only 7-8% (A). Not folding the first 3-bet at a table: 2 Curry then re-raised 7%, against 43% after a fold (A) |
 | **Counter-wave defenders**: fold to 3-bets under 58%, 4-bet 15%+, big blind folds under 45% | 25-35% (low-medium) | Boston's top 20 by round 5 (A, estimated list). Three of Bay Area's top six folded 38-57% and called 31-48% (A) | 3-bets for value only, tighter opens, thinner value bets |
@@ -47,7 +47,7 @@ carry 71% of the weight with multipliers 1 to 6 (official rules; 81% with Fibona
 
 ## 3. What to measure in practices 1 and 2
 
-Noise is one standard deviation in a 1,000-table file: pooled field / one team at its 370 of our tables (at 8 seats),
+Noise is one standard deviation in a 1,000-table file: pooled field / one team at its 370 of our tables (at 8 seats with 20 teams; roughly 300-350 with 21),
 measured by cutting rounds 3 and 5 into 1,000-table chunks (A). Pooled field rates are tight ("±2 points" is
 their 95% band at worst); one team's rare spots are not; the top 5 pooled sit near half the team figure.
 Sampling is not the risk: the field's own move to the next round averaged 1.3-1.6 points per rate (A). So act

@@ -33,7 +33,7 @@ of each release). They may spawn their own helpers.
   NO bot code (event rules):
   - `platform`: the first-hour build plan (FIRST_PROMPT Part 0 topic C) → `notes/pre/buildplan.md`;
   - `stylist`: what wins sit-and-gos of AI-built bots (topic B) → `notes/pre/whatwins.md`;
-  - `challenger`: the contrarian memo: assume 19 strong teams read the same regional lessons; three designs that
+  - `challenger`: the contrarian memo: assume 20 strong teams read the same regional lessons; three designs that
     would beat that field, what each loses to, how one practice round tells us which this field pays →
     `notes/pre/contrarian.md`.
 

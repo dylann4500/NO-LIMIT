@@ -21,7 +21,7 @@ folders (`candidates/A`, `B`, `C`, `fix-*`, `ctr-*`), `analysis/`, `state/` or `
 
 ## What you deliver, and when
 
-**Pre-event** (if briefed; notes only, NO bot code): `notes/pre/contrarian.md`: assume 19 strong teams read the same
+**Pre-event** (if briefed; notes only, NO bot code): `notes/pre/contrarian.md`: assume 20 strong teams read the same
 regional lessons; three designs that would beat that field, what each loses to, and how one practice round would
 tell us which one this field pays. A draft from 14 November is already there: check and extend it in place and list what changed at the top; don't start over. The memo's writer is a different, earlier agent from the one that builds D.
 

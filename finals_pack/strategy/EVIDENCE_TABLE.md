@@ -6,7 +6,7 @@ without a test. This table is the gate. **A row changes the prompt pack only at 
 
 Sources are the study reports in `research/finals_prep/` (literature, redteam, adaptation, identity,
 clone_field). All data is one regional (Bay Area, 148 teams, one variant) seen from our tables only, plus
-a friend's Boston files. Nothing here has been tested on a 20-team field.
+a friend's Boston files. Nothing here has been tested on a 21-team field.
 
 ## Grades
 
@@ -109,7 +109,7 @@ pressure, shove-heavy and tight, and every style folds no more than about 75% to
   wrong-sign cases named. No tuning on the targets.
 - **No untouched holdout exists** for our own bots: every scored round has been looked at. The true
   out-of-sample tests are the rehearsal and Sunday's practice rounds.
-- A synthetic 20-team field is not expected to reproduce our regional scores; those are different
+- A synthetic 21-team field is not expected to reproduce our regional scores; those are different
   competitions. It is judged on behaviour profiles and on rank dynamics.
 
 ## 5. What has not been done at all

@@ -55,8 +55,8 @@ jobs on it run after the T-3 upload. Jobs (5 minutes unless briefed otherwise):
   pool each action across stack and player-count cells (Σ uses × difference) and rank on the POOLED figure. Then how
   the field treats us (our opens re-raised, our bets called or raised by street, our shoves called) vs others.
 - **`winners`** (Part 2, questions 3-4): the 5 best other teams by points per table, pooled, in cells where they have
-  30+ uses (say how many tables they played: with 20 teams each sits at about 370 of 1,000 of our tables at 8 seats and
-  roughly 220-250 at 6 seats, against 55 at the regional: count it; their order is still noisy); their frequency
+  30+ uses (say how many tables they played: with 21 teams each sits at roughly 300-350 of 1,000 of our tables at 8 seats
+  and 220-250 at 6 seats, against 55 at the regional: count it; their order is still noisy); their frequency
   vs ours and how the action does for THEM against their own fold; rank the biggest "they do it more and it pays for
   them" gaps; then which action rates correlate with points across all teams. Trust the direction, not the size.
   Don't filter by our style or the plan: if the answer is "play a different style", that's a PLAN CHALLENGE.

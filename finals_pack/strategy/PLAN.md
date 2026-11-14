@@ -196,7 +196,7 @@ each brief is to check and extend the draft in place and list what changed at th
 | | RESEARCH | `tester`: topic D: today's test plan (sparring bots, paired deals, noise first, replay on a download, the cloned field on Modal, a confirmation run) | `notes/pre/testplan.md` |
 | | BUILDER | `platform`: topic C: the first-hour build plan (the safety shell, three layers, what to precompute at import, a 0.3 ms equity estimate, per-seat estimates with priors, the checks that catch the bugs that sank bots) | `notes/pre/buildplan.md` |
 | | BUILDER | `stylist`: topic B: what wins sit-and-gos of AI-built bots (preflop aggression with planned responses, postflop folding vs bluff rates, shove-or-fold by depth, ICM for other payouts, heads-up and 3-handed) | `notes/pre/whatwins.md` |
-| | BUILDER | `challenger`: the contrarian memo: assume 19 strong teams read the same regional lessons; three designs that would beat that field, what each loses to, how one practice round would tell us which this field pays | `notes/pre/contrarian.md` |
+| | BUILDER | `challenger`: the contrarian memo: assume 20 strong teams read the same regional lessons; three designs that would beat that field, what each loses to, how one practice round would tell us which this field pays | `notes/pre/contrarian.md` |
 | | RESEARCH | itself: merge the six into one page; both humans read the contrarian memo | `notes/plan.md` |
 
 **The build hour** (`b<n>` = minutes from the announcement)

@@ -1,10 +1,10 @@
 # Team avalon at the No Limit Finals: read this first (every Claude, every session)
 
-Sunday 15 November 2026, San Francisco. 20 teams build poker bots live with AI agents. The variant is announced at
+Sunday 15 November 2026, San Francisco. 21 teams (the portal's Finals list on 14 November) build poker bots live with AI agents. The variant is announced at
 minute 0 with a starter kit; then a build hour with 4 practice rounds, then about 6 scored rounds 20 minutes apart,
 each with a practice round 10 minutes before it at Bay Area (the organizers' pages promise practice rounds only in the
 build hour: §8). Only the top 3 teams are paid ($100,000 / $50,000 / $25,000): 4th
-is worth the same as 20th. (50/30/20 is something else: the points a table gave its 1st-3rd at the regional. The
+is worth the same as last. (50/30/20 is something else: the points a table gave its 1st-3rd at the regional. The
 Finals' points per place are announced with the variant.) Humans: **Dylan** (steers BUILDER, uploads bots on the portal) and **Samuel** (steers RESEARCH).
 
 ## 1. Who runs where
@@ -179,10 +179,10 @@ announced and an organizer can override it: confirm each line from the kit and t
   Whether the ante is paid by every player or once a hand is in the kit's engine, not in the portal.
 - Points per place, the decision limit and the time bank are not part of that default: probably still 50/30/20,
   which pays half of a 6-seat table, and 1 ms.
-- 20 teams at 6 seats make 4 tables an iteration with 4 filler seats: non-scoring copies of bots not already at that
-  table, which still take finishing places.
+- The 21 teams make 24 seats an iteration with 3 filler seats, at 8 seats (3 tables) or at 6 (4 tables): fillers are
+  non-scoring copies of bots not already at that table, which still take finishing places.
 - If so, by arithmetic: the field's mean score is the points paid divided by the seats, about 16.7 a table and not
-  12.5; each opponent sits at about 5 in 23 of our tables (roughly 220-250 in 1,000, not 370); one bot's spread per
+  12.5; each of the 20 opponents sits at roughly 220-250 of 1,000 of our tables (300-350 at 8 seats); one bot's spread per
   table is about 19, not 17.9 (`notes/pre/testplan.md` section 1).
 
 **Rules are per round** (the portal's round schema; how often organizers use it is unknown). Between rounds an

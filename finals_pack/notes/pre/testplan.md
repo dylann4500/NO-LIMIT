@@ -85,13 +85,13 @@ Rerun the top two on fresh deals before recommending either: in the clean-room t
 | 30 pre-event bots that tested locally | 18 found it neutral or wrong-signed | A |
 
 - **Can predict**: legality and speed; a hole against a simple strategy; whether a targeted rate is hit; a heads-up regression (-1.9 ± 0.4 shipped unchecked: A); a collapse of several points, once the cloned field is calibrated.
-- **Cannot predict**: an order within 1-2 points; strength from beating our own bots; adaptive rules; how 19 strong teams respond.
-- **The practice round judges, with noise of its own.** A 1,000-table practice has a standard error of at least 0.7 (A, regional), so two practices must differ by 2 points to mean anything (arith.). A fixed bot scored 0.37 ± 0.06 higher in practice than in the next scored round (A). Only 8-17% of regional teams kept one bot from scored round through practice to scored round (A): among 19 opponents expect 2-4 yardsticks, so the field-median fallback will be usual (C).
+- **Cannot predict**: an order within 1-2 points; strength from beating our own bots; adaptive rules; how 20 strong teams respond.
+- **The practice round judges, with noise of its own.** A 1,000-table practice has a standard error of at least 0.7 (A, regional), so two practices must differ by 2 points to mean anything (arith.). A fixed bot scored 0.37 ± 0.06 higher in practice than in the next scored round (A). Only 8-17% of regional teams kept one bot from scored round through practice to scored round (A): among 20 opponents expect 2-4 yardsticks, so the field-median fallback will be usual (C).
 
 ## 8. If the format is not the one assumed
 
 - **Not 8-handed or other payouts**: redo section 1's first row; section 2 scales by the square of the spread. Run every field at today's table size: a rehearsal ran every test at the wrong one (A).
-- **Fillers**: with 20 teams about a fifth of our tables may seat copies of submitted bots (C): add that table shape once the Format page confirms it.
+- **Fillers**: with 21 teams there are 3 filler seats an iteration, so about a quarter of our tables at 8 seats and a seventh at 6 may seat copies of submitted bots (C): add that table shape once the Format page confirms it.
 - **Hold'em-only**: the first four sparring bots value hands as hold'em does; the replay deck order is the regional engine's and must be probed again.
 
 ## Sources

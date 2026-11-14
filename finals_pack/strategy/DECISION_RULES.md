@@ -11,7 +11,7 @@ Who is who (`CLAUDE.md` §1): the **BUILDER** session (Dylan; subagents `platfor
 ## 1. What we are playing for
 
 Only the top 3 teams are paid: $100,000, $50,000 and $25,000 (official rules). Finishing 4th pays the same as
-finishing 20th, so our goal is the best chance of a top-3 finish, not the smallest chance of a bad round. (50 / 30 /
+finishing last, so our goal is the best chance of a top-3 finish, not the smallest chance of a bad round. (50 / 30 /
 20 is not the prizes: it is the points a table gave its 1st-3rd at the regional, and the rules say the points per
 place can change with the variant; they are announced at minute 0.)
 
@@ -63,7 +63,7 @@ asked by the BUILDER session at T-8; decided by the humans):
   rounds: edge = (challenger's practice score − the yardsticks' practice scores) − (live bot's last scored score
   − the yardsticks' scored scores). With fewer than 4 yardsticks, use scores minus the field median, and say so.
   Pool the challenger's practice rounds when its core is unchanged. Practice SE is **at least 0.7** points per
-  table (more with 20 teams); z = edge / SE of the edge.
+  table (more with 21 teams); z = edge / SE of the edge.
 - Play the challenger if it passed rule 2.1 and:
   - **we are outside the top 3, or the standings are hidden and we weren't clearly in it**: z ≥ **0.5**
     (**the last-rounds bar**: z ≥ 0 in the last two rounds: a coin flip with upside beats certain 4th);
@@ -231,8 +231,8 @@ that counter-wave.
   shove) held only in pure simulated fields on the Bay Area variant; at realistic mixes no lead exceeded 1.4 points,
   and the clones could not rank strong teams. Today's rules may make another axis matter more (the twist,
   postflop, short stacks). Practice rounds decide.
-- **Opponent exploitation is core work, not optional:** each team sits at about 7 of our 19 tables at the
-  Finals if tables seat 8, about 5 in 23 if they seat 6 (`CLAUDE.md` §8); profiles and counters run every window.
+- **Opponent exploitation is core work, not optional:** each of the 20 other teams sits at about a third of our
+  tables if tables seat 8 and about a quarter if they seat 6 (`CLAUDE.md` §8); profiles and counters run every window.
 - **Read the round weights, payouts and cooldown from the Format page**; never assume weights 1-6. The portal's
   `round_weighting` names the series: linear (1 to 6), Fibonacci (1, 2, 3, 5, 8, 13: Boston and Pittsburgh used it) or
   powers of two (1 to 32). The watcher keeps it in `state/portal.json` (`comp_settings`) and posts any change.

@@ -8,7 +8,7 @@
 - The memo's table reproduces. Its claim that the top-3 bar is too cautious does not hold: for a team in the top 3 the caution costs about half a percentage point of top-3 chance when things go well and earns one to three when practice flatters the challenger.
 
 Notes only; no bot code. Grades: **A** measured on regional data, **C** model or judgment. Everything about
-Sunday's 20-team field is C until practice data lands. "Points" are points per table; "percentage points" are
+Sunday's 21-team field is C until practice data lands. "Points" are points per table; "percentage points" are
 chances of a final top 3.
 
 ## 1. How good the practice filter was at the regional (A)
@@ -89,7 +89,7 @@ not put us ahead), and "the top-3 bar is too cautious".
 ## 5. If you make one edit
 
 No bar needs it. In section 3's first bullet, replace "Practice SE is **at least 0.7** points per table (more
-with 20 teams); z = edge / SE of the edge." with:
+with 21 teams); z = edge / SE of the edge." with:
 
 > SE of the edge: the standard deviation of the yardstick teams' own (practice score − last scored score),
 > times √(1 + 1/number of yardsticks), when there are 6 or more yardsticks; with fewer, 0.8. Never below 0.7.
@@ -100,7 +100,7 @@ to 1.4 would cost 1-2 percentage points.
 
 ## 6. Not verified
 
-- The filter's accuracy in a 20-team field; whether Sunday's practices have 1,000 tables.
+- The filter's accuracy in a 21-team field; whether Sunday's practices have 1,000 tables.
 - The mean and spread of our own challengers: the regional figures are other teams' bots.
 - The top-3 bar: model only.
 - The windows before rounds 1 and 2 (no team kept one bot from practice 3 into round 1; practice 5 was never

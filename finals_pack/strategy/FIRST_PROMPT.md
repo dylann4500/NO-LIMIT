@@ -43,7 +43,7 @@ B `stylist`, C `platform`, D `tester`, plus two more: `scout` on what the Finals
 ```
 We're competing today in the finals of the No Limit pokerbot tournament: no-limit sit-and-gos (8 players at the regional; possibly 6 with deeper stacks and antes today), a
 poker variant announced at the start, bots as one Python file with a 1 ms decision limit, a 60-minute
-build, then six scored rounds 20 minutes apart, 20 strong teams, only the top 3 win anything. Research and
+build, then six scored rounds 20 minutes apart, 21 strong teams, only the top 3 win anything. Research and
 write notes (no bot code): <ONE OF THE FOUR TOPICS BELOW>. Be concrete and brief; separate what's
 well-supported from what's a guess.
 
@@ -69,10 +69,10 @@ D. A test plan: sparring bots, paired deals, measuring noise first, replaying ou
 ## Part 1 · The first prompt (`platform` and `stylist`, from the announcement)
 
 ```
-We're one of 20 teams in the finals of a live pokerbot tournament. The variant was just announced and we
+We're one of 21 teams in the finals of a live pokerbot tournament. The variant was just announced and we
 have 60 minutes to build a bot from scratch, then six scored rounds 20 minutes apart, with later rounds
-weighted more. The other 19 teams are strong and are also using frontier coding agents, so a merely
-correct bot finishes mid-table. Only the top 3 win anything, so 4th and 20th are worth the same to us:
+weighted more. The other 20 teams are strong and are also using frontier coding agents, so a merely
+correct bot finishes mid-table. Only the top 3 win anything, so 4th and last are worth the same to us:
 when choosing which bot or style to run, take the bolder option when the evidence is roughly even.
 That is about our choices between rounds, not about chip decisions: our score is an average over
 thousands of tables, so inside a hand always take the play with the higher expected value. Keep the
@@ -407,8 +407,8 @@ all-ins and the last four players | how the field treats us>:
    uses x difference) and rank on the POOLED figure: per cell, one leak splits into many small rows. An action we chose that still
    does worse than folding is a real leak, and this figure is a floor on what stopping it recovers.
 3. What the best teams do that we don't: take the 10 best other teams in this file by points per table
-   (with 20 teams: the 5 best), pooled into one group, and only cells where they have at least 30 uses;
-   say how many tables they played (in a 1,000-table sample, about 370 each with 20 teams at 8 seats and roughly 220-250 at
+   (with 21 teams: the 5 best), pooled into one group, and only cells where they have at least 30 uses;
+   say how many tables they played (in a 1,000-table sample, roughly 300-350 each with 21 teams at 8 seats and 220-250 at
    6 seats, against 55 at the regional: count it; their ranking is still noisy). For each situation and action, their frequency and ours, and how that
    action performs for THEM against their own fold. Rank the biggest "they do it more, and it pays for
    them" gaps. Trust the direction, not the size: they choose their hands, so the average overstates what
@@ -512,7 +512,7 @@ Extend rig/ with a cloned field, rebuilt from each new download, run on Modal.
 ## Part 4 · Team profiles (`scout`, from the first downloads; refreshed every round)
 
 ```
-From the hand histories so far, build a profile for each of the other 19 teams: the distribution of their
+From the hand histories so far, build a profile for each of the other 20 teams: the distribution of their
 exact open-raise sizes in big blinds by position, their bet sizes as a fraction of the pot by street,
 their rates for every tendency the bot tracks, and from showdowns, what their bets and raises on each
 street turned out to be (bluff, draw, value) and how weak they call. Embed the profiles in the bot (as a data
@@ -550,7 +550,7 @@ Teams change, between rounds and within a table, so nothing in a profile is cons
   us, and list our rates at the rare decisions next to the field's. A large gap is a question, not a
   verdict: say what an opponent who knew it would do, what that would cost us, and whether the gap is a
   deliberate exploit; only then is closing it a candidate change.
-Don't assume eight seats or 20 teams' worth of tables: read the table size from the state every hand.
+Don't assume eight seats or 21 teams' worth of tables: read the table size from the state every hand.
 Nothing learned at one table may be carried to another; profiles come only from the downloads.
 ```
 
@@ -643,7 +643,7 @@ team's profile, not as changes to our default play.
 | Strategy iteration beats infrastructure in the hour | Pilot: nine versions in 41 minutes (15.3 points) vs one parameter tuned all hour (9.7); one agent idle 31 of 60 minutes | Four simulated teams |
 | Latency tail is GC, cold calls and jitter | Our 2.6 ms GC outlier; 0.4-7.7 ms outliers measured even with GC disabled | Measured |
 
-**What we could not establish.** Whether aggression wins in a field of 20 strong teams (the regional
+**What we could not establish.** Whether aggression wins in a field of 21 strong teams (the regional
 field was softer; published evidence is mixed). Whether Sunday's organizers switch on options the platform
 has (a final round whose results are held until the organizers reveal them, a held leaderboard, culling, ICM luck
 correction: `CLAUDE.md` §8). How any of the

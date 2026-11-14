@@ -4,7 +4,7 @@ Notes only: designs are described in words; nothing here is bot code. Grades as 
 `strategy/EVIDENCE_TABLE.md`: **A** measured at the regional, **C** judgment, model or simulation. Numbers are
 from `notes/pre/field.md` (its Appendix A) unless a source is named.
 
-## 1. The bot 19 teams will build
+## 1. The bot 20 teams will build
 
 Same lessons, same agents, similar prompts. The consensus bot opens about 40%, 3-bets 25-40%, re-raises a seat
 again once it has folded, c-bets 75-90%, folds one pair to a raise, shoves by chart when short and folds
@@ -45,7 +45,7 @@ field: that is the finding, and D or the best response to the measured mix takes
 ## 4. Only the top 3 are paid: what that does to risk
 
 **The prizes are $100,000 / $50,000 / $25,000 (official rules); 50/30/20 is the points per table.** 4th earns
-what 20th earns, and 1st earns four times 3rd.
+what last earns, and 1st earns four times 3rd.
 
 - **Theory.** When fewer than half the contestants win (here 15%), more variance and less correlation with
   rivals both raise the chance of winning (Gaba, Tsetlin and Winkler 2004); the weak should maximise
