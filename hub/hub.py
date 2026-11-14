@@ -3351,7 +3351,10 @@ class PortalWatcher:
         while True:
             try:
                 fast = self.finishing()
-                if not fast or time.time() - last_full >= self.SLOW or seen is None:
+                live = self.hub.bus.shared.get("live") or {}
+                pending = bool(live.get("filename")) and norm_bot(live.get("filename")) != norm_bot(
+                    (self.hub.bus.shared.get("portal_active") or {}).get("filename")) and time.time() - live.get("at", 0) < 1800
+                if not fast or pending or time.time() - last_full >= self.SLOW or seen is None:
                     await self.poll()          # the full check: rounds, results, standings, the active bot
                     last_full = time.time()
                     seen = await self.round_ids() if fast else None
@@ -3366,7 +3369,11 @@ class PortalWatcher:
                 self.hub.set_service("s-portal", "Portal", "error", f"Portal not answering ({type(e).__name__}); retrying")
                 if self.fails == 3:
                     await self.hub.add_alert("s-portal", "The portal has not answered for 3 checks in a row.", True)
-            await asyncio.sleep(self.FAST if self.finishing() else self.SLOW)
+            live = self.hub.bus.shared.get("live") or {}
+            act = self.hub.bus.shared.get("portal_active") or {}
+            uploading = bool(live.get("filename")) and norm_bot(live.get("filename")) != norm_bot(act.get("filename")) \
+                and time.time() - live.get("at", 0) < 1800   # Dylan is uploading the live bot: confirm it fast
+            await asyncio.sleep(self.FAST if self.finishing() else 10 if uploading else self.SLOW)
 
     async def identify(self):
         """Our team and competition. The real portal answers /auth/api-key for API keys (/me is browser-only)."""
