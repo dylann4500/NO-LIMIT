@@ -165,27 +165,36 @@ happen again.
 - Facts about rounds (started, finished, results, active bot) come only from `state/status.md` and `data/`, with
   their time. Never assume a round is running.
 
-## 8. The format may differ from the regional's
+## 8. Which table we play: case F (main) and case R (fallback)
 
-Every number in `strategy/` and `notes/pre/` comes from the regional: 8 seats, 2,000 chips (100 big blinds), blinds
-from 10/20 rising every 20 hands with no ante, a 250-hand cap, 50/30/20 for 1st-3rd, a 1 ms decision limit, round
-weights 1 to 6. None of that is promised for today. The rules card (`bot/rules.json`, from the kit and the Format
-page) decides, and whatever depends on seats, stack depth, antes, payouts or weights is recomputed from it.
+Decided by Dylan on Saturday 14 November: the team prepares for **case F**, the Finals defaults in the portal's own
+code, as the main case, and keeps **case R**, the regional's table, as the fallback. Neither is announced. The Finals'
+Format page on Saturday afternoon still showed case R, but it is the shared template and no round had been set. The
+kit's `state.config` and `RULES.md` and the Format page decide at minute 0: the first line of `platform`'s rules card
+says which case holds (F, R, or what differs from both), and BUILDER tells every agent and RESEARCH at once.
 
-**The likely Finals case.** This is a default seen in the portal's own code on 14 November. It has not been
-announced and an organizer can override it: confirm each line from the kit and the Format page at minute 0. The
-Finals' Format page on Saturday afternoon still showed the regional's table (8 players, 2,000 chips, 10/20, no ante),
-but it is the shared template and no round had been set. Both cases are open.
-- 6 players a table; 6,000 chips, which is 300 big blinds at the start; antes from the first level; 12 blind levels
-  of 20 hands, from 10/20 with a 4 ante to 2,000/4,000 with 800; a 250-hand cap (the last level starts at hand 221).
-  Whether the ante is paid by every player or once a hand is in the kit's engine, not in the portal.
-- Points per place, the decision limit and the time bank are not part of that default: probably still 50/30/20,
-  which pays half of a 6-seat table, and 1 ms.
-- The 21 teams make 24 seats an iteration with 3 filler seats, at 8 seats (3 tables) or at 6 (4 tables): fillers are
-  non-scoring copies of bots not already at that table, which still take finishing places.
-- If so, by arithmetic: the field's mean score is the points paid divided by the seats, about 16.7 a table and not
-  12.5; each of the 20 opponents sits at roughly 220-250 of 1,000 of our tables (300-350 at 8 seats); one bot's spread per
-  table is about 19, not 17.9 (`notes/pre/testplan.md` section 1).
+| | Case F (main) | Case R (fallback) |
+|---|---|---|
+| Seats and stack | 6 players, 6,000 chips: 300 big blinds at hand 1 | 8 players, 2,000 chips: 100 big blinds |
+| Blinds and antes | 12 levels of 20 hands, 10/20 to 2,000/4,000, each with an ante of 20% of the big blind from the first level (4 at 10/20; the format note counts it per player: check the kit's engine) | the same levels, no ante |
+| Hand cap | 250 | 250 |
+| Points per place | probably 50/30/20, which pays half the table (not part of the code's default) | 50/30/20: 3 of 8 paid |
+| An iteration, with 21 teams | 4 tables, 3 filler seats | 3 tables, 3 filler seats |
+| The field's mean score | 16.7 a table | 12.5 |
+| Tables one opponent shares with us | about a quarter: roughly 250 of 1,000 | about a third: 300-350 |
+| Equity to call all-in, equal stacks | 58.1% on hand 1; 60.6% with 5 left, 65.2% with 4, 57.1% with 3, pot odds heads-up | 55.6% on hand 1; the same from 4 left down |
+| Hands a table | about 155; a seat is dealt 105-115 (simulated) | about 131; a seat is dealt 90 |
+| One bot's spread a table; paired noise | 18.9; about 22/√tables (estimate: measure it) | 17.9; about 21/√tables |
+| Sparring field | five copies beside the candidate | seven |
+| Rig speed | about 0.9 of the case-R rate (estimate: time the first job) | as measured in `tester.md` |
+| A bot that only folds | out near hand 121, about 11 of 16.7 (simulated) | out near hand 102, about 7 of 12.5 |
+| Round weights | linear, 1 to 6, as of Saturday afternoon | 1 to 6 at Bay Area |
+
+The case-F column is arithmetic, or simulation on the regional kit's engine, from `notes/pre/format_finals.md`, which
+also gives what changes for the bot: depth by level, prices with the ante, where shove-or-fold starts. Everything else
+in `strategy/` and `notes/pre/` was measured in case R: a figure with no case label is a case-R figure, to be
+recomputed from the rules card in case F. Fillers are non-scoring copies of bots not already at that table; they
+still take finishing places.
 
 **Rules are per round** (the portal's round schema; how often organizers use it is unknown). Between rounds an
 organizer can change the table rules (seats, stack, blinds and antes, payouts, time limits), the iterations, the
