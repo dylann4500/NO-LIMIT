@@ -48,7 +48,11 @@ of each release). They may spawn their own helpers.
 
 If minute 0 has already passed when you see `b0` (a late start, a restart), it's a reminder: check what's already
 running before you spawn anything.
-1. **The kit:** Dylan runs `/no-limit-2026-setup` in this session (it fetches the kit into `starter-kit/` and sets up
+1. **Which case?** The first thing to establish (`CLAUDE.md` §8): is the table case F (6 players, 6,000 chips, antes) or case R (8 players, 2,000 chips, no ante),
+   or something else? The kit's `state.config` and `RULES.md` and the Format page decide; `platform`'s rules card says
+   it in its first line. The moment you know, tell Dylan, every running subagent and RESEARCH in one line. Until then
+   every brief says "expect case F; check the kit first".
+   **The kit:** Dylan runs `/no-limit-2026-setup` in this session (it fetches the kit into `starter-kit/` and sets up
    its Python) or downloads it from the portal into `starter-kit/`. **The Format page:** Dylan pastes or screenshots
    it to you; save it as `notes/format.md` (RESEARCH's tester checks the rules card against it). Check the variant
    loads in the kit's engine with the kit's Python; if it doesn't, tell Dylan and RESEARCH at once. (No

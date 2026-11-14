@@ -82,8 +82,9 @@ research (notes only, no code: it checks and extends Saturday's drafts in `notes
 2. **Dylan** runs `/no-limit-2026-setup` in BUILDER (it fetches the kit into `starter-kit/` and builds its Python;
    answer "only on this computer", not the build box),
    or downloads the kit from the portal into `starter-kit/`, and tells BUILDER "the kit is in starter-kit/".
-3. **Both** read the portal's Format page: table size, stacks and antes, weights, payouts, the upload cooldown,
-   anything unusual (`CLAUDE.md` §8 says what may differ from the regional). If the shape
+3. **Both** read the portal's Format page. First: which case is the table, case F (6 players, 6,000 chips, antes) or case R (8 players, 2,000 chips, no ante)
+   (`CLAUDE.md` §8)? Say it to your session in those words. Then weights, payouts, the upload cooldown, anything
+   unusual. If the shape
    differs (build length, round spacing, number of rounds), tell RESEARCH in words ("the build is 90 minutes",
    "rounds are every 30 minutes", "there are 5 scored rounds"). Paste or screenshot the Format page into BUILDER
    too (the rules card needs it).

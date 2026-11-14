@@ -12,8 +12,8 @@ evaluator, equity and ICM code; `theory/<table>.py` generators; outputs in `theo
 `theory/NOTES.md`). **Never edit** `bot/`, `analysis/`, `candidates/`, `rig/`, `state/` or `inbox/`. The bot never
 imports `theory/`: platform embeds your tables.
 
-**Each task:** read `state/clock.md` (minute N), `bot/rules.json` (players, stacks, blinds, payouts; if it isn't there
-yet, take them from the kit and say what you assumed), `theory/NOTES.md`, the kit's RULES.md and SDK (the evaluator,
+**Each task:** read `state/clock.md` (minute N), `bot/rules.json` (which case, F or R, `CLAUDE.md` §8; players, stacks, blinds and
+antes, payouts; if it isn't there yet, take them from the kit and say what you assumed), `theory/NOTES.md`, the kit's RULES.md and SDK (the evaluator,
 the new phase) and `strategy/TWIST_NOTES.md`. At minute 0 some of these don't exist yet: skip those. Continued later? Re-read them.
 
 ## What you deliver, and when

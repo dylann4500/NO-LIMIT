@@ -24,7 +24,8 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
 **Pre-event** (if briefed; notes only, NO bot code): `notes/pre/buildplan.md` (FIRST_PROMPT Part 0, topic C). A draft from 14 November is already there: check and extend it in place and list what changed at the top; don't start over.
 
 **Build hour** (minutes from the announcement):
-- **by 5, `bot/rules.json`:** players per table, stack, blinds, antes and their schedule, hands per match, time limit and
+- **by 5, `bot/rules.json`:** its first line says which case holds, F, R or what differs from both (`CLAUDE.md` §8), and
+  so does your report's first line (aim for minute 2: nothing else can be computed before it). Then players per table, stack, blinds, antes and their schedule, hands per match, time limit and
   time bank, memory limit, payouts, round weights and count, upload cooldown, fillers, the engine's name for the variant, the variant's phases, action
   kinds, `state.variant` keys, failure defaults, anything unusual in `state.config`; each with its source (kit
   file:line or "Format page", which Dylan gives BUILDER). Unconfirmed fields are marked so and named in your report.

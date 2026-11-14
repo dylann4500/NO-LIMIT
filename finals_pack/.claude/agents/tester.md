@@ -25,7 +25,8 @@ tester per release): its verdict (below), always including a
 heads-up run (`--players 2`). A bot plays a scored round only with a tester verdict that includes one.
 
 **Build hour:**
-- **~minute 5:** check `bot/rules.json` field by field against the kit and the Format page (players, stacks, blinds,
+- **~minute 5:** check `bot/rules.json` field by field against the kit and the Format page, its first line (case F or
+  case R, `CLAUDE.md` §8) first (players, stacks, blinds,
   hands per match, time limits, weights, payouts, cooldown). A rehearsal ran every test at the wrong table size:
   report any mismatch first.
 - **By 15, `rig/compare.py LIVE CAND... --tables N --field F [--players 2]`** (Part 3a): per candidate, points per
