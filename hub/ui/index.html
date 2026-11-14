@@ -148,8 +148,8 @@ button:active:not(:disabled) { transform: scale(.97); }
 .urgent-edge { position: fixed; inset: 0; pointer-events: none; z-index: 60; box-shadow: inset 0 0 0 4px #c81e1e, inset 0 0 36px 6px rgba(200, 30, 30, .45); animation: edge 1.4s ease-in-out infinite; }
 @keyframes edge { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
 @media (prefers-reduced-motion: reduce) { .urgent-edge { animation: none !important; opacity: 1; } }
-.waiting { border: 1px solid var(--bad); background: var(--bad-soft); border-radius: var(--r-surface); padding: 8px 10px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-size: .82rem; position: sticky; top: 0; z-index: 2; }
-.waiting b { color: var(--bad); margin-right: 4px; }
+.waiting:not(.dot):not(.lbl) { border: 1px solid var(--bad); background: var(--bad-soft); border-radius: var(--r-surface); padding: 8px 10px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-size: .82rem; position: sticky; top: 0; z-index: 2; }
+.waiting:not(.dot):not(.lbl) b { color: var(--bad); margin-right: 4px; }
 .cv-ag.urgent { border-left: 3px solid var(--bad); padding-left: 10px; background: var(--bad-soft); border-radius: 8px; }
 .staged { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
 .sfile { display: inline-flex; gap: 6px; align-items: center; border: 1px solid var(--line); border-radius: 10px; padding: 3px 6px 3px 3px; font-size: .76rem; background: var(--bg); max-width: 220px; }
@@ -311,7 +311,7 @@ const STAMP = { new: "new", planned: "planned", running: "working on it", needs_
 const BELL = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>`;
 function label(a) { if (!a) return ["", ""]; if (a.stale) return ["Offline", "offline"]; const st = a.state;
   if (st === "working") return ["Working" + (a.since ? " · " + Math.max(1, Math.round((Date.now() / 1000 - a.since) / 60)) + "m" : ""), "working"];
-  if (st === "waiting") return ["Waiting for you", "waiting"]; if (st === "limited") return ["Usage limit · " + (a.substate || "retrying"), "limited"];
+  if (st === "waiting") return [S.st.approvals.some((x) => x.agent === a.name) ? "Waiting for you" : "Waiting", "waiting"]; if (st === "limited") return ["Usage limit · " + (a.substate || "retrying"), "limited"];
   if (st === "error") return ["Error · " + (a.substate || "retrying"), "error"]; if (st === "stopped") return ["Off", "stopped"]; if (st === "starting") return ["Starting", "starting"];
   if (st === "blocked") return ["Blocked", "blocked"]; if (st === "done") return ["Done", "done"]; return ["Ready", "idle"]; }
 const props = () => (S.st.props || []).filter((p) => p.status !== "removed");
