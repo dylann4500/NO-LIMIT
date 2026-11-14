@@ -310,6 +310,11 @@ async def main():
         check("P2a", "'Analysis for Practice 1' note when results land", bool(an))
         files = list((out / "pd").rglob("hands-*.jsonl.gz"))
         check("P2b", "results and hand file saved", bool(files) and any((out / "pd").rglob("results.json")))
+        await api(s, S, "POST", "/api/agents/s-overview/send", {"text": "run the check"})
+        async def pf_dl():
+            return next((t for t in (await state(S)).get("overviews", {}).get("s-overview", [])
+                         if "hand-history download" in str(t.get("text")) and "saved and verified" in str(t.get("text"))), None)
+        check("PF4", "pre-flight downloads and verifies a real hand file once a round has finished", bool(await wait_for(pf_dl, 150, 3)))
         card = out / "repo-s" / "analysis" / "Practice-1" / "card.md"
         check("P3a", "the hub ran the round card script (card.md written)", bool(await wait_for(lambda: _exists(card), 30)))
         inbox = lambda n: json.loads((out / "data-s" / "agents" / n / "inbox.json").read_text()) \
