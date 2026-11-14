@@ -1,0 +1,28 @@
+{
+  "agent": "Samuels-MacBook-Pro-4",
+  "assignee": "",
+  "claimed_at": "2026-11-14T23:05:51Z",
+  "cmd": "",
+  "compute": "",
+  "details": "",
+  "expires_at": "2026-11-15T03:05:51Z",
+  "id": "regionals-web",
+  "log": [
+    {
+      "at": "2026-11-14T23:05:51Z",
+      "by": "samuel",
+      "text": "claimed"
+    }
+  ],
+  "owner": "samuel",
+  "paths": [
+    "research/regionals_web"
+  ],
+  "posted_at": "",
+  "posted_by": "",
+  "priority": 0,
+  "result": "",
+  "state": "active",
+  "title": "Web/GitHub/X sweep for traces of top teams at each regional + Pittsburgh standings analysis",
+  "updated_at": "2026-11-14T23:05:51Z"
+}
