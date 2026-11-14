@@ -67,7 +67,8 @@ Read prompts/RESEARCH.md now and follow it exactly, starting with its start-up s
 ```
 
 Then, about 2 hours before minute 0, type **"start the research"** into both sessions: each spawns its morning
-research (notes only, no code), and RESEARCH merges it into `notes/plan.md`.
+research (notes only, no code: it checks and extends Saturday's drafts in `notes/pre/`), and RESEARCH merges it into
+`notes/plan.md`.
 
 ## Minute 0 (the variant is announced)
 

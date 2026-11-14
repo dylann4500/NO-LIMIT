@@ -21,7 +21,7 @@ analysis/counters.json` for anything newer than what you've built in. Continued 
 
 ## What you deliver, and when
 
-**Pre-event** (if briefed; notes only, NO bot code): `notes/pre/buildplan.md` (FIRST_PROMPT Part 0, topic C).
+**Pre-event** (if briefed; notes only, NO bot code): `notes/pre/buildplan.md` (FIRST_PROMPT Part 0, topic C). A draft from 14 November is already there: check and extend it in place and list what changed at the top; don't start over.
 
 **Build hour** (minutes from the announcement):
 - **by 5, `bot/rules.json`:** players per table, stack, blinds and their schedule, hands per match, time limit and

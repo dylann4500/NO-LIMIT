@@ -25,7 +25,7 @@ Continued later? Re-read them.
 
 **Pre-event** (if briefed; notes only, NO code): `notes/pre/field.md`: what the Finals field will do. Every finalist
 knows the regional lessons (wide 3-betting won, per-seat adaptation, fold to 3-bets about 65%): which styles will be
-crowded, what punishes them, practice 1's field (mostly minimal bots) vs round 3's, what to watch first.
+crowded, what punishes them, practice 1's field (mostly minimal bots) vs round 3's, what to watch first. A draft from 14 November is already there: check and extend it in place and list what changed at the top; don't start over.
 
 **Build hour:**
 - **By minute ~25, `analysis/fp_train.py`** (FINGERPRINTING §1-2), run as

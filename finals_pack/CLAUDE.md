@@ -56,7 +56,7 @@ Your own start-up instructions are in `prompts/BUILDER.md` or `prompts/RESEARCH.
 | `rig/` | the test rig: paired runner, sparring bots, Modal fan-out | `tester` |
 | `notes/LEDGER.md` | what the team knows: one line per result (id, claim, effect ± se, n, method, file, status) | everyone appends; `tester` marks validated/disputed |
 | `notes/PLAN-builder.md`, `notes/PLAN-research.md` | each main session's own plan and memory (survives compaction) | each main session |
-| `notes/pre/` | the morning research | subagents, before minute 0 |
+| `notes/pre/` | the pre-event research: drafted on Saturday 14 November, then checked and extended in place on the morning, never rewritten (`stat_definitions.md`: how every field rate is counted). RESEARCH merges it into `notes/plan.md` | Saturday's drafts; subagents extend them before minute 0 |
 
 ## 4. Hard rules (these never bend)
 

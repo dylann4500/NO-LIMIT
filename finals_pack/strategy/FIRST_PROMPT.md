@@ -35,7 +35,8 @@ three regional variants, the organizers' pattern and three timed valuation drill
 checks the draft and adds anything the notes miss.
 
 The Boston winner had an agent researching for about 1.5 hours before the start. Give each subagent one of
-these, all writing to `notes/pre/`; RESEARCH merges them into `notes/plan.md`. In this setup: A `theory`,
+these, all writing to `notes/pre/` (a draft of each is already there from 14 November: check and extend it, don't
+start over); RESEARCH merges them into `notes/plan.md`. In this setup: A `theory`,
 B `stylist`, C `platform`, D `tester`, plus two more: `scout` on what the Finals field will do, and
 `challenger`'s contrarian memo (`PLAN.md` §5, step `pre`).
 

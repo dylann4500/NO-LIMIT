@@ -176,7 +176,8 @@ practices 1-3, no question then); practice 4 is its practice round, and practice
 challenger. From T-9 it runs like every window; the round-1 question is asked once, at T-8 (`DECISION_RULES.md`
 §3, "Round 1").
 
-**Before minute 0** (notes only, no bot code: event rules)
+**Before minute 0** (notes only, no bot code: event rules). Every file below was drafted on Saturday 14 November:
+each brief is to check and extend the draft in place and list what changed at the top, not to start over.
 
 | Step | Session | Subagent: the brief | Deliverable |
 |---|---|---|---|
