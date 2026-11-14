@@ -32,7 +32,7 @@ analysis/counters.json` for anything newer than what you've built in. Continued 
   and the upload cooldown in `state/status.md`. A mismatch with the kit or the Format page is your report's first line.
 - **by 10, `releases/v1.zip`:** a minimal legal bot handling every phase (the kit's default for anything unfamiliar)
   inside the safety shell, through the upload test. No strategy first: no active bot scores zero.
-- **by ~12, `bot/INTERFACE.md`:** settings (names, defaults), the decision hooks a style or fix may wrap, the
+- **by ~12, the full `bot/INTERFACE.md`** (its stub by minute 6, before v1: see the speedrun notes below)**:** settings (names, defaults), the decision hooks a style or fix may wrap, the
   estimates offered (seat counters with priors, equity, ICM call threshold, tables), the branch-count call, and two
   commands: pack a candidate folder into a test zip; run the checks on any zip. Keep it stable; report any change.
 - **by 15, the harness** (`bot/tools/`): in-process runner on the kit's engine (any mix of bots) reporting decision
