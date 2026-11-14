@@ -95,7 +95,14 @@ matches what wins, a PLAN CHALLENGE.
   bet faced preflop or at most 55% of the pot after; an all-in call is a call; the variant's phase its own class); and
   the hand's value to that team (tournament-points equity after minus before; both are in the file).
 - **Compare like with like:** only within the same cell; before the flop, only within the same position.
-- **Noise:** points per table have SE ≈ 13-20/√tables; 1,000-table samples swing about ±2 points; compare full files of
+- **Noise:** points per table have SE = 21/√tables: 0.66 at 1,000, 0.47 at 2,000, 0.30 at 5,000, 0.15 at 20,000; the
+  95% range is twice that. **Take every score from `results.json`** (every team over every table), never from a hand
+  file: the hand file shows other teams only at our tables, about 0.6-0.9 below their official scores. The first-1000
+  file is the round's first 1,000 iterations, a fair sample (measured on the regional, `notes/pre/first1000.md`), and
+  the full file starts with the same records: when it lands, re-run the card on its first 5,000 tables (15 s). Before
+  scoring us from a hand file, drop tables where our own entry id sits in a seat flagged filler (a copy of our bot:
+  not in the official score). Take the table count from the file, not from its name. A team-equal rate needs most
+  teams at 20+ chances: otherwise report it pooled with its n. Compare full files of
   the same round type; practice fields differ from scored ones. The best of k looks better by about 0.85 × SE at
   k = 3, 1.0 at 4, 1.5 at 10.
 - **A second method:** if `codex` is logged in, start `codex exec` in the background to recompute your top number from

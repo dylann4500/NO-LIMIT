@@ -72,7 +72,7 @@ Break-even equity to call all-in for our whole stack against an equal stack, all
 | Finding | Numbers | Grade | Not 8-handed / other payouts |
 |---|---|---|---|
 | What is at stake | 1st against 2nd 20 points, 2nd against 3rd 10, 3rd against 4th 20 | arith. | 65/35: heads-up decides 30 |
-| We won heads-up but missed the money | Finishes 27/11/10% for 1st/2nd/3rd against top teams' 22/20/18%; cashed 44.8% against 51%, losing most at 5-6 left | A | The costly stage is the approach to the first paid place |
+| We missed thirds and firsts, not seconds | Rounds 5-6, official: we finished 1st/2nd/3rd in 23/14/10-11% against the top five's 24-25/13/12%, and cashed 47-48% against 49-51%. We busted more with 6 and 5 left (15% and 18% of the times we got there; 2 Curry and Lemonade 11-13% and 13-14%), mostly by raising all-in. Corrected 14 November from `notes/pre/placings.md`: the earlier "27/11/10 against 22/20/18" was round 1's bot against no real team | A | The costly stage is the approach to the first paid place |
 | Wide heads-up aggression paid | First-in jams at 10-20bb +0.41 to +0.48 points each; big-blind re-jams over late opens +0.8 to +1.2 | A, matched hands | Chip odds under any payouts |
 | Heads-up needs its own ranges and its own test | A release with no heads-up check lost 1.9 ± 0.4 a table; in mock builds three styles came out even heads-up (40 ± 0.5) | A; C | None |
 
