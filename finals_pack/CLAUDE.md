@@ -33,7 +33,9 @@ Your own start-up instructions are in `prompts/BUILDER.md` or `prompts/RESEARCH.
   `SendMessage` reaches it at once (it wakes it). One message per point, with numbers and file paths; never
   acknowledgements or thanks. Then log a one-line copy for the record: `python3 scripts/say.py --record <to> "<text>"`
   (writes only to `state/events.log`, so it doesn't arrive twice). If cross-session messaging isn't available, use
-  `python3 scripts/say.py <builder|research> "<text>"`, which lands in the other session's inbox.
+  `python3 scripts/say.py <builder|research> "<text>"`, which lands in the other session's inbox. (A message from a
+  session in a different permission mode is held until a human approves it: if the other session doesn't react to
+  something it should, send it again with `say.py` and tell your human.)
 - Subagents never write to inboxes; they report to whoever spawned them.
 
 ## 3. Files: where everything lives
