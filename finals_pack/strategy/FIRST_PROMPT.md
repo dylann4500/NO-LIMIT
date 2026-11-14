@@ -406,7 +406,8 @@ all-ins and the last four players | how the field treats us>:
    does worse than folding is a real leak, and this figure is a floor on what stopping it recovers.
 3. What the best teams do that we don't: take the 10 best other teams in this file by points per table
    (with 20 teams: the 5 best), pooled into one group, and only cells where they have at least 30 uses;
-   say how many tables they played (in a 1,000-table sample, about 55 each, so their ranking is noisy). For each situation and action, their frequency and ours, and how that
+   say how many tables they played (in a 1,000-table sample, about 370 each with 20 teams at 8 seats, against 55 at
+   the regional: their ranking is still noisy). For each situation and action, their frequency and ours, and how that
    action performs for THEM against their own fold. Rank the biggest "they do it more, and it pays for
    them" gaps. Trust the direction, not the size: they choose their hands, so the average overstates what
    a marginal hand earns.
