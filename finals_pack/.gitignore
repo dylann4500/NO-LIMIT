@@ -1,0 +1,30 @@
+# Runtime files: written by the scripts and the sessions during the day, never committed
+data/
+inbox/
+state/
+portal-data*/
+/tmp/
+
+# Hand histories never go into git (other teams' play; too big): any copy, any format
+*.gz
+*.jsonl
+*.csv
+*.parquet
+
+# Released zips stay on this laptop (releases/VERSIONS.md is tracked)
+releases/*.zip
+candidates/**/build/
+
+# The organizer's starter kit (not redistributable)
+starter-kit/*
+!starter-kit/.keep
+
+# Python and editor clutter
+.venv/
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+*.tmp
+.claude/settings.local.json
+.venv

@@ -1,0 +1,429 @@
+{
+ "_doc": [
+  "What the clock (scripts/clock.py run) posts, and when. Humans may edit this file; the clock re-reads it every tick.",
+  "when: b<minute> = a build-hour mark (b0-b15 count from minute 0; b16 and later count back from scored round 1, so a",
+  "  longer build or a late round 1 moves them), or T<n> = n event-minutes before EACH scored round (round 1 only gets",
+  "  T-9 and later: the build hour covers the rest).",
+  "to: builder | research | both (the main sessions). One step = one inbox line; 'tasks' are [subagent, task] pairs",
+  "  the session spawns or briefs itself (BUILDER: platform, stylist, challenger, bughunter; RESEARCH: theory, analyst, tester, scout). Subagents report to the session; only the sessions message each other (SendMessage, a copy logged with say.py --record; the clock and the portal watcher post to the inboxes with say.py), and only BUILDER runs live.py and tells Dylan.",
+  "state/live.json (BUILDER's live.py) = the bot for the next round that counts: each build-hour practice pick, then the round-1 bot (b50); after round 1 the scored-round bot only. A window's challenger is never live.py'd: BUILDER tells Dylan its file at T-12, and at T-9 Dylan puts the live.json bot back (a click).",
+  "Placeholders: {k} scored round, {prev} = k-1, {ts} its start (HH:MM), {pt} the window's practice round, {t5} T-5,",
+  "  {t3} T-3, {r1} scored round 1, {p1}..{p4} the build-hour practices, {mi} the build minute.",
+  "<stage> in a path = the stage name with spaces as '-' (analysis/Practice-1/, analysis/Round-2.5/).",
+  "human: lines the clock prints LOUDLY in its own terminal (with a bell) for Dylan/Samuel. kind 'practice' and",
+  "  'live' compare state/live.json with the portal's active bot (state/portal.json); 'say' is printed as written.",
+  "pre: the pre-event research a session spawns when a human says 'start the research' (no clock step):",
+  "  python3 scripts/clock.py pre builder|research"
+ ],
+ "steps": [
+  {
+   "when": "b0",
+   "to": "builder",
+   "text": "Minute 0: the variant is announced. Fetch the kit (Dylan puts it in starter-kit/), read the Format page (weights, payouts, cooldown, anything unusual). Spawn the three build-hour streams now, in ONE message, in the background.",
+   "tasks": [
+    [
+     "platform",
+     "The rules card bot/rules.json first (players per table, stacks, blinds, hands per match, time limits, weights, payouts, upload cooldown) from the kit and the Format page, within 5 minutes; then strategy/FIRST_PROMPT.md Part 1 with strategy/TWIST_NOTES.md: a minimal legal bot in bot/ and releases/v1.zip by minute 10, the test harness by 15, and each of theory's tables built in as it lands in theory/out/ (ranking and ICM thresholds about minute 10; the twist rule theory/out/twist_rule.json, push/fold, call tables and break-evens about 15; all by about minute 20, so every practice from practice 1 uses the newest tables), then the shared platform with every Part 1 check passing. Fan out: one subagent per independent piece (engine adapter / theory's tables / packaging and checks)."
+    ],
+    [
+     "stylist",
+     "Read Part 1 (styles, shared defaults) and TWIST_NOTES.md; draft styles A (wide pressure), B (shove-heavy), C (tight) as settings, built on the platform's interface as soon as it's published. They are starting corners: if today's rules clearly favour another axis (the twist, postflop, short stacks), say so and build that instead of the weakest corner. One subagent per style, each in its own folder."
+    ],
+    [
+     "challenger",
+     "Clean-room design D: from the kit, the rules card, TWIST_NOTES.md and theory's tables only (NOT the A/B/C definitions or FIRST_PROMPT's regional strategy), write candidates/D/DESIGN.md by minute 12: what today's variant rewards, the 2-3 strategic axes that matter most, the design you'd build if nobody had told you anything, and what would show it's wrong. Then build it on the platform's interface as a style; it may play any practice round once it passes the upload test."
+    ]
+   ]
+  },
+  {
+   "when": "b0",
+   "to": "research",
+   "text": "Minute 0: the variant is announced. Read the Format page (weights, payouts, anything unusual). Spawn the four build-hour streams now, in ONE message, in the background.",
+   "tasks": [
+    [
+     "theory",
+     "The maths tables (strategy/FIRST_PROMPT.md Part 1b) into theory/out/, three theory agents in parallel: hand ranking + ICM thresholds by minute 10; the twist's option values (its decision rule in theory/out/twist_rule.json) + push/fold + call tables + break-evens by 15; theory/HANDOFF.md by 20; then a second wave. Report each file as it lands (you send each to BUILDER; its platform builds each in as it lands)."
+    ],
+    [
+     "analyst",
+     "Parsers for today's hand-history format and analysis/roundcard.py <round folder> (card in under 60 s, stage from the AVALON_STAGE env var, writes analysis/<stage>/card.md, <stage> = the stage name with spaces as '-', e.g. analysis/Practice-1/), ready for practice 1's download (about minute 25); portal_watch runs it by itself when data lands. At about minute 10 (when v1 exists), the dry-run download into /tmp/dryrun/ (never data/rounds/)."
+    ],
+    [
+     "tester",
+     "Check the rules card (bot/rules.json) against the kit and the Format page as soon as platform writes it. Then Part 3a: the paired runner on identical deals plus sparring bots, running by minute 15."
+    ],
+    [
+     "scout",
+     "Read strategy/FINGERPRINTING.md; build analysis/fp_train.py so it runs on practice 1's labelled download (about minute 25) in under 60 s (quick mode). portal_watch runs it by itself when data lands."
+    ]
+   ]
+  },
+  {
+   "when": "b10",
+   "to": "builder",
+   "text": "Deadline: a minimal legal bot uploaded and confirmed ACTIVE on the portal (a team with no active bot scores zero). When platform reports releases/v1.zip (upload-tested): python3 scripts/live.py v1 \"first legal bot\" and tell Dylan the exact file.",
+   "tasks": [
+    [
+     "platform",
+     "v1 must be released now (releases/v1.zip, upload-tested); report the exact file."
+    ]
+   ]
+  },
+  {
+   "when": "b15",
+   "to": "research",
+   "text": "The test rig must run now (Part 3a: paired runs, sparring). Your side measures every candidate from here on.",
+   "tasks": [
+    [
+     "tester",
+     "First verdict on v1 (correct? timing per decision? a heads-up run?): report it; you send it to BUILDER."
+    ]
+   ]
+  },
+  {
+   "when": "b17",
+   "to": "builder",
+   "text": "Practice round 1 starts in 3 minutes ({p1}): the bot you declared for it (live.py) must be uploaded and active now (the clock also reminds Dylan in its terminal)."
+  },
+  {
+   "when": "b20",
+   "to": "builder",
+   "text": "Practice round 1 plays now: the first legal, upload-tested style. Which bot plays each practice is your call: the most informative test, not a fixed rota. Pick which bot plays practice 2 ({p2}): the most informative test. Released and upload-tested by minute 27: declare it with live.py and tell Dylan the exact file.",
+   "tasks": [
+    [
+     "stylist",
+     "Have the next style ready (legal and upload-tested is enough). Rebuild every style with the newest shared tables before its upload, so practice scores compare styles, not timing."
+    ],
+    [
+     "platform",
+     "Theory's tables are built in as they land (ranking, ICM thresholds, the twist rule theory/out/twist_rule.json, push/fold, call tables, break-evens; all by about minute 20; behind settings, ON by default once checked), so every style uploaded from now on uses them; build in any later table or re-issue the same way as it lands."
+    ]
+   ]
+  },
+  {
+   "when": "b20",
+   "to": "research",
+   "text": "Practice round 1 plays now; its data lands about minute 25 (DATA LANDED in your inbox): spawn the task below then, never to wait for it.",
+   "tasks": [
+    [
+     "analyst",
+     "Spawned on practice 1's DATA LANDED, from its round card: the defaults check, then the leaks of the bot that played (FIRST_PROMPT Part 2), the top change in 5 minutes; record it in notes/LEDGER.md as 'one-change Practice 1'."
+    ]
+   ]
+  },
+  {
+   "when": "b27",
+   "to": "builder",
+   "text": "Practice round 2 starts in 3 minutes ({p2}): the bot you declared for it (live.py) must be uploaded and active now."
+  },
+  {
+   "when": "b30",
+   "to": "builder",
+   "text": "Practice round 2 plays now: the most informative candidate (A, B, C, the clean-room D or another), built with the newest shared tables. Pick which bot plays practice 3 ({p3}): the candidate whose real-field score we most need (D if not yet measured). Declare it with live.py and tell Dylan the file by minute 37.",
+   "tasks": [
+    [
+     "platform",
+     "Check every theory table is built in (ranking, ICM thresholds, the twist rule, push/fold, call tables, break-evens), and build in theory's refits from practice 1 as they land; every style picks them up at its next upload."
+    ],
+    [
+     "stylist",
+     "Keep each style current with the platform; the next one ready for practice 3."
+    ]
+   ]
+  },
+  {
+   "when": "b30",
+   "to": "research",
+   "text": "Practice round 2 plays now. Practice 1's data is in data/rounds/; spawn the practice-2 tasks on its DATA LANDED (about minute 35), never to wait for it.",
+   "tasks": [
+    [
+     "theory",
+     "Refit the call tables' shove-width and fold-rate columns from practice 1's real data and re-issue them (real-field numbers outrank the tables)."
+    ],
+    [
+     "analyst",
+     "Practice 2's leaks, and the styles played so far compared on the real field."
+    ],
+    [
+     "scout",
+     "When practice 2's data lands (about minute 33-35): the first FIELD TREND from practices 1-2 (field rates, what the best teams do; practice 1's field is mostly minimal bots), first profiles, recogniser accuracy (same-round) and how identifiable we are."
+    ]
+   ]
+  },
+  {
+   "when": "b37",
+   "to": "builder",
+   "text": "Practice round 3 starts in 3 minutes ({p3}): the bot you declared for it (live.py) must be uploaded and active now."
+  },
+  {
+   "when": "b40",
+   "to": "builder",
+   "text": "Practice round 3 plays now: the most informative candidate not yet measured (or the leader's closest rival). Pick practice 4 ({p4}): the leader, or its closest unmeasured rival if the leader is already clear (if it isn't the round-1 live bot, it is round 1's challenger: DECISION_RULES §3 'Round 1'). Declare it with live.py and tell Dylan the file by minute 47.",
+   "tasks": [
+    [
+     "stylist",
+     "Keep the styles current; whichever BUILDER names for practice 4 ready by minute 47."
+    ],
+    [
+     "challenger",
+     "From practices 1-3 (real-field scores, scout's field trend and profiles): choose the first challenger for the practice before scored round 2: D matured, the best response to the field's measured mix, or what the data points to. Say why in one line."
+    ]
+   ]
+  },
+  {
+   "when": "b40",
+   "to": "research",
+   "text": "Practice round 3 plays now. The round-1 live bot is declared at minute 50: tester's adjusted best scorer of practices 1-3 (DECISION_RULES §3 'Round 1'). Spawn both tasks now on practices 1-2 and continue them with practice 3's data when its DATA LANDED arrives (about minute 45); never wait for it.",
+   "tasks": [
+    [
+     "tester",
+     "Rank every bot that played practices 1-3 (A, B, C, D, ...) for the round-1 live bot: each one's practice score minus the yardstick teams' scores in the same practice, adjusted for confounds: which tables each had, practice size, how mature the field was. Add replay tests of each on the same downloads (same field, same deals). By minute 50: the adjusted best scorer, with your verdict on it including a heads-up run; say which comparison carries the decision; report it (you send it to BUILDER)."
+    ],
+    [
+     "analyst",
+     "Which style did the field reward in practices 1-3, and what are the best teams doing (winners lens)? Report one paragraph with the numbers by minute 50 (you send it to BUILDER for the round-1 live bot); if no style we built matches what wins, say so (PLAN CHALLENGE)."
+    ]
+   ]
+  },
+  {
+   "when": "b47",
+   "to": "builder",
+   "text": "Practice round 4 starts in 3 minutes ({p4}): the bot you declared for it (live.py) must be uploaded and active now."
+  },
+  {
+   "when": "b50",
+   "to": "builder",
+   "text": "Practice round 4 plays now: the bot you declared for it (if it isn't the round-1 live bot, it is round 1's challenger). Now live.py the adjusted best scorer (tester's ranking of practices 1-3) for scored round 1 at {r1}, with no question asked; the round-1 question comes at T-8 (DECISION_RULES §3 'Round 1'). It is already uploaded: at T-9 Dylan makes it active (a click)."
+  },
+  {
+   "when": "b50",
+   "to": "research",
+   "text": "Practice round 4 plays now: if its bot isn't the round-1 live bot (declared now), it is round 1's challenger. Scored round 1 is at {r1}; your recommendation is due at T-9 like every window (DECISION_RULES §3 'Round 1': the edge = each bot's practice score minus the yardstick teams' scores in the same practice; the same bars)."
+  },
+  {
+   "when": "T20",
+   "to": "builder",
+   "text": "Scored round {prev} has started. This window's challenger must be packed and tested by T-16 (platform releases it at T-15; Dylan activates it at T-12). If state/clock.md shows these are the last two rounds, apply the last-rounds bar (DECISION_RULES §3) and plan the last round. Prepare the 'Which bot?' question for round {k} in state/decisions.md (the pre-registered rule, both bots' numbers as they land, the rule's answer). Sync with RESEARCH in 3 lines (what changed on your side, what you need, the plan for this window) and update notes/PLAN-builder.md."
+  },
+  {
+   "when": "T20",
+   "to": "research",
+   "text": "Scored round {prev} has started. Step back: from the last field trend and winners lens, is our base approach still right? Sync with BUILDER in 3 lines; if not, raise it with Samuel now (PLAN CHALLENGE) and make sure BUILDER's challenger builds the alternative. If state/clock.md shows these are the last two rounds, apply the last-rounds bar (DECISION_RULES §3) and plan the last round. Update notes/PLAN-research.md.",
+   "tasks": [
+    [
+     "tester",
+     "Verify the challenger's paired-test verdicts (a heads-up run included) and methods now (they don't depend on the new round), and pre-arm rig/verify_card.py (recomputes the card's headline numbers from a hand file; + a Codex brief if logged in), so when the data lands only the path changes."
+    ]
+   ]
+  },
+  {
+   "when": "T15",
+   "to": "builder",
+   "text": "Release the challenger now; Dylan activates it at T-12. Nothing tested: pick the most informative released bot instead.",
+   "tasks": [
+    [
+     "platform",
+     "Release the tested challenger as releases/vN.zip by T-15 (T-13 at the latest) (VERSIONS line with sha256); report the file."
+    ]
+   ]
+  },
+  {
+   "when": "T13",
+   "to": "research",
+   "text": "Round {prev}'s result and hand data land about now (DATA LANDED in your inbox; portal_watch runs the round card). Run the round loop: spawn each task on DATA LANDED, never to wait for it. Everyone records every result in notes/LEDGER.md (effect ± se, n, method, file).",
+   "tasks": [
+    [
+     "analyst",
+     "Spawned on DATA LANDED (never before, and never told to wait for it), from the round card: the defaults check (a report), the winners lens, our leaks (Part 2), every independent change that clears the bar (lens subagents in one message + a Codex recompute if available), recorded in notes/LEDGER.md as 'one-change Round {prev}' by T-9; then opponent profiles where a profile pays most."
+    ],
+    [
+     "theory",
+     "New real-field data: refit the call/fold columns of your tables from it and re-issue them."
+    ],
+    [
+     "tester",
+     "Check the LEDGER's persistent leaks (the same leak in two rounds) first; re-run the numbers the T-8 decision may rest on (card headline, analyst's changes) and verify each; give every pending candidate a verdict (correct? a heads-up run? paired vs the live bot). Optional if on track: the cloned field on Modal for the challenger."
+    ],
+    [
+     "scout",
+     "First the FIELD TREND (analysis/<stage>/field_trend.md; plan assumptions checked; a PLAN CHALLENGE if one breaks), then the fingerprint card: counters on/off by the gate, analysis/counters.json by T-9; report its path (you send it to BUILDER for platform) and the accuracy/drift items (you pass them to tester)."
+    ]
+   ]
+  },
+  {
+   "when": "T13",
+   "to": "builder",
+   "text": "Round {prev}'s result and hand data land about now. This window's challenger is released (T-15) for Dylan to activate at T-12.",
+   "tasks": [
+    [
+     "stylist",
+     "This window's live-bot fixes: start now from the one-change lines already in notes/LEDGER.md (persistent leaks first), one stylist per line, then one more per new line as RESEARCH sends it (lines due by T-9); plus opponent counters from the scout's analysis/counters.json. Each independent, each behind a setting, each in its own folder; report each folder (you send them to RESEARCH for tester's verdict)."
+    ],
+    [
+     "challenger",
+     "This window's practice plays the challenger already released (or the most informative released bot). Start the NEXT challenger now from this round's data, scout's field trend and any PLAN CHALLENGE: D matured, the best response to the measured mix, or a rewrite; say why in one line. It must be packed and tested by the next window's T-16."
+    ],
+    [
+     "platform",
+     "Fix the bugs tester reported; build this window's live-bot changes (each independent, each behind a setting)."
+    ]
+   ]
+  },
+  {
+   "when": "T12",
+   "to": "builder",
+   "text": "Tell Dylan the challenger's exact file to activate now (upload it if it isn't on the portal yet): it plays the practice round at {pt}. Nothing released: name the released bot to activate instead, or leave the live bot. Don't live.py it (state/live.json stays the scored-round bot)."
+  },
+  {
+   "when": "T10",
+   "to": "both",
+   "text": "The practice round starts now and plays the challenger; its result lands about T-8 to T-7 (scored round {k} at {ts})."
+  },
+  {
+   "when": "T9",
+   "to": "builder",
+   "text": "Tell Dylan to put the state/live.json bot back as active straight away (a click). RESEARCH's recommendation arrives now (the threshold first; the final answer when the practice result lands)."
+  },
+  {
+   "when": "T9",
+   "to": "research",
+   "text": "Send BUILDER the recommendation for scored round {k} now (it asks the humans at T-8): RECOMMENDATION round {k}: the pre-registered rule (standings, the field-adjusted bar), both bots' numbers, the rule's answer as a released file, the evidence (validated, or labelled unverified). Until the practice result lands (usually T-8 to T-7) send the threshold (the practice score the challenger needs, given the yardstick teams), then the final answer the moment it lands; with no practice result by T-6 the rule's answer is the live bot."
+  },
+  {
+   "when": "T8",
+   "to": "builder",
+   "text": "DECIDE now with the pre-registered rule (strategy/DECISION_RULES.md §3): the challenger if it clears the SE bar for our standing, else the live bot with this window's changes that cleared the bar (usually one to three; each independent, behind its own setting). Ask the 'Which bot?' question for scored round {k} now: write it in state/decisions.md and ask in plain words in your reply (both bots' numbers, the rule's answer as a released file, deadline T-5 = {t5})."
+  },
+  {
+   "when": "T8",
+   "to": "research",
+   "text": "Decision time for scored round {k} ({ts}): your recommendation is due to BUILDER now; relay Samuel's answer to BUILDER in his exact words. The practice round's download lands near now: before the decision only tester's field-adjusted edge matters; the full analysis loop on it runs after T-3."
+  },
+  {
+   "when": "T6",
+   "to": "builder",
+   "text": "Test the chosen bot under upload-test conditions (no time bank).",
+   "tasks": [
+    [
+     "platform",
+     "The chosen bot through the upload test with no time bank; release it as releases/vN.zip."
+    ]
+   ]
+  },
+  {
+   "when": "T5",
+   "to": "builder",
+   "text": "No clear human answer by now: the rule's answer plays (the challenger if it qualified, else the live bot). live.py it if it changes the live bot, and say so in one line."
+  },
+  {
+   "when": "T3",
+   "to": "builder",
+   "text": "Scored round {k} starts in 3 minutes ({ts}): Dylan uploads/activates the chosen bot; confirm in state/status.md that the portal runs it. After this, nothing changes. Before the round starts: record anything not yet in the LEDGER, update notes/PLAN-builder.md (what plays, what's running where, open promises), and queue each subagent's next task for when data lands.",
+   "tasks": [
+    [
+     "platform",
+     "The chosen bot's release must be ready; report the exact file."
+    ]
+   ]
+  },
+  {
+   "when": "T3",
+   "to": "research",
+   "text": "Scored round {k} starts in 3 minutes ({ts}). Before it starts: record anything not yet in the LEDGER, update notes/PLAN-research.md, and queue each subagent's next task for when the round's data lands (about 13 minutes after the start). Then start the full analysis loop on the practice round's download (held back until after the decision)."
+  }
+ ],
+ "human": [
+  {
+   "when": "b0",
+   "who": "both",
+   "kind": "say",
+   "text": "MINUTE 0. Dylan: download the starter kit into starter-kit/ and tell BUILDER. Both: read the Format page; tell RESEARCH if the build length, round spacing or number of rounds differ from the clock (python3 scripts/clock.py show)."
+  },
+  {
+   "when": "b10",
+   "who": "dylan",
+   "kind": "live",
+   "text": "Minute 10: the first legal bot must be uploaded and ACTIVE now"
+  },
+  {
+   "when": "b17",
+   "who": "dylan",
+   "kind": "practice",
+   "text": "Practice 1 starts in 3 min ({p1})"
+  },
+  {
+   "when": "b27",
+   "who": "dylan",
+   "kind": "practice",
+   "text": "Practice 2 starts in 3 min ({p2})"
+  },
+  {
+   "when": "b37",
+   "who": "dylan",
+   "kind": "practice",
+   "text": "Practice 3 starts in 3 min ({p3})"
+  },
+  {
+   "when": "b47",
+   "who": "dylan",
+   "kind": "practice",
+   "text": "Practice 4 starts in 3 min ({p4})"
+  },
+  {
+   "when": "T12",
+   "who": "dylan",
+   "kind": "say",
+   "text": "The practice round before scored round {k} starts in 2 min ({pt}) and plays the challenger: upload/activate the file BUILDER names now. None named: leave the live bot {live} active."
+  },
+  {
+   "when": "T9",
+   "who": "dylan",
+   "kind": "live",
+   "text": "Put the live bot back as active NOW (scored round {k} at {ts})"
+  },
+  {
+   "when": "T8",
+   "who": "both",
+   "kind": "say",
+   "text": "DECISION TIME for scored round {k} ({ts}): BUILDER asks 'Which bot?' in its terminal now. Answer there in words. No answer by T-5 ({t5}): the rule's answer plays."
+  },
+  {
+   "when": "T3",
+   "who": "dylan",
+   "kind": "live",
+   "text": "Scored round {k} starts in 3 min ({ts}): the chosen bot must be ACTIVE now; after this nothing changes"
+  }
+ ],
+ "pre": [
+  {
+   "to": "research",
+   "agent": "theory",
+   "text": "Pre-event research (FIRST_PROMPT Part 0, topic A): the regional variants and Pittsburgh's (search for it), ten plausible Finals twists and the fastest correct way to value each by enumeration. Notes only, NO bot code. Write notes/pre/variants.md; one subagent per topic."
+  },
+  {
+   "to": "research",
+   "agent": "scout",
+   "text": "Pre-event research: what will the Finals field do? Every finalist knows the regional lessons (wide 3-betting won, per-seat adaptation, fold-to-3-bet ~65%). Which styles will be crowded, what punishes them, what practice 1's field (mostly minimal bots) vs round 3's will look like, and what to watch for first. Notes only, NO code. notes/pre/field.md"
+  },
+  {
+   "to": "research",
+   "agent": "tester",
+   "text": "Pre-event research (Part 0, topic D): the test plan for today: sparring bots to write, paired deals, noise first, replay testing on a download, the cloned field on Modal, a confirmation run. Notes only, NO bot code. notes/pre/testplan.md"
+  },
+  {
+   "to": "builder",
+   "agent": "platform",
+   "text": "Pre-event research (Part 0, topic C): the first-hour build plan: the safety shell, three layers, what to precompute at import, a 0.3 ms equity estimate, per-seat estimates with priors, the checks that catch the bugs that sank bots. Notes only, NO bot code. notes/pre/buildplan.md"
+  },
+  {
+   "to": "builder",
+   "agent": "stylist",
+   "text": "Pre-event research (Part 0, topic B): what wins sit-and-gos of AI-built bots (preflop aggression with planned responses, postflop folding vs bluff rates, shove-or-fold by depth, ICM for different payouts, heads-up and 3-handed). Notes only, NO bot code. notes/pre/whatwins.md"
+  },
+  {
+   "to": "builder",
+   "agent": "challenger",
+   "text": "Pre-event research, the contrarian memo: assume 19 strong teams all read the same regional lessons. Three designs that would beat that field, what each loses to, and how we'd know within one practice round which one this field pays. Notes only, NO bot code. notes/pre/contrarian.md"
+  }
+ ]
+}

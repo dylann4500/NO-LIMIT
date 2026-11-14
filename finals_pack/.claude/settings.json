@@ -1,0 +1,67 @@
+{
+  "autoCompactWindow": 400000,
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Edit",
+      "Write",
+      "Read",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "WebSearch",
+      "NotebookEdit",
+      "MultiEdit",
+      "Monitor",
+      "Agent",
+      "TaskOutput",
+      "TaskStop",
+      "KillShell",
+      "Skill",
+      "TodoWrite",
+      "SendMessage",
+      "ListAgents"
+    ],
+    "deny": [
+      "Bash(pkill)",
+      "Bash(pkill *)",
+      "Bash(killall)",
+      "Bash(killall *)",
+      "Bash(sudo *)",
+      "Bash(git push --force *)",
+      "Bash(git push --force-with-lease *)",
+      "Bash(git push -f *)",
+      "Bash(git reset --hard)",
+      "Bash(git reset --hard *)",
+      "Bash(git clean -f *)",
+      "Bash(git clean -fd *)",
+      "Bash(git clean -fdx *)",
+      "Bash(git stash)",
+      "Bash(git stash push *)",
+      "Bash(git stash pop *)",
+      "Bash(git stash drop *)",
+      "Bash(git stash clear)",
+      "Bash(modal app delete *)",
+      "Bash(modal volume rm *)",
+      "Bash(modal volume delete *)",
+      "Bash(modal secret delete *)"
+    ],
+    "additionalDirectories": [
+      "/tmp",
+      "/private/tmp"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/guard.py\""
+          }
+        ]
+      }
+    ]
+  }
+}
