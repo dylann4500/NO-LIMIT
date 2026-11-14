@@ -150,3 +150,97 @@ that's what the hub now handles.
 - An 8-seat field.
 
 The emulator's 3-seat field and rounds of about 2 minutes made some simulated complaints artifacts, not hub bugs.
+
+---
+
+# Round 4 (14 Nov, early hours): scenario walk-through, de-locked plan, two real laptops
+
+**Method.** Five independent reviewers:
+- the evidence behind the plan, with outside research;
+- every instruction that could lock the agents onto a path;
+- three minute-by-minute scenario walks: the night before and the build hour, the scored windows, and failures plus agent dynamics.
+
+They walked about 250 situations and proved about 30 bugs by running the hub's code against fakes. The reports are in `tests/scenarios/`. After the fixes, a sixth reviewer audited the new code and found 12 more bugs, all fixed.
+
+| Suite | Result |
+|---|---|
+| unit_scenarios (new: decisions, clock, portal, kill guard) | 31/31 |
+| unit_schedule (new: build length, gaps, late rounds) | 13/13 |
+| unit_lean, unit_guard, unit_decisions, unit_polling, unit_watchdog, unit_sync_race, unit_orphans | all pass |
+| Integration (two linked hubs, fake portal, agents off) | **77/77**, adding K2: round data reaches Dylan's laptop |
+| Live simulation sim7 | Ran to the end; details below |
+
+The live simulation ran Sonnet everywhere: the build hour and 2 scored rounds, with the two hubs on **separate repo clones and data folders**, AI teammates, and 2 rival teams.
+
+**sim7 results**
+- **Standings:** we finished 2nd in both scored rounds behind Pressure Point.
+- **AI teammates' ratings:** 45 good, 10 partial, 0 bad.
+- **Errors:** errors.log was empty after the fixes.
+
+**sim7: the exploration mechanism working with real agents**
+- **Clean-room design:** the Challenger built design D from scratch, and it played practice 2.
+- **Plan challenges:**
+  - After practice 1, the Opponents agent raised a PLAN CHALLENGE. Both rivals folded to 3-bets 81-92%, against the plan's 60-70%, a gap of more than 10 SE.
+  - Both Chats relayed it, and the Challenger built a light-3-bet variant behind a setting.
+  - After practice 4, the Analyst's winners lens caught Pressure Point changing bots (VPIP 34→47%, shoves at ≤10bb 19.6→48.1%) and raised a second challenge.
+- **File sharing:** used 7 times, mainly the maths tables going to Platform.
+- **Pattern kills:** 3 attempts were refused after the fix.
+
+**sim7 found one serious bug.** The Tester ran `pkill -f "modal run"` to stop its own test jobs. That pattern also matches every agent's Claude process, because the agents' instructions are on their command lines. The command stopped all 8 agents at once, twice. The agents recovered within about 11 seconds each time, but on Sunday this would cut every agent on a laptop mid-window. The hub's risky-command filter had explicitly exempted "pkill -f ... modal". Now:
+- the hub refuses every name or pattern kill (pkill, killall, pgrep | xargs kill), with instructions to kill by PID or use `modal app stop`;
+- the protocol says the same.
+
+**Fixed, by area (full list in the commit and `tests/scenarios/`)**
+- **Exploration**
+  - The plan is a default, not a mandate. PLAN CHALLENGE reaches both humans.
+  - The Challenger builds a clean-room design D from minute 0.
+  - There is no style rota for practices.
+  - The field trend and plan assumptions are checked on every download, and the winners lens runs every round.
+  - Pre-event research starts with "start the research".
+  - DECISION_RULES:
+    - a field-adjusted switch bar using yardstick teams, with SE ≥ 0.7;
+    - an exploration budget;
+    - an upload cooldown plan;
+    - the evidence reframed: top-team rewrites had the same mean as standing still and three times the spread.
+- **Format**
+  - Build length, round spacing and round count can be set from the Chat.
+  - Scored rounds are pinned from the portal, and later deadlines and decisions follow.
+  - A late window gets no false cut-offs, and its clock steps wait.
+  - Fixed: false-start, late-minute-0 and synced-change clock bugs.
+  - Questions no longer start the clock, and "2:05" means 14:05.
+  - Upload reminders now come 3 minutes before each build-hour practice.
+- **Decisions**
+  - The rule's answer is stored with each decision, updated when the practice lands, and applied by the hub at the deadline.
+  - Opposite answers from the two humans reopen the decision, and the rule's answer stands until they agree.
+  - The recommendation is now due at T-9.
+- **Portal**
+  - A held leaderboard no longer switches off the active-bot checks.
+  - Changes to the competition settings raise an alert, and so do culling and zero tables.
+  - The bot that actually played each round is recorded.
+  - Cancelled and "final"-kind rounds are handled.
+  - A wrong bot at round start is caught, using the fresh active bot.
+  - A silent portal is reported.
+  - The hands link can be pasted in the Chat, and query strings are kept.
+  - Plain JSON-lines hand files are kept.
+  - A rejected live upload reverts the live bot.
+  - The chosen-bot cut-off needs a released bot.
+- **Two laptops**
+  - share_file / fetch_file move files and folders between laptops.
+  - Each round's results and hand sample are mirrored to Dylan's laptop.
+  - The git rules now cover each laptop's own clone.
+  - The pre-flight checks that both laptops run the same hub code and that their clocks agree.
+  - A local write always wins over the other laptop's timestamp, even if that laptop's clock runs ahead.
+- **Agents**
+  - Brief 429 and overloaded errors are retried rather than treated as usage limits.
+  - An agent that is already replying isn't interrupted by the unanswered-message nudge.
+  - The Chat's question tracking is no longer cleared too early.
+  - Human messages typed on the other laptop are tracked.
+  - Instructions are scoped to the agent they were typed to.
+  - The leads' stall limit is 6 minutes.
+  - The contradiction check runs off the clock loop.
+
+**Still not covered:**
+- two physical laptops on a hotspot;
+- the real portal (round naming, the hands link, the cooldown, whether a round snapshots the active bot at its start);
+- Opus for a full 6-round event;
+- an 8-seat field.

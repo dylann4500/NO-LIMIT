@@ -126,5 +126,12 @@ async def main():
           str(hs.bus.shared.get("live")))
     pb = pw.st.get("played_by", {})
     check("a 'final'-kind round counts as scored round 1; a cancelled round is ignored", pb.get("s1") and "s0" not in pb, str(pb))
+    # pattern kills are refused (they match the agents' own processes); a PID kill is fine
+    ag = hs.agents["s-tester"]
+    for cmd in ('pkill -f "modal run"', "killall python3", "pgrep -f compare.py | xargs kill", "kill -9 $(pgrep -f run4.sh)"):
+        r_ = await ag.can_use_tool("Bash", {"command": cmd}, None)
+        check(f"refused: {cmd}", type(r_).__name__ == "PermissionResultDeny" and "by PID" in getattr(r_, "message", ""))
+    r_ = await ag.can_use_tool("Bash", {"command": "kill $(cat /tmp/paired.pid); modal app stop ap-123"}, None)
+    check("allowed: kill by PID file, modal app stop", type(r_).__name__ == "PermissionResultAllow", str(r_))
     print("FAILED:", fails if fails else "none")
 asyncio.run(main())

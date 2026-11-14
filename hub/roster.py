@@ -120,7 +120,10 @@ and update it as you go: the hub compacts your context automatically between tur
 the PLAN file plus the briefs are how you pick up again without losing anything.
 
 **Long work.** Never sleep or loop inside a turn. Anything that runs over a minute: start it in the
-background, end your turn, and check on it when you are next woken.
+background, end your turn, and check on it when you are next woken. Stop only what you started, by PID (`cmd > log 2>&1 & echo $! >
+/tmp/<job>.pid`, later `kill $(cat /tmp/<job>.pid)`) or `modal app stop <app-id>`. Never kill by name or pattern
+(pkill, killall, pgrep | xargs kill): it also matches the agents' own processes, and in a rehearsal one
+`pkill -f "modal run"` stopped every agent on the laptop. The hub refuses those commands.
 
 **How the team works (lead and workers).** Each laptop's Chat is its lead: it holds the whole day (largest context,
 most autonomy), plans, decides, and delegates. It does no deep work itself: analysis, building and testing go to

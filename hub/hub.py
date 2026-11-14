@@ -36,13 +36,20 @@ from roster import COMMON_RULES, DECISION_RULES, KICKOFF, PEOPLE, PROTOCOL, ROST
 
 HERE = Path(__file__).resolve().parent
 STATES = ("working", "waiting", "blocked", "done", "idle")
+# Killing by name or pattern is never allowed: every agent's own process has its instructions on its command line
+# ("modal run", "compare.py", ...), so `pkill -f "modal run"` killed every agent on the laptop in a rehearsal.
+PROC_KILL = re.compile(r"\bpkill\b|\bkillall\b|pgrep\b[^\n;&]*\|\s*xargs\s+(?:-\S+\s+)*kill|\bkill\b[^\n;&]*\$\(\s*pgrep|"
+                       r"\bkill\s+(?:-\S+\s+)*-1\b|\bkill\s+(?:-\S+\s+)*0\b")
+PROC_KILL_HELP = ("Not run: killing processes by name or pattern (pkill, killall, pgrep | xargs kill) also matches the agents' "
+                  "own processes, whose command lines contain their instructions; it killed every agent in a rehearsal. "
+                  "Stop only what you started, by PID: start background jobs as `cmd > log 2>&1 & echo $! > /tmp/<job>.pid`, "
+                  "then `kill $(cat /tmp/<job>.pid)`. Modal: `modal app stop <app-id>` (see `modal app list`).")
 DANGER = re.compile("|".join([
     r"\brm\s+(-\S*[rR]|--recursive)", r"\bfind\b[^\n]*\s-delete\b", r"rmtree", r"\bunlink\b",
     r"git\s+push\b[^\n]*(--force|\s-f\b|\s\+\S)", r"git\s+reset\s+--hard", r"git\s+clean\s+-\S*f",
     r"git\s+(stash|restore|rebase)\b", r"git\s+checkout\s+(--\s|\.\s*$|-f\b)", r"git\s+commit\b[^\n]*--amend",
     r"git\s+branch\s+-D", r"\bsudo\b", r"\bmkfs", r"curl[^|\n]*\|\s*(ba|z)?sh", r"chmod\s+-R\s+777",
     r"\bdd\s+if=", r">\s*/dev/sd", r"\bkillall\b", r"\bkill\s+(-\S+\s+)*-1\b",
-    r"\bpkill\b(?![^\n]*-f\s+\S*(poker|spar|play|modal|run_|bench|test))",   # broad pkill can kill the agents themselves
     r"modal\s+(app\s+delete|volume\s+(rm|delete)|secret\s+delete)",
     r"(pokerbot\.sequoiacap\.com|/tournament/api)[^\n]*(-X\s*(POST|PATCH|PUT|DELETE)|--data|\s-d\s)",
     r"(-X\s*(POST|PATCH|PUT|DELETE)|--data|\s-d\s)[^\n]*(pokerbot\.sequoiacap\.com|/tournament/api)",
@@ -724,7 +731,7 @@ class Hub:
         """Build notes end on their own: Build 1 once a bot is active on the portal, Build 4 once the round card has run,
         and every Build note at minute 60 (the build hour is over; open work moves to the round notes)."""
         t0 = int(sch["start"])
-        over = time.time() >= sch["start"] + 60 * 60 * sch.get("scale", 1.0)
+        over = time.time() >= round_starts(sch)[0]   # the build is over when scored round 1 starts
         act = (self.bus.shared.get("portal_active") or {}).get("filename")
         for i, (who, agent, name) in enumerate(BUILD_NOTES, 1):
             if who != self.person:
@@ -2200,6 +2207,9 @@ class Agent:
     async def can_use_tool(self, name, inp, ctx):
         if name.startswith("mcp__hub__"):
             return PermissionResultAllow()
+        if isinstance(inp.get("command"), str) and PROC_KILL.search(inp["command"]):
+            self.record({"type": "note", "text": "Blocked a pattern kill (pkill/killall): " + inp["command"][:160]})
+            return PermissionResultDeny(message=PROC_KILL_HELP)
         text = json.dumps(inp)
         if isinstance(inp.get("command"), str):   # deleting scratch space under /tmp is routine, not risky
             text = json.dumps(dict(inp, command=tmp_scrub(inp["command"])))
@@ -4067,10 +4077,7 @@ class PortalWatcher:
         await self.hub.tile("data-" + stage_slug(stage), f"{stage} data", "done" if files else "in progress (hands not downloadable yet)",
                             owner="s-data", stage=stage)
         if files and not quiet:
-            for t in self.hub.tiles():   # an older round's analysis that never recorded a change is over now
-                if t["id"].startswith("analysis-") and t["state"] == "in progress" and t["id"] != "analysis-" + stage_slug(stage):
-                    await self.hub.tile(t["id"], t["label"], "done")
-            await self.hub.tile("analysis-" + stage_slug(stage), f"{stage} analysis", "in progress", owner="s-data", stage=stage)
+            await self.open_analysis(stage)
         older = sorted([p for p in self.hub.props() if p.get("kind") == "analysis" and p["id"] != aid
                         and p.get("status") in ("running", "planned", "new")], key=lambda p: p.get("created", 0))
         for p in older[:-1]:   # superseded by two newer rounds: the round's analysis is over
@@ -4151,6 +4158,13 @@ class PortalWatcher:
         if files:
             asyncio.create_task(self.analyse(folder, stage, aid))
         asyncio.create_task(self.mirror(folder, stage, line))
+
+    async def open_analysis(self, stage: str):
+        """A new round's analysis starts; an older round's analysis that never recorded a change is over now."""
+        for t in self.hub.tiles():
+            if t["id"].startswith("analysis-") and t["state"] == "in progress" and t["id"] != "analysis-" + stage_slug(stage):
+                await self.hub.tile(t["id"], t["label"], "done")
+        await self.hub.tile("analysis-" + stage_slug(stage), f"{stage} analysis", "in progress", owner="s-data", stage=stage)
 
     async def mirror(self, folder: Path, stage: str, line: str):
         """Dylan's agents (Challenger, Styles & fixes) need the round's data too: put the results and the hand sample
@@ -4268,7 +4282,7 @@ class PortalWatcher:
                 st_ = info.get("stage") or info["label"]
                 self.hub.landed_at[st_] = time.time()
                 await self.hub.tile("data-" + stage_slug(st_), f"{st_} data", "done", owner="s-data", stage=st_)
-                await self.hub.tile("analysis-" + stage_slug(st_), f"{st_} analysis", "in progress", owner="s-data", stage=st_)
+                await self.open_analysis(st_)
                 self.st.setdefault("landed_at", {})[st_] = self.hub.landed_at[st_]
                 self.save()
                 aid = self.st.get("note_of", {}).get(tid)
