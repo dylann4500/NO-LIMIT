@@ -14,8 +14,9 @@ Everything here is written live on the day from this description; no code is bro
 - **No timing data** exists in downloads; don't use timing.
 - **Bot limits:** memory 64 KB (keep under 16 KB, survive truncation), no cross-table globals; the bot may read
   data files shipped in its zip. Profiles ship as data; per-table state lives in memory.
-- **Tables:** 8 + 8 + 4 teams with 4 fillers at the short table; each team is at about 7 of our 19 tables;
-  each team appears at most once per table (a free constraint).
+- **Tables:** at 8 seats, 8 + 8 + 4 teams with 4 fillers at the short table, each team at about 7 of our 19 tables;
+  at 6 seats (`CLAUDE.md` §8), four tables with 4 filler seats, each team at about 5 in 23 of ours. Take the table
+  size from the rules card. Each team appears at most once per table (a free constraint).
 - **Regional results** (`research/finals_prep/identity/REPORT.md`): recognition 59/73/79% at 10/20/40 hands
   with sizes (21/31/41% without); same-round held-out 73/90/96%; profiles two rounds old 53/66/72% (expect
   about 56% at 20 hands at the Finals, where bots change). Opponents identified **us** at 88% by hand 20,

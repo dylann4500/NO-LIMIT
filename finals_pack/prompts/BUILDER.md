@@ -60,7 +60,7 @@ running before you spawn anything.
    your subagents read the rules while the kit unpacks; the kit and the Format page still decide the rules card.
 2. Spawn in ONE message, in the background:
    - `platform`: set up the team Python (`starter-kit/.venv`, plus the `.venv` link) and announce it; the rules card
-     `bot/rules.json` from the kit and `notes/format.md` (players, stacks, blinds, hands per match, time limits,
+     `bot/rules.json` from the kit and `notes/format.md` (players, stacks, blinds and antes, hands per match, time limits,
      weights, payouts, cooldown) by minute 5; a stub `bot/INTERFACE.md` by minute 6; a minimal legal bot and
      `releases/v1.zip` by minute 10; the test harness by 15; then the shared platform (FIRST_PROMPT Part 1), building
      in each of RESEARCH's tables as it lands (all by about minute 20).

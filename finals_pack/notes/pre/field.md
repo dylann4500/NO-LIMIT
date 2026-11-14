@@ -47,7 +47,7 @@ carry 71% of the weight (official rules): expect rewrites from 4th-10th.
 
 ## 3. What to measure in practices 1 and 2
 
-Noise is one standard deviation in a 1,000-table file: pooled field / one team at its 370 of our tables,
+Noise is one standard deviation in a 1,000-table file: pooled field / one team at its 370 of our tables (at 8 seats),
 measured by cutting rounds 3 and 5 into 1,000-table chunks (A). Pooled field rates are tight ("±2 points" is
 their 95% band at worst); one team's rare spots are not; the top 5 pooled sit near half the team figure.
 Sampling is not the risk: the field's own move to the next round averaged 1.3-1.6 points per rate (A). So act
@@ -79,7 +79,7 @@ opportunity. Break-evens depend on today's modal open and 3-bet sizes (regional:
 | Open-shove 35-50% at 10bb or less | A: 41% from round 3; practice 1, 26% | Row 6 |
 | Big bets and raises are strong hands | A for the folds; showdown strength unmeasured | Flop raises over 15%, or under half of raisers' shown hands are two pair or better |
 | No style the top 5 share beats ours | C: unresolved in simulation | 3+ of the top 5 in one class that isn't ours |
-| Scores compress near 12.5 | C; the regional top-20 spread was 1.7-3.0 | Top-to-median gap over 3: a weak tail exists and exploiting it pays |
+| Scores compress near 12.5 (8 seats; 16.7 at 6) | C; the regional top-20 spread was 1.7-3.0 | Top-to-median gap over 3: a weak tail exists and exploiting it pays |
 | Practice rounds are not full of experiments | A: 3% | Over a third of teams differ between a practice and the next scored round |
 
 ## 5. Pittsburgh: what public repos show (added 14 November)

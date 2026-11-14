@@ -23,7 +23,7 @@
    "tasks": [
     [
      "platform",
-     "The rules card bot/rules.json first (players per table, stacks, blinds, hands per match, time limits, weights, payouts, upload cooldown) from the kit and the Format page, within 5 minutes; then strategy/FIRST_PROMPT.md Part 1 with strategy/TWIST_NOTES.md: a minimal legal bot in bot/ and releases/v1.zip by minute 10, the test harness by 15, and each of theory's tables built in as it lands in theory/out/ (ranking and ICM thresholds about minute 10; the twist rule theory/out/twist_rule.json, push/fold, call tables and break-evens about 15; all by about minute 20, so every practice from practice 1 uses the newest tables), then the shared platform with every Part 1 check passing. Fan out: one subagent per independent piece (engine adapter / theory's tables / packaging and checks)."
+     "The rules card bot/rules.json first (players per table, stacks, blinds and antes, hands per match, time limits, weights, payouts, upload cooldown) from the kit and the Format page, within 5 minutes; then strategy/FIRST_PROMPT.md Part 1 with strategy/TWIST_NOTES.md: a minimal legal bot in bot/ and releases/v1.zip by minute 10, the test harness by 15, and each of theory's tables built in as it lands in theory/out/ (ranking and ICM thresholds about minute 10; the twist rule theory/out/twist_rule.json, push/fold, call tables and break-evens about 15; all by about minute 20, so every practice from practice 1 uses the newest tables), then the shared platform with every Part 1 check passing. Fan out: one subagent per independent piece (engine adapter / theory's tables / packaging and checks)."
     ],
     [
      "stylist",

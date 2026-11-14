@@ -24,7 +24,7 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
 **Pre-event** (if briefed; notes only, NO bot code): `notes/pre/buildplan.md` (FIRST_PROMPT Part 0, topic C). A draft from 14 November is already there: check and extend it in place and list what changed at the top; don't start over.
 
 **Build hour** (minutes from the announcement):
-- **by 5, `bot/rules.json`:** players per table, stack, blinds and their schedule, hands per match, time limit and
+- **by 5, `bot/rules.json`:** players per table, stack, blinds, antes and their schedule, hands per match, time limit and
   time bank, memory limit, payouts, round weights and count, upload cooldown, fillers, the engine's name for the variant, the variant's phases, action
   kinds, `state.variant` keys, failure defaults, anything unusual in `state.config`; each with its source (kit
   file:line or "Format page", which Dylan gives BUILDER). Unconfirmed fields are marked so and named in your report.
@@ -93,11 +93,11 @@ hand-history README; `state.config`; where two of its files disagree, test what 
 
 **The checks** (numbers, never "passed"): (1) the zip imports from an empty folder; heads-up vs the kit's
 check-or-fold, 20 hands, time bank 0: 0 failed decisions on several seeds; the same vs a call-everything bot, counting
-the twist phase; the kit's own check passes. (2) 100,000 states from local play (2, 3, 8 players, all-in seats), memory
+the twist phase; the kit's own check passes. (2) 100,000 states from local play (2, 3 and a full table of players, all-in seats), memory
 rotated real/cut/garbage/empty: 0 illegal, 0 exceptions, 0 catch-all; max, p99.9. (3) ICM: equal stacks equal shares;
-shares sum to the pool; busted player gets their payout; break-even calls: heads-up = pot odds, 8 equal ≈ 56%, 3 equal
+shares sum to the pool; busted player gets their payout; break-even calls: heads-up = pot odds, 8 equal ≈ 56% (6 equal ≈ 58%), 3 equal
 ≈ 57%, 4 equal ≈ 62-65% (50/30/20). (4) a scripted sequence per statistic (folds to our bet three times: 3 of 3),
-also with memory cut mid-hand. (5) position, blinds, first to act, effective stack at 8, 3, 2 players and after a
+also with memory cut mid-hand. (5) position, blinds, first to act, effective stack at a full table, 3 and 2 players and after a
 bust. (6) a board-made hand is no hand of ours; equity falls clearly from check to bet to raise. (7) every branch's
 firing count over 1,000 hands. (8) the style report by players left plus the defaults counts. (9) a scripted hand with
 raises on every street: street, preflop raiser, every dead and known card.
@@ -161,7 +161,7 @@ tells him); LEDGER ids; what's unverified; running jobs (PID, log, ETA, Modal ap
   overwrites the old one atomically and prints its sha256. When you rename a setting, keep the old name as an alias for
   one release and note the rename in INTERFACE.md.
 - **Minute-0 checks that caught real bugs:** positions (button, small blind, big blind) derived from the state and
-  compared with the engine's blind events at 2, 3 and 8 players (a heads-up blind swap shipped otherwise); ICM with a
+  compared with the engine's blind events at 2, 3 and a full table of players (a heads-up blind swap shipped otherwise); ICM with a
   seat busted this hand gets its place's payout (the kit's `icm()` scores it 0: the regional's bug, again).
 - **Deterministic decisions:** seed any randomness from the hand state (table, hand number, seat, history length) and
   end Monte Carlo at an iteration count, not at the clock (the deadline stays as a backstop that should never fire on

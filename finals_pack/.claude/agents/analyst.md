@@ -55,8 +55,8 @@ jobs on it run after the T-3 upload. Jobs (5 minutes unless briefed otherwise):
   pool each action across stack and player-count cells (Σ uses × difference) and rank on the POOLED figure. Then how
   the field treats us (our opens re-raised, our bets called or raised by street, our shoves called) vs others.
 - **`winners`** (Part 2, questions 3-4): the 5 best other teams by points per table, pooled, in cells where they have
-  30+ uses (say how many tables they played: with 20 teams at 8 seats each sits at about 370 of 1,000 of our tables, against
-  55 at the regional; their order is still noisy); their frequency
+  30+ uses (say how many tables they played: with 20 teams each sits at about 370 of 1,000 of our tables at 8 seats and
+  roughly 220-250 at 6 seats, against 55 at the regional: count it; their order is still noisy); their frequency
   vs ours and how the action does for THEM against their own fold; rank the biggest "they do it more and it pays for
   them" gaps; then which action rates correlate with points across all teams. Trust the direction, not the size.
   Don't filter by our style or the plan: if the answer is "play a different style", that's a PLAN CHALLENGE.
@@ -95,7 +95,8 @@ matches what wins, a PLAN CHALLENGE.
   bet faced preflop or at most 55% of the pot after; an all-in call is a call; the variant's phase its own class); and
   the hand's value to that team (tournament-points equity after minus before; both are in the file).
 - **Compare like with like:** only within the same cell; before the flop, only within the same position.
-- **Noise:** points per table have SE = 21/√tables: 0.66 at 1,000, 0.47 at 2,000, 0.30 at 5,000, 0.15 at 20,000; the
+- **Noise:** points per table have SE = 21/√tables at the regional's 8 seats and 50/30/20 (rescale from the
+  rules card: `notes/pre/testplan.md` section 1): 0.66 at 1,000, 0.47 at 2,000, 0.30 at 5,000, 0.15 at 20,000; the
   95% range is twice that. **Take every score from `results.json`** (every team over every table), never from a hand
   file: the hand file shows other teams only at our tables, about 0.6-0.9 below their official scores. The first-1000
   file is the round's first 1,000 iterations, a fair sample (measured on the regional, `notes/pre/first1000.md`), and

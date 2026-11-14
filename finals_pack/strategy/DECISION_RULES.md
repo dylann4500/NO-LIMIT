@@ -227,7 +227,7 @@ that counter-wave.
   and the clones could not rank strong teams. Today's rules may make another axis matter more (the twist,
   postflop, short stacks). Practice rounds decide.
 - **Opponent exploitation is core work, not optional:** each team sits at about 7 of our 19 tables at the
-  Finals; profiles and counters run every window.
+  Finals if tables seat 8, about 5 in 23 if they seat 6 (`CLAUDE.md` §8); profiles and counters run every window.
 - **Read the round weights, payouts and cooldown from the Format page**; never assume weights 1-6.
 
 **Plan assumptions** (`scout` checks each against every download; one off by 2 SE or more is a PLAN CHALLENGE):
@@ -237,5 +237,6 @@ that counter-wave.
 4. After the flop, big bets and raises are mostly strong hands (one pair should fold to raises).
 5. Our base style is the best response to the field's measured mix (no style the top 5 share beats it).
 6. The twist is worth what `theory`'s tables say, and the field uses it about as well as we do.
-7. Scores are compressed near 12.5 points per table; differences under 2.0 between two practice rounds (1.4 between a
+7. Scores are compressed near the field's mean (the points paid divided by the seats: 12.5 a table at 8 seats with
+   50/30/20, 16.7 at 6); differences under 2.0 between two practice rounds (1.4 between a
    practice round and a scored round) are noise.

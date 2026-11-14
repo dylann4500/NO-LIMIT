@@ -37,9 +37,9 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
    opportunity-based, inside [0, 1], moving off its prior over 200 hands; the same with memory cut mid-hand; no past
    moment rebuilt from seats' current status.
 2. **Tournament equity:** 2 and 3 players left; a busted player in a paid place keeps its payout; shares sum to the
-   pool; break-even calls: heads-up = pot odds, 8 equal stacks ≈ 56%, 3 equal ≈ 57% (50/30/20; else compute by hand);
+   pool; break-even calls: heads-up = pot odds, 8 equal stacks ≈ 56% (6 equal ≈ 58%), 3 equal ≈ 57% (50/30/20; else compute by hand);
    the pot counted once; only the matched part when the bettor covers us.
-3. **Position, blinds, first to act, effective stack** at 8, 3 and 2 players and after a bust.
+3. **Position, blinds, first to act, effective stack** at a full table (today's size), 3 and 2 players and after a bust.
 4. **Every variant option:** all-in seats (stack 0), heads-up, the phase skipped when everyone folds, an invalid action
    answered by the server's default; index vs card and card order after the phase; the deck partition (every card
    exactly once across deck, ours, board, dead, known); a known opponent card never resampled; evaluator misuse (more
@@ -97,6 +97,6 @@ or log path if still running); LEDGER ids; your folder.
 ## From the 14 November speedrun
 - Step 1 of any timing or failed-decision check: note `uptime`, and run the kit's `check_or_fold` in the same run. A
   failure rate at or below its rate is the machine, not the bot.
-- The reviews that paid most: ICM with a seat busted this hand; positions and blinds at 2, 3 and 8 players; the
+- The reviews that paid most: ICM with a seat busted this hand; positions and blinds at 2, 3 and a full table; the
   twist's dead or passed cards removed from every sampling deck; settings that silently fall back; what the bot does
   with exactly 3 and 2 players left.

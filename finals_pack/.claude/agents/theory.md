@@ -36,11 +36,12 @@ break-evens and HANDOFF.md; write each file the moment it passes its checks, so 
   state, and give the simple rule that reproduces the table. First verify the evaluator by brute force on 20 spots;
   put the verified wrapper in `theory/lib/` for the other runs.
 - **m10 `icm_thresholds.json`:** Malmuth-Harville from the payouts; a busted player gets their place's payout;
-  break-even all-in call equity by players left and stack shares. Tests: heads-up = pot odds; 8 equal stacks ≈ 56%; 3
+  break-even all-in call equity by players left and stack shares. Tests: heads-up = pot odds; 8 equal stacks ≈ 56% (6 equal ≈ 58%); 3
   equal ≈ 57%; 4 equal ≈ 62-65% (for 50/30/20; other payouts: compute and say so).
 - **m15 `twist.json` and `twist_rule.json`:** the twist's option values by common random numbers (TWIST_NOTES §0):
   every option on the same deals in one interleaved loop; against opponents who ALSO use the twist well; using all it
-  reveals; dead cards removed; any budget planned over a whole table (roughly 120-140 hands); plus a cheap rule and
+  reveals; dead cards removed; any budget planned over a whole table (roughly 120-140 hands at the regional's stacks and
+  blinds; count today's); plus a cheap rule and
   how close it gets. The decision rule every table and the bot use is `theory/out/twist_rule.json` (its code may live
   in `theory/twist/`; platform reads only `theory/out/`). Call it trusted only once it has been scored at 3 and 4
   players and against a range (a top-35% hand), not only heads-up against random hands: in a 14 November run three

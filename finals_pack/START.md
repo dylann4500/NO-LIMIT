@@ -80,7 +80,8 @@ research (notes only, no code: it checks and extends Saturday's drafts in `notes
    `state/variant.md`; if nobody has given RESEARCH a time yet, it starts the clock from that and tells Samuel.
 2. **Dylan** runs `/no-limit-2026-setup` in BUILDER (it fetches the kit into `starter-kit/` and builds its Python),
    or downloads the kit from the portal into `starter-kit/`, and tells BUILDER "the kit is in starter-kit/".
-3. **Both** read the portal's Format page: weights, payouts, the upload cooldown, anything unusual. If the shape
+3. **Both** read the portal's Format page: table size, stacks and antes, weights, payouts, the upload cooldown,
+   anything unusual (`CLAUDE.md` §8 says what may differ from the regional). If the shape
    differs (build length, round spacing, number of rounds), tell RESEARCH in words ("the build is 90 minutes",
    "rounds are every 30 minutes", "there are 5 scored rounds"). Paste or screenshot the Format page into BUILDER
    too (the rules card needs it).

@@ -44,7 +44,7 @@ corner.
 - **Styles are starting corners, not a menu.** A, pressure: opens and 3-bets wide with a planned answer to the next
   raise; bets when checked to while the field folds enough. B, shove-heavy: few small preflop raises; mostly shove or
   fold, wide shoves and re-shoves by depth and ICM. C, tight: opens few, avoids early all-ins, calls off and re-shoves
-  strong hands, shove-or-fold by depth before the blinds drain it, and still wins chips (a fold-only tight bot busts
+  strong hands, shove-or-fold by depth before the blinds drain it, and still wins chips (at the regional's stacks and blinds a fold-only tight bot busts
   near hand 100 and finishes 4th). Define each as a fraction of TODAY's ranking (`theory/out/ranking.json`) plus
   stack-depth rules; regional numbers are hold'em numbers.
 - **Shared defaults** each style keeps unless its design overrides one and says so: no open-limping (a limp-or-jam
