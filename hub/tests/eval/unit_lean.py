@@ -56,5 +56,17 @@ async def main():
     wt = H.worker_tasks("b0", "dylan")
     check("the clock's minute-0 tasks for Dylan's laptop go to Platform and Styles & fixes", {a for a, _, _ in wt} == {"d-platform", "d-builder"}, str(wt))
     check("the lead's dispatch text says the workers already have their tasks", "ALREADY given each worker" in H.dispatch_text("b0", "dylan"))
+    # a human message to a WORKER is tracked; left unanswered, the worker is told to reply, then the human is told
+    H.os.environ["AVALON_NO_AGENTS"] = "1"
+    await plat.human("which file do I upload?", "Dylan")
+    check("a message to a worker is tracked until it replies", len(plat.pending_q) == 1)
+    plat.pending_q[0]["at"] -= 200; await hub.watch_unanswered()
+    check("after 150 s the worker is told to reply now", any("hasn't had a reply" in i.get("text", "") for i in plat.items))
+    plat.pending_q[0]["at"] -= 200; await hub.watch_unanswered()
+    check("after 6 min the person's Chat says it's still waiting", any("still hasn't replied" in t["text"] for t in lead.ovchat))
+    # stage names from an agent's own spelling
+    check("stage names normalised ('Practice-1', 'round2.5')", H.norm_stage("Practice-1") == "Practice 1" and H.norm_stage("round2.5") == "Round 2.5" and H.norm_stage("R3") == "Round 3")
+    await hub.register_bot("releases/v8.zip", "ready", "", "releases/"); await asyncio.sleep(0.05)
+    check("a release found on disk gets a real owner (Platform)", (hub.bus.shared.get("tile:bot-v8") or {}).get("owner") == "d-platform")
     print("FAILED:", fails if fails else "none")
 asyncio.run(main())

@@ -51,6 +51,7 @@ HUB_TOOLS = ["send_message", "list_agents", "read_agent", "set_status", "notify_
              "declare_live", "set_schedule", "propose", "update_proposal", "list_proposals", "codex_task", "register_bot",
              "record", "verify", "invalidate", "set_rules", "ledger", "next_bot_name",
              "queue_post", "queue_claim", "queue_done", "fetch_file", "report_progress"]
+ROSTER_NAMES = {a["name"] for agents in ROSTER.values() for a in agents}
 API_KEY_FILE = Path.home() / ".config" / "avalon-hub" / "anthropic-api-key"
 KINDS = ("idea", "build", "live", "analysis", "bot", "question", "research", "finding", "change", "decision")
 BUILD_NOTES = [  # (person, agent, name): one progress tile per build-hour work stream, created at minute 0
@@ -466,7 +467,7 @@ class Hub:
                                            card=it.get("file") or "analysis/<stage>/card.md", note_id=it.get("note")))
         q_ = str(it.get("question") or "")
         if q_.lower().startswith("one-change") and (it.get("lens") == "aggregate" or by == "s-data"):
-            st_ = q_[len("one-change"):].strip() or stage
+            st_ = norm_stage(q_[len("one-change"):].strip()) or stage
             asyncio.create_task(self.tile("analysis-" + stage_slug(st_), f"{st_} analysis", "done", owner="s-data", stage=st_))
         it.update({"id": iid, "type": typ, "by": by, "stage": it.get("stage") or stage, "at": time.time(),
                    "status": "validated" if typ in ("human", "commitment") else "proposed"})
@@ -724,7 +725,7 @@ class Hub:
             asyncio.create_task(self.store_bot_file(name, f))
         self.bus.shared["bot:" + name] = v
         asyncio.create_task(self.tile("bot-" + name, f"Bot {name}", {"building": "in progress", "testing": "testing", "ready": "done",
-                                                                      "failed": "failed"}.get(status, status), owner=by or "d-platform"))
+                                                                      "failed": "failed"}.get(status, status), owner=by if by in self.agents or by in ROSTER_NAMES else "d-platform"))
         self.emit("shared", {"bots": True})
         await self.bus.set_shared("bot:" + name, v)
 
@@ -1166,10 +1167,25 @@ class Hub:
     async def watch_unanswered(self):
         now = time.time()
         for a in self.agents.values():
-            if not a.name.endswith("overview") or not a.pending_q:
+            if not a.pending_q:
                 continue
             q = a.pending_q[0]
             age = now - q["at"]
+            if not a.name.endswith("overview"):   # a worker the person messaged directly
+                if age > 150 and not q.get("nudged"):
+                    q["nudged"] = True
+                    await a.add_item({"kind": "hub", "wake": True, "urgent": True, "text": f"{q['who']} asked you at {hhmm(q['at'])} "
+                                      f"and hasn't had a reply: \"{q['text']}\". Reply now in plain text: the answer, or 'Working "
+                                      "on it: <what>, ready by HH:MM'. Then carry on."})
+                    if a.state == "stopped" and not a.paused:
+                        await a.start()
+                elif age > 360 and not q.get("told"):
+                    q["told"] = True
+                    ov = next((x for x in self.agents.values() if x.name.endswith("overview")), None)
+                    if ov:
+                        await ov.ov_log("Hub", f"{a.title} still hasn't replied to {q['who']}'s message from {hhmm(q['at'])} "
+                                        f"(\"{q['text'][:80]}\"). I've asked it again; open {a.title} to see its work.")
+                continue
             if age > 150 and a.state in ("idle", "done", "stopped", "error") and not q.get("nudged"):
                 q["nudged"] = True   # it finished a turn without answering: ask again
                 await a.add_item({"kind": "hub", "wake": True, "text": f"You haven't answered {q['who']}'s message from "
@@ -1225,7 +1241,9 @@ class Hub:
                   "could change a decision or an action in the next 20 minutes: two statements that can't both be true now "
                   "(different bots, times, numbers or results for the same thing), or a human instruction that the current "
                   "state ignores. Ignore note statuses (running/planned/done) and agent states (idle/stopped/working): those "
-                  "lag by design. Not stale wording, not style. At most 2. For each: what conflicts "
+                  "lag by design; so do agents' briefs vs what they're doing. A declared live bot that isn't active yet "
+                  "within 10 minutes of being declared is an upload in progress, not a conflict. Not stale wording, not "
+                  "style. At most 1 (the most important). For each: what conflicts "
                   "and what to check or fix, in one plain sentence each. JSON only: [{\"issue\": \"...\", \"fix\": \"...\"}] "
                   "or [] if none.\n\n" + "\n".join(facts))
         try:
@@ -1236,20 +1254,22 @@ class Hub:
             self.note_error("consistency", e)
             return
         self.checked_issues = {k: t for k, t in self.checked_issues.items() if now - t < 1800}
+        words = lambda x: set(re.findall(r"[a-z0-9.]+", x.lower())) - {"the", "a", "and", "is", "to", "of", "but", "for", "in", "it"}   # noqa: E731
         new = []
-        for it in items[:4]:
+        for it in items[:1]:
             if not isinstance(it, dict) or not it.get("issue"):
                 continue
             key = re.sub(r"\W+", " ", str(it["issue"]).lower())[:120]
-            if key in self.checked_issues:
-                continue
+            w = words(key)
+            if any(len(w & words(k)) / max(1, len(w | words(k))) > 0.45 for k in self.checked_issues):
+                continue   # the same issue, reworded
             self.checked_issues[key] = now
             new.append(f"- {it['issue']} → {it.get('fix', '')}")
         if new:
             text = "**Something doesn't add up:**\n" + "\n".join(new)
             ov = next((a for a in self.agents.values() if a.name.endswith("overview")), None)
             if ov:
-                await ov.ov_log("Hub", text, urgent=True)
+                await ov.ov_log("Hub", text)
             await self.overseer().add_item({"kind": "hub", "wake": False, "text": "[consistency check] " + text +
                                             "\nResolve each (check the facts, fix the wrong one, tell the humans in a note)."})
 
@@ -1548,6 +1568,8 @@ class Agent:
         self.record({"type": "user", "text": text, "from": who, "queued": self.state in ("working", "waiting")})
         if self.name.endswith("overview"):
             await self.ov_log(who, text)
+        else:   # a worker must answer the person too (the Chat's own tracking is in ov_log)
+            self.pending_q.append({"who": who, "text": text[:300], "at": time.time()})
         await self.add_item({"kind": "human", "from": who, "text": text, "urgent": True})
         if self.state == "stopped":
             self.paused = False
@@ -1826,6 +1848,7 @@ class Agent:
                     prompt = situation(self.hub) + "\n\n" + self.overview_context() + "\n\n" + prompt
                 self.turn_started = self.last_msg_at = time.time()
                 self.stall_kicked = 0.0
+                self.turn_text_n = 0
                 await self.set_state("working")
                 self.record({"type": "turn", "n": len(batch)})
                 await self.client.query(prompt)
@@ -1857,6 +1880,8 @@ class Agent:
                 if not ok:
                     raise RuntimeError("the turn ended with an error")
                 done = {i["id"] for i in batch}
+                if self.human_in_turn and getattr(self, "turn_text_n", 0) and not self.name.endswith("overview"):
+                    self.pending_q = [q for q in self.pending_q if q["at"] > self.turn_started]   # it replied to them
                 self.items = [i for i in self.items if i["id"] not in done]
                 self.save_items()
                 self.fails = 0
@@ -1922,6 +1947,8 @@ class Agent:
         if isinstance(m, AssistantMessage):
             for b in m.content:
                 if isinstance(b, TextBlock) and b.text.strip():
+                    if not m.parent_tool_use_id:
+                        self.turn_text_n = getattr(self, "turn_text_n", 0) + 1
                     self.record({"type": "text", "text": b.text, "sub": bool(m.parent_tool_use_id)})
                     if self.name.endswith("overview") and not m.parent_tool_use_id:
                         asyncio.create_task(self.ov_log("Chat", b.text))
@@ -3142,6 +3169,14 @@ GUARD = [
      "The chosen bot doesn't play this round: the live bot (active since T-9) plays and nothing is uploaded. Stop "
      "packing it for this round; it plays the next practice round instead."),
 ]
+
+
+def norm_stage(t: str) -> str:
+    """'Practice-1', 'practice 1', 'round2.5', 'R2' -> the hub's stage names ('Practice 1', 'Round 2.5')."""
+    m = re.search(r"(practice|round|r)\W*(\d+(?:\.5)?)", t or "", re.I)
+    if not m:
+        return (t or "").strip()
+    return ("Practice " if m.group(1).lower() == "practice" else "Round ") + m.group(2)
 
 
 def stage_slug(stage: str) -> str:

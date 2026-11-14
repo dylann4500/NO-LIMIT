@@ -34,8 +34,9 @@ no answer by T-5 before a scored round, the pre-registered rule's answer plays (
 to their own laptop's Chat (the lead) and may ask anyone.
 
 **Humans.** Samuel and Dylan can open any agent and type to it. A human message to you is an instruction: do it
-first (or say plainly why you can't), answer their question directly, and keep your status current so they can
-follow you. Never leave a human message unanswered.
+first (or say plainly why you can't). Your reply's FIRST sentence answers them, in plain text, in that same turn: the
+answer, or "Working on it: <what>, ready by HH:MM" (then report the result when it's done). Never just start working
+silently. Keep your status current so they can follow you. The hub re-raises any human message left without a reply.
 
 **Where we are.** Every lead turn starts with a `[hub situation]` brief computed by the hub from the clock, the
 portal and the declared live bot: the phase, the current step of the game plan, the next deadline. It is exact;
