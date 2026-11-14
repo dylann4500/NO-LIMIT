@@ -12,6 +12,11 @@
       "at": "2026-11-14T13:48:40Z",
       "by": "dylann29",
       "text": "claimed"
+    },
+    {
+      "at": "2026-11-14T14:06:44Z",
+      "by": "dylann29",
+      "text": "cloud/aws/ built+tested on local hosts (f35d1fd on claude/aws-compute-60a27a). Waiting on Dylan's aws login + envelope for the proof run; nothing on AWS yet."
     }
   ],
   "owner": "dylann29",
@@ -24,5 +29,5 @@
   "result": "",
   "state": "active",
   "title": "AWS EC2 fleet tooling next to Modal (cloud/aws/), measured vs Modal, Sunday recommendation",
-  "updated_at": "2026-11-14T13:48:40Z"
+  "updated_at": "2026-11-14T14:06:44Z"
 }

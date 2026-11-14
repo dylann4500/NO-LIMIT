@@ -1,0 +1,8 @@
+{
+  "agent": "Dylans-MacBook-Pro-1228",
+  "at": "2026-11-14T14:06:44Z",
+  "by": "dylann29",
+  "pin": false,
+  "task": "aws-compute",
+  "text": "cloud/aws/ built+tested on local hosts (f35d1fd on claude/aws-compute-60a27a). Waiting on Dylan's aws login + envelope for the proof run; nothing on AWS yet."
+}
