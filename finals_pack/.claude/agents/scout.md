@@ -43,8 +43,9 @@ crowded, what punishes them, practice 1's field (mostly minimal bots) vs round 3
 
 **Every download** (a practice between scored rounds waits until after T-3, below):
 1. **The FIELD TREND, first** (about 5 minutes), `analysis/<stage>/field_trend.md`: the field's rates this round vs
-   earlier ones (open, limp, 3-bet, fold to 3-bet, open-shove by depth, fold to a bet by street, the twist's use), each
-   with its change in SE; the style cluster of the 5 best teams and how it moved; the yardstick teams; and all seven
+   earlier ones (open, limp, 3-bet, fold to 3-bet, open-shove by depth, fold to a bet by street, the twist's use; each
+   counted as `notes/pre/stat_definitions.md` defines it: the plan's bands mean the team-equal mean), each with its
+   change in SE; the style cluster of the 5 best teams and how it moved; the yardstick teams; and all seven
    plan assumptions of DECISION_RULES §5, each checked with data, n and SE. **An assumption off by 2 SE or more, or a
    top-5 cluster that moved, is a PLAN CHALLENGE:** report it at once (if your brief also holds the card, end the run,
    say "card not started", and let RESEARCH spawn it).
