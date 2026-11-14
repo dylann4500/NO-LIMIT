@@ -10,8 +10,10 @@ Who is who (`CLAUDE.md` §1): the **BUILDER** session (Dylan; subagents `platfor
 
 ## 1. What we are playing for
 
-Only 1st, 2nd and 3rd are paid (50 / 30 / 20). Finishing 4th pays the same as finishing 20th, so our
-goal is the best chance of a top-3 finish, not the smallest chance of a bad round.
+Only the top 3 teams are paid: $100,000, $50,000 and $25,000 (official rules). Finishing 4th pays the same as
+finishing 20th, so our goal is the best chance of a top-3 finish, not the smallest chance of a bad round. (50 / 30 /
+20 is not the prizes: it is the points a table gave its 1st-3rd at the regional, and the rules say the points per
+place can change with the variant; they are announced at minute 0.)
 
 Freezing doesn't hold a lead. At the Bay Area regional, top-20 teams fell back about 0.65 points per table per
 round **whether or not they changed** (changed minus unchanged: −0.01 ± 0.18). For top teams, **rewrites had the

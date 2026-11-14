@@ -2,8 +2,9 @@
 
 Sunday 15 November 2026, San Francisco. 20 teams build poker bots live with AI agents. The variant is announced at
 minute 0 with a starter kit; then a build hour with 4 practice rounds, then about 6 scored rounds 20 minutes apart,
-each with a practice round 10 minutes before it. Only 1st, 2nd and 3rd are paid (50/30/20): 4th is worth the same
-as 20th. Humans: **Dylan** (steers BUILDER, uploads bots on the portal) and **Samuel** (steers RESEARCH).
+each with a practice round 10 minutes before it. Only the top 3 teams are paid ($100,000 / $50,000 / $25,000): 4th
+is worth the same as 20th. (50/30/20 is something else: the points a table gave its 1st-3rd at the regional. The
+Finals' points per place are announced with the variant.) Humans: **Dylan** (steers BUILDER, uploads bots on the portal) and **Samuel** (steers RESEARCH).
 
 ## 1. Who runs where
 
