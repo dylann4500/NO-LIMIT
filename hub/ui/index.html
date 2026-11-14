@@ -407,7 +407,7 @@ function fxStyle(key, cls) {   // a running animation survives re-renders: resum
 }
 function noteFx(p) {
   if (SEEN.first) return ["", ""];
-  const prev = SEEN.notes.get(p.id), n = (p.thread || []).length;
+  const prev = SEEN.notes.get(p.id), n = p.thread_n || (p.thread || []).length;
   return fxStyle("note:" + p.id, prev === undefined ? "enter" : n > prev ? "bump" : "");
 }
 const SIMPLE_NOTES = true;
@@ -650,7 +650,7 @@ async function makeReport(pid) {
 }
 function maybeReport(pid) {   // on opening a note: write a fresh update if there's news since the last one
   const p = props().find((x) => x.id === pid); if (!p) return;
-  const n = (p.thread || []).length, rep = p.report;
+  const n = p.thread_n || (p.thread || []).length, rep = p.report;
   if (!rep || (n > (rep.n || 0) && Date.now() / 1000 - rep.at > 45)) makeReport(pid);
 }
 function demoNote(pid) { return S.demo && String(pid).startsWith("DEMO") ? props().find((x) => x.id === pid) : null; }

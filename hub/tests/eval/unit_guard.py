@@ -91,4 +91,13 @@ h.bus.shared["bot:v10"] = {"status": "ready", "sha256": "ab"}
 run(g); check("ready chosen bot stays", not h.lives)
 # 11. once only
 n = len(h.alerts); run(g); run(g); check("idempotent", len(h.alerts) == n)
+# 12. the portal already runs the chosen bot (record still 'building'): no cut, no revert
+h, g, ts = mk("dylan", 3.5)
+h._props.append({"kind": "bot", "created": time.time()}); h._bots.append({"name": "v9", "status": "ready", "updated": time.time()})
+h.bus.shared["live"] = {"file": "releases/v10.zip", "filename": "v10.zip", "at": ts - 8 * U, "prev": {"file": "releases/v4.zip"}}
+h.bus.shared["bot:v10"] = {"status": "building"}; h.bus.shared["portal_active"] = {"filename": "v10 (1).zip"}
+run(g); check("bot already active on the portal is left alone", not h.lives and not any("Upload nothing" in a[0] for a in h.alerts))
+# 13. an expiry from the other laptop never undoes a greenlight
+a = {"id": "P", "status": "approved", "updated": 1, "thread": []}; b = {"id": "P", "status": "expired", "updated": 2, "thread": []}
+check("expired never overrides approved", H.merge_note(a, b)["status"] == "approved" and H.merge_note(b, a)["status"] == "approved")
 print("FAILED:", fails if fails else "none")

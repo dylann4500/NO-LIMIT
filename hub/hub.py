@@ -86,7 +86,7 @@ def merge_note(a: dict, b: dict) -> dict:
             seen.add(k)
             thread.append(t)
     m = dict(new, thread=thread)
-    if old.get("status") == "removed" or (old.get("status") in ("approved", "rejected") and new.get("status") in ("needs_call", "revise")):
+    if old.get("status") == "removed" or (old.get("status") in ("approved", "rejected") and new.get("status") in ("needs_call", "revise", "expired")):
         m["status"] = old["status"]
         m["decided_by"] = old.get("decided_by", m.get("decided_by"))
     if not m.get("body") and old.get("body"):
@@ -834,7 +834,7 @@ class Hub:
             if live.get("at") and live.get("at") != seen:
                 seen = live["at"]
                 act = (self.bus.shared.get("portal_active") or {}).get("filename")
-                if self.person == "dylan" and norm_bot(act) != norm_bot(live.get("filename")):
+                if self.person == "dylan" and norm_bot(act) != norm_bot(live.get("filename")) and live.get("by") != "deadline guard":
                     await self.add_alert("hub", f"**Upload {live['filename']} now** and make it active on the portal "
                                          f"({live.get('note') or 'new live bot'}). Download it from the Live menu (top right).", True)
 
@@ -1101,7 +1101,7 @@ class Hub:
                 "approvals": [{k: v for k, v in a.items() if k != "future"} for a in self.approvals.values()],
                 "alerts": self.alerts, "schedule": self.bus.shared.get("schedule"),
                 "live": self.bus.shared.get("live"), "clock": self.clock.next_text(),
-                "props": [dict(p, thread=(p.get("thread") or [])[-60:]) if len(p.get("thread") or []) > 60 else p
+                "props": [dict(p, thread=(p.get("thread") or [])[-60:], thread_n=len(p["thread"])) if len(p.get("thread") or []) > 60 else p
                           for p in self.props()[:200]],
                 "bots": self.bots()[:40], "portal_active": self.bus.shared.get("portal_active"),
                 "overviews": {k[7:]: v.get("items", []) for k, v in self.bus.shared.items()
@@ -2187,12 +2187,17 @@ class Agent:
             local = next(iter((hub.repo / "inbox").glob(f"{fid}-*")), None) if (hub.repo / "inbox").exists() else None
             if local:
                 return ok(f"Already here: {local}")
-            try:
-                v = await asyncio.wait_for(hub.file_store().get.aio(fid), 60)
-            except Exception as e:  # noqa: BLE001
-                return ok(f"Couldn't fetch {fid}: {type(e).__name__}")
+            v, t0_ = None, time.time()
+            while time.time() - t0_ < 90:   # it may still be uploading from the other laptop
+                try:
+                    v = await asyncio.wait_for(hub.file_store().get.aio(fid), 30)
+                except Exception as e:  # noqa: BLE001
+                    return ok(f"Couldn't fetch {fid}: {type(e).__name__}")
+                if v:
+                    break
+                await asyncio.sleep(5)
             if not v:
-                return ok(f"No shared file {fid}.")
+                return ok(f"No shared file {fid} after 90 s (the upload from the other laptop may have failed: ask its owner).")
             (hub.repo / "inbox").mkdir(exist_ok=True)
             pth = hub.repo / "inbox" / f"{fid}-{v['name']}"
             pth.write_bytes(v["data"])
@@ -2648,6 +2653,7 @@ class Clock:
         self.hub = hub
         self.sent: set[str] = set(load_json(hub.data / "clock_sent.json", []))
         self.guard = DeadlineGuard(hub)
+        self.started_at = time.time()
 
     def events(self):
         s = self.hub.bus.shared.get("schedule")
@@ -2671,6 +2677,21 @@ class Clock:
             lt = time.localtime()
             t0 = time.mktime((lt.tm_year, lt.tm_mon, lt.tm_mday, int(m.group(1)), int(m.group(2)), int(m.group(3) or 0), 0, 0, -1))
         old = self.hub.bus.shared.get("schedule") or {}
+        if old.get("start") and int(old["start"]) != int(t0):   # a correction: steps already sent stay sent
+            otk, ntk, now_ = int(old["start"]), int(t0), time.time()
+            for k in list(self.sent):
+                if k.startswith(f"{otk}:"):
+                    self.sent.add(f"{ntk}:{k.split(':', 1)[1]}")
+            U_ = 60 * scale   # steps whose new time is already over don't fire as a burst either
+            for mi, _, _ in BUILD:
+                if t0 + mi * U_ < now_ - 60:
+                    self.sent.add(f"{ntk}:b{mi}")
+            for kk in range(1, scored + 1):
+                ts_ = t0 + (60 + 20 * (kk - 1)) * U_
+                for o, _, _ in WINDOW:
+                    if ts_ - o * U_ < now_ - 60:
+                        self.sent.add(f"{ntk}:s{kk}-{o}")
+            atomic_write(self.hub.data / "clock_sent.json", json.dumps(sorted(self.sent)))
         await self.hub.bus.set_shared("schedule", {"start": t0, "scored": scored, "scale": scale,
                                                    "set_by": self.hub.person, "at": time.time()})
         # marks are keyed by the start time: a new start gets new keys, the same start keeps "already sent"
@@ -2806,8 +2827,8 @@ class Clock:
             if key.endswith(("-13", "-8", "-3")):
                 grace = max(grace, 300)   # decision steps: always within 5 minutes
             if key not in self.sent and at <= now < at + grace:
-                if now - at > 90 and text != "[reminders-only]":
-                    text = f"(LATE: this step was due at {hhmm(at)}; the hub was down then) " + text
+                if at < self.started_at and now - at > 90 and text != "[reminders-only]":
+                    text = f"(LATE: this step was due at {hhmm(at)}, while the hub was restarting) " + text
                 self.sent.add(key)
                 atomic_write(self.hub.data / "clock_sent.json", json.dumps(sorted(self.sent)))
                 if text == "[reminders-only]":
@@ -2915,8 +2936,11 @@ class DeadlineGuard:
             live = hub.bus.shared.get("live") or {}
             if not live or live.get("at", 0) <= start:
                 return True   # nothing new chosen this window: the live bot plays as it is
-            b = hub.bus.shared.get("bot:" + bot_name(live.get("filename") or "")) or {}
-            return b.get("status") == "ready" and bool(hub.find_bot_file(live.get("file") or "") or b.get("sha256"))
+            if norm_bot((hub.bus.shared.get("portal_active") or {}).get("filename")) == norm_bot(live.get("filename")):
+                return True   # already uploaded and active: nothing to cut
+            b = hub.bus.shared.get("bot:" + norm_bot(live.get("filename") or "")) or {}
+            return b.get("status") in ("ready", "testing") and bool(hub.find_bot_file(live.get("file") or live.get("filename") or "")
+                                                                 or b.get("sha256"))
         return True
 
     def windows(self):
@@ -2977,8 +3001,7 @@ class DeadlineGuard:
             await ag.add_item({"kind": "hub", "wake": False, "text": msg})
         await hub.overseer().add_item({"kind": "hub", "wake": True, "urgent": True, "text": msg + " Re-plan the rest of "
                                        "this window around it; report the cause at the next T-20 sync so it doesn't repeat."})
-        if gid == "note":
-            await self.post_default_note(k, ts, U)
+        posted = await self.post_default_note(k, ts, U) if gid == "note" else None
         if gid == "chosen":
             await self.revert_live(k)
         human = {"challenger": "no challenger this window. Leave the live bot active for the practice round (or the "
@@ -2987,7 +3010,8 @@ class DeadlineGuard:
                  "data": "round data hadn't landed by T-10. The live bot plays with already-validated changes only.",
                  "change": "no change from this round's data in time. The live bot plays with already-validated changes.",
                  "card": "the round-card script failed or was too slow. Data is computing the decision numbers by hand.",
-                 "note": "no 'Which bot?' note by T-7. The clock posted one with the live bot as default."}[gid]
+                 "note": ("no 'Which bot?' note by T-7. The clock posted one with the live bot as default." if posted else
+                          "no 'Which bot?' note by T-7 and no live bot is declared: the bot active on the portal plays.")}[gid]
         await hub.alert_all(f"{hub.person[0]}-clock", f"Before scored round {k}: {human}", urgent=gid in ("chosen", "challenger"))
         self.note(k, "cut", owner, what)
 
@@ -3003,8 +3027,10 @@ class DeadlineGuard:
     async def post_default_note(self, k, ts, U):
         hub = self.hub
         live = hub.bus.shared.get("live") or {}
-        if not live.get("file"):
-            return
+        f = live.get("file") or (("releases/" + live["filename"]) if live.get("filename") else "")
+        if not f:
+            return False
+        live = dict(live, file=f)
         p = {"id": "P" + new_id()[1:7].upper(), "kind": "bot", "title": f"Which bot plays scored round {k}?",
              "headline": f"Default: the live bot {bot_name(live['filename'])} keeps playing.",
              "body": "Posted by the clock because no decision note existed by T-7. The live bot plays unless the "
@@ -3013,12 +3039,16 @@ class DeadlineGuard:
              "owner": "d-overseer", "parent": None, "stage": stage_of(hub.bus.shared.get("schedule"), time.time()),
              "status": "needs_call", "created": time.time(), "deadline": ts - 5 * U, "thread": []}
         await hub.save_prop(p)
+        return True
 
     async def revert_live(self, k):
         hub = self.hub
         live = hub.bus.shared.get("live") or {}
         prev = live.get("prev")
-        if prev and prev.get("file"):
+        if norm_bot((hub.bus.shared.get("portal_active") or {}).get("filename")) == norm_bot(live.get("filename")):
+            return   # the portal already runs the chosen bot: leave it
+        if prev and (prev.get("file") or prev.get("filename")):
+            prev = dict(prev, file=prev.get("file") or prev.get("filename"))
             await hub.make_live(prev["file"], "deadline guard", note=f"{live.get('filename')} wasn't ready by T-4 of round "
                                 f"{k}; {prev.get('filename')} stays live", tell=False)
 
@@ -3182,6 +3212,8 @@ class PortalWatcher:
         res = await self.aget(f"/tournaments/{r['id']}/results")
         if not isinstance(res, dict) or not isinstance(res.get("items"), list):
             raise RuntimeError("results not ready")
+        if not res["items"] and self.st.get("land_fail", {}).get(r["id"], 0) < 5:
+            raise RuntimeError("results list empty (not ready yet?)")
         label = r.get("label") or f"{r['kind']} {r['created_at'][11:16]}"
         n = len(self.st["done"]) + 1
         folder = self.out / f"{n:02d}-{re.sub(r'[^a-z0-9]+', '-', label.lower()).strip('-')}"
@@ -3195,8 +3227,9 @@ class PortalWatcher:
             asyncio.create_task(self.fetch_hands(r["id"], folder))   # the full file, off the critical path
         self.hub.last_landed = time.time()
         items = sorted(res["items"], key=lambda x: -(x.get("average_points") or 0))
-        self.hub.landed_at[stage] = time.time()
-        self.st.setdefault("landed_at", {})[stage] = self.hub.landed_at[stage]   # survives a restart (deadline guard)
+        if files:   # "data landed" means the hand file is here (the deadline guard and card cut-off read this)
+            self.hub.landed_at[stage] = time.time()
+            self.st.setdefault("landed_at", {})[stage] = self.hub.landed_at[stage]   # survives a restart
         aid = "A-" + r["id"][:12]
         self.st.setdefault("note_of", {})[r["id"]] = aid
         await self.hub.ensure_note(aid, kind="analysis", stage=stage, owner="s-overseer", author="s-portal",
@@ -3328,6 +3361,9 @@ class PortalWatcher:
             files = await self.fetch_hands(tid, Path(info["folder"]))
             if files:
                 del self.st["need_hands"][tid]
+                st_ = info.get("stage") or info["label"]
+                self.hub.landed_at[st_] = time.time()
+                self.st.setdefault("landed_at", {})[st_] = self.hub.landed_at[st_]
                 self.save()
                 aid = self.st.get("note_of", {}).get(tid)
                 if aid:

@@ -336,14 +336,23 @@ class Bus:
                 try:
                     if mergeable:   # read-merge-write: never overwrite the other laptop's lines or decision
                         remote = await asyncio.wait_for(self.blobs.get.aio("shared:" + key), 15)
-                        if isinstance(remote, dict):
-                            m = self.merge(key, val, remote)
-                            if m != val:
-                                m["updated"] = max(m.get("updated", 0), val.get("updated", 0), remote.get("updated", 0)) + 0.001
-                                self.shared[key], val, ver = m, m, m["updated"]
-                                self.shared_ver[key] = self.dirty[key] = ver
-                                if self.on_merge:
-                                    self.on_merge(key, m)
+                        cur = self.shared.get(key)   # re-read: a local edit may have landed during the await
+                        if isinstance(remote, dict) and isinstance(cur, dict):
+                            m = self.merge(key, cur, remote)
+                            if m == remote:   # the server already has everything we have
+                                self.shared[key], self.shared_ver[key] = m, remote.get("updated", ver)
+                                if self.dirty.get(key) == ver:
+                                    del self.dirty[key]
+                                continue
+                            m["updated"] = max(m.get("updated", 0), cur.get("updated", 0), remote.get("updated", 0)) + 0.001
+                            if self.dirty.get(key) == ver:   # never clobber a newer edit's stamp
+                                self.dirty[key] = m["updated"]
+                            self.shared[key], val, ver = m, m, m["updated"]
+                            self.shared_ver[key] = ver
+                            if self.on_merge and m != cur:
+                                self.on_merge(key, m)
+                        elif isinstance(cur, dict):
+                            val = cur
                     await asyncio.wait_for(self.blobs.put.aio("shared:" + key, val), 15)
                     await asyncio.wait_for(self.d.put.aio("ver:" + key, ver), 10)
                     if mergeable:   # verify: a simultaneous write from the other laptop means merge again
@@ -402,7 +411,7 @@ class Bus:
                                                             and cur.get("updated", 0) > val.get("updated", 0)):
                                     self.shared[sk] = val
                                 self.shared_ver[sk] = v
-                            elif v < lv and sk not in self.dirty and sk in self.shared:
+                            elif v < lv - 2 and sk not in self.dirty and sk in self.shared:
                                 self.dirty[sk] = lv   # an older copy overwrote ours on the server (a race): send ours again
                                 self._dirty_evt.set()
                         elif k.startswith("shared:") and k[7:] not in versioned:   # older format, only if never rewritten
