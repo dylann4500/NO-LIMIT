@@ -31,7 +31,8 @@ left at hand 40 (6.1-6.5). Tight play scored 14.8 and a fold-everything bot 10; 
 rate at -0.59 (+0.44 by round 5).
 
 So practice 1 overstates tight, value-heavy play and understates pressure, and **a low fold to 3-bets there
-is not the counter-wave** unless the teams showing it also open 37%+ and 3-bet 20%+. Finalists build faster:
+is not the counter-wave** unless the teams showing it also open 37%+ and 3-bet 20%+. (Check it, don't assume
+it: Pittsburgh's practice 1 reportedly folded 70-80%, section 5.) Finalists build faster:
 expect fewer absentees, the same sticky drafts. 44-64% of the eventual top 20 changed bot between consecutive
 build practices (A).
 
@@ -57,7 +58,7 @@ when a pooled rate is 2+ points past a threshold in practices 1 and 2 together, 
 | 1 | Fold to a 3-bet (opener) | ±0.4 / ±1.4 | 70+: regional folders; wide 3-bets pay. 60-70: plan holds. Under 58 with row 2 high: counter-wave; 3-bet for value only (**PLAN CHALLENGE**, assumption 1) |
 | 2 | 4-bet rate (opener re-raises) | ±0.2 / ±0.7 | 15+: counter-wave (Boston 23, Bay Area 7-8). Under 10: nobody punishes light 3-bets yet |
 | 3 | Fold to a 4-bet (3-bettor) | ±1.5 / ±5 | 60+ pooled over the teams of row 4: re-aggression pays (contrarian design 1). Never per team: about 100 chances |
-| 4 | Teams 3-betting 25%+ with PFR 30%+ | ±0.5 per team | 6+ of 19: wide is crowded; don't join. 2 or fewer: pressure is under-supplied |
+| 4 | Teams 3-betting 25%+ with PFR 30%+; 3-bets split by seat and size | ±0.5 per team | 6+ of 19: wide is crowded; don't join. 2 or fewer: pressure is under-supplied. A tight opener re-raising 2x from the blinds is pressure too (section 5), and a 2x re-raise breaks even near 50% folds, not 65% |
 | 5 | Open-limp rate; teams limping 15%+ | ±0.1 / ±0.3 | Field 6+: drafts remain; discount this practice. 4+ teams: a limp-or-shove bloc |
 | 6 | Open-shove first in at 10bb or less (also 10-15, 15-20); calls of those shoves | ±0.6 / ±2.7; ±0.4 / ±1.5 | Shoves under 30: steal from short stacks. Over 55, and over 30 at 10-15: shove-heavy (**assumption 3**). Calls under 20: shove wider; over 35: for value only |
 | 7 | Big blind folds to one open | ±0.4 / ±1.0 | Over 60: steal wide. Under 40: defence wave; open tighter late, bet for value |
@@ -81,8 +82,34 @@ opportunity. Break-evens depend on today's modal open and 3-bet sizes (regional:
 | Scores compress near 12.5 | C; the regional top-20 spread was 1.7-3.0 | Top-to-median gap over 3: a weak tail exists and exploiting it pays |
 | Practice rounds are not full of experiments | A: 3% | Over a third of teams differ between a practice and the next scored round |
 
+## 5. Pittsburgh: what public repos show (added 14 November)
+
+Three public repositories, with no hand data, standings or ranks. **[I]** = second-hand (a team's notes or
+code comments). None is a known finalist: one says "top 50", one gives no rank, and the playbook was committed
+eight hours before the event.
+
+- **The field, from one bot's comments [I].** Practice 1 (2,500 tables): each player folded 80%+ to a small
+  raise, an opener folded 70-80% to a re-raise, shoves were called under 20% per player, and a postflop bet
+  won the pot outright only 27% of the time.
+- **The leaders [I].** The round-3 winner applied steady pressure with small raises; three of that round's
+  top four did so with 44-79% of hands in the spot. By round 4 "opponents learned to fight back" and that
+  team's wider opens and weak re-shoves lost money: defence by rounds 3-4, as at Boston.
+- **Bot 1 (rank unknown).** Opens tight (8-22%, 2.2bb) but re-raises a small open to only 2x with 75% of
+  hands when closing the action. Shove-or-fold by ICM at 12bb or less; value-only postflop; no rule for
+  facing a 3-bet; per-seat counts only widen its shove calls.
+- **Bot 2 ("top 50").** Tight, shove-or-fold at 12bb or less, wide re-shoves to 30bb, premium-only 3-bets,
+  value-only postflop; fourteen per-seat counters, used to bluff only seats shown to fold 60%+.
+- **The twist.** Both kept the two cards with the best combined chance over both boards, by sampling.
+- **The playbook (C: plans only).** Tight early, raise or fold, value bets, fold about 75% to re-raises. Its
+  main Bay Area source was **our own public write-up**, and it lists a "write-up copy" opponent (folds to
+  flop bets unless small, shoves the big blind over late opens, never bluffs rivers) with a counter. Assume
+  finalists know our regional habits: run the profiled-us check on the first download (`FINGERPRINTING.md` §5).
+
+**Changed because of this:** section 3, row 4 now splits 3-bets by seat and size; section 2's practice-1
+caution says "check". The crowded-styles shares stand: this is two or three teams of unknown rank.
+
 **Unknown:** the variant; points per place (the rules say they vary by variant); the 20 names; Pittsburgh's
-variant and field; whether any finalist recognises opponents by name.
+standings and which of its teams are finalists; whether any finalist recognises opponents by name.
 
 ## Appendix A: regional reference values (measured 14 November)
 
@@ -121,5 +148,6 @@ Rank persistence, rechecked from points at our tables: round-to-round Spearman 0
 - A Bay Area team's repository, whose commits show mid-event copying of the leaders: https://github.com/nnicholas-c/poker_sequoia
 - A Boston entrant's eight iterations: https://github.com/AlexPha45/No-Limit-Pokerbots
 - Harvard Crimson on the Boston regional: https://www.thecrimson.com/article/2026/11/12/poker-tournament-regional/
+- Pittsburgh repositories (section 5; read 14 November, nothing copied): https://github.com/CapitanoZ/no-limit-2026-pokerbot (README, `bot/nl26/strategy.py`, `pgh.py`, `tools/analyze_history.py`); https://github.com/noe2971/PokerBot (`agent.py`); https://github.com/tranthuanhieu1610/no-limit-pittsburgh-playbook (13 of 23 notes files, including `references/sam/intel-earlier-regionals.md` and `references/ours/4-opponents.md`). All were read through a summarising fetch tool, so check a figure against the raw file before relying on it.
 - Not found: Pittsburgh's results, a list of finalists, or anything by 2 Curry. (Pittsburgh's variant was found
   later the same morning: `notes/pre/variants.md`.)
