@@ -34,25 +34,28 @@ more than us.
   never counted.
 - **Style mattered, and one rule in particular.** 2 Curry opened about 40% of hands, re-raised wide, and
   tracked each seat: it re-raised a fresh opener 18% of the time, 43% after that seat had folded to one
-  re-raise, and 62% after two. We folded to most re-raises, so it kept re-raising us. Ten of the other
-  19 top teams had a per-seat rule like this.
-- **Almost everyone changed their bot every round (78-90% of teams).** For strong teams, changing only
-  kept them level, so the bot at the end of the build matters a lot, and you still have to keep improving.
+  re-raise, and 62% after two. We folded to most re-raises, so it kept re-raising us. Three other top-20 teams
+  had a strong rule exactly like this; ten had a strong per-seat response of some kind.
+- **Almost everyone changed their bot every round (78-90% of teams).** Top-20 teams fell back about 0.65
+  points per round whether they changed or not, so freezing never holds a lead.
 - **The Finals field is harder.** Every finalist knows wide re-raising won. By round 5 at Boston, the top
   teams already folded only 58% to re-raises and re-raised back 23% of the time.
-- **Big jumps come from rewrites, mostly for teams far behind.** For top-20 teams, rewrites lost 0.68
-  points on average.
+- **Big jumps come from rewrites.** For top-20 teams, rewrites averaged the same as standing still (−0.68 vs
+  −0.67) but with three times the spread: 24% improved, by up to +3.8; no unchanged team did. With only the
+  top 3 paid, that upside is worth having.
 - **Bet sizes identify a team quickly:** the right team is named 73% of the time by hand 20. Hiding our
   sizes costs value and works for one round at most, so we don't hide them. Instead we avoid big
   exploitable gaps, such as folding 89% to re-raises when the field folds 65%.
-- **No style wins everywhere; they form a cycle.** In simulation:
-  - wide re-raising beats a field of tight bots;
-  - limp-or-shove beats a field of wide re-raisers;
-  - tight beats a field of shovers.
-
-  So we build all three and let the real field choose.
-- **Expect lower scores:** about 14-15 points per table against a field of only strong teams, not 18-20.
-  The average is 12.5.
+- **No style wins everywhere.** In simulation (Bay Area variant, pure fields only) they formed a cycle:
+  wide re-raising beats tight, limp-or-shove beats wide re-raisers, tight beats shovers. In realistic mixes
+  the differences were small and the simulation couldn't rank strong teams. So the styles are starting
+  points, one design is built fresh from today's rules, and the real field chooses.
+- **Expect lower scores:** a field of only strong teams averages 12.5 points per table; our regional bots
+  simulate at 14-19 against it, depending on the fit. Don't panic at a 15.
+- **The field moves.** Boston's top 20 went from folding 75% to re-raises to 57.5% by round 5 and partly back.
+  Finalists studied both regionals, so expect them to start near that point and keep moving. **The plan is a
+  default, not a mandate:** an agent that sees the plan is wrong for today's field raises a *plan challenge*
+  to both of you.
 
 How sure we are of each of these: `docs/EVIDENCE_TABLE.md`.
 
@@ -65,14 +68,22 @@ How sure we are of each of these: `docs/EVIDENCE_TABLE.md`.
    - then **one shared platform** (rules, equity, per-seat counters, memory, safety) with **three
      styles** on top: wide pressure (A), shove-heavy (B) and tight (C).
 
-   Practice rounds at minutes 20, 30 and 40 each play a different style, and minute 50 re-plays the
-   leader. The best real score goes live for scored round 1.
+      From minute 0 the Challenger also builds **design D from scratch**: from today's rules only, without our
+   regional style notes. Practice rounds at minutes 20-50 each play the most informative candidate (Dylan's
+   Chat picks; one is D), every one with the newest shared tables so the comparison is fair. The best real
+   score (adjusted for the field and the round size) goes live for scored round 1.
 2. **Every 20 minutes after that:**
    1. a scored round lands;
    2. Samuel's side analyses it;
    3. Dylan's side builds a challenger and fixes;
    4. the challenger plays the practice round 10 minutes before the next scored round;
-   5. you decide together what plays: the live bot, the live bot plus up to **three** tested changes, or the challenger.
+      5. you decide together what plays: the live bot, the live bot plus the tested changes that cleared the bar,
+      or the challenger.
+
+   Each window the Opponents agent also writes the **field trend** (what the field and the top 5 do now, and
+   which plan assumptions still hold), and the Analyst's **winners lens** asks what the best teams do that we
+   don't. Until about 30% of the weight is played, at least every other practice round plays a genuinely
+   different design, not a tweak: one practice round can't measure small tweaks anyway.
 3. **Adapt to individual seats, not to the "table mood".** Per-seat counts are blended with what we know
    about each team, and every adjustment is capped. Against seats that raise a lot, call down and re-raise
    wider; folding more is the wrong answer to aggression.
@@ -130,7 +141,7 @@ Four agents per laptop, one job each, so you know which one to open:
 | **Chat** (the lead; you talk here) | Leads analysis, testing and opponents; sends Dylan's Chat the recommendation at T-8 | Leads the bot; asks the "which bot?" decision; tells Dylan exactly which file to upload |
 | Worker | **Analyst**: build hour, the maths tables for today's variant (hand ranking, ICM, push/fold, the twist's value) and the round-card script; rounds, what the data means (leaks, the defaults check, up to three changes) | **Platform & releases**: the only one editing the main bot code; the rules card at minute 0; v1 by minute 10; every release (v1, v2, ...) |
 | Worker | **Tester**: is a candidate correct and stronger (paired tests on Modal), and are the numbers decisions rest on true (re-runs, validates or disputes) | **Styles & fixes**: styles A, B, C, then opponent counters and the live bot's fixes, in its own copy of the repo |
-| Worker | **Opponents**: fingerprints (which team sits where), team profiles and counters, whether anyone has profiled us (`docs/FINGERPRINTING.md`) | **Challenger**: the bigger-swing bot for each window's practice round, in its own copy of the repo |
+| Worker | **Opponents**: the field trend every round (what the field and the top teams do now; plan assumptions checked), fingerprints, team profiles and counters (`docs/FINGERPRINTING.md`) | **Challenger**: the team's exploration: a design built from scratch from minute 0, then the bigger-swing bot for each window's practice round, in its own copy of the repo |
 | Hub services (plain code) | **Clock**, **Portal watcher**, **Deadlines**, **Codex** | **Clock**, **Deadlines**, **Codex** |
 
 - **The Clock** knows the schedule and gives every worker its own task at the right minute, straight from the game
@@ -182,8 +193,10 @@ You decide together at T-8. If you disagree and there's no time, the rule's answ
 | 0-5 | Kit fetched; Format page read (round weights, payouts, anything unusual); the clock starts Platform on the first prompt with `TWIST_NOTES.md` | Both |
 | by 10 | Minimal legal bot uploaded and active | Dylan |
 | 15 | Test rig running (paired runs, sparring) | Samuel's side |
-| 20, 30, 40 | Each practice round plays a different style | Dylan uploads |
-| 50 | Practice round re-plays the leader. Then hands off: the best real-field scorer is active for scored round 1 | Dylan |
+| 0 | The Challenger starts design D from scratch (today's rules only) | Dylan's side |
+| 17, 27, 37, 47 | Dylan's Chat names the bot for the next practice (the most informative test); the bell reminds Dylan to upload | Dylan uploads |
+| 20, 30, 40, 50 | Practice rounds | |
+| after 50 | The best real-field scorer (adjusted) is active for scored round 1 | Dylan |
 
 **Every window after that.** A practice round starts 10 minutes before each scored round and plays
 whatever bot is active, so each window has two uploads.
@@ -195,9 +208,10 @@ whatever bot is active, so each window has two uploads.
 | T-12 | Challenger uploaded and active (skip if not ready) | Dylan |
 | T-10 | Practice round plays the challenger | |
 | T-9 | Live bot put back as active straight away | Dylan |
-| T-8 | **Decide** by the pre-registered rule (`DECISION_RULES.md` §3): the challenger if it clears the bar for our standing, else the live bot with this window's changes (up to three). The "Which bot?" note shows the rule's answer | Both |
+| T-9 | Samuel's Chat sends the recommendation (the threshold, then the final answer once the practice lands) | Samuel's side |
+| T-8 | **Decide** by the pre-registered rule (`DECISION_RULES.md` §3): the challenger if it clears the field-adjusted bar for our standing, else the live bot with this window's tested changes. The question pinned in your Chats shows the rule's answer | Both |
 | T-6 | Chosen bot tested with no time bank | Dylan's side |
-| T-5 | No human answer means the rule's answer plays | |
+| T-5 | No human answer: the hub applies the rule's answer itself | |
 | T-3 | Chosen bot uploaded; active bot confirmed | Dylan |
 
 Once the live bot is back at T-9, a missed deadline means the previous live bot plays: that is a failure to
@@ -209,17 +223,22 @@ uploaded.
 The full rules are in `docs/DECISION_RULES.md`; every agent has them in its instructions on every turn.
 
 - **Goal:** a top-3 finish (only 1st-3rd pay). Standing still is not safe.
-- **Live bot:** up to three independent changes per round, each in a different situation and behind its own
-  setting.
-- **Challenger:** two to four changes, a new style, or a fresh rewrite. Default design: the best response to
-  the field's measured mix of styles, not to the leader.
-- **Which bot plays:** the challenger if it beats the live bot on the real field by 1.0 SE or more when we're
-  outside the top 3 or behind 3rd (0.5 SE in the last two rounds), or by 1.5 SE when we're in the top 3. If
-  nobody answers in time, the rule's answer plays.
-- **Folding to re-raises:** fold to a 3-bet of our open no more than break-even (usually 65-75%); this is a
-  starting value, and it doesn't apply to folding to 4-bets after our own light 3-bets.
-- **Bolder:** a fresh rewrite in the challenger slot when we're outside the top 6 after 15% of the total weight;
-  plan the last round (often 25-40% of all points) from the round before.
+- **Live bot:** every independent tested change that clears the bar, each in a different situation and behind
+  its own setting (usually one to three).
+- **Challenger:** the team's exploration: the clean-room design, a new style, the best response to the field's
+  measured mix, what a plan challenge points to, or a fresh rewrite. A rewrite is normal at any standing.
+- **Which bot plays:** compared against yardstick teams (those that didn't change), so the challenger's
+  practice and the live bot's scored round are on one scale. The challenger plays at z ≥ 0.5 outside the top 3
+  (≥ 0 in the last two rounds), z ≥ 1.0 in the top 3 (1.5 with a big lead). If nobody answers in time, the
+  hub applies the rule's answer.
+- **Exploration:** until 30% of the weight is played, at least every other practice round plays a different
+  design, at any standing unless our lead is big.
+- **Plan challenges:** any agent may say the plan is wrong for today, with evidence; both of you see it, and
+  by default the Challenger builds the alternative for the next practice.
+- **Folding to re-raises:** near break-even (usually 65-75%) is the default, not a cap (the regional winner
+  folded 81-87%); it doesn't apply to folding to 4-bets after our own light 3-bets.
+- **Bolder:** behind 3rd, or outside the top 3 after 15% of the weight: the challenger slot carries a divergent
+  design and the bar drops; plan the last round (often 25-40% of all points) from the round before.
 - **What counts as evidence, in order:**
   1. real-field results (practice and scored);
   2. replay testing;
@@ -261,8 +280,9 @@ The full rules are in `docs/DECISION_RULES.md`; every agent has them in its inst
 - **Not yet tested:** two real laptops on a phone hotspot, a full 3-hour run at real speed, and the
   Anthropic API-key overflow.
 - **Pittsburgh's variant** isn't known.
-- **The hand-history download address** isn't in the organizers' code. Samuel copies it once after the
-  first practice round (`SUNDAY.md` step 7).
+- **The hand-history download address** isn't in the organizers' code. If the watcher can't download, Samuel
+  pastes it once into his Chat as "hands link: …" after the first practice round (`SUNDAY.md` step 7).
+- **The upload cooldown:** 30 s at the regionals' portal, 5 minutes in a public summary. Check the Format page.
 - **The agents are good but not careful.** In simulations they:
   - used last rehearsal's data until caught;
   - asked for things nobody can see;

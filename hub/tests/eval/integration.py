@@ -161,7 +161,7 @@ async def main():
     sx = ["--portal-base", f"http://127.0.0.1:{pp}/api", "--portal-key-file", str(out / "key"),
           "--portal-data", str(out / "pd"), "--scale", "0.05"]
     procs = {"samuel": start_hub("samuel", ps, out / "repo-s", out / "data-s", ns, sx, out / "hub-s.log"),
-             "dylan": start_hub("dylan", pd, out / "repo-d", out / "data-d", ns, ["--scale", "0.05"], out / "hub-d.log")}
+             "dylan": start_hub("dylan", pd, out / "repo-d", out / "data-d", ns, ["--scale", "0.05", "--portal-data", str(out / "pd-d")], out / "hub-d.log")}
     async with ClientSession(timeout=ClientTimeout(total=60)) as s:
         async def up(base):
             try:
@@ -348,10 +348,10 @@ async def main():
         dchat = (await state(D)).get("overviews", {}).get("d-overview", [])
         check("C10", "the hub's 'make sure Dylan uploads' message never appears under Dylan's name",
               not any(t.get("who") == "Dylan" and "Make sure Dylan uploads" in str(t.get("text")) for t in dchat))
-        # A3: every worker got its minute-0 task from the clock directly (both laptops); the challenger starts later
+        # A3: every worker got its minute-0 task from the clock directly (both laptops), the challenger included
         got = {n: any("[clock: Build hour, minute 0]" in i.get("text", "") for i in inbox(n)) for n in ("s-data", "s-tester", "s-scout")}
         got.update({n: any("[clock: Build hour, minute 0]" in i.get("text", "") for i in dinbox(n)) for n in ("d-platform", "d-builder", "d-challenger")})
-        check("A3", "the clock handed each worker its minute-0 task (challenger: not yet)", all(got[n] for n in ("s-data", "s-tester", "s-scout", "d-platform", "d-builder")) and not got["d-challenger"], str(got))
+        check("A3", "the clock handed each worker its minute-0 task (the challenger's clean-room design D too)", all(got[n] for n in ("s-data", "s-tester", "s-scout", "d-platform", "d-builder", "d-challenger")), str(got))
         async def b1_done():
             return next((x for x in (await state(S)).get("tiles", []) if x["id"] == "build-1" and x["state"] == "done"), None)
         check("N4", "'Build · v1 and the platform' turns done once the portal runs a bot", bool(await wait_for(b1_done, 40)))
@@ -426,6 +426,15 @@ async def main():
               sum(1 for i in inbox("s-data") if "DATA LANDED" in i.get("text", "")) <= 2)
         errs = (out / "data-s" / "errors.log").read_text() if (out / "data-s" / "errors.log").exists() else ""
         check("S8", "no background errors recorded on Samuel's hub", not errs.strip(), errs[:300])
+        # K2: each round's results and hand sample reach Dylan's laptop (the portal watcher runs on Samuel's only)
+        got = []
+        for _ in range(30):
+            got = list((out / "pd-d" / "from-samuel").rglob("results.json")) if (out / "pd-d" / "from-samuel").exists() else []
+            if got:
+                break
+            await asyncio.sleep(2)
+        check("K2", "round results (and the hand sample) are copied to Dylan's laptop", bool(got),
+              str(list((out / "pd-d").rglob("*"))[:6]) if (out / "pd-d").exists() else "no folder")
 
         # C10: a clock that is off by many minutes is flagged against the portal's real round start, in both Chats
         await api(s, S, "POST", "/api/schedule", {"start": time.strftime("%H:%M:%S", time.localtime(time.time() - 1800)),

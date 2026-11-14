@@ -266,23 +266,27 @@ HOW TO WORK
        re-shoves chosen by stack depth and tournament equity (the regional runner-up's style);
     C. tight: opens few hands, avoids the early all-ins that bust other teams, calls off and re-raises
        all-in with strong hands, and goes shove-or-fold by stack depth before the blinds drain it.
-  These three sit at the corners of a cycle we found in simulation: wide re-raising beats tight fields,
-  limp-or-shove beats wide re-raisers, and tight beats shove-heavy fields; against a strong field none was
-  clearly best. So the real field must pick, and the challenger should be the best response to the
-  field's measured mix of styles (profiles), not simply to whoever is winning. A tight bot that only folds busts around hand 100 and finishes 4th, so C must win chips.
+    These three sit at the corners of a cycle we found in simulation (Bay Area variant, pure fields only):
+  wide re-raising beats tight fields, limp-or-shove beats wide re-raisers, and tight beats shove-heavy
+  fields; in realistic mixes no lead exceeded 1.4 points and the clones couldn't rank strong teams. They are
+  one hypothesis about what matters, not a menu: if today's rules make another axis matter more (the
+  twist, postflop play, short stacks), replace the weakest corner with it and say why. The Challenger
+  builds a fourth design, D, from scratch from today's rules without these notes, so we never only test
+  our own assumptions. The real field picks. A tight bot that only folds busts around hand 100 and finishes 4th, so C must win chips.
   All three share the post-flop equity logic (fold to bets near break-even, adjusted per seat).
   Shared defaults (from the measured priors above; every style keeps them unless its design deliberately
   overrides one and says so in VERSIONS.md): no open-limping (a limp-or-jam style limps by design, with its
   planned re-shove); no flat-calling an open at 10 big blinds or more except big-blind defence at the right
   price; shove-or-fold first in at about 12 big blinds or less; fold one pair to raises and to large late
   bets unless that seat is shown to bluff. The check run counts each (open-limp rate, flat calls of opens at
-  10bb+ outside the big blind, first-in non-shove raises under 12bb, one-pair calls of raises) and a style that
-  breaks one by accident fails the check. In a rehearsal, bots v1-v10 limped and flat-called because nothing
+  10bb+ outside the big blind, first-in non-shove raises under 12bb, one-pair calls of raises) and reports it;
+  a style that breaks one must say whether that is intended. If today's field pays for limping or flat-calling
+  (the field trend, the winners lens), that is a finding, not a failure. In a rehearsal, bots v1-v10 limped and flat-called because nothing
   checked, and the leak was still there in scored round 1.
-  Each must pass every check below. I'll rotate which one is active through the practice rounds, so each
-  gets a real score against this field. The best scorer plays scored round 1; the next best stays alive as
-  the challenger, which plays the practice round between scored rounds and takes the bigger, riskier
-  changes; the third is dropped. If you have ideas for further styles, build them too and let the test rig
+    Each must pass every check below. Dylan's Chat picks which plays each practice round (the most
+  informative test), each built with the newest shared tables, so each gets a real score against this
+  field. The best scorer (adjusted for the field and round size) plays scored round 1; the Challenger
+  takes the bigger, riskier designs in the practice round between scored rounds. If you have ideas for further styles, build them too and let the test rig
   filter them: only three can get practice rounds, but more can be tried in simulation. A local field of
   our own styles is a sanity check, not a verdict: in it, whichever style the cycle favours wins.
 - Whatever the style, fold to a 3-bet of our open no more than the break-even rate for our open size and
@@ -534,7 +538,8 @@ Nothing learned at one table may be carried to another; profiles come only from 
 Run these in parallel as soon as a download lands. Agents are cheap and the windows are short: start them
 all at once and let the manager sort the results.
 
-**Manager** (one, all event: Samuel's Chat in the hub; Samuel's main session if we fall back to manual mode)
+**Manager** (manual fallback only: in the hub this work is split between the clock's tasks and the two Chats, and
+the decision rule is DECISION_RULES.md §3, which overrides the numbers in this prompt)
 ```
 You coordinate our agents between rounds. When I give you a new download, start in parallel: the extraction
 and the five area analyses (Part 2), the profile refresh (Part 4), two bug hunters, an opponent specialist
@@ -589,8 +594,8 @@ team's profile, not as changes to our default play.
 
 | Claim in the prompts | Evidence | Strength |
 |---|---|---|
-| The first hour matters, but places keep moving | Whole field: round-to-round rank correlation 0.76-0.83 (Bay Area), median 0.68 (Boston). Among the top 20: 0.41-0.79, with moves of 3-4.5 places per round | Strong, two regionals (top-20 figures corrected) |
-| Standing still is not safe | Top-20 bots that never changed lost 0.67 ± 0.12 points/table per round (18 bots, 0 improved); changed minus unchanged: -0.01 ± 0.18 | Measured, one regional |
+| The first hour matters, but places keep moving | Whole field: round-to-round rank correlation 0.84-0.91 (Bay Area, official standings). Among the top 20: 0.41-0.79, with moves of 3-4.5 places per round | Strong (top-20 figures corrected) |
+| Freezing doesn't hold a lead | Top-20 teams that didn't change fell 0.67 ± 0.12 points/table per round (18 team-rounds, 0 improved); changed minus unchanged: -0.01 ± 0.18 (selected on rank, partly regression to the mean). Rewrites: same mean, three times the spread, 24% improved (best +3.8) | Measured, one regional; not causal |
 | Wide 3-betting with disciplined folds won | 2 Curry: 12 3-bets/table vs our 5-6, ~+0.4 points each; head-to-head it beat us by 1.6-3.3 points/table; sized 3-bet rate correlates with points (rho 0.38-0.49) | Good; observational, one field |
 | One-pair call-downs are the commonest leak | 17 of 30 self-reviewing AI-built bots; our flop fold-to-bet 33% vs the leaders' ~60%; fixing it gained ~2.3 points/table | Strong |
 | Over-folding is the next leak | We folded 73/66/78% to heads-up bets vs the field's 52/45/48%; 16 of 30 bots over-folded preflop | Good |

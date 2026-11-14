@@ -113,10 +113,18 @@ Start with a fresh state folder and a fresh message line so nothing from rehears
 ./hub/start.sh dylan ~/<sunday-repo> --data ~/.avalon-hub-live/dylan --namespace=-live
 ```
 
-Press **Start building** on the board as soon as the variant is announced. After the first practice round, copy the
-hand-history download link from the portal's team page and restart Samuel's hub with
-`--hands-url '<link with the round id replaced by {tid} and the subset part by {q}>'` (the portal's code
-doesn't reveal it). Keep both laptops plugged in with lids open.
+Chat commands the hub handles itself (both laptops follow):
+- "start the research" (about 2 hours before): every worker gets its pre-event research topic (notes only).
+- "run the check": the pre-flight on both laptops (link, portal read + hand download, Claude, Codex, repo, disk,
+  clock, same hub code, laptop clocks).
+- "the competition starts now" (or "... was announced at 14:02"): minute 0. "reset the clock": clears a clock set
+  by mistake (before any scored round).
+- "hands link: <url>" (Samuel): the hand-history download link copied from the portal, if the watcher can't
+  download on its own; no restart.
+- Format and times go to the Chat in words ("the build is 90 minutes", "rounds are every 30 minutes", "scored
+  round 3 is at 15:40"); a scored round's real start is also taken from the portal.
+
+Keep both laptops plugged in with lids open.
 
 On a phone hotspot add `--small-hands` to Samuel's command: the watcher then downloads only the small
 first-1,000 hand file per round (a scored round's full file can be several hundred MB).

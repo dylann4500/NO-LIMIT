@@ -38,10 +38,16 @@ curl -s -H "Authorization: Bearer $(cat ~/.config/no-limit-2026/api-key)" -A ava
 ```
    It should list a team, ideally including the Finals competition. If you have a new key for the
    Finals, save it in that file.
-5. **Both: run each hub once** on a phone hotspot, using the Sunday commands below. Open
-   http://127.0.0.1:7777 and press **Check everything works** (or type "run the check" in the Chat). Both
-   Chats list the results: the link, the portal (reading it, and downloading a hand file once a round exists),
-   Claude, Codex, the repo and its plan docs, disk space. Fix every ❌, then press Ctrl+C.
+5. **Both: run each hub once** on a phone hotspot, with **check** folders so nothing carries into Sunday
+   (Sunday's commands below use different ones):
+```
+./hub/start.sh samuel ~/avalon-finals --data ~/.avalon-hub-check/samuel --namespace=-check --portal-data ~/portal-data-check --portal-base https://pokerbot.sequoiacap.com/tournament/api --portal-key-file ~/.config/no-limit-2026/api-key --small-hands
+./hub/start.sh dylan ~/avalon-finals --data ~/.avalon-hub-check/dylan --namespace=-check
+```
+   Open http://127.0.0.1:7777 and type "run the check" in the Chat. Both Chats list the results: the link,
+   the portal (reading it, and downloading a hand file once a round exists), Claude, Codex, the repo and its
+   plan docs, disk space. Fix every ❌. Both run `git -C ~/NoLimit/NO-LIMIT rev-parse --short HEAD` and
+   compare: the two laptops must run the same hub code. Then press Ctrl+C.
 6. **Decide who claims the $250 Codex credit** before either of you opens the link.
 
 ## Sunday morning, before minute 0
@@ -62,6 +68,10 @@ cd ~/NoLimit/NO-LIMIT
   `--small-hands` saves hotspot data by downloading only the first-1000 hand file; drop it on good Wi-Fi.
 - **Both:** open http://127.0.0.1:7777 and click your name. Your Chat (the lead of your side) starts and reads the plan. Type "run the check" in it.
 - **Dylan:** have the organizers' portal open in a browser tab, logged in. Uploads happen there.
+- **About 2 hours before minute 0, either of you: type "start the research" in your Chat.** Every worker on both
+  laptops gets a pre-event research topic (notes only, no bot code: the regionals and Pittsburgh, what the
+  Finals field will do, a contrarian memo on what beats a field that read the same lessons, the build and test
+  plans). Notes land in `notes/pre/`; Samuel's Chat merges them into `notes/plan.md`. Read the contrarian memo.
 
 ## Minute 0: the variant is announced
 
@@ -69,8 +79,11 @@ cd ~/NoLimit/NO-LIMIT
    late, type the announcement time next to it, or tell your Chat "the variant was announced at
    14:02"). Both laptops' clocks start and the clock gives each agent its
    instructions at the right minute, so you don't have to.
-2. **Both:** read the Format page on the portal: round weights, payouts, anything unusual. If the times
-   differ from the usual schedule, tell your Chat, e.g. "practice 1 is at 14:25".
+2. **Both:** read the Format page on the portal: round weights, payouts, the **upload cooldown**, anything
+   unusual. If the shape differs from 60-minute build / a round every 20 minutes / 6 rounds, tell your Chat in
+   one line ("the build is 90 minutes", "rounds are every 30 minutes", "there are 5 scored rounds"). Times you
+   learn later go in the same way ("scored round 3 is at 15:40"); a scored round's real start is also picked up
+   from the portal automatically, and later deadlines follow it.
 3. **Dylan:** fetch the kit. Either run the setup skill with `/no-limit-2026-setup` in Claude Code with
    the API key, or download it from the portal. Put it in `~/avalon-finals/starter-kit/`, then tell your
    Chat "the kit is in starter-kit/". Platform starts on the first prompt and the twist
@@ -81,22 +94,19 @@ cd ~/NoLimit/NO-LIMIT
 | When | Who | What to do |
 |---|---|---|
 | ~10 | Dylan | When the bell says "Upload v1.zip now": Live menu → click v1 to download it → upload it on the portal and make it **active**. The Live chip turns green when the portal runs it |
-| 20, 30, 40 | Dylan | Before each practice round a "Which bot?" note asks which style plays. Answer it; if a new bot goes live, the bell says "Upload … now": download it from the Live menu, upload, make active |
+| 17, 27, 37, 47 | Dylan | Your Chat names the bot for the next practice round (the most informative test, not a fixed style rota; one of them is the Challenger's clean-room design D). The bell reminds you 3 minutes before each practice: download it from the Live menu, upload, make active |
 | after practice 1 | Samuel | **Step 7 below:** give the watcher the hand-history link |
-| any time | Both | Read the bell. Open notes waiting for you, read the red box and answer in words; ask anything first. Post ideas with + New idea |
+| any time | Both | Read the bell and your Chat. Decisions are pinned at the top of the Chat: answer in words; ask anything first. A **plan challenge** (an agent saying the plan looks wrong for today's field) appears in both Chats: read it and say what you think |
 | 50-60 | Dylan | The best real-field scorer goes active for scored round 1. Your Chat asks "which bot?"; answer it in words, then upload and make active |
 
 ### Step 7 (Samuel, once): the hand-history link
 
-The organizers' code doesn't reveal where hand histories download from.
+The organizers' code doesn't reveal where hand histories download from. If the watcher already downloads them
+(the Analyst's tile for practice 1 data turns "done"), skip this.
 1. After practice round 1 finishes, open the portal's team page (or the round page) and right-click
    **Download** (the small/first-1000 one) → **Copy Link Address**.
-2. Paste it somewhere and replace the round's ID in it with `{tid}`. If there is a part that picks the
-   small file, replace it with `{q}`; if not, leave it.
-3. Stop your hub (Ctrl+C) and start it again with the same command plus
-   `--hands-url '<the link with {tid}>'` at the end.
-4. Your agents resume where they were. The watcher fetches any hand data it couldn't get before, and
-   says so in the bell after 20 minutes if it still can't.
+2. Paste it into your Chat as `hands link: <the link>`. The hub finds the round's id in it, keeps it across
+   restarts and fetches any hand data it couldn't get before. No restart.
 
 ## Every 20-minute window
 
@@ -106,12 +116,12 @@ The countdown strip shows the next step. The clock reminds each of you when a st
 |---|---|---|
 | T-13 | Samuel | Results land. Open the Analyst (or ask your Chat) for the findings. Push back if something looks off |
 | T-12 | Dylan | If your Chat says the challenger is ready: upload it and make it active (it plays the practice round) |
-| T-9 | Dylan | **Put the live bot back as active straight away** |
-| T-8 | Both | **Decide.** Open the "Which bot?" note, read what's being asked, answer in words ("yes, use v13" / "no, keep v8"). Either of you can decide |
-| T-5 | | No decision means the live bot plays; nothing to upload |
-| T-3 | Dylan | Upload the greenlit bot (exactly the file named on the note, e.g. `releases/v4.zip`), make it active, check the team page |
+| T-9 | Dylan | **Put the live bot back as active straight away** (if the cooldown is long, your Chat re-plans the uploads: DECISION_RULES §3 "Uploads") |
+| T-8 | Both | **Decide.** The "Which bot?" question is pinned at the top of your Chat with both bots' numbers and the rule's answer. Answer in words ("yes, use v13" / "no, keep v8"). Either of you can decide |
+| T-5 | | No answer: the hub applies the rule's answer itself (it may be the challenger; the bell then asks Dylan to upload it) |
+| T-3 | Dylan | Upload the decided bot (exactly the file the bell names, e.g. `releases/v4.zip`), make it active, check the team page |
 
-Between those, steer when you like: ask "why?", redirect, post ideas.
+Between those, steer when you like: ask "why?", redirect, ask an agent to research something.
 
 ## When something goes wrong
 
@@ -126,7 +136,9 @@ Between those, steer when you like: ask "why?", redirect, post ideas.
 | A permission request you don't understand | Deny it. The agent finds another way |
 | The hub page won't load | Look at its Terminal window. It restarts itself after a crash; if the window is closed, start it again with the same command (agents resume) |
 | Codex jobs fail | Nothing to do; agents fall back to Claude helpers. The bell says if Codex needs a login |
-| You disagree with your teammate at T-8 and there's no time | The live bot plays |
+| You disagree with your teammate at T-8 and there's no time | The hub notices opposite answers, says so in both Chats and keeps the rule's answer until you agree |
+| The link between laptops is down at T-8 | Samuel reads his Chat's recommendation to Dylan aloud; Dylan answers in his Chat. With nothing new, the live bot plays |
+| The leaderboard is hidden | The hub says so; the Chats work out our total from each round's results and weights, and treat us as outside the top 3 unless we clearly weren't |
 
 ## After the last round
 

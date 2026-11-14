@@ -1,3 +1,4 @@
+import re
 """The lean hub's own pieces: report_progress tiles, the decision tile's life (asked -> decided / no answer), the
 lead's context (decisions waiting, the board), direct clock dispatch to workers, roster consistency. No network,
 no model.   uv run ... python hub/tests/eval/unit_lean.py hub"""
@@ -18,8 +19,18 @@ async def main():
     check("dispatch, routes, fan-out and guard only name real agents",
           {ag for v in H.DISPATCH.values() for (_, _, ag, _) in v} <= names and {a for v in H.ROUTES.values() for (a, _, _) in v} <= names
           and set(H.FANOUT) <= names and {g[4] for g in H.GUARD} <= names | {"s-portal"})
-    check("every worker gets a minute-0 task except the challenger (it starts at 40)",
-          {ag for (_, _, ag, _) in H.DISPATCH["b0"]} == names - {"s-overview", "d-overview", "d-challenger"})
+    check("every worker gets a minute-0 task, the challenger included (its clean-room design D)",
+          {ag for (_, _, ag, _) in H.DISPATCH["b0"]} == names - {"s-overview", "d-overview"})
+    check("pre-event research gives every worker a topic, notes only",
+          {ag for (_, _, ag, _) in H.DISPATCH["pre"]} == names - {"s-overview", "d-overview"}
+          and all("NO" in t and "code" in t for (_, _, _, t) in H.DISPATCH["pre"]))
+    check("no clock task forces a style onto a practice round",
+          not any(re.search(r"style [ABC] (?:for|in) practice", t) for v in H.DISPATCH.values() for (_, _, _, t) in v))
+    src = open(H.__file__).read()
+    reg = re.search(r"create_sdk_mcp_server\(\"hub\", tools=\[([^\]]+)\]", src).group(1)
+    check("every hub tool the agents get is on the allow-list (no permission prompts)",
+          {t.strip() for t in reg.split(",")} <= set(H.HUB_TOOLS), reg)
+    check("the plan is a default, not a mandate (protocol + plan challenges)", "PLAN CHALLENGE" in R.PROTOCOL and "default, not a mandate" in R.PROTOCOL)
     check("no prompt mentions a removed agent", not any(x in (R.PROTOCOL + str(R.ROSTER) + str(R.ASK_FOR)) for x in ("s-overseer", "d-overseer", "s-pipeline", "s-skeptic", "s-theory")))
 
     d = Path(tempfile.mkdtemp()); repo = d / "repo"; subprocess.run(["git", "init", "-q", str(repo)])
@@ -54,7 +65,7 @@ async def main():
     check("no answer by the deadline: the tile says the rule decides", (hub.bus.shared.get("tile:decide-" + pid) or {}).get("state") == "no answer: the rule decides")
     # direct dispatch: the clock's worker tasks
     wt = H.worker_tasks("b0", "dylan")
-    check("the clock's minute-0 tasks for Dylan's laptop go to Platform and Styles & fixes", {a for a, _, _ in wt} == {"d-platform", "d-builder"}, str(wt))
+    check("the clock's minute-0 tasks for Dylan's laptop go to Platform and Styles & fixes", {a for a, _, _ in wt} == {"d-platform", "d-builder", "d-challenger"}, str(wt))
     check("the lead's dispatch text says the workers already have their tasks", "ALREADY given each worker" in H.dispatch_text("b0", "dylan"))
     # a human message to a WORKER is tracked; left unanswered, the worker is told to reply, then the human is told
     H.os.environ["AVALON_NO_AGENTS"] = "1"

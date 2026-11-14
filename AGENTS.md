@@ -7,8 +7,8 @@ This is team avalon's working repo (Dylan Nguyen and Samuel Choi) for the No Lim
 Questions about what we're doing on Sunday: start with `docs/START_HERE.md` (what we learned, the plan, and
 the agent hub), then `docs/SUNDAY.md` (the day step by step) and `docs/REHEARSAL.md` (practice runs);
 `docs/Finals_Handbook.pdf` is all three plus the game-plan visual. On the day each person runs the **agent
-hub** (`hub/`, see `hub/README.md`): one Overseer per person, workers, a clock, a portal watcher, and a
-Decisions board where humans greenlight. The agents follow `docs/FIRST_PROMPT.md` and `docs/TWIST_NOTES.md`
+hub** (`hub/`, see `hub/README.md`): four agents per person (a Chat that leads, three workers), a clock, a portal watcher, and
+decisions asked in the Chat and answered in words. The agents follow `docs/FIRST_PROMPT.md` and `docs/TWIST_NOTES.md`
 (humans no longer paste them); `docs/EVIDENCE_TABLE.md` grades every finding; `docs/FINALS_PLAYBOOK.md` has
 the longer reasoning; `research/finals_prep/` holds the studies; `emu/` is the rehearsal emulator and portal
 copy. Where these disagree with older docs (`rebuild/`, the write-up), the Finals docs are newer and win.
@@ -53,7 +53,7 @@ Several agents on different machines work in this repo at once. They coordinate 
 - **Keep the repo private.** Never commit hand histories (they contain other teams' play and exceed GitHub's file limit) or the starter kit.
 - **The official rules** are in `prep/docs/official_rules.txt`; on event day the kit's `RULES.md`, `AGENTS.md` and `state.config` override everything here. Note rule 3.4: it names Astra and Codex as the AI tools teams may use to build bots. Confirm with the organizers what else is allowed before the Finals.
 - Run Python that reads hand histories with `-I`.
-- Bot code: under 1 ms per decision with no time bank, never raises an exception, only legal action kinds, per-table state only through `memory`. Gate every release with `reviewer/gate.sh` and report the measured numbers.
+- Bot code: under 1 ms per decision with no time bank, never raises an exception, only legal action kinds, per-table state only through `memory`. Check every release with the bot's own check run and the upload test, and report the measured numbers (`reviewer/gate.sh` is the regional's gate: its stats band would have blocked the regional winner; don't use it as a gate).
 - Judge changes on real-field hand data, never on wins against our own older bots.
 - `prep/run2`-`run5` and `prep/snap2` are raw evidence: never edit or import from them.
 

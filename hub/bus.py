@@ -308,6 +308,8 @@ class Bus:
         then the version stamp, so the other laptop never fetches a stale value under a new stamp)."""
         self.shared[key] = value
         ver = (value.get("updated") if isinstance(value, dict) else None) or time.time()
+        ver = max(ver, self.shared_ver.get(key, 0) + 0.001)   # a local write always beats what we already hold, even when
+        # the other laptop's clock runs ahead of ours (its stamps would otherwise win over our newer write)
         self.shared_ver[key] = ver
         self.dirty[key] = ver
         self._dirty_evt.set()

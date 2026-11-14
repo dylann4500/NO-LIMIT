@@ -46,8 +46,8 @@ thing that counts, and noisy).
 | Fact | Numbers | Limits |
 |---|---|---|
 | Almost every team changes its bot every round | 78-90% per round at Bay Area, 75-84% at Boston | Detection threshold is the study's own |
-| For top-20 teams, changing kept them level | Lost about 0.65 points per table per round whether they changed or not; no unchanged top-20 team improved (0 of 18) | Regression to the mean partly corrected |
-| Large gains came from rewrites, but rarely for strong teams | 81 of 92 gains of 1.5+ points were rewrite-scale; 3 were by a top-20 team; top-20 rewrites averaged −0.68 ± 0.39 | — |
+| For top-20 teams, freezing didn't hold a lead | Lost about 0.65 points per table per round whether they changed or not; no unchanged top-20 team improved (0 of 18) | Selected on round-n rank: partly regression to the mean; not evidence that changing helps or hurts |
+| Large gains came from rewrites | 81 of 92 gains of 1.5+ points were rewrite-scale; 3 were by a top-20 team. Top-20 rewrites averaged −0.68 ± 0.39, the same as standing still (−0.67), with three times the spread: 24% improved (best +3.8) vs 0% of unchanged teams | For a top team a rewrite costs nothing on average and is the only route to a big gain |
 | "Same as last round" predicts the field better than a trend | Error 1.29 vs 1.72 points (field), 5.9 vs 11.0 (single team) | Two exceptions among the top 20: re-raise rate and big-blind defence moved the same way every round |
 | Aggression rose all night; the defence came late at Bay Area, early at Boston | Top-20 re-raise 9.8% → 23.7%; Boston's top teams folded only 58% to re-raises and 4-bet 23% by round 5 | Boston's top-20 list is estimated |
 | Some teams respond to what a seat has done at the table | Strong response on at least one decision in 27 of 122 Bay Area teams, 10 of the other 19 in the top 20 | No evidence anyone played named opponents |

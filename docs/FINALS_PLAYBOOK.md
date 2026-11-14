@@ -1,5 +1,8 @@
 # Finals playbook (Sunday 2026-11-15, San Francisco)
 
+> **Superseded for counts, bars and roles** by `DECISION_RULES.md` (how we decide) and `START_HERE.md` (the lean hub).
+> This is the longer reasoning; where numbers differ, those two win.
+
 For Dylan and Samuel. No code may be brought into the event; prepared prompts and knowledge may. Everything
 below is knowledge or a prompt. Numbers are from our regional hand histories, the portal's API (read with our
 key on 2026-11-11), and the Boston regional (a friend's data and account).

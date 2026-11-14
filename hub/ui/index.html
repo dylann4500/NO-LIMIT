@@ -336,7 +336,7 @@ function renderPicker() {
 function clockHtml() {
   const ns = S.st.next_step, sch = S.st.schedule;
   if (!sch) return `<div class="clockbox"><span class="w">Clock not started</span></div>`;
-  if (!ns) { const last = sch.start + (60 + 20 * ((sch.scored || 6) - 1)) * 60 * (sch.scale || 1), due = last + 8 * 60 * (sch.scale || 1);
+  if (!ns) { const rs = S.st.round_starts || [], last = rs.length ? rs[rs.length - 1] : sch.start + (60 + 20 * ((sch.scored || 6) - 1)) * 60 * (sch.scale || 1), due = last + 8 * 60 * (sch.scale || 1);
     return `<div class="clockbox"><span class="w">${Date.now() / 1000 < due ? "Last round playing · results about " + hhmm(due) : "Event over"}</span></div>`; }
   const left = ns[0] - Date.now() / 1000;
   return `<div class="clockbox" title="${esc(ns[1])} at ${hhmm(ns[0])}"><span class="t ${left < 60 ? "now" : left < 180 ? "soon" : ""}" id="cdn" data-at="${ns[0]}">${mmss(left)}</span><span class="w">to <b>${esc(ns[1].replace(/^Scored (\d) T-(\d+): /, "Round $1 · T-$2 · ").replace(/^min (\d+): /, "Minute $1 · "))}</b></span></div>`;

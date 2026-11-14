@@ -26,6 +26,7 @@ class FakeHub:
     async def make_live(s, f, who, note="", tell=True): s.lives.append(f); s.bus.shared["live"] = {"file": f, "filename": Path(f).name, "at": time.time()}
 
 def run(g): asyncio.run(g.tick())
+def K(h): return f"{int(h.bus.shared['schedule']['start'])}:r2"   # guard keys: schedule start + round index
 U = 60 * 0.01   # scale 0.01: an event-minute is 0.6 s
 fails = []
 def check(name, cond):
@@ -42,8 +43,8 @@ def mk(person, T):
 h, g, ts = mk("samuel", 9.5)
 h.landed_at["Round 1"] = ts - 13 * U
 run(g)
-check("data met when landed", f"{int(ts)}:data" in g.done and f"{int(ts)}:data:cut" not in g.done)
-check("card cut 3 min after landing", f"{int(ts)}:card:cut" in g.done and any("Cut-off" in i["text"] and i.get("urgent") for i in h.agents["s-data"].items))
+check("data met when landed", f"{K(h)}:data" in g.done and f"{K(h)}:data:cut" not in g.done)
+check("card cut 3 min after landing", f"{K(h)}:card:cut" in g.done and any("Cut-off" in i["text"] and i.get("urgent") for i in h.agents["s-data"].items))
 # 2. heads-up on change at T-10 goes only to the overseer, not the worker
 check("change heads-up to overseer only", any("isn't done" in i["text"] for i in h.agents["s-overview"].items)
       and not any("isn't done" in i["text"] for i in h.agents["s-data"].items))
@@ -52,8 +53,8 @@ check("heads-up never says hurry", all("Do NOT tell anyone to hurry" in i["text"
 h, g, ts = mk("samuel", 7.5); h.landed_at["Round 1"] = ts - 13 * U
 (h.repo / "analysis" / "Round-1").mkdir(parents=True); (h.repo / "analysis" / "Round-1" / "card.md").write_text("x")
 run(g)
-check("card met when file exists", f"{int(ts)}:card:cut" not in g.done)
-check("change cut at T-8", f"{int(ts)}:change:cut" in g.done and any("No change from this window" in i["text"] for i in h.agents["s-data"].items))
+check("card met when file exists", f"{K(h)}:card:cut" not in g.done)
+check("change cut at T-8", f"{K(h)}:change:cut" in g.done and any("No change from this window" in i["text"] for i in h.agents["s-data"].items))
 # 4. change recorded -> no cut
 h, g, ts = mk("samuel", 7.5); h.landed_at["Round 1"] = ts - 13 * U
 h._ledger.append({"question": "one-change Round 1", "at": time.time()})
@@ -61,7 +62,7 @@ h._ledger.append({"question": "one-change Round 1", "at": time.time()})
 run(g); check("no cut when change recorded", not any(k.endswith(":cut") for k in g.done))
 # 5. data never landed by T-10 -> data cut, no card cut
 h, g, ts = mk("samuel", 9.5); run(g)
-check("data cut at T-10", f"{int(ts)}:data:cut" in g.done and f"{int(ts)}:card:cut" not in g.done and any("hadn't landed" in a[0] for a in h.alerts))
+check("data cut at T-10", f"{K(h)}:data:cut" in g.done and f"{K(h)}:card:cut" not in g.done and any("hadn't landed" in a[0] for a in h.alerts))
 # 6. ETA late -> early heads-up (T-16, before the T-10 warn point)
 h, g, ts = mk("samuel", 16); h.landed_at["Round 1"] = ts - 17 * U
 (h.repo / "analysis" / "Round-1").mkdir(parents=True); (h.repo / "analysis" / "Round-1" / "card.md").write_text("x")
@@ -73,7 +74,7 @@ run(g); check("on-time ETA: silence", not h.agents["s-overview"].items)
 # 7. dylan: challenger cut at T-12 doesn't interrupt the challenger
 h, g, ts = mk("dylan", 11.5); run(g)
 ch = h.agents["d-challenger"].items
-check("challenger cut, not interrupted", f"{int(ts)}:challenger:cut" in g.done and ch and not ch[0].get("urgent") and not ch[0].get("wake"))
+check("challenger cut, not interrupted", f"{K(h)}:challenger:cut" in g.done and ch and not ch[0].get("urgent") and not ch[0].get("wake"))
 # 8. dylan: no note by T-7 -> default note with live bot
 h, g, ts = mk("dylan", 6.5); h.bus.shared["live"] = {"file": "releases/v4.zip", "filename": "v4.zip", "at": ts - 40 * U}
 h._bots.append({"name": "v9", "status": "ready", "updated": time.time()})

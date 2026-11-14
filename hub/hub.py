@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+from datetime import datetime
 import hashlib
 import json
 import math
@@ -47,7 +48,7 @@ DANGER = re.compile("|".join([
     r"(-X\s*(POST|PATCH|PUT|DELETE)|--data|\s-d\s)[^\n]*(pokerbot\.sequoiacap\.com|/tournament/api)",
     r"\.(post|patch|put|delete)\([^\n]*(sequoiacap|tournament/api)",
 ]))
-HUB_TOOLS = ["send_message", "list_agents", "read_agent", "set_status", "notify_human", "start_agent", "stop_agent",
+HUB_TOOLS = ["send_message", "share_file", "list_agents", "read_agent", "set_status", "notify_human", "start_agent", "stop_agent",
              "declare_live", "set_schedule", "propose", "update_proposal", "list_proposals", "codex_task", "register_bot",
              "record", "verify", "invalidate", "set_rules", "ledger", "next_bot_name",
              "queue_post", "queue_claim", "queue_done", "fetch_file", "report_progress"]
@@ -87,7 +88,8 @@ def merge_note(a: dict, b: dict) -> dict:
             seen.add(k)
             thread.append(t)
     m = dict(new, thread=thread)
-    if old.get("status") == "removed" or (old.get("status") in ("approved", "rejected") and new.get("status") in ("needs_call", "revise", "expired")):
+    if old.get("status") == "removed" or (old.get("status") in ("approved", "rejected") and new.get("status") in ("needs_call", "revise", "expired")
+                                          and not (new.get("conflict") and not old.get("conflict"))):   # opposite answers reopen it
         m["status"] = old["status"]
         m["decided_by"] = old.get("decided_by", m.get("decided_by"))
     if not m.get("body") and old.get("body"):
@@ -150,22 +152,55 @@ def disagreements(items: list[dict]) -> list[str]:
     return out
 
 
+def sched_unit(s: dict | None) -> float:
+    """Real seconds per event-minute (less than 60 only in sped-up simulations)."""
+    return 60 * (s or {}).get("scale", 1.0)
+
+
+def round_starts(s: dict | None) -> list[float]:
+    """When each scored round starts. Default: minute `build` (60), then one every `gap` (20) event-minutes. A round
+    whose real start is known (the portal saw it start, or a human gave its time) is pinned in s['round_at'], and the
+    rounds after it follow from there, so a late round moves every later deadline with it."""
+    if not s:
+        return []
+    U, t0 = sched_unit(s), s["start"]
+    B, G = s.get("build", 60), s.get("gap", 20)
+    pins = {int(k): float(v) for k, v in (s.get("round_at") or {}).items()}
+    out: list[float] = []
+    for k in range(1, int(s.get("scored", 6)) + 1):
+        out.append(pins[k] if k in pins else (out[-1] + G * U if out else t0 + B * U))
+    return out
+
+
+def round_ts(s: dict | None, k: int) -> float | None:
+    r = round_starts(s)
+    return r[k - 1] if 1 <= k <= len(r) else None
+
+
+def build_ts(s: dict, mi: int) -> float:
+    """A build-hour mark: the first steps (v1, the rig) count from minute 0; the practice-round marks (minute 17 on)
+    count back from scored round 1, so a longer build or a late round 1 moves them with it."""
+    return s["start"] + mi * sched_unit(s) if mi < 16 else round_starts(s)[0] - (60 - mi) * sched_unit(s)
+
+
+def practice_ts(s: dict, k: int) -> float | None:
+    """The practice round in the window before scored round k+1 (10 event-minutes before it)."""
+    nxt = round_ts(s, k + 1)
+    return nxt - 10 * sched_unit(s) if nxt else None
+
+
 def stage_of(sch: dict | None, t: float) -> str:
     """The competition stage at time t: Build, Practice 1-4, Round k, Round k.5 (the practice after round k)."""
-    if not sch:
+    if not sch or t < sch["start"]:
         return "Before the start"
-    m = (t - sch["start"]) / (60 * sch.get("scale", 1.0))
-    if m < 0:
-        return "Before the start"
-    if m < 20:
-        return "Build"
-    if m < 60:
-        return f"Practice {int((m - 20) // 10) + 1}"
-    j, nsc = int((m - 60) // 10), sch.get("scored", 6)
-    k = j // 2 + 1
-    if k >= nsc:   # nothing is played after the last scored round
-        return f"Round {nsc}"
-    return f"Round {k}" if j % 2 == 0 else f"Round {k}.5"
+    rs = round_starts(sch)
+    if not rs or t < rs[0]:
+        p = [build_ts(sch, mi) for mi in (20, 30, 40, 50)]
+        return "Build" if t < p[0] else f"Practice {sum(1 for x in p if x <= t)}"
+    k = sum(1 for x in rs if x <= t)
+    if k >= len(rs):   # nothing is played after the last scored round
+        return f"Round {len(rs)}"
+    return f"Round {k}.5" if t >= rs[k] - 10 * sched_unit(sch) else f"Round {k}"
 
 
 def stage_of_round(kind: str, n: int) -> str:
@@ -197,6 +232,8 @@ COMPACT_KEEP = ("Summarize for yourself to continue the day without loss. Keep, 
                 "running where (subagents, Modal app ids, Codex job ids) and where results will land; promises you "
                 "made to other agents; the ledger ids you depend on or cite; open questions. Drop: raw tool output, logs, superseded plans, chit-chat.")
 LIMIT_RX = re.compile(r"usage limit|rate.?limit|overloaded|429|quota|limit reached|too many requests", re.I)
+# a real allowance limit (wait for the reset or switch model/key), as opposed to a brief 429/overloaded (retry in a minute)
+HARD_LIMIT_RX = re.compile(r"usage limit|limit reached|quota|resets? (?:at|in)|out of (?:extra )?usage|allowance", re.I)
 APPROVAL_TIMEOUT = 120
 
 
@@ -218,7 +255,9 @@ START_RX = re.compile(r"\b(competition|event|variant|tournament|finals?)\b[^.?!\
                       r"announced|is live|kick(?:s|ed)? off|has started|is on)\b|^\s*(go|start|we'?re live|it'?s on|"
                       r"it'?s (?:starting|started|begun)|it (?:starts|started|begins|began)(?: now)?)\s*[.!]*\s*$", re.I)
 AT_RX = re.compile(r"\b(?:at|was|@)\s*(\d{1,2}:\d{2}(?::\d{2})?)\b")
-PREFLIGHT_RX = re.compile(r"\b(pre-?flight|run (?:the |a )?(?:check|test)s?|check (?:everything|that everything|it all))\b", re.I)
+PREP_RX = re.compile(r"\b(start|begin|kick off|run)\s+(the\s+)?(pre-?event\s+|morning\s+)?research\b", re.I)
+PREFLIGHT_RX = re.compile(r"^\s*(?:please\s+)?(?:run (?:the |a )?(?:pre-?flight|check|checks|pre-?flight check)|pre-?flight|"
+                          r"check (?:that )?everything(?: works)?|check it all)\s*(?:now|please)?\s*[.!]*\s*$", re.I)
 
 
 def norm_bot(x: str) -> str:
@@ -293,6 +332,8 @@ class Hub:
         self.worker_model: str | None = None
         self.view_only = False
         self.traffic: list = []
+        self.plan_challenges: set[str] = set()
+        self.boot_at = time.time()
         self.card_ok = False
         self.landed_at: dict[str, float] = {}
         self.note_pending: dict[str, dict] = {}   # note id -> a human's question there with no answer yet
@@ -735,6 +776,8 @@ class Hub:
                                                                       "failed": "failed"}.get(status, status), owner=by if by in self.agents or by in ROSTER_NAMES else "d-platform"))
         self.emit("shared", {"bots": True})
         await self.bus.set_shared("bot:" + name, v)
+        if status == "ready" and f and not self.bus.shared.get("live") and self.person == "dylan" and re.fullmatch(r"v\d+", name):
+            await self.make_live(file, "hub: the first legal bot", "the first released bot; upload it so we never score zero", tell=True)
 
     def find_bot_file(self, file: str) -> Path | None:
         """The bot's zip on this laptop: the path as given (repo-relative), else any releases/<name>.zip in the repo
@@ -850,10 +893,14 @@ class Hub:
         pseen = {k for k in self.bus.shared if k.startswith("palert:")}
         while True:
             await asyncio.sleep(3)
+            rq = self.bus.shared.get("research_req")
+            if isinstance(rq, dict) and rq.get("at", 0) > getattr(self, "research_done", self.boot_at) and rq.get("from") != self.person:
+                self.research_done = rq["at"]
+                asyncio.create_task(self.start_research(rq.get("who", "the other laptop"), relay=False))
             req = self.bus.shared.get("preflight_req")
-            if isinstance(req, dict) and req.get("at", 0) > getattr(self, "preflight_done", 0) and req.get("from") != self.person:
+            if isinstance(req, dict) and req.get("at", 0) > getattr(self, "preflight_done", self.boot_at - 120) and req.get("from") != self.person:
                 self.preflight_done = req["at"]
-                asyncio.create_task(self.preflight(req.get("who", "the other laptop"), relay=False))
+                asyncio.create_task(self.preflight(req.get("who", "the other laptop"), relay=False, lag=time.time() - req["at"]))
             for k, v in list(self.bus.shared.items()):
                 if k.startswith("palert:") and k not in pseen and isinstance(v, dict):
                     pseen.add(k)
@@ -980,11 +1027,34 @@ class Hub:
     def owner_overseer(self, person: str) -> str:
         return ("s-" if person == "samuel" else "d-") + "overview"
 
+    async def decision_conflict(self, p: dict, st: str, who: str, text: str) -> str:
+        """Samuel and Dylan answered the same decision opposite ways: say so to both, and the rule's answer stands until
+        they agree (never silently 'last click wins')."""
+        other = p.get("decided_by")
+        p.setdefault("thread", []).append({"who": who, "at": time.time(), "action": "answer (in the Chat)", "text": text[:600]})
+        p["status"], p["conflict"] = "needs_call", True
+        ra = p.get("rule_answer")
+        live = (self.bus.shared.get("live") or {}).get("filename")
+        if ra and not same_bot(ra, live or ""):
+            await self.make_live(ra, "the rule (the humans disagree)", f"decision #{p['id']}: answers conflict", tell=False)
+        await self.save_prop(p)
+        msg = (f"Samuel and Dylan disagree on \"{p['title']}\": {other} said {'yes' if st == 'rejected' else 'no'}, {who} "
+               f"said {'yes' if st == 'approved' else 'no'}. Until you agree, the rule's answer stands"
+               + (f" ({bot_name(ra)})" if ra else "") + ". Talk now and answer once in either Chat.")
+        await self.alert_all(f"{self.person[0]}-clock", msg, True, chat=True)
+        return msg
+
     async def human_act(self, pid: str, action: str, text: str) -> dict:
         p = self.get_prop(pid)
         if not p:
             raise ValueError("That note no longer exists.")
         who = PEOPLE[self.person]
+        if action in ("approve", "reject") and p.get("deadline") and time.time() > p["deadline"]:
+            raise ValueError("Too late: the deadline for this decision has passed, so the rule's answer applies.")
+        if action in ("approve", "reject") and p.get("status") in ("approved", "rejected") and p.get("decided_by") != who and \
+                (p["status"] == "approved") != (action == "approve"):
+            await self.decision_conflict(p, "approved" if action == "approve" else "rejected", who, text or action)
+            return p
         p.setdefault("thread", []).append({"who": who, "at": time.time(), "action": action, "text": text})
         if action in ("approve", "reject", "comment"):
             await self.human_item(f"{action} on note \"{p['title']}\"" + (f": {text}" if text else ""), p["id"])
@@ -1000,12 +1070,14 @@ class Hub:
         elif action == "approve" and p.get("bot"):
             await self.make_live(p["bot"], who, f"greenlit on note #{p['id']}", tell=False)
             p["status"], p["decided_by"] = "approved", who
+            p.pop("conflict", None)
             note = f"GREENLIT by {who}: #{p['id']} use {p['bot']}. It is now the declared live bot; Dylan uploads it."
         elif action == "approve":
             p["status"], p["decided_by"] = "approved", who
             note = f"GREENLIT by {who}: #{p['id']} \"{p['title']}\"." + (f" Note: {text}" if text else "") + " Go ahead."
         elif action == "reject":
             p["status"], p["decided_by"] = "rejected", who
+            p.pop("conflict", None)
             note = f"REJECTED by {who}: #{p['id']} \"{p['title']}\"." + (f" Reason: {text}" if text else "") + " Don't do it."
         elif action == "comment":
             if p["status"] == "needs_call":
@@ -1085,10 +1157,29 @@ class Hub:
     async def chat_command(self, text: str, who: str) -> str | None:
         """'The competition starts now' starts the clock (once); 'run the check' runs the pre-flight. Returns what the
         hub did, or None to leave the message to the Chat."""
+        if re.fullmatch(r"\s*reset the clock\s*[.!]*\s*", text, re.I):
+            if (self.bus.shared.get("rounds_seen") or {}) and any(k.startswith("Round") for k in self.bus.shared.get("rounds_seen")):
+                return "A scored round has already been seen on the portal, so I won't clear the clock. Give the right time instead."
+            await self.bus.set_shared("schedule", {})   # empty, not None: the other laptop only takes non-None values
+            return "Clock cleared on both laptops. Say 'the competition starts now' (or the announcement time) at minute 0."
         if PREFLIGHT_RX.search(text) and len(text) < 120:
             asyncio.create_task(self.preflight(who))
             return "Running the pre-flight check on both laptops; results appear here in about a minute."
-        if not self.bus.shared.get("schedule") and START_RX.search(text):
+        hm = re.search(r"\bhands?(?:[- ]history)?\s+(?:link|url)\s*[:=]?\s*(https?://\S+)", text, re.I)
+        if hm:
+            if not self.portal:
+                return "The portal watcher runs on Samuel's laptop: paste the hands link into Samuel's Chat."
+            return self.portal.set_hands_url(hm.group(1))
+        if PREP_RX.search(text) and len(text) < 160 and "?" not in text and \
+                not re.search(r"\b(don'?t|do not|not|never|did|have you|has it|was it|yet)\b", text, re.I):
+            prev = self.bus.shared.get("research_req") or {}
+            if prev.get("at") and time.time() - prev["at"] < 12 * 3600:
+                return f"The research already started at {hhmm(prev['at'])} ({prev.get('who')}); its notes are in notes/pre/."
+            n = await self.start_research(who)
+            return (f"Pre-event research started: {n} workers on this laptop have their topics (notes only, no bot code); "
+                    "the other laptop's workers start theirs too. Notes land in notes/pre/.")
+        if not self.bus.shared.get("schedule") and START_RX.search(text) and "?" not in text and \
+                not re.search(r"\b(in \d+\s*(?:min|minutes|m)\b|will|when|soon|later|tomorrow|until|by \d)", text, re.I):
             m = AT_RX.search(text)
             try:
                 s = await self.start_now(who, at=m.group(1) if m else None)
@@ -1097,6 +1188,64 @@ class Hub:
             return f"Clock started: {s} Both laptops now follow it, and your Overseer has the game plan."
         return None
 
+    async def pull_round_files(self):
+        """Dylan's laptop: each round's results and hand sample, copied from the store into a local folder, and the
+        agents that need them told the paths (the portal watcher runs on Samuel's laptop only)."""
+        if self.portal:
+            return
+        rf = self.bus.shared.get("round_files") or {}
+        got = getattr(self, "pulled", None)
+        if got is None:
+            got = self.pulled = set(load_json(self.data / "pulled.json", []))
+        for stage, v in rf.items():
+            if stage in got or not isinstance(v, dict) or time.time() - v.get("at", 0) > 4 * 3600:
+                continue
+            got.add(stage)
+            atomic_write(self.data / "pulled.json", json.dumps(sorted(got)))
+            out = self.portal_data / "from-samuel" / stage_slug(stage)
+            paths = []
+            try:
+                out.mkdir(parents=True, exist_ok=True)
+                for name, fid in (v.get("files") or {}).items():
+                    d = await asyncio.wait_for(self.file_store().get.aio(fid), 60)
+                    if d:
+                        (out / name).write_bytes(d["data"])
+                        paths.append(str(out / name))
+            except Exception as e:  # noqa: BLE001
+                self.note_error("pull-round", e)
+                got.discard(stage)   # try again next time
+                continue
+            for nm in ("d-challenger", "d-builder", "d-overview"):
+                ag = self.agents.get(nm)
+                if ag and paths:
+                    await ag.add_item({"kind": "portal", "wake": nm == "d-challenger", "text": f"Round data for {stage} is on "
+                                       f"this laptop: {v.get('line', '')}\n" + "\n".join(f"File: {x}" for x in paths) +
+                                       "\n(Copied from Samuel's laptop; hand data stays out of git.)"})
+
+    async def start_research(self, who: str, relay: bool = True) -> int:
+        """Part 0: each worker's pre-event research topic (notes only). Started by a human, on both laptops, once."""
+        if relay:
+            await self.bus.set_shared("research_req", {"at": time.time(), "from": self.person, "who": who})
+        n = 0
+        for ag_name, _, task in worker_tasks("pre", self.person):
+            ag = self.agents.get(ag_name)
+            if ag is None:
+                continue
+            await ag.add_item({"kind": "clock", "wake": True, "text": f"[pre-event, asked by {who}] Your task now: {task}\n"
+                               "report_progress(item, 'in progress') now and 'done' when finished; tell your Chat the path."})
+            await self.tile(f"pre-{ag_name}", f"Pre-event research · {ag.title}", "in progress", owner=ag_name, stage="Before the start")
+            if ag.state == "stopped" and not ag.paused:
+                await ag.start()
+            n += 1
+        ov = next((a for a in self.agents.values() if a.name.endswith("overview")), None)
+        if ov:
+            await ov.add_item({"kind": "hub", "wake": False, "text": (
+                f"{who} started the pre-event research: each worker has a topic (DISPATCH 'pre'), notes in notes/pre/. "
+                + ("When they land, merge them into notes/plan.md (5 minutes, one page): what we expect today, what we'd "
+                   "do differently from the plan, open questions. " if self.person == "samuel" else "")
+                + "Read the contrarian memo (d-challenger) before minute 0.")})
+        return n
+
     async def start_now(self, who: str, at: str | None = None) -> str:
         """Minute 0 (now, or at HH:MM), the Overseer told to start the plan. Only when no clock is set."""
         s = await self.clock.set_start(at or "", 6, self.default_scale, t0=None if at else time.time())
@@ -1104,7 +1253,7 @@ class Hub:
                                     " (minute 0). Kick off the build-hour plan.", who)
         return s
 
-    async def preflight(self, who: str, relay: bool = True):
+    async def preflight(self, who: str, relay: bool = True, lag: float | None = None):
         """Check, for real, everything Sunday depends on; post the results in this laptop's Chat (and ask the other
         laptop to run its own)."""
         if relay:
@@ -1132,7 +1281,7 @@ class Hub:
                     files = await asyncio.wait_for(P.fetch_hands(done[-1]["id"], tmp, small_first=True), 120)
                     row(bool(files), "Portal: hand-history download",
                         f"{Path(files[0]).stat().st_size // 1024} KB saved and verified" if files else
-                        "FAILED. On the real portal, copy the Download link after practice 1 and restart with --hands-url (SUNDAY.md step 7)")
+                        "FAILED. On the real portal, copy the Download link after practice 1 and paste it into Samuel's Chat as 'hands link: <the link>' (SUNDAY.md step 7)")
                 else:
                     row(True, "Portal: hand-history download", "no finished round to try yet; the watcher downloads each round as it ends")
             except Exception as e:  # noqa: BLE001
@@ -1160,8 +1309,19 @@ class Hub:
         free = shutil.disk_usage(str(self.data)).free / 1e9
         row(free > 5, "Disk space", f"{free:.0f} GB free")
         sch = self.bus.shared.get("schedule")
-        row(True, "Clock", f"minute 0 = {time.strftime('%H:%M:%S', time.localtime(sch['start']))}" if sch else
+        stale = bool(sch) and time.time() - sch["start"] > 10 * 3600
+        row(not stale, "Clock", ("set on an earlier day (minute 0 was " + time.strftime('%a %H:%M', time.localtime(sch['start']))
+                                 + "): type 'reset the clock' before the event") if stale else
+            f"minute 0 = {time.strftime('%H:%M:%S', time.localtime(sch['start']))}" if sch else
             "not started (tell the Chat 'the competition starts now' at the announcement)")
+        mine, theirs = self.bus.shared.get("codever:" + self.person), next(
+            (v for k, v in self.bus.shared.items() if k.startswith("codever:") and k != "codever:" + self.person), None)
+        if theirs:
+            row(mine == theirs, "Same hub code on both laptops", f"{mine} here, {theirs} there" + ("" if mine == theirs else
+                ": the older one runs `git pull` and restarts its hub"))
+        if lag is not None and lag < 300:
+            row(-5 < lag < 60, "Laptop clocks agree", f"the request took {lag:.0f} s to arrive" if -5 < lag < 60 else
+                f"they differ by about {abs(lag):.0f} s: System Settings → General → Date & Time → Set automatically, on both")
         bad = sum(r.startswith("❌") for r in rows)
         ov = next((a for a in self.agents.values() if a.name.endswith("overview")), None)
         if ov:
@@ -1179,9 +1339,10 @@ class Hub:
             q = a.pending_q[0]
             age = now - q["at"]
             if not a.name.endswith("overview"):   # a worker the person messaged directly
-                if age > 150 and not q.get("nudged"):
+                replying = a.state == "working" and getattr(a, "turn_started", 0) > q["at"] and getattr(a, "turn_text_n", 0)
+                if age > 150 and not q.get("nudged") and not replying:
                     q["nudged"] = True
-                    await a.add_item({"kind": "hub", "wake": True, "urgent": True, "text": f"{q['who']} asked you at {hhmm(q['at'])} "
+                    await a.add_item({"kind": "hub", "wake": True, "urgent": False, "text": f"{q['who']} asked you at {hhmm(q['at'])} "
                                       f"and hasn't had a reply: \"{q['text']}\". Reply now in plain text: the answer, or 'Working "
                                       "on it: <what>, ready by HH:MM'. Then carry on."})
                     if a.state == "stopped" and not a.paused:
@@ -1295,7 +1456,7 @@ class Hub:
                     f"{a.title} has been on one turn for {long_turn / 60:.0f} min (task: {a.task[:120]}). Read its brief: if "
                     "it's progressing, leave it; if it's looping or the job is too big, split it (a helper, Modal, Codex) "
                     "or re-scope. Don't tell it to hurry.")})
-            if quiet > STALL_S and not a.stall_kicked:
+            if quiet > (6 * 60 if a.name.endswith("overview") else STALL_S) and not a.stall_kicked:   # a lead runs no long tools
                 a.stall_kicked = now
                 a.record({"type": "error", "text": f"No output for {quiet / 60:.0f} min: interrupting (stall watchdog)."})
                 a.interrupted = False
@@ -1320,16 +1481,27 @@ class Hub:
             if p.get("status") in ("needs_call", "revise") and p.get("deadline") and now > p["deadline"] and \
                     (p.get("author") in self.agents):
                 p["status"] = "expired"
+                ra = p.get("rule_answer") if p.get("kind") == "bot" else None
+                live = (self.bus.shared.get("live") or {}).get("filename")
+                if ra and not same_bot(ra, live or ""):   # the hub applies the rule itself: no LLM hop at T-5
+                    await self.make_live(ra, "the rule (no answer by the deadline)", f"decision #{p['id']}: the rule's answer", tell=True)
+                    p.setdefault("thread", []).append({"who": "Hub", "at": now, "action": "rule",
+                                                       "text": f"No answer: the rule's answer {bot_name(ra)} is now the declared live bot."})
+                    await self.alert_all(f"{self.person[0]}-clock", f"No answer on \"{p['title']}\": the rule's answer "
+                                         f"{bot_name(ra)} plays. Dylan uploads it.", True, chat=True)
                 await self.tile("decide-" + p["id"], ("Bot choice: " + bot_name(p["bot"])) if p.get("bot") else ("Question: " + p["title"][:60]),
                                 "no answer: the rule decides")
                 p.setdefault("thread", []).append({"who": "Hub", "at": now, "action": "expire",
                                                    "text": "No human answer before the deadline: the pre-registered rule decides."})
                 await self.save_prop(p)
                 a = self.agents[p["author"]]
-                await a.add_item({"kind": "hub", "wake": True, "text": f"Note #{p['id']} \"{p['title']}\" got no human answer "
-                                  "before its deadline. Apply the pre-registered rule (How we decide §3): if it says this bot "
-                                  "plays, declare it live and tell Dylan to upload it now; otherwise the live bot plays. Say "
-                                  "which in the note."})
+                await a.add_item({"kind": "hub", "wake": True, "urgent": True, "text": (
+                    f"Decision #{p['id']} \"{p['title']}\" got no human answer before its deadline. " +
+                    (f"The hub applied its rule answer: {bot_name(ra)} is the declared live bot; tell Dylan in one line."
+                     if ra and not same_bot(ra, live or "") else
+                     f"The rule's answer ({bot_name(ra)}) is already the live bot; tell Dylan nothing changes." if ra else
+                     "Apply the pre-registered rule (How we decide §3) NOW: if it says this bot plays, declare_live it and tell "
+                     "Dylan to upload it; otherwise the live bot plays. Say which in one line."))})
 
     def set_service(self, name: str, title: str, state: str, task: str, summary: str = ""):
         s = self.services.setdefault(name, {"name": name, "title": title, "log": []})
@@ -1351,7 +1523,7 @@ class Hub:
                 "services": [{k: v for k, v in s.items()} for s in self.services.values()],
                 "remote": self.remote_view(),
                 "approvals": [{k: v for k, v in a.items() if k != "future"} for a in self.approvals.values()],
-                "alerts": self.alerts, "schedule": self.bus.shared.get("schedule"),
+                "alerts": self.alerts, "schedule": self.bus.shared.get("schedule"), "round_starts": round_starts(self.bus.shared.get("schedule")),
                 "live": self.bus.shared.get("live"), "clock": self.clock.next_text(), "tiles": self.tiles()[:200],
                 "props": [dict(p, thread=(p.get("thread") or [])[-60:], thread_n=len(p["thread"])) if len(p.get("thread") or []) > 60 else p
                           for p in self.props()[:200]],
@@ -1562,6 +1734,8 @@ class Agent:
             wake = kind in OVERSEER_WAKES or msg.get("from_kind") == "human" or msg.get("priority") == "high"
         else:
             wake = kind != "fyi" or msg.get("priority") == "high"
+        if msg.get("from_kind") == "human" and not self.name.endswith("overview"):   # typed on the other laptop: tracked too
+            self.pending_q.append({"who": msg["from"], "text": msg["text"][:300], "at": time.time()})
         await self.add_item({"kind": "msg", "wake": wake, "urgent": msg.get("from_kind") == "human" and kind != "fyi", **msg})
         if self.state == "stopped" and not self.paused and kind != "fyi":
             await self.start()
@@ -1599,8 +1773,9 @@ class Agent:
     async def ov_log(self, who: str, text: str, urgent: bool = False):
         """The Overview conversation, shared so the other person can read (and write in) it too."""
         self.ovchat = (self.ovchat + [{"who": who, "at": time.time(), "text": text[:4000], "urgent": urgent}])[-40:]
-        if who == "Chat":
-            self.pending_q = []   # it answered
+        if who == "Chat":   # it answered what was asked before this turn began; later questions still wait
+            t0_ = self.turn_started if self.state == "working" and getattr(self, "turn_started", 0) else time.time()
+            self.pending_q = [q for q in self.pending_q if q["at"] > t0_]
         elif who in PEOPLE.values():
             self.pending_q.append({"who": who, "text": text[:300], "at": time.time()})
         atomic_write(self.dir / "ovchat.json", json.dumps(self.ovchat))
@@ -1637,7 +1812,8 @@ class Agent:
         led = hub.ledger()
         humans = [x for x in led if x.get("type") == "human"][-8:]
         if humans:
-            out.append("[human instructions, newest last; these override anything else]\n" + "\n".join(
+            out.append("[human instructions, newest last. One marked 'to <agent>' is that agent's to do; for everyone else it is "
+                       "context. They override the plan, never the hard rules]\n" + "\n".join(
                 f"- {'NEW ' if x['id'] not in self.led_digest else ''}{hhmm(x['at'])} {x.get('claim', '')}" for x in humans))
         changed = []
         for x in led:
@@ -1723,8 +1899,7 @@ class Agent:
         if not sch:
             return False
         U, now = 60 * sch.get("scale", 1.0), time.time()
-        for k in range(1, sch.get("scored", 6) + 1):
-            ts = sch["start"] + (60 + 20 * (k - 1)) * U
+        for ts in round_starts(sch):
             if ts - 15 * U <= now < ts - 2 * U:   # from data landing (~T-13) to upload: never pause to compact
                 return True
         return time.time() - getattr(self.hub, "last_landed", 0) < 8 * U
@@ -1966,7 +2141,7 @@ class Agent:
                     self.record({"type": "tool", "name": b.name, "input": short(b.input), "id": b.id,
                                  "sub": bool(m.parent_tool_use_id)})
             if getattr(m, "error", None):
-                return "limited" if LIMIT_RX.search(str(m.error)) else "error"
+                return "limited" if HARD_LIMIT_RX.search(str(m.error)) or self.usage.get("status") == "rejected" else "error"
         elif isinstance(m, UserMessage) and isinstance(m.content, list):
             for b in m.content:
                 if isinstance(b, ToolResultBlock):
@@ -1980,7 +2155,7 @@ class Agent:
             self.record({"type": "result", "ok": not m.is_error, "turns": m.num_turns, "ms": m.duration_ms})
             if m.is_error:
                 text = f"{m.subtype} {m.result or ''} {m.errors or ''} {m.api_error_status or ''}"
-                return "limited" if LIMIT_RX.search(text) else "error"
+                return "limited" if HARD_LIMIT_RX.search(text) or self.usage.get("status") == "rejected" else "error"
         elif isinstance(m, SystemMessage):
             if m.subtype == "init":
                 sid = (m.data or {}).get("session_id")
@@ -2098,6 +2273,15 @@ class Agent:
                 return ok(f"Not sent: {e}")
             me.record({"type": "msg_out", "to": msg["to"], "text": msg["text"], "id": msg["id"], "kind": kind,
                        "reply_to": msg["reply_to"]})
+            if re.match(r"\W*plan challenge", a["text"], re.I):   # the humans see every plan challenge, once
+                key = re.sub(r"\W+", " ", a["text"].lower())[:120]
+                if key not in hub.plan_challenges:
+                    hub.plan_challenges.add(key)
+                    head = re.sub(r"(?i)^\W*plan challenge\W*", "", a["text"]).strip()
+                    await hub.tile("challenge-" + new_id()[1:7], "Plan challenge", "raised", owner=me.name)
+                    await hub.alert_all(me.name, f"Plan challenge from {me.title}: {head[:400]} (your Chat will explain; "
+                                        "by default the Challenger builds the alternative and the next practice judges it)",
+                                        False, chat=True)
             return ok(f"{status} (id {msg['id']})")
 
         @tool("list_agents", "Every agent and hub service on both laptops, with state and one-line status.", {})
@@ -2215,12 +2399,15 @@ class Agent:
             hub.emit("shared", {"live": v})
             return ok(f"Live bot declared: {v['filename']}.")
 
-        @tool("set_schedule", "Overseers: set or correct the event clock when a HUMAN tells you a time in this turn "
-              "(e.g. 'round 1 is in 5 minutes', 'practice 3 moved to 22:58', 'the variant was announced at 14:02'). "
-              "event: minute0 | practiceN | scoredN (e.g. scored1, practice3). Give either at='HH:MM' (today) or "
-              "in_minutes (real minutes from now). The whole schedule shifts so that event lands at that time; both "
-              "laptops update. Never change it on your own initiative.",
-              schema(["event"], {"event": "string", "at": "string", "in_minutes": "number", "scored_rounds": "integer"}))
+        @tool("set_schedule", "The Chats: set or correct the event clock when a HUMAN tells you a time or the format in "
+              "this turn ('round 1 is in 5 minutes', 'practice 3 moved to 22:58', 'the variant was announced at 14:02', 'the "
+              "build is 90 minutes', 'rounds are every 30 minutes', 'there are 5 scored rounds'). event: minute0 | practiceN | "
+              "scoredN (e.g. scored1, practice3) | format. Give at='HH:MM' (today) or in_minutes (real minutes from now). "
+              "minute0 or a build-hour practice moves the whole schedule; a later round (scoredN, or a practice after scored "
+              "round 1) moves only that round and the ones after it. event='format' with build_minutes / gap_minutes / "
+              "scored_rounds changes the shape. Both laptops update. Never change it on your own initiative.",
+              schema(["event"], {"event": "string", "at": "string", "in_minutes": "number", "scored_rounds": "integer",
+                                 "build_minutes": "number", "gap_minutes": "number"}))
         async def set_schedule(a):
             if not me.name.endswith("overview"):
                 return ok("Only the Chat and the Overseers set the clock.")
@@ -2245,27 +2432,50 @@ class Agent:
             ev = (a.get("event") or "minute0").lower().replace(" ", "").replace("round", "")
             sch = hub.bus.shared.get("schedule") or {}
             scale = sch.get("scale", hub.default_scale)
-            m = re.fullmatch(r"(minute0|start|practice(\d+)|scored(\d+))", ev)
+            U = 60 * scale
+            B = float(a.get("build_minutes") or sch.get("build") or 60)
+            G = float(a.get("gap_minutes") or sch.get("gap") or 20)
+            m = re.fullmatch(r"(minute0|start|practice(\d+)|scored(\d+)|format)", ev)
             if not m:
-                return ok("event must be minute0, practiceN or scoredN.")
-            if m.group(2):
-                n = int(m.group(2))
-                off = (20, 30, 40, 50)[n - 1] if n <= 4 else 70 + 20 * (n - 5)
-            elif m.group(3):
-                off = 60 + 20 * (int(m.group(3)) - 1)
-            else:
-                off = 0
+                return ok("event must be minute0, practiceN, scoredN or format (with build_minutes / gap_minutes).")
+            if m.group(1) == "format":   # "the build is 90 minutes", "rounds are every 30 minutes": no time needed
+                if not sch:
+                    return ok("Set minute 0 first (event='minute0').")
+                txt = await hub.clock.set_start("", int(a.get("scored_rounds") or sch.get("scored", 6)), scale, t0=sch["start"],
+                                                build=float(a["build_minutes"]) if a.get("build_minutes") else None,
+                                                gap=float(a["gap_minutes"]) if a.get("gap_minutes") else None)
+                me.record({"type": "note", "text": f"Clock format updated: build {B:.0f} min, rounds every {G:.0f} min ({txt})"})
+                return ok(f"Clock updated on both laptops: build {B:.0f} min, rounds every {G:.0f} min; {txt}")
             if a.get("in_minutes") is not None:
                 when = time.time() + float(a["in_minutes"]) * 60
             else:
                 mm = re.fullmatch(r"\s*(\d{1,2}):(\d{2})(?::(\d{2}))?\s*", a.get("at") or "")
-                if not mm:
-                    return ok("Give at='HH:MM' or in_minutes.")
+                if not mm or int(mm.group(1)) > 23 or int(mm.group(2)) > 59:
+                    return ok("Give at='HH:MM' (24-hour) or in_minutes.")
                 lt = time.localtime()
                 when = time.mktime((lt.tm_year, lt.tm_mon, lt.tm_mday, int(mm.group(1)), int(mm.group(2)),
                                     int(mm.group(3) or 0), 0, 0, -1))
-            t0 = when - off * 60 * scale
-            txt = await hub.clock.set_start("", int(a.get("scored_rounds") or sch.get("scored", 6)), scale, t0=t0)
+            n_sc = int(a.get("scored_rounds") or sch.get("scored", 6))
+            if sch and (m.group(3) or (m.group(2) and int(m.group(2)) > 4)):
+                # a later round's real time: pin that scored round (later ones follow); minute 0 and the past stay put
+                k = int(m.group(3)) if m.group(3) else int(m.group(2)) - 4 + 1
+                if m.group(2):
+                    when += 10 * U   # the practice round plays 10 minutes before the next scored round
+                if a.get("scored_rounds") and n_sc != sch.get("scored", 6):
+                    await hub.clock.set_start("", n_sc, scale, t0=sch["start"])
+                txt = await hub.clock.pin_round(k, when, f"{PEOPLE[hub.person]} said so")
+                me.record({"type": "note", "text": f"Clock updated: {ev} at {hhmm(when)} ({txt})"})
+                return ok(f"Clock updated on both laptops: {txt}")
+            if m.group(2):
+                n = int(m.group(2))
+                off = (B - 40, B - 30, B - 20, B - 10)[n - 1] if n <= 4 else B + G * (n - 4) - 10
+            elif m.group(3):
+                off = B + G * (int(m.group(3)) - 1)
+            else:
+                off = 0
+            t0 = when - off * U
+            txt = await hub.clock.set_start("", n_sc, scale, t0=t0, build=B if a.get("build_minutes") else None,
+                                            gap=G if a.get("gap_minutes") else None)
             me.record({"type": "note", "text": f"Clock updated: {ev} at {hhmm(when)} ({txt})"})
             return ok(f"Clock updated on both laptops: {ev} at {hhmm(when)}; {txt}")
 
@@ -2278,16 +2488,16 @@ class Agent:
                 return ok("Codex is not enabled on this hub.")
             return ok(await hub.codex.submit(me, a["task"], a.get("folder"), a.get("check")))
 
-        @tool("propose", "Put a note on the humans' board. The hub already makes the Build, Live and 'Analysis for <round>' "
-              "notes; findings, research and suggested changes go INTO the round's analysis note (update_proposal with "
-              "note= for progress, summary= for the high-level summary + numbered suggestions), not new notes. Use propose "
-              "only for: kind='bot': ask the humans whether to use a bot ('Use v3 for Practice 2?'); give bot= the exact "
-              "release file (e.g. 'releases/v3.zip'); greenlighting it makes that bot live. kind='question': something "
-              "only a human can answer. headline: ONE plain-English sentence a tired human understands in 5 seconds. "
-              "body: markdown with the evidence (numbers, ± error, files). deadline_minutes: when the default happens.",
+        @tool("propose", "Ask the humans a decision; it is pinned at the top of both Chats until answered. kind='bot': "
+              "'Which bot plays?' (give bot= the exact released file, e.g. 'releases/v7.zip', and rule_answer= the released "
+              "file the pre-registered rule picks: it plays automatically if nobody answers by the deadline; leave it out "
+              "and the current live bot is the default). kind='question': something only a human can answer (e.g. a PLAN "
+              "CHALLENGE that means a new base style). Findings and analysis don't go here: record them in the ledger. "
+              "headline: ONE plain sentence a tired human understands in 5 seconds. body: markdown with the evidence "
+              "(numbers, ± error, files) and what each answer means. deadline_minutes: when the default happens.",
               schema(["kind", "title", "headline", "body"], {"kind": "string", "title": "string", "headline": "string",
                                                              "body": "string", "bot": "string", "parent": "string",
-                                                             "deadline_minutes": "number"}))
+                                                             "deadline_minutes": "number", "rule_answer": "string"}))
         async def propose(a):
             kind = {"decision": "bot", "change": "analysis", "finding": "analysis", "research": "analysis"}.get(a["kind"], a["kind"])
             if kind == "analysis":   # fold into the latest analysis note instead of a new note
@@ -2319,6 +2529,14 @@ class Agent:
                 p["deadline"] = time.time() + float(a["deadline_minutes"]) * 60 * (sch or {}).get("scale", 1.0)
             if kind == "bot":
                 await hub.register_bot(a["bot"], "ready", by=me.name)
+                live_ = hub.bus.shared.get("live") or {}
+                ra = (a.get("rule_answer") or "").strip()
+                if ra and not re.fullmatch(r"v\d+", bot_name(ra)):
+                    return ok("rule_answer must be a released file named vN (e.g. 'releases/v5.zip').")
+                p["rule_answer"] = ra or live_.get("file") or (("releases/" + live_["filename"]) if live_.get("filename") else None)
+                if p["rule_answer"]:
+                    p["body"] = (f"**If nobody answers by the deadline: {bot_name(p['rule_answer'])} plays (the rule's answer).**\n\n"
+                                 + p["body"])[:8000]
             await hub.save_prop(p)
             me.record({"type": "note", "text": f"Posted note #{p['id']} ({kind}): {p['title']}"})
             await hub.tile("decide-" + p["id"], ("Bot choice: " + bot_name(p["bot"])) if p.get("bot") else ("Question: " + p["title"][:60]),
@@ -2421,8 +2639,45 @@ class Agent:
         async def queue_done(a):
             return ok(await hub.queue_done(a["id"], a["result"], me.name))
 
-        @tool("fetch_file", "Get a file a human attached on either laptop (by its file id, e.g. 'F3A9C1'): saved into your "
-              "laptop's repo inbox/; returns the path.", schema(["id"], {"id": "string"}))
+        @tool("share_file", "Make a file on THIS laptop available to agents on the OTHER laptop (each laptop has its own repo "
+              "copy and folders: they can't see your paths). Give path (a file, or a folder: it is packed as .tar.gz) and "
+              "optionally to= an agent name, which gets a message with the id. Returns the id; the receiver calls "
+              "fetch_file(id). Max 60 MB. Use it for tables (theory/out/*.json) going to d-platform, candidate zips going to "
+              "s-tester, analysis files for d-challenger. Hand histories may be shared this way (never into git).",
+              schema(["path"], {"path": "string", "to": "string", "note": "string"}))
+        async def share_file(a):
+            src = Path(a["path"]).expanduser()
+            if not src.is_absolute():
+                src = Path(getattr(me, "cwd", hub.repo)) / src
+            if not src.exists():
+                return ok(f"No such file or folder: {src}")
+            def pack() -> tuple[str, bytes]:
+                if src.is_dir():
+                    import io, tarfile
+                    buf = io.BytesIO()
+                    with tarfile.open(fileobj=buf, mode="w:gz") as tf:
+                        tf.add(str(src), arcname=src.name, filter=lambda ti: None if ".git" in Path(ti.name).parts else ti)
+                    return src.name + ".tar.gz", buf.getvalue()
+                return src.name, src.read_bytes()
+            name, data = await asyncio.to_thread(pack)
+            if len(data) > 60_000_000:
+                return ok(f"{name} is {len(data) // 1_000_000} MB: too big to share (max 60). Share a smaller file.")
+            fid = "S" + new_id()[1:7].upper()
+            try:
+                await asyncio.wait_for(hub.file_store().put.aio(fid, {"name": name, "data": data, "from": me.name,
+                                                                      "at": time.time()}), 120)
+            except Exception as e:  # noqa: BLE001
+                return ok(f"Couldn't share it ({type(e).__name__}: the link may be down). Try again in a minute.")
+            if a.get("to"):
+                await hub.bus.send({"id": new_id(), "from": me.name, "from_kind": "agent", "to": a["to"].strip(), "kind": "fyi",
+                                    "text": f"Shared file {name} ({len(data) // 1024} KB): fetch_file('{fid}')."
+                                            + (f" {a['note']}" if a.get("note") else "")})
+            return ok(f"Shared as {fid} ({name}, {len(data) // 1024} KB). The other laptop gets it with fetch_file('{fid}')"
+                      + (f"; {a['to']} was told." if a.get("to") else "."))
+
+        @tool("fetch_file", "Get a shared file from either laptop by its id: a human's attachment ('F3A9C1') or an agent's "
+              "share_file ('S8B2D0'). Saved into your laptop's repo inbox/ (a shared folder arrives as .tar.gz: unpack it "
+              "with tar -xzf); returns the path.", schema(["id"], {"id": "string"}))
         async def fetch_file(a):
             fid = a["id"].strip().upper()
             local = next(iter((hub.repo / "inbox").glob(f"{fid}-*")), None) if (hub.repo / "inbox").exists() else None
@@ -2483,14 +2738,15 @@ class Agent:
                                 note=a.get("note") or "")
             return ok(f"{bot_name(a['file'])}: {st}.")
 
-        @tool("update_proposal", "Update a note: note= a progress line or a result shown in its chat; summary= replaces the "
+        @tool("update_proposal", "Update a decision or note. rule_answer= (a 'Which bot?' decision) the released file the "
+              "pre-registered rule now picks, e.g. once the practice result lands; it plays if nobody answers. note= a progress line or a result shown in its chat; summary= replaces the "
               "note's pinned summary. status approved / rejected (with decided_by=<the human>) records a human's decision "
               "given in the note's chat, only when they clearly made it. Also: "
               "note's pinned summary (for an analysis note: the high-level picture in plain words + numbered suggestions "
               "for what to do); status planned / running / done / blocked. When a later result corrects or settles "
               "something the summary says (a withdrawn number, 'not confirmed yet'), rewrite the summary too: humans read "
               "it first.",
-              schema(["id"], {"id": "string", "status": "string", "note": "string", "summary": "string", "decided_by": "string"}))
+              schema(["id"], {"id": "string", "status": "string", "note": "string", "rule_answer": "string", "summary": "string", "decided_by": "string"}))
         async def update_proposal(a):
             me.turn_note_refs.add(a["id"].lstrip("#"))
             p = hub.get_prop(a["id"].lstrip("#"))
@@ -2500,6 +2756,9 @@ class Agent:
             if p.get("status") == "removed":
                 return ok(f"Card #{p['id']} was removed from the board by a human; it's no longer relevant. Stop work on it.")
             if st in ("approved", "rejected"):
+                if p.get("status") in ("approved", "rejected") and st != p["status"] and me.human_in_turn and \
+                        a.get("decided_by") in PEOPLE.values() and a.get("decided_by") != p.get("decided_by"):
+                    return ok(await hub.decision_conflict(p, st, a["decided_by"], me.human_text_in_turn or ""))
                 if p.get("status") not in ("needs_call", "revise", "expired") or p.get("kind") not in ("bot", "question"):
                     return ok(f"Note #{p['id']} isn't waiting for a decision ({p.get('status')}).")
                 humans = [t for t in p.get("thread", []) if t.get("who") in PEOPLE.values() and t.get("at", 0) >= p.get("created", 0)]
@@ -2512,6 +2771,7 @@ class Agent:
                 if not humans or not who_:
                     return ok("No human has answered in this note yet: a decision is recorded only from what a human said.")
                 p["status"], p["decided_by"] = st, who_
+                p.pop("conflict", None)
                 p.setdefault("thread", []).append({"who": "Hub", "at": time.time(), "action": st,
                                                    "text": f"Recorded: {who_} {'approved' if st == 'approved' else 'said no to'} this."})
                 if st == "approved" and p.get("bot"):
@@ -2520,6 +2780,12 @@ class Agent:
                                (f"decided: {'use ' + bot_name(p['bot']) if p.get('bot') else 'yes'}" if st == "approved" else "decided: no"))
             elif st in ("planned", "running", "done", "blocked"):
                 p["status"] = st
+            if a.get("rule_answer") and p.get("kind") == "bot" and p.get("status") in ("needs_call", "revise"):
+                if not re.fullmatch(r"v\d+", bot_name(a["rule_answer"])):
+                    return ok("rule_answer must be a released file named vN.")
+                p["rule_answer"] = a["rule_answer"]   # the practice landed: the rule's answer, applied if nobody answers
+                p.setdefault("thread", []).append({"who": me.title, "at": time.time(), "action": "rule",
+                                                   "text": f"The rule's answer is now {bot_name(a['rule_answer'])}."})
             if a.get("summary"):
                 p["body"] = a["summary"][:8000]
                 p["body_at"] = time.time()
@@ -2543,7 +2809,7 @@ class Agent:
                             + (f" — last: {last.get('who')}: {str(last.get('text'))[:160]}" if last else ""))
             return ok("\n".join(rows) or "No cards.")
 
-        return create_sdk_mcp_server("hub", tools=[send_message, list_agents, read_agent, set_status, notify_human,
+        return create_sdk_mcp_server("hub", tools=[send_message, share_file, list_agents, read_agent, set_status, notify_human,
                                                    start_agent, stop_agent, declare_live, set_schedule, propose,
                                                    update_proposal, list_proposals, codex_task, register_bot,
                                                    record, verify, invalidate, set_rules, ledger, next_bot_name,
@@ -2555,10 +2821,14 @@ BUILD = [  # (minute, who, what) for the build hour
     (0, "both", "Variant announced: fetch the kit, read the Format page (weights, payouts, anything unusual). d-overview starts d-platform on Part 1 with TWIST_NOTES.md."),
     (10, "dylan", "Deadline: a minimal legal bot uploaded and confirmed active on the portal."),
     (15, "both", "Test rig running (Part 3a: paired runs, sparring). Samuel's side measures every candidate."),
-    (20, "dylan", "Practice round 1 plays style A (a different style each practice round)."),
-    (30, "dylan", "Practice round 2 plays style B."),
-    (40, "dylan", "Practice round 3 plays style C."),
-    (50, "both", "Practice round 4 re-plays the leader. Then hands off: the best real-field scorer is active for scored round 1."),
+        (17, "dylan", "Practice round 1 starts in 3 minutes: the bot Dylan's Chat named for it should be uploaded and active now."),
+    (20, "dylan", "Practice round 1 plays the first legal, upload-tested style. Which bot plays each practice is Dylan's Chat's call: the most informative test."),
+    (27, "dylan", "Practice round 2 starts in 3 minutes: the bot Dylan's Chat named for it should be uploaded and active now."),
+    (30, "dylan", "Practice round 2 plays the most informative candidate (A, B, C, the clean-room D or another), built with the newest shared tables."),
+    (37, "dylan", "Practice round 3 starts in 3 minutes: the bot Dylan's Chat named for it should be uploaded and active now."),
+    (40, "dylan", "Practice round 3 plays the most informative candidate not yet measured (or the leader's closest rival)."),
+    (47, "dylan", "Practice round 4 starts in 3 minutes: the bot Dylan's Chat named for it should be uploaded and active now."),
+    (50, "both", "Practice round 4: the leader, or the closest untested contender if the leader is already clear. Then hands off: the best real-field scorer (adjusted for field, tables and round size) is active for scored round 1."),
 ]
 WINDOW = [  # (minutes before a scored round, who, what)
     (20, "both", "The previous scored round has started. The challenger should already be packed and tested."),
@@ -2579,35 +2849,47 @@ WINDOW = [  # (minutes before a scored round, who, what)
 DISPATCH = {
     # minute 0: every worker starts on its own build-hour stream (one task each, so nobody waits for a relay)
     "b0": [("dylan", "crit", "d-platform", "set_rules first (players per table, stacks, blinds, hands per match, time limits, weights, payouts) from the kit and the Format page; then FIRST_PROMPT.md Part 1 with TWIST_NOTES.md: a minimal legal bot in bot/ and releases/v1.zip by minute 10, the test harness by 15, today's hand ranking (from s-data) and the twist's value by 20, then the shared platform with every Part 1 check passing. report_progress('v1 and the platform')"),
-           ("dylan", "crit", "d-builder", "Read Part 1 (styles, shared defaults) and TWIST_NOTES.md; draft styles A (wide pressure), B (shove-heavy), C (tight: fold to 3-bets of our opens no more than break-even) as settings, built on Platform's interface as soon as it's published. report_progress('Styles A, B, C')"),
+                      ("dylan", "crit", "d-builder", "Read Part 1 (styles, shared defaults) and TWIST_NOTES.md; draft styles A (wide pressure), B (shove-heavy), C (tight) as settings, built on Platform's interface as soon as it's published. They are starting corners: if today's rules clearly favour another axis (the twist, postflop, short stacks), say so to d-overview and build that instead of the weakest corner. report_progress('Styles')"),
+           ("dylan", "crit", "d-challenger", "Clean-room design D (your role): from the kit, the rules card, TWIST_NOTES.md and s-data's tables only (NOT the A/B/C definitions or FIRST_PROMPT's regional strategy), write candidates/D/DESIGN.md by minute 12: what today's variant rewards, the 2-3 strategic axes that matter most, the design you'd build if nobody had told you anything, and what would show it's wrong. Then build it on Platform's interface as a style; it may play any practice round once it passes the upload test. report_progress('Style D (clean-room)')"),
            ("samuel", "crit", "s-data", "Two streams, in parallel subagents: (1) the maths tables (FIRST_PROMPT.md Part 1b): ranking by m15, ICM by m22, twist by m25, push/fold + call tables by m30, exploit thresholds by m40, HANDOFF by m45, each sent to d-platform as it's ready; (2) parsers for today's hand-history format and analysis/roundcard.py (card in < 60 s), ready for practice 1's download (~minute 25). report_progress('Maths tables') and report_progress('Round card script')"),
            ("samuel", "crit", "s-tester", "Check the rules card against the kit and Format page as soon as d-platform sets it. Then Part 3a: the paired runner on identical deals plus sparring bots, running by minute 15. report_progress('Test rig')"),
            ("samuel", "crit", "s-scout", "Read docs/FINGERPRINTING.md; build analysis/fp_train.py so it runs on practice 1's labelled download (~minute 25) in under 60 s (quick mode). report_progress('Fingerprinting')")],
+        # pre-event research: notes only, no bot code (event rules); started when a human types "start the research"
+    "pre": [("samuel", "crit", "s-data", "Pre-event research (FIRST_PROMPT Part 0, topic A): the regional variants and Pittsburgh's (search for it), ten plausible Finals twists and the fastest correct way to value each by enumeration. Notes only, NO bot code. Write notes/pre/variants.md; one subagent per topic"),
+            ("samuel", "crit", "s-scout", "Pre-event research: what will the Finals field do? Every finalist knows the regional lessons (wide 3-betting won, per-seat adaptation, fold-to-3-bet ~65%). Which styles will be crowded, what punishes them, what practice 1's field (mostly minimal bots) vs round 3's will look like, and what to watch for first. Notes only, NO code. notes/pre/field.md"),
+            ("samuel", "crit", "s-tester", "Pre-event research (Part 0, topic D): the test plan for today: sparring bots to write, paired deals, noise first, replay testing on a download, the cloned field on Modal, a confirmation run. Notes only, NO bot code. notes/pre/testplan.md"),
+            ("dylan", "crit", "d-platform", "Pre-event research (Part 0, topic C): the first-hour build plan: the safety shell, three layers, what to precompute at import, a 0.3 ms equity estimate, per-seat estimates with priors, the checks that catch the bugs that sank bots. Notes only, NO bot code. notes/pre/buildplan.md"),
+            ("dylan", "crit", "d-builder", "Pre-event research (Part 0, topic B): what wins sit-and-gos of AI-built bots (preflop aggression with planned responses, postflop folding vs bluff rates, shove-or-fold by depth, ICM for different payouts, heads-up and 3-handed). Notes only, NO bot code. notes/pre/whatwins.md"),
+            ("dylan", "crit", "d-challenger", "Pre-event research, the contrarian memo: assume 19 strong teams all read the same regional lessons. Three designs that would beat that field, what each loses to, and how we'd know within one practice round which one this field pays. Notes only, NO bot code. notes/pre/contrarian.md")],
     "b10": [("dylan", "crit", "d-platform", "v1 must be released now (releases/v1.zip, upload-tested) and d-overview told the exact file")],
     "b15": [("samuel", "crit", "s-tester", "The test rig must run now: first verdict on v1 (correct? timing?) to d-platform and both Chats")],
-    "b20": [("dylan", "crit", "d-builder", "Style A ready (legal and upload-tested is enough) for practice round 1; B next"),
-            ("dylan", "crit", "d-platform", "Build s-data's hand ranking and ICM thresholds into the platform now (behind settings) so style B in practice 2 uses them; push/fold tables follow at minute 30"),
+        "b20": [("dylan", "crit", "d-builder", "Have the next style ready (legal and upload-tested is enough); d-overview picks which plays each practice. Rebuild every style with the newest shared tables before its upload, so practice scores compare styles, not timing"),
+            ("dylan", "crit", "d-platform", "Build s-data's hand ranking and ICM thresholds into the platform now (behind settings, ON by default once checked) so every style uploaded from now on uses them; push/fold tables follow at minute 30"),
+            ("dylan", "crit", "d-overview", "Pick which bot plays practice 2 (minute 30): the most informative test, not a fixed rota. Tell Dylan the exact file by minute 28"),
             ("samuel", "crit", "s-data", "When practice 1's round card lands: the defaults check, then the leaks of the bot that played (Part 2), the top change in 5 minutes. report_progress('Practice 1 analysis') is automatic; record the one-change when done")],
-    "b30": [("dylan", "crit", "d-platform", "Build s-data's push/fold and call tables and the twist rule into the platform now, so style C in practice 3 (minute 40) is the first real-field test of the full tables"),
-            ("dylan", "crit", "d-builder", "Style B for practice 2; C next"),
+        "b30": [("dylan", "crit", "d-platform", "Build s-data's push/fold and call tables and the twist rule into the platform now; every style picks them up at its next upload"),
+            ("dylan", "crit", "d-builder", "Keep each style current with the platform; the next one ready for practice 3 as d-overview picks"),
+            ("dylan", "crit", "d-overview", "Pick which bot plays practice 3 (minute 40): the candidate whose real-field score we most need (D if not yet measured). Tell Dylan the exact file by minute 38"),
             ("samuel", "crit", "s-data", "Refit the call tables' shove-width and fold-rate columns from practice 1's real data and re-issue; then practice 2's leaks and styles A vs B on the real field"),
-            ("samuel", "crit", "s-scout", "First profiles from practices 1-2; recogniser accuracy (same-round) and how identifiable we are")],
-    "b40": [("dylan", "crit", "d-builder", "Style C for practice 3"),
-            ("dylan", "crit", "d-challenger", "From practices 1-2 (real-field scores, s-scout's first profiles, the field's measured style mix): design the first challenger as the best response to that mix, ready for the practice before scored round 2. report_progress('Challenger 1')"),
-            ("samuel", "crit", "s-tester", "Rank A, B, C (paired tests + real practice scores) for the round-1 choice; send it to s-overview")],
+                        ("samuel", "crit", "s-scout", "First FIELD TREND from practices 1-2 (field rates, what the best teams do; note that practice 1's field is mostly minimal bots), first profiles, recogniser accuracy (same-round) and how identifiable we are")],
+        "b40": [("dylan", "crit", "d-builder", "Keep the styles current; whichever d-overview names for practice 4 ready by minute 48"),
+            ("dylan", "crit", "d-challenger", "From practices 1-3 (real-field scores, s-scout's field trend and profiles): choose the first challenger for the practice before scored round 2: D matured, the best response to the field's measured mix, or what the data points to. Say why in one line. report_progress('Challenger 1')"),
+            ("dylan", "crit", "d-overview", "Pick practice 4 (minute 50): the leader, or its closest unmeasured rival if the leader is already clear. Tell Dylan by minute 48"),
+            ("samuel", "crit", "s-tester", "Rank every style that played (A, B, C, D, ...) for the round-1 choice, adjusting for confounds: which tables each had, practice size, how mature the field was. Add replay tests of each style on the same downloads (same field, same deals). Say which comparison carries the decision; send it to s-overview")],
     "b50": [("dylan", "crit", "d-platform", "Release the bot d-overview names for scored round 1 (the best real-field scorer unless the humans said otherwise)"),
-            ("samuel", "crit", "s-data", "Which style did the field reward? One paragraph with the numbers to s-overview for the round-1 decision")],
+                        ("samuel", "crit", "s-data", "Which style did the field reward, and what are the best teams doing (winners lens)? One paragraph with the numbers to s-overview for the round-1 decision; if no style we built matches what wins, say so (PLAN CHALLENGE)")],
     "T20": [("samuel", "crit", "s-tester", "Verify the challenger's paired-test verdicts and methods now (they don't depend on the new round), and pre-arm analysis/verify_change.py + a Codex brief that recompute the card's headline numbers from a hand file, so at T-12 only the data path changes"),
-            ("dylan", "crit", "d-overview", "Prepare the 'Which bot?' question for the next scored round: the pre-registered rule, both bots' numbers as they land, the rule's answer")],
-    "T13": [("samuel", "crit", "s-data", "As soon as DATA LANDED (not before; wait for it), from the round card (the hub runs it): the defaults check, our leaks (Part 2), up to three independent changes (lens subagents + a Codex recompute), recorded with question='one-change <stage>' by T-9; then opponent profiles where a profile pays most"),
+                        ("dylan", "crit", "d-overview", "Prepare the 'Which bot?' question for the next scored round: the pre-registered rule, both bots' numbers as they land, the rule's answer"),
+            ("samuel", "crit", "s-overview", "Step back: from the last field trend and winners lens, is our base approach still right? Sync with d-overview in 3 lines; if not, raise it with Samuel now and make sure d-challenger builds the alternative")],
+    "T13": [            ("samuel", "crit", "s-data", "As soon as DATA LANDED (not before; wait for it), from the round card (the hub runs it): the defaults check (a report), the winners lens, our leaks (Part 2), every independent change that clears the bar (lens subagents + a Codex recompute), recorded with question='one-change <stage>' by T-9; then opponent profiles where a profile pays most"),
             ("samuel", "crit", "s-tester", "Re-run the numbers the T-8 decision may rest on (card headline, s-data's changes) and verify each; give every pending candidate a verdict (correct? paired vs the live bot); optional if on track: the cloned field on Modal for the challenger"),
-            ("samuel", "crit", "s-scout", "Fingerprint card: counters on/off by the gate, counters.json to d-platform, accuracy/drift to s-tester, by T-9"),
-            ("dylan", "crit", "d-builder", "Opponent counters from s-scout and this window's live-bot fixes from s-data (up to three, each behind a setting), each in its own folder, each sent to s-tester"),
-            ("dylan", "crit", "d-challenger", "The next challenger: revise it from this round's data (or a fresh rewrite if we're outside the top 6 after 15% of the weight); packed, tested and ready for the T-12 upload. report_progress('Challenger <n>')"),
-            ("dylan", "crit", "d-platform", "Fix bugs s-tester reported; build this window's live-bot changes (up to three independent, each behind a setting)")],
-    "T12": [("dylan", "crit", "d-platform", "Release the challenger (releases/<name>.zip) so Dylan can upload it for the practice round; tell d-overview the exact file")],
-    "T8": [("samuel", "crit", "s-overview", "Send d-overview the recommendation now, applying the pre-registered rule (standings, SE bar), with evidence (validated, or labelled unverified)"),
-           ("dylan", "crit", "d-overview", "Ask the 'Which bot?' question now: propose(kind='bot', deadline_minutes until T-5), and ask Dylan in plain words in your reply")],
+                        ("samuel", "crit", "s-scout", "First the FIELD TREND (analysis/<stage>/field_trend.md; plan assumptions checked; a PLAN CHALLENGE if one breaks), then the fingerprint card: counters on/off by the gate, counters.json to d-platform, accuracy/drift to s-tester, by T-9"),
+                        ("dylan", "crit", "d-builder", "Opponent counters from s-scout and this window's live-bot fixes from s-data (each independent, each behind a setting), each in its own folder, each sent to s-tester"),
+            ("dylan", "crit", "d-challenger", "This window's practice plays the challenger you already released (or the most informative released bot). Start the NEXT challenger now from this round's data, s-scout's field trend and any PLAN CHALLENGE: D, the best response to the measured mix, or a rewrite; say why in one line. report_progress('Challenger <n>')"),
+            ("dylan", "crit", "d-platform", "Fix bugs s-tester reported; build this window's live-bot changes (each independent, each behind a setting)")],
+        "T12": [("dylan", "crit", "d-platform", "Release the challenger d-challenger has ready and tested (releases/<name>.zip) so Dylan can upload it for the practice round; tell d-overview the exact file. Nothing tested: tell d-overview which released bot is the most informative to play instead")],
+    "T9": [("samuel", "crit", "s-overview", "Send d-overview the recommendation now (it asks the humans at T-8), applying the pre-registered rule (standings, the field-adjusted bar), with both bots' numbers, the rule's answer as a released file, and the evidence (validated, or labelled unverified). Practice results usually land at T-8 to T-7: until then send the threshold (the practice score the challenger needs, given the yardstick teams), then the final answer the moment it lands; with no practice result by T-6 the rule's answer is the live bot")],
+    "T8": [("dylan", "crit", "d-overview", "Ask the 'Which bot?' question now: propose(kind='bot', rule_answer=<the file the rule picks>, deadline_minutes until T-5) with s-overview's numbers, and ask Dylan in plain words in your reply")],
     "T6": [("dylan", "crit", "d-platform", "Test the chosen bot with no time bank; release it as releases/<name>.zip")],
     "T3": [("dylan", "crit", "d-platform", "The chosen bot's release must be ready; confirm the exact file to d-overview")],
 }
@@ -2619,8 +2901,9 @@ REMINDERS = [
      "note), update your brief, and send a one-line fyi with the file path to whoever depends on it.", False),
     ("T13", "samuel", "s-data", "New real-field data: refit the call/fold columns of your tables from it and re-issue them "
      "(real-field numbers outrank the tables).", True),
-    ("T13", "samuel", "s-scout", "New download: read the fingerprint card (or run fp_train.py if the hub couldn't), set counters "
-     "by the gate, send counters.json to d-platform and the accuracy/drift items to s-tester, all by T-9.", True),
+        ("T13", "samuel", "s-scout", "New download: the field trend first (what moved, plan assumptions checked), then the fingerprint "
+     "card (or run fp_train.py if the hub couldn't), counters by the gate, counters.json to d-platform and the accuracy/drift "
+     "items to s-tester, all by T-9.", True),
     ("T13", "samuel", "s-tester", "Check the ledger's persistent leaks (the same leak in two rounds) first: verify them so the "
      "fix can ship this window.", False),
     ("T20", "both", "*overseers", "Sync with the other laptop's Chat (the other lead) in 3 lines (what changed on your side, what you need from "
@@ -2675,8 +2958,10 @@ ROUTES = {
                    ("s-tester", "task", "Round card for {stage} is ready: {card}. Check its headline numbers against the raw "
                                         "files (your pre-armed verify script), verify the card's ledger items, and recalibrate "
                                         "the sparring bots from its opponent table before the next paired test.")],
-    "fp_ready": [("s-scout", "task", "Fingerprint card for {stage} is ready: {card}. Set counters on/off per team by the gate, "
-                                     "send counters.json to d-platform, send s-tester the accuracy/drift items, by T-9.")],
+        "fp_ready": [("s-scout", "task", "Fingerprint card for {stage} is ready: {card}. First the field trend (analysis/<stage>/"
+                                     "field_trend.md, plan assumptions checked; PLAN CHALLENGE if one breaks), then counters "
+                                     "on/off per team by the gate, counters.json to d-platform, s-tester the accuracy/drift "
+                                     "items, by T-9.")],
     "candidate": [("s-tester", "task", "New candidate {bot} ({status}) from {by}: give it a verdict (correct? stronger? paired, "
                                        "at the rules card's table size). {note}")],
 }
@@ -2716,13 +3001,14 @@ HUMAN_STEPS = {
     "b0": {"samuel": "Set the clock's minute 0 if it isn't set, and read the Format page.",
            "dylan": "Fetch the kit and read the Format page."},
     "b10": {"dylan": "UPLOAD"},
-    "b20": {"dylan": "UPLOAD"},
-    "b30": {"dylan": "UPLOAD"},
-    "b40": {"dylan": "UPLOAD"},
+    "b17": {"dylan": "Practice 1 starts in 3 minutes: upload the bot your Chat named for it (Live menu) if it isn't active yet."},
+    "b27": {"dylan": "Practice 2 starts in 3 minutes: upload the bot your Chat named for it (Live menu) if it isn't active yet."},
+    "b37": {"dylan": "Practice 3 starts in 3 minutes: upload the bot your Chat named for it (Live menu) if it isn't active yet."},
+    "b47": {"dylan": "Practice 4 starts in 3 minutes: upload the bot your Chat named for it (Live menu) if it isn't active yet."},
     "12": {"dylan": "UPLOAD"},
     "9": {"dylan": "UPLOAD"},
-    "8": {"samuel": "Decision time: open the Use-which-bot note on the board and greenlight or reject.",
-          "dylan": "Decision time: open the Use-which-bot note on the board and greenlight or reject."},
+    "8": {"samuel": "Decision time: the 'Which bot?' question is pinned at the top of your Chat. Answer it there in words.",
+          "dylan": "Decision time: the 'Which bot?' question is pinned at the top of your Chat. Answer it there in words."},
     "3": {"dylan": "UPLOAD"},
 }
 
@@ -2746,17 +3032,17 @@ def situation(hub: "Hub") -> str:
         t0, nsc = sch["start"], sch.get("scored", 6)
         U = 60 * sch.get("scale", 1.0)   # seconds per event-minute (less than 60 only in sped-up simulations)
         m = (now - t0) / U
-        rounds = [t0 + (60 + 20 * (k - 1)) * U for k in range(1, nsc + 1)]
+        rounds = round_starts(sch)
         if m < 0:
             lines.append(f"PHASE: before the event; minute 0 is at {hhmm(t0)} (in {-m:.0f} min).")
-        elif m < 60:
-            done = [f"min {mi}: {w}" for mi, who, w in BUILD if mi <= m and who in ("both", me)]
-            nxt = next(((mi, w) for mi, who, w in BUILD if mi > m and who in ("both", me)), None)
-            lines.append(f"PHASE: build hour, minute {m:.0f} of 60. Scored round 1 at {hhmm(rounds[0])}.")
+        elif now < rounds[0]:
+            done = [f"min {mi}: {w}" for mi, who, w in BUILD if build_ts(sch, mi) <= now and who in ("both", me)]
+            nxt = next(((mi, w) for mi, who, w in BUILD if build_ts(sch, mi) > now and who in ("both", me)), None)
+            lines.append(f"PHASE: build hour, minute {m:.0f} of {(rounds[0] - t0) / U:.0f}. Scored round 1 at {hhmm(rounds[0])}.")
             if done:
                 lines.append("Should be done by now: " + " | ".join(done[-2:]))
             if nxt:
-                lines.append(f"Next (minute {nxt[0]}, {hhmm(t0 + nxt[0] * U)}): {nxt[1]}")
+                lines.append(f"Next (step {nxt[0]}, {hhmm(build_ts(sch, nxt[0]))}): {nxt[1]}")
             T1 = (rounds[0] - now) / U
             if T1 <= 9:
                 r1 = [(o, w) for o, who, w in WINDOW if o <= 8 and who in ("both", me)]
@@ -2793,13 +3079,12 @@ def situation(hub: "Hub") -> str:
             if who != me:
                 continue
             if key.startswith("b"):
-                at = t0 + int(key[1:]) * U2
-                if at <= now < t0 + 60 * U2:
+                at = build_ts(sch, int(key[1:]))
+                if at <= now < round_starts(sch)[0]:
                     due.append(f"by minute {key[1:]}: {what}")
             else:
                 off = int(key[1:])
-                for k in range(1, nsc + 1):
-                    ts = t0 + (60 + 20 * (k - 1)) * U2
+                for k, ts in enumerate(round_starts(sch), 1):
                     if ts - off * U2 <= now < ts:
                         due.append(f"by T-{off} of scored round {k}: {what}")
         if due:
@@ -2934,50 +3219,105 @@ class Clock:
         s = self.hub.bus.shared.get("schedule")
         if not s:
             return []
-        t0, out, U = s["start"], [], 60 * s.get("scale", 1.0)
-        for k, m in enumerate((20, 30, 40, 50), 1):
-            out.append(("practice", k, t0 + m * U))
-        for k in range(1, s.get("scored", 6) + 1):
-            ts = t0 + (60 + 20 * (k - 1)) * U
+        out = [("practice", k, build_ts(s, m)) for k, m in enumerate((20, 30, 40, 50), 1)]
+        rs = round_starts(s)
+        for k, ts in enumerate(rs, 1):
             out.append(("scored", k, ts))
-            if k < s.get("scored", 6):
-                out.append(("practice", 4 + k, ts + 10 * U))
+            if k < len(rs):
+                out.append(("practice", 4 + k, rs[k] - 10 * sched_unit(s)))
         return sorted(out, key=lambda e: e[2])
 
-    async def set_start(self, hhmm_s: str, scored: int = 6, scale: float = 1.0, t0: float | None = None):
+    async def set_start(self, hhmm_s: str, scored: int = 6, scale: float = 1.0, t0: float | None = None,
+                        build: float | None = None, gap: float | None = None):
         if t0 is None:
             m = re.fullmatch(r"\s*(\d{1,2}):(\d{2})(?::(\d{2}))?\s*", hhmm_s or "")
             if not m or int(m.group(1)) > 23 or int(m.group(2)) > 59 or int(m.group(3) or 0) > 59:
                 raise ValueError("use HH:MM (24-hour), e.g. 14:02")
             lt = time.localtime()
-            t0 = time.mktime((lt.tm_year, lt.tm_mon, lt.tm_mday, int(m.group(1)), int(m.group(2)), int(m.group(3) or 0), 0, 0, -1))
+            cands = [time.mktime((lt.tm_year, lt.tm_mon, lt.tm_mday, h, int(m.group(2)), int(m.group(3) or 0), 0, 0, -1))
+                     for h in ({int(m.group(1)), int(m.group(1)) + 12} if int(m.group(1)) < 12 else {int(m.group(1))})]
+            t0 = min(cands, key=lambda t: abs(t - time.time()))   # "2:05" typed at 14:07 is 14:05, not 02:05
         old = self.hub.bus.shared.get("schedule") or {}
-        if old.get("start") and int(old["start"]) != int(t0):   # a correction: steps already sent stay sent
-            otk, ntk, now_ = int(old["start"]), int(t0), time.time()
-            for k in list(self.sent):
-                if k.startswith(f"{otk}:"):
-                    self.sent.add(f"{ntk}:{k.split(':', 1)[1]}")
-            U_ = 60 * scale   # steps whose new time is already over don't fire as a burst either
-            for mi, _, _ in BUILD:
-                if t0 + mi * U_ < now_ - 60:
-                    self.sent.add(f"{ntk}:b{mi}")
-            for kk in range(1, scored + 1):
-                ts_ = t0 + (60 + 20 * (kk - 1)) * U_
-                for o, _, _ in WINDOW:
-                    if ts_ - o * U_ < now_ - 60:
-                        self.sent.add(f"{ntk}:s{kk}-{o}")
-            atomic_write(self.hub.data / "clock_sent.json", json.dumps(sorted(self.sent)))
-        await self.hub.bus.set_shared("schedule", {"start": t0, "scored": scored, "scale": scale,
-                                                   "set_by": self.hub.person, "at": time.time()})
+        new = {"start": t0, "scored": scored, "scale": scale, "set_by": self.hub.person, "at": time.time()}
+        for f_, v_ in (("build", build or old.get("build")), ("gap", gap or old.get("gap")), ("round_at", old.get("round_at"))):
+            if v_:
+                new[f_] = v_
+        await self.hub.bus.set_shared("schedule", new)
         # marks are keyed by the start time: a new start gets new keys, the same start keeps "already sent"
-        if old.get("start") and (abs(old["start"] - t0) > 1 or old.get("scored") != scored):
+        if old.get("start") and (abs(old["start"] - t0) > 1 or old.get("scored") != scored or
+                                 old.get("build") != new.get("build") or old.get("gap") != new.get("gap")):
             await self.announce_change(old, t0, scored)
         self.hub.emit("shared", {"schedule": self.hub.bus.shared["schedule"]})
         for al in list(self.hub.alerts):   # notices asking for the start time are now answered
             if re.search(r"minute 0|set the clock|no clock", al["text"], re.I):
                 self.hub.dismiss(al["id"])
-        U = 60 * scale
-        return f"minute 0 at {hhmm(t0)}; scored round 1 at {hhmm(t0 + 60 * U)}; last scored round at {hhmm(t0 + (60 + 20 * (scored - 1)) * U)}."
+        rs = round_starts(new)
+        return f"minute 0 at {hhmm(t0)}; scored round 1 at {hhmm(rs[0])}; last scored round at {hhmm(rs[-1])}."
+
+    async def pin_round(self, k: int, when: float, source: str) -> str:
+        """Scored round k really starts at `when` (the portal saw it, or a human said so). Later rounds follow from it,
+        and every deadline before them moves; the build hour and rounds already played don't."""
+        s = dict(self.hub.bus.shared.get("schedule") or {})
+        if not s or not 1 <= k <= int(s.get("scored", 6)):
+            return f"no scored round {k} in the schedule"
+        before = round_ts(s, k)
+        if before is not None and abs(when - before) > 30:   # open decisions for this round move with it
+            U = sched_unit(s)
+            for p in self.hub.props():
+                if p.get("kind") == "bot" and p.get("status") in ("needs_call", "revise") and p.get("deadline") and \
+                        before - 20 * U <= p["deadline"] <= before:
+                    p["deadline"] += when - before
+                    await self.hub.save_prop(p)
+        pins = {kk: v for kk, v in (s.get("round_at") or {}).items() if int(kk) < k}
+        pins[str(k)] = when
+        s["round_at"], s["at"] = pins, time.time()
+        await self.hub.bus.set_shared("schedule", s)
+        self.hub.emit("shared", {"schedule": s})
+        rs = round_starts(s)
+        if before is None or abs(before - when) > 30:
+            text = (f"Scored round {k} starts at {hhmm(when)} (was {hhmm(before)}; {source}). Later rounds follow: "
+                    + ", ".join(f"round {i} {hhmm(t)}" for i, t in enumerate(rs, 1) if i >= k)
+                    + ". Every deadline in those windows moves with them; times quoted earlier are out of date.")
+            await self.hub.alert_all(f"{self.hub.person[0]}-clock", text, False, chat=True)
+            for a in self.hub.agents.values():
+                if a.name.endswith("overview"):
+                    await a.add_item({"kind": "clock", "wake": True, "text": "[clock changed] " + text})
+            other = "d-overview" if self.hub.person == "samuel" else "s-overview"
+            try:
+                await self.hub.bus.send({"id": new_id(), "from": f"{self.hub.person[0]}-clock", "from_kind": "hub",
+                                         "to": other, "kind": "task", "text": "[clock changed] " + text})
+            except Exception as e:  # noqa: BLE001
+                self.hub.note_error("clock-pin", e)
+        return f"scored round {k} at {hhmm(when)}; " + ", ".join(f"round {i} {hhmm(t)}" for i, t in enumerate(rs, 1))
+
+    def carry(self, old: dict, new: dict):
+        """The clock moved (on either laptop). A step already sent stays sent only if it is the same occurrence (its
+        time moved 5 minutes or less) or its new time is already over; a step now in the future fires at its new time.
+        So a false start corrected later still gets the real minute 0, and a sync never re-fires the past."""
+        if not old or not new or not old.get("start"):
+            return
+        otk, ntk, now_ = int(old["start"]), int(new["start"]), time.time()
+        if otk == ntk and old.get("round_at") == new.get("round_at") and old.get("build") == new.get("build") \
+                and old.get("gap") == new.get("gap"):
+            return
+        def times(s_):
+            out = {f"b{mi}": build_ts(s_, mi) for mi, _, _ in BUILD}
+            for kk, ts_ in enumerate(round_starts(s_), 1):
+                for o, _, _ in WINDOW:
+                    out[f"s{kk}-{o}"] = ts_ - o * sched_unit(s_)
+            return out
+        ot, nt = times(old), times(new)
+        for step, t_new in nt.items():
+            was = f"{otk}:{step}" in self.sent
+            moved = t_new - ot.get(step, t_new)
+            premature = step in ("b0", "b10", "b15") and moved > 300   # sent at a false start: the real one still fires
+            if was and not premature and (abs(moved) <= 300 or t_new < now_ - 60):
+                self.sent.add(f"{ntk}:{step}")
+            elif not was and t_new < now_ - 60 and step not in ("b0", "b10", "b15"):
+                self.sent.add(f"{ntk}:{step}")   # long past and never sent: no burst (the build hour's first steps still fire)
+            elif was and t_new >= now_ - 60 and otk == ntk:
+                self.sent.discard(f"{ntk}:{step}")   # a pinned round moved this step later: it fires again at its new time
+        atomic_write(self.hub.data / "clock_sent.json", json.dumps(sorted(self.sent)))
 
     def tidy_bell(self, s: dict):
         """Clock and deadline notices go stale: a decision prompt once nothing waits for a decision, any clock notice
@@ -3025,11 +3365,10 @@ class Clock:
         t0, U = s["start"], 60 * s.get("scale", 1.0)
         strip = {20: "Practice round 1 starts: the bot chosen for it should be active", 30: "Practice round 2 starts",
                  40: "Practice round 3 starts", 50: "Practice round 4 starts; after it, the bot for scored round 1 goes active"}
-        cands = [(t0 + mi * U, f"min {mi}: {strip.get(mi, w)}") for mi, who, w in BUILD if who in ("both", me)]
-        for k in range(1, s.get("scored", 6) + 1):
-            ts = t0 + (60 + 20 * (k - 1)) * U
+        cands = [(build_ts(s, mi), f"min {mi}: {strip.get(mi, w)}") for mi, who, w in BUILD if who in ("both", me)]
+        for k, ts in enumerate(round_starts(s), 1):
             cands += [(ts - o * U, f"Scored {k} T-{o}: {w}") for o, who, w in WINDOW
-                      if who in ("both", me) and o != 20 and not (k == 1 and o > 8)]
+                      if who in ("both", me) and o != 20 and not (k == 1 and o > 9)]
             cands.append((ts, f"Scored round {k} starts"))
         fut = sorted(c for c in cands if c[0] > now)
         return fut[0] if fut else None
@@ -3061,7 +3400,7 @@ class Clock:
     async def loop(self):
         while True:
             for job in (self.tick, self.hub.expire_decisions, self.guard.tick, self.hub.watch_stalls,
-                        self.hub.watch_unanswered, self.hub.consistency_check):
+                        self.hub.watch_unanswered):
                 try:
                     await asyncio.wait_for(job(), 120)
                 except Exception as e:  # noqa: BLE001   one failing job must not switch off the others
@@ -3073,6 +3412,9 @@ class Clock:
         ov = self.hub.overseer()
         me = self.hub.person
         s = self.hub.bus.shared.get("schedule")
+        if s and getattr(self, "last_sched", None) and self.last_sched != s:
+            self.carry(self.last_sched, s)
+        self.last_sched = dict(s) if s else None
         marks = []
         if s:
             t0, U = s["start"], 60 * s.get("scale", 1.0)
@@ -3080,18 +3422,21 @@ class Clock:
             for mi, who, w in BUILD:
                 if who in ("both", me) or dispatch_text(f"b{mi}", me) or has_reminder(f"b{mi}", me):
                     mine = who in ("both", me) or dispatch_text(f"b{mi}", me)
-                    marks.append((f"{tk}:b{mi}", t0 + mi * U, (f"Build hour, minute {mi}: {w}" + dispatch_text(f"b{mi}", me))
+                    marks.append((f"{tk}:b{mi}", build_ts(s, mi), (f"Build hour, minute {mi}: {w}" + dispatch_text(f"b{mi}", me))
                                   if mine else "[reminders-only]"))
-            for k in range(1, s.get("scored", 6) + 1):
-                ts = t0 + (60 + 20 * (k - 1)) * U
+            seen_ = self.hub.bus.shared.get("rounds_seen")
+            for k, ts in enumerate(round_starts(s), 1):
+                if k > 1 and isinstance(seen_, dict) and seen_ and f"Round {k - 1}" not in seen_ and \
+                        now > round_ts(s, k - 1) + 3 * U:
+                    continue   # round k-1 is late on the portal: this window's steps wait for it (the clock follows the pin)
                 for o, who, w in WINDOW:
-                    if (who in ("both", me) or dispatch_text(f"T{o}", me) or has_reminder(f"T{o}", me)) and not (k == 1 and o > 8):   # round 1: the build hour covers T-20..T-9
+                    if (who in ("both", me) or dispatch_text(f"T{o}", me) or has_reminder(f"T{o}", me)) and not (k == 1 and o > 9):   # round 1: the build hour covers T-20..T-9
                         mine = who in ("both", me) or dispatch_text(f"T{o}", me)
                         marks.append((f"{tk}:s{k}-{o}", ts - o * U, (f"Scored round {k} at {hhmm(ts)}, T-{o}: {w}" + dispatch_text(f"T{o}", me))
                                       if mine else "[reminders-only]"))
         if s:   # a regular check-in every 5 event-minutes from minute 0 to the end of the last round
             t0, U = s["start"], 60 * s.get("scale", 1.0)
-            end = t0 + (60 + 20 * (s.get("scored", 6) - 1) + 10) * U
+            end = round_starts(s)[-1] + 10 * U
             n = int((now - t0) // (5 * U))
             if t0 <= now < end:
                 marks.append((f"{int(t0)}:p{n}", t0 + n * 5 * U, "Regular clock check. Re-read the situation brief: is "
@@ -3104,6 +3449,8 @@ class Clock:
                 grace = max(grace, min(300, 5 * U_))
             if key.endswith(("-13", "-8", "-3")):
                 grace = max(grace, 300)   # decision steps: always within 5 minutes
+            if key.split(":", 1)[1] in ("b0", "b10", "b15") and s:
+                grace = max(grace, round_starts(s)[0] - at)   # minute 0 typed late, a link down, a laptop asleep: still fires
             if key not in self.sent and at <= now < at + grace:
                 if at < self.started_at and now - at > 90 and text != "[reminders-only]":
                     text = f"(LATE: this step was due at {hhmm(at)}, while the hub was restarting) " + text
@@ -3215,7 +3562,8 @@ class DeadlineGuard:
             roots = [hub.repo / "analysis"] + [Path(getattr(a, "cwd", hub.repo)) / "analysis" for a in hub.agents.values() if getattr(a, "cwd", hub.repo) != hub.repo]
             for root in roots:   # agents name the folder their own way (Round-1, round1, r1...): any card counts
                 try:
-                    if any(f.stat().st_mtime > landed - 60 for f in root.rglob("*card*.md")):
+                    if any(f.stat().st_mtime > landed - 60 and "fp" not in f.parts and "fp" not in f.name.lower()
+                           for f in root.rglob("*card*.md")):
                         return True
                 except OSError:
                     pass
@@ -3236,7 +3584,7 @@ class DeadlineGuard:
             if norm_bot((hub.bus.shared.get("portal_active") or {}).get("filename")) == norm_bot(live.get("filename")):
                 return True   # already uploaded and active: nothing to cut
             b = hub.bus.shared.get("bot:" + norm_bot(live.get("filename") or "")) or {}
-            return b.get("status") in ("ready", "testing") and bool(hub.find_bot_file(live.get("file") or live.get("filename") or "")
+            return b.get("status") == "ready" and bool(hub.find_bot_file(live.get("file") or live.get("filename") or "")
                                                                  or b.get("sha256"))
         return True
 
@@ -3245,19 +3593,30 @@ class DeadlineGuard:
         if not s:
             return []
         t0, U = s["start"], 60 * s.get("scale", 1.0)
-        return [(k, t0 + (60 + 20 * (k - 1)) * U, U) for k in range(2, s.get("scored", 6) + 1)]   # round 1: the build hour
+        return [(k, ts, U) for k, ts in enumerate(round_starts(s), 1)]   # round 1: only the decision and the chosen bot
 
     async def tick(self):
         hub, now = self.hub, time.time()
         for k, ts, U in self.windows():
-            start = ts - 20 * U
+            start = ts - (10 * U if k == 1 else min(20 * U, ts - round_ts(self.hub.bus.shared.get("schedule"), k - 1)))
             if not (start <= now < ts):
                 continue
+            rid = f"{int(self.hub.bus.shared['schedule']['start'])}:r{k}"
+            seen = hub.bus.shared.get("rounds_seen")
+            if k > 1 and isinstance(seen, dict) and seen and f"Round {k - 1}" not in seen and \
+                    now > round_ts(hub.bus.shared.get("schedule"), k - 1) + 3 * U:
+                if f"{rid}:late" not in self.done:   # the portal hasn't started round k-1: it's late, not us
+                    self.mark(f"{rid}:late")
+                    await hub.alert_all(f"{hub.person[0]}-clock", f"Scored round {k - 1} hasn't started on the portal "
+                                        f"(expected {hhmm(round_ts(hub.bus.shared.get('schedule'), k - 1))}). Deadlines for "
+                                        "the next window wait; the clock moves when the portal starts it, or tell your Chat "
+                                        "the new time.", False)
+                continue
             for gid, who, cut, warn, owner, what, fallback in GUARD:
-                key = f"{int(ts)}:{gid}"
-                if who != hub.person or key in self.done:
+                key = f"{rid}:{gid}"
+                if who != hub.person or key in self.done or (k == 1 and gid not in ("note", "chosen")):
                     continue
-                if gid == "card" and f"{int(ts)}:data:cut" in self.done:
+                if gid == "card" and f"{rid}:data:cut" in self.done:
                     continue
                 m = self.met(gid, k, start, U)
                 if m:
@@ -3330,9 +3689,11 @@ class DeadlineGuard:
         live = dict(live, file=f)
         p = {"id": "P" + new_id()[1:7].upper(), "kind": "bot", "title": f"Which bot plays scored round {k}?",
              "headline": f"Default: the live bot {bot_name(live['filename'])} keeps playing.",
-             "body": "Posted by the clock because no decision note existed by T-7. The live bot plays unless the "
-                     "pre-registered rule picks a challenger that's released and upload-tested. Greenlight to confirm.",
-             "bot": live["file"], "author": "d-overview", "author_person": hub.person, "decider": "both",
+             "body": "Asked by the clock because nobody had asked it by T-7. The live bot plays unless the pre-registered "
+                     "rule (How we decide §3) picks a challenger that's released and upload-tested; Dylan's Chat is asked to "
+                     "fill in both bots' numbers and the rule's answer. Answer in the Chat in words (e.g. 'keep the live bot' "
+                     "or 'use v7'); with no answer by T-5 the rule's answer plays.",
+             "bot": live["file"], "rule_answer": live["file"], "author": "d-overview", "author_person": hub.person, "decider": "both",
              "owner": "d-overview", "parent": None, "stage": stage_of(hub.bus.shared.get("schedule"), time.time()),
              "status": "needs_call", "created": time.time(), "deadline": ts - 5 * U, "thread": []}
         await hub.save_prop(p)
@@ -3374,6 +3735,37 @@ class PortalWatcher:
         self.want_cid = os.environ.get("AVALON_COMPETITION_ID") or None
         self.comp_name, self.team_name = "", "avalon"
         self.checked: set[str] = set(self.st.get("checked", []))
+        if not hands_url and self.st.get("hands_url"):
+            self.hands_url = self.st["hands_url"]   # given in the Chat earlier: survives a restart
+
+    def set_hands_url(self, url: str) -> str:
+        """The hand-history link Samuel copied from the portal: the round's id becomes {tid}; retried at once."""
+        url = url.strip().strip("<>").rstrip(".,)")
+        if "{tid}" not in url:
+            ids = sorted({x for d in (self.st.get("done", []), list(self.st.get("need_hands", {}))) for x in d}, key=len, reverse=True)
+            hit = next((i for i in ids if i and i in url), None)
+            if not hit:
+                m = re.search(r"/(?:tournaments|rounds?)/([^/?#]+)", url)
+                hit = m.group(1) if m else None
+            if not hit:
+                return "I couldn't find the round's id in that link. Paste the link for a round's hand download as copied."
+            url = url.replace(hit, "{tid}")
+        if "{q}" not in url:
+            from urllib.parse import urlsplit, urlunsplit, parse_qsl, urlencode
+            u = urlsplit(url)
+            rest = [(k_, v_) for k_, v_ in parse_qsl(u.query, keep_blank_values=True) if k_ != "subset"]
+            if rest:   # other parameters (a signature) stay; the small file adds &subset=... (handled in fetch_hands)
+                url = urlunsplit(u._replace(query=urlencode(rest))) + "{qa}"
+            else:
+                url = urlunsplit(u._replace(query="")) + "{q}"
+        self.hands_url = self.st["hands_url"] = url
+        for info in self.st.get("need_hands", {}).values():
+            info["since"] = time.time()
+            info.pop("pinged", None)
+            info.pop("warned", None)
+        self.save()
+        asyncio.create_task(self.retry_hands())
+        return f"Hand-history link set: {url}. Retrying the missing downloads now; it's kept across restarts."
 
     def save(self):
         self.st["checked"] = sorted(self.checked)
@@ -3464,15 +3856,24 @@ class PortalWatcher:
     async def poll(self) -> bool:
         if not self.cid:
             await self.identify()
-        rounds = (await self.aget(f"/competitions/{self.cid}/tournaments"))["items"]
+        rounds = [r for r in (await self.aget(f"/competitions/{self.cid}/tournaments"))["items"]
+                  if not r.get("cancelled_at") and r.get("status") not in ("cancelled", "canceled")]
         counts: dict[str, int] = {}
         for r in sorted(rounds, key=lambda r: r["created_at"]):   # the real portal has no labels: name them
+            if r["kind"] != "practice":   # "scored", "final", ...: one counter, so a "final" round isn't round 1
+                r["kind"] = "scored"
             counts[r["kind"]] = counts.get(r["kind"], 0) + 1
             r.setdefault("label", f"{'Scored' if r['kind'] != 'practice' else 'Practice'} round {counts[r['kind']]}"
                                   + (f" (x{r['weight']})" if r.get("weight") else ""))
-            r["stage"] = stage_of_round(r["kind"], counts[r["kind"]])
             r["_n"] = counts[r["kind"]]
+            if r["kind"] == "practice":   # "Practice n" in the build; "Round k.5" after scored round k
+                ks = counts.get("scored", 0)
+                r["stage"] = f"Practice {counts['practice']}" if ks == 0 else f"Round {ks}.5"
+                r["_n"] = counts["practice"] if ks == 0 else 4 + ks
+            else:
+                r["stage"] = stage_of_round(r["kind"], counts[r["kind"]])
         await self.check_clock(rounds)
+        await self.check_silent(rounds)
         new_done = [r for r in rounds if r.get("completed_at") and r["id"] not in self.st["done"]]
         if not self.st.get("baseline_done"):
             self.st["baseline_done"] = True
@@ -3503,8 +3904,18 @@ class PortalWatcher:
                                              "into the Chat.", True)
                 self.save()
         await self.retry_hands()
-        standings = (await self.aget(f"/competitions/{self.cid}/standings"))["items"]
-        self.st["standings"] = standings
+        try:   # a held leaderboard must never stop the active-bot checks below
+            standings = (await self.aget(f"/competitions/{self.cid}/standings"))["items"]
+            self.st["standings"], self.st["standings_held"] = standings, False
+        except Exception as e:  # noqa: BLE001
+            standings = self.st.get("standings") or []
+            if not self.st.get("standings_held"):
+                self.st["standings_held"] = True
+                await self.hub.alert_all("s-portal", f"The standings can't be read ({type(e).__name__}): the leaderboard may be "
+                                         "held. Active-bot checks continue. Until it's back, How we decide treats us as outside "
+                                         "the top 3 unless we were clearly in it; the Chats work out our total from each round's "
+                                         "results x weights.", False, chat=True)
+        await self.watch_competition()
         team = await self.aget(f"/teams/{self.team}")
         subs = await self.aget(f"/teams/{self.team}/submissions")
         team["submissions"] = subs.get("items", subs) if isinstance(subs, dict) else subs
@@ -3515,9 +3926,23 @@ class PortalWatcher:
         if prev.get("filename") != cur["filename"] or time.time() - prev.get("at", 0) > 45:
             await self.hub.bus.set_shared("portal_active", cur)   # both laptops' briefs show the active bot
         await self.check_team(team)
-        for r in rounds:   # a round that is playing: "<stage> · playing vN"
+        for r_ in getattr(self, "new_started", []):
+            await self.start_check(r_)
+        self.new_started = []
+        rs_ = dict(self.hub.bus.shared.get("rounds_seen") or {})
+        miss = {r["stage"]: time.time() for r in rounds if r["kind"] == "scored" and r["stage"] not in rs_}
+        if miss:   # a round that ran while this hub was down still counts as started
+            await self.hub.bus.set_shared("rounds_seen", dict(rs_, **miss))
+        pb = self.st.setdefault("played_by", {})
+        for r in rounds:   # a round that is playing: "<stage> · playing vN" (the bot active when it was first seen)
             if not r.get("completed_at"):
-                f = cur["filename"] or "no bot"
+                if r["id"] not in pb:
+                    pb[r["id"]] = cur["filename"] or "no bot"
+                    if r["kind"] == "practice":   # tell the Chats while it's playing: its result is that bot's number
+                        rs = self.hub.bus.shared.get("rounds_seen") or {}
+                        if r["stage"] not in rs:
+                            await self.hub.bus.set_shared("rounds_seen", dict(rs, **{r["stage"]: time.time()}))
+                f = pb[r["id"]]
                 await self.hub.tile("round-" + stage_slug(r["stage"]), r["stage"], f"playing {bot_name(f)}", owner="d-overview", stage=r["stage"])
                 continue
                 await self.hub.ensure_note("L-" + r["id"][:12], kind="live", stage=r["stage"], owner="d-overview",
@@ -3539,6 +3964,26 @@ class PortalWatcher:
         self.hub.set_service("s-portal", "Portal", "working", task, summary)
         return bool(running) or bool(self.st.get("land_fail")) or bool(self.st.get("need_hands"))
 
+    async def check_silent(self, rounds: list):
+        """No round seen on the portal 8 event-minutes after one should have started: the competition id, the key or
+        the schedule is wrong. Say so once per expected round."""
+        sch = self.hub.bus.shared.get("schedule")
+        if not sch:
+            return
+        U, now = 60 * sch.get("scale", 1.0), time.time()
+        started = [r for r in rounds if r.get("created_at")]
+        for kind, k, ts in self.hub.clock.events():
+            key = f"silent:{kind}{k}"
+            if ts + 8 * U < now < ts + 20 * U and key not in self.checked:
+                n_kind = sum(1 for r in started if r["kind"] == kind)
+                need = k if kind == "scored" else min(k, 4) if k <= 4 else None
+                if need and n_kind < need:
+                    self.checked.add(key)
+                    await self.hub.alert_all("s-portal", f"{'Scored' if kind == 'scored' else 'Practice'} round {k} should have "
+                                             f"started at {hhmm(ts)}, but the portal ({self.comp_name or self.cid}) shows "
+                                             f"{n_kind} {kind} round(s). Is the clock right, or the competition (AVALON_COMPETITION_ID)?",
+                                             True, chat=True)
+
     async def check_clock(self, rounds: list):
         """The portal shows when rounds really start. If the hub's clock is off by minutes (minute 0 set late, or a
         stray 'it starts now'), every step and stage label is off too: say so in both Chats, with the fix."""
@@ -3552,10 +3997,21 @@ class PortalWatcher:
             if r.get("completed_at") or r["id"] in seen:
                 continue
             seen[r["id"]] = time.time()   # first seen running (polls are <= 60 s apart)
+            try:   # the portal's own creation time, when it's earlier (a round that started while this hub was down)
+                ca = datetime.fromisoformat(str(r.get("created_at")).replace("Z", "+00:00")).timestamp()
+                if seen[r["id"]] - 600 < ca < seen[r["id"]]:
+                    seen[r["id"]] = ca
+            except (ValueError, TypeError):
+                pass
             key = ("practice" if r["kind"] == "practice" else "scored", r.get("_n"))
             if key not in exp:
                 continue
             drift = seen[r["id"]] - exp[key]
+            if key[0] == "scored":
+                self.new_started = getattr(self, "new_started", []) + [r]   # checked after the active bot is refreshed
+            if key[0] == "scored" and max(90, 3 * U) < abs(drift) < 45 * U:   # its real start: every later deadline follows it
+                await self.hub.clock.pin_round(key[1], seen[r["id"]], "seen on the portal")
+                continue
             last = self.st.get("drift_alerted")
             if abs(drift) > max(180, 6 * U) and (last is None or abs(drift - last) > 120):
                 self.st["drift_alerted"] = drift
@@ -3566,6 +4022,18 @@ class PortalWatcher:
                     f"was {time.strftime('%H:%M:%S', time.localtime(t0))}: tell your Chat \"minute 0 was "
                     f"{time.strftime('%H:%M:%S', time.localtime(t0))}\" (every step and deadline moves with it)."), True, chat=True)
         self.save()
+
+    async def start_check(self, r):
+        """A scored round just started: is it playing the bot we decided on? (The last chance to know before results.)"""
+        rs = self.hub.bus.shared.get("rounds_seen") or {}
+        if r["stage"] not in rs:
+            await self.hub.bus.set_shared("rounds_seen", dict(rs, **{r["stage"]: time.time()}))
+        live = (self.hub.bus.shared.get("live") or {}).get("filename")
+        act = (self.hub.bus.shared.get("portal_active") or {}).get("filename")
+        if live and act and not same_bot(live, act):
+            await self.hub.alert_all("s-portal", f"{r['stage']} has started with {act} active, but the decided bot is {live}. "
+                                     "It plays the whole round with " + bot_name(act) + "; tell your Chat if that was intended "
+                                     "(the next window starts from the bot that really played).", True, chat=True)
 
     async def landed(self, r, quiet: bool = False):
         """A round finished. Order matters: tell the agents first (seconds), then run the card and fingerprinting in the
@@ -3609,9 +4077,22 @@ class PortalWatcher:
             await self.hub.note_append(p["id"], "Portal", "Closed: two newer rounds have landed since.", status="done")
         ours = next((i for i, x in enumerate(items, 1) if x.get("team_name") == self.team_name), None)
         me = items[ours - 1] if ours else None
-        line = (f"{label} finished: we were {ours} of {len(items)} with {(me.get('average_points') or 0):.2f} "
+        pbot = (self.st.get("played_by") or {}).get(r["id"])
+        line = (f"{label} finished" + (f" (played by {bot_name(pbot)}, the bot active when it started)" if pbot else "")
+                + f": we were {ours} of {len(items)} with {(me.get('average_points') or 0):.2f} "
                 f"(±{me.get('margin_of_error') or 0:.2f}); 1st {items[0].get('team_name')} {(items[0].get('average_points') or 0):.2f}."
                 if me else f"{label} finished (we had no result: forfeit?).")
+        if me and (me.get("contender") is False or me.get("culled_at_look")):
+            await self.hub.alert_all("s-portal", f"After {label} the portal marks us out of contention ({me.get('culled_at_look') or 'culled'}). "
+                                     "If that's final, nothing is lost by bold play: the challenger plays from now on.", True, chat=True)
+        nt_ = next((me.get(k_) for k_ in ("tables", "tables_played", "n_tables") if me and me.get(k_) is not None), None)
+        if me and nt_ == 0:
+            await self.hub.alert_all("s-portal", f"We played no tables in {label}: forfeit or crash? Check the active bot now.", True, chat=True)
+        if pbot:
+            try:
+                (folder / "played_by.txt").write_text(pbot + "\n")
+            except OSError:
+                pass
         paths = f"\nResults: {folder}/results.json" + "".join(f"\nHands: {p}" for p in files) + \
                 ("" if files else "\nHand history not downloadable yet; I'll keep trying.")
         await self.hub.note_append(aid, "Portal", line + " " + (f"Hand data downloaded ({', '.join(Path(f).name for f in files)}). "
@@ -3627,8 +4108,14 @@ class PortalWatcher:
             return
         has_card = (self.hub.repo / "analysis" / "roundcard.py").exists() and bool(files)
         pl = self.hub.agents.get("s-data")
+        mid = r.get("kind") == "practice" and ".5" in stage   # a practice between scored rounds: the challenger's number
         if pl:   # standing order: numbers first, no Overseer hop (the decision window is only 5 minutes)
-            await pl.add_item({"kind": "portal", "wake": True, "urgent": True, "note": aid, "text": (
+            if mid:
+                await self.tell("d-overview", "task", f"{line} This is the practice result the 'Which bot?' rule needs: with "
+                                "s-overview's numbers, set the rule's answer now (update_proposal(id, rule_answer='releases/vN.zip')).")
+            await pl.add_item({"kind": "portal", "wake": True, "urgent": not mid, "note": aid, "text": (
+                ("(Practice result: for the T-8 rule this is the challenger's number. Don't drop the scored round's "
+                 "analysis for it; record the headline numbers when your current step is done.) " if mid else "") +
                 f"DATA LANDED for {stage}. {line}{paths}\n" + (
                     "The hub is running analysis/roundcard.py on it now and sends you the output within 90 s: don't start "
                     "a second run. Meanwhile check the hand file opens. When the output arrives, check it, " if has_card else
@@ -3638,6 +4125,12 @@ class PortalWatcher:
                 "Finish within 2 minutes.")})
             if pl.state == "stopped" and not pl.paused:
                 await pl.start()
+        for nm in ("s-scout", "s-tester"):   # they need the files too, whether or not the hub's scripts run
+            ag_ = self.hub.agents.get(nm)
+            if ag_:
+                await ag_.add_item({"kind": "portal", "wake": not mid, "text": f"Data for {stage} is saved. {line}{paths}\n" + (
+                    "The hub runs the fingerprint script now; the field trend and counters are yours." if nm == "s-scout" else
+                    "Use it for your checks (the card's numbers, the challenger's practice number).")})
         ov = self.hub.agents.get("s-overview")
         if ov:   # the Overseer decides what to do with it and dispatches the workers with context
             await ov.add_item({"kind": "portal", "wake": True, "urgent": True, "text": "NEW ROUND RESULT. " + line + paths +
@@ -3647,12 +4140,35 @@ class PortalWatcher:
             if ov.state == "stopped" and not ov.paused:
                 await ov.start()
         await self.tell("d-overview", "task", line + " Tell Dylan the result in one line now (the Chat is how he hears it).")
+        sch_ = self.hub.bus.shared.get("schedule") or {}
+        if r.get("kind") != "practice" and stage == f"Round {sch_.get('scored', 6)}":
+            await self.hub.alert_all("s-portal", f"That was the last scored round. {line} The event is over: agents record "
+                                     "what they have and stop; stop any Modal apps still running.", False, chat=True)
         self.st["done"].append(r["id"])   # only now: a crash before this re-announces the round after the restart
         self.st.setdefault("done_stages", []).append(stage)
         self.save()
         self.hub.set_service("s-portal", "Portal", "working", line)
         if files:
             asyncio.create_task(self.analyse(folder, stage, aid))
+        asyncio.create_task(self.mirror(folder, stage, line))
+
+    async def mirror(self, folder: Path, stage: str, line: str):
+        """Dylan's agents (Challenger, Styles & fixes) need the round's data too: put the results and the hand sample
+        in the shared store; Dylan's hub saves them locally and tells its agents."""
+        try:
+            ids = {}
+            for f in [folder / "results.json"] + sorted(folder.glob("hands-first-1000.jsonl.gz"))[:1]:
+                if f.exists() and f.stat().st_size <= 60_000_000:
+                    fid = "R" + new_id()[1:7].upper()
+                    await asyncio.wait_for(self.hub.file_store().put.aio(fid, {"name": f.name, "data": f.read_bytes(),
+                                                                               "from": "s-portal", "at": time.time()}), 120)
+                    ids[f.name] = fid
+            if ids:
+                rf = dict(self.hub.bus.shared.get("round_files") or {})
+                rf[stage] = {"files": ids, "line": line, "at": time.time()}
+                await self.hub.bus.set_shared("round_files", rf)
+        except Exception as e:  # noqa: BLE001
+            self.hub.note_error("mirror", e)
 
     async def analyse(self, folder: Path, stage: str, aid: str | None):
         """The hub's own runs of the card and fingerprint scripts, side by side, each routed as soon as it is done."""
@@ -3688,9 +4204,12 @@ class PortalWatcher:
         if not script.exists():
             return ""
         py = self.hub.repo / ".venv" / "bin" / "python"
+        uvb = shutil.which("uv")
+        cmd = [str(py)] if py.exists() else ([uvb, "run", "--no-project", "--with", "numpy", "--with", "pandas", "python"]
+                                             if uvb else ["python3"])
         try:
             proc = await asyncio.create_subprocess_exec(
-                str(py if py.exists() else "python3"), "-I", "-c",
+                *cmd, "-I", "-c",
                 "import runpy, sys; sys.path.insert(0, sys.argv[1]); sys.argv = sys.argv[2:]; "
                 "runpy.run_path(sys.argv[0], run_name='__main__')",
                 str(script.parent), str(script), str(folder), cwd=str(self.hub.repo),
@@ -3713,7 +4232,12 @@ class PortalWatcher:
                 files.append(str(p))
                 continue
             try:
-                data = await self.aget(self.hands_url.replace("{tid}", tid).replace("{q}", q), raw=True)
+                data = await self.aget(self.hands_url.replace("{tid}", tid).replace("{q}", q)
+                                       .replace("{qa}", q.replace("?", "&")), raw=True)
+                if data[:1] in (b"{", b"[") and len(data) > 100 and b"<html" not in data[:400].lower():
+                    data = gzip.compress(data)   # plain JSON lines: keep them, in the format everything reads
+                if data[:2] != b"\x1f\x8b":
+                    self.st["hands_err"] = f"got {len(data)} bytes that aren't hand data ({data[:60]!r})"
                 if data[:2] == b"\x1f\x8b" and len(data) > 100:
                     def save():
                         gzip.decompress(data)   # a truncated download must never count as saved
@@ -3722,15 +4246,25 @@ class PortalWatcher:
                         tmp.replace(p)
                     await asyncio.to_thread(save)
                     files.append(str(p))
-            except Exception:  # noqa: BLE001
-                pass
+            except Exception as e:  # noqa: BLE001
+                self.st["hands_err"] = f"{type(e).__name__}: {str(e)[:160]}"
         return files
 
     async def retry_hands(self):
+        if getattr(self, "_retrying", False):   # the Chat's hands link and the poll loop must not fetch the same round twice
+            return
+        self._retrying = True
+        try:
+            await self._retry_hands()
+        finally:
+            self._retrying = False
+
+    async def _retry_hands(self):
         for tid, info in list(self.st["need_hands"].items()):
             files = await self.fetch_hands(tid, Path(info["folder"]))
             if files:
-                del self.st["need_hands"][tid]
+                if self.st["need_hands"].pop(tid, None) is None:
+                    continue
                 st_ = info.get("stage") or info["label"]
                 self.hub.landed_at[st_] = time.time()
                 await self.hub.tile("data-" + stage_slug(st_), f"{st_} data", "done", owner="s-data", stage=st_)
@@ -3755,15 +4289,16 @@ class PortalWatcher:
             elif time.time() - info["since"] > 300 and not info.get("pinged"):
                 info["pinged"] = True
                 self.save()
-                await self.hub.alert_all("s-portal", f"The hand history for {info['label']} hasn't downloaded for 5 minutes. "
+                await self.hub.alert_all("s-portal", f"The hand history for {info['label']} hasn't downloaded for 5 minutes "
+                                         f"(last error: {self.st.get('hands_err') or 'none recorded'}). "
                                          "Please download it from the portal (team page / round page) and drop the file into "
                                          "the Chat: it goes straight to the Pipeline.", True)
             elif time.time() - info["since"] > 1200 and not info.get("warned"):
                 info["warned"] = True
                 self.save()
                 await self.hub.add_alert("s-portal", f"The hand history for {info['label']} still can't be downloaded after "
-                                         "20 minutes. On the real portal, copy the download link from the team page and "
-                                         "restart the hub with --hands-url.", True)
+                                         "20 minutes. On the real portal, copy the download link from the round page and "
+                                         "paste it into Samuel's Chat as 'hands link: <the link>' (no restart needed).", True)
 
     async def tell(self, to: str, kind: str, text: str):
         try:
@@ -3771,6 +4306,24 @@ class PortalWatcher:
                                      "text": text})
         except Exception:  # noqa: BLE001
             pass
+
+    async def watch_competition(self):
+        """Format settings the organizers can change mid-event (a late final weight, a held leaderboard): say so."""
+        try:
+            comp = await self.aget(f"/competitions/{self.cid}")
+        except Exception:  # noqa: BLE001
+            return
+        keys = ("final_weight", "final_revealed_at", "leaderboard_held", "round_weighting", "weights", "icm_luck_correction")
+        now_ = {k: comp.get(k) for k in keys if k in comp}
+        old = self.st.get("comp_settings")
+        self.st["comp_settings"] = now_
+        if old is not None and now_ != old:
+            diff = "; ".join(f"{k}: {old.get(k)} -> {now_.get(k)}" for k in keys if old.get(k) != now_.get(k))
+            await self.hub.alert_all("s-portal", f"The organizers changed the competition settings: {diff}. Weights or the "
+                                     "standings rule may have changed: d-platform updates the rules card, the Chats re-check "
+                                     "the bar for the next decision.", True, chat=True)
+            await self.tell("d-platform", "task", f"Competition settings changed on the portal: {diff}. Update the rules card "
+                            "(set_rules) and tell both Chats what it changes.")
 
     async def check_team(self, team: dict):
         for s in team.get("submissions") or []:
@@ -3780,6 +4333,16 @@ class PortalWatcher:
                 self.st["subs"].append(s["id"])
                 if s["status"] == "rejected":
                     text = f"Upload {s['filename']} was REJECTED by the portal: {s.get('rejection_reason')}. The previous bot stays active."
+                    live_ = self.hub.bus.shared.get("live") or {}
+                    if same_bot(live_.get("filename") or "", s["filename"]):
+                        prev = live_.get("prev") or {}
+                        if prev.get("file") or prev.get("filename"):
+                            await self.hub.make_live(prev.get("file") or prev.get("filename"), "portal",
+                                                     note=f"{s['filename']} was rejected by the portal", tell=False)
+                            text += f" {bot_name(prev.get('filename') or prev.get('file'))} is the declared live bot again; upload nothing unless your Chat gives a fixed file."
+                        b = self.hub.bus.shared.get("bot:" + norm_bot(s["filename"]))
+                        if isinstance(b, dict):
+                            await self.hub.bus.set_shared("bot:" + norm_bot(s["filename"]), dict(b, status="failed", updated=time.time()))
                     await self.hub.alert_all("s-portal", text, True)
                     await self.tell("d-overview", "question", text)
         live = self.hub.bus.shared.get("live")
@@ -4138,6 +4701,14 @@ async def main():
         pass
     for ag in hub.agents.values():
         hub.bus.publish(ag.name, {"title": ag.title, "state": ag.state, "task": ag.task, "summary": ag.summary})
+    try:   # the pre-flight compares both laptops' hub code
+        ver = subprocess.run(["git", "-C", str(Path(__file__).parent), "rev-parse", "--short", "HEAD"], capture_output=True,
+                             text=True, timeout=10).stdout.strip()
+        dirty = subprocess.run(["git", "-C", str(Path(__file__).parent), "status", "--porcelain", "--", "."], capture_output=True,
+                               text=True, timeout=10).stdout.strip()
+        await hub.bus.set_shared("codever:" + hub.person, ver + ("+local changes" if dirty else ""))
+    except Exception:  # noqa: BLE001
+        pass
     for pr in hub.local_props.values():   # re-share this laptop's notes (e.g. after a restart), merged with the remote copy
         other = hub.bus.shared.get("prop:" + pr["id"])
         merged = merge_note(other, pr) if isinstance(other, dict) else pr
@@ -4173,8 +4744,26 @@ async def main():
         await hub.clock.set_start(a.start, scale=a.scale)
     if not a.view_only:
         asyncio.create_task(hub.forever("clock", hub.clock.loop))
+
+        async def consistency_loop():   # its model call must never hold up the clock's marks
+            while True:
+                try:
+                    await asyncio.wait_for(hub.consistency_check(), 120)
+                except Exception as e:  # noqa: BLE001
+                    hub.note_error("consistency", e)
+                await asyncio.sleep(10)
+        asyncio.create_task(hub.forever("consistency", consistency_loop))
         asyncio.create_task(hub.forever("releases", hub.scan_releases))
         asyncio.create_task(hub.forever("watch_live", hub.watch_live))
+
+        async def pull_loop():   # Dylan's laptop: round data from Samuel's, off the upload-alert loop
+            while True:
+                try:
+                    await hub.pull_round_files()
+                except Exception as e:  # noqa: BLE001
+                    hub.note_error("pull-round", e)
+                await asyncio.sleep(5)
+        asyncio.create_task(hub.forever("pull_round_files", pull_loop))
     if not a.no_codex and not a.view_only:
         hub.codex = Codex(hub, a.codex_model, a.codex_max)
         hub.codex.status()

@@ -100,3 +100,37 @@ Methods:
 | I2 | Reinforcement method chosen on evidence (base vs reminders vs rules card vs self-check) | P |
 | I3 | Shared style defaults + defaults check in every round analysis; rate check | D/L |
 | I4 | Docs (START_HERE, SUNDAY, DECISION_RULES, FIRST_PROMPT, FINGERPRINTING) match the lean roster | D |
+
+## J. Exploration and plan challenges (14 Nov)
+| ID | Check | How |
+|---|---|---|
+| J1 | The plan is a default, not a mandate: every agent may challenge a task; PLAN CHALLENGE reaches both Chats and both humans once | U |
+| J2 | The Challenger builds a clean-room design D from minute 0 (no A/B/C notes) | U/D |
+| J3 | No clock task forces a style onto a practice round; Dylan's Chat picks the most informative test | U |
+| J4 | Field trend every download (s-scout) with the plan assumptions checked; winners lens every round (s-data) | D/L |
+| J5 | The T-8 bar is field-adjusted (yardstick teams), practice SE ≥ 0.7, exploration budget until 30% of the weight | D |
+| J6 | "start the research" hands every worker its pre-event topic on both laptops, notes only | U |
+
+## K. Two laptops for real
+| ID | Check | How |
+|---|---|---|
+| K1 | share_file / fetch_file move a file or folder between laptops; the tool is on the allow-list | U/I |
+| K2 | Each round's results and hand sample reach Dylan's laptop; the Challenger is told the path | I |
+| K3 | The pre-flight compares both laptops' hub code and clocks | I |
+| K4 | A local write always wins over a remote stamp from a clock that runs ahead | U |
+
+## L. The format isn't what we expect
+| ID | Check | How |
+|---|---|---|
+| L1 | Build length, round spacing and round count can be set from the Chat; defaults unchanged | U |
+| L2 | A scored round seen late on the portal pins it; later rounds and deadlines follow | U/I |
+| L3 | A window whose previous round hasn't started gets no false cut-offs | U |
+| L4 | A false start corrected later still fires minute 0; a small correction never re-fires it; synced changes don't re-fire | U |
+| L5 | Questions or future times never start the clock; "2:05" in the afternoon is 14:05; "reset the clock" before the event | U |
+| L6 | Held standings, changed competition settings, culling, a "final"-kind round, a cancelled round, zero tables | U |
+| L7 | The rule's answer is stored with the decision and applied by the hub at the deadline; opposite answers reopen it | U |
+| L8 | A rejected upload of the live bot reverts the live bot; the chosen-bot cut needs a released bot | U |
+| L9 | Hands link pasted in the Chat (no restart); plain JSON-lines hand files kept; download errors shown | U |
+| L10 | Brief 429/overloaded errors are retried, not treated as a usage limit | U/D |
+
+Scenario walk-throughs behind these (14 Nov): `tests/scenarios/`.
