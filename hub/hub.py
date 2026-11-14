@@ -2225,7 +2225,9 @@ class Agent:
 
         @tool("update_proposal", "Update a note: note= a progress line or a result shown in its chat; summary= replaces the "
               "note's pinned summary (for an analysis note: the high-level picture in plain words + numbered suggestions "
-              "for what to do); status planned / running / done / blocked.",
+              "for what to do); status planned / running / done / blocked. When a later result corrects or settles "
+              "something the summary says (a withdrawn number, 'not confirmed yet'), rewrite the summary too: humans read "
+              "it first.",
               schema(["id"], {"id": "string", "status": "string", "note": "string", "summary": "string"}))
         async def update_proposal(a):
             me.turn_note_refs.add(a["id"].lstrip("#"))
@@ -2239,6 +2241,7 @@ class Agent:
                 p["status"] = st
             if a.get("summary"):
                 p["body"] = a["summary"][:8000]
+                p["body_at"] = time.time()
                 p["thread"] = p.get("thread", []) + [{"who": me.title, "at": time.time(), "action": "summary",
                                                      "text": "Updated the summary and suggestions (top of this note)."}]
             if a.get("note"):
@@ -2714,7 +2717,9 @@ class Clock:
         for al in list(hub.alerts):
             t, mine = al.get("text", ""), al.get("agent", "").endswith("-clock")
             up = None if re.search(r"reject|fail", t, re.I) else UPLOAD_ASK.search(t)   # never clear a rejection
+            ov_note = al.get("agent", "").endswith("overseer") and not al.get("urgent")
             if (mine and "Decision time" in t and not waiting) or (mine and now - al["at"] > 10 * U) or \
+                    (ov_note and now - al["at"] > 8 * U) or (al.get("agent", "").endswith("overseer") and now - al["at"] > 15 * U) or \
                     (re.search(r"allowance", t) and now - al["at"] > 1800) or \
                     (up and (norm_bot(up.group(1)) == act or (live and norm_bot(up.group(1)) != live))):
                 hub.dismiss(al["id"])
@@ -3142,6 +3147,8 @@ class PortalWatcher:
             r.setdefault("label", f"{'Scored' if r['kind'] != 'practice' else 'Practice'} round {counts[r['kind']]}"
                                   + (f" (x{r['weight']})" if r.get("weight") else ""))
             r["stage"] = stage_of_round(r["kind"], counts[r["kind"]])
+            r["_n"] = counts[r["kind"]]
+        await self.check_clock(rounds)
         new_done = [r for r in rounds if r.get("completed_at") and r["id"] not in self.st["done"]]
         if not self.st.get("baseline_done"):
             self.st["baseline_done"] = True
@@ -3205,6 +3212,34 @@ class PortalWatcher:
                 f"{len(rounds)} rounds seen") + (f" · {len(running)} running" if running else "")
         self.hub.set_service("s-portal", "Portal", "working", task, summary)
         return bool(running) or bool(self.st.get("land_fail")) or bool(self.st.get("need_hands"))
+
+    async def check_clock(self, rounds: list):
+        """The portal shows when rounds really start. If the hub's clock is off by minutes (minute 0 set late, or a
+        stray 'it starts now'), every step and stage label is off too: say so in both Chats, with the fix."""
+        sch = self.hub.bus.shared.get("schedule")
+        if not sch:
+            return
+        seen = self.st.setdefault("seen_start", {})
+        exp = {(kind, k): ts for kind, k, ts in self.hub.clock.events()}
+        U = 60 * sch.get("scale", 1.0)
+        for r in rounds:
+            if r.get("completed_at") or r["id"] in seen:
+                continue
+            seen[r["id"]] = time.time()   # first seen running (polls are <= 60 s apart)
+            key = ("practice" if r["kind"] == "practice" else "scored", r.get("_n"))
+            if key not in exp:
+                continue
+            drift = seen[r["id"]] - exp[key]
+            last = self.st.get("drift_alerted")
+            if abs(drift) > max(180, 6 * U) and (last is None or abs(drift - last) > 120):
+                self.st["drift_alerted"] = drift
+                t0 = sch["start"] + drift
+                await self.hub.alert_all("s-portal", (
+                    f"The clock looks off by about {abs(drift) / 60:.0f} min: the portal started {r['stage']} at "
+                    f"{hhmm(seen[r['id']])}, but the clock expected it at {hhmm(exp[key])}. If the portal is right, minute 0 "
+                    f"was {time.strftime('%H:%M:%S', time.localtime(t0))}: tell your Chat \"minute 0 was "
+                    f"{time.strftime('%H:%M:%S', time.localtime(t0))}\" (every step and deadline moves with it)."), True, chat=True)
+        self.save()
 
     async def landed(self, r, quiet: bool = False):
         """A round finished. Order matters: tell the agents first (seconds), then run the card and fingerprinting in the

@@ -482,7 +482,7 @@ function drawerHtml() {
     <div class="cv-body"><div class="cv-col">
       <div class="cv-report"><div class="cv-rh"><span>What's going on</span><span class="hint">${busy ? "Writing a fresh update…" : rep ? "Updated " + hhmm(rep.at) : ""}</span><button class="tbtn" id="repGo" ${busy ? "disabled" : ""}>${rep ? "Refresh" : "Write it"}</button></div>
         <div class="a md">${rep ? md(rep.text) : busy ? `<p style="color:var(--muted)">Asking the agents…</p>` : `<p style="color:var(--muted)">No update written yet.</p>`}</div></div>
-      ${p.body ? `<details class="cv-sum" ${k === "analysis" ? "open" : ""}><summary>${k === "analysis" ? "The Overseer's summary and suggestions" : "Details"}</summary><div class="md">${md(p.body)}</div></details>` : ""}
+      ${p.body ? `<details class="cv-sum" ${k === "analysis" ? "open" : ""}><summary>${k === "analysis" ? "The Overseer's summary and suggestions" : "Details"}${p.body_at ? ` <small class="hint">as of ${new Date(p.body_at * 1000).toTimeString().slice(0, 5)}${(p.updated || 0) - p.body_at > 300 ? " · newer updates below" : ""}</small>` : ""}</summary><div class="md">${md(p.body)}</div></details>` : ""}
       ${convo.length ? `<div class="divider">Conversation</div>${convo.map(msg).join("")}` : `<div class="note2">Ask anything below. It goes to the Overseer, which hands work to the right agents and answers here.</div>`}
       ${log.length ? `<details class="cv-log"><summary>Activity log · ${log.length}</summary>${log.map((t) => `<div class="cv-lr"><b>${hhmm(t.at)}</b> ${esc(t.who)}: <span class="md">${md(t.text)}</span></div>`).join("")}</details>` : ""}
     </div></div>

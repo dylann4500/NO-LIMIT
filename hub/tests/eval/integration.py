@@ -385,6 +385,16 @@ async def main():
         errs = (out / "data-s" / "errors.log").read_text() if (out / "data-s" / "errors.log").exists() else ""
         check("S8", "no background errors recorded on Samuel's hub", not errs.strip(), errs[:300])
 
+        # C10: a clock that is off by many minutes is flagged against the portal's real round start, in both Chats
+        await api(s, S, "POST", "/api/schedule", {"start": time.strftime("%H:%M:%S", time.localtime(time.time() - 1800)),
+                                                 "scored": 3, "scale": 0.05})
+        portal.rounds.append({"id": "t-practice-3-abcdef", "kind": "practice", "created_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                              "completed_at": None})
+        async def drift_told(base, ovn):
+            return any("clock looks off" in str(t.get("text")) for t in (await state(base)).get("overviews", {}).get(ovn, []))
+        check("C10a", "clock drift vs the portal is flagged in Samuel's Chat", bool(await wait_for(lambda: drift_told(S, "s-overview"), 120, 5)))
+        check("C10b", "… and in Dylan's Chat", bool(await wait_for(lambda: drift_told(D, "d-overview"), 60, 3)))
+
         # S5 view-only preview
         vo = subprocess.Popen([sys.executable, str(HUB / "hub.py"), "--person", "samuel", "--repo", str(out / "repo-s"),
                                "--data", str(out / "data-s"), f"--namespace={ns}", "--port", str(ps + 100), "--view-only"],
