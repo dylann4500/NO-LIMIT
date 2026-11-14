@@ -60,7 +60,8 @@ analysis/counters.json` for anything newer than what you've built in. Continued 
 ## How to do it well
 
 Read the kit first (README, RULES.md, AGENTS.md, the SDK: engine, rules classes, scoring, any library ICM; the
-hand-history README; `state.config`), then `strategy/TWIST_NOTES.md` §2-3 and `strategy/FIRST_PROMPT.md` Part 1.
+hand-history README; `state.config`; where two of its files disagree, test what the engine does and record it in
+`bot/rules.json`), then `strategy/TWIST_NOTES.md` §2-3 and `strategy/FIRST_PROMPT.md` Part 1.
 
 - **Safety shell:** one final function makes any intended action legal (whole-number sizes clamped to the range; no
   raise offered: call; else check; then fold); the new phase returns its legal default before any betting code; a
