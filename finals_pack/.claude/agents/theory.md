@@ -22,7 +22,7 @@ the new phase) and `strategy/TWIST_NOTES.md`. Continued later? Re-read them.
 variants (Bay Area: three hole cards, discard one and expose one after the flop; Boston: the flop chosen by a
 sealed-bid auction in a separate currency; Pittsburgh: three hole cards and two boards, discard one face down after
 the turn betting, each board pays half the pot); ten plausible Finals twists and the fastest correct way to value each
-by enumeration. A draft from 14 November is already there: check and extend it. TWIST_NOTES covers eighteen: add what
+by enumeration. A draft from 14 November is already there: check and extend it. TWIST_NOTES covers nineteen: add what
 it misses.
 
 **Build hour** (three theory runs in parallel: (1) ranking and ICM, (2) the twist, (3) push/fold, call tables,

@@ -28,7 +28,7 @@ the tokens.
 
 ## Part 0 · Pre-event research (start about 2 hours before; four agents in parallel)
 
-Topic A is largely prepared already: `TWIST_NOTES.md` covers 18 plausible twists, a 15-minute
+Topic A is largely prepared already: `TWIST_NOTES.md` covers 19 plausible twists, a 15-minute
 checklist for any new phase, and six silent-bug tests, and `notes/pre/variants.md` (drafted 14 November) has the
 three regional variants, the organizers' pattern and three timed valuation drills. Bring both, and give
 `TWIST_NOTES.md` to `platform` at minute 0 alongside the kit's RULES.md; the topic-A agent (`theory`) then only

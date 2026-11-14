@@ -161,7 +161,7 @@ The research is in `strategy/` (EVIDENCE_TABLE grades every claim; LESSONS cover
 - **Pittsburgh's variant and results:** the variant is found (14 Nov, `notes/pre/variants.md`: three hole cards and two boards, discard one face down after the turn betting, each board pays half the pot);
   its standings and team count are not.
 - **Twist valuation drills:** done on 14 Nov (three timed drills in `notes/pre/variants.md`; their corrections are in
-  `strategy/TWIST_NOTES.md`, now 18 twists, and `theory.md`).
+  `strategy/TWIST_NOTES.md`, now 19 twists, and `theory.md`).
 - **Cloned-field ordering test** (low priority now): the decision rules no longer depend on the simulator ranking
   candidates under 2 points, so skip unless everything else is done.
 
