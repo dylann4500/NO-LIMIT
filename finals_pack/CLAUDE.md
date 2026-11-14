@@ -73,7 +73,8 @@ confirm it.
 ## 4. Hard rules (these never bend)
 
 1. **Every uploaded bot is legal and fast**: zero failed decisions in the checks, the kit's check passes, and it
-   passes the upload test with no time bank (2 players, 20 hands, time bank 0). A bot that times out auto-folds.
+   passes the upload test with no time bank (2 players, 20 hands, time bank 0). A failed decision (timeout, error,
+   illegal action) checks when checking is free and otherwise folds (§8).
 2. **Only tested zips are released and uploaded.** A tested bot is active by T-3 of every scored round. Each round
    plays the bot that is **active when it starts**. Making an already-uploaded bot active is a click on the portal.
 3. **The rules card is right**: players per table, stacks, blinds and antes, hands per match, weights, payouts and the
@@ -202,5 +203,11 @@ rule's answer is the live bot (`DECISION_RULES.md` §3, `prompts/RESEARCH.md`).
 6, Bay Area), Fibonacci (1, 2, 3, 5, 8, 13: Boston and Pittsburgh) or powers of two (1 to 32). The last round is then
 29%, 41% or 51% of the total, and every rule that counts "share of the weight played" moves with it. Read
 `round_weighting` in `state/portal.json` (`comp_settings`) and the Format page; never assume 1 to 6.
+
+**What the organizers' own pages say.** From the Boston regional's "Tournament format" and "Getting started" pages
+(9 November). The Finals are "the same tournament format with a different poker variant", so this is the best
+statement of the platform's rules: re-read Sunday's own pages at minute 0.
+- A failed decision (a timeout, an error, an illegal action) checks when checking is free and otherwise folds; in a
+  phase the variant adds it takes that phase's automatic choice. It does not always fold.
 
 More, with what it changes for the bot: `notes/pre/format_finals.md`.

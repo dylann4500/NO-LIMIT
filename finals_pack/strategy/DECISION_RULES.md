@@ -34,8 +34,8 @@ never block your turn; Modal has only two deployed apps, `avalon-rig` (`tester`,
 `avalon-theory` (`theory`, up to 20), and the other roles call them or run locally, sharing 20 (80 in all).)
 
 1. **Every bot we upload is legal and fast**: zero failed decisions in the checks, the kit's check passes,
-   and it passes the upload test with no time bank. *(A bot that times out or acts illegally auto-folds and
-   can zero a round.)* **A bot plays a scored round only with a `tester` verdict that includes a heads-up run.**
+   and it passes the upload test with no time bank. *(A bot that times out or acts illegally checks when
+   checking is free and otherwise folds, and can zero a round.)* **A bot plays a scored round only with a `tester` verdict that includes a heads-up run.**
    *(In a speedrun a release with no verdict shipped a heads-up regression of −1.9 ± 0.4.)*
 2. **Only upload a zip that has been through that test**, put the `state/live.json` bot back as active after the
    practice round, and have a tested bot active by T-3 every round. *(A missed upload or an untested zip can zero
