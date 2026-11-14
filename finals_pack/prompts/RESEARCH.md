@@ -48,8 +48,8 @@ may spawn their own helpers.
 
 - If a human types "start the research" (about 2 hours before): spawn in ONE message, in the background, notes only,
   NO bot code:
-  - `theory`: the regional variants and Pittsburgh's (search), ten plausible Finals twists and the fastest correct way
-    to value each by enumeration → `notes/pre/variants.md`;
+  - `theory`: the three regional variants (Pittsburgh's is in the draft), ten plausible Finals twists and the fastest
+    correct way to value each by enumeration → `notes/pre/variants.md`;
   - `scout`: what the Finals field will do: every finalist knows the regional lessons; which styles will be crowded,
     what punishes them, what practice 1 (mostly minimal bots) vs round 3 will look like, what to watch first →
     `notes/pre/field.md`;

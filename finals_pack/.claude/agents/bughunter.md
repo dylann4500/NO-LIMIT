@@ -42,7 +42,8 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
 4. **Every variant option:** all-in seats (stack 0), heads-up, the phase skipped when everyone folds, an invalid action
    answered by the server's default; index vs card and card order after the phase; the deck partition (every card
    exactly once across deck, ours, board, dead, known); a known opponent card never resampled; evaluator misuse (more
-   than 7 cards, comparison direction, a high evaluator used for lows).
+   hole cards passed than the rules let play: `eval7.evaluate` itself takes 5 to 9 cards and returns the best five;
+   comparison direction; a high evaluator used for lows).
 5. **Branch counts over 1,000 hands:** any branch that never fires or fires absurdly; any setting ON whose branch never
    fires.
 6. **Hidden exceptions:** 1,000 hands with the catch-all counted (or, in your copy, re-raising); any hit is a bug.

@@ -398,7 +398,7 @@
   {
    "to": "research",
    "agent": "theory",
-   "text": "Pre-event research (FIRST_PROMPT Part 0, topic A): the regional variants and Pittsburgh's (search for it), ten plausible Finals twists and the fastest correct way to value each by enumeration. Notes only, NO bot code. Write notes/pre/variants.md; one subagent per topic. A draft of this file from Saturday 14 November is already there: read it first, check and extend it in place, list what changed at the top; do not start over."
+   "text": "Pre-event research (FIRST_PROMPT Part 0, topic A): the three regional variants (Pittsburgh's is in the draft), ten plausible Finals twists and the fastest correct way to value each by enumeration. Notes only, NO bot code. Write notes/pre/variants.md; one subagent per topic. A draft of this file from Saturday 14 November is already there: read it first, check and extend it in place, list what changed at the top; do not start over."
   },
   {
    "to": "research",

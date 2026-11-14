@@ -158,9 +158,10 @@ The research is in `strategy/` (EVIDENCE_TABLE grades every claim; LESSONS cover
   folding only ~57% to 3-bets and 4-betting ~23% by round 5. A one-page memo: which styles will be crowded on Sunday,
   what punishes them, and which signs in practice 1-2 tell us (the "contrarian memo" is scheduled as morning research
   on Sunday; doing it Saturday saves an hour of the morning).
-- **Pittsburgh's variant and results** (unknown so far): search; ask on the event's Discord/socials.
-- **Twist valuation drills:** `strategy/TWIST_NOTES.md` has 12 plausible twists; a session could rehearse valuing one
-  or two by enumeration (notes only, no code kept) to check the instructions are fast and correct.
+- **Pittsburgh's variant and results:** the variant is found (14 Nov, `notes/pre/variants.md`: three hole cards and two boards, discard one face down after the turn betting, each board pays half the pot);
+  its standings and team count are not.
+- **Twist valuation drills:** done on 14 Nov (three timed drills in `notes/pre/variants.md`; their corrections are in
+  `strategy/TWIST_NOTES.md`, now 18 twists, and `theory.md`).
 - **Cloned-field ordering test** (low priority now): the decision rules no longer depend on the simulator ranking
   candidates under 2 points, so skip unless everything else is done.
 

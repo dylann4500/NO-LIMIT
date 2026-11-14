@@ -121,4 +121,5 @@ Rank persistence, rechecked from points at our tables: round-to-round Spearman 0
 - A Bay Area team's repository, whose commits show mid-event copying of the leaders: https://github.com/nnicholas-c/poker_sequoia
 - A Boston entrant's eight iterations: https://github.com/AlexPha45/No-Limit-Pokerbots
 - Harvard Crimson on the Boston regional: https://www.thecrimson.com/article/2026/11/12/poker-tournament-regional/
-- Not found: any public write-up of Pittsburgh's variant or results, a list of finalists, or anything by 2 Curry.
+- Not found: Pittsburgh's results, a list of finalists, or anything by 2 Curry. (Pittsburgh's variant was found
+  later the same morning: `notes/pre/variants.md`.)

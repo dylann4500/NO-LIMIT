@@ -28,10 +28,11 @@ the tokens.
 
 ## Part 0 · Pre-event research (start about 2 hours before; four agents in parallel)
 
-Topic A is largely prepared already: `TWIST_NOTES.md` covers 12 plausible twists, a 15-minute
-checklist for any new phase, and five silent-bug tests. Bring it, and give it to `platform` at
-minute 0 alongside the kit's RULES.md; the topic-A agent (`theory`) then only needs Pittsburgh's variant and
-anything the notes miss.
+Topic A is largely prepared already: `TWIST_NOTES.md` covers 18 plausible twists, a 15-minute
+checklist for any new phase, and six silent-bug tests, and `notes/pre/variants.md` (drafted 14 November) has the
+three regional variants, the organizers' pattern and three timed valuation drills. Bring both, and give
+`TWIST_NOTES.md` to `platform` at minute 0 alongside the kit's RULES.md; the topic-A agent (`theory`) then only
+checks the draft and adds anything the notes miss.
 
 The Boston winner had an agent researching for about 1.5 hours before the start. Give each subagent one of
 these, all writing to `notes/pre/`; RESEARCH merges them into `notes/plan.md`. In this setup: A `theory`,
@@ -47,7 +48,7 @@ well-supported from what's a guess.
 
 A. The regional variants and what a Finals twist could be. Bay Area: three hole cards, discard one and
    expose one after the flop. Boston: the flop is chosen by a sealed-bid auction paid in a separate
-   currency. Pittsburgh: <what we learned>. For each: how a strong bot values the new decision, what
+   currency. Pittsburgh: three hole cards and two boards, discard one face down after the turn betting, each board pays half the pot. For each: how a strong bot values the new decision, what
    information it reveals, how hand rankings shift. Then list ten plausible new twists and, for each, the
    fastest correct way to value its decision by enumeration.
 B. What wins sit-and-gos of AI-built bots: preflop aggression with planned responses to re-raises, postflop
@@ -326,7 +327,7 @@ Run in parallel with Part 1. It computes the parts of today's game that converge
 - **Push/fold at short stacks: yes.** Heads-up jam/fold is near-optimal at short stacks (Miltersen-Sorensen
   2007, as restated in Ganzfried-Sandholm 2008). Three-player jam/fold by fictitious play converged in under
   100 iterations per stack vector, and ICM was within about $0.37 per $100 of equilibrium values on average
-  (Ganzfried-Sandholm 2008). Measured on our laptop: a 7-card evaluation in 0.46 µs; 2,000 heads-up
+  (Ganzfried-Sandholm 2008). Measured on our laptop: a 7-card evaluation in 0.32 µs (14 November; a full heads-up deal with a twist 2.2-4.4 µs); 2,000 heads-up
   fictitious-play iterations on a 169x169 matrix in 0.09 s; a 3-way equity table is about 2 minutes on Modal.
 - **The twist: yes**, by enumerating options on common random numbers, or as a small game solved by regret
   matching when it reveals information.
@@ -347,7 +348,9 @@ keyed by players left, position and stack, with call tables as best responses to
 ranges fold too much); break-even
 fold, bluff and 4-bet thresholds; a hand-off note. Stop rules: fictitious play at best-response gain below
 0.02bb (or 0.05% of the prize pool with ICM), 2,000 iterations or 2 minutes; a missed checkpoint ships the
-fallback, labelled. Checks: equity symmetry, card removal, blind and position spots, microsecond lookups, and a
+fallback, labelled. Checks: equity symmetry, card removal, a combo-weighted mean equity of 50.0 under any symmetric
+twist, known values (AA 85.2, 72o 34.6, 22 50.3, AKs 67.0 against a random hand), a twist rule unchanged by card
+order and suit relabelling, blind and position spots, microsecond lookups, and a
 paired-seed sim where the tables gain against a 50% shover and lose under 0.3 points against an equilibrium
 shover. After each practice download, refit the call and fold columns from the real field. Long runs go to Modal
 through the one deployed app `avalon-theory` (up to 20 containers).

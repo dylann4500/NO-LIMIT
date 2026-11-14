@@ -180,7 +180,7 @@ challenger. From T-9 it runs like every window; the round-1 question is asked on
 
 | Step | Session | Subagent: the brief | Deliverable |
 |---|---|---|---|
-| pre (about 2 h before minute 0, when a human types "start the research" in both sessions) | RESEARCH | `theory`: FIRST_PROMPT Part 0 topic A: the regional variants and Pittsburgh's (search for it), ten plausible Finals twists and the fastest correct way to value each by enumeration | `notes/pre/variants.md` |
+| pre (about 2 h before minute 0, when a human types "start the research" in both sessions) | RESEARCH | `theory`: FIRST_PROMPT Part 0 topic A: the three regional variants (Pittsburgh's is in the 14 November draft), ten plausible Finals twists and the fastest correct way to value each by enumeration | `notes/pre/variants.md` |
 | | RESEARCH | `scout`: what will the Finals field do? Every finalist knows the regional lessons (wide 3-betting won, per-seat adaptation, fold to 3-bets about 65%): which styles will be crowded, what punishes them, how practice 1 (mostly minimal bots) will differ from round 3, what to watch first | `notes/pre/field.md` |
 | | RESEARCH | `tester`: topic D: today's test plan (sparring bots, paired deals, noise first, replay on a download, the cloned field on Modal, a confirmation run) | `notes/pre/testplan.md` |
 | | BUILDER | `platform`: topic C: the first-hour build plan (the safety shell, three layers, what to precompute at import, a 0.3 ms equity estimate, per-seat estimates with priors, the checks that catch the bugs that sank bots) | `notes/pre/buildplan.md` |
