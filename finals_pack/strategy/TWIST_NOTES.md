@@ -83,7 +83,7 @@ setup the coding agent is `platform` (BUILDER); `theory`, `stylist` and `challen
 - Leak: declarations are simultaneous. Randomise only when the two sides' EVs are close.
 
 **T12. All-in cash-out (payoff).** When all-in before the river, a player may accept a guaranteed c × (equity against the actual hands) × pot instead of the runout, with c≈0.95.
-- Value: in raw chips you always decline when c<1. Accept only if the ICM value of the cash-out > eq × ICM(win) + (1−eq) × ICM(lose). If the offer is quoted, your exact equity is the offer ÷ (c × pot). Malmuth-Harville ICM for 50/30/20 with 8 players needs 8×7×6 = 336 orderings: cheap for our own share only. In a timed build a full-table calculation took about 0.3 ms and three per all-in gave 0.9 ms decisions, so compute our own equity only, once per outcome, or read `theory`'s thresholds.
+- Value: in raw chips you always decline when c<1. Accept only if the ICM value of the cash-out > eq × ICM(win) + (1−eq) × ICM(lose). If the offer is quoted, your exact equity is the offer ÷ (c × pot). Malmuth-Harville ICM for 50/30/20 with 8 players needs 8×7×6 = 336 orderings (6×5×4 = 120 with 6 players): cheap for our own share only. In a timed build a full-table calculation took about 0.3 ms and three per all-in gave 0.9 ms decisions, so compute our own equity only, once per outcome, or read `theory`'s thresholds.
 - Classic mistake: deciding by raw chip EV only, or accepting every offer.
 - Preflop: near the bubble, all-in calls become slightly better for short stacks.
 - Leak: accept/decline is public and minor.

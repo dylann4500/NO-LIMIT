@@ -105,9 +105,9 @@ hand-history README; `state.config`; where two of its files disagree, test what 
 check-or-fold, 20 hands, time bank 0: 0 failed decisions on several seeds; the same vs a call-everything bot, counting
 the twist phase; the kit's own check passes. (2) 100,000 states from local play (2, 3 and a full table of players, all-in seats), memory
 rotated real/cut/garbage/empty: 0 illegal, 0 exceptions, 0 catch-all; max, p99.9. (3) ICM: equal stacks equal shares;
-shares sum to the pool; busted player gets their payout; break-even calls: heads-up = pot odds, 8 equal ≈ 56% (6 equal ≈ 58%), 3 equal
+shares sum to the pool; busted player gets their payout; break-even calls: heads-up = pot odds, 6 equal ≈ 58% and 5 equal ≈ 61% in case F (8 equal ≈ 56% in case R), 3 equal
 ≈ 57%, 4 equal ≈ 62-65% (50/30/20). (4) a scripted sequence per statistic (folds to our bet three times: 3 of 3),
-also with memory cut mid-hand. (5) position, blinds, first to act, effective stack at a full table, 3 and 2 players and after a
+also with memory cut mid-hand. (5) position, blinds, first to act, effective stack at a full table, 3 and 2 players (in case F with ante events and a stack too short for the ante) and after a
 bust. (6) a board-made hand is no hand of ours; equity falls clearly from check to bet to raise. (7) every branch's
 firing count over 1,000 hands. (8) the style report by players left plus the defaults counts. (9) a scripted hand with
 raises on every street: street, preflop raiser, every dead and known card.

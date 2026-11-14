@@ -81,7 +81,7 @@ Break-even equity to call all-in for our whole stack against an equal stack, all
 - **Does not transfer**: any range, the 169 hand classes, "one pair" as the hand that folds to raises, published charts (hold'em heads-up: any ace jams to 20bb, K2o to 11.6bb; A for hold'em only). In two of three mock variants pocket pairs lost most of their value, and a pressure style set by hold'em numbers scored 7.8-10 against 13-16 (C).
 - **Transfers as priors**: sections 1-3. The two regionals matched within 1-3 points on every rate compared, despite different twists (A).
 - **Transfers exactly**: section 4 and the break-evens.
-- **Score level**: finalists average 12.5 at 8 seats (16.7 at 6); our regional bots simulate at 14-15 against top-20 clones (C).
+- **Score level**: finalists average 16.7 in case F and 12.5 in case R; our regional bots simulate at 14-15 against top-20 clones (C).
 
 ## Sources
 

@@ -37,9 +37,10 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
    opportunity-based, inside [0, 1], moving off its prior over 200 hands; the same with memory cut mid-hand; no past
    moment rebuilt from seats' current status.
 2. **Tournament equity:** 2 and 3 players left; a busted player in a paid place keeps its payout; shares sum to the
-   pool; break-even calls: heads-up = pot odds, 8 equal stacks ≈ 56% (6 equal ≈ 58%), 3 equal ≈ 57% (50/30/20; else compute by hand);
+   pool; break-even calls: heads-up = pot odds, 6 equal stacks ≈ 58% and 5 equal ≈ 61% in case F (8 equal ≈ 56% in case R), 3 equal ≈ 57% (50/30/20; else compute by hand);
    the pot counted once; only the matched part when the bettor covers us.
-3. **Position, blinds, first to act, effective stack** at a full table (today's size), 3 and 2 players and after a bust.
+3. **Position, blinds, first to act, effective stack** at a full table (today's size), 3 and 2 players and after a bust; in case F also with ante
+   events and a stack too short to cover the ante.
 4. **Every variant option:** all-in seats (stack 0), heads-up, the phase skipped when everyone folds, an invalid action
    answered by the server's default; raise sizes computed as floats at exactly the minimum and the maximum (the
    server rounds down and does not clamp); index vs card and card order after the phase; the deck partition (every card

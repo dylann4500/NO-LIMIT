@@ -44,14 +44,15 @@ corner.
 - **Styles are starting corners, not a menu.** A, pressure: opens and 3-bets wide with a planned answer to the next
   raise; bets when checked to while the field folds enough. B, shove-heavy: few small preflop raises; mostly shove or
   fold, wide shoves and re-shoves by depth and ICM. C, tight: opens few, avoids early all-ins, calls off and re-shoves
-  strong hands, shove-or-fold by depth before the blinds drain it, and still wins chips (at the regional's stacks and blinds a fold-only tight bot busts
+  strong hands, shove-or-fold by depth before the blinds drain it, and still wins chips (a fold-only tight bot is out near hand 121 in case F, scoring about 11 of 16.7 in simulation; in case R it busts
   near hand 100 and finishes 4th). Define each as a fraction of TODAY's ranking (`theory/out/ranking.json`) plus
   stack-depth rules; regional numbers are hold'em numbers.
 - **Shared defaults** each style keeps unless its design overrides one and says so: no open-limping (a limp-or-jam
   style limps by design, with a planned re-shove); no flat call of an open at 10bb+ except big-blind defence at the
-  right price; shove-or-fold first in at about 12bb or less; fold one pair to raises and large late bets unless that
+  right price; shove-or-fold first in at about 12bb or less (a case-R depth: with case F's antes a fold-through wins 2.7bb, not
+  1.5, so recompute it, `notes/pre/format_finals.md`); fold one pair to raises and large late bets unless that
   seat has shown bluffs; fold to a 3-bet of our open no more than break-even (`theory/out/exploit.json`; usually
-  65-75%, a starting value). If the field pays for limping or flat-calling, that's a finding, not a failure.
+  65-75% in case R and about 59-68% with case F's antes; a starting value). If the field pays for limping or flat-calling, that's a finding, not a failure.
 - **Adapt to seats, not "table mood":** blend the seat's live count with a prior, grow with observations, cap it, stay
   conservative on small counts. Against seats that raise, re-raise or shove a lot, call off and re-raise wider; tighten
   only against seats that call too much. Each adaptive rule is a named setting. Heads-up and three-handed get their

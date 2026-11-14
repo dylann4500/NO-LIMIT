@@ -36,9 +36,10 @@ more than us.
   wide re-raising beats tight, limp-or-shove beats wide re-raisers, tight beats shovers. In realistic mixes
   the differences were small and the simulation couldn't rank strong teams. So the styles are starting
   points, one design is built fresh from today's rules, and the real field chooses.
-- **Expect lower scores:** a field of only strong teams averages the points paid divided by the seats: 12.5 a table
-  at the regional's 8 seats (16.7 if tables seat 6: `CLAUDE.md` §8). Our regional bots simulate at 14-19 against such an
-  8-seat field, depending on the fit. Don't panic at a 15 there.
+- **Expect lower scores:** a field of only strong teams averages the points paid divided by the seats: 16.7 a table
+  in case F and 12.5 in case R (`CLAUDE.md` §8). In case R our regional bots simulate at 14-19 against such a field,
+  depending on the fit: don't panic at a 15 there. In case F a 15 is below the mean, and the same relative score is
+  about 20.
 - **The field moves.** Boston's top 20 went from folding 75% to re-raises to 57.5% by round 5 and partly back.
   Finalists studied both regionals, so expect them to start near that point and keep moving. **The plan is a
   default, not a mandate:** a session or subagent that sees the plan is wrong for today's field raises a
@@ -83,7 +84,7 @@ How sure we are of each of these: `EVIDENCE_TABLE.md`.
    wider; folding more is the wrong answer to aggression.
 4. **Evidence before shipping, but standing still isn't safe.** An analysis that sounds convincing is a
    candidate until the real field (a practice round) has tested it; candidates go into the challenger and
-   practice rounds quickly. Folding to a 3-bet of our open: no more than break-even (usually 65-75%).
+   practice rounds quickly. Folding to a 3-bet of our open: no more than break-even (usually 65-75% in case R, about 59-68% with case F's antes).
 
 ## 3. The timeline
 
@@ -150,7 +151,7 @@ The full rules are in `DECISION_RULES.md`; they always apply.
 - **Plan challenges:** any session or subagent may say the plan is wrong for today, with evidence; both of you
   hear it, RESEARCH records it once in `state/decisions.md`, and by default `challenger` builds the
   alternative for the next practice.
-- **Folding to re-raises:** near break-even (usually 65-75%) is the default, not a cap (the regional winner
+- **Folding to re-raises:** near break-even (usually 65-75% in case R, about 59-68% with case F's antes) is the default, not a cap (the regional winner
   folded 81-87%); it doesn't apply to folding to 4-bets after our own light 3-bets.
 - **Standings or results held:** work out our total from each round's results and multipliers; where that can't be
   done we count as outside the top 3 unless we were clearly in it, and with no practice result by T-6 the rule's

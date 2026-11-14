@@ -223,7 +223,7 @@ that counter-wave.
   them with the Finals field's rates (analysis/field_priors.json). Never use a weight above 10 for a field
   prior; team-profile priors from Finals rounds get weight about 30, capped.
 - Use them, measure them, override them when this event's data says otherwise, and say why.
-- **Folding to re-raises:** recompute the break-even fold rate for our open size and range (usually 65-75% for
+- **Folding to re-raises:** recompute the break-even fold rate for our open size and range (usually 65-75% in case R, about 59-68% with case F's antes, for
   3-bets of 3-3.5x). Folding far above it invites the seat-learners (2 Curry re-raised a seat 18% fresh, 43% after
   one fold, 62% after two). It is a default, not a cap: the regional winner itself folded 81-87%. It is about our
   opens facing 3-bets, not folding to 4-bets after our own light 3-bets.
@@ -231,8 +231,8 @@ that counter-wave.
   shove) held only in pure simulated fields on the Bay Area variant; at realistic mixes no lead exceeded 1.4 points,
   and the clones could not rank strong teams. Today's rules may make another axis matter more (the twist,
   postflop, short stacks). Practice rounds decide.
-- **Opponent exploitation is core work, not optional:** each of the 20 other teams sits at about a third of our
-  tables if tables seat 8 and about a quarter if they seat 6 (`CLAUDE.md` §8); profiles and counters run every window.
+- **Opponent exploitation is core work, not optional:** each of the 20 other teams sits at about a quarter of our
+  tables in case F and about a third in case R (`CLAUDE.md` §8); profiles and counters run every window.
 - **Read the round weights, payouts and cooldown from the Format page**; never assume weights 1-6. The portal's
   `round_weighting` names the series: linear (1 to 6), Fibonacci (1, 2, 3, 5, 8, 13: Boston and Pittsburgh used it) or
   powers of two (1 to 32). The watcher keeps it in `state/portal.json` (`comp_settings`) and posts any change. On Saturday
@@ -245,6 +245,6 @@ that counter-wave.
 4. After the flop, big bets and raises are mostly strong hands (one pair should fold to raises).
 5. Our base style is the best response to the field's measured mix (no style the top 5 share beats it).
 6. The twist is worth what `theory`'s tables say, and the field uses it about as well as we do.
-7. Scores are compressed near the field's mean (the points paid divided by the seats: 12.5 a table at 8 seats with
-   50/30/20, 16.7 at 6); differences under 2.0 between two practice rounds (1.4 between a
+7. Scores are compressed near the field's mean (the points paid divided by the seats: 16.7 a table in case F with
+   50/30/20, 12.5 in case R); differences under 2.0 between two practice rounds (1.4 between a
    practice round and a scored round) are noise.

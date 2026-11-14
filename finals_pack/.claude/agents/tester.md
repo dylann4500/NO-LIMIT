@@ -36,10 +36,10 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   set from `bot/rules.json`, a process pool (guard the entry point; have it stop its workers on SIGTERM: killing
   only the parent's PID left orphan workers in a 14 November run). Same seed = same cards by position; seed bots'
   randomness from table id and hand number; rotate seats. Tables diverge once a decision differs, so pairing helps
-  little (paired SE ≈ 21/√tables for two different designs at 8 seats and 50/30/20, measured 18-28; about 11/√tables only for a one-change
+  little (paired SE ≈ 22/√tables for two different designs in case F, an estimate to measure, and 21 in case R, measured 18-28; about 11/√tables only for a one-change
   variant): use many. Then the **first verdict on v1**.
 - **Sparring fields**, sanity only: calls everything, shoves constantly, plays only premiums, re-raises wide (enough
-  copies of each to fill the table, seven at 8 seats, plus a mix), all playing the variant's own decision, some at random and some well. Losing to one by more
+  copies of each to fill the table, five in case F and seven in case R, plus a mix), all playing the variant's own decision, some at random and some well. Losing to one by more
   than 2 SE means a hole.
 - **Modal:** one app `avalon-rig` (deploy once, `.map` over shards, up to 40 containers), image built in the background;
   size each window's runs from measured speed. Measured on 14 November with the regional kit and bots: 20,000 tables
@@ -50,7 +50,8 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   cap. Shard size matters more than the container count: in a second run that day (a mock kit) the 40 containers gave
   126-151 eight-player tables a second with 30-table shards and 53 with 150-table shards (heads-up 246), about 30,000
   tables in 5 minutes when one tester has the app and a third of that each when three share it; a deploy took 4-10 s.
-  Start with small shards, time the first job on today's kit and resize. It's one of only two
+  All of these are case-R tables: a case-F table lasts about 155 hands against 131, so expect about 0.9 of each rate
+  (an estimate). Start with small shards, time the first job on today's kit and resize. It's one of only two
   deployed apps (with theory's `avalon-theory`): the other roles call it instead of running their own, so write in
   `rig/NOTES.md` how to call it. The team Python has no `modal` package: launch with the `modal` command (its own
   interpreter, which has no eval7; the kit's code runs inside the image). Warm containers keep the code they started
@@ -90,7 +91,7 @@ that targets a rate shows it locally against field-like sparring, within about 5
 bot, 2,000+ deals per field; after round 1 the cloned field. Evidence, not a gate: correct, legal, fast (p99 under 0.5
 ms on an idle core) and not catastrophically worse (better than −2 points per table) is fit for a practice round or
 the challenger slot; the practice round judges strength. Measure noise first (a bot against itself: about 20/√tables
-points). v1 has no live bot to beat: judge it against the kit's `check_or_fold` floor and one sparring field. A
+points in case R, about 6% more in case F). v1 has no live bot to beat: judge it against the kit's `check_or_fold` floor and one sparring field. A
 heads-up run pays 1st and 2nd, so with 50/30/20 an even bot scores 40 and the floor is 30. Record each verdict: claim `verdict <name> (sha256 12): correct | bug: …; vs live vN: diff ± se`, method with
 players, opponent pool, deals, seeds.
 

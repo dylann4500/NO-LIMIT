@@ -41,7 +41,7 @@ B `stylist`, C `platform`, D `tester`, plus two more: `scout` on what the Finals
 `challenger`'s contrarian memo (`PLAN.md` §5, step `pre`).
 
 ```
-We're competing today in the finals of the No Limit pokerbot tournament: no-limit sit-and-gos (8 players at the regional; possibly 6 with deeper stacks and antes today), a
+We're competing today in the finals of the No Limit pokerbot tournament: no-limit sit-and-gos (expected: 6 players, 6,000 chips and antes; the regional's 8 players and 2,000 chips as the fallback), a
 poker variant announced at the start, bots as one Python file with a 1 ms decision limit, a 60-minute
 build, then six scored rounds 20 minutes apart, 21 strong teams, only the top 3 win anything. Research and
 write notes (no bot code): <ONE OF THE FOUR TOPICS BELOW>. Be concrete and brief; separate what's
@@ -80,8 +80,9 @@ things that can zero a round (legality, speed, an active bot) absolutely safe. I
 what a winning bot takes, because the reasons matter more than the rules.
 
 THE FORMAT
-At the regional: 8-player no-limit sit-and-go tables, 2,000 chips, blinds from 10/20 rising every 20 hands, no ante.
-Today may differ (for example 6 players, 6,000 chips and antes): take every number from the rules card. A table pays
+Expected today (case F): 6-player no-limit sit-and-go tables, 6,000 chips, blinds from 10/20 rising every 20 hands, an
+ante of 20% of the big blind from the first level. The fallback (case R) is the regional's 8 players, 2,000 chips and
+no ante. The rules card says which: take every number from it. A table pays
 points by finishing place (default 50/30/20 for 1st-3rd, nothing for 4th-8th) and our score is average
 points per table over thousands of tables. The bot is one Python file with act(state, memory) that must
 return in 1 ms. The kit in this folder is the authority on everything: read README.md, RULES.md, AGENTS.md
@@ -141,7 +142,7 @@ expensive scoring with a cheap rule of thumb and keep the cheap one if it is as 
   opponents can hold, and remove every card we know is dead from all sampling.
 - model what our OWN twist choice reveals to the others.
 - if the twist has a budget or resource (chips of another kind, a limited number of uses), plan it over
-  a whole table (roughly 120-140 hands at the regional's stacks and blinds; a currency left at the end is worth nothing), read opponents'
+  a whole table (about 150-160 hands in case F by simulation, 120-140 in case R; a currency left at the end is worth nothing), read opponents'
   public balance changes as information about their hands, and check what a failed decision costs.
 - when everyone's choices decide the twist together (an auction, a vote), tune ours against opponents
   who also play it well, not only against sparring bots that play it badly.
@@ -173,12 +174,12 @@ Treat these as starting values to be replaced by today's data, not as truths abo
 - Bet when checked to while opponents fold more than the bet needs; never bluff into a hand that already
   beats us on what's visible.
 - Tournament equity, not chips, decides all-in calls. With 50/30/20: calling an all-in for our whole stack
-  needs about 56% equity on the first hand, 65-74% on the bubble with four left, about 57% three-handed,
+  needs about 58% equity on the first hand at six seats (56% at eight), 65-74% on the bubble with four left, about 57% three-handed,
   and heads-up it is plain chip odds. So shove much wider than we call. Compute these yourself from the
   payouts in state.config and check them against these figures. One specific trap: a library ICM function
   that gives a busted player zero even when their finishing place pays. The kit's function did exactly
   that, and it made our bot fold winning calls for two rounds. Test it with two and three players left.
-- At about 12 big blinds or less, play shove-or-fold, and widen sharply short-handed. Opponents
+- At about 12 big blinds or less (a case-R depth: recompute it with case F's antes), play shove-or-fold, and widen sharply short-handed. Opponents
   open-shoved far more often than charts: about 35-50% of first-in chances at 10 big blinds or less, 20-35%
   at 10-15 and 10-25% at 15-20 (both regionals, last round; top teams at the high end), so call them wider
   than a chart says, within the tournament-equity limits above.
@@ -225,7 +226,7 @@ CHECKS, BEFORE I UPLOAD ANYTHING (report the numbers, not "passed")
 3. Tournament equity: equal stacks get equal shares; shares sum to the prize pool; a busted player gets
    exactly their place's payout; 2- and 3-player cases match hand calculation. Then test the CALL/FOLD
    wrapper around it, where both build tests put their bugs: heads-up, its break-even equity must equal
-   plain pot odds; 8 equal stacks on hand 1, about 56% (six equal stacks, about 58%); three equal stacks, about 57%; four equal stacks,
+   plain pot odds; six equal stacks on hand 1, about 58%, in case F (eight equal stacks, about 56%, in case R); three equal stacks, about 57%; four equal stacks,
    about 62-65%. Count the pot once, and when the bettor covers us, only the matched part is ours to win.
 4. Scripted event sequences for EVERY statistic, one test each: a seat folds to our bet three times ->
    3 of 3; a seat that never raises in ten chances -> a rate below the prior; every rate between 0 and 1.
@@ -247,7 +248,7 @@ Beating our own earlier versions means nothing: a bot of ours beat them by 4.4 p
 100th of 125 in the real field, because our old versions folded to aggression and the field didn't. Local
 play is for legality, speed and sanity, against sparring bots that behave unlike us: one that calls
 everything, one that shoves constantly, one that only plays premiums, one that re-raises wide. Run the
-same bot against itself first to learn the noise (about 20 / sqrt(tables) points) and ignore differences
+same bot against itself first to learn the noise (about 20 / sqrt(tables) points in case R, about 6% more in case F) and ignore differences
 smaller than that. The real judge is the practice rounds on the real field, which I'll feed you. Don't
 reject a change because it makes us look unlike the average team; the winner looked nothing like it.
 
@@ -280,12 +281,12 @@ HOW TO WORK
   one hypothesis about what matters, not a menu: if today's rules make another axis matter more (the
   twist, postflop play, short stacks), replace the weakest corner with it and say why. `challenger`
   builds a fourth design, D, from scratch from today's rules without these notes, so we never only test
-  our own assumptions. The real field picks. At the regional's stacks and blinds a tight bot that only folds busts around hand 100 and finishes 4th, so C must win chips.
+  our own assumptions. The real field picks. A tight bot that only folds is out near hand 121 in case F (about 11 of 16.7 in simulation) and near hand 100, in 4th, in case R, so C must win chips.
   All three share the post-flop equity logic (fold to bets near break-even, adjusted per seat).
   Shared defaults (from the measured priors above; every style keeps them unless its design deliberately
   overrides one and says so in VERSIONS.md): no open-limping (a limp-or-jam style limps by design, with its
   planned re-shove); no flat-calling an open at 10 big blinds or more except big-blind defence at the right
-  price; shove-or-fold first in at about 12 big blinds or less; fold one pair to raises and to large late
+  price; shove-or-fold first in at about 12 big blinds or less (a case-R depth); fold one pair to raises and to large late
   bets unless that seat is shown to bluff. The check run counts each (open-limp rate, flat calls of opens at
   10bb+ outside the big blind, first-in non-shove raises under 12bb, one-pair calls of raises) and reports it;
   a style that breaks one must say whether that is intended. If today's field pays for limping or flat-calling
@@ -299,7 +300,7 @@ HOW TO WORK
   filter them: only three can get practice rounds, but more can be tried in simulation. A local field of
   our own styles is a sanity check, not a verdict: in it, whichever style the cycle favours wins.
 - Whatever the style, fold to a 3-bet of our open no more than the break-even rate for our open size and
-  range (usually 65-75%; a starting value, not a cap): at our regional we folded 82-89%, opponents
+  range (usually 65-75% in case R, about 59-68% with case F's antes; a starting value, not a cap): at our regional we folded 82-89%, opponents
   re-raised us after a single fold, and strong bots folded 70-77%. This is about our opens facing 3-bets,
   not about folding to 4-bets after our own light 3-bets. Tight play is
   the wrong answer to seats that re-raise a lot; against them call off and re-shove wider.
@@ -383,7 +384,7 @@ round.
 For every decision by every team, record: street (number of board deals so far); situation (unopened,
 with limped pots counted as unopened; checked to, including the big blind's option; facing one bet or
 raise; facing a re-raise); before the flop, position (small blind, big blind, other; heads-up the button
-counts as the small blind); players still in the tournament (6-8, 4-5, 2-3); effective stack in big blinds
+counts as the small blind); players still in the tournament (6-8, 4-5, 2-3 in case R; 5-6, 4, 2-3 in case F); effective stack in big blinds
 at the decision (the smaller of our stack and the biggest stack still in the hand), bucketed <10, 10-20,
 20-40, 40+; the action (fold, check, call, small raise, large raise, all-in; small = raise to at most 2.5x
 the bet faced before the flop, or at most 55% of the pot after it; an all-in call counts as a call; the
@@ -408,8 +409,8 @@ all-ins and the last four players | how the field treats us>:
    does worse than folding is a real leak, and this figure is a floor on what stopping it recovers.
 3. What the best teams do that we don't: take the 10 best other teams in this file by points per table
    (with 21 teams: the 5 best), pooled into one group, and only cells where they have at least 30 uses;
-   say how many tables they played (in a 1,000-table sample, roughly 300-350 each with 21 teams at 8 seats and 220-250 at
-   6 seats, against 55 at the regional: count it; their ranking is still noisy). For each situation and action, their frequency and ours, and how that
+   say how many tables they played (in a 1,000-table sample, about 250 each with 21 teams in case F and 300-350 in
+   case R, against 55 at the regional: count it; their ranking is still noisy). For each situation and action, their frequency and ours, and how that
    action performs for THEM against their own fold. Rank the biggest "they do it more, and it pays for
    them" gaps. Trust the direction, not the size: they choose their hands, so the average overstates what
    a marginal hand earns.
@@ -449,10 +450,10 @@ decision time.
   (guard the entry point; macOS spawns processes).
 - Same table seed = same cards by position, so every candidate plays the same deals. Seed any bot's own
   randomness from the table id and hand number so reruns are exact. Expect pairing to help little: once one
-  decision differs, the table diverges; the paired difference's standard error is about 21/sqrt(tables) for
+  decision differs, the table diverges; the paired difference's standard error is about 22/sqrt(tables) in case F (an estimate) and 21 in case R for
   two different designs (about 11/sqrt(tables) only for a one-change variant). Use many tables.
 - Sparring fields, for sanity only: calls everything, shoves constantly, plays only premiums, re-raises
-  wide; each as enough copies to fill the table (seven at 8 seats), plus a mixed field. They must play the variant's own decision too, some at
+  wide; each as enough copies to fill the table (five in case F, seven in case R), plus a mixed field. They must play the variant's own decision too, some at
   random and some well. A candidate that loses to one of these by more than 2 standard errors has a hole.
 - Pick up any folder under candidates/ and test it. Fit to play a practice round or be the challenger:
   zero failed decisions, the kit's check passes, 99th-percentile time under 0.5 ms measured on an idle core
