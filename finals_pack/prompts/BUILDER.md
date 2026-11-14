@@ -115,7 +115,7 @@ running before you spawn anything.
 | T-13 | Data lands (RESEARCH analyses it). Spawn in ONE message: `challenger` (start the NEXT window's challenger from the data in hand: D matured, the best response to the measured mix, a PLAN CHALLENGE's alternative, or a rewrite; say why); `stylist` (this window's live-bot fixes from the one-change lines already in the LEDGER, persistent leaks first; one stylist per new line as RESEARCH sends it, due by T-9; scout's counters); `platform` (bug fixes; integrate the fixes). |
 | T-12 | Tell Dylan the challenger's exact file: "activate releases/vC.zip now (upload it if it isn't on the portal yet)". Don't `live.py` it: `state/live.json` stays the scored-round bot. |
 | T-10 | The practice round plays the challenger. |
-| T-9 | Tell Dylan: "put vL back now" (the `state/live.json` bot; a click), once the practice round's "started" line is in your inbox: a click before it starts makes the practice play the live bot. RESEARCH's recommendation arrives (the threshold first; the final answer when the practice result lands, about T-8 to T-7). |
+| T-9 | Tell Dylan: "put vL back now" (the `state/live.json` bot; a click), once the practice round's "started" line is in your inbox: a click before it starts makes the practice play the live bot. If none has started by the T-8 step, put it back anyway. RESEARCH's recommendation arrives (the threshold first; the final answer when the practice result lands, about T-8 to T-7). |
 | T-8 | **Ask the decision** (below), deadline T-5, with the rule's answer. |
 | T-6 | `platform`: the chosen bot through the upload test with no time bank; released if it's a new zip. |
 | T-5 | No clear human answer: apply the rule's answer (`live.py`), say so in one line. |

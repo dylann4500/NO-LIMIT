@@ -2,7 +2,8 @@
 
 Sunday 15 November 2026, San Francisco. 20 teams build poker bots live with AI agents. The variant is announced at
 minute 0 with a starter kit; then a build hour with 4 practice rounds, then about 6 scored rounds 20 minutes apart,
-each with a practice round 10 minutes before it. Only the top 3 teams are paid ($100,000 / $50,000 / $25,000): 4th
+each with a practice round 10 minutes before it at Bay Area (the organizers' pages promise practice rounds only in the
+build hour: §8). Only the top 3 teams are paid ($100,000 / $50,000 / $25,000): 4th
 is worth the same as 20th. (50/30/20 is something else: the points a table gave its 1st-3rd at the regional. The
 Finals' points per place are announced with the variant.) Humans: **Dylan** (steers BUILDER, uploads bots on the portal) and **Samuel** (steers RESEARCH).
 
@@ -220,5 +221,10 @@ statement of the platform's rules: re-read Sunday's own pages at minute 0.
   computed size is rounded down, so a raise one chip short of the minimum, facing a bet, becomes a fold. A copy of the
   bot that crashes or keeps answering late is restarted only a limited number of times a round; after that its
   remaining decisions on that machine play the fallback for the rest of the round.
+- Practice rounds are described only for the build hour ("about 1,000 iterations every 10 minutes"). A practice
+  round before each scored round is not promised; Bay Area had them. A scored round runs at least 5,000 iterations,
+  one table a bot per iteration, and its results "normally arrive in the following 20-minute window": data can land
+  later than the timeline's T-13. A window with no practice round has no practice result, and then, as already
+  written, the rule's answer is the live bot (`prompts/RESEARCH.md`).
 
 More, with what it changes for the bot: `notes/pre/format_finals.md`.

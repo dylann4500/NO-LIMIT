@@ -100,7 +100,9 @@ How sure we are of each of these: `EVIDENCE_TABLE.md`.
 | 50 | BUILDER declares `tester`'s adjusted best scorer of practices 1-3 for scored round 1 (`scripts/live.py`; no question then). Practice 4's bot, if different, is round 1's challenger | BUILDER |
 | after 50 | Round 1 runs like every window from T-9: Dylan makes the declared bot active (a click: it's already uploaded); the round-1 question is asked once, at T-8 | Dylan, both humans |
 
-**Every window after that.** A practice round starts 10 minutes before each scored round. Each round plays a
+**Every window after that.** At Bay Area a practice round started 7 to 10 minutes before each scored round; the
+organizers' pages describe practice rounds only for the build hour, so the first window shows whether today has them
+(`CLAUDE.md` §8). The table below assumes one 10 minutes before each scored round. Each round plays a
 snapshot of every team's **active** bot taken at its start. Making an already-uploaded bot active is a click
 on the portal, not an upload, so a window has at most two real uploads, about 8 minutes apart: the challenger
 at T-12 and, only if the chosen bot is a new zip, the chosen bot around T-4 to T-3. `state/live.json` holds the

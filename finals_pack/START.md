@@ -96,7 +96,7 @@ research (notes only, no code: it checks and extends Saturday's drafts in `notes
   - the first bot at about minute 10;
   - the bot BUILDER names for each practice;
   - the challenger at T-12;
-  - re-activate the live bot at T-9 (a click), once the practice round has started;
+  - re-activate the live bot at T-9 (a click), once the practice round has started, and by decision time (T-8) if none has;
   - the chosen bot by T-3 (a click if it's already uploaded).
 
   Each round plays the bot that is active when it starts.
