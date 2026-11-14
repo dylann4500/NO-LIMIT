@@ -538,9 +538,10 @@ GUARD = [
      "already released and upload-tested (else the live bot). The challenger's next slot is the next window's T-12",
      "no new challenger this window. Leave the live bot active for the practice round (or the released bot BUILDER names)."),
     ("note", "builder", 7, None, "the 'Which bot?' question for this round is in state/decisions.md",
-     "the live bot is the default. Ask the question now only if a released, upload-tested challenger has numbers "
-     "before T-5; otherwise the live bot plays",
-     "no 'Which bot?' question by T-7: the live bot plays unless BUILDER brings the numbers before T-5."),
+     "ask the 'Which bot?' question at once, in one line, with the rule's answer as the default (DECISION_RULES §3: "
+     "the challenger if it cleared the bar for our standing and is released with a tester verdict, else the live "
+     "bot), and apply that answer at T-5 if no human has answered. Drop the longer draft of the question",
+     "no 'Which bot?' question by T-7: BUILDER asks it now. No answer by T-5: the rule's answer plays (it may be the challenger)."),
     ("chosen", "builder", 4, 6, "the bot chosen at T-8 is released and upload-tested (state/live.json's zip exists)",
      "the chosen bot doesn't play this round: the previous live bot (active since T-9) plays and nothing is uploaded. "
      "Put it back in state/live.json (python3 scripts/live.py <previous> \"cut-off\"). Stop packing the chosen bot for "
