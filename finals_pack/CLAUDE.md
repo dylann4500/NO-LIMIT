@@ -153,3 +153,25 @@ happen again.
   tail of your inbox before acting, and re-arm your Monitor.
 - Facts about rounds (started, finished, results, active bot) come only from `state/status.md` and `data/`, with
   their time. Never assume a round is running.
+
+## 8. The format may differ from the regional's
+
+Every number in `strategy/` and `notes/pre/` comes from the regional: 8 seats, 2,000 chips (100 big blinds), blinds
+from 10/20 rising every 20 hands with no ante, a 250-hand cap, 50/30/20 for 1st-3rd, a 1 ms decision limit, round
+weights 1 to 6. None of that is promised for today. The rules card (`bot/rules.json`, from the kit and the Format
+page) decides, and whatever depends on seats, stack depth, antes, payouts or weights is recomputed from it.
+
+**The likely Finals case.** This is a default seen in the portal's own code on 14 November. It has not been
+announced and an organizer can override it: confirm each line from the kit and the Format page at minute 0.
+- 6 players a table; 6,000 chips, which is 300 big blinds at the start; antes from the first level; 12 blind levels
+  of 20 hands, from 10/20 with a 4 ante to 2,000/4,000 with 800; a 250-hand cap (the last level starts at hand 221).
+  Whether the ante is paid by every player or once a hand is in the kit's engine, not in the portal.
+- Points per place, the decision limit and the time bank are not part of that default: probably still 50/30/20,
+  which pays half of a 6-seat table, and 1 ms.
+- 20 teams at 6 seats make 4 tables an iteration with 4 filler seats: non-scoring copies of bots not already at that
+  table, which still take finishing places.
+- If so, by arithmetic: the field's mean score is the points paid divided by the seats, about 16.7 a table and not
+  12.5; each opponent sits at about 5 in 23 of our tables (roughly 220-250 in 1,000, not 370); one bot's spread per
+  table is about 19, not 17.9 (`notes/pre/testplan.md` section 1).
+
+More, with what it changes for the bot: `notes/pre/format_finals.md`.
