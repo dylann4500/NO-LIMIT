@@ -76,8 +76,10 @@ confirm it.
    passes the upload test with no time bank (2 players, 20 hands, time bank 0). A bot that times out auto-folds.
 2. **Only tested zips are released and uploaded.** A tested bot is active by T-3 of every scored round. Each round
    plays the bot that is **active when it starts**. Making an already-uploaded bot active is a click on the portal.
-3. **The rules card is right**: players per table, stacks, blinds, hands per match, weights, payouts and the upload
-   cooldown come from the kit and the Format page (`bot/rules.json`, written by `platform` at minute 0). What the
+3. **The rules card is right**: players per table, stacks, blinds and antes, hands per match, weights, payouts and the
+   upload cooldown come from the kit and the Format page (`bot/rules.json`, written by `platform` at minute 0). Table
+   rules are set per round and an organizer can change them between rounds: the bot reads them from `state.config` at
+   every table and hard-codes none, and each round's settings are compared with the round before (§8). What the
    portal itself states (the cooldown in `state/status.md`, the rules text in `state/variant.md`) is a cross-check:
    a mismatch goes to Dylan at once.
 4. **No pre-written bot code** (everything bot-related is written today); hand histories never go into git.
@@ -173,5 +175,10 @@ announced and an organizer can override it: confirm each line from the kit and t
 - If so, by arithmetic: the field's mean score is the points paid divided by the seats, about 16.7 a table and not
   12.5; each opponent sits at about 5 in 23 of our tables (roughly 220-250 in 1,000, not 370); one bot's spread per
   table is about 19, not 17.9 (`notes/pre/testplan.md` section 1).
+
+**Rules are per round** (the portal's round schema; how often organizers use it is unknown). Between rounds an
+organizer can change the table rules (seats, stack, blinds and antes, payouts, time limits), the iterations, the
+round's multiplier, culling and ICM luck correction. The bot hard-codes none of them; `scout` reports what changed
+from the round before on every download.
 
 More, with what it changes for the bot: `notes/pre/format_finals.md`.

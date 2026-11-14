@@ -42,7 +42,13 @@ crowded, what punishes them, practice 1's field (mostly minimal bots) vs round 3
   profiles, recogniser accuracy (same-round) and how identifiable we are.
 
 **Every download** (a practice between scored rounds waits until after T-3, below):
-1. **The FIELD TREND, first** (about 5 minutes), `analysis/<stage>/field_trend.md`: the field's rates this round vs
+1. **The FIELD TREND, first** (about 5 minutes), `analysis/<stage>/field_trend.md`: its first line says what changed
+   in the round's settings since the round before, or "settings unchanged" (rules are per round, `CLAUDE.md` §8): seats,
+   stacks, blinds and antes and payouts from the hand file; iterations, `score_multiplier`, `culling` and
+   `icm_luck_correction` from the portal's round list, one read-only GET of
+   `https://pokerbot.sequoiacap.com/tournament/api/competitions/<id>/tournaments` (the watcher's own address; header
+   `Authorization: Bearer` with the key in `~/.config/no-limit-2026/api-key`; `<id>` is `cid` in
+   `state/rounds_seen.json`; never print the key, never anything but GET). Then the field's rates this round vs
    earlier ones (open, limp, 3-bet, fold to 3-bet, open-shove by depth, fold to a bet by street, the twist's use; each
    counted as `notes/pre/stat_definitions.md` defines it: the plan's bands mean the team-equal mean), each with its
    change in SE; the style cluster of the 5 best teams and how it moved; the yardstick teams; and all seven

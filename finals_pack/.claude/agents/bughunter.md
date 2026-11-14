@@ -58,6 +58,9 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
    like the field: within about 5 points, or report the gap.
 10. **Defaults report:** open-limps, flat calls of opens at 10bb+ outside the big blind, first-in non-shove raises under
     12bb, one-pair calls of raises; a break is a bug only if the design didn't intend it.
+11. **Hard-coded format:** search the source for the table size, starting stack, blind and ante levels, payouts and
+    time limits written as literals, then run the zip at another table size and payout list (table rules are set per
+    round and can change between rounds: `CLAUDE.md` §8). A decision that ignores `state.config` is a bug.
 
 **A second opinion by a different method:** if `codex` is logged in, start `codex exec` in the background on the same
 target with this list (log in your folder), carry on, then merge its findings, re-running each before you report it.
@@ -89,7 +92,7 @@ breaks; effect: how often it fires per 1,000 hands, or the wrong number against 
 Whoever spawned you (a main session, or the agent you're helping) relays it: you never write to the inboxes, message
 the humans or the other session, or run `scripts/say.py` or `scripts/live.py`.
 
-Line 1: "<target> (sha256 …): N bugs reproduced, worst: <one line>" or "<target>: no bug reproduced in checks 1-10".
+Line 1: "<target> (sha256 …): N bugs reproduced, worst: <one line>" or "<target>: no bug reproduced in checks 1-11".
 Then each bug, worst first: what it breaks, how often, the reproduction (path and command), who should fix it; the
 checks you ran with their numbers (failed decisions, p99, max, upload test); what's unverified; the Codex job (merged,
 or log path if still running); LEDGER ids; your folder.

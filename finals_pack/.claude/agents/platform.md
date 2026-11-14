@@ -65,6 +65,10 @@ Read the kit first (README, RULES.md, AGENTS.md, the SDK: engine, rules classes,
 hand-history README; `state.config`; where two of its files disagree, test what the engine does and record it in
 `bot/rules.json`), then `strategy/TWIST_NOTES.md` §2-3 and `strategy/FIRST_PROMPT.md` Part 1.
 
+- **Hard-code nothing about the format.** Table rules are set per round and can change between rounds (`CLAUDE.md`
+  §8): seats, stack, blinds and antes, payouts and time limits are read from `state.config` at every table; a table
+  from `theory/` that depends on them is chosen by them, never assumed. Check 2 below also runs at a second table size
+  and payout list.
 - **Safety shell:** one final function makes any intended action legal (whole-number sizes clamped to the range; no
   raise offered: call; else check; then fold); the new phase returns its legal default before any betting code; a
   catch-all around the whole decision plays the passive action and COUNTS each firing (0 in every local run).
