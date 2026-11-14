@@ -49,7 +49,10 @@ a different mode until a human approves them. So never start just one of them wi
 **Model and effort:** the strongest model you have (Opus 5.5 or Fable 5.2) at **high** effort for both sessions
 (`/model`, `/effort high`; `xhigh`/`max` think longer and answer slower). Subagents use the session's model and effort
 unless a role file or the session picks another. The `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40` prefix raises the
-default limit of 20 subagents running at once per session.
+default limit of 20 subagents running at once per session (checked on 14 Nov: the 21st spawn fails outright, it
+does not queue). `.claude/settings.json` sets the same value in its `env` block for sessions that are not started
+from a command line (the desktop app); whether the app honours it there is not verified yet, so check once: ask a
+session for `echo $CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`.
 
 **BUILDER starter** (paste into tab 3):
 ```

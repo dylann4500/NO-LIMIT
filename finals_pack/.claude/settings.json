@@ -1,5 +1,8 @@
 {
   "autoCompactWindow": 400000,
+  "env": {
+    "CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS": "40"
+  },
   "permissions": {
     "allow": [
       "Bash",

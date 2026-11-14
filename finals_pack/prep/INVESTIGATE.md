@@ -83,9 +83,18 @@ in bypass-permissions mode (Claude Code 2.1.321), not terminal sessions:
 - **The kit at minute 0.** Downloading the regional's kit and building its Python the way the setup skill does took
   31 s here (26 s of it `pip install -r requirements.txt` with a warm cache); `check` passed and `play` had 0 failed
   decisions. Our team has no remote build machine, so the skill's answer is "only on this computer".
+- **Subagents.** Background subagents report back by themselves (a main session kept working while 20 ran). The
+  limit is real: with 24 spawned in one message and the variable unset, 20 ran and the 21st failed at once with
+  "Concurrent subagent limit reached. You can run 20 subagents at once"; later spawns succeeded as slots freed.
+  The bundle's `.claude/settings.json` now sets `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40` in `env` (not yet
+  verified to take effect in a desktop-app session).
+- **Cost of a subagent.** Each trivial subagent here (one shell command) used about 56,000 tokens: its start-up
+  context, most of it tools, connectors and skills of this laptop's Claude account. With 40 subagents per session
+  that is the main lever on speed and usage: before Sunday, switch off the connectors the Finals sessions don't
+  need.
 - **Still to do, with Dylan at the keyboard:** trust the folder and look at `/permissions`; the guard from inside
-  a trusted session and from a subagent; three background subagents at once; more than 20 at once; and all of the
-  above once more in a terminal `claude` session if Sunday runs in terminal tabs.
+  a trusted session and from a subagent; that the `env` setting raises the limit; and all of the above once more
+  in a terminal `claude` session if Sunday runs in terminal tabs.
 
 ## 3. Build-hour throughput (where most of the outcome is set)
 
