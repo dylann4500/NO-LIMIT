@@ -173,7 +173,9 @@ weights 1 to 6. None of that is promised for today. The rules card (`bot/rules.j
 page) decides, and whatever depends on seats, stack depth, antes, payouts or weights is recomputed from it.
 
 **The likely Finals case.** This is a default seen in the portal's own code on 14 November. It has not been
-announced and an organizer can override it: confirm each line from the kit and the Format page at minute 0.
+announced and an organizer can override it: confirm each line from the kit and the Format page at minute 0. The
+Finals' Format page on Saturday afternoon still showed the regional's table (8 players, 2,000 chips, 10/20, no ante),
+but it is the shared template and no round had been set. Both cases are open.
 - 6 players a table; 6,000 chips, which is 300 big blinds at the start; antes from the first level; 12 blind levels
   of 20 hands, from 10/20 with a 4 ante to 2,000/4,000 with 800; a 250-hand cap (the last level starts at hand 221).
   Whether the ante is paid by every player or once a hand is in the kit's engine, not in the portal.
