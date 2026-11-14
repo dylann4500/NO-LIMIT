@@ -1,5 +1,9 @@
 # What wins sit-and-gos of AI-built bots (pre-event note, topic B, for `stylist`)
 
+> **Case label (14 November, evening).** Written for case R: 8 seats, 2,000 chips, no ante. The team's main case is
+> now case F (6 seats, 6,000 chips, antes): `CLAUDE.md` §8 has the two side by side and `notes/pre/format_finals.md`
+> what changes. Sections 4 and 6 here say what carries over.
+
 Drafted Saturday 14 November for Sunday's `stylist` to check and extend. Notes only, no bot code.
 
 **Grades** (as `strategy/EVIDENCE_TABLE.md`): **A** measured fact, no causal claim; **B** a change measured on full-table results; **C** candidate (one regional, simulation, pre-event bots, argument); **D** withdrawn; **arith.** exact arithmetic (ICM is Malmuth-Harville, equal stacks unless said).

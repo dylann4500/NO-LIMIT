@@ -1,5 +1,9 @@
 # What the Finals field will do (drafted Saturday 14 November; check and extend on the day)
 
+> **Case label (14 November, evening).** Written for case R: 8 seats, 2,000 chips, no ante. The team's main case is
+> now case F (6 seats, 6,000 chips, antes): `CLAUDE.md` §8 has the two side by side and `notes/pre/format_finals.md`
+> what changes. Rates here are priors for the first practice only.
+
 Grades as in `strategy/EVIDENCE_TABLE.md`: **A** measured on regional data, **C** judgment or simulation;
 everything about Sunday's field is C until practice 1 lands. Rates are Bay Area's (8 seats, about 133 hands
 per table, three hole cards): preflop and stack-depth rates need only standard hold'em structure; postflop

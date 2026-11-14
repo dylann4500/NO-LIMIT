@@ -1,5 +1,9 @@
 # The day's test plan (pre-event note, topic D, for `tester`)
 
+> **Case label (14 November, evening).** Written for case R: 8 seats, 2,000 chips, no ante. The team's main case is
+> now case F (6 seats, 6,000 chips, antes): `CLAUDE.md` §8 has the two side by side and `notes/pre/format_finals.md`
+> what changes. Section 8 here says what to redo.
+
 Drafted Saturday 14 November for Sunday's `tester` to check and extend. Notes only, no code; methods are in words.
 
 **Grades** (as `strategy/EVIDENCE_TABLE.md`): **A** measured fact; **B** a method or change validated on full-table results; **C** candidate (one regional, simulation, one clean-room run, argument); **D** withdrawn; **arith.** exact arithmetic. Only the sparring bots' hand values and the replay deck order assume standard hold'em (section 8).

@@ -1,5 +1,9 @@
 # The contrarian memo (drafted Saturday 14 November; both humans read this)
 
+> **Case label (14 November, evening).** Written for case R: 8 seats, 2,000 chips, no ante. The team's main case is
+> now case F (6 seats, 6,000 chips, antes): `CLAUDE.md` §8 has the two side by side and `notes/pre/format_finals.md`
+> what changes. Its thresholds (collisions before hand 40, the floor bot's score) need re-basing.
+
 Notes only: designs are described in words; nothing here is bot code. Grades as in
 `strategy/EVIDENCE_TABLE.md`: **A** measured at the regional, **C** judgment, model or simulation. Numbers are
 from `notes/pre/field.md` (its Appendix A) unless a source is named.

@@ -1,5 +1,9 @@
 # Field statistics: the definitions behind `field.md` (for `analyst` and `scout`)
 
+> **Case label (14 November, evening).** Written for case R: 8 seats, 2,000 chips, no ante. The team's main case is
+> now case F (6 seats, 6,000 chips, antes): `CLAUDE.md` §8 has the two side by side and `notes/pre/format_finals.md`
+> what changes. "Re-check on Sunday's format" below lists what breaks.
+
 The definitions behind the regional reference values in `field.md` Appendix A.
 
 ## Conventions

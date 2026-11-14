@@ -1,5 +1,9 @@
 # The first-hour build plan (pre-event note, topic C, for `platform`)
 
+> **Case label (14 November, evening).** Written for case R: 8 seats, 2,000 chips, no ante. The team's main case is
+> now case F (6 seats, 6,000 chips, antes): `CLAUDE.md` §8 has the two side by side and `notes/pre/format_finals.md`
+> what changes. Section 6 here says what to redo.
+
 Drafted Saturday 14 November for Sunday's `platform` to check and extend. Notes only, no bot code; algorithms are in words.
 
 **Grades** (as `strategy/EVIDENCE_TABLE.md`): **A** measured fact (a test build's time is A as a measurement, C as a forecast for Sunday); **B** a change measured on full-table results; **C** candidate; **D** withdrawn; **arith.** exact arithmetic. Hold'em-only parts are marked "(hold'em)" and listed in section 6.
