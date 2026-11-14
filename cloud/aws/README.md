@@ -12,6 +12,21 @@ disk goes with it. SSH is open only to this laptop's current IP. `up` refuses an
 only over SSH to our own instances: no buckets, no images. Hand histories (`hands-*.jsonl*`, `hand-history/`,
 `data/rounds`) are never copied.
 
+## Where this stands (14 Nov, 06:10 PT)
+
+Built and tested on local Ubuntu 24.04 machines: push, build, sharded runs, gathering, failed-shard handling,
+queuing, and the minute-0 drill. Nothing has run on AWS yet: nobody has signed in. The steps left, in order:
+
+1. Dylan: `aws login --region us-west-2`, and a yes to the quota requests and the envelope (proposed: us-west-2,
+   at most 4 instances / 768 vCPUs / $40 an hour, everything off by Sunday 23:00 PT, budget alert at $300 to an
+   address he names).
+2. `python3 cloud/aws/fleet.py check`, then `quotas --request` and `setup ...` (steps 2-3 below).
+3. Proof run, from a checkout with `starter-kit/` (the main checkout): `cloud/aws/proof.sh 1` (about 10 minutes,
+   about $2). Then fill in the "Measured" section of `SUNDAY.md` and decide primary or backup there.
+4. `python3 cloud/aws/fleet.py down` unless the instance is wanted for more prep.
+
+`SUNDAY.md` has the recommendation, the Sunday timeline and the text proposed for `finals_pack`.
+
 ## Steps, in order (a tired person can follow these)
 
 All commands run from the repo root.
