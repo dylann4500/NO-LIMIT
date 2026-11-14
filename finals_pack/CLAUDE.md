@@ -48,7 +48,7 @@ Your own start-up instructions are in `prompts/BUILDER.md` or `prompts/RESEARCH.
 | `state/schedule.json`, `state/clock.md` | minute 0, the round times, the next steps | clock |
 | `state/live.json` | the bot we have **decided** should be active next: each build-hour practice pick, then the round-1 bot, then each scored round's bot (never a window's challenger: BUILDER tells Dylan that file directly) | BUILDER only: `python3 scripts/live.py vN "why"` |
 | `state/decisions.md` | every decision asked of the humans: question, evidence, the rule's answer, deadline, the human's words, outcome | BUILDER (bots), RESEARCH (plan challenges) |
-| `data/rounds/<NN-stage>/` | `results.json`, `hands-first-1000.jsonl.gz` (and full), `played_by.txt` | portal watcher (never in git) |
+| `data/rounds/<NN-stage>/` | `results.json`, `round.json`, `hands-first-1000.jsonl.gz`, then `hands-full.jsonl.gz`, `played_by.txt` | portal watcher (never in git) |
 | `notes/format.md` | the organizers' Format page as Dylan pasted it at minute 0 (weights, payouts, cooldown) | BUILDER |
 | `bot/` | the platform (the bot's shared code) | `platform` only |
 | `candidates/<name>/` | styles, the challenger, fixes, each in its own folder | `stylist`, `challenger` |
