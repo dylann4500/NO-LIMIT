@@ -209,5 +209,9 @@ rule's answer is the live bot (`DECISION_RULES.md` §3, `prompts/RESEARCH.md`).
 statement of the platform's rules: re-read Sunday's own pages at minute 0.
 - A failed decision (a timeout, an error, an illegal action) checks when checking is free and otherwise folds; in a
   phase the variant adds it takes that phase's automatic choice. It does not always fold.
+- Scored play has a time bank: 100 ms a table by default (`state.config.time_bank_ms`); one timeout empties it and
+  each table starts with a full one. The upload test has none: a heads-up match of up to 20 hands at the 1 ms limit
+  against a check-or-fold bot, rejected if the bot does not start within the start-up allowance, crashes, or fails
+  more than 10% of its decisions. Our own bar stays zero failed decisions (hard rule 1).
 
 More, with what it changes for the bot: `notes/pre/format_finals.md`.

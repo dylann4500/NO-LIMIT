@@ -79,7 +79,9 @@ hand-history README; `state.config`; where two of its files disagree, test what 
 - **Speed, for the worst decision:** tables built at import; one throwaway decision of every phase at import; then
   `gc.collect()`, `gc.freeze()`, higher GC thresholds. Sampling ends at an iteration count; a deadline 0.15-0.2 ms from
   the call's start is only the backstop; a twist decision with a cheap failure default may use 0.5 ms while the bank is
-  healthy, if it pays.
+  healthy, if it pays. On the organizers' pages the bank is 100 ms a table, one timeout empties all of it, and each
+  table starts full; the upload test has none, and the import has a start-up allowance of its own (an upload that
+  doesn't start within it is rejected: time the import).
   Report max and p99.9 over 100,000 varied states with the kit's check-or-fold in the same run as the baseline.
 - **Three layers:** platform (shell, memory, seat records); variant engine (cards, evaluation, equity against a range,
   the new phase); strategy. Styles set parameters or wrap hooks, never copy platform functions.
