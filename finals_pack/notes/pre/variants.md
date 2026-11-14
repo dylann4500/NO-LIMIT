@@ -13,8 +13,10 @@ Tags: **[C]** confirmed (our own files, or a page we fetched), **[I]** indirect 
   face down; each board pays half the pot. Bay Area and Boston are as we knew them (§1).
 - **Each variant combined two components, and the phase moved each time.** Used so far: a third hole card (twice), a
   discard (twice), a forced expose, a second currency with an auction, choosing board cards, two boards.
-- **Kits leak the next variant.** Our Bay Area kit (6 November) already held Pittsburgh's `discard` action and
-  multi-board code. Whoever has a Pittsburgh kit should search it on Sunday morning (§2).
+- **A weak hint from kits.** Our Bay Area kit (6 November) shipped one variant, ours, but its shared replay and
+  hand-history code already handled a separate face-down `discard` event and more than one board (`board_count`).
+  Bay Area used neither; Pittsburgh's variant, six days later, used both. The kit had nothing for Boston's auction,
+  which came in between: one hit, one miss (checked against the kit by the lead session, 14 November; §2).
 - **Priors for Sunday [J]:** a card exchange or draw 25%; picking or allocating among shared cards or boards 20%; a
   bounty-style payoff 12%; a new second-currency auction 12%; a board vote 8%; anything else 23%. 85% that it is again
   one sealed free phase; 60% that it reuses a regional component.
@@ -48,9 +50,13 @@ not found.
 4. **Lineage.** MIT Pokerbots ran three hole cards with a discard in 2026, an auction in 2024 and three boards in 2021
    [C]. Not yet echoed: Bounty 2025, River of Blood 2023 (extra river cards), Swap 2022 (random hole-card swaps),
    Permutation 2020. The application puzzle was Colonel Blotto [I]: expect allocation, auctions or voting.
-5. **Kit foreshadowing.** A Pittsburgh team's notes say the kit also lists "a bidding or pick phase and an exchange
-   phase" [I]; exchange is the component still unused. **Sunday morning:** in any Pittsburgh kit, search
-   `narration.py`, `local_replay.py` and `history.py` for action kinds Pittsburgh's rules don't use.
+5. **Kit foreshadowing (weak).** Our kit's files `sdk/agent-sdk/src/poker_agent_sdk/local_replay.py`,
+   `narration.py`, `local_history.py` and `sdk/engine/src/poker_engine/history.py` handle a `discard` event next to
+   our own `select`, and `variant.py` documents `board_count`; the only variant in the kit is
+   `flop_discard_reveal`. So the kit held plumbing for two of Pittsburgh's components, not its rules, and nothing
+   for Boston's. A Pittsburgh team's notes say their kit also lists "a bidding or pick phase and an exchange phase"
+   [I]; exchange is the component still unused. We have no Pittsburgh kit. Whether to go looking in one is for
+   Dylan and Samuel to decide: the rules keep the variant confidential until it is announced.
 
 **Implication.** Fold, shove and bet rates matched within about 3 points across Bay Area and Boston (`EVIDENCE_TABLE`), and
 both winners won on aggression, so the hour is not won on the twist. But a bad twist choice costs 6 to 13 points of
