@@ -193,7 +193,7 @@
   {
    "when": "b50",
    "to": "builder",
-   "text": "Practice round 4 plays now: the bot you declared for it (if it isn't the round-1 live bot, it is round 1's challenger). Now live.py the adjusted best scorer (tester's ranking of practices 1-3) for scored round 1 at {r1}, with no question asked; the round-1 question comes at T-8 (DECISION_RULES §3 'Round 1'). It is already uploaded: at T-9 Dylan makes it active (a click)."
+   "text": "Practice round 4 plays now: the bot you declared for it (if it isn't the round-1 live bot, it is round 1's challenger). Once practice 4 has started (its 'started' line is in your inbox), live.py the adjusted best scorer (tester's ranking of practices 1-3) for scored round 1 at {r1}, with no question asked; the round-1 question comes at T-8 (DECISION_RULES §3 'Round 1'). It is already uploaded: at T-9 Dylan makes it active (a click), never before practice 4 has started."
   },
   {
    "when": "b50",
@@ -282,7 +282,7 @@
   {
    "when": "T9",
    "to": "builder",
-   "text": "Tell Dylan to put the state/live.json bot back as active straight away (a click). RESEARCH's recommendation arrives now (the threshold first; the final answer when the practice result lands)."
+   "text": "Tell Dylan to put the state/live.json bot back as active (a click) as soon as the practice round has started: its 'started' line is in your inbox. If it hasn't started yet, wait for it: a click before the start makes the practice play the live bot. RESEARCH's recommendation arrives now (the threshold first; the final answer when the practice result lands)."
   },
   {
    "when": "T9",
@@ -379,7 +379,7 @@
    "when": "T9",
    "who": "dylan",
    "kind": "live",
-   "text": "Put the live bot back as active NOW (scored round {k} at {ts})"
+   "text": "Put the live bot back as active now, once the practice round has started (tab 1 prints its 'started' line; scored round {k} at {ts})"
   },
   {
    "when": "T8",
