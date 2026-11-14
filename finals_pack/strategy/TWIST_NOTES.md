@@ -5,11 +5,14 @@ setup the coding agent is `platform` (BUILDER); `theory`, `stylist` and `challen
 
 # Finals twist notes for the coding agent
 
-## 0. Two techniques used everywhere below
+## 0. Techniques used everywhere below
 - **Common random numbers (CRN).** When comparing options (which card to discard, keep, kill or bid on), score every option against the same sampled opponent hands and runouts. Comparing differences this way has far less noise than sampling each option separately. If an option changes which cards are live (for example a draw), shuffle the live deck once and give each option the next cards in that order, skipping any card that clashes with it.
 - **Monte Carlo noise.** With N samples the standard error of an equity is about 0.5/√N: 0.035 at N=200 and 0.05 at N=100. Treat options closer than about 3–5% as ties. Break ties with simple rules or at random, never by over-reading the noise.
+- **Measuring the best option.** To measure what the best option is worth, choose it on half the samples and score it on the other half: the maximum of several noisy estimates overstates it. Break exact ties at random, then check that option shares are symmetric (a first-index tie-break put 30% of votes on index 0 instead of 25% [drill]).
+- **Offline tables for a payoff twist** (one that changes what a pot is worth, not who wins it): 1,000,000 deals per class, counting outcomes keyed by the bonus condition in one loop, so every state comes from the same deals.
+- **[drill]** marks a figure measured on 14 November in a timed drill: heads-up, all-in before the flop, against a random hand. It is not general. Detail: `notes/pre/variants.md`.
 
-## 1. Twelve plausible twists
+## 1. Eighteen plausible twists
 
 **T1. Face-up discard from three cards (exchange + reveal).** You get 3 hole cards. After preflop betting, each player throws 1 face up before the flop. The thrown card is dead.
 - Value: only 3 options, so use CRN Monte Carlo over 2-card keeps (about 150 shared runouts against weighted ranges, with every exposed discard removed). Fastest acceptable shortcut: pick the keep with the highest score in a 169-class preflop equity table built during the hour.
@@ -18,14 +21,15 @@ setup the coding agent is `platform` (BUILDER); `theory`, `stylist` and `challen
 - Leak: your discard reveals a floor on what you kept. Randomising isn't worth the equity it costs.
 
 **T2. Paid flop draw (exchange + payoff).** After the flop, each player may pay a fee F to throw one hole card face up and draw a private replacement. Choices are locked at the same time.
-- Value: 3 options (keep, throw 0, throw 1) with CRN, N≈200. A throw option deals its replacement from the live deck. Draw if Δequity × (pot + expected future bets) > F.
+- Value: 3 options (keep, throw 0, throw 1) with CRN: one sample holds the opponent's hand, turn, river and both replacements. Draw if Δequity × (pot + expected future bets) > F. A free draw is worth 8.4 points over always keeping [drill].
+- In the bot use a rule, not sampling [drill: the rule loses 0.065 points, Monte Carlo at N=200 0.10 in 0.5 ms]. Rule: `notes/pre/variants.md`, Corrections item 3.
 - Classic mistakes: computing equity against random hands instead of the stronger range that played preflop; letting the replacement be an exposed or dead card; conditioning on other players' throws, which aren't visible when you choose.
-- Preflop: one premium card plus junk (Ax, Kx) and suited connectors gain because the junk can be replaced. Widen those opens slightly.
-- Leak: the thrown card tells others what you don't hold. Keeping both looks strong, so you can sometimes keep with air on dry boards [unsure].
+- Preflop [drill]: 22–66 lose 9.5 points and 59 places; suited connectors lose 1.8 and 19 places. Open fewer of both.
+- Leak: the thrown card tells others what you don't hold. Keeping with air costs 17 points [drill].
 
 **T3. Public draft (ordering + reveal).** After preflop betting, k+1 cards (k = players left) are dealt face up. In a fixed order, each player takes one as a public third hole card. Showdown uses the best 5 of 8 cards.
 - Value: at most 9 candidates. With CRN (about 60 runouts each), score each as (your equity if you take it) minus (equity of the strongest opponent if they take it). Denying a card counts.
-- Classic mistakes: (a) the evaluator may accept at most 7 cards, so take the max over the eight 7-card subsets [unsure whether eval7 accepts 8]; (b) a drafted card must be placed in that opponent's simulated hand and removed from the deck, and must not also be sampled as one of their two private cards.
+- Classic mistakes: (a) `eval7.evaluate` takes 5 to 9 cards and returns the best five (checked 14 November on 2,000 random 8-card hands), so pass all 8; (b) a drafted card must be placed in that opponent's simulated hand and removed from the deck, and must not also be sampled as one of their two private cards.
 - Preflop: hands become more alike and pots more multiway. Value suited and connected hands a little higher.
 - Leak: your pick is public and shows what you want. Pick the denial card when the equity gap is within noise.
 
@@ -43,7 +47,7 @@ setup the coding agent is `platform` (BUILDER); `theory`, `stylist` and `challen
 
 **T6. Sealed auction for a third hole card (auction).** After the flop, one extra card is shown. Players submit sealed bids in poker chips. The winner pays into the pot and adds the card as a public third hole card.
 - Value: with CRN, compute your equity with the card (Eq_me) and your equity if the strongest opponent gets it (Eq_opp). The card is worth about (Eq_me − Eq_opp) × final pot.
-- Classic mistakes: assuming the card stays neutral if you lose the auction (it goes to an opponent); forgetting that a bid paid into the pot partly comes back to you when you win, so the effective cost is bid × (1 − your share); the 8-card evaluator limit from T3.
+- Classic mistakes: assuming the card stays neutral if you lose the auction (it goes to an opponent); forgetting that a bid paid into the pot partly comes back to you when you win, so the effective cost is bid × (1 − your share).
 - Preflop: little change.
 - Leak: bid size reveals how well the card fits your hand. Shade first-price bids and add ±20% noise.
 
@@ -60,9 +64,9 @@ setup the coding agent is `platform` (BUILDER); `theory`, `stylist` and `challen
 - Leak: a high bid shows your hand depends on the river. Add noise.
 
 **T9. Kill vote on a 4-card flop (board manipulation).** Four flop cards are dealt. Each player secretly votes one card to kill; ties go to the lower index; votes are public afterwards.
-- Value: 4 options. With CRN (about 60 shared samples), compute equity on each resulting 3-card flop and vote for the best. Voting as if your vote decides the outcome is correct, because your vote only matters when it breaks a tie.
+- Value: 4 options. With CRN (about 60 shared samples), compute equity on each resulting 3-card flop. Your vote matters only when it is pivotal, and the tie-break decides when. Heads-up with ties to the lower index, the killed card is the lower-indexed of the two votes: score vote i as the average over the opponent's likely votes j of your equity after killing card min(i, j). Against a sincere voter this gained 1.85 ± 0.04 points [drill]. With more voters, count the pivotal cases the same way.
 - Classic mistakes: leaving the killed card in the deck; ignoring the revealed votes. An opponent voting to kill a card shows it helped you or hurt them, so down-weight hands that card would have helped.
-- Preflop: little change.
+- Preflop: small changes [drill]: pairs lose 1.7 points, low suited connectors gain 2–3.
 - Leak: votes are public. Randomise among options within noise.
 
 **T10. Personal river (board manipulation).** Two river cards are shown. Before river betting, each player secretly commits to one for their own hand; choices are revealed at showdown.
@@ -95,6 +99,36 @@ separate currency on candidate flop cards, and the result picks the flop.
 - Preflop: controlling the board devalues pocket pairs (22 ranked 118th of 169) and raises high cards.
 - Always simulate the twist's preflop effect: in three mock variants, pairs lost value in two of them.
 
+**T14. Two boards, split pot (payoff; Pittsburgh's regional, with three hole cards and a discard after the turn).** Two boards are dealt side by side; the same hole cards play on both, and each board pays half the pot.
+- Value: your share is the mean of the two board equities on the same sampled opponent hands. With one river left per board, enumerate both rivers exactly. Compute the scoop rate too: winning one board returns only half.
+- Classic mistakes: one card dealt to both boards; pot odds from "win probability" instead of expected share; a keep or discard chosen for one board only.
+- Preflop: not measured. Simulate before trusting hold'em ranks.
+- Detail: `notes/pre/variants.md` §1 and §3.
+
+**T15. Bounty on pots won (payoff).** Each player has a private bounty rank. A pot won with that rank in the winner's hole cards or on the board pays a bonus of b × the chips won (drill: b = 0.5).
+- Value: equity × M, with M = 1 + b × P(hit | I win). Rank in hand or on the board: M = 1 + b. Otherwise the hit chance is 1 − C(unseen − 4, k)/C(unseen, k): 35.3% preflop to river, 16.5% from the flop. Call when equity ≥ price ÷ M: with the bounty hit, a pot-size call needs 22.2%.
+- Classic mistakes: equity × (1 + b × hit chance), because hitting and winning are negatively correlated when the rank isn't in hand (M = 1.165, not 1.1765 [drill]); the bonus counted on a fold-out before the rank shows; opponents whose bounty is hit call wider.
+- Preflop: hand order moves at most 2 places [drill].
+- Leak: a bonus paid without a showdown shows the winner's rank is in their hand or on that board.
+
+**T16. Involuntary swaps (exchange with no decision; MIT 2022).** Each hole card may be swapped at random for a deck card before the flop and before the turn.
+- Value: simulate the swap chances inside every runout; equity becomes a mix of the current hand and a random one. There is no option to value.
+- Classic mistakes: paying for hole-card strength (pairs, kickers) that may be swapped away; a swapped-out card left live when the rules make it dead [check spec].
+- Preflop: the ranking flattens as the swap chance rises [unsure of size; simulate].
+- Detail: `notes/pre/variants.md` §3.
+
+**T17. Extra or variable board cards (board; MIT 2023: river cards keep coming until a black one).**
+- Value: simulate the stopping rule in every runout. `eval7.evaluate` takes up to 9 cards; a longer board needs the best over subsets.
+- Classic mistakes: fixed five-card runouts; a river equity treated as final when more cards may come.
+- Preflop: flushes, straights and full houses inflate and one pair falls, so suited and connected hands gain [unsure of size; simulate].
+- Detail: `notes/pre/variants.md` §3.
+
+**T18. Pass a card (exchange + reveal; the 14 November speedrun's mock).** After the flop each player passes one hole card face down to the player on their left.
+- Value: 2 options with CRN. The card you pass is live in your neighbour's hand and known to you; the card you receive is sampled from the passer's rule.
+- Measured in the speedrun (heads-up): a good pass rule beat the default pass by 13.3 points of equity; pocket pairs ranked 157th–169th of 169 and ace-low hands best.
+- Classic mistakes: the passed card dealt again from the deck (it happened heads-up); assuming `state.cards` keeps its order (after the pass: kept card, then received).
+- Leak: what you pass tells the receiver what you didn't want, and what you receive tells you the same about the passer.
+
 ## 2. First 15 minutes: checklist for the coding agent
 
 1. Read the rules page end to end. Write down: the phase name (`state.phase`), the action kind, the meaning of `cards` (indices or card values, and in what order), whether `amount` must be 0, `max_amount`, the new `state.variant` keys, and the failure default.
@@ -120,14 +154,15 @@ separate currency on candidate flop cards, and the result picks the flop.
    - Build eval7 Card objects and integer lookups for all 52 cards at import time.
    - Loop to an iteration count, with a `perf_counter()` deadline as the backstop (it should not fire on an idle machine, so the same deal gives the same decision). Betting decisions: 0.15-0.2 ms. A twist decision whose failure default is cheap may use up to 0.5 ms while the time bank is healthy; measure points against compute time, and use the bank only in emergencies.
    - Weight opponents with simple rejection sampling from a preflop range (for example, a raiser holds the top 30% by the precomputed table).
-8. Performance: time 1,000 evaluations at import. Expect roughly 150–300 heads-up samples per ms with eval7 and about 50–100 in pure Python [unsure; measure on their hardware]. Divide by the number of opponents. Build the preflop 169-class equity table (by number of opponents) during the hour with an offline script and paste it in as a literal; don't compute it at import.
+8. Performance: time 1,000 evaluations at import. Measured on the team laptop on 14 November: 550–675 plain heads-up samples per ms with eval7 (about 400 when three options share each sample) and 0.32 µs per 7-card evaluation; expect about 50–100 in pure Python [unsure]. Their hardware is unknown: measure. Divide by the number of opponents. Build the preflop 169-class equity table (by number of opponents) during the hour with an offline script and paste it in as a literal; don't compute it at import.
 9. Per-table memory: store only small counts (VPIP, aggression, twist-choice frequencies per seat), never hand histories.
 10. Use the twist in betting decisions only after the default bot is legal and tested.
 
-## 3. Five silent bugs, each with a one-line test
+## 3. Six silent bugs, each with a one-line test
 
 1. **Index or order confusion.** The action takes an index but the bot sends a card (or the reverse), or `state.cards` changed order after the phase (pass mock: kept card then received; draw mock: the replacement takes the thrown card's place). Test: `assert state.cards[idx] == intended_card` before returning, plus a 1,000-hand simulation asserting zero `automatic` entries.
 2. **Deck partition errors**, where a dead or known card is either missing from all sets or counted twice. Test: `assert len(deck)+len(mine)+len(board)+len(dead)+sum(map(len, known.values())) == 52 and len(set().union(deck, mine, board, dead, *known.values())) == 52`.
 3. **Known opponent card ignored**, meaning both of an opponent's cards are sampled even though one is known. Test: with `known[s] = {As}`, assert every sampled hand for seat s contains As and that As never appears in a runout.
-4. **Evaluator misuse**: more than 7 cards, the wrong comparison direction (eval7: higher is better), or a reused high evaluator for lows. Test: `assert ev(royal) > ev(one_pair) and ev8(cards) == max(ev(c) for c in combinations(cards, 7))`, plus `low(A2345) beats low(A2346)`.
+4. **Evaluator misuse**: more hole cards passed than the rules let play (eval7 takes 5 to 9 cards and uses any of them), the wrong comparison direction (eval7: higher is better), or a reused high evaluator for lows. Test: `assert ev(royal) > ev(one_pair) and ev(cards8) == max(ev(c) for c in combinations(cards8, 7))`, plus `low(A2345) beats low(A2346)`.
 5. **Worst-case time blow-up**: options × samples × opponents in an 8-way pot, or an all-in-only path that throws an exception. Test: time the twist decision with 7 opponents and the maximum number of options over 1,000 calls, and assert the 99th percentile is under 0.8 ms and there are zero exceptions with stacks at 0.
+6. **Bonus accounting** (payoff twists). A bonus credited when its condition hasn't shown by the end of the hand, or to a loser, or on the whole pot in a split. Test: on 40,000 random deals `assert paid == pot + bonuses`, and assert every bonus goes to a winner whose condition is met.
