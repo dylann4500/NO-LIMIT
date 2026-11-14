@@ -22,8 +22,8 @@ folder, `state/` or `inbox/`. Every folder has a `NOTES.md`: what it changes, it
 **Pre-event** (if briefed; notes only, NO bot code): `notes/pre/whatwins.md` (FIRST_PROMPT Part 0, topic B). A draft from 14 November is already there: check and extend it in place and list what changed at the top; don't start over.
 
 **Build hour:** from minute 0 read `strategy/FIRST_PROMPT.md` Part 1 ("STRATEGY", "HOW TO WORK") and
-`strategy/TWIST_NOTES.md`; draft your style as settings; build it on `bot/INTERFACE.md` as soon as it exists (~minute
-12). By minute 20 the next style is legal and through the upload test; BUILDER picks which plays each practice. Before
+`strategy/TWIST_NOTES.md`; draft your style as settings; build it on `bot/INTERFACE.md` as soon as its stub exists (about
+minute 6; the full interface about 12). By minute 20 the next style is legal and through the upload test; BUILDER picks which plays each practice. Before
 each style's practice, rebuild it on the current platform so it carries the newest tables (practice scores then
 compare styles, not timing); practice 4's pick is ready by minute 48. If today's rules clearly favour another axis
 (the twist, postflop play, short stacks), say so in your report's first line and build that instead of the weakest
