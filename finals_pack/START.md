@@ -88,6 +88,10 @@ research (notes only, no code: it checks and extends Saturday's drafts in `notes
 
 ## During the day
 
+- **One of you keeps the portal open in a signed-in browser tab all day** (Dylan's upload tab will do). Organizer
+  announcements appear only there, as a banner refreshed every 5 minutes: the API key cannot read them (checked on
+  14 November: 403), so neither script and neither session will ever see one. Read each announcement to your session
+  in words, at once.
 - **Dylan:** watch tab 2 (the clock) and BUILDER. You upload and activate on the portal:
   - the first bot at about minute 10;
   - the bot BUILDER names for each practice;

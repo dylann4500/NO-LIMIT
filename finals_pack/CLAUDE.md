@@ -108,6 +108,9 @@ confirm it.
   do (or "nothing right now"). Short. No ids or jargon.
 - If `state/status.md` or `state/clock.md` is more than 2 minutes old, a script stopped: tell your human "tab 1 (or 2)
   stopped: run it again" (START.md). Never start `portal_watch.py` or `clock.py run` yourself.
+- Organizer announcements reach only a human: they show as a banner in a signed-in browser, and the API key cannot
+  read them (403). When a human reads you one, check the rules card, the clock and this window's plan against it and
+  tell the other session at once.
 - Ask a human only for what only a human can do or decide: uploads and activations (Dylan), the decisions in
   `DECISION_RULES.md`, and facts nobody else can see. Never ask them to run a command, relay a message or check
   something you can check.
