@@ -18,7 +18,8 @@ Everything runs on one laptop, in this repo, in Claude Code. Two main sessions, 
 Two scripts do the mechanical jobs (started by a human in their own terminal tabs; never by an agent):
 - `scripts/clock.py run`: the schedule. At each step it posts what to do to the right session's inbox.
 - `scripts/portal_watch.py`: reads the organizers' portal (read-only). Saves results and hand data under `data/`,
-  keeps `state/status.md` current (active bot, standings, rounds) and posts every event to both inboxes.
+  keeps `state/status.md` current (active bot, standings, rounds) and posts every event to the inboxes: results, the
+  announcement and anything urgent to both; "DATA LANDED" and the card runs to RESEARCH only.
 
 Your own start-up instructions are in `prompts/BUILDER.md` or `prompts/RESEARCH.md`.
 
