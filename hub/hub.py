@@ -1208,7 +1208,8 @@ class Hub:
             return
         self.last_consistency = now
         live, act = self.bus.shared.get("live") or {}, self.bus.shared.get("portal_active") or {}
-        facts = [f"Time now {hhmm(now)}; clock minute 0 {hhmm(sch['start'])}; stage {stage_of(sch, now)}; next step: "
+        facts = [f"Time now {hhmm(now)}; clock minute 0 {hhmm(sch['start'])}; 1 event-minute = {60 * sch.get('scale', 1.0):.0f} real "
+                 f"seconds (so 'minute N' is minute 0 + N event-minutes); stage {stage_of(sch, now)}; next step: "
                  f"{(self.clock.next_step() or (0, 'none'))[1]}",
                  f"Declared live bot: {live.get('filename') or 'none'} (set {hhmm(live['at']) if live.get('at') else '-'}); "
                  f"active on the portal: {act.get('filename') or 'unknown'}"]
@@ -1870,15 +1871,11 @@ class Agent:
                 if any(i.get("wake", True) for i in self.items if not i.get("taken")):
                     self.wake.set()
             except asyncio.CancelledError:
-                if "ticker" in locals():
-                    ticker.cancel()
                 for i in batch:
                     i.pop("taken", None)
                 self.save_items()
                 raise
             except Exception as e:  # noqa: BLE001
-                if "ticker" in locals():
-                    ticker.cancel()
                 for i in batch:
                     i.pop("taken", None)
                     i["retry"] = i.get("retry", 0) + 1
@@ -2420,12 +2417,13 @@ class Agent:
             st = a["state"] if a["state"] in ("in progress", "done", "failed") else "in progress"
             if not item:
                 return ok("Give the item a short label.")
-            key = re.sub(r"[^a-z0-9]+", "-", item.lower()).strip("-")
-            for t in hub.tiles():   # the hub's own tiles for the same thing (e.g. 'Round 2 analysis') are updated, not duplicated
-                if re.sub(r"[^a-z0-9]+", "-", t["label"].lower()).strip("-") == key:
-                    key = t["id"]
+            norm = lambda x: re.sub(r"[^a-z0-9]+", "-", re.sub(r"^build\s*·\s*", "", x.lower())).strip("-")   # noqa: E731
+            key, label = norm(item), item
+            for t in hub.tiles():   # the hub's own tile for the same thing ('Build · Test rig', 'Round 2 analysis') is updated, not duplicated
+                if norm(t["label"]) == key:
+                    key, label = t["id"], t["label"]
                     break
-            await hub.tile(key, item, st, owner=me.name)
+            await hub.tile(key, label, st, owner=me.name)
             return ok(f"Board: {item} · {st}.")
 
         @tool("next_bot_name", "The next free release name (v1, v2, ...). Use it for every release.", schema([], {}))

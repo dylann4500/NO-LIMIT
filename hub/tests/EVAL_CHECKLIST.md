@@ -1,178 +1,102 @@
-# Hub eval checklist
+# Hub eval checklist (lean hub, 13 Nov night)
 
-Every feature of the hub, what "working" means, and how it is tested. Run results go in `hub/tests/eval/RESULTS.md`.
+Every feature, and every way the day could be slowed, blocked or misled. What "working" means, and how it's tested.
+Results: `hub/tests/eval/RESULTS.md`.
 
 Methods:
-- **U**: unit test with a simulated laptop (no network, no LLM).
-- **I**: integration: two real hubs (Samuel + Dylan) linked over Modal, mock portal, agents switched off
-  (`AVALON_NO_AGENTS=1`).
-- **V**: visual: live browser screenshots from Samuel's and Dylan's screens, plus automatic checks (no page errors,
-  no sideways scroll, the element exists and reacts).
-- **L**: live simulation: real agents, the emulated tournament, AI teammates playing Samuel and Dylan who ask what
-  a person would ask. Judged from logs and transcripts.
+- **U**: unit test, simulated laptop, no network, no model (`tests/eval/unit_*.py`).
+- **I**: integration: two real hubs linked over Modal, fake portal, agents off (`tests/eval/integration.py`).
+- **V**: live browser checks and screenshots from both screens (`tests/eval/screens.py`, `lean.py`, `perf.py`).
+- **P**: plan battery: decisions under the real instructions, tuning and held-out scenarios, peer pressure
+  (`tests/plan_battery/reinforce.py`).
+- **L**: live simulation: real agents, the emulated tournament, AI teammates asking what people ask (`tests/eval/live_sim.sh`).
+- **S**: static checks (pyflakes, JS syntax, name consistency).
 - **D**: documents agree with the code.
 
-## 1. Start-up, restarts, isolation
+## A. Team structure (lean)
 | ID | Check | How |
 |---|---|---|
-| S1 | `start.sh` pins versions; hub starts and serves `/` and `/api/state` within 20 s | I |
-| S2 | Namespaces isolate runs: a hub on `-a` never sees `-b`'s messages or notes | I |
-| S3 | Restart resumes: notes, ledger, alerts, Chat history, clock and sent clock marks survive; no clock step is re-sent | I |
-| S4 | Agents that were running restart with a "hub restarted" note; stopped agents stay stopped | L |
-| S5 | View-only preview starts no agents and no services; Chat answers with the preview notice | I |
-| S6 | Worktrees: d-builder and d-challenger each get their own branch and folder; no collision | I |
-| S7 | A hung `/api/...` handler never blocks the page: other endpoints answer within 2 s | I |
+| A1 | Four agents per laptop, one lead (the Chat) each; every name used by the hub exists | U |
+| A2 | No prompt or doc mentions a removed agent (overseers, pipeline, skeptic, theory) | U/D |
+| A3 | The clock hands every worker its own task at each mark (no relay); the lead is told what was handed out | U/I |
+| A4 | Each worker knows its job and whom to ask (directory); jobs don't overlap | P/L |
+| A5 | A human message to any agent is treated as an instruction: done first, answered | P/L |
+| A6 | Leads coordinate: T-8 recommendation reaches Dylan's Chat; the decision gets asked | L |
 
-## 2. Clock and schedule
+## B. Board (progress tiles)
 | ID | Check | How |
 |---|---|---|
-| C1 | "Start building" sets minute 0 on BOTH laptops; stage becomes Build | I |
-| C2 | Telling the Chat "the competition starts now" sets the clock (and "the variant was announced at 14:02") | L |
-| C3 | `/api/schedule` HH:MM works; a bad value gives a clear error | I |
-| C4 | Stage labels: Build, Practice 1-4, Round k, Round k.5 at the right minutes (scale honoured) | U |
-| C5 | Each Overseer gets its own dispatch at b0..b50 and T-20..T-3, once each, with the right person's tasks | U/L |
-| C6 | Standing reminders reach the right agents; "[reminders-only]" marks don't wake the Overseer | U |
-| C7 | Human steps go to the right person's bell; UPLOAD reminders follow the real state (no "upload v3" when v3 is active) | U/I |
-| C8 | Countdown strip shows the next step and time for this person | V |
+| B1 | Build tiles at minute 0 on both laptops (one per stream); later starters say "starts later" | I |
+| B2 | Round tiles: "playing vN" when a round runs, "finished" when it ends | I |
+| B3 | Data tiles: "in progress" when the download starts, "done" when the hand file is saved; late hands → done later | I |
+| B4 | Analysis tiles: "in progress" when data lands, "done" when the one-change is recorded | I/U |
+| B5 | Bot tiles follow register_bot (in progress / testing / done / failed) | U |
+| B6 | Decision tiles: "waiting for your answer" → "decided: use vN" / "decided: no" / "no answer: the rule decides" | U |
+| B7 | report_progress makes/updates one tile per item, no duplicates, states normalised | U |
+| B8 | Tiles are plain (label + state + age); clicking opens the owner (the Chat for leads) | I/V |
+| B9 | No prompting notes, no "New idea", no Chat button on the board | V |
+| B10 | Stages fold/unfold; NOW and previous right; a red bar when a decision waits | V |
 
-## 3. Deadline guard (cut-offs) and pacing
+## C. Chat and decisions
 | ID | Check | How |
 |---|---|---|
-| G1 | Each of the six cut-offs fires only when its condition is really unmet, once | U |
-| G2 | Fallbacks: default note at T-7, live bot restored at T-4, card fallback to Data, change goes to the challenger | U/L |
-| G3 | Heads-ups go to the Overseer only and never say "hurry"; a late ETA triggers one early heads-up | U |
-| G4 | No agent rushes after a heads-up: no untested release, no skipped upload test (transcript review) | L |
-| G5 | Missed cut-offs show in the Deadlines service and the bell | I/V |
+| C1 | Chat is in the agent list (first); opens as a full page; tabs switch to the teammate's Chat | V |
+| C2 | Waiting decisions are pinned at the top of the Chat with the question, evidence, deadline | V |
+| C3 | A decision is recorded only from a clear human answer (in the Chat or a thread), with their words kept | U |
+| C4 | An agent can't flip a recorded decision; an expiry never undoes one (both laptops) | U |
+| C5 | Approving a bot makes it live; the other lead is told; Dylan gets one upload ask | U/I |
+| C6 | "the competition starts now" starts the clock in the hub; vague words never move a running clock | I/U |
+| C7 | "run the check" runs the pre-flight on both laptops (link, portal read + hand download, Claude, Codex, repo + docs, disk) | I |
+| C8 | Unanswered human messages are raised again (Chat 150 s; notes 300 s) and the human told after 6/15 min | I |
+| C9 | Attachments staged until Enter; routed; thumbnails open on the other laptop | I/V |
+| C10 | Hub messages never appear under a human's name | I/L |
 
-## 4. Agent runtime robustness
+## D. Agents' pages
 | ID | Check | How |
 |---|---|---|
-| R1 | Stall watchdog: 12 min of no output → interrupt, then reconnect; the task resumes, not dropped | U |
-| R2 | Errors retry with backoff; the retry prompt says to check what already happened | U/L |
-| R3 | Usage limit: Opus to Sonnet switch, then API key if present; alert says so | U |
-| R4 | Compaction triggers above threshold, never T-15..T-2 or within 8 min of data landing | U |
-| R5 | Urgent input interrupts a long turn (>45 s) and the interrupted work resumes | U/L |
-| R6 | Subagents always run in the foreground (hook) | U |
-| R7 | Permission requests appear in the bell; allow / always / deny work; denial is survivable | I/L |
+| D1 | Brief pinned at the top; activity readable; message box with quick buttons | V |
+| D2 | Status age shown to leads; stale briefs labelled | U |
+| D3 | Remote agents: brief + "runs on X's laptop", messages reach them as tasks | I |
 
-## 5. Link between laptops (bus)
+## E. Clock, deadlines, pacing
 | ID | Check | How |
 |---|---|---|
-| B1 | Message Samuel → Dylan agent delivered once, in order, within 10 s | I |
-| B2 | Shared state (notes, live bot, bots, schedule) converges on both laptops | I |
-| B3 | Link outage: messages queue and deliver after; the "Not linked" bar shows and clears | I |
-| B4 | Unknown agent names are rejected with a clear answer | I |
-| B5 | Pair limits stop two agents ping-ponging | U |
+| E1 | Stage labels right incl. the last round (no "Round k.5" after the last) | U |
+| E2 | Each mark once; a clock change carries sent marks (no bursts); steps missed in a restart fire LATE | U/I |
+| E3 | Clock drift vs the portal flagged with the corrected minute 0 | I |
+| E4 | Deadline cut-offs fire only when really late; fallbacks safe; heads-ups to the lead only, never "hurry" | U |
+| E5 | Rate-targeting changes show their rate locally before shipping (prompt + rules) | P/D |
 
-## 6. Roster and roles
+## F. Portal and data path
 | ID | Check | How |
 |---|---|---|
-| A1 | Every agent knows its role, owner and whom to ask (role quiz) | L |
-| A2 | Missing information: an agent asks the owner on the other laptop instead of guessing | L |
-| A3 | Overseer is not chatty with humans; humans talk to the Chat | L |
-| A4 | Codex jobs run (or fail cleanly to Claude helpers); Modal fan-out within caps | L |
+| F1 | Read-only GETs, non-default UA; 6 s near round ends, 10 s while an upload is pending, 30 s otherwise | U/I |
+| F2 | Results that fail are retried (not skipped); empty results retried first | I |
+| F3 | Hands verified gzip, atomic; card + fingerprint run in the background; agents told first | I |
+| F4 | Rejected upload / no active bot / wrong bot → urgent on both screens, never auto-cleared | I |
+| F5 | Data-landed time only once hands exist; survives restart | I |
 
-## 7. Overseers
+## G. Robustness
 | ID | Check | How |
 |---|---|---|
-| O1 | Situation brief: phase, current step, next step, checkpoints, team load, idle list, queue, live bot | U/I |
-| O2 | Overseer dispatches the plan's tasks at each mark and gives idle workers work | L |
-| O3 | T-8: s-overseer recommendation reaches d-overseer applying the pre-registered rule | L |
-| O4 | d-overseer posts the "Which bot?" note with numbers and a deadline | L |
-| O5 | No decision by its deadline → note expires, rule's answer applied and said in the note | U/L |
+| G1 | Two linked hubs converge on notes/tiles/decisions under races (merge, verify) | U/I |
+| G2 | Restart: notes, tiles, clock, live bot, landed times, unsent values survive; leftovers stopped | I/U |
+| G3 | Background loops supervised; errors.log empty in a clean run | I/L |
+| G4 | Stall watchdog (12 min no output → interrupt → reconnect, task resumes); long-turn check to the lead | U |
+| G5 | No undefined names; JS parses | S |
 
-## 8. Chat (per person)
+## H. Speed and load
 | ID | Check | How |
 |---|---|---|
-| H1 | Samuel's and Dylan's Chats are separate; each person can open the other's (read and write) | I/V |
-| H2 | Chat answers status questions correctly from Overseer context ("what's going on", "what should I do") | L |
-| H3 | Quick-question chips send their text | V |
-| H4 | Failures are pinged into the Chat (urgent alerts) | I |
-| H5 | Chat panel drags wider/narrower; state remembered | V |
-| H6 | Chat fonts stay Inter/Newsreader; board fonts IBM Plex | V |
+| H1 | 20 parallel /api/state < 3 s | I |
+| H2 | Redraw with a full day's data (300 tiles, 200 decisions, long Chat) < 50 ms | V |
+| H3 | Data landed → Analyst and lead told < 45 s (agents off); clock mark → worker item same tick | I |
+| H4 | No sideways scroll at 1440/1024/390; light palette in OS dark mode; reduced motion | V |
 
-## 9. Attachments
+## I. Game plan
 | ID | Check | How |
 |---|---|---|
-| F1 | Choosing or pasting a file stages it (chip + thumbnail); nothing sent until Enter | I/V |
-| F2 | Remove a staged file (×) before sending | V |
-| F3 | Enter sends text + files; the Chat routes the file to the right agent | I/L |
-| F4 | A file from Samuel's laptop can be fetched on Dylan's (`fetch_file`) | I |
-| F5 | Image thumbnails load from `/api/inbox/<id>` | V |
-
-## 10. Board and notes
-| ID | Check | How |
-|---|---|---|
-| N1 | Notes are grouped by stage, newest stage first; NOW and previous labels correct | V |
-| N2 | Every past stage collapses and expands; your click wins over the automatic default | V |
-| N3 | Auto notes appear: Build 1..7 at b0, "vN live · stage" at round start, "Analysis for <stage>" on data, "Which bot? vN" | I/L |
-| N4 | Build notes close: B1 on portal active, B4 on card ok, all at minute 60 | U/I |
-| N5 | New idea: one text box; posts to the right Overseer; Enter clears it | I/V |
-| N6 | Open a note: full-screen chat with live updates; ask in it; answers land in the note | I/L |
-| N7 | Greenlight / Reject / Suggest on a "Which bot?" note work from both screens and the decision syncs | I/V |
-| N8 | Remove (close) a note; it disappears on both laptops and the Overseer is told | I |
-| N9 | "What's going on" summary (report) is accurate and readable | L |
-| N10 | Simple cards: type, status, title, key number, two-line gist, last update; decide-in countdown only when due | V |
-| N11 | Red screen edge pulses while a permission request or a decision due within 3 min waits; stops after | I/V |
-| N12 | Narrator posts only to notes the turn referenced | L |
-
-## 11. Live menu and bots
-| ID | Check | How |
-|---|---|---|
-| L1 | Bots listed by name only (v1, v2...); in-progress ones greyed | V |
-| L2 | Clicking a ready bot downloads exactly that zip (same bytes as releases/) | I |
-| L3 | Make live from the menu sets the live bot on both laptops and tells d-overseer | I |
-| L4 | Live chip turns green when the portal runs the live bot; warns when not | I/V |
-| L5 | Bot files reach the other laptop (download works on Dylan's even if built on Samuel's side) | I |
-
-## 12. Portal watcher
-| ID | Check | How |
-|---|---|---|
-| P1 | Polls read-only with a non-default User-Agent | I |
-| P2 | A finished round: results saved, hands downloaded, analysis note, s-pipeline + s-overseer woken, d-overseer told | I/L |
-| P3 | Round card script runs within 90 s; card_ready routed even if fp_train fails | U/I |
-| P4 | Hands not downloadable: retried; bell says so after 20 min | I |
-| P5 | Upload rejected / no active bot / wrong active bot at T-9 and T-2 → urgent alert on both screens | I |
-| P6 | Standings shown in the Portal service | I/V |
-
-## 13. Ledger
-| ID | Check | How |
-|---|---|---|
-| E1 | Record validation: results need n and method; answers need a lens | U |
-| E2 | Rule conflicts rejected (wrong players/stack), subgame scope allowed | U |
-| E3 | Verify, dispute, invalidate cascade to dependants | U |
-| E4 | Persistent leaks (same slug, same sign, two stages) flagged | U |
-| E5 | Team digest is size-capped and priority-ordered | U |
-
-## 14. Routing (who gets what)
-| ID | Check | How |
-|---|---|---|
-| M1 | card_ready → s-data (task), s-skeptic (task), s-tester (fyi); fp_ready → s-scout; candidate → s-tester + s-skeptic | U |
-| M2 | Overseer woken only by task/question/human/high priority | U |
-| M3 | Work queue: claim is atomic across laptops; a free agent is nudged to queued work | I |
-
-## 15. Bell, alerts, approvals
-| ID | Check | How |
-|---|---|---|
-| X1 | Bell shows only urgent items + permission requests + decisions due; count is right | V |
-| X2 | Dismiss works; "clear done" / "clear all" work | I/V |
-| X3 | Duplicate alerts within 10 min collapse into one | U |
-| X4 | Alerts raised on one laptop for both (palert) show on the other | I |
-
-## 16. Screen quality (both people)
-| ID | Check | How |
-|---|---|---|
-| Q1 | No page errors on any view; no sideways scroll at 1440, 1024 and 390 px | V |
-| Q2 | The other person's side stays hidden until clicked; Agents drawer hidden by default | V |
-| Q3 | Light palette even when the computer is in dark mode; text contrast ≥ 4.5:1 | V |
-| Q4 | Animations smooth, none on every refresh; reduced-motion respected | V |
-| Q5 | Keyboard: notes open with Enter/Space; Esc closes a note | V |
-| Q6 | Demo mode (`?demo=1`) works without a hub run, including Greenlight/Reject | V |
-| Q7 | Empty states make sense: before the start, no bots, no notes | V |
-
-## 17. Documents
-| ID | Check | How |
-|---|---|---|
-| D1 | SUNDAY.md and START_HERE.md commands use flags that exist | D |
-| D2 | DECISION_RULES cut-off table matches `GUARD` in hub.py | D |
-| D3 | The prompt pack's times match DISPATCH and the clock | D |
+| I1 | Decisions right under the real instructions, compacted context, peer pressure (22 scenarios, tune + held-out) | P |
+| I2 | Reinforcement method chosen on evidence (base vs reminders vs rules card vs self-check) | P |
+| I3 | Shared style defaults + defaults check in every round analysis; rate check | D/L |
+| I4 | Docs (START_HERE, SUNDAY, DECISION_RULES, FIRST_PROMPT, FINGERPRINTING) match the lean roster | D |

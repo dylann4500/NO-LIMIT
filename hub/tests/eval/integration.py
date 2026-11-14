@@ -309,6 +309,7 @@ async def main():
         ln = await wait_for(live_tile, 90, 3)
         check("N3c", "'Practice 1 · playing v1' tile when the round starts", bool(ln) and "v1" in ln["state"], json.dumps(ln or {}))
         portal.rounds[-1]["completed_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+        t_done = time.time()
         async def an_tile():
             return next((x for x in (await state(S)).get("tiles", []) if x["id"] == "analysis-Practice-1"), None)
         an = await wait_for(an_tile, 90, 3)
@@ -331,6 +332,9 @@ async def main():
             return any("Round card for Practice 1" in i.get("text", "") for i in inbox("s-data"))
         check("P3b", "card_ready routed to s-data although fp_train failed", bool(await wait_for(_async(routed), 30)))
         check("P3c", "fp_train failure reported to s-scout", any("fp_train.py" in i.get("text", "") for i in inbox("s-scout")))
+        dl = [i for i in inbox("s-data") if "DATA LANDED" in i.get("text", "")]
+        lat = (dl[0]["at"] - t_done) if dl else None
+        check("H3", "data landed -> the Analyst told within 45 s of the portal marking the round done (30 s polling)", lat is not None and lat < 45, f"{lat}")
         check("P2c", "the Analyst and Samuel's Chat woken with DATA LANDED / NEW ROUND RESULT",
               any("DATA LANDED" in i.get("text", "") for i in inbox("s-data")) and
               any("NEW ROUND RESULT" in i.get("text", "") for i in inbox("s-overview")))
@@ -340,6 +344,14 @@ async def main():
               bool(await wait_for(_async(lambda: any("Practice round 1" in i.get("text", "") or "finished" in i.get("text", "")
                                                      for i in dinbox("d-overview"))), 40)))
         # N4: build note B1 closes when the portal runs a bot
+        await asyncio.sleep(6)
+        dchat = (await state(D)).get("overviews", {}).get("d-overview", [])
+        check("C10", "the hub's 'make sure Dylan uploads' message never appears under Dylan's name",
+              not any(t.get("who") == "Dylan" and "Make sure Dylan uploads" in str(t.get("text")) for t in dchat))
+        # A3: every worker got its minute-0 task from the clock directly (both laptops); the challenger starts later
+        got = {n: any("[clock: Build hour, minute 0]" in i.get("text", "") for i in inbox(n)) for n in ("s-data", "s-tester", "s-scout")}
+        got.update({n: any("[clock: Build hour, minute 0]" in i.get("text", "") for i in dinbox(n)) for n in ("d-platform", "d-builder", "d-challenger")})
+        check("A3", "the clock handed each worker its minute-0 task (challenger: not yet)", all(got[n] for n in ("s-data", "s-tester", "s-scout", "d-platform", "d-builder")) and not got["d-challenger"], str(got))
         async def b1_done():
             return next((x for x in (await state(S)).get("tiles", []) if x["id"] == "build-1" and x["state"] == "done"), None)
         check("N4", "'Build · v1 and the platform' turns done once the portal runs a bot", bool(await wait_for(b1_done, 40)))

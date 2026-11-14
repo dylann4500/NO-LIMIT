@@ -25,16 +25,15 @@ from pathlib import Path
 from claude_agent_sdk import (AssistantMessage, ClaudeAgentOptions, ClaudeSDKClient, ResultMessage, TextBlock,
                               ToolUseBlock, create_sdk_mcp_server, tool)
 
-COMMON = """How the screen works: the board of notes is everything. Notes are grouped by stage of the day (Build,
-Practice 1-4, Round 1, Round 1.5, ...). Each note is a conversation with an Overseer: it posts live updates there,
-and you can ask questions or steer with note_chat (it reaches the Overseer, which hands the work to agents and
-answers in the note). 'Analysis for <stage>' notes hold the round's analysis, a pinned summary with numbered
-suggestions, and progress. 'Which bot?' notes ask whether to use a bot: there are no buttons; answer in the note with note_chat in your own words ('yes, use v13' / 'no, keep v8 because...'), after reading what's asked. Check the decision gets recorded.
-The Live menu lists bots; make_live makes a ready bot live. Close (note_action remove) notes that are finished
-and no longer relevant. The bell shows permission requests and urgent messages. Your main conversation is your Chat
-(message_agent to s-overview for Samuel, d-overview for Dylan): a readable chat that knows everything the
-Overseer knows. Ask it what's going on and steer through it (it passes instructions to the Overseer). You
-don't message the Overseer directly. The screen shows the last lines of your Overview chat."""
+COMMON = """How the screen works: on the left, your agents: your Chat first (the lead of your side), then three
+workers with one job each (Samuel: Analyst, Tester, Opponents; Dylan: Platform & releases, Styles & fixes, Challenger),
+then your teammate's side. The Board shows only progress tiles ("Round 1 data · in progress", "Bot v3 · testing",
+"Bot choice: v7 · waiting for your answer"); clicking a tile opens the agent doing it. Your Chat is your main
+conversation: ask what's going on, tell it what to change. DECISIONS are asked in your Chat (a red box with the
+question, the evidence and the deadline): answer in your own words with message_agent to your Chat ('yes, use v7' /
+'no, keep v4 because ...'), after reading what's asked; ask first if unsure. To check on one job, read that worker's
+brief (shown below) and steer or ask it for research directly with message_agent to that worker. The Live menu lists
+bots; the bell shows permission requests and urgent messages."""
 
 # Questions real people asked this hub during rehearsals (and ones they'd reasonably ask on the day). The simulated
 # teammate asks some of these in its Chat or in a note, adapted to what's on screen, and rates each answer.
@@ -53,23 +52,28 @@ QUESTIONS = {
         "Are we using Modal and Codex enough, or is anyone idle?",
         "What does this permission request mean, and is it safe to allow?",
         "Which teams are we exploiting, and is the fingerprinting accurate enough to use?",
+        "(to the Analyst) What's the single biggest leak in the last round, with n and the change you'd make?",
+        "(to the Tester) Did the last candidate pass correctness, and how did it do paired against the live bot?",
+        "(to Opponents) Research: does any team adapt to us after hand 40? 5 minutes max.",
     ],
     "dylan": [
         "What do I need to upload right now, if anything?",
         "Which file exactly is the live bot, and is it what the portal is running?",
         "Why did the upload get rejected and what happens now?",
         "What's the challenger and when is it ready?",
-        "What should I answer on this 'Which bot?' note? Explain it simply.",
+        "What exactly is the 'which bot?' decision asking me? Explain it simply.",
         "Is the bot on the portal the one we decided on?",
         "What happens if I don't answer the decision in time?",
         "What is Samuel's side working on right now?",
         "Are we on track for the next deadline?",
+        "(to Platform & releases) Which exact file should I upload next, and is it upload-tested?",
+        "(to the Challenger) What's different about the next challenger, and when will it be ready?",
     ],
 }
 ASK_RULES = """
 Asking questions like a real teammate:
-- About every third turn, ask ONE question in your Chat (message_agent to your Chat) or in the most relevant note
-  (note_chat). Prefer the bank below; adapt it to what's on screen; never ask the same thing twice. Questions bank:
+- About every third turn, ask ONE question: in your Chat (message_agent to s-overview / d-overview), or directly to
+  the worker whose job it is (message_agent to that worker; the "(to ...)" questions). Prefer the bank below; adapt it to what's on screen; never ask the same thing twice. Questions bank:
 {bank}
 - On a later turn, once the answer has arrived, rate it in a line starting 'RATING:' as
   'RATING: <the question> | good / partial / bad / no answer | <why: correct? specific? plain words? timely?>'.
@@ -82,24 +86,24 @@ PERSONA = {
 
 You are Samuel, one of two students on team avalon in a live AI pokerbot competition. Dylan uploads bots; you own
 analysis and testing. Act like a sharp, busy, slightly skeptical human:
-- If the board has a 'Start building' button and the variant is announced (the clock says so or minute 0 is now),
-  press it with start_building.
-- Follow the current stage's notes. Open the newest analysis note and read its updates; ask a pointed question or
-  steer there at least once per analysis note (e.g. 'what's the sample size?', 'also check the 3-bet calls').
+- If the clock is already set (the strip shows a countdown), never change it: minute 0 comes from the schedule. Only
+  if the board shows a 'Start building' button and the variant is announced, press it with start_building.
+- Follow the board's tiles. When a round's analysis is in progress, read the Analyst's brief and ask it a pointed
+  question or steer it at least once per round (e.g. 'what's the sample size?', 'also check the 3-bet calls').
 - Accept or push back on suggestions in the note chat. When a note is finished and stale, close it.
 - About twice in the event, post an idea of your own.
 - Answer permission requests sensibly. Don't do the agents' work.
-- In your NOTE line, report whether the note updates are timely, informative and faithful, and anything confusing.""",
+- In your NOTE line, report whether the tiles, briefs and Chat are timely, informative and faithful, and anything confusing.""",
     "dylan": COMMON + """
 
 You are Dylan, one of two students on team avalon in a live AI pokerbot competition. You upload bots to the
 organizers' portal (here: the rehearsal portal) by hand and make them active. Act like a focused, busy human:
-- When a bot becomes live (a 'Which bot?' note you approved, the Live menu, or an urgent bell message 'Upload X
+- When a bot becomes live (a decision you answered in the Chat, the Live menu, or an urgent bell message 'Upload X
   now'), click it in the Live menu and upload it with upload_from_live_menu (your normal way); use upload_bot only
   if the Live menu download fails. Check it's active.
-- Follow the Build notes and ask your Overseer a question in one of them at least once.
-- Answer 'Which bot?' notes quickly with a reason. Answer permission requests sensibly. Don't write code.
-- In your NOTE line, report whether the note updates are timely, informative and faithful, and anything confusing.""",
+- Follow the build tiles; open Platform & releases at least once and ask it something.
+- Answer decisions in your Chat quickly, in words, with a reason, once you understand them. Answer permission requests sensibly. Don't write code.
+- In your NOTE line, report whether the tiles, briefs and Chat are timely, informative and faithful, and anything confusing.""",
 }
 
 
@@ -152,9 +156,18 @@ class Human:
                  + (", ".join(f"{b['name']} ({b['status']}, file {b['file']})" for b in bots[:10]) or "none"))
         if not st.get("schedule"):
             L.append("BOARD: a big 'Start building' button (the clock hasn't started).")
-        L.append(f"BOARD (current stage: {st.get('stage')}):")
+        L.append(f"BOARD tiles (current stage: {st.get('stage')}):")
+        for t in (st.get("tiles") or [])[:18]:
+            L.append(f"  [{t.get('stage', '?')}] {t['label']} · {t['state']} (opens {t.get('owner')})")
+        waiting = [p for p in st.get("props", []) if p.get("status") == "needs_call" and p.get("kind") in ("bot", "question")]
+        if waiting:
+            L.append("WAITING FOR YOUR ANSWER (pinned at the top of your Chat):")
+            for p in waiting:
+                L.append(f"  {p['title']} (deadline {time.strftime('%H:%M:%S', time.localtime(p['deadline'])) if p.get('deadline') else 'none'}): "
+                         f"{p.get('headline', '')} | {str(p.get('body', ''))[:600].replace(chr(10), ' / ')}")
+        L.append("(old-style notes, for reference only):")
         ps = [p for p in st.get("props", []) if p.get("status") != "removed"]
-        for p in sorted(ps, key=lambda p: -(p.get("updated") or 0))[:14]:
+        for p in sorted(ps, key=lambda p: -(p.get("updated") or 0))[:3]:
             call = p["status"] == "needs_call" and (not p.get("decider") or p["decider"] in (me, "both"))
             L.append(f"  [note {p['id']}] {p.get('stage', '?')} · {p['kind']} · {p['status']}{' · YOUR CALL' if call else ''}: {p['title']}")
             if p.get("body"):
@@ -167,11 +180,19 @@ class Human:
             L.append("YOUR OVERVIEW CHAT (latest last):")
             for t in ov[-4:]:
                 L.append(f"  {time.strftime('%H:%M:%S', time.localtime(t['at']))} {t['who']}: {t['text'][:1200].replace(chr(10), ' / ')}")
-        L.append("YOUR AGENTS (brief):")
+        L.append("YOUR AGENTS (brief, and its latest reply on its page):")
         for a in st["agents"]:
             L.append(f"  {a['name']} [{a['state']}] {a['task'][:140]}")
-            if a["name"].endswith("overseer") and a.get("summary"):
-                L.append("    brief: " + a["summary"][:700].replace("\n", " / "))
+            if not a["name"].endswith("overview"):
+                try:
+                    evs = http("GET", f"{self.hub}/api/agents/{a['name']}/events?since={max(-1, (a.get('last_i') or 0) - 40)}").get("events", [])
+                    last = [e for e in evs if e.get("type") == "text" and not e.get("sub")][-1:]
+                    if last:
+                        L.append(f"    latest reply ({time.strftime('%H:%M:%S', time.localtime(last[0]['t']))}): {str(last[0]['text'])[:400].replace(chr(10), ' / ')}")
+                except Exception:  # noqa: BLE001
+                    pass
+            if a.get("summary"):
+                L.append("    brief: " + a["summary"][:400].replace("\n", " / "))
 
         L.append(f"Link to the other laptop: {'ok' if st['bus']['online'] else 'DOWN'}")
         return "\n".join(L)
