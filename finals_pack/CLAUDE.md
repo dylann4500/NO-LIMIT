@@ -58,6 +58,10 @@ Your own start-up instructions are in `prompts/BUILDER.md` or `prompts/RESEARCH.
 | `notes/PLAN-builder.md`, `notes/PLAN-research.md` | each main session's own plan and memory (survives compaction) | each main session |
 | `notes/pre/` | the pre-event research: drafted on Saturday 14 November, then checked and extended in place on the morning, never rewritten (`stat_definitions.md`: how every field rate is counted). RESEARCH merges it into `notes/plan.md` | Saturday's drafts; subagents extend them before minute 0 |
 
+The source lists in `strategy/` and `notes/pre/` name files in the team's archive (`research/`, `docs/`, `rebuild/`,
+`emu/`, `data/hands/`, `prep/`): that is another repo. None of those files is here and nothing today needs them;
+a path written `finals_pack/<x>` there is `<x>` here.
+
 ## 4. Hard rules (these never bend)
 
 1. **Every uploaded bot is legal and fast**: zero failed decisions in the checks, the kit's check passes, and it
