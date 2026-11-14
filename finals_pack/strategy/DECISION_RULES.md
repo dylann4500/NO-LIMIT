@@ -43,8 +43,8 @@ never block your turn; Modal has only two deployed apps, `avalon-rig` (`tester`,
    every team's **active** bot taken at its start. Making an already-uploaded bot active is a click on the portal, not
    an upload. On the organizers' newest pages an upload that passes its test also becomes active by itself (at Bay Area
    it did not: BUILDER settles which holds after v1's upload). Either way, upload nothing inside a window that is not meant to be the next bot to play (a zip uploaded "to have it ready" would replace the active bot), and confirm the active bot in `state/status.md` after every upload and every click. Assume the upload **cooldown** may be up to 5 minutes until the Format page says otherwise (read it at
-   minute 0; `state/status.md` shows the figure the portal itself states; it was 30 seconds on the regionals' pages and
-   in the regional's API), so
+   minute 0; `state/status.md` shows the figure the portal itself states; it was 30 seconds on the regionals' pages, in
+   the regional's API and on the Finals competition on Saturday afternoon), so
    plan at most two real uploads per window (§3, "Uploads").
 3. **The rules card is right**: players per table, stacks, blinds, hands per match, round weights, payouts
    and the cooldown come from the kit and the Format page. *(At a rehearsal we ran every test at the wrong
@@ -167,7 +167,7 @@ is not required.
   divergent design, and the bar drops as above.
 - A PLAN CHALLENGE stands, or two or more plan assumptions (§5) are off by 2 SE or more: the plan's premise is
   false today; say so to both humans and put the alternative in the next practice round.
-- The last round is 29% of all points with multipliers 1 to 6, 41% with Fibonacci, 51% with powers of two: plan it from the round before (durable fixes plus any exploit
+- The last round is 29% of all points with multipliers 1 to 6, 41% with Fibonacci, 51% with powers of two; the Finals was set to 1 to 6 on Saturday afternoon, re-read at minute 0: plan it from the round before (durable fixes plus any exploit
   we've been holding back).
 
 **Worked examples** (how these rules play out):
@@ -235,7 +235,8 @@ that counter-wave.
   tables if tables seat 8 and about a quarter if they seat 6 (`CLAUDE.md` §8); profiles and counters run every window.
 - **Read the round weights, payouts and cooldown from the Format page**; never assume weights 1-6. The portal's
   `round_weighting` names the series: linear (1 to 6), Fibonacci (1, 2, 3, 5, 8, 13: Boston and Pittsburgh used it) or
-  powers of two (1 to 32). The watcher keeps it in `state/portal.json` (`comp_settings`) and posts any change.
+  powers of two (1 to 32). The watcher keeps it in `state/portal.json` (`comp_settings`) and posts any change. On Saturday
+  afternoon the Finals competition was set to linear: re-read it at minute 0.
 
 **Plan assumptions** (`scout` checks each against every download; one off by 2 SE or more is a PLAN CHALLENGE):
 1. The field folds to 3-bets of our opens at about 60-70%.

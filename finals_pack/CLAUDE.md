@@ -197,7 +197,7 @@ normal (read from the portal's code; it was off at the regional). For us: fewer 
 score, and nothing else: no rule or bar changes.
 
 **The last round may be dark, and the leaderboard can be held at any moment** (read from the portal's code; neither
-was used at the regional). If the competition names a final round (`final_weight` in `state/portal.json`,
+was used at the regional, and neither was set for the Finals on Saturday afternoon). If the competition names a final round (`final_weight` in `state/portal.json`,
 `comp_settings`), that round's results and our own bot's health report are held until the organizers reveal them:
 nothing from it reaches us. When the leaderboard is held, the standings are hidden and every round that finishes
 during the hold has its results held too, practice rounds included. What we do is already written: with the
@@ -206,8 +206,10 @@ rule's answer is the live bot (`DECISION_RULES.md` §3, `prompts/RESEARCH.md`).
 
 **Round multipliers.** A round's points count times its multiplier, and the series is one of three: linear (1 to
 6, Bay Area), Fibonacci (1, 2, 3, 5, 8, 13: Boston and Pittsburgh) or powers of two (1 to 32). The last round is then
-29%, 41% or 51% of the total, and every rule that counts "share of the weight played" moves with it. Read
-`round_weighting` in `state/portal.json` (`comp_settings`) and the Format page; never assume 1 to 6.
+29%, 41% or 51% of the total, and every rule that counts "share of the weight played" moves with it. The Finals
+competition was set to linear, 1 to 6, on Saturday afternoon, and its Format page showed 1x to 6x; an organizer can
+change it for any round not yet started. Re-read `round_weighting` in `state/portal.json` (`comp_settings`) and the
+Format page at minute 0; never assume.
 
 **What the organizers' own pages say.** From the Boston regional's "Tournament format" and "Getting started" pages
 (9 November). The Finals are "the same tournament format with a different poker variant", so this is the best
@@ -233,7 +235,8 @@ statement of the platform's rules: re-read Sunday's own pages at minute 0.
 - A tie on the final total is broken by countback: each team's share of tables won in each scored round, times
   that round's multiplier, summed; then the same for 2nd places, and so on. Nothing is decided by chance. A
   disqualified team has no rank and sits out later rounds.
-- The upload cooldown on those pages is 30 seconds, the value the regional's API also gave. What limits a late
+- The upload cooldown on those pages is 30 seconds, the value the regional's API gave and the Finals competition
+  showed on Saturday afternoon. What limits a late
   upload is its test, which must finish before the round starts, not the cooldown.
 - **An upload probably activates itself.** The Getting started page (6 and 9 November) and Boston's Format page: an
   upload that passes its test match becomes the active bot automatically, unless a newer upload is already active or

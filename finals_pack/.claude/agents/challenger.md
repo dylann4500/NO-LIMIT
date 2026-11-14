@@ -57,7 +57,7 @@ building. Until 30% of the total weight is played, at least every other practice
 style class or a rewrite, not the live bot plus tweaks), unless our lead over 4th exceeds one round's typical swing;
 after that, keep one divergent line alive as insurance.
 
-**Last round** (29% of all points with multipliers 1 to 6, 41% with Fibonacci, 51% with powers of two): planned from the round before: durable fixes plus any held-back exploit.
+**Last round** (29% of all points with multipliers 1 to 6, 41% with Fibonacci, 51% with powers of two; the Finals was set to 1 to 6 on Saturday afternoon, re-read at minute 0): planned from the round before: durable fixes plus any held-back exploit.
 
 ## How to do it well
 
