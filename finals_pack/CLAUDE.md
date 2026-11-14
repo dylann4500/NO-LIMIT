@@ -82,7 +82,9 @@ a path written `finals_pack/<x>` there is `<x>` here.
    command line contains these instructions, so a pattern like `pkill -f "modal run"` kills every agent. Stop only
    what you started, by PID (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`; later `kill $(cat /tmp/<job>.pid)`) or
    `modal app stop --yes <id>` (without `--yes` it asks for confirmation and aborts when there is no terminal). A hook
-   refuses pattern kills.
+   refuses pattern kills. The same hook refuses recursive deletes outside the repo and `/tmp` (or of a whole shared
+   folder), `git stash`, `git reset --hard`, `git clean -f`, force pushes, `sudo`, Modal deletes and any write to the
+   organizers' site. A refused command means find another way (leave the folder, use a new name), not rephrase it.
 7. **Never block your turn**: no foreground `wait`, no `sleep` of 20 s or more, no loops that poll (the hook refuses a shell loop that sleeps, also
    as a Monitor's command: a watcher must be a script, as `scripts/feed.py` is). Start long jobs in the
    background with a log, end your turn, and check when woken. Main sessions: spawn subagents in the background
