@@ -229,5 +229,7 @@ statement of the platform's rules: re-read Sunday's own pages at minute 0.
 - A tie on the final total is broken by countback: each team's share of tables won in each scored round, times
   that round's multiplier, summed; then the same for 2nd places, and so on. Nothing is decided by chance. A
   disqualified team has no rank and sits out later rounds.
+- The upload cooldown on those pages is 30 seconds, the value the regional's API also gave. What limits a late
+  upload is its test, which must finish before the round starts, not the cooldown.
 
 More, with what it changes for the bot: `notes/pre/format_finals.md`.
