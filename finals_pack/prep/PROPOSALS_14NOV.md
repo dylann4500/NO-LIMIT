@@ -34,7 +34,7 @@ size; the rules say points per place vary), but you should know the order of eve
 | 10 | **Terminal tabs or the desktop app on Sunday** | Every mechanics check passed in desktop-app sessions under Remote Control. `START.md` is written for terminal tabs; nothing has been tested there |
 | 11 | **Which Claude account** | Samuel's computer must be signed in to the same account as this laptop for Remote Control. This laptop is on a Max plan login |
 | 12 | **Connectors off for the Finals sessions** | Each trivial subagent cost about 56,000 tokens of start-up context here, mostly this account's tools, connectors and skills |
-| 13 | **AWS: primary, backup or unused** | The AWS chat builds the tooling with dry runs; a real comparison with Modal needs your sign-in, a yes to the quota request and a spending limit |
+| 13 | **AWS: primary, backup or unused** | The tooling is built and tested on local machines (`cloud/aws/`, merged), but **nothing has run on AWS**: it needs your sign-in, a yes to the quota request and a spending limit. Its own recommendation: backup only, becoming primary if by Sunday 09:00 the quota is at least 192 vCPUs and a proof run matches Modal. The bundle is unchanged (Modal only); the proposed bundle text waits in `cloud/aws/SUNDAY.md` until that proof exists |
 
 ## D. Applied already (for information)
 
