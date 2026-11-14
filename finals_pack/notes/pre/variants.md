@@ -22,6 +22,9 @@ Tags: **[C]** confirmed (our own files, or a page we fetched), **[I]** indirect 
   one sealed free phase; 60% that it reuses a regional component.
 - **Drills, announcement to first trusted table:** flop draw 15.5 minutes (fallback at 7.4), bounty 8.3 (fallback at
   4.9), flop veto 4.5. They produced 13 corrections to `TWIST_NOTES.md` and `theory.md`.
+- **Three more drills, on one worker each (§5):** Pittsburgh's own variant 22.6 minutes (fallback at 5.1), a sealed
+  split of four hole cards across two boards 16.4 (fallback at 6.9), a second-currency auction for an extra hole card
+  6.0 (fallback at 4.1). They change four steps of the recipe in §4.
 - **Not found:** eight of the 20 finalists; Pittsburgh's team count, standings, weights and official rules page; the
   Finals venue; any hint of the Finals twist.
 
@@ -116,6 +119,101 @@ Three mock rules pages in the organizers' style; clock started at "announced"; 2
 6. Confirm: combo-weighted mean equity 50.0, symmetric option shares, a nested re-run of about 18 classes.
 7. Payoff twists: closed forms first, then one loop counting outcomes by bonus condition (1,000,000 deals per class,
    187 seconds per worker). Measure E[share × hit]; never multiply two averages.
+
+## 5. More drills, 14 November morning
+
+Three more families from §3, each on **one** worker process (other timed tests held the laptop at load 8-10).
+Same setting as §4: heads-up, all-in before the flop, against a random hand; "points" are percent of the pot.
+
+| Drill | Fallback table | First trusted table | Headline |
+|---|---|---|---|
+| 4. Pittsburgh's variant (3 hole cards, 2 boards, discard after the turn) | 5.1 min | 22.6 min | The best discard beats the default by 10.82 ± 0.17 points. Scoop 23.5%, one board each 47.9%, nothing 23.5% |
+| 5. Split hands (4 hole cards, 2 boards, sealed two-and-two assignment after the flops; our mock) | 6.9 min | 16.4 min | The best of six assignments beats the default by 12.95 ± 0.18 points |
+| 6. Card auction (sealed first-price bids in 1,000 card-chips for an unseen extra hole card; our mock) | 4.1 min | 6.0 min | Winning the auction instead of losing it is worth 33.2 ± 0.07 points of the pot; "with minus without" is half that |
+
+**Drill 4, Pittsburgh.**
+- *Discard:* the best choice beats "keep the best pair for board 1" by 3.02 ± 0.09, "keep the two highest" by 5.96 ±
+  0.13, and "best summed hand value over both boards" by 0.68 ± 0.03. In the bot, 100 shared samples (opponent's two
+  cards and one river per board) lose 0.13 ± 0.01 in 0.58 ms; exact enumeration takes 0.54 s, so it is offline only.
+- *Preflop:* 1,755 three-card suit classes, values 32.3 (222) to 79.6 (AA9o). Against ranking by the best two hold'em
+  cards the rank correlation is 0.958 and 23% of hands move 10 or more percentiles: trips −7.8 points, pairs 22-77
+  −4.1, three connected cards +3.4. The second board hardly matters preflop (correlation 0.995 with one board): the
+  third card and the late discard make the difference.
+- *Split pot:* the boards behave as independent once the discard is chosen (scoop ≈ p²). The variance of the share is
+  0.48 of hold'em's. A call's break-even is unchanged (price = expected share), but a covered all-in busts only when
+  it loses both boards: scoop-to-bust is 1.81 at a 57 share (hold'em 1.32), so an ICM call needing 1.5 to 1 needs a
+  55 share, not 60. A pot-sized bluff needs 50% folds with no share, 20% with a 0.25 share, none from one third.
+- *Mistakes:* a table was called trusted at 10.7 minutes with a leak: the shared rule summed raw evaluator values, so
+  a small pair on both boards outvoted a big pair on one (22-55 with a high kicker off by 1.9 ± 0.24, single classes
+  by 3.5). Group means hid it; per-class z-scores of a paired nested run caught it. 1.0 ± 0.11 of it remains.
+- *For Sunday's theory agent:* multi-board, split pot, late discard. Time 50,000 deals first (9 µs here). Share is
+  additive: score each board on its own river and count the nine board-result pairs per class in the same loop. Table
+  all 1,755 three-card classes (weights sum to 22,100) at 4,000 deals: 125 s on one worker, SE 0.5. Never rank by the
+  best two hold'em cards. The shared discard rule must score each board on an equity-like scale (hand percentiles
+  plus a four-flush bonus lost 0.42; raw evaluator values lost 0.68 and mis-kept small pairs). Check with a paired
+  nested run on 150+ classes covering every pair rank and kicker band, and read per-class z-scores before group
+  means. Bot: 100 shared samples per discard. Pot odds use expected share.
+
+**Drill 5, split hands.**
+- *Assignment:* a 12-lookup table rule (12 µs) loses 0.26-0.45 to the best option; "strongest two cards to their
+  board" loses 1.81 ± 0.06; "keep the pair or the suited cards together" loses 9.59 ± 0.18. A pocket pair stays
+  together 90% of the time, two suited cards only 40%.
+- *Is the sincere choice exploitable?* Slightly: the best response to a rule player gains 0.27 ± 0.02 and differs in
+  16% of spots. Score each two-card hand against the cards an opponent **puts** on that board, not a random hand
+  (ace-deuce on 8-6-5: 37% against random cards, 18% against chosen ones). Three-way, concentrating strength on one
+  board loses 1.02 ± 0.04 and balancing 3.48 ± 0.10.
+- *Preflop:* no 169 classes exist for four cards. 2,500 sampled hands × 500 deals and a 14-term regression gave an
+  error of 0.62 points (values 33-70); "best two-card subset" errs by 3.18. Trips sit 8.0 ± 0.7 below the fit.
+- *Split pot:* win both 21.2%, one each 50.0%, lose both 21.2%; the top 5% of hands still lose both 11%.
+- *Mistakes:* the first rule was trained against random cards; the fallback ranking sat unread for five minutes
+  because the next chain was queued on the only worker first; a 1.3-minute false alarm turned out to be a real
+  board-texture effect.
+- *For Sunday's theory agent:* a sealed allocation across boards. Expected share is the mean of the per-board
+  equities, so score every (part, board) once and add. Build a flop-score lookup from 2-3 million deals (18-48 s),
+  keyed by made hand, draws and flop texture, trained against the cards a rule-playing opponent puts on that board;
+  retrain once against itself. Then 4,000 spots × 600 shared samples (60-95 s): best minus default, the rule's
+  shortfall as a split-half to in-sample range, the best response to the rule, and a two-opponent column. Preflop:
+  sampled hands plus a regression. Report win-both and lose-both rates. Analyse finished runs before queueing more.
+
+**Drill 6, card auction.**
+- *The prize:* I get the card 66.9, nobody 50.5, the opponent 33.7. By my hand: no pair 37, a weak pair 31, top pair
+  or an overpair 25, two pair or a set 14, a straight or better 8; draws add nothing. Three players: 26.5 ± 0.07.
+  Those five numbers estimate it with an error of 3.4 points, as good as 200 samples.
+- *Preflop:* under a coin flip for the card, pairs lose 4.8 points (22 goes from 87th to 104th), 87s-54s gain 2.7-5.4,
+  and 48 classes move 10 or more places. Getting the card is worth +2.9 to AA and +23.8 to 52o.
+- *Budget (a model, with its assumptions in Appendix B):* only the winner pays, so "balance ÷ auctions left" spends
+  under half: a survivor ended with 491 of 1,000 chips. The best reply to every field tried was 3-4 × balance ÷
+  auctions left × pot ÷ mean remaining pot. A pot-only bid was within 0.6 share points of a hand-scaled one. Guessing
+  the auction count 2× too high cost 3-8 share points of 25; 2× too low cost 1-4. A seat that busts at half-table
+  wastes 550-777 chips.
+- *What it reveals:* if bids scale with the bidder's own hand, the winner is the weaker hand (no pair 86% of the
+  time, base rate 63%; equity 23.7% before the card, 48.2% after).
+- *Mistakes:* the first budget model paced by auctions played and ran dry mid-table (seen only in the price by third
+  of the table); the notes' pacing formula was coded first and underspends about 3×.
+- *For Sunday's theory agent:* a sealed auction in a second currency. At once run a 5,000-deals-per-class pilot of
+  three cases on the same deal (I get the prize, the opponent gets it, nobody): that is the fallback inside 4
+  minutes. Then 169 × 100,000 (84 s on one worker) and 12,000 flop spots × 600 samples (25 s). Report win minus
+  lose. Check that the coin-flip mean is 50.0 and that get + give = 100. Then build a budget model in numpy: about 40
+  auctions, 2-4 bidders, pots rising over the table, busts; pace by table time; sweep the pacing multiplier from 1 to
+  12 before comparing policies; print prices by third of the table and chips left. First build: bid 3 × balance ÷
+  auctions left × pot ÷ mean remaining pot, 0.4 of that with two pair or better, never more than the richest rival's
+  balance + 1. Read who pays in the rules first: at Boston every bidder paid on the chosen cards, and this multiplier
+  does not apply there.
+
+**Changes to the recipe in §4** (they apply when the twist changes how many hole cards there are or how the pot is paid):
+1. *Step 1, add:* how the pot is paid and whether the value adds across parts; for an auction, the currency, who
+   pays, what is public afterwards and the tie rule.
+2. *Step 2:* 169 classes hold only for two hole cards. Three cards: 1,755 classes at 4,000 deals. Four cards: sampled
+   hands and a regression. A deal cost 9-57 µs, not 2.2-4.4.
+3. *Step 4:* state the fallback table's error per class, not on average (classes moved 3.5 points while group means
+   moved 0.5). A rule that adds scores across boards needs an equity-like scale.
+4. *Step 5:* 0.1 points was not reachable with a deterministic rule for a late discard or an allocation. Use two
+   stops: the bot's choice under 0.15 (100 shared samples did it), the table's shared rule under 0.5 with no class off
+   by more than 2 in the nested run.
+5. *Step 6:* make the nested re-run paired, over 150+ classes, and read per-class z-scores first.
+6. *Auctions:* the equity tables hold no decision (three cases on one deal); the decision is the bid, studied in a
+   separate budget model.
+7. *One worker:* analyse what is on disk before queueing the next run.
 
 ## Corrections for TWIST_NOTES and theory.md
 
@@ -249,3 +347,57 @@ rule error hides class-specific leaks; two false alarms cost 6 minutes.
 - Went wrong: first-index tie-break (votes 30/25/23/21% until fixed, caught by the option-share check); `-I` import
   failure; the first "value of the vote" measure was zero by symmetry and had to be replaced.
 - Unverified: three or more voters, opponents who vote strategically.
+
+**Drill 4, Pittsburgh's variant (a subagent; T0 06:30:11; one worker; rules page rebuilt from participants' READMEs,
+with the default discard and the odd-chip rule assumed).**
+- Timings: design and library 2.8 min; checks 0.03; discard study (6,000 spots × 600 samples) 0.9; fallback ranking
+  0.5 (at 5.1); a rejected rule revision 0.8; main ranking 2.4; nested check 1.4 (table wrongly called trusted at
+  10.7); exact check of 80 spots 1.4; second nested check 4.1 (leak found at 17.4); rule revision 1.2; rerun 2.5;
+  third nested check 1.5 (trusted at 22.6). About 15 minutes without the detours.
+- Samples: 1,755 classes × 4,000 deals, SE 0.43-0.57; two boards minus one board, paired SE 0.26.
+- Results beyond §5: best discard is the lowest card 52.8%, the middle 24.9%, the highest 22.3%; the top two options
+  are within 3 points in 27% of spots. Against one board: trips +1.7, JJ+ with a kicker +1.0, pairs 22-77 −1.4.
+  A three-subset model (0.705 × best + 0.251 × worst two-card hold'em equity) explains 95.5% of the variance. Bands:
+  a 50-55 hand scoops 25.1% and wins nothing 20.7%; 65+ scoops 52.2%; under 40 scoops 11.6%. With the default
+  discard the boards are positively correlated (51.6 against 48.5).
+- Went wrong: the early "trusted" call; draw bonuses that made the rule worse (1.02 against 0.68); a false alarm on
+  12 exact spots (1.2 min); the one-worker limit broken twice for seconds; a format-string crash.
+- Checks: evaluator on 40 spots, 0 mismatches; AsAh vs KdKc 81.255, AsKs vs QdQc 46.214; mean share 49.994; weights
+  22,100; 19.4 million deals asserted (distinct cards, shares sum to 1), 0 failures; exact against sampled on 80
+  spots, mean difference 0.13 ± 0.13.
+- Unverified: 22-55 with a J+ kicker still understated by 1.00 ± 0.11; the shared rule loses 0.42; ranges, 8 players,
+  betting; the two assumed rules.
+
+**Drill 5, split hands (a subagent; T0 06:30:32; one worker; our mock).**
+- Timings: design and library 3.5 min; score table and scripts 0.9; pilots 0.4; first study and ranking 2.0
+  (fallback assignment table at 6.9); second rule 0.8; second chain 2.4; analysis and a false alarm 1.3; fallback
+  ranking read at 12.0; third rule 0.4; third chain 3.7 (trusted at 16.4).
+- Samples: 4,000 spots × 600 shared samples; 2,500 hands × 500 deals (per-hand SE 1.46); head-to-head 400,000 deals.
+- Results beyond §5: the default scores 37.3 ± 0.2 against a rule player; rule versions lose 0.49-0.70, 0.33-0.54,
+  0.26-0.45 (split-half to in-sample); "maximise the weaker board" loses 2.59 ± 0.08; SD of share 0.333; a seat
+  stuck on the default is identified in two showdowns; six to eight separate "balance" from "concentrate".
+- Went wrong: see §5; also a hold'em reference run reused a seed, so its repeat was not independent.
+- Checks: evaluator over all 21 subsets, 0 mismatches (passing all four hole cards changes the value in 82% of
+  deals); rule against itself 50.01 ± 0.12; six option shares 15.7-17.2%; 11 million samples asserted, 0 failures;
+  rule unchanged by card, flop and board order on 20,000 spots.
+- Unverified: ranges, betting after the assignment, four or more players, a mixed equilibrium, rare classes (trips
+  n = 20), the bot interface.
+
+**Drill 6, card auction (a subagent; T0 06:51:09; one worker; our mock).**
+- Timings: reading, design and library 1.9 min; checks 0.05; flop study 0.6; idle 1.1; pilot 0.08 (fallback at 4.1);
+  ranking 1.4 (trusted at 6.0); first budget model 0.3; reveal study 0.95; second budget model 0.55; sweep 0.25;
+  assembly 2.0 (everything at 11.8).
+- Samples: 12,000 flop spots × 600 (SE of the mean 0.07); 169 classes × 100,000 (SE 0.16); budget model 3,000 tables
+  per cell (SE 0.56 share points).
+- Results beyond §5: value quartiles 29.8 / 34.8 / 38.2; a 15-term rule has error 2.3; hurt most when the opponent
+  gets the card: ace-high offsuit (A9o −20.5). Threshold bidding scored 16-24 against 25 at parity, hoarding 24.0,
+  "just above the richest rival" 18.0; capping at the richest rival + 1 moved shares by at most 0.2.
+- Budget model assumptions (all unverified): 40 auctions per table; 2, 3 or 4 bidders with chances 0.6 / 0.3 / 0.1;
+  pots rising 8× over the table; one survivor, the rest busting at a uniform time; values independent across bidders;
+  value linear in chips; nobody learns from prices. The 3-4 multiplier held at 20 and 80 auctions and 2× pot growth.
+- Went wrong: see §5; also an integer overflow crash, and a symmetry "check" that was true by construction.
+- Checks: evaluator on 6,060 comparisons and 2,020 eight-card hands, 0 mismatches; coin-flip mean 50.005; get + give
+  100.008; 26.1 million deals asserted; one exact flop spot within 0.08; a second seed on 18 classes, largest z 2.03.
+  All passed first time and caught nothing; no errors were planted.
+- Unverified: how many auctions a seat reaches, how the field bids, opponents with ranges, betting after the card
+  (only the winner knows it, so its real value is probably higher).
