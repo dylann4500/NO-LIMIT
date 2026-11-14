@@ -120,7 +120,7 @@ matters most.
 | T-12 to T-9 | `scout` | counters on/off by the gate; counters.json for `platform` (RESEARCH sends BUILDER the path); ledger lines for `tester`; confirm or overrule invalidations |
 | T-12 to T-9 | `tester` | re-run lagged accuracy and calibration on a different split (or a Codex re-implementation); mark the lines validated or disputed |
 | Practice download (stage `Round k.5`, about T-8) | `tester` (the portal watcher has already run `fp_train.py` quick mode on it) | before the decision only `tester`'s field-adjusted edge matters (the watcher's drift output names the yardstick teams); `scout`'s review of it waits until after T-3 |
-| T-8 to T-6 | `platform` | embed the data file behind FP_ON, CTR_<team>, ANTI_ADAPT_<team>, DISGUISE_* (outside the three-change count) |
+| T-8 to T-6 | `platform` | embed the data file behind FP_ON, CTR_<team>, ANTI_ADAPT_<team>, DISGUISE_* (outside the change count) |
 | T-6 | `tester` | replay equivalence (bot posteriors = offline within 1e-4 on 200 tables), latency, memory, truncation |
 | After the T-3 upload | `scout` (+ `analyst`) | the practice download's full analysis: practice vs scored drift per team ("team X is testing a new bot"); specialist studies of the 2-3 stable teams with the largest gaps; counter A/B; profiled-us and adaptation trends; a disguise memo for BUILDER when triggered |
 
