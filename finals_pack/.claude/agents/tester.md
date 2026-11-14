@@ -32,7 +32,8 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   table ± SE, the paired difference vs LIVE ± SE, failed decisions, p99 and max decision time. Bots in-process on the
   kit's engine (check today's SDK names; the regional kit had async `act(state, memory)` returning `Reply(action, memory,
   bank_ms)`, `play_table` on a `SitAndGo` from `TableRules` with table id and seed, `table_points`), every rules field
-  set from `bot/rules.json`, a process pool (guard the entry point). Same seed = same cards by position; seed bots'
+  set from `bot/rules.json`, a process pool (guard the entry point; have it stop its workers on SIGTERM: killing
+  only the parent's PID left orphan workers in a 14 November run). Same seed = same cards by position; seed bots'
   randomness from table id and hand number; rotate seats. Tables diverge once a decision differs, so pairing helps
   little (paired SE ≈ 21/√tables for two different designs, measured 18-28; about 11/√tables only for a one-change
   variant): use many. Then the **first verdict on v1**.
