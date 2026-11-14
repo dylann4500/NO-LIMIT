@@ -20,8 +20,9 @@ neither exists any more.
 - **An agent compacted before answering a human** (prac1). Interrupted for Samuel's message, the tester first
   compacted 106k tokens; his message showed "queued" for about a minute. → A human's message comes before
   anything else, compaction included. Main sessions keep their context lean (file dumps stay in subagents;
-  reports are a summary plus paths), so compaction is rare. After one, re-read your PLAN file,
-  `state/status.md`, `state/clock.md` and the inbox tail before acting.
+  reports are a summary plus paths), so compaction is rare. After one, re-read your prompt file
+  (`prompts/BUILDER.md` or `prompts/RESEARCH.md`) first, then your PLAN file, `state/status.md`, `state/clock.md` and
+  the inbox tail before acting, and re-arm your Monitor.
 - **A reply that ignored the human counted as an answer** (prac1). After compacting, the tester answered another
   agent's urgent task instead of Samuel; any text counted as a reply, so nothing chased it. In eval round 3 a
   human's message went unanswered three times while the agent kept working. → Your reply's first sentence answers
