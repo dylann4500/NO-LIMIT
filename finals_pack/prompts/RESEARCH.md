@@ -91,7 +91,9 @@ Then, still in the build hour:
   hand-history format in `/tmp/dryrun/` (never `data/rounds/`): about 24 tables on the kit's engine with v1 and the
   sparring bots, exported by the kit's own history code. It runs `roundcard.py`, `fp_train.py` and `field_trend.py`
   on it, checks two numbers against a direct count, and tries a truncated copy of the file. It's the only end-to-end
-  test of the data path before practice 1 (in the speedrun it found three bugs that would have broken practice 1).
+  test of the data path before practice 1 (in the speedrun it found three bugs that would have broken practice 1). Its
+  field is our own sparring bots: an assumption "off" there is a hypothesis to re-check on practice 1, not a PLAN
+  CHALLENGE (in a second run the trend flagged one 11.8 SE off on such a field).
 - **About minute 12 (when the first tables are in): theory wave 2.** The twist's value with betting, multiway all-in
   tables, the value of what the twist reveals about neighbours, and the tables' field columns refitted against
   variant-aware sparring. Don't let `theory` sit idle.
