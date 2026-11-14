@@ -47,6 +47,11 @@
       "at": "2026-11-14T23:02:53Z",
       "by": "dylann29",
       "text": "renewed 8h"
+    },
+    {
+      "at": "2026-11-14T23:27:43Z",
+      "by": "dylann29",
+      "text": "emu/rehearsal d6e6570: 11 notes in finals_pack/notes/pre (new: first1000, placings, finalists, challenger_bar), 57 instruction fixes from a consistency read and a timed run of the bundle (full suite 228 passing), tabletop test of the decision rules in prep/TABLETOP_14NOV.md, decisions page prep/PROPOSALS_14NOV.md now has 24 items. Boston raw data is on Dylan's Mac (data/boston); Boston dossiers in progress. Samuel's regionals_web report seen (Pittsburgh top 12, weights 1,2,3,5,8,13). Running: timed runs B and C, a portal read, a 6-seat deep-stack format note."
     }
   ],
   "owner": "dylann29",
@@ -59,5 +64,5 @@
   "result": "",
   "state": "active",
   "title": "Saturday handoff: review and merge the overnight research branches, apply speedrun findings, rehearsal prep on Dylan's Mac",
-  "updated_at": "2026-11-14T23:02:53Z"
+  "updated_at": "2026-11-14T23:27:43Z"
 }
