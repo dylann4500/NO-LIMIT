@@ -18,6 +18,9 @@ The definitions behind the regional reference values in `field.md` Appendix A.
 - **Stack depth**: the actor's chips behind plus chips in on this street, over the big blind, when it acts.
   Bands: 10bb or less; over 10 to 15; over 15 to 20.
 - Multiway pots and all-in situations are included unless a row says otherwise.
+- **VPIP and PFR** (the class labels and the "teams that raise" filter use them): of the hands a seat starts with
+  chips, those where it calls or raises before the flop (VPIP) and those where it raises before the flop, all-in
+  included (PFR). Posting a blind is neither.
 
 ## The statistics
 
@@ -45,11 +48,14 @@ common non-all-in open at over 20bb, in 0.25bb bins; its modal 3-bet is the rais
 ## Re-check on Sunday's format
 
 - Amounts: a call's amount was chips added; a raise's was the raise-to total for the street; an all-in was a
-  raise whose added chips met or passed the chips behind.
+  raise whose added chips met or passed the chips behind. A street's first bet may be logged as a `raise` event
+  (it was in a mock kit on 14 November): check before counting bets.
 - The big blind was the seat of the last blind posted. An ante, straddle or dead blind breaks that, and every
-  row naming the big blind with it.
+  row naming the big blind with it. Check heads-up on its own (the button posts the small blind and acts first before
+  the flop): on that mock kit the rule mislabelled 25% of heads-up hands.
 - A street began at each board event. The twist's events (discards, reveals, bids) were skipped; a twist that
-  adds a betting round or moves the flop shifts the postflop rows.
+  adds a betting round or moves the flop shifts the postflop rows. Nothing here counts the twist itself: add today's
+  (how often each option is taken, with which card) once the format is known.
 - Depth bands and the hand-40 marker assume 2,000 chips and the regional blind schedule (about 133 hands per
   table). Chances per table, and so every noise figure, scale with seats and hands per table.
 - Filler seats were flagged per table; confirm the flag exists (about one table in five has four).
