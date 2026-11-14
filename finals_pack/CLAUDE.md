@@ -122,7 +122,8 @@ happen again.
 - **Share what changes everyone's work at once.** The first variant-level finding (e.g. "pocket pairs are the worst
   hands in this variant") goes to every agent building strategy the moment it's known, so nobody re-derives it.
 - **Fan out.** The day is time-boxed; serial work loses. Independent pieces run in parallel: several subagents in
-  one message (each in its own folder), Modal for compute, Codex (`codex exec`) for second opinions if logged in.
+  one message (each in its own folder), Modal for compute, Codex (`codex exec`) for second opinions if logged in (if one call
+  fails on a rate limit, drop Codex for the day).
   Subagents may spawn their own helpers (nesting stops at 3 levels; at most about 4 helpers each, one job and one
   output file per helper). Up to 40 subagents can run at once per session (`.claude/settings.json` sets
   `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40`; the default is 20); past that a spawn fails, so finish or stop idle ones first.

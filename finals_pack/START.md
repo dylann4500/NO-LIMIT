@@ -16,7 +16,9 @@ plus two scripts (the **clock** and the **portal watcher**). No dashboard. You t
      or the repo). Check it: `python3 scripts/portal_watch.py --once` should print the team and competition. Until
      the organizers put us in the Finals competition it prints the regional ("Bay Area") with a note that this is
      not today's event; the running watcher switches to the Finals by itself when it appears on the key.
-   - `modal` logged in to the team workspace (`modal app list` works). Optional: `codex` logged in.
+   - `modal` logged in to the team workspace (`modal app list` works). Optional: `codex` logged in, and able to answer:
+     try `codex exec "2+2"` (on 14 November this laptop's login was an API key limited to 10,000 tokens a minute and no
+     question ran).
       - `uv` installed (`brew install uv`) and Python 3.12 (`python3.12 --version`; else `brew install python@3.12`):
      the kit's environment needs it.
    - The starter-kit setup skill: copy Samuel's `~/.claude/skills/no-limit-2026-setup/` folder to the same place on
