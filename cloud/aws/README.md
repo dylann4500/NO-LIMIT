@@ -1,5 +1,9 @@
 # cloud/aws/: an EC2 fleet for simulations, evals and tests
 
+> **Shelved on 14 November 2026.** The AWS credits could not be obtained before the Finals, so this tooling was
+> never run on AWS and is **not used on Sunday**: the team stays on Modal (`cloud/nl_modal.py`, and the Sunday
+> bundle as written). Everything below was tested on local machines only. Kept for a later event.
+
 Big x86 instances (default `c7a.48xlarge`: 192 physical cores, Python 3.12, `uv`) reached over SSH. You push folders,
 build the kit's environment, and run one command fanned out over every core of every instance. Results come back
 in `cloud/results/`, in the same shape `cloud/nl_modal.py` writes. One stdlib Python file (`fleet.py`) plus the

@@ -230,6 +230,6 @@ found factual errors in the bundle, now corrected (the prizes, the paired-noise 
 **Waiting for the humans:** `prep/PROPOSALS_14NOV.md`, one page: seven proposed changes to decision rules and
 defaults (none applied), two fair-play questions, and four set-up choices.
 
-**AWS.** A separate session is building `cloud/aws/` (branch `aws-compute`) so simulations and evals can also run
-on AWS credits. It waits for Dylan's sign-in, a yes to quota increases and a spending limit; until then dry runs
-only. Modal stays the path the bundle describes.
+**AWS: dropped (Dylan, 14 Nov 06:30).** The credits cannot be obtained before the Finals. The tooling a session
+built overnight is in `cloud/aws/`, marked shelved; it never ran on AWS. Modal stays the only compute, as the bundle
+describes.

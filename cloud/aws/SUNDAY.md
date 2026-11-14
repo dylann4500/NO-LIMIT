@@ -1,5 +1,9 @@
 # AWS on Sunday: recommendation and proposed text for finals_pack
 
+> **Shelved on 14 November 2026.** The AWS credits could not be obtained before the Finals, so this tooling was
+> never run on AWS and is **not used on Sunday**: the team stays on Modal (`cloud/nl_modal.py`, and the Sunday
+> bundle as written). Everything below was tested on local machines only. Kept for a later event.
+
 Status 14 Nov 06:15 PT: the tooling works end to end on local test machines (push, build, sharded run, gather,
 failure handling). **Not measured on AWS yet**: nobody has signed in, so the quotas, the real throughput and the
 minute-0 drill are unknown. The "Measured" section below gets filled in when the proof run happens.
