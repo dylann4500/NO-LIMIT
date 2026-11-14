@@ -230,6 +230,11 @@ neither exists any more.
 - The watcher's "start fresh" state shared its lists with the old state, so after a switch the first Finals round
   would have been filed as round 16 with the regional's rounds marked done. A test of the switch itself found it.
   **Rule:** test the transition, not only each side of it.
+- The Format page saved before Bay Area said "An upload alone does not activate it", and the bundle was built on
+  "upload, then a click". The Getting started page of the same week and both of Boston's pages say a passing upload
+  becomes active by itself. **Rule:** a fact about the platform is re-read on the day's own pages and settled by one
+  observation (v1's upload, minute 10); until then every step is written to be right in both cases, and the active
+  bot is confirmed in `state/status.md` after every upload and every click.
 - The portal's API states the upload cooldown, the announcement time and the variant's rules text; we had planned
   to read all three off web pages by hand. **Rule:** take a fact from the system that owns it (`state/status.md`,
   `state/variant.md`) and keep the human reading as the cross-check.

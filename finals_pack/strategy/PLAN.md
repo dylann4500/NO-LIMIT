@@ -106,7 +106,11 @@ organizers' pages describe practice rounds only for the build hour, so the first
 snapshot of every team's **active** bot taken at its start. Making an already-uploaded bot active is a click
 on the portal, not an upload, so a window has at most two real uploads, about 8 minutes apart: the challenger
 at T-12 and, only if the chosen bot is a new zip, the chosen bot around T-4 to T-3. `state/live.json` holds the
-scored-round bot all window; the challenger is never declared with `scripts/live.py`.
+scored-round bot all window; the challenger is never declared with `scripts/live.py`. On the organizers' newest pages
+an upload that passes its test becomes active by itself (at Bay Area it took a click; BUILDER settles which at
+minute 10): then the T-12 upload is also the activation, the T-9 click still puts the live bot back, and a new zip
+uploaded at T-4 is active only when its test ends. Either way the active bot is confirmed in `state/status.md` after
+every upload and every click, and nothing is uploaded inside a window that is not meant to be the next bot to play.
 
 | Time to scored round | What happens | Who |
 |---|---|---|
@@ -121,7 +125,7 @@ scored-round bot all window; the challenger is never declared with `scripts/live
 | T-8 | **Decide** by the pre-registered rule (`DECISION_RULES.md` §3): the challenger if it clears the field-adjusted bar for our standing, else the live bot with this window's tested changes. BUILDER asks in its terminal, with the rule's answer, and records it in `state/decisions.md`. The practice's download lands about now: before the decision only `tester`'s field-adjusted edge matters; its full analysis runs after T-3 | Both humans |
 | T-6 | Chosen bot tested with no time bank | BUILDER (`platform`) |
 | T-5 | No human answer: BUILDER applies the rule's answer itself (`scripts/live.py`) | BUILDER |
-| T-3 | Chosen bot active: a click if it's already uploaded (the challenger or the live bot), else uploaded around T-4 to T-3; active bot confirmed in `state/status.md` | Dylan |
+| T-3 | Chosen bot active: a click if it's already uploaded (the challenger or the live bot), else uploaded around T-4 to T-3 (active only when its upload test ends); active bot confirmed in `state/status.md` | Dylan |
 
 Once the live bot is back at T-9, a missed deadline means the previous live bot plays: that is a failure to
 fix, not a safe outcome (bots that stood still lost as much as bots that changed). Only tested zips are ever
@@ -208,7 +212,7 @@ each brief is to check and extend the draft in place and list what changed at th
 | | RESEARCH | `analyst`: parsers for today's hand-history format and `analysis/roundcard.py` (card in under 60 s, with the defaults check and `analysis/field_priors.json`), ready for practice 1's download (about minute 25); at about minute 10 (when v1 exists) a dry-run download into `/tmp/dryrun/`, never `data/rounds/` | `analysis/roundcard.py` |
 | | RESEARCH | `tester`: the rules card checked against the kit and Format page as soon as it appears; then FIRST_PROMPT Part 3a: the paired runner on identical deals and sparring bots that use the twist | `rig/`, running by minute 15 |
 | | RESEARCH | `scout`: `analysis/fp_train.py` (`FINGERPRINTING.md`), running on practice 1's labelled download in under 60 s (quick mode) | `analysis/fp_train.py` |
-| b10 | BUILDER | `platform`: v1 released now, upload-tested; BUILDER declares it (`python3 scripts/live.py v1 "first legal bot"`) and tells Dylan the file | `releases/v1.zip` and its `releases/VERSIONS.md` line; Dylan uploads it and makes it active |
+| b10 | BUILDER | `platform`: v1 released now, upload-tested; BUILDER declares it (`python3 scripts/live.py v1 "first legal bot"`) and tells Dylan the file | `releases/v1.zip` and its `releases/VERSIONS.md` line; Dylan uploads it; BUILDER reads `state/status.md` before any click to settle whether uploads activate themselves today, then it is made active if it isn't |
 | b15 | RESEARCH | `tester`: the rig runs now: the first verdict on v1 (correct? timing? a heads-up run?), sent on to BUILDER | a `notes/LEDGER.md` line |
 | b17 | BUILDER | itself: practice 1 starts in 3 minutes. The declared pick (`state/live.json`) is released and upload-tested; tell Dylan the exact file to upload, or to click it active if it's already on the portal (the clock reminds him too) | the pick active by minute 20 |
 | b20 | BUILDER | `stylist`: the next style ready (legal and upload-tested is enough); every style rebuilt with the newest shared tables before its upload, so practice scores compare styles, not timing | a style ready to release |

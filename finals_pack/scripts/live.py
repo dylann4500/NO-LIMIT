@@ -127,7 +127,8 @@ def declare(root: Path, arg: str, why: str, by: str, force: bool) -> int:
         if fresh:
             hint += f" · the portal runs {act or 'NO bot'} now"
     msg = (f"LIVE BOT is now {name} ({why}) — Dylan: make it active on the portal (click it if already uploaded, "
-           f"else upload {rel}){hint}. If a round that should play another bot is about to start, wait until it has "
+           f"else upload {rel}){hint}. An upload that passes its test may become active by itself: check the active "
+           "bot after any upload or click. If a round that should play another bot is about to start, wait until it has "
            "started (BUILDER says when)")
     post("both", msg, "live")
     print(msg)

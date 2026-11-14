@@ -71,7 +71,10 @@ running before you spawn anything.
 3. `SendMessage` RESEARCH: "kit in starter-kit/, variant <name>, Format page at notes/format.md, rules card coming at
    bot/rules.json, team Python announced when ready".
 4. When v1 is released: `python3 scripts/live.py v1 "first legal bot"` and tell Dylan: "upload releases/v1.zip and
-   make it active". A team with no active bot scores zero.
+   wait before you click". When the upload shows as ready, read the active bot in `state/status.md`: if v1 is active
+   without a click, uploads activate themselves today (the organizers' newest pages say so); if not, it takes a click,
+   as at Bay Area, and Dylan clicks now. Tell Dylan and RESEARCH which case holds and write it at the top of
+   `notes/format.md`. A team with no active bot scores zero.
 5. **Every release, from v1 on (D's included):** spawn a fresh `bughunter` on it at once (background, at most 8
    minutes), and `SendMessage` RESEARCH "RELEASED vN <sha256> <one line>" so it spawns a tester for it. In the
    speedrun both reviewed early releases had a real problem, and a release without a tester verdict shipped a
@@ -113,14 +116,14 @@ running before you spawn anything.
 | T-20 | The previous round started. Sync with RESEARCH in 3 lines (what changed, what you need, the plan). Start the "Which bot?" draft in `state/decisions.md`. If `state/clock.md` shows these are the last two rounds, apply the last-rounds bar (DECISION_RULES §3) and plan the last round (if it is the named final round, the portal holds its results and our bot's health report: `CLAUDE.md` §8). The challenger for this window should be packed and tested by T-16. |
 | T-15 | `platform` releases the challenger (`releases/vN.zip`, VERSIONS line with its sha256). Nothing tested: pick the most informative released bot instead. |
 | T-13 | Data lands (RESEARCH analyses it). Spawn in ONE message: `challenger` (start the NEXT window's challenger from the data in hand: D matured, the best response to the measured mix, a PLAN CHALLENGE's alternative, or a rewrite; say why); `stylist` (this window's live-bot fixes from the one-change lines already in the LEDGER, persistent leaks first; one stylist per new line as RESEARCH sends it, due by T-9; scout's counters); `platform` (bug fixes; integrate the fixes). |
-| T-12 | Tell Dylan the challenger's exact file: "activate releases/vC.zip now (upload it if it isn't on the portal yet)". Don't `live.py` it: `state/live.json` stays the scored-round bot. |
+| T-12 | Tell Dylan the challenger's exact file: "activate releases/vC.zip now (upload it if it isn't on the portal yet)"; if uploads activate themselves, the upload is the activation once its test ends. Confirm the active bot in `state/status.md`. Don't `live.py` it: `state/live.json` stays the scored-round bot. |
 | T-10 | The practice round plays the challenger. |
 | T-9 | Tell Dylan: "put vL back now" (the `state/live.json` bot; a click), once the practice round's "started" line is in your inbox: a click before it starts makes the practice play the live bot. If none has started by the T-8 step, put it back anyway. RESEARCH's recommendation arrives (the threshold first; the final answer when the practice result lands, about T-8 to T-7). |
 | T-8 | **Ask the decision** (below), deadline T-5, with the rule's answer. |
 | T-6 | `platform`: the chosen bot through the upload test with no time bank; released if it's a new zip. |
 | T-5 | No clear human answer: apply the rule's answer (`live.py`), say so in one line. |
 | T-4 | Cut-off: if the chosen bot isn't released and tested with a tester verdict, the live bot plays; nothing is uploaded. |
-| T-3 | Dylan uploads or activates the chosen bot; confirm in `state/status.md` that the portal runs it. After this nothing changes. |
+| T-3 | Dylan uploads or activates the chosen bot (a zip uploaded now is active only when its upload test ends); confirm in `state/status.md` that the portal runs it. After this nothing changes. |
 
 Between steps: keep subagents fed, answer Dylan, and make sure the challenger line never stops.
 
@@ -171,6 +174,10 @@ If `state/status.md` or `state/clock.md` is more than 2 minutes old, tell Dylan 
 (START.md). Never start `portal_watch.py` or `clock.py run` yourself.
 
 ## Talking to Dylan
+
+An upload may be an activation (v1's upload settles it: minute-0 step 4). So Dylan uploads nothing inside a window
+that is not meant to be the next bot to play, never a zip "to have it ready"; after every upload and every click you
+confirm the active bot in `state/status.md` and say it back to him in one line.
 
 He reads your terminal between uploads. Keep it short: what's happening, what he must do and by when (exact file
 names: `releases/v7.zip`), or "nothing right now". Say each upload/activate request once, clearly, with the time.

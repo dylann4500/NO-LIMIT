@@ -61,7 +61,7 @@
   {
    "when": "b10",
    "to": "builder",
-   "text": "Deadline: a minimal legal bot uploaded and confirmed ACTIVE on the portal (a team with no active bot scores zero). When platform reports releases/v1.zip (upload-tested): python3 scripts/live.py v1 \"first legal bot\" and tell Dylan the exact file.",
+   "text": "Deadline: a minimal legal bot uploaded and confirmed ACTIVE on the portal (a team with no active bot scores zero). When platform reports releases/v1.zip (upload-tested): python3 scripts/live.py v1 \"first legal bot\" and tell Dylan the exact file. This first upload settles whether uploads activate themselves today (the organizers' newest pages say they do; at Bay Area it took a click): ask Dylan to upload and wait before clicking, read the active bot in state/status.md once the upload is ready, then have him click if it is not active. Tell Dylan and RESEARCH which case holds and record it in notes/format.md.",
    "tasks": [
     [
      "platform",
@@ -272,7 +272,7 @@
   {
    "when": "T12",
    "to": "builder",
-   "text": "Tell Dylan the challenger's exact file to activate now (upload it if it isn't on the portal yet): it plays the practice round at {pt}. Nothing released: name the released bot to activate instead, or leave the live bot. Don't live.py it (state/live.json stays the scored-round bot)."
+   "text": "Tell Dylan the challenger's exact file to activate now (upload it if it isn't on the portal yet): it plays the practice round at {pt}. If uploads activate themselves today, the upload is also the activation once its test ends; confirm the active bot in state/status.md either way. Nothing released: name the released bot to activate instead, or leave the live bot. Don't live.py it (state/live.json stays the scored-round bot)."
   },
   {
    "when": "T10",
@@ -318,7 +318,7 @@
   {
    "when": "T3",
    "to": "builder",
-   "text": "Scored round {k} starts in 3 minutes ({ts}): Dylan uploads/activates the chosen bot; confirm in state/status.md that the portal runs it. After this, nothing changes. Before the round starts: record anything not yet in the LEDGER, update notes/PLAN-builder.md (what plays, what's running where, open promises), and queue each subagent's next task for when data lands.",
+   "text": "Scored round {k} starts in 3 minutes ({ts}): Dylan uploads/activates the chosen bot (a zip uploaded now is active only when its upload test ends; if that is after the start, the bot active at the start plays); confirm in state/status.md that the portal runs it. After this, nothing changes. Before the round starts: record anything not yet in the LEDGER, update notes/PLAN-builder.md (what plays, what's running where, open promises), and queue each subagent's next task for when data lands.",
    "tasks": [
     [
      "platform",

@@ -41,7 +41,8 @@ never block your turn; Modal has only two deployed apps, `avalon-rig` (`tester`,
    practice round, and have a tested bot active by T-3 every round. *(A missed upload or an untested zip can zero
    a round. A missed deadline is a failure to report and fix, not a safe outcome.)* Each round plays a snapshot of
    every team's **active** bot taken at its start. Making an already-uploaded bot active is a click on the portal, not
-   an upload. Assume the upload **cooldown** may be up to 5 minutes until the Format page says otherwise (read it at
+   an upload. On the organizers' newest pages an upload that passes its test also becomes active by itself (at Bay Area
+   it did not: BUILDER settles which holds after v1's upload). Either way, upload nothing inside a window that is not meant to be the next bot to play (a zip uploaded "to have it ready" would replace the active bot), and confirm the active bot in `state/status.md` after every upload and every click. Assume the upload **cooldown** may be up to 5 minutes until the Format page says otherwise (read it at
    minute 0; `state/status.md` shows the figure the portal itself states; it was 30 seconds on the regionals' pages and
    in the regional's API), so
    plan at most two real uploads per window (§3, "Uploads").
@@ -120,7 +121,10 @@ it plays the practice round at T-10, and at T-9 Dylan puts the `state/live.json`
 has at most two real uploads, about 8 minutes apart: the challenger at T-12 and, only if the chosen bot is a new
 zip, the chosen bot at about T-4 to T-3. Putting the live bot back, and choosing the challenger, are clicks on bots
 already uploaded: BUILDER tells Dylan which version to click in the portal's uploads list. Never let a cooldown
-leave the chosen bot unuploaded at T-3. When in doubt, the live bot stays active.
+leave the chosen bot unuploaded at T-3. When in doubt, the live bot stays active. If uploads activate themselves, the
+challenger's upload at T-12 is also its activation, the T-9 click is unchanged (it puts an earlier upload back), and
+a new chosen bot uploaded at T-4 becomes active only when its upload test finishes: if that is after the round
+starts, the live bot, active since T-9, plays.
 
 **Deadlines:** if the chosen bot can't be tested and uploaded by T-3, the live bot (active again after the practice
 round) plays: confirm it's active, report the miss and its cause, and fix the cause for the next window. Don't wait
