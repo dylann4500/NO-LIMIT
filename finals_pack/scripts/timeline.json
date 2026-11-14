@@ -398,32 +398,32 @@
   {
    "to": "research",
    "agent": "theory",
-   "text": "Pre-event research (FIRST_PROMPT Part 0, topic A): the regional variants and Pittsburgh's (search for it), ten plausible Finals twists and the fastest correct way to value each by enumeration. Notes only, NO bot code. Write notes/pre/variants.md; one subagent per topic."
+   "text": "Pre-event research (FIRST_PROMPT Part 0, topic A): the regional variants and Pittsburgh's (search for it), ten plausible Finals twists and the fastest correct way to value each by enumeration. Notes only, NO bot code. Write notes/pre/variants.md; one subagent per topic. A draft of this file from Saturday 14 November is already there: read it first, check and extend it in place, list what changed at the top; do not start over."
   },
   {
    "to": "research",
    "agent": "scout",
-   "text": "Pre-event research: what will the Finals field do? Every finalist knows the regional lessons (wide 3-betting won, per-seat adaptation, fold-to-3-bet ~65%). Which styles will be crowded, what punishes them, what practice 1's field (mostly minimal bots) vs round 3's will look like, and what to watch for first. Notes only, NO code. notes/pre/field.md"
+   "text": "Pre-event research: what will the Finals field do? Every finalist knows the regional lessons (wide 3-betting won, per-seat adaptation, fold-to-3-bet ~65%). Which styles will be crowded, what punishes them, what practice 1's field (mostly minimal bots) vs round 3's will look like, and what to watch for first. Notes only, NO code. notes/pre/field.md A draft of this file from Saturday 14 November is already there: read it first, check and extend it in place, list what changed at the top; do not start over."
   },
   {
    "to": "research",
    "agent": "tester",
-   "text": "Pre-event research (Part 0, topic D): the test plan for today: sparring bots to write, paired deals, noise first, replay testing on a download, the cloned field on Modal, a confirmation run. Notes only, NO bot code. notes/pre/testplan.md"
+   "text": "Pre-event research (Part 0, topic D): the test plan for today: sparring bots to write, paired deals, noise first, replay testing on a download, the cloned field on Modal, a confirmation run. Notes only, NO bot code. notes/pre/testplan.md A draft of this file from Saturday 14 November is already there: read it first, check and extend it in place, list what changed at the top; do not start over."
   },
   {
    "to": "builder",
    "agent": "platform",
-   "text": "Pre-event research (Part 0, topic C): the first-hour build plan: the safety shell, three layers, what to precompute at import, a 0.3 ms equity estimate, per-seat estimates with priors, the checks that catch the bugs that sank bots. Notes only, NO bot code. notes/pre/buildplan.md"
+   "text": "Pre-event research (Part 0, topic C): the first-hour build plan: the safety shell, three layers, what to precompute at import, a 0.3 ms equity estimate, per-seat estimates with priors, the checks that catch the bugs that sank bots. Notes only, NO bot code. notes/pre/buildplan.md A draft of this file from Saturday 14 November is already there: read it first, check and extend it in place, list what changed at the top; do not start over."
   },
   {
    "to": "builder",
    "agent": "stylist",
-   "text": "Pre-event research (Part 0, topic B): what wins sit-and-gos of AI-built bots (preflop aggression with planned responses, postflop folding vs bluff rates, shove-or-fold by depth, ICM for different payouts, heads-up and 3-handed). Notes only, NO bot code. notes/pre/whatwins.md"
+   "text": "Pre-event research (Part 0, topic B): what wins sit-and-gos of AI-built bots (preflop aggression with planned responses, postflop folding vs bluff rates, shove-or-fold by depth, ICM for different payouts, heads-up and 3-handed). Notes only, NO bot code. notes/pre/whatwins.md A draft of this file from Saturday 14 November is already there: read it first, check and extend it in place, list what changed at the top; do not start over."
   },
   {
    "to": "builder",
    "agent": "challenger",
-   "text": "Pre-event research, the contrarian memo: assume 19 strong teams all read the same regional lessons. Three designs that would beat that field, what each loses to, and how we'd know within one practice round which one this field pays. Notes only, NO bot code. notes/pre/contrarian.md"
+   "text": "Pre-event research, the contrarian memo: assume 19 strong teams all read the same regional lessons. Three designs that would beat that field, what each loses to, and how we'd know within one practice round which one this field pays. Notes only, NO bot code. notes/pre/contrarian.md A draft of this file from Saturday 14 November is already there: read it first, check and extend it in place, list what changed at the top; do not start over."
   }
  ]
 }

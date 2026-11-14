@@ -56,6 +56,12 @@ may spawn their own helpers.
   - `tester`: today's test plan (sparring bots, paired deals, noise first, replay testing, the cloned field on Modal,
     confirmation runs) → `notes/pre/testplan.md`.
 
+  **These files already exist**, with `notes/pre/stat_definitions.md` (how each field statistic is counted: the
+  `analyst` and the `scout` use it from the first round card): they were drafted on Saturday 14 November. So each
+  brief says: read the draft first, check its claims against what is known this morning, extend or correct it in
+  place, and list what changed at the top. Nobody starts over. `variants.md` carries three timed valuation drills
+  and their recipe: `theory` follows that recipe at minute 0.
+
   When BUILDER's notes land too, merge everything into `notes/plan.md` (one page: what we expect today, what we'd do
   differently from the plan, open questions) and tell BUILDER the path.
 

@@ -34,6 +34,11 @@ of each release). They may spawn their own helpers.
     would beat that field, what each loses to, how one practice round tells us which this field pays →
     `notes/pre/contrarian.md`.
 
+  **These three files already exist**: they were drafted on Saturday 14 November from the research archive and the
+  regional's data. So each brief says: read the draft first, check its claims against what is known this morning
+  (the venue, the field, anything the organizers have said), extend or correct it in place, and list what changed
+  at the top. Nobody starts over.
+
   Tell RESEARCH the paths when they land. Read the contrarian memo yourself before minute 0.
 
 ## Minute 0 (the clock posts `b0`, or Dylan says the variant is announced)
