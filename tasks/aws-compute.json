@@ -17,6 +17,11 @@
       "at": "2026-11-14T14:06:44Z",
       "by": "dylann29",
       "text": "cloud/aws/ built+tested on local hosts (f35d1fd on claude/aws-compute-60a27a). Waiting on Dylan's aws login + envelope for the proof run; nothing on AWS yet."
+    },
+    {
+      "at": "2026-11-14T14:08:55Z",
+      "by": "dylann29",
+      "text": "done: Shelved: AWS credits not available before the Finals. cloud/aws/ tooling merged by lead into emu/rehearsal, never run on AWS. Nothing created on AWS."
     }
   ],
   "owner": "dylann29",
@@ -26,8 +31,8 @@
   "posted_at": "",
   "posted_by": "",
   "priority": 0,
-  "result": "",
-  "state": "active",
+  "result": "Shelved: AWS credits not available before the Finals. cloud/aws/ tooling merged by lead into emu/rehearsal, never run on AWS. Nothing created on AWS.",
+  "state": "done",
   "title": "AWS EC2 fleet tooling next to Modal (cloud/aws/), measured vs Modal, Sunday recommendation",
-  "updated_at": "2026-11-14T14:06:44Z"
+  "updated_at": "2026-11-14T14:08:55Z"
 }
