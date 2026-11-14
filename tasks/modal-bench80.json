@@ -1,0 +1,26 @@
+{
+  "agent": "Dylans-MacBook-Pro-1228",
+  "assignee": "",
+  "claimed_at": "2026-11-14T14:09:18Z",
+  "cmd": "prep/.venv/bin/modal run cloud/nl_modal.py::main --bots bots/v10,bots/v10,bots/v9s,bots/v9s,bots/v6,bots/v6,bots/v3b,bots/v3b --tables 20000 --per-shard 250 --name bench80_20k",
+  "compute": "",
+  "details": "",
+  "expires_at": "2026-11-14T18:09:18Z",
+  "id": "modal-bench80",
+  "log": [
+    {
+      "at": "2026-11-14T14:09:18Z",
+      "by": "dylann29",
+      "text": "claimed"
+    }
+  ],
+  "owner": "dylann29",
+  "paths": [],
+  "posted_at": "",
+  "posted_by": "",
+  "priority": 0,
+  "result": "",
+  "state": "active",
+  "title": "Modal scaling check at Sunday's 80-container cap: 20,000 tables, regional kit and bots, to replace the tester's unmeasured throughput target",
+  "updated_at": "2026-11-14T14:09:18Z"
+}
