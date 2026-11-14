@@ -82,7 +82,11 @@ reports a measured value outside a solved grid.
   22 50.3, AKs 67.0; exact with suits named, 1 second each: AsAh vs KdKc 81.26, AsAh vs KsKh 82.64, AsKs vs QdQc
   46.21), a twist rule unchanged by card order and suit relabelling, the blind and position spots,
   lookup time (10,000 lookups), and for push/fold a paired-seed sim where the tables gain against a 50% shover and
-  lose under 0.3 points against an equilibrium shover. Numbers into HANDOFF.md.
+  lose under 0.3 points against an equilibrium shover. Three more, from a 14 November run: the generator asserts the
+  table's own shape before writing (every class, every documented column: a ranking shipped with no data block); one
+  column is re-derived a second way (another run's independent table, or a fresh 20-line simulation: range columns
+  were up to 6 points wrong for 19 minutes while symmetry passed); a twist rule never breaks a made full house or
+  better (exhaustive) and never decides on an exact tie. Numbers into HANDOFF.md.
 - **Speed to expect:** a 7-card evaluation about 0.32 µs and a full heads-up deal with the twist 2.2-4.4 µs (laptop,
   measured 14 November), so 169 classes × 100,000 deals run in 37 s on 2 local workers without Modal. Time 50,000
   deals before designing anything. 2,000 heads-up fictitious-play iterations on 169×169 in 0.09 s; a 3-way equity
