@@ -235,7 +235,8 @@ All 13 were applied to both files on 14 November: nothing below is waiting to be
    (0.5 ms), so use a rule (loses 0.065): keep pocket pairs, two pair or better, two-card flush draws, pure two-card
    open-enders and two-card gutshots with both cards ten or higher; next to a pair throw the kicker (except an ace with
    top pair); with nothing always throw, keeping first a card with a gutshot, then a card with two flop cards of its
-   suit, then the higher card."
+   suit, then the higher card." (A flop rule, two cards to come: it did not carry over to a turn draw in the 14 November
+   timed run. Label it so wherever it is quoted.)
 4. **T2 Preflop, half wrong.** "suited connectors gain... Widen those opens slightly." Replace with: "Equities compress
    (39-80 instead of 32-85). 22-66 lose 9.5 points and about 59 places (22 is 163rd), JJ-AA lose 6.6 and stay on top,
    suited connectors lose 1.8 and 19 places, ace-rag and king-rag rise 7-9 places. Open fewer small pairs and suited

@@ -22,7 +22,7 @@ setup the coding agent is `platform` (BUILDER); `theory`, `stylist` and `challen
 
 **T2. Paid flop draw (exchange + payoff).** After the flop, each player may pay a fee F to throw one hole card face up and draw a private replacement. Choices are locked at the same time.
 - Value: 3 options (keep, throw 0, throw 1) with CRN: one sample holds the opponent's hand, turn, river and both replacements. Draw if Δequity × (pot + expected future bets) > F. A free draw is worth 8.4 points over always keeping [drill].
-- In the bot use a rule, not sampling [drill: the rule loses 0.065 points, Monte Carlo at N=200 0.10 in 0.5 ms]. Rule: `notes/pre/variants.md`, Corrections item 3.
+- In the bot use a rule, not sampling [drill: the rule loses 0.065 points, Monte Carlo at N=200 0.10 in 0.5 ms]. Rule: `notes/pre/variants.md`, Corrections item 3. It is a flop rule (two cards to come): for a draw on another street or at another price wait for `theory`'s rule. On a free turn draw in a 14 November run, "keep two-card open-enders" and "keep pocket pairs" were wrong, and a card with a one-card draw was kept ahead of a higher card.
 - Classic mistakes: computing equity against random hands instead of the stronger range that played preflop; letting the replacement be an exposed or dead card; conditioning on other players' throws, which aren't visible when you choose.
 - Preflop [drill]: 22–66 lose 9.5 points and 59 places; suited connectors lose 1.8 and 19 places. Open fewer of both.
 - Leak: the thrown card tells others what you don't hold. Keeping with air costs 17 points [drill].
