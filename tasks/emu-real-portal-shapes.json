@@ -1,0 +1,28 @@
+{
+  "agent": "",
+  "assignee": "samuel",
+  "claimed_at": "",
+  "cmd": "",
+  "compute": "",
+  "details": "Checked read-only on the real portal on 14 Nov (finals_pack/prep/HANDOFF.md section 9). Add to emu/portal_server.py, keeping the old routes: (1) GET /api/teams/<team>/tournaments/<round>/hands = full file, ?tables=1000 = first 1,000 tables (the real one ignores ?subset=...); (2) on the competition object: submission_cooldown_seconds, variant_announced_at (ISO time of minute 0, null before the start), frozen; (3) GET /api/competitions/<cid>/variant -> {id, title, rules} with the variant's rules Markdown, 404 before the start. Then a rehearsal shows 'THE VARIANT IS ANNOUNCED' from tab 1, state/variant.md, the cooldown in state/status.md, and RESEARCH starting the clock from the portal's time. Done = scripts/test_scripts.py --emu passes against a run and one --once against the copy saves both hand files from the new address.",
+  "expires_at": "",
+  "id": "emu-real-portal-shapes",
+  "log": [
+    {
+      "at": "2026-11-14T13:30:39Z",
+      "by": "dylann29",
+      "text": "posted for samuel"
+    }
+  ],
+  "owner": "",
+  "paths": [
+    "emu/portal_server.py"
+  ],
+  "posted_at": "2026-11-14T13:30:39Z",
+  "posted_by": "dylann29",
+  "priority": 2,
+  "result": "",
+  "state": "open",
+  "title": "Rehearsal portal: answer like the real portal, so the rehearsal exercises the watcher's real paths (needs Samuel's Mac: the simulator and its runs live there)",
+  "updated_at": "2026-11-14T13:30:39Z"
+}
