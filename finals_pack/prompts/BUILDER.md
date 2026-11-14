@@ -53,7 +53,8 @@ running before you spawn anything.
    it to you; save it as `notes/format.md` (RESEARCH's tester checks the rules card against it). Check the variant
    loads in the kit's engine with the kit's Python; if it doesn't, tell Dylan and RESEARCH at once. (No
    `starter-kit/.venv` yet, because the kit was downloaded by hand: `platform`'s first step builds it and makes this
-   check; confirm it from its announcement.)
+   check; confirm it from its announcement.) The engine's name for the variant can differ from the portal's
+   title: list the engine's variants and take the one whose rules match.
    **A head start:** when the portal watcher posts "THE VARIANT IS ANNOUNCED", the portal's rules text is already in
    `state/variant.md` and the cooldown the portal states is in `state/status.md`. Name both in the briefs below so
    your subagents read the rules while the kit unpacks; the kit and the Format page still decide the rules card.

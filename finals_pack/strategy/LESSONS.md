@@ -78,7 +78,7 @@ neither exists any more.
 - **The starter kit lacked the variant's engine** (prac1). The rehearsal kit had the rules page but not the
   variant's engine; agents built a home-made engine and every local test ran on it. → At minute 0, before
   anything else, BUILDER checks with the kit's Python that the kit's engine loads today's variant
-  (`load_variant("<variant>")`) and plays a table; if the kit's Python isn't built yet, `platform`'s first step does it.
+  (`load_variant("<variant>")`, with the engine's own name for it: list its variants) and plays a table; if the kit's Python isn't built yet, `platform`'s first step does it.
   If it doesn't load, tell both humans at once.
 - **Agents learned facts about the rehearsal portal as if they applied to Sunday** (prac1: "the cooldown is about
   a minute, not 5"). → Nothing learned in a rehearsal carries over. The cooldown, weights, payouts, table sizes,
