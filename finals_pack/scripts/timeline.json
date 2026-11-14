@@ -297,7 +297,7 @@
   {
    "when": "T8",
    "to": "research",
-   "text": "Decision time for scored round {k} ({ts}): your recommendation is due to BUILDER now; relay Samuel's answer to BUILDER in his exact words. The practice round's download lands near now: before the decision only tester's field-adjusted edge matters; the full analysis loop on it runs after T-3."
+   "text": "Decision time for scored round {k} ({ts}): BUILDER asks the humans now with the recommendation you sent at T-9; send the final answer the moment the practice result lands, and relay Samuel's answer to BUILDER in his exact words. The practice round's download lands near now: before the decision only tester's field-adjusted edge matters; the full analysis loop on it runs after T-3."
   },
   {
    "when": "T6",
