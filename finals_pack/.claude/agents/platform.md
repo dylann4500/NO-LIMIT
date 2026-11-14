@@ -70,8 +70,9 @@ hand-history README; `state.config`), then `strategy/TWIST_NOTES.md` §2-3 and `
   memory, and never rebuild a past moment from seats' current status. Keep it small (aim under 16 KB).
 - **One artifact**, every table embedded (data files only if the kit allows); test the exact zip from an empty folder.
 - **Speed, for the worst decision:** tables built at import; one throwaway decision of every phase at import; then
-  `gc.collect()`, `gc.freeze()`, higher GC thresholds. Sampling capped by iterations and a deadline 0.15-0.2 ms from
-  the call's start; a twist decision with a cheap failure default may use 0.5 ms while the bank is healthy, if it pays.
+  `gc.collect()`, `gc.freeze()`, higher GC thresholds. Sampling ends at an iteration count; a deadline 0.15-0.2 ms from
+  the call's start is only the backstop; a twist decision with a cheap failure default may use 0.5 ms while the bank is
+  healthy, if it pays.
   Report max and p99.9 over 100,000 varied states with the kit's check-or-fold in the same run as the baseline.
 - **Three layers:** platform (shell, memory, seat records); variant engine (cards, evaluation, equity against a range,
   the new phase); strategy. Styles set parameters or wrap hooks, never copy platform functions.
@@ -159,7 +160,8 @@ tells him); LEDGER ids; what's unverified; running jobs (PID, log, ETA, Modal ap
   compared with the engine's blind events at 2, 3 and 8 players (a heads-up blind swap shipped otherwise); ICM with a
   seat busted this hand gets its place's payout (the kit's `icm()` scores it 0: the regional's bug, again).
 - **Deterministic decisions:** seed any randomness from the hand state (table, hand number, seat, history length) and
-  cap Monte Carlo by iterations, not wall-clock, so the same deal gives the same decision and paired tests are exact.
+  end Monte Carlo at an iteration count, not at the clock (the deadline stays as a backstop that should never fire on
+  an idle core: count its firings), so the same deal gives the same decision and paired tests are exact.
 - **Measure every candidate you release against the current base** in the harness and put the number (± se, n,
   opponents) on its VERSIONS line; a self-reported +10 for D was -8 against the base.
 - **Upload tests on a loaded laptop lie:** run the kit's `check_or_fold` in the same minute as the baseline; if it
