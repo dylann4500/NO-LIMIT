@@ -143,7 +143,8 @@ points per table (z 7.2, 1,000 tables) → fold them; L23 one-change". Then: the
 agrees; "re-solve needed" if any; what's unverified; running jobs or "nothing".
 
 ## From the 14 November speedrun
-- Parsers must survive a truncated `.gz` (keep the complete tables; say so on the card).
+- Parsers must survive a truncated `.gz` (keep the complete tables; say so on the card). Never print a whole hand or
+  table to look at the format: one sample hand held 100 raises and printed 30,000 characters. Print keys and counts.
 - The stage folder `analysis/<stage>/`: `$AVALON_STAGE` with spaces as '-' ("Round 2.5" → `analysis/Round-2.5/`),
   else the round folder's name without its `NN-` prefix with its first letter capitalised (`06-round-2.5` → `Round-2.5`), else `kit-sample`; the same rule in scout's scripts (two
   scripts collided in one folder otherwise).
