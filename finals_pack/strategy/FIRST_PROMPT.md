@@ -466,9 +466,10 @@ decision time.
   the image build in the background. It is the team's one test-rig app, `avalon-rig`: deploy it once and call
   it many times (`.map` over shards), up to 40 containers; never several `modal run`s at once (`CLAUDE.md` hard
   rule 8). Only `avalon-rig` and `avalon-theory` (up to 20) are deployed; the other roles call them or run
-  locally, sharing 20 containers (80 in all). Target 20,000 tables for three or four candidates inside five
-  minutes (a target, never run: the one measured figure is 6,000 tables in about 2 minutes on 40 containers,
-  so time the first job and size each window's runs from that). Hand histories never leave this machine; fitted opponent parameters may go to our own Modal
+  locally, sharing 20 containers (80 in all). Size runs from measured speed: on 14 November 20,000 tables took 144 s
+  on 80 containers (139 tables a second; the regional kit and bots), so `avalon-rig`'s 40 containers give about
+  15,000-20,000 tables in a five-minute window: three candidates at about 5,000 each, or one 20,000-table
+  confirmation, not 20,000 each. Time the first job on today's kit. Hand histories never leave this machine; fitted opponent parameters may go to our own Modal
   workspace.
 ```
 

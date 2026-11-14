@@ -230,6 +230,11 @@ found factual errors in the bundle, now corrected (the prizes, the paired-noise 
 **Waiting for the humans:** `prep/PROPOSALS_14NOV.md`, one page: seven proposed changes to decision rules and
 defaults (none applied), two fair-play questions, and four set-up choices.
 
-**AWS: dropped (Dylan, 14 Nov 06:30).** The credits cannot be obtained before the Finals. The tooling a session
+**AWS: dropped (Dylan, 14 Nov, about 06:05).** The credits cannot be obtained before the Finals. The tooling a session
 built overnight is in `cloud/aws/`, marked shelved; it never ran on AWS. Modal stays the only compute, as the bundle
 describes.
+
+**Modal, measured at the cap (14 Nov 06:10).** `cloud/nl_modal.py`, regional kit and bots, 20,000 tables as 80
+shards of 250: 144 s of wall time, 139 tables a second, 6 failed decisions in 18.7 million (host noise). The old
+aim in `tester.md` (20,000 tables for 3-4 candidates in 5 minutes) cannot be reached at the cap; the role file and
+`FIRST_PROMPT.md` now give the measured figure and what a window affords on `avalon-rig`'s 40 containers.
