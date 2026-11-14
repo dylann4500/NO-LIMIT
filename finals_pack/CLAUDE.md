@@ -216,5 +216,9 @@ statement of the platform's rules: re-read Sunday's own pages at minute 0.
 - Payouts can be drawn per table inside one round, and a round can change the table defaults: the bot reads
   `state.config.payouts` (and the rest of `state.config`) at every table. At the hand cap the bots still seated
   split the remaining points by ICM on their stacks.
+- The server does not repair an action. A raise outside the legal range is a failed decision, not clamped, and a
+  computed size is rounded down, so a raise one chip short of the minimum, facing a bet, becomes a fold. A copy of the
+  bot that crashes or keeps answering late is restarted only a limited number of times a round; after that its
+  remaining decisions on that machine play the fallback for the rest of the round.
 
 More, with what it changes for the bot: `notes/pre/format_finals.md`.

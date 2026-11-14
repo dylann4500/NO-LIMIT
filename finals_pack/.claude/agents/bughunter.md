@@ -41,7 +41,8 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
    the pot counted once; only the matched part when the bettor covers us.
 3. **Position, blinds, first to act, effective stack** at a full table (today's size), 3 and 2 players and after a bust.
 4. **Every variant option:** all-in seats (stack 0), heads-up, the phase skipped when everyone folds, an invalid action
-   answered by the server's default; index vs card and card order after the phase; the deck partition (every card
+   answered by the server's default; raise sizes computed as floats at exactly the minimum and the maximum (the
+   server rounds down and does not clamp); index vs card and card order after the phase; the deck partition (every card
    exactly once across deck, ours, board, dead, known); a known opponent card never resampled; evaluator misuse (more
    hole cards passed than the rules let play: `eval7.evaluate` itself takes 5 to 9 cards and returns the best five;
    comparison direction; a high evaluator used for lows).

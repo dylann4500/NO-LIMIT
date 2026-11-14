@@ -94,7 +94,8 @@ Before any strategy, get a minimal legal bot into bot/ and releases/v1.zip (BUIL
 active bot scores zero, and practice rounds on the real field start within minutes, so every minute
 without an upload wastes real measurements. It must handle every phase the variant adds (use the kit's
 default action for anything unfamiliar), and it needs the safety shell every later version keeps:
-- one final function that turns any intended action into a legal one (whole-number raise sizes clamped to
+- one final function that turns any intended action into a legal one (the server clamps nothing and rounds a
+  computed size down, so one chip under the minimum is a failed decision: whole-number raise sizes clamped to
   the offered range; if raising isn't offered, call; if that isn't, check; then fold);
 - a catch-all around the whole decision that plays the passive action, and COUNTS every time it fires.
   A swallowed exception doesn't crash us, it silently switches off part of the strategy; that has cost

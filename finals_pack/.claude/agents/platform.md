@@ -69,7 +69,8 @@ hand-history README; `state.config`; where two of its files disagree, test what 
   §8): seats, stack, blinds and antes, payouts and time limits are read from `state.config` at every table; a table
   from `theory/` that depends on them is chosen by them, never assumed. Check 2 below also runs at a second table size
   and payout list.
-- **Safety shell:** one final function makes any intended action legal (whole-number sizes clamped to the range; no
+- **Safety shell:** one final function makes any intended action legal (whole-number sizes clamped to the range by us: the server
+  clamps nothing and rounds a float down, so a size one chip under the minimum facing a bet is a fold; no
   raise offered: call; else check; then fold); the new phase returns its legal default before any betting code; a
   catch-all around the whole decision plays the passive action and COUNTS each firing (0 in every local run).
 - **Memory:** everything kept across hands lives in the memory bytes, parsed defensively (cut, garbage, empty: start
