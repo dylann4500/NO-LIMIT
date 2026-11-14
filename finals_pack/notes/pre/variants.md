@@ -116,7 +116,9 @@ Three mock rules pages in the organizers' style; clock started at "announced"; 2
    Ship the first-guess rule's table as the fallback: it was within 1.4 points of the final one.
 5. Improve the rule on 40,000 stored spots × 1,000 shared samples (55 seconds): choose on half the samples, score on
    the other half, print the loss by hand category, fix the worst, stop under 0.1 points.
-6. Confirm: combo-weighted mean equity 50.0, symmetric option shares, a nested re-run of about 18 classes.
+6. Confirm: combo-weighted mean equity 50.0, symmetric option shares, a nested re-run of about 18 classes. Added after
+   the 14 November timed run: score the rule at 3-4 players and against a range before calling it trusted (three
+   clauses flipped), and check exhaustively that no choice breaks a made full house or better (one did, in two releases).
 7. Payoff twists: closed forms first, then one loop counting outcomes by bonus condition (1,000,000 deals per class,
    187 seconds per worker). Measure E[share × hit]; never multiply two averages.
 
