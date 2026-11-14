@@ -43,7 +43,7 @@ near the regional's round 5-6, and by round 3 the answer to pressure (4-bets, ca
 
 **Rounds 4-6.** Regional top 20 (A): 3-bets 13% to 24%, big blind folds 58% to 43%, fold to 4-bets 26% to 50%;
 30% changed bot into the last round, some unseen in practice (one gained 7 points, one lost 3). Rounds 4-6
-carry 71% of the weight (official rules): expect rewrites from 4th-10th.
+carry 71% of the weight with multipliers 1 to 6 (official rules; 81% with Fibonacci, 89% with powers of two): expect rewrites from 4th-10th.
 
 ## 3. What to measure in practices 1 and 2
 

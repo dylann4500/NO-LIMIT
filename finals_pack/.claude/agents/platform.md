@@ -57,7 +57,7 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
 - **T-6:** the chosen bot through the upload test with no time bank; release it if it's a new zip. **T-4** is the
   cut-off: not released and tested (with a `tester` verdict that includes a heads-up run), the live bot plays; report
   the cause. **T-3:** confirm the exact file.
-- **Last round** (often 25-40% of all points): durable fixes plus any held-back exploit BUILDER names; same tests.
+- **Last round** (29% of all points with multipliers 1 to 6, 41% with Fibonacci, 51% with powers of two): durable fixes plus any held-back exploit BUILDER names; same tests.
 
 ## How to do it well
 

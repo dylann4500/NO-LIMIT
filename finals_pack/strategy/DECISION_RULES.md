@@ -162,7 +162,7 @@ is not required.
   divergent design, and the bar drops as above.
 - A PLAN CHALLENGE stands, or two or more plan assumptions (§5) are off by 2 SE or more: the plan's premise is
   false today; say so to both humans and put the alternative in the next practice round.
-- The last round is often 25-40% of all points: plan it from the round before (durable fixes plus any exploit
+- The last round is 29% of all points with multipliers 1 to 6, 41% with Fibonacci, 51% with powers of two: plan it from the round before (durable fixes plus any exploit
   we've been holding back).
 
 **Worked examples** (how these rules play out):
@@ -228,7 +228,9 @@ that counter-wave.
   postflop, short stacks). Practice rounds decide.
 - **Opponent exploitation is core work, not optional:** each team sits at about 7 of our 19 tables at the
   Finals if tables seat 8, about 5 in 23 if they seat 6 (`CLAUDE.md` §8); profiles and counters run every window.
-- **Read the round weights, payouts and cooldown from the Format page**; never assume weights 1-6.
+- **Read the round weights, payouts and cooldown from the Format page**; never assume weights 1-6. The portal's
+  `round_weighting` names the series: linear (1 to 6), Fibonacci (1, 2, 3, 5, 8, 13: Boston and Pittsburgh used it) or
+  powers of two (1 to 32). The watcher keeps it in `state/portal.json` (`comp_settings`) and posts any change.
 
 **Plan assumptions** (`scout` checks each against every download; one off by 2 SE or more is a PLAN CHALLENGE):
 1. The field folds to 3-bets of our opens at about 60-70%.

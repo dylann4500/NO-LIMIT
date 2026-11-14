@@ -150,7 +150,7 @@ The full rules are in `DECISION_RULES.md`; they always apply.
   done we count as outside the top 3 unless we were clearly in it, and with no practice result by T-6 the rule's
   answer is the live bot. The last round's results may be held altogether (`CLAUDE.md` §8).
 - **Bolder:** behind 3rd, or outside the top 3 after 15% of the weight: the challenger slot carries a divergent
-  design and the bar drops; plan the last round (often 25-40% of all points) from the round before.
+  design and the bar drops; plan the last round (29% of all points with multipliers 1 to 6, 41% with Fibonacci, 51% with powers of two) from the round before.
 - **What counts as evidence, in order:**
   1. real-field results (practice and scored);
   2. replay testing;

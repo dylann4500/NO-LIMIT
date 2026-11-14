@@ -198,4 +198,9 @@ during the hold has its results held too, practice rounds included. What we do i
 standings hidden we count as outside the top 3 unless we were clearly in it, and with no practice result by T-6 the
 rule's answer is the live bot (`DECISION_RULES.md` §3, `prompts/RESEARCH.md`).
 
+**Round multipliers.** A round's points count times its multiplier, and the series is one of three: linear (1 to
+6, Bay Area), Fibonacci (1, 2, 3, 5, 8, 13: Boston and Pittsburgh) or powers of two (1 to 32). The last round is then
+29%, 41% or 51% of the total, and every rule that counts "share of the weight played" moves with it. Read
+`round_weighting` in `state/portal.json` (`comp_settings`) and the Format page; never assume 1 to 6.
+
 More, with what it changes for the bot: `notes/pre/format_finals.md`.
