@@ -72,7 +72,7 @@ running before you spawn anything.
    bot/rules.json, team Python announced when ready".
 4. When v1 is released: `python3 scripts/live.py v1 "first legal bot"` and tell Dylan: "upload releases/v1.zip and
    wait before you click". When the upload shows as ready, read the active bot in `state/status.md`: if v1 is active
-   without a click, uploads activate themselves today (the organizers' newest pages say so); if not, it takes a click,
+   without a click, uploads activate themselves today (the Finals' own pages say so); if not, it takes a click,
    as at Bay Area, and Dylan clicks now. Tell Dylan and RESEARCH which case holds and write it at the top of
    `notes/format.md`. A team with no active bot scores zero.
 5. **Every release, from v1 on (D's included):** spawn a fresh `bughunter` on it at once (background, at most 8

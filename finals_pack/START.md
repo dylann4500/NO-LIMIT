@@ -99,9 +99,9 @@ research (notes only, no code: it checks and extends Saturday's drafts in `notes
   - re-activate the live bot at T-9 (a click), once the practice round has started, and by decision time (T-8) if none has;
   - the chosen bot by T-3 (a click if it's already uploaded).
 
-  **An upload probably activates itself.** The organizers' newest pages say a zip that passes its upload test becomes
+  **An upload activates itself, by the Finals' own pages** (read on 14 November). They say a zip that passes its upload test becomes
   the active bot without a click, and a click is how an earlier upload is put back; at Bay Area it took a click every
-  time. BUILDER works out which it is from the first upload (it will ask you to upload v1 and wait a moment before
+  time. BUILDER still checks it on the first upload (it will ask you to upload v1 and wait a moment before
   clicking). So never upload a zip just to have it on the portal, expect a late upload to be active only when its
   test has finished, and after every upload and every click check which bot the portal shows as active.
 

@@ -77,7 +77,7 @@ confirm it.
    passes the upload test with no time bank (2 players, 20 hands, time bank 0). A failed decision (timeout, error,
    illegal action) checks when checking is free and otherwise folds (§8).
 2. **Only tested zips are released and uploaded.** A tested bot is active by T-3 of every scored round. Each round
-   plays the bot that is **active when it starts**. On the organizers' newest pages an upload that passes its test becomes the
+   plays the bot that is **active when it starts**. On the Finals' own pages an upload that passes its test becomes the
    active bot by itself, and a click is what puts an earlier upload back; at Bay Area every activation was a click
    (BUILDER settles which holds after v1's upload, §8). Either way: upload nothing inside a window that is not meant to be the next bot to play (a zip uploaded "to have it ready" would replace the active bot),
    an upload is active only when its test has finished, and the active bot is confirmed in `state/status.md` after
@@ -238,11 +238,11 @@ statement of the platform's rules: re-read Sunday's own pages at minute 0.
 - The upload cooldown on those pages is 30 seconds, the value the regional's API gave and the Finals competition
   showed on Saturday afternoon. What limits a late
   upload is its test, which must finish before the round starts, not the cooldown.
-- **An upload probably activates itself.** The Getting started page (6 and 9 November) and Boston's Format page: an
-  upload that passes its test match becomes the active bot automatically, unless a newer upload is already active or
+- **An upload activates itself, by the Finals' own pages.** The Finals' Format and Getting started pages (read signed
+  in on 14 November), like Boston's: an upload that passes its test match becomes the active bot automatically, unless a newer upload is already active or
   the competition is frozen or over; an earlier upload is chosen on the team page. The Format page saved before Bay
-  Area said "An upload alone does not activate it", and that night every activation was a click. The bundle is
-  written for both. BUILDER settles it at about minute 10: after v1's upload is ready and before any click, it reads
+  Area said "An upload alone does not activate it", and that night every activation was a click; that sentence is
+  gone from the Finals' page. The bundle is still written for both, and the first upload is still checked. BUILDER settles it at about minute 10: after v1's upload is ready and before any click, it reads
   the active bot in `state/status.md`, tells Dylan and RESEARCH which case holds and records it in `notes/format.md`.
 
 More, with what it changes for the bot: `notes/pre/format_finals.md`.
