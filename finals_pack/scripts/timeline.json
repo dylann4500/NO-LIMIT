@@ -19,7 +19,7 @@
   {
    "when": "b0",
    "to": "builder",
-   "text": "Minute 0: the variant is announced. Fetch the kit (Dylan puts it in starter-kit/), read the Format page (weights, payouts, cooldown, anything unusual). Spawn the three build-hour streams now, in ONE message, in the background.",
+   "text": "Minute 0: the variant is announced. Fetch the kit (Dylan puts it in starter-kit/), read the Format page (weights, payouts, cooldown, anything unusual). Spawn the three build-hour streams now, in ONE message, in the background. If the portal watcher has posted THE VARIANT IS ANNOUNCED, the portal's rules text is in state/variant.md and its upload cooldown in state/status.md: name both in each brief as a head start (the kit and the Format page still decide the rules card).",
    "tasks": [
     [
      "platform",
@@ -38,7 +38,7 @@
   {
    "when": "b0",
    "to": "research",
-   "text": "Minute 0: the variant is announced. Read the Format page (weights, payouts, anything unusual). Spawn the four build-hour streams now, in ONE message, in the background.",
+   "text": "Minute 0: the variant is announced. Read the Format page (weights, payouts, anything unusual). Spawn the four build-hour streams now, in ONE message, in the background. If the portal watcher has posted THE VARIANT IS ANNOUNCED, the portal's rules text is in state/variant.md: name it in the theory briefs as a head start (the kit's RULES.md and bot/rules.json decide once they exist).",
    "tasks": [
     [
      "theory",

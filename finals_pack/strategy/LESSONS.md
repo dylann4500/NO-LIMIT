@@ -99,7 +99,9 @@ neither exists any more.
 - **The round card ran without the analysts' Python packages** (audit: the system `python3` had no numpy). → Run
   `analysis/roundcard.py` once by hand the way the watcher runs it, on practice 1's data at the latest.
 - **A stray "it starts now" put the clock 6 minutes off for the rest of a simulation** (eval round 2). → Only a
-  human's words set the clock. When a scored round really starts at another time, pin it
+  human's words set the clock (one exception: with no clock started, RESEARCH starts it from the watcher's "THE
+  VARIANT IS ANNOUNCED" line, which carries the portal's own time for minute 0). When a scored round really starts at
+  another time, pin it
   (`python3 scripts/clock.py pin scored<k> HH:MM`); never move minute 0 after round 1.
 - **A hidden leaderboard switched off the checks** (audit). → Standings hidden: work out our total from each
   round's results and weights; if that's impossible, treat us as outside the top 3 (`DECISION_RULES.md` §3).

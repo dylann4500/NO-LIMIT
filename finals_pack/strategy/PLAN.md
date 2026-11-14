@@ -90,7 +90,7 @@ How sure we are of each of these: `EVIDENCE_TABLE.md`.
 
 | Minute | What happens | Who |
 |---|---|---|
-| 0-5 | Samuel gives RESEARCH the announcement time and it starts the clock; kit fetched into `starter-kit/`; Format page read (round weights, payouts, the upload cooldown, anything unusual; a different shape goes into the clock); BUILDER starts `platform` on the rules card and Part 1 with `TWIST_NOTES.md`; RESEARCH starts `theory`, `analyst`, `tester` and `scout` | Both |
+| 0-5 | Samuel gives RESEARCH the announcement time and it starts the clock (if nobody has, RESEARCH starts it from the portal watcher's "THE VARIANT IS ANNOUNCED" line; the same line means the portal's rules text is in `state/variant.md`, a head start while the kit unpacks); kit fetched into `starter-kit/`; Format page read (round weights, payouts, the upload cooldown, anything unusual; a different shape goes into the clock); BUILDER starts `platform` on the rules card and Part 1 with `TWIST_NOTES.md`; RESEARCH starts `theory`, `analyst`, `tester` and `scout` | Both |
 | 0 | `challenger` starts design D from scratch (today's rules only) | BUILDER |
 | by 10 | Minimal legal bot uploaded and active | Dylan (BUILDER names the file) |
 | 15 | Test rig running (paired runs, sparring) | RESEARCH (`tester`) |
@@ -193,7 +193,7 @@ each brief is to check and extend the draft in place and list what changed at th
 
 | Step | Session | Subagent: the brief | Deliverable |
 |---|---|---|---|
-| b0 | Humans | Samuel gives RESEARCH the announcement time (it runs `clock.py start`); both read the Format page (a different shape goes into the clock); Dylan puts the kit in `starter-kit/` | the clock running |
+| b0 | Humans | Samuel gives RESEARCH the announcement time (it runs `clock.py start`; with no time given, it uses the one in the watcher's "THE VARIANT IS ANNOUNCED" line); both read the Format page (a different shape goes into the clock); Dylan puts the kit in `starter-kit/` | the clock running |
 | | BUILDER | itself first: check with the kit's Python that the kit's engine loads today's variant (`load_variant`); if not, tell both humans at once | |
 | | BUILDER | `platform`: the rules card first (`bot/rules.json` from the kit and the Format page: players per table, stacks, blinds, hands per match, time limits, weights, payouts, cooldown) within 5 minutes; then FIRST_PROMPT Part 1 with `TWIST_NOTES.md`: a minimal legal bot by minute 10, the test harness by 15, each of `theory`'s tables built in as it lands (all by about minute 20, so every practice from practice 1 uses the newest tables), then the shared platform with every Part 1 check passing | `bot/rules.json`, `bot/` |
 | | BUILDER | `stylist`: Part 1 (styles, shared defaults) and `TWIST_NOTES.md`: styles A (wide pressure), B (shove-heavy), C (tight) as settings on the platform as soon as its interface is published. They are starting corners: if today's rules clearly favour another axis (the twist, postflop, short stacks), say so and build that instead of the weakest corner | `candidates/<style>/` |
