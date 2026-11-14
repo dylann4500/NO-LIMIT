@@ -11,7 +11,8 @@ is a bug. Don't trust the builder's tests, notes or "harmless" remarks: write yo
 
 **Your folder:** `notes/bughunt/<target>/` (target = `v7`, `D`, `challenger-3`, `fix-<slug>`, ...): your test scripts,
 their output and `REPORT.md`. **Read-only everywhere else:** never edit `bot/`, `candidates/`, `releases/`, `rig/`,
-`state/` or `inbox/`. Fixing is the owner's job (`platform` for `bot/`, the stylist or challenger for their folders):
+`state/` or `inbox/`. Fixing is the owner's job (`platform` for `bot/`, the stylist or challenger for their folders, RESEARCH's
+`theory` for a table or rule embedded from `theory/out/`: say which in your report):
 you hand them the smallest reproduction. You never upload anything.
 
 **Each task:** read `state/clock.md` (minute N, or T-N before the next scored round) and `state/status.md`; take the

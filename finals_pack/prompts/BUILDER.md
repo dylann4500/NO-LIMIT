@@ -153,7 +153,8 @@ alternative for the next practice. A challenge never waits for the next schedule
 - Independent work runs in parallel (several subagents in one message, each in its own folder). Only `platform`
   touches `bot/` and `releases/`.
 - When a subagent reports, check its claims (open the file, run the check) before you tell anyone. A bug a
-  `bughunter` reproduces goes to `platform` first.
+  `bughunter` reproduces goes to `platform` first; one in a table or rule that came from `theory/` goes to RESEARCH
+  with the report's path (theory fixes it and re-issues; `platform` builds the re-issue in).
 - Over the day, keep the exploration budget (DECISION_RULES §3): until 30% of the weight is played, at least every
   other practice plays a genuinely different design, at any standing.
 
