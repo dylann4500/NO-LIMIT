@@ -100,3 +100,20 @@ size other than 8.
 - Not clicked: credit claim buttons, Upload, Change (active bot), Rename team, glyph, School Save/Clear, New chat,
   Message/Pin buttons, the account menu (holds settings, keys and sign-out), Performance tabs, hand-history downloads.
 - Chats: sidebar showed "No conversations yet." on the Bay Area view; not opened further.
+
+## Added by the lead session: what our API key shows for the Finals (14 November, 15:44 Pacific)
+
+The Finals competition was created on the portal at 15:26 today, and our saved key now lists it (team avalon,
+team id `2342bf56-c044-44a1-943f-1256e1f6da84`, competition id `2f3668a3-3649-408a-b3ea-1d0021671f4b`), next to
+Bay Area. The watcher picks the newer competition by itself.
+
+- Settings as of 15:44: `round_weighting` **linear** (1 to 6, not Fibonacci), `submission_cooldown_seconds` 30,
+  `variant` null and `variant_announced_at` null (not announced), `final_weight` null, `leaderboard_held` false,
+  `frozen` false, `machines_open_at` null. Any of these can change before or during the event.
+- Rounds: none yet. The variant endpoint answers 404 until the announcement.
+- **The 21 teams** (`GET /competitions/<id>/teams`): 0_o GTO Slop, 2 Curry, AEPi AK, AZ, avalon, BHTG,
+  Claude Mythos 5.5, Cold Decks, Du-o, Hold Em Trophies, Hotwheels, LLinusLLoveBot, Lemonade, Magnus RLsen, Pluto,
+  Poker is all you need, Preesh, sandylikesfrogs, Situational Awareness, Team 123, Team 72.
+  That is the three regionals' top fives plus six more: avalon and Team 123 (Bay Area 6th and 7th), LLinusLLoveBot
+  and AEPi AK (Pittsburgh 6th and 7th), Magnus RLsen (reported Boston 6th) and Hotwheels (regional not known to us).
+- 21 teams make 24 seats an iteration with 3 filler seats, at 8 seats (3 tables) or at 6 seats (4 tables).
