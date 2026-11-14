@@ -471,7 +471,8 @@ decision time.
   locally, sharing 20 containers (80 in all). Size runs from measured speed: on 14 November 20,000 tables took 144 s
   on 80 containers (139 tables a second; the regional kit and bots), so `avalon-rig`'s 40 containers give about
   15,000-20,000 tables in a five-minute window: three candidates at about 5,000 each, or one 20,000-table
-  confirmation, not 20,000 each. Time the first job on today's kit. Hand histories never leave this machine; fitted opponent parameters may go to our own Modal
+  confirmation, not 20,000 each. Shard size matters: a second run that day reached 126-151 tables a second on the 40
+  containers with 30-table shards and 53 with 150-table shards. Start small and time the first job on today's kit. Hand histories never leave this machine; fitted opponent parameters may go to our own Modal
   workspace.
 ```
 

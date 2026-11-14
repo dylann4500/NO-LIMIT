@@ -45,7 +45,10 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   earlier 6,000 in about 2 minutes on 40. So with `avalon-rig`'s 40 containers a 5-minute window affords about
   15,000-20,000 tables in all: three candidates at about 5,000 each (paired SE about 0.3 points), or one
   20,000-table confirmation. The old aim of 20,000 tables for 3-4 candidates in 5 minutes is out of reach at the
-  cap. Time the first job on today's kit and resize. It's one of only two
+  cap. Shard size matters more than the container count: in a second run that day (a mock kit) the 40 containers gave
+  126-151 eight-player tables a second with 30-table shards and 53 with 150-table shards (heads-up 246), about 30,000
+  tables in 5 minutes when one tester has the app and a third of that each when three share it; a deploy took 4-10 s.
+  Start with small shards, time the first job on today's kit and resize. It's one of only two
   deployed apps (with theory's `avalon-theory`): the other roles call it instead of running their own, so write in
   `rig/NOTES.md` how to call it.
   Hand histories never leave this machine; fitted parameters may go to our Modal workspace.
