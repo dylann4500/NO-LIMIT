@@ -153,7 +153,7 @@ class Human:
         bots = st.get("bots") or []
         L.append(f"LIVE MENU: declared live {live['filename'] if live else 'none'}; active on portal "
                  f"{(st.get('portal_active') or {}).get('filename') or 'unknown'}; bots: "
-                 + (", ".join(f"{b['name']} ({b['status']}, file {b['file']})" for b in bots[:10]) or "none"))
+                 + (", ".join(f"{b['name']} ({b['status']}, file {b['file']})" for b in bots[:40]) or "none"))
         if not st.get("schedule"):
             L.append("BOARD: a big 'Start building' button (the clock hasn't started).")
         L.append(f"BOARD tiles (current stage: {st.get('stage')}):")

@@ -68,5 +68,12 @@ async def main():
     check("stage names normalised ('Practice-1', 'round2.5')", H.norm_stage("Practice-1") == "Practice 1" and H.norm_stage("round2.5") == "Round 2.5" and H.norm_stage("R3") == "Round 3")
     await hub.register_bot("releases/v8.zip", "ready", "", "releases/"); await asyncio.sleep(0.05)
     check("a release found on disk gets a real owner (Platform)", (hub.bus.shared.get("tile:bot-v8") or {}).get("owner") == "d-platform")
+    # the Live menu always lists the live and the active bot, however many newer bots exist
+    for k in range(10, 56):
+        hub.bus.shared["bot:v%d" % k] = {"file": "releases/v%d.zip" % k, "status": "ready", "at": time.time() + k}
+    hub.bus.shared["bot:v2"] = {"file": "releases/v2.zip", "status": "ready", "at": 1}
+    hub.bus.shared["live"] = {"filename": "v2.zip", "file": "releases/v2.zip", "at": time.time()}
+    names = [b["name"] for b in hub.bots_for_menu()]
+    check("the live bot stays in the Live menu with 45 newer bots", "v2" in names and len(names) <= 42, f"{len(names)} {names[-3:]}")
     print("FAILED:", fails if fails else "none")
 asyncio.run(main())

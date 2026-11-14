@@ -704,6 +704,13 @@ class Hub:
         p.update(fields)
         await self.save_prop(p)
 
+    def bots_for_menu(self) -> list[dict]:
+        """The newest 40 bots, plus the live and the active bot whatever their age (Dylan must always find them)."""
+        allb = self.bots()
+        keep = {norm_bot((self.bus.shared.get("live") or {}).get("filename")), norm_bot((self.bus.shared.get("portal_active") or {}).get("filename"))}
+        top = allb[:40]
+        return top + [b for b in allb[40:] if norm_bot(b["name"]) in keep]
+
     def bots(self) -> list[dict]:
         out = [dict(v, name=k[4:]) for k, v in self.bus.shared.items() if k.startswith("bot:") and isinstance(v, dict)]
         return sorted(out, key=lambda b: b.get("at", 0), reverse=True)
@@ -1348,7 +1355,7 @@ class Hub:
                 "live": self.bus.shared.get("live"), "clock": self.clock.next_text(), "tiles": self.tiles()[:200],
                 "props": [dict(p, thread=(p.get("thread") or [])[-60:], thread_n=len(p["thread"])) if len(p.get("thread") or []) > 60 else p
                           for p in self.props()[:200]],
-                "bots": self.bots()[:40], "portal_active": self.bus.shared.get("portal_active"),
+                "bots": self.bots_for_menu(), "portal_active": self.bus.shared.get("portal_active"),
                 "overviews": {k[7:]: v.get("items", []) for k, v in self.bus.shared.items()
                               if k.startswith("ovchat:") and isinstance(v, dict)},
                 "noteled": self.note_ledger(),
@@ -1740,12 +1747,15 @@ class Agent:
         await self.set_state("working", "compacting")
         self.record({"type": "note", "text": f"Compacting its context ({tokens // 1000}k tokens) to stay fast."})
         try:
+            self.compacting = True
             await self.client.query("/compact " + COMPACT_KEEP + (" " + self.spec.get("keep", "")))
             async for m in self.client.receive_response():
                 self.handle(m)
             self.digest_full = True
         except Exception as e:  # noqa: BLE001
             self.record({"type": "note", "text": f"Compaction failed ({e}); it carries on."})
+        finally:
+            self.compacting = False
 
     def format(self, b: dict) -> str:
         if b["kind"] == "human":
@@ -1950,7 +1960,7 @@ class Agent:
                     if not m.parent_tool_use_id:
                         self.turn_text_n = getattr(self, "turn_text_n", 0) + 1
                     self.record({"type": "text", "text": b.text, "sub": bool(m.parent_tool_use_id)})
-                    if self.name.endswith("overview") and not m.parent_tool_use_id:
+                    if self.name.endswith("overview") and not m.parent_tool_use_id and not getattr(self, "compacting", False):
                         asyncio.create_task(self.ov_log("Chat", b.text))
                 elif isinstance(b, ToolUseBlock):
                     self.record({"type": "tool", "name": b.name, "input": short(b.input), "id": b.id,
