@@ -79,8 +79,9 @@ running before you spawn anything.
 
 ## The build hour (practice rounds at minutes 20, 30, 40, 50)
 
-- Styles and design D were legal by minute 12-13 in the speedrun, so even practice 1 (minute 20) can play a style or
-  D, not only the base.
+- Styles and design D were legal by minute 12-13 in one speedrun, so even practice 1 (minute 20) can play a style or
+  D, not only the base. In a second run they were legal at minutes 16-29: nothing can be packed before `platform`'s
+  packer exists, and it landed at minute 15. Styles are legal 2-4 minutes after the packer.
 - **You pick the bot for each practice: the most informative test**, not a fixed rota (DECISION_RULES §3
   "Exploration"): one practice must be design D; every style rebuilt with the newest shared tables before its upload,
   so practice scores compare styles, not timing. By 3 minutes before each practice the pick is released and
@@ -93,7 +94,7 @@ running before you spawn anything.
 - **After every platform release, diff the interface** (`git diff <previous>..HEAD -- bot/INTERFACE.md`): if a setting
   was renamed or removed, grep `candidates/` and tell each affected stylist. A silent rename switched a style's
   feature off in the speedrun.
-- **Keep the stylists working:** once A/B/C are legal (about minute 15), continue the same `stylist` agents
+- **Keep the stylists working:** once A/B/C are legal (minutes 12-29 in the two timed runs), continue the same `stylist` agents
   (SendMessage) for rebuilds and one-change candidates; a continued agent rebuilt in 1-2 minutes.
 - **CPU:** if `uptime` shows load above the core count, ask RESEARCH to move its rig to Modal and pause local fan-out
   before any upload test; an upload test counts only next to the kit's `check_or_fold` run in the same minute.
