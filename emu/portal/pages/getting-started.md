@@ -57,7 +57,7 @@ Upload agent.py, or a zip with agent.py at its root plus the files it reads. To 
 - 1 MB for the code in agent.py
 - Paths of up to 512 characters and 16 levels
 
-Your team can upload once every 30 seconds.
+Your team can upload once every {{COOLDOWN}} seconds.
 
 Every bot that is uploaded is put through a series of checks to make sure the bot is a viable player. Each upload first plays a heads-up test match of up to 20 hands against a bot that checks when free and otherwise folds, in the competition's variant with the default 1 ms decision limit and no time bank, whatever the rounds use. It is rejected if it does not start within the startup allowance (the rejection states the limit), crashes or stops responding (it is not restarted), or fails more than 10% of its decisions. play always gives a 100 ms bank, so a bot that needs the bank can pass locally and still be rejected. A rejected upload shows its reason and validation log on your team page.
 

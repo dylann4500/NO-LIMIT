@@ -7,25 +7,33 @@ and the parts are merged locally into the real-format downloads (tournament.py m
 
   from modal_rounds import play_round_on_modal
   play_round_on_modal(field, seed, iterations, local_round_dir, shards=40)
+
+The image installs the kit's SDK from EMU_KIT (environment, read at import) or starter-kit/: for a
+mock variant, rehearsal.py points EMU_KIT at the mock kit it built, so the engine has the variant.
+open_session() keeps one app running for the whole event (one app creation instead of two per
+round); without it each call runs its own app.
 """
 
 import io
 import json
+import os
 import shutil
 import subprocess
 import sys
 import tarfile
 import threading
 import time
+from contextlib import contextmanager
 from pathlib import Path
 
 import modal
 
 ROOT = Path(__file__).resolve().parent.parent
 EMU = ROOT / "emu"
-KIT = ROOT / "starter-kit"
+KIT = Path(os.environ.get("EMU_KIT") or ROOT / "starter-kit")
 VOLUME = "emu-teams"
 _LOCK = threading.Lock()  # one app.run() at a time, even when rounds overlap
+_SESSION = None  # an app.run() context kept open for the whole event (open_session)
 
 app = modal.App("nolimit-emu-rounds")
 vol = modal.Volume.from_name(VOLUME, create_if_missing=True)
@@ -80,13 +88,13 @@ def play_round_on_modal(field: dict, seed: str, iterations: int, rdir: Path, rou
             e["bot"] = f"/vol{dest}"
     per = -(-iterations // shards)
     jobs = [(remote, seed, k * per, min(per, iterations - k * per), key, k) for k in range(shards) if k * per < iterations]
-    with _LOCK, app.run():
+    with _running():
         results = list(play_shard.starmap(jobs))
     bad = [r for r in results if r["rc"]]
     if bad:
         raise RuntimeError(f"{len(bad)} shards failed; first: {bad[0]['stderr'][-1500:]}")
     shard_dirs = [f"/vol/{key}/shard{k}" for *_, k in jobs]
-    with _LOCK, app.run():
+    with _running():
         summary = merge_round.remote(remote, key, shard_dirs, round_no)
     rdir.mkdir(parents=True, exist_ok=True)
     (rdir / "round.json").write_text(json.dumps(summary, indent=1))
@@ -97,6 +105,45 @@ def play_round_on_modal(field: dict, seed: str, iterations: int, rdir: Path, rou
             _download(entry.path, rdir / "downloads" / slug / entry.path.rsplit("/", 1)[-1])
     summary["remote_downloads"] = f"/vol/{key}/merged/downloads"
     return summary
+
+
+def image_has_variant(variant: str) -> Path:
+    """The variant module the round image will install (KIT/sdk is copied into it whole);
+    raises FileNotFoundError if it isn't there."""
+    f = KIT / "sdk/engine/src/poker_engine/variants" / f"{variant}.py"
+    if not f.is_file():
+        raise FileNotFoundError(f"the round image is built from {KIT / 'sdk'}, which has no {f.name}")
+    return f
+
+
+def open_session() -> None:
+    """Start one app for the whole event; rounds then run inside it, overlapping if they must."""
+    global _SESSION
+    with _LOCK:
+        if _SESSION is None:
+            ctx = app.run()
+            ctx.__enter__()
+            _SESSION = ctx
+
+
+def close_session() -> None:
+    global _SESSION
+    with _LOCK:
+        ctx, _SESSION = _SESSION, None
+    if ctx is not None:
+        try:
+            ctx.__exit__(None, None, None)
+        except Exception:  # noqa: BLE001 - the app may already be gone
+            pass
+
+
+@contextmanager
+def _running():
+    if _SESSION is not None:
+        yield
+    else:
+        with _LOCK, app.run():
+            yield
 
 
 def _download(path: str, dest: Path) -> None:

@@ -12,6 +12,11 @@ portal's upload test (a rejected upload leaves the previous bot active; no bot =
 round plays in the background on the kit engine. When it finishes, every team gets the results
 page, its downloads (full + first-1000) and a portal notice.
 
+A mock variant (--variant X with emu/variants/X.py) gets a mock kit built for the run by
+emu/variants/make_kit.py (emu/runs/<run>/kit_build): every team's kit/, the synthetic teams'
+installed SDK, the upload test, local rounds and the Modal round image all use it. Before READY a
+self-check loads the variant from that kit and plays the upload test with it; it stops the run if not.
+
   prep/.venv/bin/python emu/rehearsal.py --run full1
 """
 
@@ -19,6 +24,7 @@ import argparse
 import base64
 import io
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -33,7 +39,9 @@ EMU = ROOT / "emu"
 KITPY = str(ROOT / "starter-kit" / ".venv" / "bin" / "python")
 sys.path.insert(0, str(EMU / "teams"))
 sys.path.insert(0, str(EMU))
+sys.path.insert(0, str(EMU / "variants"))
 import modal  # noqa: E402
+from make_kit import kit_env  # noqa: E402
 import run_team  # noqa: E402
 from pilot import upload_test  # noqa: E402
 
@@ -104,6 +112,57 @@ class Event:
         self.lock = threading.Lock()
         self.events = timeline(a.scale, self.weights)
         self.remote: dict[str, str] = {}  # round name -> volume folder with every team's downloads
+        self.kit = ROOT / "starter-kit"  # the kit teams get and rounds play on (prepare_kit)
+        self.mock = (EMU / "variants" / f"{a.variant}.py").is_file()
+        self.announce_avalon_dir = self.dir / "avalon_announce"
+        self.local_ok = False  # set by self_check: the local engine plays the variant
+
+    # ---------------------------------------------------------------- kit and self-check
+    def prepare_kit(self) -> None:
+        """For a mock variant, build the run's mock kit (the variant's module installed in its engine)."""
+        if self.mock:
+            out = self.dir / "kit_build"
+            log(f"building the mock kit for {self.a.variant} in {out}")
+            subprocess.run([KITPY, str(EMU / "variants" / "make_kit.py"), self.a.variant, str(out), "--force"],
+                           check=True, stdout=subprocess.DEVNULL)
+            self.kit = out
+        os.environ["EMU_KIT"] = str(self.kit)  # read by modal_rounds when imported: the round image's SDK
+        (self.dir / "settings.json").write_text(json.dumps(
+            {"variant": self.a.variant, "cooldown": self.a.cooldown, "kit": str(self.kit)}, indent=1))
+
+    def self_check(self) -> None:
+        """Before READY: the variant loads from every kit copy, the upload test plays it, and the
+        round image will have it. Stops the run loudly if not."""
+        v = self.a.variant
+        problems = []
+        code = ("import sys; from poker_engine.variant import load_variant; import poker_engine; "
+                f"load_variant({v!r}); print(poker_engine.__file__)")
+        kits = [("run kit", self.kit), ("avalon's kit", self.announce_avalon_dir / "kit")]
+        for label, kit in kits:
+            r = subprocess.run([KITPY, "-c", code], capture_output=True, text=True, env=kit_env(kit))
+            if r.returncode:
+                problems.append(f"{label} ({kit}): load_variant({v!r}) failed: {r.stderr.strip()[-400:]}")
+            elif not Path(r.stdout.strip()).resolve().is_relative_to(kit.resolve()):
+                problems.append(f"{label}: the engine came from {r.stdout.strip()}, not {kit}")
+        if not problems:
+            self.local_ok = True
+            t = upload_test(ROOT / "starter-kit" / "examples" / "check_or_fold", v, self.kit)
+            if not t["ok"]:
+                problems.append(f"the upload test can't play {v}: {t['reason']}")
+        if not self.a.local_rounds:
+            import modal_rounds
+            if modal_rounds.KIT.resolve() != self.kit.resolve():
+                problems.append(f"modal_rounds builds its image from {modal_rounds.KIT}, not {self.kit}")
+            try:
+                modal_rounds.image_has_variant(v)
+            except FileNotFoundError as e:
+                problems.append(str(e))
+        if problems:
+            for x in problems:
+                log(f"SELF-CHECK FAILED: {x}")
+            raise SystemExit(f"self-check failed for variant {v}; nothing was started")
+        log(f"self-check: {v} loads from the run kit and avalon's kit, passes the upload test"
+            + ("" if self.a.local_rounds else ", and is in the Modal round image"))
 
     # ---------------------------------------------------------------- setup
     def workspace(self, team: str) -> Path:
@@ -111,13 +170,23 @@ class Event:
         if ws.exists():
             shutil.rmtree(ws)
         ws.mkdir(parents=True)
-        run_team.kit_files(ws / "kit", Path(self.a.variant_rules) if self.a.variant_rules else None)
-        rules = (Path(self.a.variant_rules) if self.a.variant_rules else ROOT / "starter-kit" / "RULES.md").read_text()
+        run_team.kit_files(ws / "kit", Path(self.a.variant_rules) if self.a.variant_rules else None, self.kit)
+        rules = (Path(self.a.variant_rules) if self.a.variant_rules else self.kit / "RULES.md").read_text()
         run_team.portal_files(ws / "portal", rules.splitlines()[0].lstrip("# ").strip(),
-                              "\n".join(rules.splitlines()[1:]).strip(), self.weights)
+                              "\n".join(rules.splitlines()[1:]).strip(), self.weights, self.a.cooldown)
         for d in ("submission", "results", "downloads", "inbox"):
             (ws / d).mkdir()
         if team == AVALON:
+            # As for every team, kit/ and the full portal appear only at the start (announce_avalon).
+            ann = self.announce_avalon_dir
+            if ann.exists():
+                shutil.rmtree(ann)
+            ann.mkdir()
+            shutil.move(str(ws / "kit"), ann / "kit")
+            shutil.move(str(ws / "portal"), ann / "portal")
+            run_team.portal_files(ws / "portal", "To be announced",
+                                  "The variant is announced at the start of the event, together with the starter kit.",
+                                  self.weights, self.a.cooldown)
             if self.a.avalon_start != "empty":
                 shutil.copytree(ROOT / "bots" / self.a.avalon_start, ws / "submission", dirs_exist_ok=True)
         elif self.a.field == "finals":
@@ -152,7 +221,7 @@ class Event:
         shutil.move(str(ws / "portal"), ann / "portal")
         run_team.portal_files(ws / "portal", "To be announced",
                               "The variant is announced at the start of the event, together with the starter kit.",
-                              self.weights)
+                              self.weights, self.a.cooldown)
         kit = ws.parent / "announce.tgz"
         kit.write_bytes(run_team.tar_dir(ann))
         with self.vol.batch_upload(force=True) as up:
@@ -193,6 +262,8 @@ class Event:
         cmd = (f"cd /home/team/work && {auth} && {prep_cmd}"
                f"python3 -c 'import time; time.sleep(max(0, {start} - time.time()))' && "
                f"rm -rf /home/team/work/portal && tar xzf /vol/{key}/announce.tgz -C /home/team/work && "
+               # the build box's installed SDK becomes the announced kit's (editable installs point here)
+               f"rm -rf /opt/kit/sdk && cp -r /home/team/work/kit/sdk /opt/kit/sdk && chmod -R a+rX /opt/kit/sdk && "
                f"cp /vol/{key}/situation.txt /opt/steer/situation.md && "
                f"chown -R team:team /home/team/work && {as_team} "
                f"python3 /opt/steer/steer.py /opt/steer {seconds} {model} {HUMAN_MODEL} /tmp/out "
@@ -225,7 +296,7 @@ class Event:
     def upload(self, team: str, label: str) -> dict:
         try:
             sub = self.snapshot(team, label)
-            test = upload_test(sub)
+            test = upload_test(sub, self.a.variant, self.kit)
         except Exception as e:  # noqa: BLE001
             sub, test = None, {"ok": False, "reason": f"upload failed: {e!r}"}
         if test["ok"]:
@@ -253,13 +324,8 @@ class Event:
         iters = self.a.practice_iterations if ev["kind"] == "practice" else self.a.round_iterations
         log(f"{label}: playing {iters} iterations ({len(forfeit)} forfeits)")
         t0 = time.time()
-        if self.a.local_rounds:
+        if self.a.local_rounds or not self.play_modal(field, name, iters, rdir, ev["n"], label):
             self.play_local(rdir, name, iters, ev["n"])
-        else:  # Modal: shards in the cloud, merged there; synthetic teams' downloads stay on the volume
-            import modal_rounds
-            remote = modal_rounds.play_round_on_modal(field, f"{self.a.run}-{name}", iters, rdir, ev["n"],
-                                                      shards=self.a.shards, local_teams=(self.slug[AVALON],))
-            self.remote[name] = remote["remote_downloads"]
         summary = json.loads((rdir / "round.json").read_text())
         for t in forfeit:
             summary["scores"][t]["points"] = 0.0
@@ -272,20 +338,53 @@ class Event:
             f"{t} {v['points']:.1f}" for t, v in sorted(summary["scores"].items(), key=lambda kv: -kv[1]["points"])[:5]))
         self.deliver(ev, rdir, summary)
 
+    def play_modal(self, field: dict, name: str, iters: int, rdir: Path, round_no: int, label: str) -> bool:
+        """Modal: shards in the cloud, merged there; synthetic teams' downloads stay on the volume.
+        Launch failures (e.g. the app-create rate limit) are retried with backoff for about 4 minutes;
+        returns False (play locally) if Modal still fails and the local engine has the variant."""
+        import modal_rounds
+        delays = [20, 40, 60, 60, 60]
+        for attempt in range(len(delays) + 1):
+            try:
+                remote = modal_rounds.play_round_on_modal(field, f"{self.a.run}-{name}", iters, rdir, round_no,
+                                                          shards=self.a.shards, local_teams=(self.slug[AVALON],))
+                self.remote[name] = remote["remote_downloads"]
+                return True
+            except RuntimeError as e:  # shards ran and failed: bots or engine, not the launch
+                log(f"{label}: Modal shards failed: {str(e)[:500]}")
+                break
+            except Exception as e:  # noqa: BLE001
+                if attempt == len(delays):
+                    log(f"{label}: Modal still failing after {len(delays)} retries: {e!r}")
+                    break
+                log(f"{label}: Modal launch failed ({type(e).__name__}: {str(e)[:200]}); "
+                    f"retry {attempt + 1}/{len(delays)} in {delays[attempt]} s")
+                time.sleep(delays[attempt])
+                if modal_rounds._SESSION is not None:  # the event's app may be gone: start a new one
+                    modal_rounds.close_session()
+                    try:
+                        modal_rounds.open_session()
+                    except Exception as e2:  # noqa: BLE001 - per-round apps then
+                        log(f"could not restart the event's Modal app ({e2!r}); each round runs its own")
+        if not self.local_ok:
+            raise RuntimeError(f"{label}: Modal failed and the local engine can't play {self.a.variant}")
+        log(f"{label}: playing on this machine instead")
+        return False
+
     def play_local(self, rdir: Path, name: str, iters: int, round_no: int) -> None:
         shards = min(self.a.shards, 4)  # each local shard runs two processes per team
         per = -(-iters // shards)
         procs = [subprocess.Popen([KITPY, str(EMU / "tournament.py"), "play", "--field", str(rdir / "field.json"),
                                    "--seed", f"{self.a.run}-{name}", "--first-iteration", str(k * per),
                                    "--iterations", str(min(per, iters - k * per)), "--out", str(rdir / f"shard{k}"),
-                                   "--concurrency", "4"],
+                                   "--concurrency", "4"], env=kit_env(self.kit),
                                   stdout=subprocess.DEVNULL, stderr=open(rdir / f"shard{k}.err", "w"))
                  for k in range(shards) if k * per < iters]
         for p in procs:
             p.wait()
         subprocess.run([KITPY, str(EMU / "tournament.py"), "merge", "--field", str(rdir / "field.json"),
                         "--round", str(round_no), "--out", str(rdir)] + [str(rdir / f"shard{k}") for k in range(len(procs))],
-                       check=True, stdout=subprocess.DEVNULL)
+                       check=True, stdout=subprocess.DEVNULL, env=kit_env(self.kit))
         for k in range(len(procs)):
             shutil.rmtree(rdir / f"shard{k}", ignore_errors=True)
 
@@ -386,11 +485,59 @@ class Event:
         log(f"start signal: the build begins at {time.strftime('%H:%M:%S', time.localtime(start))}")
         return start
 
+    def stop_sandboxes(self, *_):
+        """Ctrl+C, a kill or a crash: the simulated teams' Modal sandboxes must not keep running (and billing)."""
+        for sb in list(getattr(self, "sandboxes", {}).values()):
+            try:
+                sb.terminate()
+            except Exception:  # noqa: BLE001
+                pass
+
     def run(self) -> None:
+        import atexit, signal, sys as _sys
+        atexit.register(self.stop_sandboxes)
+        for sig_ in (signal.SIGTERM, signal.SIGINT):
+            signal.signal(sig_, lambda *_: (self.stop_sandboxes(), _sys.exit(1)))
         log(f"{self.a.run}: {len(self.teams)} simulated teams + avalon; variant {self.a.variant}; scale {self.a.scale}")
+        self.prepare_kit()
         self.workspace(AVALON)
-        log(f"avalon workspace: {self.dir / AVALON} (submission/ starts as: {self.a.avalon_start})")
+        self.self_check()
+        log(f"avalon workspace: {self.dir / AVALON} (submission/ starts as: {self.a.avalon_start}; "
+            f"kit/ and the variant's pages appear at the start)")
         start = self.wait_for_start()
+        threading.Thread(target=self.announce_avalon, args=(start,), daemon=True).start()
+        try:
+            self.run_event(start)
+        finally:
+            if not self.a.local_rounds:
+                import modal_rounds
+                modal_rounds.close_session()
+
+    def announce_avalon(self, start: float) -> None:
+        """At the start: avalon's kit/ and the full portal pages (with the variant) appear."""
+        time.sleep(max(0, start - time.time()))
+        ws, ann = self.dir / AVALON, self.announce_avalon_dir
+        shutil.rmtree(ws / "kit", ignore_errors=True)
+        shutil.move(str(ann / "kit"), ws / "kit")
+        for f in (ann / "portal").iterdir():  # keep portal/api-key (written by portal_server.py)
+            shutil.copy(f, ws / "portal" / f.name)
+        (ws / "inbox" / f"{int(time.time())}-announcement.md").write_text(
+            f"The build has started. The variant is announced: kit/ is the starter kit, and the Format "
+            f"page (portal/format.md) has the rules.\n")
+        log("avalon: announcement delivered (kit/ and the Format page with the variant)")
+
+    def run_event(self, start: float) -> None:
+        if not self.a.local_rounds:
+            import modal_rounds
+            for delay in (0, 20, 40, 60):
+                time.sleep(delay)
+                try:
+                    modal_rounds.open_session()  # one app for every round of the event
+                    log("Modal: one round app for the whole event")
+                    break
+                except Exception as e:  # noqa: BLE001
+                    log(f"Modal: could not start the event's round app ({type(e).__name__}); "
+                        f"{'retrying' if delay < 60 else 'each round will start its own'}")
         SETUP_S = 300  # creating and filling a sandbox, before its session begins
 
         def launch(team: str) -> None:
@@ -413,8 +560,9 @@ class Event:
         for t in self.teams:
             if t not in self.sandboxes:
                 log(f"{t}: no sandbox; it will forfeit")
-        (self.dir / "event.json").write_text(json.dumps({"start": start, "events": self.events,
-                                                         "teams": self.teams}, indent=1))
+        (self.dir / "event.json").write_text(json.dumps({"start": start, "events": self.events, "teams": self.teams,
+                                                         "variant": self.a.variant, "cooldown": self.a.cooldown},
+                                                        indent=1))
         (self.dir / AVALON / "inbox" / "0-start.md").write_text(
             f"The build starts at {time.strftime('%H:%M:%S', time.localtime(start))}. Schedule: "
             + "; ".join(f"{e['label']} at +{e['t'] / 60:.0f} min" for e in self.events) + "\n")
@@ -465,6 +613,7 @@ def main() -> None:
     p.add_argument("--avalon-replay", default=None,
                    help="validation: avalon's bot per scored round, e.g. v3b,v5r,v6,v7,v9s,v10 (the real night)")
     p.add_argument("--avalon-practice", default="v3b", help="avalon's bot in practice rounds with --avalon-replay")
+    p.add_argument("--cooldown", type=int, default=30, help="upload cooldown in seconds (portal copy and Format page)")
     p.add_argument("--wait", action="store_true", help="set up, then wait for --start before anything runs")
     p.add_argument("--start", default=None, help="signal a waiting run: 'now' or HH:MM for the build to begin")
     a = p.parse_args()

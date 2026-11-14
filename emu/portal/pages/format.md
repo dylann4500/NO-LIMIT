@@ -54,6 +54,7 @@ Default scored round schedule for new rounds:
 - A team without an active bot forfeits that round and scores zero.
 - A competition-wide freeze pauses uploads and active-bot changes until the organizer unfreezes it.
 - The default decision allowance is 1 ms. A timeout, error or illegal action checks when free, otherwise folds.
+- Upload cooldown: your team can upload once every {{COOLDOWN}} seconds. An upload sooner than that is refused.
 - Upload agent.py or a zip with agent.py at its root. The current upload default is 50 MB; follow the starter kit for package and unpacked-file limits.
 
 ## Fairness

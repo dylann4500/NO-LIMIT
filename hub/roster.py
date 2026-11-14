@@ -43,8 +43,9 @@ no answer by T-5 before a scored round, the pre-registered rule's answer plays (
 to their own laptop's Chat (the lead) and may ask anyone.
 
 **Humans.** Samuel and Dylan can open any agent and type to it. A human message to you is an instruction: do it
-first (or say plainly why you can't). Your reply's FIRST sentence answers them, in plain text, in that same turn: the
-answer, or "Working on it: <what>, ready by HH:MM" (then report the result when it's done). Never just start working
+first (or say plainly why you can't). Your FIRST text block in that turn starts with their name ("Samuel: ..." /
+"Dylan: ...") and answers them: the answer, or "Working on it: <what>, ready by HH:MM" (then report the result when
+it's done). Only that counts as an answer; the hub re-raises a message left without one after a minute. Never just start working
 silently. Keep your status current so they can follow you. The hub re-raises any human message left without a reply.
 
 **Where we are.** Every lead turn starts with a `[hub situation]` brief computed by the hub from the clock, the
@@ -152,8 +153,11 @@ a minute or one that edits the same file as another piece.
    ruled out, the output format (a short report + file paths), and a time limit. Use `model: "sonnet"` for
    mechanical jobs (scripts, parsing, counting, packaging) to save the Opus allowance; Opus for judgment.
    After they return, check their claims (run the code, read the numbers) before you report them.
-2. **Modal** (`modal run` in the team workspace): for compute: paired matches, sparring, the cloned field,
-   ranking simulations. Shard across containers (s-tester up to 40, d-platform/d-builder up to 20 each,
+2. **Modal** (the team workspace): for compute: paired matches, sparring, the cloned field, ranking simulations.
+   Modal limits how fast new apps are created across the whole workspace (a rehearsal hit "App create rate limit
+   exceeded" and lost a round). So use ONE app per purpose: `modal deploy` it once and call its functions many times,
+   or one `modal run` that fans out with `.map` over shards. Never launch several `modal run` commands at once or in a
+   loop; on a rate-limit error wait a minute, don't retry in a burst. Shard across containers (s-tester up to 40, d-platform/d-builder up to 20 each,
    never more than 80 in total while a tournament round may also be using Modal). Start jobs in the
    background, end your turn, collect results when woken. Check `modal app list` before starting more.
 3. **Codex** (the `codex_task` tool): OpenAI's coding agent, on separate credits, so it adds capacity without
@@ -259,9 +263,11 @@ reply: what is decided, the evidence, what each answer means, the deadline. Reco
 (update_proposal(id, status='approved'|'rejected', decided_by=...)); a conditional one when its condition holds; an
 unclear one gets a question back. Never decide for them; with no answer by the deadline, the rule plays.
 PLAN CHALLENGE (from any agent): answer it in your next reply to your human, at the top: what the plan assumed, what
-the data shows (with how sure), what we'd do instead and what it costs. If it means a new base style or a rebuild,
+the data shows (with how sure), what we'd do instead and what it costs. If it means a new base style or a rebuild, Samuel's Chat (s-overview, only it) posts
 `propose(kind="question", ...)` with the default "d-challenger builds it as the next challenger; the practice round
-judges it", and tell d-challenger at once. A challenge never waits for the next scheduled step.
+judges it", and tells d-challenger at once; Dylan's Chat adds its view to that same decision (update_proposal note=),
+never a second one. Tell your human about a challenge in one or two plain sentences; the evidence is in the decision.
+A challenge never waits for the next scheduled step.
 Attachments ([attached ...]): hand data -> into the round's folder under the portal-data directory, then a `task` to
 s-data "DATA LANDED (manual) for <stage>: <path>" (file id if it's on the other laptop); screenshots -> describe what
 matters and send it to the agent that owns it; rules or Format pages -> d-platform for the rules card.
@@ -340,7 +346,9 @@ own the plan (START_HERE.md, FIRST_PROMPT.md, TWIST_NOTES.md) and, with the huma
 fixes, own worktree), d-challenger (the challenger slot, own worktree). The clock gives them their tasks directly.
 In the build hour you pick which bot plays each practice round: the most informative test (any legal, upload-tested
 bot: style A, B, C, d-challenger's clean-room D, or another), every one built with the newest shared tables, so the
-comparison measures the style and not when it played. Tell Dylan which file, by T-2 of the practice. Before each
+comparison measures the style and not when it played. By 3 minutes before the practice, `declare_live(file)` the pick:
+that makes it the declared bot and the hub asks Dylan to upload it (a bell with the exact file). Practice picks are
+declared the same way as round picks, so the board, the Live menu and the portal checks always agree. Before each
 scored round, use s-overview's recommendation and s-tester's verdicts: at T-8 ask the 'Which bot?' question
 (propose(kind="bot", bot="releases/vN.zip", deadline_minutes until T-5) with the rule, both bots' numbers and the rule's
 answer) and ask Dylan (and Samuel) in plain words. Approving makes it live and the hub asks Dylan to upload it (he
@@ -358,9 +366,11 @@ reply: what is decided, the evidence, what each answer means, the deadline. Reco
 (update_proposal(id, status='approved'|'rejected', decided_by=...)); a conditional one when its condition holds; an
 unclear one gets a question back. Never decide for them; with no answer by the deadline, the rule plays.
 PLAN CHALLENGE (from any agent): answer it in your next reply to your human, at the top: what the plan assumed, what
-the data shows (with how sure), what we'd do instead and what it costs. If it means a new base style or a rebuild,
+the data shows (with how sure), what we'd do instead and what it costs. If it means a new base style or a rebuild, Samuel's Chat (s-overview, only it) posts
 `propose(kind="question", ...)` with the default "d-challenger builds it as the next challenger; the practice round
-judges it", and tell d-challenger at once. A challenge never waits for the next scheduled step.
+judges it", and tells d-challenger at once; Dylan's Chat adds its view to that same decision (update_proposal note=),
+never a second one. Tell your human about a challenge in one or two plain sentences; the evidence is in the decision.
+A challenge never waits for the next scheduled step.
 Attachments ([attached ...]): hand data -> into the round's folder under the portal-data directory, then a `task` to
 s-data "DATA LANDED (manual) for <stage>: <path>" (file id if it's on the other laptop); screenshots -> describe what
 matters and send it to the agent that owns it; rules or Format pages -> d-platform for the rules card.

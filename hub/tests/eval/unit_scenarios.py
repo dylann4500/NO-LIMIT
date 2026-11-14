@@ -133,5 +133,71 @@ async def main():
         check(f"refused: {cmd}", type(r_).__name__ == "PermissionResultDeny" and "by PID" in getattr(r_, "message", ""))
     r_ = await ag.can_use_tool("Bash", {"command": "kill $(cat /tmp/paired.pid); modal app stop ap-123"}, None)
     check("allowed: kill by PID file, modal app stop", type(r_).__name__ == "PermissionResultAllow", str(r_))
+    # no permission prompts: ordinary commands run, dangerous ones and blocking waits are refused with the reason
+    for cmd, want in (("python3 run.py --n 2000 > /tmp/x.log 2>&1 &", "Allow"), ("git push origin builder", "Allow"),
+                      ("rm -rf ~/Documents", "Deny"), ("git push --force origin main", "Deny"),
+                      ("for b in a b; do modal run x.py & done; wait; echo done", "Deny"), ("sleep 120 && cat log", "Deny"),
+                      ("sleep 3; tail log", "Allow"), ("python3 -c 'import asyncio; asyncio.run(main())  # await x'", "Allow")):
+        r_ = await ag.can_use_tool("Bash", {"command": cmd}, None)
+        check(f"{want.lower()}: {cmd[:40]}", type(r_).__name__ == "PermissionResult" + want, getattr(r_, "message", "")[:80])
+    check("no approval was ever queued for a human", not hs.approvals)
+    # answer-first: a worker's message from a person counts as answered only by a reply that starts with their name
+    from claude_agent_sdk import AssistantMessage, TextBlock
+    hd = mkhub("dylan"); pl = hd.agents["d-platform"]
+    await pl.human("which zip do I upload?", "Dylan")
+    pl.turn_started = time.time() + 1
+    pl.handle(AssistantMessage(content=[TextBlock(text="Running the no-bank test on v4 now.")], model="m", parent_tool_use_id=None))
+    check("a reply that ignores the person doesn't clear the question", len(pl.pending_q) == 1)
+    pl.handle(AssistantMessage(content=[TextBlock(text="Dylan: upload releases/v4.zip, it passed.")], model="m", parent_tool_use_id=None))
+    check("a reply that starts with their name clears it", not pl.pending_q)
+    # one plan challenge from one agent = one alert, however many recipients and wordings
+    sc = hs.agents["s-scout"]; Ts = sc.tool_server(); n0 = len(hs.alerts)
+    for to, txt_ in (("s-overview", "PLAN CHALLENGE p1: the field folds 75% to 3-bets"), ("d-overview", "PLAN CHALLENGE practice1: folds to 3-bets 74.8%"),
+                     ("d-challenger", "PLAN CHALLENGE (for challenger-2): field folds a lot")):
+        await Ts["send_message"].handler({"to": to, "text": txt_, "kind": "task"})
+    check("one plan challenge, three recipients: one alert", len(hs.alerts) - n0 == 1, str([a["text"][:50] for a in hs.alerts[n0:]]))
+    check("...and it's one line, not a pop-up", not hs.alerts[-1].get("urgent") and len(hs.alerts[-1]["text"]) < 300)
+    # the team chat: each laptop's lines under its own key, merged in time order
+    await hs.team_say("ready for practice 2?", []); await hd.team_say("yes", [])
+    hs.bus.shared.update({k: v for k, v in hd.bus.shared.items() if k.startswith("tchat:")})
+    tc = hs.team_chat()
+    check("team chat merges both people's lines in time order", [x["who"] for x in tc][-2:] == ["Samuel", "Dylan"], str(tc))
+    # build-hour practice picks: the upload reminder follows the declared bot
+    check("practice reminders follow the declared bot (UPLOAD)", all(H.HUMAN_STEPS[k]["dylan"] == "UPLOAD" for k in ("b17", "b27", "b37", "b47")))
+    # the Live menu says "tested" until a zip exists
+    hs.bus.shared["bot:v9"] = {"file": "releases/v9.zip", "status": "ready", "at": time.time()}
+    m9 = next(b for b in hs.bots_for_menu() if b["name"] == "v9")
+    check("a bot marked ready with no zip anywhere shows as 'tested'", m9["status"] == "tested", m9["status"])
+    # the model's contradiction guess goes to the lead only, never into the humans' Chat
+    async def fake_one_shot(*a, **k): return '[{"issue": "declared v3 but portal runs v6", "fix": "check"}]'
+    H.one_shot = fake_one_shot
+    hs.bus.shared["schedule"] = {"start": time.time() - 600, "scored": 6, "scale": 1.0}
+    lead = hs.agents["s-overview"]; before = len(lead.ovchat); hs.last_consistency = 0
+    await hs.consistency_check()
+    check("contradiction guess: nothing in the Chat", len(lead.ovchat) == before, str(lead.ovchat[before:])[:200])
+    check("...the lead gets it, marked as a guess", any("a model's guess" in i.get("text", "") for i in lead.items))
+    # review fixes: routine deletes in the agent's own places are allowed; risky ones refused; worktree git is its own business
+    rp = str(hs.repo.resolve())
+    for cmd, want in ((f"rm -rf {rp}/build", "Allow"), ("rm -rf build/ && python3 b.py", "Allow"), ("find . -name '*.pyc' -delete", "Allow"),
+                      ("unlink /tmp/s-tester/job.pid", "Allow"), ("rm -rf ~/Documents", "Deny"), (f"rm -rf {rp}", "Deny"),
+                      ("rm -rf ../other", "Deny"), ("git stash", "Deny"),
+                      ("cat > x.sh <<'EOF'\nsleep 30\nEOF\nbash x.sh &", "Allow"), ("nohup sh -c 'sleep 60; ls' > /tmp/x &", "Allow"),
+                      ("while ! test -f out; do sleep 5; done", "Deny"), ("sleep 2m", "Deny")):
+        r_ = await ag.can_use_tool("Bash", {"command": cmd}, None)
+        check(f"review: {want.lower()} {cmd[:38]!r}", type(r_).__name__ == "PermissionResult" + want, getattr(r_, "message", "")[:70])
+    r_ = await ag.can_use_tool("Bash", {"command": "sleep 300", "run_in_background": True}, None)
+    check("a background Bash call may sleep", type(r_).__name__ == "PermissionResultAllow")
+    wt = hd.agents["d-builder"]; wt.cwd = Path(tempfile.mkdtemp())
+    r_ = await wt.can_use_tool("Bash", {"command": "git stash && git rebase origin/main"}, None)
+    check("git stash/rebase in an agent's own worktree is allowed", type(r_).__name__ == "PermissionResultAllow", getattr(r_, "message", "")[:60])
+    # a stale unanswered question doesn't hide newer ones
+    pl.pending_q = [{"who": "Dylan", "text": "old", "at": time.time() - 900, "nudged": True, "told": True},
+                    {"who": "Dylan", "text": "new", "at": time.time() - 200}]
+    pl.items.clear(); await hd.watch_unanswered()
+    check("a stale question is dropped and the newer one is nudged", [q["text"] for q in pl.pending_q] == ["new"] and any("new" in i.get("text", "") for i in pl.items))
+    # a re-registration on a laptop without the zip keeps its fingerprint
+    hs.bus.shared["bot:v12"] = {"file": "releases/v12.zip", "status": "ready", "at": time.time(), "sha256": "abc", "size": 10}
+    await hs.register_bot("releases/v12.zip", "ready", "tested again", "s-tester")
+    check("re-registering keeps the zip's sha", (hs.bus.shared.get("bot:v12") or {}).get("sha256") == "abc")
     print("FAILED:", fails if fails else "none")
 asyncio.run(main())

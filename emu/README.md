@@ -22,7 +22,8 @@ prep/.venv/bin/python emu/rehearsal.py --run r8 --field finals --round-iteration
 | `--scale` | timeline speed (1.0 = real: 60-minute build, practice every 10 min, scored rounds every 20 min) |
 | `--weights` | round weights, `1,2,3,4,5,6` (Bay Area) or `1,2,3,5,8,13` (Boston) |
 | `--prep-scale` | scales the pre-event research some teams do (0 = none; Pocket Rockets researches 90 min) |
-| `--variant` / `--variant-rules` | a mock Finals variant: an engine variant module plus its RULES.md |
+| `--variant` / `--variant-rules` | a mock Finals variant: an engine variant module plus its RULES.md. The run builds a mock kit with it (`variants/make_kit.py`, in `runs/<run>/kit_build`) for every team's kit, the upload test, local rounds and the Modal round image; a self-check before READY stops the run if the variant doesn't load (test: `emu/test_variant_install.py`) |
+| `--cooldown` | upload cooldown in seconds (default 30, as at the regional), on the Format page and enforced by `portal_server.py` |
 | `--practice-iterations`, `--round-iterations` | round sizes (defaults 1,000 / 5,000; 3,000 keeps scored rounds inside 20 min) |
 | `--local-rounds` | play rounds on this Mac instead of Modal |
 | `--field finals` | 7 simulated finalists, each with regional notes (`teams/finalists/`): per-seat learning, recognition by sizes, defence to wide re-raises, simulation, copying the leaders. With avalon, one 8-seat table |
@@ -34,7 +35,7 @@ workspace, and the Modal secret `emu-anthropic` (a Claude Code OAuth token or an
 ## Play avalon yourself
 
 When the run starts it prints the event clock. Your team folder is `emu/runs/<run>/avalon/`:
-`kit/`, `portal/` (Getting started, Format), `submission/` (starts as `bots/v10`), and, as rounds finish,
+`kit/` and the Format page with the variant (both appear only at the start), `portal/` (Getting started, Format), `submission/` (starts as `bots/v10`), and, as rounds finish,
 `results/`, `downloads/<round>/` (full and `-first-1000`) and `inbox/` (portal notices). Open your own
 Claude Code (or Codex) in that folder and work the way you will on Sunday. At every round start
 `submission/` is snapshotted, put through the portal's upload test, and played.

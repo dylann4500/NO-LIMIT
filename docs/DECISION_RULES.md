@@ -28,9 +28,10 @@ These protect against losing a whole round. Nothing else on this page is a hard 
    can zero a round.)*
 2. **Only upload a zip that has been through that test**, put the live bot back as active after the practice
    round, and have a tested bot active by T-3 every round. *(A missed upload or an untested zip can zero a round.
-   A missed deadline is a failure to report and fix, not a safe outcome.)* Read the upload **cooldown** from the
-   Format page at minute 0 (the portal said 30 s at the regionals; a public summary says 5 minutes). If it is
-   longer than about 2 minutes, Dylan's Chat re-plans the window's uploads around it (§3, "Uploads").
+   A missed deadline is a failure to report and fix, not a safe outcome.)* Each round plays a snapshot of every
+   team's **active** bot taken at its start. Making an already-uploaded bot active is a click on the portal, not
+   an upload. Assume the upload **cooldown** may be up to 5 minutes (read it from the Format page at minute 0), so
+   plan at most two real uploads per window (§3, "Uploads").
 3. **The rules card is right**: players per table, stacks, blinds, hands per match, round weights, payouts
    and the cooldown come from the kit and the Format page. *(At a rehearsal we ran every test at the wrong
    table size.)*
@@ -85,11 +86,11 @@ sends a PLAN CHALLENGE to both Chats and d-challenger. The Chats put it to the h
 by default d-challenger builds the alternative and the next practice round judges it. A challenge never waits
 for the next scheduled step, and never skips a hard rule or a test.
 
-**Uploads.** A window normally needs three uploads: the challenger by T-12 (it plays the practice round at T-10),
-the live bot back at T-9, the chosen bot at T-3. If the cooldown is longer than about 2 minutes, re-plan: upload
-the challenger as early as the cooldown allows after the practice round's bot is confirmed, skip the "live bot
-back" step when the decision is already made (upload the chosen bot directly once the practice round has started),
-and never let a cooldown leave the chosen bot unuploaded at T-3. When in doubt, the live bot stays active.
+**Uploads.** A window has at most two real uploads, about 8 minutes apart: the challenger at T-12 (it plays the
+practice round at T-10) and, only if the chosen bot is a new zip, the chosen bot at about T-4 to T-3. Putting the
+live bot back at T-9, and choosing the challenger, are clicks on bots already uploaded: tell Dylan which version to
+click in the portal's uploads list. Never let a cooldown leave the chosen bot unuploaded at T-3. When in doubt, the
+live bot stays active.
 
 **Deadlines:** if the chosen bot can't be tested and uploaded by T-3, the live bot (active again after the practice
 round) plays: confirm it's active, report the miss and its cause, and fix the cause for the next window. Don't wait

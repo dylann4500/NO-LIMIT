@@ -36,10 +36,39 @@ from roster import COMMON_RULES, DECISION_RULES, KICKOFF, PEOPLE, PROTOCOL, ROST
 
 HERE = Path(__file__).resolve().parent
 STATES = ("working", "waiting", "blocked", "done", "idle")
+REHEARSAL_NOTE = """
+**This is a rehearsal (practice run), not the Finals.** The portal is a copy running on Samuel's Mac and the rivals are
+simulated teams. Play it exactly as you would on Sunday. But facts about the copy itself (its upload cooldown, its pages,
+its timings, the simulated teams' styles) say nothing about Sunday's real portal or field: never write them into plans,
+notes or docs meant for Sunday as if they were.
+"""
+
 # Killing by name or pattern is never allowed: every agent's own process has its instructions on its command line
 # ("modal run", "compare.py", ...), so `pkill -f "modal run"` killed every agent on the laptop in a rehearsal.
 PROC_KILL = re.compile(r"\bpkill\b|\bkillall\b|pgrep\b[^\n;&]*\|\s*xargs\s+(?:-\S+\s+)*kill|\bkill\b[^\n;&]*\$\(\s*pgrep|"
                        r"\bkill\s+(?:-\S+\s+)*-1\b|\bkill\s+(?:-\S+\s+)*0\b")
+# A foreground `wait` or a long `sleep` holds the whole turn: a human's message can't get in until it ends.
+BLOCKING = re.compile(r"(?:^|[;&|\n]\s*)wait(?:\s+%?\$?\w+)*\s*(?:$|[;&|\n])|\bsleep\s+(?:[2-9]\d|\d{3,}|\d+(?:\.\d+)?[mh]\b)"
+                      r"|\b(?:while|until)\b[^\n]*\bsleep\b")
+
+
+def blocking(cmd: str) -> bool:
+    """A foreground wait/long sleep/sleep loop in a shell command; heredoc bodies (files being written) and backgrounded
+    segments (`... &`) don't count."""
+    c = re.sub(r"<<-?\s*['\"]?(\w+)['\"]?.*?\n.*?\n\1\b", "", cmd, flags=re.S)
+    c = re.split(r"(?<!&)&(?![&>])", c)[-1]   # whatever ran before a lone `&` is in the background
+    total = sum(float(x) * (60 if u == "m" else 3600 if u == "h" else 1)
+                for x, u in re.findall(r"\bsleep\s+(\d+(?:\.\d+)?)([mh]?)\b", c))
+    return bool(BLOCKING.search(c)) or total >= 20
+BLOCKING_HELP = ("Not run: a foreground `wait` or `sleep` of 20 s or more blocks your whole turn, so humans and other agents "
+                 "can't reach you until it ends. Start long jobs in the background writing to a log (`cmd > /tmp/x.log 2>&1 &`), "
+                 "end your turn, and check the log when you're next woken.")
+ASK_HUMANS = os.environ.get("AVALON_ASK_PERMISSION") == "1"   # off: no permission prompts at all; risky patterns are refused
+RISKY_HELP = ("Not run: this matches the hub's short list of dangerous actions: deleting outside /tmp, the repo, the portal "
+              "data and your own folder (or a whole one of them, or via '..' / variables); force pushes; git reset --hard; "
+              "git stash/restore/rebase/amend in the shared repo (fine in your own worktree); sudo; Modal deletes; writes to "
+              "the organizers' site; writing files outside the repo, /tmp and the portal data. Do it a safer way (name the "
+              "exact path inside your folder, a normal push, a new branch), or tell your Chat why it's needed.")
 PROC_KILL_HELP = ("Not run: killing processes by name or pattern (pkill, killall, pgrep | xargs kill) also matches the agents' "
                   "own processes, whose command lines contain their instructions; it killed every agent in a rehearsal. "
                   "Stop only what you started, by PID: start background jobs as `cmd > log 2>&1 & echo $! > /tmp/<job>.pid`, "
@@ -267,6 +296,12 @@ PREFLIGHT_RX = re.compile(r"^\s*(?:please\s+)?(?:run (?:the |a )?(?:pre-?flight|
                           r"check (?:that )?everything(?: works)?|check it all)\s*(?:now|please)?\s*[.!]*\s*$", re.I)
 
 
+def plain_line(t: str, n: int) -> str:
+    """One plain line for a bell item or a Chat note: no markdown, at most n characters."""
+    t = re.sub(r"\s+", " ", re.sub(r"[*_`#>|]", "", str(t or ""))).strip()
+    return t if len(t) <= n else t[:n].rsplit(" ", 1)[0] + "…"
+
+
 def norm_bot(x: str) -> str:
     """'releases/v3.zip', 'v3 (1).zip' (a browser's second download) -> 'v3'."""
     return re.sub(r"\s*\(\d+\)$", "", re.sub(r"\.zip$", "", (x or "").strip().split("/")[-1].lower()).strip())
@@ -279,9 +314,21 @@ def same_bot(declared: str, active: str) -> bool:
     return d == a or d in ("agent.py", "bot", "") or a == ""
 
 
-def tmp_scrub(cmd: str) -> str:
-    """Drop `rm` commands whose every target is inside /tmp (no '..'); leave everything else for the risk check."""
+def tmp_scrub(cmd: str, roots: list[str] | None = None, cwd: str | None = None) -> str:
+    """Drop deletions (rm, unlink, find ... -delete) whose every target is inside /tmp or one of `roots` (the repo, the
+    agent's folder, the portal data) and isn't a root itself or outside via '..'; leave everything else for the risk check."""
     import shlex
+    home = str(Path.home())
+    safe = [r.rstrip("/") for r in (roots or [])] + ["/tmp", "/private/tmp"]
+    def inside(t: str) -> bool:
+        if re.match(r"^\$\{?TMPDIR\}?/", t):
+            return True
+        if t.startswith("~"):
+            t = home + t[1:]
+        if "$" in t or "`" in t:
+            return False
+        p_ = os.path.normpath(t if t.startswith("/") else os.path.join(cwd or "/", t))
+        return any(p_.startswith(r + "/") for r in safe) and p_ not in safe
     parts = re.split(r"(&&|\|\||;|\||\n)", cmd)
     out = []
     for part in parts:
@@ -290,9 +337,15 @@ def tmp_scrub(cmd: str) -> str:
         except ValueError:
             out.append(part)
             continue
-        if toks and toks[0] == "rm":
+        if toks and toks[0] == "cd" and len(toks) > 1 and cwd:
+            cwd = os.path.normpath(toks[1] if toks[1].startswith("/") else os.path.join(cwd, toks[1].replace("~", home, 1)))
+        if toks and toks[0] in ("rm", "unlink"):
             targets = [t for t in toks[1:] if not t.startswith("-")]
-            if targets and all(re.match(r"^((/private)?/tmp/|\$\{?TMPDIR\}?/)", t) and ".." not in t for t in targets):
+            if targets and all(inside(t) for t in targets):
+                continue
+        if toks and toks[0] == "find" and "-delete" in toks and len(toks) > 1 and "-name" in toks:   # selected files only
+            base = os.path.normpath(toks[1] if toks[1].startswith("/") else os.path.join(cwd or "/", toks[1]))
+            if any(base == r or base.startswith(r + "/") for r in safe):
                 continue
         out.append(part)
     return "".join(out)
@@ -340,6 +393,8 @@ class Hub:
         self.view_only = False
         self.traffic: list = []
         self.plan_challenges: set[str] = set()
+        self.rehearsal = False
+        self.tag = f"{person}{namespace}"   # in every agent process's environment: how leftovers are recognised as ours
         self.boot_at = time.time()
         self.card_ok = False
         self.landed_at: dict[str, float] = {}
@@ -757,7 +812,10 @@ class Hub:
         allb = self.bots()
         keep = {norm_bot((self.bus.shared.get("live") or {}).get("filename")), norm_bot((self.bus.shared.get("portal_active") or {}).get("filename"))}
         top = allb[:40]
-        return top + [b for b in allb[40:] if norm_bot(b["name"]) in keep]
+        out = top + [b for b in allb[40:] if norm_bot(b["name"]) in keep]
+        # "built" only when a zip exists (its sha is known, or it's on this laptop): a Tester's verdict alone is "tested"
+        return [dict(b, status="tested") if b.get("status") == "ready" and not b.get("sha256") and not self.find_bot_file(b.get("file") or b["name"])
+                else b for b in out]
 
     def bots(self) -> list[dict]:
         out = [dict(v, name=k[4:]) for k, v in self.bus.shared.items() if k.startswith("bot:") and isinstance(v, dict)]
@@ -771,6 +829,8 @@ class Hub:
         v = {"file": file, "status": status, "note": note[:300] or prev.get("note", ""), "by": by or prev.get("by", ""),
              "at": prev.get("at") or time.time(), "updated": time.time()}
         f = self.find_bot_file(file)
+        if not f and prev.get("sha256"):   # registered again on a laptop without the zip: keep what we know about it
+            v["sha256"], v["size"] = prev["sha256"], prev.get("size")
         if prev.get("status") == v["status"] and prev.get("file") == v["file"] and not note and \
                 (not f or status != "ready" or prev.get("size") == f.stat().st_size):
             return
@@ -796,6 +856,21 @@ class Hub:
     def file_store(self):
         import modal
         return modal.Dict.from_name("avalon-files" + self.bus.ns, create_if_missing=True)
+
+    def team_chat(self) -> list[dict]:
+        """Samuel and Dylan's own chat (no agent reads it): each laptop keeps its person's lines under its own key."""
+        items = [x for k, v in self.bus.shared.items() if k.startswith("tchat:") and isinstance(v, dict)
+                 for x in (v.get("items") or [])]
+        return sorted(items, key=lambda x: x.get("at", 0))[-300:]
+
+    async def team_say(self, text: str, files: list) -> dict:
+        key = "tchat:" + self.person
+        cur = (self.bus.shared.get(key) or {}).get("items") or []
+        item = {"id": new_id(), "who": PEOPLE[self.person], "at": time.time(), "text": text[:4000],
+                "files": [{k: f.get(k) for k in ("id", "name", "kb", "kind")} for f in (files or [])][:8]}
+        await self.bus.set_shared(key, {"items": (cur + [item])[-300:], "updated": time.time()})
+        self.emit("shared", {"teamchat": True})
+        return item
 
     async def take_upload(self, name: str, data: bytes, who: str, notify: bool = True) -> dict:
         """A file a human dropped into the Chat: saved here, copied to the shared store (both laptops can fetch it),
@@ -1315,6 +1390,9 @@ class Hub:
             row(False, "Team repo", f"{type(e).__name__}: {e}")
         free = shutil.disk_usage(str(self.data)).free / 1e9
         row(free > 5, "Disk space", f"{free:.0f} GB free")
+        load, ncpu = os.getloadavg()[0], os.cpu_count() or 1
+        row(load < 0.7 * ncpu, "CPU", f"load {load:.1f} on {ncpu} cores" + ("" if load < 0.7 * ncpu else
+            ": something else is keeping the laptop busy (leftover jobs? Activity Monitor → CPU); local timing tests will be wrong"))
         sch = self.bus.shared.get("schedule")
         stale = bool(sch) and time.time() - sch["start"] > 10 * 3600
         row(not stale, "Clock", ("set on an earlier day (minute 0 was " + time.strftime('%a %H:%M', time.localtime(sch['start']))
@@ -1341,17 +1419,18 @@ class Hub:
     async def watch_unanswered(self):
         now = time.time()
         for a in self.agents.values():
+            a.pending_q = [x for x in a.pending_q if not (x.get("told") and now - x["at"] > 600)]   # gave up on it: drop
             if not a.pending_q:
                 continue
-            q = a.pending_q[0]
+            q = next((x for x in a.pending_q if not x.get("told")), a.pending_q[0])
             age = now - q["at"]
             if not a.name.endswith("overview"):   # a worker the person messaged directly
-                replying = a.state == "working" and getattr(a, "turn_started", 0) > q["at"] and getattr(a, "turn_text_n", 0)
-                if age > 150 and not q.get("nudged") and not replying:
-                    q["nudged"] = True
-                    await a.add_item({"kind": "hub", "wake": True, "urgent": False, "text": f"{q['who']} asked you at {hhmm(q['at'])} "
-                                      f"and hasn't had a reply: \"{q['text']}\". Reply now in plain text: the answer, or 'Working "
-                                      "on it: <what>, ready by HH:MM'. Then carry on."})
+                unseen = a.state == "working" and getattr(a, "turn_started", 0) < q["at"]
+                if age > 60 and not q.get("nudged"):
+                    q["nudged"], q["nudged_at"] = True, now
+                    await a.add_item({"kind": "hub", "wake": True, "urgent": unseen, "text": f"{q['who']} asked you at {hhmm(q['at'])} "
+                                      f"and hasn't had a reply: \"{q['text']}\". Reply now: start with \"{q['who']}:\" and give "
+                                      "the answer, or 'Working on it: <what>, ready by HH:MM'. Then carry on."})
                     if a.state == "stopped" and not a.paused:
                         await a.start()
                 elif age > 360 and not q.get("told"):
@@ -1442,11 +1521,11 @@ class Hub:
             new.append(f"- {it['issue']} → {it.get('fix', '')}")
         if new:
             text = "**Something doesn't add up:**\n" + "\n".join(new)
-            ov = next((a for a in self.agents.values() if a.name.endswith("overview")), None)
-            if ov:
-                await ov.ov_log("Hub", text)
-            await self.overseer().add_item({"kind": "hub", "wake": False, "text": "[consistency check] " + text +
-                                            "\nResolve each (check the facts, fix the wrong one, tell the humans in a note)."})
+            # to the lead only, never into the humans' Chat: a model's guess at a contradiction was wrong too often in the
+            # practice run (it read build-hour practice picks as conflicts). The lead checks it and tells its human only if real.
+            await self.overseer().add_item({"kind": "hub", "wake": False, "text": "[consistency check: a model's guess, often "
+                                            "wrong] " + text + "\nCheck the facts yourself. Tell your human only if it is real "
+                                            "and needs them; otherwise ignore it."})
 
     async def watch_stalls(self):
         """An agent whose turn has produced nothing for STALL_S (a hung connection, a stuck tool) is interrupted, then
@@ -1537,6 +1616,7 @@ class Hub:
                 "bots": self.bots_for_menu(), "portal_active": self.bus.shared.get("portal_active"),
                 "overviews": {k[7:]: v.get("items", []) for k, v in self.bus.shared.items()
                               if k.startswith("ovchat:") and isinstance(v, dict)},
+                "teamchat": self.team_chat(),
                 "noteled": self.note_ledger(),
                 "stage": stage_of(self.bus.shared.get("schedule"), time.time()),
                 "next_step": self.clock.next_step(),
@@ -1926,6 +2006,9 @@ class Agent:
             limit = min(limit, int(0.65 * self.context_max))
         if tokens < limit or self.crunch():
             return
+        if any(time.time() - q["at"] < 300 for q in self.pending_q) or \
+                any((i["kind"] == "human" or i.get("from_kind") == "human") and not i.get("taken") for i in self.items):
+            return   # a person is waiting: answer first, compact afterwards
         await self.set_state("working", "compacting")
         self.record({"type": "note", "text": f"Compacting its context ({tokens // 1000}k tokens) to stay fast."})
         try:
@@ -1985,14 +2068,16 @@ class Agent:
                 f"Your working folder is {self.cwd}; the team repo is {self.hub.repo}. This run's results and hand data are "
                 f"in {self.hub.portal_data} (one folder per round); use only these, never older data elsewhere. Every board note's "
                 f"full conversation is mirrored as markdown in {self.hub.data / 'board'} (<note id>.md)."
-                f"\n{PROTOCOL}\n{team_directory(self.name)}\n\n{DECISION_RULES}\n{COMMON_RULES}")
+                f"\n{PROTOCOL}\n{team_directory(self.name)}\n\n{DECISION_RULES}\n{COMMON_RULES}"
+                + (REHEARSAL_NOTE if self.hub.rehearsal else ""))
         return ClaudeAgentOptions(
             system_prompt={"type": "preset", "preset": "claude_code", "append": role},
             mcp_servers={"hub": self.tool_server()},
             allowed_tools=[f"mcp__hub__{t}" for t in HUB_TOOLS],
             can_use_tool=self.can_use_tool,
             cwd=str(self.cwd), add_dirs=[str(self.hub.repo), str(self.hub.portal_data), str(self.hub.data / "board")],
-            env=({"ANTHROPIC_API_KEY": API_KEY_FILE.read_text().strip()} if self.use_api_key and API_KEY_FILE.exists() else {}),
+            env={"AVALON_HUB": self.hub.tag, **({"ANTHROPIC_API_KEY": API_KEY_FILE.read_text().strip()}
+                                               if self.use_api_key and API_KEY_FILE.exists() else {})},
             model=self.model(),
             fallback_model=None if self.hub.model_override else "claude-sonnet-5-5",
             resume=self.session_id if resume else None,
@@ -2029,7 +2114,15 @@ class Agent:
                 self.human_in_turn = any(b["kind"] == "human" or b.get("from_kind") == "human" for b in batch)
                 self.human_text_in_turn = "\n".join(str(b.get("text", "")) for b in batch
                                                      if b["kind"] == "human" or b.get("from_kind") == "human")
-                prompt = "\n\n".join(self.format(b) for b in batch)
+                hum = [b for b in batch if (b["kind"] == "human" or b.get("from_kind") == "human")
+                       and (b.get("from") in PEOPLE.values() or (b["kind"] == "human" and not b.get("from")))]
+                rest_ = [b for b in batch if b not in hum]
+                prompt = "\n\n".join(self.format(b) for b in hum + rest_)
+                if hum and not self.name.endswith("overview"):
+                    names = sorted({b.get("from") if b.get("from") in PEOPLE.values() else PEOPLE[self.hub.person] for b in hum})
+                    prompt = (f"A HUMAN ({', '.join(names)}) wrote to you: their message is first below. Your FIRST text block "
+                              f"starts with \"{names[0]}:\" and answers them (or says 'Working on it: <what>, ready by HH:MM'), "
+                              "before any other work or message.\n\n" + prompt)
                 if any(b.get("retry") for b in batch):
                     prompt = ("(Retrying this input after an error: some actions from the previous attempt may already have "
                               "happened. Check (ledger, notes, messages, files) before repeating any of them.)\n\n" + prompt)
@@ -2051,6 +2144,8 @@ class Agent:
                         ok = False
                     elif r == "limited":
                         ok, limited = False, True
+                if getattr(self, "turn_text_n", 0) and not self.name.endswith("overview"):   # replied after being reminded
+                    self.pending_q = [q for q in self.pending_q if not (q.get("nudged_at") and q["nudged_at"] < self.turn_started)]
                 if self.preempting:             # stopped for urgent input; the partial turn stays in the session
                     ok, limited, self.preempting = True, False, False
                     self.interrupted = False
@@ -2072,8 +2167,6 @@ class Agent:
                 if not ok:
                     raise RuntimeError("the turn ended with an error")
                 done = {i["id"] for i in batch}
-                if self.human_in_turn and getattr(self, "turn_text_n", 0) and not self.name.endswith("overview"):
-                    self.pending_q = [q for q in self.pending_q if q["at"] > self.turn_started]   # it replied to them
                 self.items = [i for i in self.items if i["id"] not in done]
                 self.save_items()
                 self.fails = 0
@@ -2141,6 +2234,10 @@ class Agent:
                 if isinstance(b, TextBlock) and b.text.strip():
                     if not m.parent_tool_use_id:
                         self.turn_text_n = getattr(self, "turn_text_n", 0) + 1
+                        if self.pending_q and not self.name.endswith("overview"):
+                            head = b.text.strip()[:120].lower()
+                            self.pending_q = [q for q in self.pending_q if not (q["at"] <= self.turn_started and
+                                              str(q.get("who", "")).lower() in head)]
                     self.record({"type": "text", "text": b.text, "sub": bool(m.parent_tool_use_id)})
                     if self.name.endswith("overview") and not m.parent_tool_use_id and not getattr(self, "compacting", False):
                         asyncio.create_task(self.ov_log("Chat", b.text))
@@ -2152,6 +2249,16 @@ class Agent:
         elif isinstance(m, UserMessage) and isinstance(m.content, list):
             for b in m.content:
                 if isinstance(b, ToolResultBlock):
+                    if "App create rate limit exceeded" in str(b.content)[-6000:] and "grep" not in str(b.content)[:200] and \
+                            time.time() - getattr(self.hub, "modal_rl_at", 0) > 600:
+                        self.hub.modal_rl_at = time.time()   # the workspace-wide app-creation limit: everyone slows down
+                        asyncio.create_task(self.hub.alert_all(self.name, f"{self.title} hit Modal's app-creation rate limit. "
+                                            "Agents: one app per purpose (deploy once, call many times, or .map), no "
+                                            "bursts of `modal run`.", False))
+                        for ag_ in self.hub.agents.values():
+                            asyncio.create_task(ag_.add_item({"kind": "hub", "wake": False, "text": "[hub] Modal's workspace-wide "
+                                "app-creation limit was just hit. Use one app per purpose (deploy once and call it, or one `modal "
+                                "run` with .map); no bursts of `modal run`; on this error wait a minute."}))
                     self.record({"type": "tool_result", "id": b.tool_use_id, "error": bool(b.is_error),
                                  "text": short(b.content, 1200)})
         elif isinstance(m, ResultMessage):
@@ -2211,15 +2318,25 @@ class Agent:
             self.record({"type": "note", "text": "Blocked a pattern kill (pkill/killall): " + inp["command"][:160]})
             return PermissionResultDeny(message=PROC_KILL_HELP)
         text = json.dumps(inp)
-        if isinstance(inp.get("command"), str):   # deleting scratch space under /tmp is routine, not risky
-            text = json.dumps(dict(inp, command=tmp_scrub(inp["command"])))
+        if isinstance(inp.get("command"), str):   # deleting inside /tmp, the repo or its own folder is routine, not risky
+            roots = [str(Path(self.cwd).resolve()), str(self.hub.repo.resolve()), str(self.hub.portal_data)]
+            cmd_ = tmp_scrub(inp["command"], roots, str(Path(self.cwd).resolve()))
+            cmd_ = re.sub(r"shutil\.rmtree\(\s*['\"](?![/~.])[^'\"]+['\"]\s*\)", "", cmd_)   # a relative folder of its own
+            if Path(self.cwd).resolve() != self.hub.repo.resolve():   # its own worktree: stash/restore/rebase hurt nobody else
+                cmd_ = re.sub(r"git\s+(stash|restore|rebase)\b|git\s+checkout\s+--\s|git\s+commit\b[^\n]*--amend", "git ", cmd_)
+            text = json.dumps(dict(inp, command=cmd_))
         risky = bool(DANGER.search(text))
         if name in ("Write", "Edit", "NotebookEdit", "MultiEdit"):
             fp = inp.get("file_path") or inp.get("notebook_path") or ""
             if fp and not self.inside_allowed(fp):
                 risky = True
-        if self.policy == "auto" and not risky:
+        if isinstance(inp.get("command"), str) and not inp.get("run_in_background") and blocking(inp["command"]):
+            return PermissionResultDeny(message=BLOCKING_HELP)
+        if not risky:   # everything ordinary runs without asking anyone (humans asked for no permission prompts)
             return PermissionResultAllow()
+        if not ASK_HUMANS:   # the few dangerous patterns are refused outright, with the reason, instead of a prompt
+            self.record({"type": "note", "text": f"Refused a risky {name}: " + short(inp, 200)})
+            return PermissionResultDeny(message=RISKY_HELP)
         ap = {"id": new_id(), "agent": self.name, "tool": name, "input": short(inp, 800), "risky": risky,
               "at": time.time(), "future": asyncio.get_running_loop().create_future()}
         self.hub.approvals[ap["id"]] = ap
@@ -2283,15 +2400,18 @@ class Agent:
                 return ok(f"Not sent: {e}")
             me.record({"type": "msg_out", "to": msg["to"], "text": msg["text"], "id": msg["id"], "kind": kind,
                        "reply_to": msg["reply_to"]})
-            if re.match(r"\W*plan challenge", a["text"], re.I):   # the humans see every plan challenge, once
-                key = re.sub(r"\W+", " ", a["text"].lower())[:120]
+            if re.match(r"\W*plan challenge", a["text"], re.I) and not me.name.endswith("overview"):   # once per raiser per stage
+                gist = " ".join(re.findall(r"[a-z]{4,}", a["text"].lower()[15:200])[:6])
+                key = f"{me.name}|{stage_of(hub.bus.shared.get('schedule'), time.time())}|{int(time.time() // 900)}|{gist[:20]}"
+                if any(k.startswith(f"{me.name}|{stage_of(hub.bus.shared.get('schedule'), time.time())}|{int(time.time() // 900)}|")
+                       and len(set(k.split("|")[-1].split()) & set(gist[:20].split())) for k in hub.plan_challenges):
+                    key = next(k for k in hub.plan_challenges if k.startswith(f"{me.name}|"))   # same challenge, other words
                 if key not in hub.plan_challenges:
                     hub.plan_challenges.add(key)
                     head = re.sub(r"(?i)^\W*plan challenge\W*", "", a["text"]).strip()
                     await hub.tile("challenge-" + new_id()[1:7], "Plan challenge", "raised", owner=me.name)
-                    await hub.alert_all(me.name, f"Plan challenge from {me.title}: {head[:400]} (your Chat will explain; "
-                                        "by default the Challenger builds the alternative and the next practice judges it)",
-                                        False, chat=True)
+                    await hub.alert_all(me.name, f"Plan challenge from {me.title}: {plain_line(head, 160)} (your Chat explains; "
+                                        "by default the Challenger builds the alternative)", False, chat=True)
             return ok(f"{status} (id {msg['id']})")
 
         @tool("list_agents", "Every agent and hub service on both laptops, with state and one-line status.", {})
@@ -2875,16 +2995,16 @@ DISPATCH = {
     "b15": [("samuel", "crit", "s-tester", "The test rig must run now: first verdict on v1 (correct? timing?) to d-platform and both Chats")],
         "b20": [("dylan", "crit", "d-builder", "Have the next style ready (legal and upload-tested is enough); d-overview picks which plays each practice. Rebuild every style with the newest shared tables before its upload, so practice scores compare styles, not timing"),
             ("dylan", "crit", "d-platform", "Build s-data's hand ranking and ICM thresholds into the platform now (behind settings, ON by default once checked) so every style uploaded from now on uses them; push/fold tables follow at minute 30"),
-            ("dylan", "crit", "d-overview", "Pick which bot plays practice 2 (minute 30): the most informative test, not a fixed rota. Tell Dylan the exact file by minute 28"),
+            ("dylan", "crit", "d-overview", "Pick which bot plays practice 2 (minute 30): the most informative test, not a fixed rota. declare_live(file) it by minute 27: the hub then asks Dylan to upload it"),
             ("samuel", "crit", "s-data", "When practice 1's round card lands: the defaults check, then the leaks of the bot that played (Part 2), the top change in 5 minutes. report_progress('Practice 1 analysis') is automatic; record the one-change when done")],
         "b30": [("dylan", "crit", "d-platform", "Build s-data's push/fold and call tables and the twist rule into the platform now; every style picks them up at its next upload"),
             ("dylan", "crit", "d-builder", "Keep each style current with the platform; the next one ready for practice 3 as d-overview picks"),
-            ("dylan", "crit", "d-overview", "Pick which bot plays practice 3 (minute 40): the candidate whose real-field score we most need (D if not yet measured). Tell Dylan the exact file by minute 38"),
+            ("dylan", "crit", "d-overview", "Pick which bot plays practice 3 (minute 40): the candidate whose real-field score we most need (D if not yet measured). declare_live(file) it by minute 37: the hub then asks Dylan to upload it"),
             ("samuel", "crit", "s-data", "Refit the call tables' shove-width and fold-rate columns from practice 1's real data and re-issue; then practice 2's leaks and styles A vs B on the real field"),
                         ("samuel", "crit", "s-scout", "First FIELD TREND from practices 1-2 (field rates, what the best teams do; note that practice 1's field is mostly minimal bots), first profiles, recogniser accuracy (same-round) and how identifiable we are")],
         "b40": [("dylan", "crit", "d-builder", "Keep the styles current; whichever d-overview names for practice 4 ready by minute 48"),
             ("dylan", "crit", "d-challenger", "From practices 1-3 (real-field scores, s-scout's field trend and profiles): choose the first challenger for the practice before scored round 2: D matured, the best response to the field's measured mix, or what the data points to. Say why in one line. report_progress('Challenger 1')"),
-            ("dylan", "crit", "d-overview", "Pick practice 4 (minute 50): the leader, or its closest unmeasured rival if the leader is already clear. Tell Dylan by minute 48"),
+            ("dylan", "crit", "d-overview", "Pick practice 4 (minute 50): the leader, or its closest unmeasured rival if the leader is already clear. declare_live(file) it by minute 47: the hub then asks Dylan to upload it"),
             ("samuel", "crit", "s-tester", "Rank every style that played (A, B, C, D, ...) for the round-1 choice, adjusting for confounds: which tables each had, practice size, how mature the field was. Add replay tests of each style on the same downloads (same field, same deals). Say which comparison carries the decision; send it to s-overview")],
     "b50": [("dylan", "crit", "d-platform", "Release the bot d-overview names for scored round 1 (the best real-field scorer unless the humans said otherwise)"),
                         ("samuel", "crit", "s-data", "Which style did the field reward, and what are the best teams doing (winners lens)? One paragraph with the numbers to s-overview for the round-1 decision; if no style we built matches what wins, say so (PLAN CHALLENGE)")],
@@ -3011,10 +3131,10 @@ HUMAN_STEPS = {
     "b0": {"samuel": "Set the clock's minute 0 if it isn't set, and read the Format page.",
            "dylan": "Fetch the kit and read the Format page."},
     "b10": {"dylan": "UPLOAD"},
-    "b17": {"dylan": "Practice 1 starts in 3 minutes: upload the bot your Chat named for it (Live menu) if it isn't active yet."},
-    "b27": {"dylan": "Practice 2 starts in 3 minutes: upload the bot your Chat named for it (Live menu) if it isn't active yet."},
-    "b37": {"dylan": "Practice 3 starts in 3 minutes: upload the bot your Chat named for it (Live menu) if it isn't active yet."},
-    "b47": {"dylan": "Practice 4 starts in 3 minutes: upload the bot your Chat named for it (Live menu) if it isn't active yet."},
+    "b17": {"dylan": "UPLOAD"},
+    "b27": {"dylan": "UPLOAD"},
+    "b37": {"dylan": "UPLOAD"},
+    "b47": {"dylan": "UPLOAD"},
     "12": {"dylan": "UPLOAD"},
     "9": {"dylan": "UPLOAD"},
     "8": {"samuel": "Decision time: the 'Which bot?' question is pinned at the top of your Chat. Answer it there in words.",
@@ -3491,8 +3611,12 @@ class Clock:
                 if human == "UPLOAD":   # upload reminders follow the actual state, never a fixed plan
                     live = (self.hub.bus.shared.get("live") or {}).get("filename")
                     act = (self.hub.bus.shared.get("portal_active") or {}).get("filename")
-                    human = (f"Upload **{live}** now (Live menu → download) and make it active; the portal is running "
-                             f"{act or 'nothing'}." if live and norm_bot(live) != norm_bot(act) else None)
+                    human = (f"Upload **{live}** now (Live menu → download), or click it in the portal's uploads list if "
+                             f"it's already there, and make it active; the portal is running {act or 'nothing'}."
+                             if live and norm_bot(live) != norm_bot(act) else None)
+                    if human is None and re.fullmatch(r"b[1-4]7", key.split(":", 1)[1]):   # a build practice, nothing new picked
+                        human = (f"Practice {int(key.split(':', 1)[1][1]) - 0} starts in 3 minutes and the portal runs "
+                                 f"{bot_name(act) if act else 'NO bot'}. If your Chat named another bot for it, activate it now.")
                 if human:   # a step a person must do: remind them directly
                     await self.hub.add_alert(f"{me[0]}-clock", text.split(": ", 1)[0] + ": " + human,
                                              urgent=key.endswith(("-8", "-3")))
@@ -3953,7 +4077,7 @@ class PortalWatcher:
                         if r["stage"] not in rs:
                             await self.hub.bus.set_shared("rounds_seen", dict(rs, **{r["stage"]: time.time()}))
                 f = pb[r["id"]]
-                await self.hub.tile("round-" + stage_slug(r["stage"]), r["stage"], f"playing {bot_name(f)}", owner="d-overview", stage=r["stage"])
+                await self.hub.tile("round-" + stage_slug(r["stage"]), r["stage"], f"playing {norm_bot(f) or f}", owner="d-overview", stage=r["stage"])
                 continue
                 await self.hub.ensure_note("L-" + r["id"][:12], kind="live", stage=r["stage"], owner="d-overview",
                                            author="s-portal", author_person="dylan",
@@ -4613,6 +4737,18 @@ def make_app(hub: Hub) -> web.Application:
         return web.json_response(await hub.take_upload(name, data, PEOPLE[hub.person], notify=req.query.get("hold") != "1"))
     r.add_post("/api/upload", upload)
 
+    async def team_chat_ep(req):
+        try:
+            b = await req.json()
+            assert isinstance(b, dict)
+        except Exception:  # noqa: BLE001
+            return web.json_response({"error": "Bad request."}, status=400)
+        b["files"] = [f for f in (b.get("files") or []) if isinstance(f, dict)]
+        if not (b.get("text") or "").strip() and not b.get("files"):
+            return web.json_response({"error": "Empty message."}, status=400)
+        return web.json_response(await hub.team_say((b.get("text") or "").strip(), b.get("files") or []))
+    r.add_post("/api/teamchat", team_chat_ep)
+
     async def inbox_file(req):
         fid = re.sub(r"[^A-Z0-9]", "", req.match_info["fid"].upper())
         f = next(iter((hub.repo / "inbox").glob(f"{fid}-*")), None) if (hub.repo / "inbox").exists() and fid else None
@@ -4659,6 +4795,27 @@ def descendants(root: int) -> list[tuple[int, str]]:
     return res
 
 
+def strays(tag: str) -> list[tuple[int, str]]:
+    """Orphaned helpers (parent gone) started by THIS hub's agents: their environment carries AVALON_HUB=<tag>. They escape
+    the child snapshot when their launcher exits first (a rehearsal had 12 such workers pinning every core)."""
+    try:
+        ps = subprocess.run(["ps", "-A", "-E", "-o", "pid=,ppid=,command="], capture_output=True, text=True, timeout=15).stdout
+        plain = {int(p_): c_ for p_, c_ in (l.strip().split(None, 1) for l in subprocess.run(
+            ["ps", "-A", "-o", "pid=,command="], capture_output=True, text=True, timeout=15).stdout.splitlines() if l.strip() and " " in l.strip())
+            if p_.isdigit()}
+    except Exception:  # noqa: BLE001
+        return []
+    out = []
+    for line in ps.splitlines():
+        parts = line.split(None, 2)
+        if len(parts) < 3 or not parts[0].isdigit() or parts[1] != "1" or int(parts[0]) == os.getpid():
+            continue
+        if re.search(rf"(^|\s)AVALON_HUB={re.escape(tag)}(\s|$)", parts[2]):
+            if int(parts[0]) in plain and "hub.py" not in plain[int(parts[0])]:
+                out.append((int(parts[0]), plain[int(parts[0])]))
+    return out
+
+
 def stop_processes(procs: list) -> int:
     """SIGTERM, then SIGKILL after 3 s, every listed process still running the SAME command (a reused pid is spared)."""
     import signal
@@ -4689,6 +4846,7 @@ async def main():
     ap.add_argument("--namespace", default="", help="message-line suffix, e.g. --namespace=-live on Sunday")
     ap.add_argument("--no-autostart", action="store_true")
     ap.add_argument("--view-only", action="store_true", help="show the screen with saved data; start no agents or services")
+    ap.add_argument("--rehearsal", action="store_true", help="a practice run: agents are told the portal is a copy")
     ap.add_argument("--model", default=None, help="run every agent on this model (e.g. claude-haiku-5-5 for tests)")
     ap.add_argument("--worker-model", default=None, help="run the workers (not the Overseers) on this model, e.g. "
                     "claude-sonnet-5-5 to save the Opus allowance")
@@ -4730,7 +4888,8 @@ async def main():
             asyncio.create_task(hub.bus.set_shared("prop:" + pr["id"], merged))
     hub.default_scale = a.scale
     left = load_json(hub.data / "children.json", [])
-    if left and not a.view_only:   # a previous run of this hub died: stop what it left running
+    if left and not a.view_only:   # a previous run of this hub died: stop what it left running (agents' own background jobs
+        # that outlived it are left alone: an agent resuming after a crash may be waiting for their results)
         n = await asyncio.to_thread(stop_processes, [tuple(x) for x in left])
         if n:
             print(f"stopped {n} process(es) left running by the previous hub run", flush=True)
@@ -4739,7 +4898,8 @@ async def main():
         import signal as _sig
 
         def _bye(*_):   # Ctrl+C or kill: take the agents' processes down too, incl. ones already detached from us
-            stop_processes(descendants(os.getpid()) + [tuple(x) for x in load_json(hub.data / "children.json", [])])
+            stop_processes(descendants(os.getpid()) + [tuple(x) for x in load_json(hub.data / "children.json", [])]
+                           + strays(hub.tag))
             atomic_write(hub.data / "children.json", "[]")
             os._exit(0)
         for s_ in (_sig.SIGTERM, _sig.SIGINT):
@@ -4752,6 +4912,7 @@ async def main():
                 await asyncio.sleep(15)
         asyncio.create_task(hub.forever("children", record_children))
     hub.view_only = a.view_only
+    hub.rehearsal = a.rehearsal
     hub.worker_model = a.worker_model
     hub.bus.scale = a.scale
     if a.start:

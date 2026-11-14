@@ -2,7 +2,7 @@
 
 For Dylan and Samuel. This assumes you remember the Bay Area regional and nothing since. Read this first
 (about 20 minutes). Then read `docs/SUNDAY.md` (the day itself, minute by minute) and, before any practice
-run, `docs/REHEARSAL.md`. Everything else is reference. Last updated Friday 13 November, night (lean hub: four agents per laptop, progress board, decisions in the Chat).
+run, `docs/REHEARSAL.md`. Everything else is reference. Last updated Saturday 14 November (portal clicks vs uploads, no permission prompts, the "Needs you" bar, Team chat).
 
 ## 1. The short version
 
@@ -105,18 +105,24 @@ stage first; past stages fold away (click to open, "▾ Collapse" to close). A t
 nothing else: "Round 1 data · in progress" (the download started) → "done"; "Round 1 analysis · in progress" →
 "done"; "Bot v4 · testing" → "done"; "Practice 3 · playing v4" → "finished"; "Build · Maths tables · in progress".
 **Click a tile to open the agent doing it.** At the top, **Now** shows the stage, which bot the portal is running
-and every agent's state. A red bar appears when a decision waits for your answer.
+and every agent's state.
 
 **Your Chat** is the lead of your side and your main conversation. Tell it when the competition starts ("the
 competition starts now", or the announcement time; the hub starts the clock on both laptops itself) and any times
 you learn ("round 1 is at 14:25"). Ask it anything ("what's going on?", "why v5?"); tell it what to change and it
-hands the work to the right agent and reports back. **Decisions are asked here**: a red box pinned at the top
-says what is being decided, the evidence and the rule, what each answer means, and the deadline. You answer in
-your own words ("yes, use v13", "no, keep v8 because…"); nothing is decided until you answer clearly, and with no
-answer by the deadline the pre-registered rule decides. Tabs switch between **your Chat and your teammate's**.
-Drop or paste files (hand data, screenshots) into the Chat: they're staged and sent with your next message.
-Type "run the check" before the start to test everything (link, portal reading and a hand download, Claude,
-Codex, the repo, disk) on both laptops.
+hands the work to the right agent and reports back. Its reply starts with your name ("Samuel: ...") and answers
+you first; if it doesn't, the hub raises your message again after 1 minute. **Decisions are asked here**: one
+slim **Needs you** bar at the top of the Chat says what's waiting and when it's due; **Details** shows the
+evidence, the rule and what each answer means. You answer in your own words ("yes, use v13", "no, keep v8
+because…"); nothing is decided until you answer clearly, and with no answer by the deadline the pre-registered
+rule decides. Tabs switch between **your Chat and your teammate's**. Drop or paste files (hand data,
+screenshots) into the Chat: they're staged and sent with your next message. Type "run the check" before the
+start to test everything (link, portal reading and a hand download, Claude, Codex, the repo, disk, CPU) on both
+laptops. Other Chat commands: "start the research", "hands link: <url>", "reset the clock" (`hub/README.md`).
+
+**Team chat** (in the sidebar) is just for the two of you: no agent reads it, it syncs between the laptops, and
+you can attach files. Every message box has a **mic** button for dictation: the text lands in the box, you check
+it and press Enter. Text you haven't sent is kept when you switch agents.
 
 **An agent's page:** its **brief** pinned at the top (Now / Latest result / Next / Needs from you), then its
 activity in plain text (tool steps folded into one line, messages to other agents as one-liners), and a message
@@ -125,11 +131,14 @@ agent: it does it first or says why it can't. Use it to steer ("do the 3-bet siz
 ("check whether team X adapts to us after hand 40").
 
 **Header:** your name, the countdown to the next step (amber under 3 minutes, red under 1), **Live** (the bot the
-portal is running; the menu lists every bot and downloads a bot's zip for you to upload), the **bell**
-(permission requests, decisions waiting, urgent messages; the screen edges pulse red while something needs an
-answer within minutes) and **☰** (show or hide the agents list).
+portal is running; the menu lists every bot, says "tested, not released yet" until Platform releases a zip, and
+downloads a bot's zip for you to upload), the **bell** (a short list of one-line items: what's waiting, notes)
+and **☰** (show or hide the agents list). Pop-ups appear only for real emergencies (a rejected upload, no active
+bot), one at a time. The screen edges flash only when a bot decision is due in under 3 minutes. A plan challenge
+is one line in the Chat and the bell, never a pop-up.
 
-Agent dots: green working, grey ready, dashed off, amber waiting for you, red error or usage limit.
+Agent dots: green working, grey ready, dashed off, amber waiting, red error or usage limit. An agent's badge
+says "needs you" when it does (no unread counts).
 Samuel's things are marked indigo, Dylan's rose.
 
 ### Who's who
@@ -146,7 +155,7 @@ Four agents per laptop, one job each, so you know which one to open:
 
 - **The Clock** knows the schedule and gives every worker its own task at the right minute, straight from the game
   plan (no relay). It reminds you directly when a step needs your hands ("Dylan: put the live bot back as active
-  now"). The **Deadlines** service enforces the cut-offs in `DECISION_RULES.md` (a late step loses its slot; the safe
+  now", a click in the portal's uploads list). The **Deadlines** service enforces the cut-offs in `DECISION_RULES.md` (a late step loses its slot; the safe
   default plays; nobody is told to hurry).
 - **The Portal watcher** (Samuel's laptop) reads the organizers' website every 30 s (every 6 s near the end of a
   round, every 10 s while an upload is pending). It's read-only. It saves each round's results and our hand
@@ -154,11 +163,14 @@ Four agents per laptop, one job each, so you know which one to open:
   rejected, if there's no active bot, if the active bot isn't the one we decided on, or if the clock is off.
 - **Agents talk to each other directly**, on either laptop. Samuel's Analyst hands a fix straight to Dylan's
   Styles & fixes; Dylan's Chat asks Samuel's Chat for the recommendation.
-- **Nothing is left hanging.** A message you type that isn't answered is raised again with that agent; a
-  contradiction the hub notices (clock vs portal, live vs active bot, two numbers for one thing) is posted to
-  your Chat.
+- **Nothing is left hanging.** A message you type that isn't answered is raised again with that agent after
+  1 minute, and no agent compacts its memory while your message waits. The portal watcher's alerts (rejected
+  upload, wrong active bot, clock off) reach you; the hub's model-based contradiction check goes to the lead
+  only, which tells you if it's real.
 - **Parallel work.** Each agent starts its own helpers: Claude subagents, jobs on **Modal** (shared cap of 80
-  containers, about $300) and on **Codex** (separate credits, up to 6 at once).
+  containers, about $300) and on **Codex** (separate credits, up to 6 at once). Agents use one Modal app per
+  purpose (deploy once and call it, or one `modal run` with `.map`), never bursts of `modal run`: Modal's
+  workspace-wide limit on creating apps lost a practice round.
 
 ### How you steer
 
@@ -167,11 +179,11 @@ Four agents per laptop, one job each, so you know which one to open:
 - **Ask for research** the same way: open the agent whose job it is and say what you want and by when.
 - **Decide in words**, in the Chat. Either of you can answer a live-bot decision.
 - **Defaults keep things moving.** If nobody answers a live-bot decision by T-5, the pre-registered rule's answer
-  plays (the challenger if it cleared the bar, else the live bot). If nobody answers a permission request in 3
-  minutes, it's refused and the agent finds another way.
-- **Permissions:** ordinary commands are approved automatically. Risky ones always wait for a click (deleting
-  outside `/tmp`, force pushes, killing processes, Modal deletes, any write to the organizers' website, writes
-  outside the repo).
+  plays (the challenger if it cleared the bar, else the live bot).
+- **Permissions:** there are no permission prompts. Agents' commands run automatically, and a short list of
+  dangerous ones is refused outright with the reason: deleting outside `/tmp` and the repo, force pushes,
+  `git reset --hard`/`stash`/`rebase`, `sudo`, Modal deletes, writes to the organizers' website, writes outside the
+  repo, pattern kills (`pkill`, `killall`), and a foreground `wait` or long `sleep`. The agent finds another way.
 
 ## 5. Who does what
 
@@ -180,7 +192,7 @@ Four agents per laptop, one job each, so you know which one to open:
 | Owns | The bot and what plays; **every upload** on the organizers' website; confirming the active bot | Analysis, testing and opponents; the recommendation each window; the portal watcher runs on his laptop |
 | Talks to | Dylan's Chat; opens Platform, Styles & fixes, Challenger to check on them | Samuel's Chat; opens Analyst, Tester, Opponents to check on them |
 | Decides | Live-bot decisions (in words, in the Chat) | Live-bot decisions too |
-| Hands-on moments | Upload at minute 10, before each practice round in the build hour, T-12 (challenger), T-9 (live bot back), T-3 (chosen bot) | Tell the Chat at minute 0; copy the hand-history link after practice round 1 (`SUNDAY.md` step 7) |
+| Hands-on moments | Upload at minute 10; upload or activate before each practice round in the build hour; T-12 upload (challenger); T-9 click (live bot back); T-3 click, or upload if it's a new zip (chosen bot) | Tell the Chat at minute 0; copy the hand-history link after practice round 1 (`SUNDAY.md` step 7) |
 
 You decide together at T-8. If you disagree and there's no time, the rule's answer plays.
 
@@ -194,25 +206,27 @@ You decide together at T-8. If you disagree and there's no time, the rule's answ
 | by 10 | Minimal legal bot uploaded and active | Dylan |
 | 15 | Test rig running (paired runs, sparring) | Samuel's side |
 | 0 | The Challenger starts design D from scratch (today's rules only) | Dylan's side |
-| 17, 27, 37, 47 | Dylan's Chat names the bot for the next practice (the most informative test); the bell reminds Dylan to upload | Dylan uploads |
+| 17, 27, 37, 47 | Dylan's Chat declares the bot for the next practice (the most informative test); 3 minutes before each practice the bell asks Dylan to upload it, or activate it if it's already uploaded | Dylan |
 | 20, 30, 40, 50 | Practice rounds | |
-| after 50 | The best real-field scorer (adjusted) is active for scored round 1 | Dylan |
+| after 50 | The best real-field scorer (adjusted) is made active for scored round 1 (a click: it's already uploaded) | Dylan |
 
-**Every window after that.** A practice round starts 10 minutes before each scored round and plays
-whatever bot is active, so each window has two uploads.
+**Every window after that.** A practice round starts 10 minutes before each scored round. Each round plays a
+snapshot of every team's **active** bot taken at its start. Making an already-uploaded bot active is a click
+on the portal, not an upload, so a window has at most two real uploads, about 8 minutes apart: the challenger
+at T-12 and, only if the chosen bot is a new zip, the chosen bot around T-4 to T-3.
 
 | Time to scored round | What happens | Who |
 |---|---|---|
 | T-20 | Previous scored round starts. The challenger is already packed and tested | |
 | T-13 | Previous round's result and hand data land; Samuel's side analyses | Samuel's side |
-| T-12 | Challenger uploaded and active (skip if not ready) | Dylan |
+| T-12 | Challenger uploaded and active (skip if not ready). The first real upload | Dylan |
 | T-10 | Practice round plays the challenger | |
-| T-9 | Live bot put back as active straight away | Dylan |
+| T-9 | Live bot put back as active straight away: a click in the portal's uploads list, no re-upload | Dylan |
 | T-9 | Samuel's Chat sends the recommendation (the threshold, then the final answer once the practice lands) | Samuel's side |
 | T-8 | **Decide** by the pre-registered rule (`DECISION_RULES.md` §3): the challenger if it clears the field-adjusted bar for our standing, else the live bot with this window's tested changes. The question pinned in your Chats shows the rule's answer | Both |
 | T-6 | Chosen bot tested with no time bank | Dylan's side |
 | T-5 | No human answer: the hub applies the rule's answer itself | |
-| T-3 | Chosen bot uploaded; active bot confirmed | Dylan |
+| T-3 | Chosen bot active: a click if it's already uploaded (the challenger or the live bot), else uploaded around T-4 to T-3; active bot confirmed | Dylan |
 
 Once the live bot is back at T-9, a missed deadline means the previous live bot plays: that is a failure to
 fix, not a safe outcome (bots that stood still lost as much as bots that changed). Only tested zips are ever
@@ -281,8 +295,9 @@ The full rules are in `docs/DECISION_RULES.md`; every agent has them in its inst
   Anthropic API-key overflow.
 - **Pittsburgh's variant** isn't known.
 - **The hand-history download address** isn't in the organizers' code. If the watcher can't download, Samuel
-  pastes it once into his Chat as "hands link: …" after the first practice round (`SUNDAY.md` step 7).
-- **The upload cooldown:** 30 s at the regionals' portal, 5 minutes in a public summary. Check the Format page.
+  pastes it once into his Chat as "hands link: <url>" after the first practice round (`SUNDAY.md` step 7).
+- **The upload cooldown:** assume up to 5 minutes (probably less; 30 s at the regionals' portal). Check the
+  Format page. It's why a window has at most two real uploads.
 - **The agents are good but not careful.** In simulations they:
   - used last rehearsal's data until caught;
   - asked for things nobody can see;

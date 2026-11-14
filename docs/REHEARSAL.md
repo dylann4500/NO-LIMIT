@@ -27,25 +27,29 @@ The link and key stay the same for every rehearsal.
    - wipes the rehearsal repo (`nolimit-rehearsal`) back to the setup files;
    - starts the tournament and the portal copy;
    - tells you minute 0 and a run name, e.g. `reh3`.
-2. **Both: start your hub with that run name** (fresh state and message line, so nothing from old runs
-   carries over).
+2. **Both: start your hub with that run name and `--rehearsal`** (fresh state and message line, so nothing from
+   old runs carries over; `--rehearsal` tells the agents the portal is a copy and its facts don't carry over to
+   Sunday).
 
    **Samuel:**
 ```
 cd ~/NoLimit/NO-LIMIT && git pull
-./hub/start.sh samuel ~/nolimit-rehearsal --data ~/.avalon-hub-reh3/samuel --namespace=-reh3 --portal-data ~/portal-data-reh3 --portal-base http://127.0.0.1:8765/tournament/api --portal-key-file ~/.config/avalon-rehearsal/portal-key
+./hub/start.sh samuel ~/nolimit-rehearsal --data ~/.avalon-hub-reh3/samuel --namespace=-reh3 --portal-data ~/portal-data-reh3 --portal-base http://127.0.0.1:8765/tournament/api --portal-key-file ~/.config/avalon-rehearsal/portal-key --rehearsal
 ```
    **Dylan:**
 ```
 cd ~/NoLimit/NO-LIMIT && git pull
-./hub/start.sh dylan ~/nolimit-rehearsal --data ~/.avalon-hub-reh3/dylan --namespace=-reh3
+./hub/start.sh dylan ~/nolimit-rehearsal --data ~/.avalon-hub-reh3/dylan --namespace=-reh3 --rehearsal
 ```
    For a sped-up run, the Claude session sets the clock's speed for you.
-3. **Both: open http://127.0.0.1:7777**, pick your name, and check there is no red "Not linked" bar.
-4. **Samuel: press Start building** on the board at minute 0 (or tell your Overseer the time).
+3. **Both: open http://127.0.0.1:7777**, pick your name, and check there is no red "Not linked" bar. Type
+   "run the check" in your Chat. Its CPU row flags a busy laptop: leftover jobs make local timing tests wrong.
+   (The hub stops leftover helper processes from its own folders when it starts and shuts down.)
+4. **Samuel: press Start building** on the board at minute 0 (or tell your Chat "the competition starts now").
 5. **Play the day exactly as in `docs/SUNDAY.md`.** The only differences:
    - **Dylan uploads on the portal copy** (the Tailscale link above): Upload a zip, then **Make active**.
-     The upload test runs at once; a rejected upload shows the reason.
+     The upload test runs at once; a rejected upload shows the reason. A bot already uploaded is made active
+     with a click, as on Sunday.
    - The kit is already in the rehearsal repo (`starter-kit/`).
    - No hand-history link to copy: the watcher already knows where the portal copy keeps them.
 6. **Debrief afterwards** (15 minutes):
@@ -59,7 +63,7 @@ cd ~/NoLimit/NO-LIMIT && git pull
 ## Simulated teammates (optional, for finding bugs without you)
 
 The Claude session can also run AI stand-ins for you both (`hub/simhuman.py`). They look at each hub's
-screen like a person would, answer the bell, greenlight or reject notes, post ideas, and (as Dylan)
+screen like a person would, answer the bell and decisions in the Chat, and (as Dylan)
 upload bots to the portal copy, and they write down anything confusing. Tonight's run with them found
 eight problems, all fixed.
 

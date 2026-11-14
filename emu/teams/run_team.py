@@ -60,15 +60,17 @@ def team_slug(team: str) -> str:
     return "".join(c if c.isalnum() else "_" for c in team).strip("_").lower()
 
 
-def kit_files(dest: Path, variant_rules: Path | None) -> None:
-    """The starter kit exactly as a team downloads it (no venv, no local histories)."""
+def kit_files(dest: Path, variant_rules: Path | None, source: Path = KIT) -> None:
+    """The starter kit exactly as a team downloads it (no venv, no local histories). `source` is
+    starter-kit/ or, for a mock variant, the mock kit emu/variants/make_kit.py built for the run
+    (its engine holds the variant's module)."""
     def ignore(d, names):
         skip = {n for n in names if n in KIT_SKIP}
         if Path(d).name == "hand-history":
             skip |= {n for n in names if n.endswith(".gz") and not n.startswith("sample")}
             skip |= {n for n in names if n.startswith("local-")}
         return skip
-    shutil.copytree(KIT, dest, ignore=ignore)
+    shutil.copytree(source, dest, ignore=ignore)
     if variant_rules:
         shutil.copy(variant_rules, dest / "RULES.md")
 
@@ -80,12 +82,13 @@ def schedule_table(weights=(1, 2, 3, 4, 5, 6)) -> str:
     return "\n".join(rows)
 
 
-def portal_files(dest: Path, variant_title: str, variant_rules: str, weights=(1, 2, 3, 4, 5, 6)) -> None:
-    dest.mkdir(parents=True)
+def portal_files(dest: Path, variant_title: str, variant_rules: str, weights=(1, 2, 3, 4, 5, 6),
+                 cooldown: int = 30) -> None:
+    dest.mkdir(parents=True, exist_ok=True)
     for page in ("getting-started.md", "format.md"):
         text = (EMU / "portal" / "pages" / page).read_text()
         text = text.replace("{{VARIANT_TITLE}}", variant_title).replace("{{VARIANT_RULES}}", variant_rules)
-        text = text.replace("{{SCHEDULE_TABLE}}", schedule_table(weights))
+        text = text.replace("{{SCHEDULE_TABLE}}", schedule_table(weights)).replace("{{COOLDOWN}}", str(cooldown))
         (dest / page).write_text(text)
 
 

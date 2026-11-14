@@ -49,13 +49,20 @@ def log(msg: str) -> None:
     print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
 
 
-def upload_test(bot: Path) -> dict:
-    """The portal's test match: heads-up vs check-or-fold, up to 20 hands, 1 ms, no time bank.
+def upload_test(bot: Path, variant: str | None = None, kit: Path | None = None) -> dict:
+    """The portal's test match: heads-up vs check-or-fold, up to 20 hands, 1 ms, no time bank,
+    in the competition's variant (`variant`; default the kit's flop_discard_reveal). `kit` is a
+    mock kit (emu/variants/make_kit.py) whose engine sources run ahead of starter-kit's.
     Rejected if it can't start, crashes, or fails more than 10% of its decisions."""
     if not (bot / "agent.py").is_file():
         return {"ok": False, "reason": "no agent.py at the root of the upload"}
+    env = None
+    if kit:
+        sys.path.insert(0, str(EMU / "variants"))
+        from make_kit import kit_env
+        env = kit_env(Path(kit))
     chk = subprocess.run([str(ROOT / "starter-kit/.venv/bin/poker-agent"), "check", str(bot / "agent.py")],
-                         capture_output=True, text=True)
+                         capture_output=True, text=True, env=env)
     if chk.returncode:
         return {"ok": False, "reason": "check failed: " + chk.stderr.strip()[-300:]}
     import tempfile
@@ -65,8 +72,9 @@ def upload_test(bot: Path) -> dict:
         try:
             out = subprocess.run([KITPY, str(ROOT / "cloud/kit_match.py"), "--tables", "1", "--bank", "0",
                                   "--hand-cap", "20", "--copies", "1", "--out", str(dest), str(bot),
-                                  str(ROOT / "starter-kit/examples/check_or_fold")],
-                                 capture_output=True, text=True, timeout=600)
+                                  str(ROOT / "starter-kit/examples/check_or_fold")]
+                                 + (["--variant", variant] if variant else []),
+                                 capture_output=True, text=True, timeout=600, env=env)
             res = json.loads(dest.read_text())
         except (ValueError, OSError, subprocess.TimeoutExpired) as e:
             return {"ok": False, "reason": f"the test match did not finish: {e!r}"}

@@ -12,6 +12,9 @@ What it does, like the real portal:
     Activating copies it into emu/runs/<run>/avalon/submission/, which the rehearsal snapshots at each
     round start. A new upload is NOT made active by itself: always confirm the active bot.
   - Rounds, results, standings and our hand-history downloads, read from the rehearsal's own files.
+  - Format and Getting started pages (avalon/portal/*.md: without the variant until the start).
+  - Upload cooldown: one upload per --cooldown seconds (default: the run's setting, else 30); a sooner
+    upload gets 429 with Retry-After. The upload test plays the run's variant on the run's kit.
 
 API (participant paths copied from the real site's front-end code; Bearer key required):
   GET  /api/me                                   GET /api/competitions
@@ -58,7 +61,7 @@ iso = lambda t: time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(t))  # noqa: E73
 
 
 class Portal:
-    def __init__(self, run: str):
+    def __init__(self, run: str, cooldown: int | None = None):
         self.run = run
         self.dir = ROOT / "emu" / "runs" / run
         self.ws = self.dir / TEAM
@@ -78,6 +81,9 @@ class Portal:
         keyf = self.ws / "portal" / "api-key"
         keyf.parent.mkdir(parents=True, exist_ok=True)
         keyf.write_text(self.key + "\n")
+        sf = self.dir / "settings.json"  # written by rehearsal.py: variant, cooldown, kit
+        self.settings = json.loads(sf.read_text()) if sf.exists() else {}
+        self.cooldown = cooldown if cooldown is not None else int(self.settings.get("cooldown", 30))
         self.cid = uid(run, "competition")
         self.team_id = uid(run, "team", TEAM)
 
@@ -189,6 +195,14 @@ class Portal:
                             "missed": s.get("failed_decisions", 0), "restarts": 0, "gave_up": False, "error_log": ""})
         return out
 
+    def started(self):
+        ev = self.event()
+        return bool(ev) and ev["start"] <= time.time()
+
+    def cooldown_left(self):
+        last = self.state.get("last_upload", 0)
+        return max(0, math.ceil(last + self.cooldown - time.time()))
+
     def upload(self, filename: str, body: bytes):
         sid = str(uuid.uuid4())
         import hashlib
@@ -200,6 +214,7 @@ class Portal:
         (d / "upload.zip").write_bytes(body)
         with self.lock:
             self.state["subs"].append(s)
+            self.state["last_upload"] = time.time()
             self.save()
         threading.Thread(target=self.check, args=(s,), daemon=True).start()
         return s
@@ -225,7 +240,7 @@ class Portal:
                     raise ValueError(f"{p.relative_to(bot)} imports poker_engine or pokerkit")
             if not (bot / "agent.py").is_file():
                 raise ValueError("no agent.py at the root of the upload")
-            r = upload_test(bot)
+            r = upload_test(bot, self.settings.get("variant"), self.settings.get("kit"))
             log = json.dumps(r)
             if not r["ok"]:
                 reason = r["reason"]
@@ -277,6 +292,7 @@ table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums} .tw
 th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem;white-space:nowrap}
 th{color:var(--muted);font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}
 .ready{color:var(--ok);font-weight:600}.rejected{color:var(--bad);font-weight:600}.validating{color:var(--warn);font-weight:600}
+.md th,.md td{white-space:normal} .md code{font-size:.9em} .md pre{overflow-x:auto}
 .me td{font-weight:700} .muted{color:var(--muted)} a{color:var(--accent)}
 button{font:inherit;padding:5px 12px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
 button.ghost{background:none;color:var(--accent)} .big{font-size:1.15rem;font-weight:700}
@@ -285,11 +301,76 @@ button.ghost{background:none;color:var(--accent)} .big{font-size:1.15rem;font-we
 
 def page(title, body, on=""):
     nav = "".join(f'<a class="{"on" if on == k else ""}" href="/tournament/{k}">{v}</a>'
-                  for k, v in (("team", "Team"), ("rounds", "Rounds"), ("standings", "Standings")))
+                  for k, v in (("team", "Team"), ("rounds", "Rounds"), ("standings", "Standings"), ("format", "Format")))
     return (f"<!doctype html><html><head><meta charset=utf-8><meta name=viewport content='width=device-width,"
             f"initial-scale=1'><title>{html.escape(title)} · No Limit (rehearsal)</title><style>{CSS}</style>"
             f"</head><body><header><div class=wrap><b>No Limit · rehearsal portal</b>{nav}</div></header>"
             f"<div class=wrap>{body}</div></body></html>")
+
+
+def md_inline(t):
+    t = html.escape(t, quote=False)
+    t = re.sub(r"`([^`]+)`", r"<code>\1</code>", t)
+    t = re.sub(r"\*\*([^*]+)\*\*", r"<b>\1</b>", t)
+    t = re.sub(r"(?<![*\w])\*([^*\n]+)\*(?!\w)", r"<i>\1</i>", t)
+    return re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", r"<a href='\2'>\1</a>", t)
+
+
+def md_html(text):
+    """Enough Markdown for the portal pages: headings, paragraphs, lists, tables, code blocks."""
+    out, para, lines, i = [], [], text.splitlines(), 0
+
+    def flush():
+        if para:
+            out.append("<p>" + md_inline(" ".join(para)) + "</p>")
+            para.clear()
+    while i < len(lines):
+        ln = lines[i]
+        if ln.startswith("```"):
+            flush()
+            j = i + 1
+            while j < len(lines) and not lines[j].startswith("```"):
+                j += 1
+            out.append("<pre><code>" + html.escape("\n".join(lines[i + 1:j])) + "</code></pre>")
+            i = j + 1
+            continue
+        if m := re.match(r"(#{1,6})\s+(.*)", ln):
+            flush()
+            n = len(m.group(1))
+            out.append(f"<h{n}>{md_inline(m.group(2))}</h{n}>")
+        elif ln.startswith("|"):
+            flush()
+            rows = []
+            while i < len(lines) and lines[i].startswith("|"):
+                cells = [c.strip() for c in lines[i].strip().strip("|").split("|")]
+                if not all(re.fullmatch(r":?-+:?", c) for c in cells):
+                    rows.append(cells)
+                i += 1
+            head, *body = rows or [[]]
+            out.append("<div class=tw><table><tr>" + "".join(f"<th>{md_inline(c)}</th>" for c in head) + "</tr>"
+                       + "".join("<tr>" + "".join(f"<td>{md_inline(c)}</td>" for c in r) + "</tr>" for r in body)
+                       + "</table></div>")
+            continue
+        elif re.match(r"\s*([-*]|\d+\.)\s+", ln):
+            flush()
+            tag = "ol" if re.match(r"\s*\d+\.", ln) else "ul"
+            items = []
+            while i < len(lines) and (re.match(r"\s*([-*]|\d+\.)\s+", lines[i])
+                                      or (lines[i].startswith("  ") and lines[i].strip() and items)):
+                if re.match(r"\s*([-*]|\d+\.)\s+", lines[i]):
+                    items.append(re.sub(r"\s*([-*]|\d+\.)\s+", "", lines[i], count=1))
+                else:
+                    items[-1] += " " + lines[i].strip()
+                i += 1
+            out.append(f"<{tag}>" + "".join(f"<li>{md_inline(x)}</li>" for x in items) + f"</{tag}>")
+            continue
+        elif not ln.strip():
+            flush()
+        else:
+            para.append(ln.strip())
+        i += 1
+    flush()
+    return "\n".join(out)
 
 
 def fmt_t(s):
@@ -351,7 +432,13 @@ class Handler(BaseHTTPRequestHandler):
             n = int(self.headers.get("Content-Length", "0"))
             if n > 50 * 1024 * 1024:
                 return self.send(413, {"detail": "upload is over 50 MB"})
-            s = self.P.upload(fn, self.rfile.read(n))
+            body = self.rfile.read(n)
+            with self.P.lock:
+                wait = self.P.cooldown_left()
+            if wait:
+                return self.send(429, {"detail": f"Your team can upload once every {self.P.cooldown} seconds. "
+                                                 f"Try again in {wait} s."}, extra={"Retry-After": str(wait)})
+            s = self.P.upload(fn, body)
             return self.send(201, self.P.sub_view(s))
         return self.send(404, {"detail": "not found"})
 
@@ -371,7 +458,8 @@ class Handler(BaseHTTPRequestHandler):
     def api_get(self, p, q):
         P = self.P
         p = p.rstrip("/")
-        comp = {"id": P.cid, "name": f"No Limit rehearsal ({P.run})", "variant": "flop_discard_reveal"}
+        comp = {"id": P.cid, "name": f"No Limit rehearsal ({P.run})", "upload_cooldown_seconds": P.cooldown,
+                "variant": P.settings.get("variant", "flop_discard_reveal") if P.started() else None}
         if p == "/auth/api-key":   # what the real portal answers for an API key (its /me is browser-only)
             return self.send(200, {"expires_at": "2026-12-31T00:00:00Z", "ends_with": P.key[-8:],
                                    "teams": [{"competition_id": P.cid, "team_id": P.team_id}]})
@@ -435,14 +523,15 @@ class Handler(BaseHTTPRequestHandler):
                     f"{html.escape(act['filename']) + ' · uploaded ' + fmt_t(act['created_at']) if act else 'None: you forfeit any round that starts now'}"
                     f"</div></div><h2>Upload</h2><div class=card><input type=file id=f accept=.zip> "
                     f"<button onclick=up()>Upload</button> <span id=msg class=muted>A .zip with agent.py at its root. "
-                    f"The upload test runs at once; then make it active.</span></div>"
+                    f"The upload test runs at once; then make it active. One upload every {P.cooldown} s.</span></div>"
                     f"<h2>Uploads</h2><div class='card tw'><table><tr><th>Time</th><th>File</th><th>Status</th>"
                     f"<th>Reason</th><th></th></tr>{rows or '<tr><td colspan=5 class=muted>No uploads yet</td></tr>'}"
                     f"</table></div><script>"
                     f"async function up(){{const f=document.getElementById('f').files[0];if(!f)return;"
                     f"document.getElementById('msg').textContent='Uploading…';"
                     f"const r=await fetch('/tournament/api/teams/{TEAM}/submissions?filename='+encodeURIComponent(f.name),{{method:'POST',body:f}});"
-                    f"document.getElementById('msg').textContent=r.ok?'Uploaded; testing…':'Upload failed';setTimeout(()=>location.reload(),1500)}}"
+                    f"if(!r.ok){{document.getElementById('msg').textContent='Upload refused: '+(await r.json()).detail;return}}"
+                    f"document.getElementById('msg').textContent='Uploaded; testing…';setTimeout(()=>location.reload(),1500)}}"
                     f"async function act(id){{const r=await fetch('/tournament/api/teams/{TEAM}',{{method:'PATCH',headers:{{'Content-Type':'application/json'}},body:JSON.stringify({{active_submission_id:id}})}});"
                     f"if(!r.ok)alert((await r.json()).detail);location.reload()}}"
                     f"if([...document.querySelectorAll('.validating')].length)setTimeout(()=>location.reload(),3000)"
@@ -476,6 +565,17 @@ class Handler(BaseHTTPRequestHandler):
                                        f"<div class='card tw'><table><tr><th>#</th><th>Team</th><th>Points/table</th>"
                                        f"<th>Margin</th><th>1st</th><th>2nd</th><th>3rd</th></tr>{rows}</table></div>{dl}",
                                        "rounds"), "text/html")
+        if p in ("/tournament/format", "/tournament/getting-started"):
+            name = "format.md" if p.endswith("format") else "getting-started.md"
+            f = P.ws / "portal" / name
+            text = f.read_text() if f.exists() else "# Not published yet"
+            other = ("<a href='/tournament/getting-started'>Getting started</a>" if name == "format.md"
+                     else "<a href='/tournament/format'>Format</a>")
+            note = "" if P.started() else "<p class=muted>The variant is announced at the start of the event.</p>"
+            body = (f"<div class='card md'>{note}<p class=muted>Upload cooldown: {P.cooldown} s · {other}</p>"
+                    f"{md_html(text)}</div>")
+            return self.send(200, page("Format" if name == "format.md" else "Getting started", body, "format"),
+                             "text/html")
         if p == "/tournament/standings":
             st = P.standings()["items"]
             rows = "".join(f"<tr class={'me' if x['team_name'] == TEAM else ''}><td>{x['rank']}</td>"
@@ -501,9 +601,10 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--run", required=True)
     ap.add_argument("--port", type=int, default=8765)
+    ap.add_argument("--cooldown", type=int, default=None, help="upload cooldown, seconds (default: the run's, else 30)")
     ap.add_argument("--host", default="0.0.0.0", help="0.0.0.0 = reachable on your Wi-Fi; 127.0.0.1 = this Mac only")
     a = ap.parse_args()
-    Handler.P = Portal(a.run)
+    Handler.P = Portal(a.run, a.cooldown)
     srv = ThreadingHTTPServer((a.host, a.port), Handler)
     ip = lan_ip()
     print(f"rehearsal portal for run {a.run}: http://{ip}:{a.port}/tournament/  (this Mac: http://127.0.0.1:{a.port}/tournament/)")

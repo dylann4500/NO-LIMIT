@@ -46,7 +46,7 @@ curl -s -H "Authorization: Bearer $(cat ~/.config/no-limit-2026/api-key)" -A ava
 ```
    Open http://127.0.0.1:7777 and type "run the check" in the Chat. Both Chats list the results: the link,
    the portal (reading it, and downloading a hand file once a round exists), Claude, Codex, the repo and its
-   plan docs, disk space. Fix every ❌. Both run `git -C ~/NoLimit/NO-LIMIT rev-parse --short HEAD` and
+   plan docs, disk space, CPU (a busy laptop: leftover jobs make local timing tests wrong). Fix every ❌. Both run `git -C ~/NoLimit/NO-LIMIT rev-parse --short HEAD` and
    compare: the two laptops must run the same hub code. Then press Ctrl+C.
 6. **Decide who claims the $250 Codex credit** before either of you opens the link.
 
@@ -68,6 +68,8 @@ cd ~/NoLimit/NO-LIMIT
   `--small-hands` saves hotspot data by downloading only the first-1000 hand file; drop it on good Wi-Fi.
 - **Both:** open http://127.0.0.1:7777 and click your name. Your Chat (the lead of your side) starts and reads the plan. Type "run the check" in it.
 - **Dylan:** have the organizers' portal open in a browser tab, logged in. Uploads happen there.
+- **Both:** for anything just between the two of you, use **Team chat** in the sidebar (no agent reads it; it
+  syncs between the laptops). The mic button on any message box dictates: check the text, then press Enter.
 - **About 2 hours before minute 0, either of you: type "start the research" in your Chat.** Every worker on both
   laptops gets a pre-event research topic (notes only, no bot code: the regionals and Pittsburgh, what the
   Finals field will do, a contrarian memo on what beats a field that read the same lessons, the build and test
@@ -94,10 +96,10 @@ cd ~/NoLimit/NO-LIMIT
 | When | Who | What to do |
 |---|---|---|
 | ~10 | Dylan | When the bell says "Upload v1.zip now": Live menu → click v1 to download it → upload it on the portal and make it **active**. The Live chip turns green when the portal runs it |
-| 17, 27, 37, 47 | Dylan | Your Chat names the bot for the next practice round (the most informative test, not a fixed style rota; one of them is the Challenger's clean-room design D). The bell reminds you 3 minutes before each practice: download it from the Live menu, upload, make active |
+| 17, 27, 37, 47 | Dylan | Your Chat declares the bot for the next practice round (the most informative test, not a fixed style rota; one of them is the Challenger's clean-room design D). The bell asks you 3 minutes before each practice: if it's a new zip, download it from the Live menu, upload, make active; if it's already uploaded, click it in the portal's uploads list to make it active |
 | after practice 1 | Samuel | **Step 7 below:** give the watcher the hand-history link |
-| any time | Both | Read the bell and your Chat. Decisions are pinned at the top of the Chat: answer in words; ask anything first. A **plan challenge** (an agent saying the plan looks wrong for today's field) appears in both Chats: read it and say what you think |
-| 50-60 | Dylan | The best real-field scorer goes active for scored round 1. Your Chat asks "which bot?"; answer it in words, then upload and make active |
+| any time | Both | Read the "Needs you" bar at the top of your Chat and the bell. Answer decisions in words; ask anything first (Details shows the evidence). A **plan challenge** (an agent saying the plan looks wrong for today's field) is one line in both Chats and the bell; Samuel's Chat asks the decision. Say what you think |
+| 50-60 | Dylan | The best real-field scorer goes active for scored round 1. Your Chat asks "which bot?"; answer it in words, then click it active in the portal's uploads list (it's already uploaded from its practice round) |
 
 ### Step 7 (Samuel, once): the hand-history link
 
@@ -105,21 +107,24 @@ The organizers' code doesn't reveal where hand histories download from. If the w
 (the Analyst's tile for practice 1 data turns "done"), skip this.
 1. After practice round 1 finishes, open the portal's team page (or the round page) and right-click
    **Download** (the small/first-1000 one) → **Copy Link Address**.
-2. Paste it into your Chat as `hands link: <the link>`. The hub finds the round's id in it, keeps it across
+2. Paste it into your Chat as `hands link: <url>`. The hub finds the round's id in it, keeps it across
    restarts and fetches any hand data it couldn't get before. No restart.
 
 ## Every 20-minute window
 
 The countdown strip shows the next step. The clock reminds each of you when a step needs your hands.
+Each round plays a snapshot of every team's **active** bot taken at its start. Making an already-uploaded bot
+active is a click, not an upload, so a window has at most two real uploads (T-12 and, only for a new zip, T-3),
+about 8 minutes apart. Assume the upload cooldown can be up to 5 minutes; check the Format page.
 
 | Time to scored round | Who | What to do |
 |---|---|---|
 | T-13 | Samuel | Results land. Open the Analyst (or ask your Chat) for the findings. Push back if something looks off |
-| T-12 | Dylan | If your Chat says the challenger is ready: upload it and make it active (it plays the practice round) |
-| T-9 | Dylan | **Put the live bot back as active straight away** (if the cooldown is long, your Chat re-plans the uploads: DECISION_RULES §3 "Uploads") |
-| T-8 | Both | **Decide.** The "Which bot?" question is pinned at the top of your Chat with both bots' numbers and the rule's answer. Answer in words ("yes, use v13" / "no, keep v8"). Either of you can decide |
-| T-5 | | No answer: the hub applies the rule's answer itself (it may be the challenger; the bell then asks Dylan to upload it) |
-| T-3 | Dylan | Upload the decided bot (exactly the file the bell names, e.g. `releases/v4.zip`), make it active, check the team page |
+| T-12 | Dylan | If your Chat says the challenger is ready: upload it and make it active (it plays the practice round). This is the window's first real upload |
+| T-9 | Dylan | **Put the live bot back as active straight away**: click vN (the live bot) in the portal's uploads list to make it active. No re-upload |
+| T-8 | Both | **Decide.** The "Which bot?" question is in the "Needs you" bar at the top of your Chat (Details shows both bots' numbers and the rule's answer). Answer in words ("yes, use v13" / "no, keep v8"). Either of you can decide |
+| T-5 | | No answer: the hub applies the rule's answer itself (it may be the challenger; the bell then asks Dylan to make it active) |
+| T-3 | Dylan | Make the decided bot active. Already uploaded (the challenger, or the live bot): click vN in the portal's uploads list. A new zip (the live bot with this window's changes): upload exactly the file the bell names, e.g. `releases/v4.zip`, at about T-4 to T-3, then make it active. Check the team page |
 
 Between those, steer when you like: ask "why?", redirect, ask an agent to research something.
 
@@ -130,10 +135,10 @@ Between those, steer when you like: ask "why?", redirect, ask an agent to resear
 | A red bar: "Not linked to …'s laptop" | Agents keep working; messages wait and are delivered later. Talk to each other directly. If it lasts, check the hotspot |
 | An agent shows **Usage limit · resumes HH:MM** | Its messages are kept. Ask your Chat to move urgent work to another agent or to Codex. Optional: add an API key (`START_HERE.md` section 8) |
 | An agent shows **Error · retrying** | It retries by itself. If it stays red for over 5 minutes, open it and read the last error; tell your Chat |
-| **Upload rejected** (bell) | The previous bot stays active. Tell your Chat; Platform fixes it and gives you a new file |
-| **No active bot / wrong active bot** (urgent bell) | Make the right file active on the portal now |
-| The clock is wrong | Tell your Chat the right time ("scored round 3 is at 15:42"), or tell it when minute 0 was |
-| A permission request you don't understand | Deny it. The agent finds another way |
+| **Upload rejected** (pop-up) | The previous bot stays active. Tell your Chat; Platform fixes it and gives you a new file |
+| **No active bot / wrong active bot** (pop-up) | Make the right bot active on the portal now (a click if it's already uploaded) |
+| The clock is wrong | Tell your Chat the right time ("scored round 3 is at 15:42"), or tell it when minute 0 was. Started by mistake (before any scored round): type "reset the clock" |
+| An agent says a command was refused | Nothing to do. A short list of dangerous commands is refused outright with the reason; the agent finds another way |
 | The hub page won't load | Look at its Terminal window. It restarts itself after a crash; if the window is closed, start it again with the same command (agents resume) |
 | Codex jobs fail | Nothing to do; agents fall back to Claude helpers. The bell says if Codex needs a login |
 | You disagree with your teammate at T-8 and there's no time | The hub notices opposite answers, says so in both Chats and keeps the rule's answer until you agree |

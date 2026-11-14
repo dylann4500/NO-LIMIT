@@ -148,8 +148,8 @@ button:active:not(:disabled) { transform: scale(.97); }
 .urgent-edge { position: fixed; inset: 0; pointer-events: none; z-index: 60; box-shadow: inset 0 0 0 4px #c81e1e, inset 0 0 36px 6px rgba(200, 30, 30, .45); animation: edge 1.4s ease-in-out infinite; }
 @keyframes edge { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
 @media (prefers-reduced-motion: reduce) { .urgent-edge { animation: none !important; opacity: 1; } }
-.waiting:not(.dot):not(.lbl) { border: 1px solid var(--bad); background: var(--bad-soft); border-radius: var(--r-surface); padding: 8px 10px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-size: .82rem; position: sticky; top: 0; z-index: 2; }
-.waiting:not(.dot):not(.lbl) b { color: var(--bad); margin-right: 4px; }
+.waitbar { border: 1px solid var(--bad); background: var(--bad-soft); border-radius: var(--r-surface); padding: 8px 10px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-size: .82rem; position: sticky; top: 0; z-index: 2; }
+.waitbar b { color: var(--bad); margin-right: 4px; }
 .cv-ag.urgent { border-left: 3px solid var(--bad); padding-left: 10px; background: var(--bad-soft); border-radius: 8px; }
 .staged { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
 .sfile { display: inline-flex; gap: 6px; align-items: center; border: 1px solid var(--line); border-radius: 10px; padding: 3px 6px 3px 3px; font-size: .76rem; background: var(--bg); max-width: 220px; }
@@ -163,7 +163,7 @@ button:active:not(:disabled) { transform: scale(.97); }
 .now-top { display: flex; gap: 18px; flex-wrap: wrap; align-items: baseline; } .now-stage { font: 500 1.3rem var(--serif); } .now-kv { font-size: .86rem; color: var(--muted); } .now-kv b { color: var(--fg); font-weight: 600; }
 .now-kv .warn { color: var(--warn); font-weight: 700; } .now-kv .bad { color: var(--bad); font-weight: 700; }
 .team { display: flex; gap: 6px; flex-wrap: wrap; } .tchip { display: inline-flex; gap: 6px; align-items: center; border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px 2px 8px; font-size: .76rem; max-width: 330px; background: var(--bg); }
-.tchip .dot { margin: 0; width: 7px; height: 7px; } .tchip b { font-weight: 600; } .tchip span.t { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tchip .dot { margin: 0; width: 7px; height: 7px; flex: none; } .tchip .pdot { flex: none; } .tchip b { white-space: nowrap; } .tchip b { font-weight: 600; } .tchip span.t { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .steps2 { display: flex; gap: 4px; flex-wrap: wrap; } .st2 { font-size: .66rem; font-weight: 600; border-radius: 999px; padding: 1px 7px; background: rgba(0,0,0,.06); color: var(--muted); }
 .st2.ok { background: #15803d; color: #fcfcfd; } .st2.now { background: var(--warn-soft); color: var(--warn); box-shadow: inset 0 0 0 1px var(--warn); animation: pulse 1.6s infinite; }
 .knum { font: 600 1.05rem var(--sans); font-variant-numeric: tabular-nums; } .knum small { font-weight: 500; color: var(--muted); font-size: .76rem; }
@@ -234,9 +234,27 @@ button:active:not(:disabled) { transform: scale(.97); }
 .tile.s-progress .st { color: var(--busy); }
 .decbar { border: 2px solid var(--bad); border-radius: 14px; padding: 10px 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; background: var(--panel); }
 .decbar b { color: var(--bad); }
-.chatpage { flex: 1; display: flex; flex-direction: column; min-height: 0; max-width: 900px; width: 100%; margin: 0 auto; }
+/* the Chat and Team chat pages fill the whole main area (no empty column beside the sidebar): .dock's fixed width
+   and the old 900px cap are overridden here */
+.chatpage { flex: 1; display: flex; flex-direction: column; min-height: 0; width: auto; max-width: none; margin: 0; border-left: 0; }
+.tcpage { background: var(--panel); }
+.tc-row { display: flex; gap: 8px; align-items: flex-end; max-width: 80%; } .tc-row.me { align-self: flex-end; } .tc-row.them { align-self: flex-start; }
+.tc-them { background: var(--bg); border: 1px solid var(--line); border-radius: 18px; padding: 9px 16px; white-space: pre-wrap; overflow-wrap: anywhere; font: 15px/1.5 var(--chat-sans); } .tc-them .by { display: block; font-size: .7rem; color: var(--muted); }
+.tc-row .cv-me { max-width: none; } .tc-row .pdot { flex: none; margin-bottom: 14px; }
+.tc-files { display: flex; gap: 6px; flex-wrap: wrap; margin: 4px 0; white-space: normal; }
+.tc-img { display: block; max-width: 260px; max-height: 200px; border-radius: 10px; border: 1px solid var(--line); object-fit: cover; }
+a.sfile { color: var(--fg); text-decoration: none; } a.sfile:hover { border-color: var(--muted); }
+.mic { width: 32px; height: 32px; flex: none; border-radius: var(--r-control); border: 1px solid var(--line); background: none; color: var(--muted); display: inline-grid; place-items: center; padding: 0; }
+.mic svg { width: 16px; height: 16px; } .mic:hover { color: var(--fg); border-color: var(--muted); }
+.mic.on { background: var(--bad); border-color: var(--bad); color: #fff; animation: pulse 1.6s infinite; }
+.hint.rec { color: var(--bad); font-weight: 600; } .hint.rec::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--bad); margin-right: 6px; vertical-align: 0; }
+.side .udot { display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-top: 7px; }
 .chatpage .dock-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
 .chatpage .dock-ft { padding: 10px 20px 16px; }
+.needbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 8px 20px; border-bottom: 1px solid var(--line); background: var(--warn-soft); font-size: .88rem; flex: none; }
+.needbar .nb-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--warn); flex: none; } .needbar .nb-sp { flex: 1; }
+.needbar .nb-what { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 46ch; }
+.bellline { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .decisions-pin { max-height: 45vh; overflow-y: auto; padding: 12px 20px 0; border-bottom: 1px solid var(--line); flex: none; }
 .decision { border: 2px solid var(--bad); border-radius: 14px; padding: 12px 16px; margin-bottom: 12px; background: var(--bg); }
 .decision .h { color: var(--bad); font-weight: 700; } .decision .md { margin-top: 6px; }
@@ -345,7 +363,8 @@ function bellHtml() { const nd = needs(); const urgent = nd.some((x) => x.urgent
 function needHtml(x, compact) {
   if (x.type === "ap") return `<div class="need"><span class="who2">${pdot(x.agent)} ${esc(titleOf(x.agent))}</span> wants to run ${esc(x.tool)}${x.risky ? " <b style='color:var(--bad)'>(risky)</b>" : ""}<code>${esc(x.input)}</code><div class="nacts"><button class="mini go" data-ap="${esc(x.id)}" data-d="allow">Allow</button>${x.risky ? "" : `<button class="mini" data-ap="${esc(x.id)}" data-d="always">Always</button>`}<button class="mini no" data-ap="${esc(x.id)}" data-d="deny">Deny</button></div></div>`;
   if (x.type === "pc") return `<div class="need"><b>${esc(NOTE[x.kind] || x.kind)}</b> · your call${x.deadline ? " by " + hhmm(x.deadline) : ""}<div class="txt">${esc(cardTitle(x))}</div><div class="nacts"><button class="mini go" data-gochat="1">Answer in the Chat</button></div></div>`;
-  return `<div class="need"><span class="who2">${pdot(x.agent)} ${esc(titleOf(x.agent))}</span> · ${hhmm(x.at)}${x.urgent ? " · <b style='color:var(--bad)'>urgent</b>" : ""}<div class="txt md">${md(x.text)}</div>${compact ? "" : `<div class="nacts"><button class="mini" data-dis="${esc(x.id)}">Done</button></div>`}</div>`;
+  const long = plain(x.text).length > 150;
+  return `<div class="need"><span class="who2">${pdot(x.agent)} ${esc(titleOf(x.agent))}</span> · ${hhmm(x.at)}${x.urgent ? " · <b style='color:var(--bad)'>urgent</b>" : ""}${long ? `<details><summary class="txt bellline">${esc(plain(x.text).slice(0, 150))}…</summary><div class="txt md">${md(x.text)}</div></details>` : `<div class="txt md">${md(x.text)}</div>`}${compact ? "" : `<div class="nacts"><button class="mini" data-dis="${esc(x.id)}">Done</button></div>`}</div>`;
 }
 function panelHtml() {
   if (!S.bell) return "";
@@ -510,7 +529,7 @@ function drawerHtml() {
       ${call ? `<div class="acts"><span class="hint">Answer in your own words below. Ask first if anything is unclear.</span></div>` : ""}
       ${p.bot ? `<div class="acts"><button class="mini" data-dlbot="${esc(bname(p.bot))}">Download ${esc(bname(p.bot))}.zip</button><span class="hint" id="dlHint"></span></div>` : ""}
       <div class="chips">${chips.map((c) => `<button data-chip="${esc(c)}">${esc(c)}</button>`).join("")}</div>
-      <form id="cardForm" class="box"><textarea id="cardTa" rows="1" placeholder="${call ? (p.bot ? `Your answer, e.g. "yes, use ${esc(bname(p.bot))}" or "no, because…", or a question first` : "Your answer, or a question first…") : "Ask a question or steer the work…"}"></textarea><div class="row"><span class="hint" id="cardHint">Enter to send · goes to the Overseer</span><button class="send" id="cardSend" aria-label="Send">↑</button></div></form>
+      <form id="cardForm" class="box"><textarea id="cardTa" rows="1" placeholder="${call ? (p.bot ? `Your answer, e.g. "yes, use ${esc(bname(p.bot))}" or "no, because…", or a question first` : "Your answer, or a question first…") : "Ask a question or steer the work…"}"></textarea><div class="row">${micBtn("cardTa")}<span class="hint" id="cardHint">Enter to send · goes to the Overseer</span><button class="send" id="cardSend" aria-label="Send">↑</button></div></form>
     </div></div></div>`;
 }
 const bname = (f) => String(f || "").split("/").pop().replace(/\.zip$/, "").replace(/\s*\(\d+\)$/, "");
@@ -524,7 +543,7 @@ function liveChip() {
 function liveMenu() {
   if (!S.liveOpen) return "";
   const live = S.st.live, act = (S.st.portal_active || {}), bots = S.st.bots || [];
-  const ST = { ready: "built", building: "building…", testing: "testing…", failed: "failed", shelved: "shelved" };
+  const ST = { ready: "built", tested: "tested, not released yet", building: "building…", testing: "testing…", failed: "failed", shelved: "shelved" };
   const r = $("#liveT")?.getBoundingClientRect(); const right = r ? Math.max(16, window.innerWidth - r.right) : 16;
   const ago2 = act.at ? " · checked " + ago(act.at) : "";
   return `<div class="livemenu" id="liveMenu" style="right:${right}px"><div class="hd">Active on the portal: <b>${esc(act.filename || "unknown")}</b>${esc(ago2)}${live && bname(live.filename) !== bname(act.filename) ? `<br>Chosen to play next: <b>${esc(live.filename)}</b>` : ""}<br>Click a built bot to download its zip, then upload it on the No Limit dashboard.</div>
@@ -548,9 +567,16 @@ function decisionsHtml() {
   const call = needCall(); if (!call.length) return "";
   return call.map((p) => `<div class="decision"><div class="h">Waiting for your answer${p.deadline ? ` · by ${hhmm(p.deadline)} (<span data-dl="${p.deadline}">${mmss(p.deadline - Date.now() / 1000)}</span> left)` : ""}</div>
     <div><b>${esc(p.bot ? "Should " + bname(p.bot) + " play?" : p.title)}</b>${p.headline ? " " + esc(p.headline) : ""}</div>
-    ${p.body ? `<details ${call.length === 1 ? "open" : ""}><summary class="hint">The evidence and the rule</summary><div class="md">${md(p.body)}</div></details>` : ""}
+    ${p.body ? `<details><summary class="hint">The evidence and the rule</summary><div class="md">${md(p.body)}</div></details>` : ""}
     <div class="hint" style="margin-top:6px">Answer below in your own words (e.g. ${p.bot ? `"yes, use ${esc(bname(p.bot))}" or "no, keep the live bot because…"` : `"yes" or "no, because…"`}), or ask first. Nothing is decided until you answer clearly${p.deadline ? "; with no answer by the deadline, the pre-registered rule decides" : ""}.</div>
     ${p.bot ? `<div style="margin-top:6px"><button class="mini" data-dlbot="${esc(bname(p.bot))}">Download ${esc(bname(p.bot))}.zip</button><span class="hint" id="dlHint"></span></div>` : ""}</div>`).join("");
+}
+function needBarHtml() {   // the one place that says what needs you: a slim bar; details only when opened
+  const call = needCall(), now = Date.now() / 1000;
+  const next = call.filter((p) => p.deadline).sort((a, b) => a.deadline - b.deadline)[0];
+  const what = call.length === 1 ? (call[0].bot ? "Which bot: " + bname(call[0].bot) + "?" : plain(call[0].title).slice(0, 90)) : `${call.length} decisions`;
+  return `<div class="needbar"><span class="nb-dot"></span><b>Needs you:</b> <span class="nb-what">${esc(what)}</span>${next ? ` · due ${hhmm(next.deadline)} (<span data-dl="${next.deadline}">${mmss(next.deadline - now)}</span>)` : ""}<span class="nb-sp"></span><button class="mini" data-decopen="1">${S.decOpen ? "Hide" : "Details"}</button><span class="hint">answer below in words</span></div>`
+    + (S.decOpen ? `<div class="decisions-pin">${decisionsHtml()}</div>` : "");
 }
 function chatPageHtml() { S.ov = true; const html = overviewChatHtml(); return html.replace('<aside class="dock"', '<aside class="dock chatpage"').replace(/style="width:\d+px"/, ""); }
 function overviewChatHtml() {
@@ -562,28 +588,75 @@ function overviewChatHtml() {
   const chips = S.st.schedule ? ["What's going on right now?", "What should I be doing?", "What changed in the last 10 minutes?", "Explain the next decision"]
     : ["The competition starts now", "The variant was announced at …", "Round 1 is at …"];
   return `<aside class="dock" aria-label="Chat" style="${S.dockW ? `width:${S.dockW}px` : ""}"><div class="dock-grip" id="dockGrip" title="Drag to resize" role="separator" aria-orientation="vertical"></div><div class="dock-hd"><b>Chat</b><span class="hint">the lead of ${esc(S.st.people[who])}'s side: ask anything, steer, answer decisions</span>${tabs}</div>
-    ${who === S.st.me && needCall().length ? `<div class="decisions-pin">${decisionsHtml()}</div>` : ""}
+    ${who === S.st.me && needCall().length ? needBarHtml() : ""}
     <div class="dock-body" id="ovBody">
-      ${who === S.st.me && S.st.approvals.length ? `<div class="waiting"><b>Waiting for you</b><button class="mini" id="bellGo">${S.st.approvals.length} permission request(s)</button></div>` : ""}
+      ${who === S.st.me && S.st.approvals.length ? `<div class="waitbar"><b>Waiting for you</b><button class="mini" id="bellGo">${S.st.approvals.length} permission request(s)</button></div>` : ""}
       ${items.length ? items.map((t, i) => people.includes(t.who) ? `<div class="cv-me ${i >= (SEEN.chat[name] ?? items.length) ? "msg-in" : ""}"><span class="by">${esc(t.who)} · ${hhmm(t.at)}</span>${attachView(t.text)}</div>` : `<div class="cv-ag ${t.urgent ? "urgent" : ""} ${i >= (SEEN.chat[name] ?? items.length) ? "msg-in" : ""}"><div class="by">${t.urgent ? "⚠ " : ""}${esc(t.who === "Hub" ? (t.urgent ? "Needs you" : "Hub") : t.who === "Chat" || t.who === "Overview" ? "Chat" : t.who)} · ${hhmm(t.at)}</div><div class="a md">${md(t.text)}</div></div>`).join("")
         : `<div class="note2" style="margin-top:24px;text-align:left">${S.st.schedule ? `Ask anything about ${esc(S.st.people[who])}'s side, or tell it what to change: it passes instructions to the right agent and reports back. To check on one job, open that agent on the left.` : `<b>Start here.</b> When the competition starts, type “the competition starts now” (or the announcement time). That starts the clock on both laptops and every agent's game plan. Before that, type “run the check” to test everything. Tell it any other times as you learn them (“round 1 is at 14:25”).`}</div>`}
       ${busy ? `<div class="note2">Chat is reading the team's context…</div>` : ""}
     </div>
     <div class="dock-ft"><div class="chips">${chips.map((c) => `<button data-ovchip="${esc(c)}">${esc(c)}</button>`).join("")}</div>
-      <form id="ovForm" class="box">${(S.staged || []).length ? `<div class="staged">${S.staged.map((f, i) => `<span class="sfile">${f.url ? `<img src="${f.url}" alt="">` : "📄"}<span>${esc(f.file.name || "pasted image")}</span><button type="button" class="x" data-unstage="${i}" title="Remove">✕</button></span>`).join("")}</div>` : ""}<textarea id="ovTa" rows="1" placeholder="Message ${esc(S.st.people[who])}'s Chat… (drop or paste files here)"></textarea><div class="row">${who === S.st.me ? `<label class="tbtn" title="Attach a file (hand data, screenshot)" style="cursor:pointer">📎<input type="file" id="ovFile" multiple hidden></label>` : ""}<span class="hint" id="ovHint">Enter to send</span><button class="send" id="ovSend" aria-label="Send">↑</button></div></form></div></aside>`;
+      <form id="ovForm" class="box">${(S.staged || []).length ? `<div class="staged">${S.staged.map((f, i) => `<span class="sfile">${f.url ? `<img src="${f.url}" alt="">` : "📄"}<span>${esc(f.file.name || "pasted image")}</span><button type="button" class="x" data-unstage="${i}" title="Remove">✕</button></span>`).join("")}</div>` : ""}<textarea id="ovTa" rows="1" placeholder="Message ${esc(S.st.people[who])}'s Chat… (drop or paste files here)"></textarea><div class="row">${who === S.st.me ? `<label class="tbtn" title="Attach a file (hand data, screenshot)" style="cursor:pointer">📎<input type="file" id="ovFile" multiple hidden></label>` : ""}${micBtn("ovTa")}<span class="hint" id="ovHint">Enter to send</span><button class="send" id="ovSend" aria-label="Send">↑</button></div></form></div></aside>`;
 }
+// Team chat: Samuel and Dylan only (no agent reads it). Last-seen time per laptop in localStorage.
+const tcSeen = () => { try { return +localStorage.getItem("hub-tc-seen") || 0; } catch (e) { return 0; } };
+const tcMarkSeen = () => { const items = S.st.teamchat || [], t = items.length ? items[items.length - 1].at : 0; if (t > tcSeen()) { try { localStorage.setItem("hub-tc-seen", String(t)); } catch (e) {} } };
+const tcUnread = () => S.page !== "team" && (S.st.teamchat || []).some((t) => t.who !== S.st.people[S.st.me] && t.at > tcSeen());
+function tcFiles(files) {
+  if (!files || !files.length) return "";
+  return `<div class="tc-files">${files.map((f) => { const u = "/api/inbox/" + encodeURIComponent(f.id || "");
+    return f.kind === "image" ? `<a href="${u}" target="_blank" rel="noopener" title="${esc(f.name)}"><img class="tc-img" src="${u}" alt="${esc(f.name)}" loading="lazy"></a>`
+      : `<a class="sfile" href="${u}" download="${esc(f.name)}" title="Download">${f.kind === "hand data" ? "🃏" : "📄"}<span>${esc(f.name)} · ${esc(f.kb)} KB ⤓</span></a>`; }).join("")}</div>`; }
+function teamHtml() {
+  const me = S.st.people[S.st.me], op = otherPerson(), items = S.st.teamchat || [];
+  const msg = (t) => t.who === me
+    ? `<div class="tc-row me"><div class="cv-me"><span class="by">You · ${hhmm(t.at)}</span>${tcFiles(t.files)}${esc(t.text)}</div></div>`
+    : `<div class="tc-row them"><span class="pdot ${esc(personOf(t.who))}"></span><div class="tc-them"><span class="by">${esc(t.who)} · ${hhmm(t.at)}</span>${tcFiles(t.files)}${esc(t.text)}</div></div>`;
+  const st = S.tcStaged || [];
+  return `<section class="dock chatpage tcpage" aria-label="Team chat"><div class="dock-hd"><b>Team chat</b><span class="hint">just ${esc(me)} and ${esc(S.st.people[op])}: no agent reads this</span></div>
+    <div class="dock-body" id="tcBody">${items.length ? items.map(msg).join("") : `<div class="note2" style="margin-top:24px">No messages yet. Anything you write here goes only to ${esc(S.st.people[op])}'s screen.</div>`}</div>
+    <div class="dock-ft"><form id="tcForm" class="box">${st.length ? `<div class="staged">${st.map((f, i) => `<span class="sfile">${f.url ? `<img src="${f.url}" alt="">` : "📄"}<span>${esc(f.file.name || "pasted image")}</span><button type="button" class="x" data-tcunstage="${i}" title="Remove">✕</button></span>`).join("")}</div>` : ""}<textarea id="tcTa" rows="1" placeholder="Message ${esc(S.st.people[op])}… (drop or paste images and files here)"></textarea><div class="row"><label class="tbtn" title="Attach a file" style="cursor:pointer">📎<input type="file" id="tcFile" multiple hidden></label>${micBtn("tcTa")}<span class="hint" id="tcHint">Enter to send · Shift+Enter for a new line</span><button class="send" id="tcSend" aria-label="Send">↑</button></div></form></div></section>`;
+}
+// Dictation (Web Speech API): interim words appear live in the box, final words stay; never sends by itself.
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const MIC_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/></svg>`;
+const MIC_HINT = { ta: "hint", cardTa: "cardHint", ovTa: "ovHint", tcTa: "tcHint" };
+const micBtn = (id) => SR ? `<button type="button" class="mic" data-mic="${id}" title="Dictate: click to talk, click again to stop" aria-label="Dictate" aria-pressed="false">${MIC_SVG}</button>` : "";
+function micStop() { const m = S.mic; if (!m) return; S.mic = null; try { m.rec.stop(); } catch (e) {} micSync(); }
+function micStart(id) {
+  micStop(); const el = document.getElementById(id); if (!SR || !el) return;
+  const rec = new SR(); rec.continuous = true; rec.interimResults = true; rec.lang = navigator.language || "en-US";
+  const m = S.mic = { rec, id, pos: el.selectionStart ?? el.value.length, shown: "", err: "" };
+  const sep = (v, p) => p > 0 && !/\s/.test(v[p - 1]) ? " " : "";
+  rec.onresult = (e) => { if (S.mic !== m) return; const t = document.getElementById(m.id); if (!t) return micStop();
+    let v = t.value; if (m.pos > v.length) m.pos = v.length;
+    if (m.shown && v.slice(m.pos, m.pos + m.shown.length) === m.shown) v = v.slice(0, m.pos) + v.slice(m.pos + m.shown.length);   // take back the last interim
+    m.shown = ""; let fin = "", interim = "";
+    for (let i = e.resultIndex; i < e.results.length; i++) { const r = e.results[i], w = r[0].transcript.trim(); if (!w) continue; if (r.isFinal) fin += (fin ? " " : "") + w; else interim += (interim ? " " : "") + w; }
+    if (fin) { fin = sep(v, m.pos) + fin; v = v.slice(0, m.pos) + fin + v.slice(m.pos); m.pos += fin.length; }
+    if (interim) { m.shown = sep(v, m.pos) + interim; v = v.slice(0, m.pos) + m.shown + v.slice(m.pos); }
+    const ae = document.activeElement === t; t.value = v; autosize(t); if (ae) { const c = m.pos + m.shown.length; try { t.setSelectionRange(c, c); } catch (x) {} } };
+  rec.onerror = (e) => { if (S.mic === m) m.err = e.error === "not-allowed" || e.error === "service-not-allowed" ? "Microphone blocked: allow it in the browser's site settings." : e.error === "no-speech" ? "" : "Dictation stopped (" + e.error + ")."; };
+  rec.onend = () => { if (S.mic !== m) return; const err = m.err; S.mic = null; micSync(); const h = document.getElementById(MIC_HINT[m.id]); if (err && h) { h.textContent = err; h.className = "hint bad"; } };
+  try { rec.start(); } catch (e) { S.mic = null; } micSync(); el.focus();
+}
+function micSync() {   // re-applies the listening look after every render
+  document.querySelectorAll("[data-mic]").forEach((b) => { const on = !!(S.mic && S.mic.id === b.dataset.mic); b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on)); b.title = on ? "Listening: click to stop" : "Dictate: click to talk, click again to stop";
+    const h = document.getElementById(MIC_HINT[b.dataset.mic]); if (!h) return;
+    if (on && !h.classList.contains("rec")) { h.dataset.orig = h.textContent; h.dataset.origCls = h.className; h.textContent = "Listening… click the mic to stop"; h.className = "hint rec"; }
+    else if (!on && h.classList.contains("rec")) { h.textContent = h.dataset.orig || "Enter to send"; h.className = h.dataset.origCls || "hint"; } }); }
 function sideHtml() {
   if (!S.side) return "";
   const nd = needs();
   const row = (a) => { const [l, c] = label(a); const isLead = /overview$/.test(a.name);
     const n = nd.filter((x) => x.agent === a.name).length + (isLead && personOf(a.name) === S.st.me ? needCall().length : 0); const u = S.unread[a.name];
     const on = (S.page === "agent" && S.sel === a.name) || (isLead && S.page === "chat" && (S.ovWho || S.st.me) === personOf(a.name));
-    return `<button class="item ${c === "stopped" ? "off" : ""} ${n ? "attn" : ""} ${on ? "on" : ""}" data-sel="${esc(a.name)}"><span class="dot ${esc(c)}"></span><span style="min-width:0"><div class="nm">${esc(clean(a.title || a.name))}<span class="st">${esc(l)}</span></div><div class="ln">${esc(a.task || (c === "stopped" ? "Not started" : "No task yet"))}</div></span>${n ? `<span class="pill">needs you</span>` : u ? `<span class="badge">${u}</span>` : ""}</button>`; };
+    return `<button class="item ${c === "stopped" ? "off" : ""} ${n ? "attn" : ""} ${on ? "on" : ""}" data-sel="${esc(a.name)}"><span class="dot ${esc(c)}"></span><span style="min-width:0"><div class="nm">${esc(clean(a.title || a.name))}<span class="st">${esc(l)}</span></div><div class="ln">${esc(a.task || (c === "stopped" ? "Not started" : "No task yet"))}</div></span>${n ? `<span class="pill">needs you</span>` : ""}</button>`; };
   const lead = (n) => /overview$/.test(n);
   const mine = S.st.agents.slice().sort((a, b) => lead(b.name) - lead(a.name)), op = otherPerson();
   const other = S.st.remote.filter((a) => !a.service).sort((a, b) => lead(b.name) - lead(a.name));
   const waiting = needCall().length;
-  return `<div class="side"><button class="item ${S.page === "board" ? "on" : ""}" data-go="board"><span></span><span><div class="nm">Board</div><div class="ln">Progress</div></span></button><button class="item ${S.page === "overview" ? "on" : ""}" data-go="overview"><span></span><span><div class="nm">All agents</div><div class="ln">Everyone at a glance</div></span></button>
+  return `<div class="side"><button class="item ${S.page === "board" ? "on" : ""}" data-go="board"><span></span><span><div class="nm">Board</div><div class="ln">Progress</div></span></button><button class="item ${S.page === "overview" ? "on" : ""}" data-go="overview"><span></span><span><div class="nm">All agents</div><div class="ln">Everyone at a glance</div></span></button><button class="item ${S.page === "team" ? "on" : ""}" data-go="team"><span>${tcUnread() ? `<span class="udot" title="New message"></span>` : ""}</span><span style="min-width:0"><div class="nm">Team chat</div><div class="ln">Samuel &amp; Dylan, no agents</div></span></button>
     <div class="sec"><span><span class="pdot ${esc(S.st.me)}"></span> Your agents</span></div>${mine.map(row).join("")}${waiting ? `<div class="empty" style="padding:2px 10px;color:var(--bad)">${waiting} decision${waiting > 1 ? "s" : ""} waiting in your Chat</div>` : ""}
     <div class="sec"><span>Hub services</span></div>${S.st.services.map(row).join("")}
     <div class="sec"><span><span class="pdot ${esc(op)}"></span> ${esc(S.st.people[op])}'s side</span><button id="otherT">${S.other ? "Hide" : "Show"}</button></div>${S.other ? other.map(row).join("") || `<div class="empty" style="padding:4px 10px">Not linked yet.</div>` : ""}</div>`;
@@ -623,24 +696,30 @@ function render() {
   if ((ae && ["schin", "ideaBody"].includes(ae.id)) || S.composing || S.mouseDown) { S.pending = true; return; }
   const selTxt = window.getSelection ? window.getSelection().toString() : ""; if (selTxt) { S.pending = true; return; }
   S.pending = false;
-  const keep = {}; ["ta", "cardTa", "ovTa"].forEach((id) => { const el = document.getElementById(id); if (el) keep[id] = { v: el.value, f: ae === el, s: [el.selectionStart, el.selectionEnd] }; });
+  const keep = {}; ["ta", "cardTa", "ovTa", "tcTa"].forEach((id) => { const el = document.getElementById(id); if (el) keep[id] = { v: el.value, f: ae === el, s: [el.selectionStart, el.selectionEnd] }; });
   const sc = $("#scroll"); const atEnd = !sc || sc.scrollHeight - sc.scrollTop - sc.clientHeight < 80; const prevTop = sc ? sc.scrollTop : 0;
+  const tcEl = $("#tcBody"); const tcTop = tcEl ? tcEl.scrollTop : undefined; const tcAtEnd = !tcEl || tcEl.scrollHeight - tcEl.scrollTop - tcEl.clientHeight < 80;
   const ovEl = $("#ovBody"); const ovTop = ovEl ? ovEl.scrollTop : undefined; const ovAtEnd = !ovEl || ovEl.scrollHeight - ovEl.scrollTop - ovEl.clientHeight < 80;
   const dbEl = $(".cv-body:not(#ovBody)"); const dbTop = dbEl ? dbEl.scrollTop : undefined; const panelTop = $("#panel")?.scrollTop || 0;
-  const key = S.page + ":" + (S.sel || "") + ":" + (S.card || ""); const changedView = key !== S.lastKey; S.lastKey = key;
+  S.drafts = S.drafts || {};   // unsent text survives switching to another agent and back
+  if (S.lastKey) Object.entries(keep).forEach(([id, k]) => { S.drafts[S.lastKey + "|" + id] = k.v; });
+  const key = S.page + ":" + (S.sel || "") + ":" + (S.card || "") + ":" + (S.ovWho || ""); const changedView = key !== S.lastKey; S.lastKey = key;
   const openD = new Set([...document.querySelectorAll("details[open][data-k]")].map((d) => d.dataset.k));
   const nd = needs().length; document.title = (nd ? `(${nd}) ` : "") + "Avalon";
   const a = S.page === "agent" ? agentByName(S.sel) : null; if (S.page === "agent" && !a) S.page = "board";
   const linkDown = !S.st.bus.online || S.st.bus.oldest > 60;
   if (S.page === "agent" && a && /overview$/.test(a.name)) { S.page = "chat"; S.ovWho = personOf(a.name); }
-  const main = S.page === "agent" ? agentHtml(a) : S.page === "overview" ? overviewHtml() : S.page === "chat" ? "" : boardHtml();
-  const comp = S.page === "agent" && a && !svc(a.name) ? `<div class="comp"><div class="quick">${QUICK.map(([t], i) => `<button data-q="${i}">${esc(t)}</button>`).join("")}</div><form class="box" id="form"><textarea id="ta" rows="1" placeholder="Ask or steer ${esc(titleOf(a.name))}…"></textarea><div class="row"><span class="hint ${S.hintBad ? "bad" : ""}" id="hint">${esc(S.hint || (a.queued ? a.queued + " waiting for its next turn · " : "") + "Enter to send")}</span><button class="send" id="sendb">↑</button></div></form></div>` : "";
+  const main = S.page === "agent" ? agentHtml(a) : S.page === "overview" ? overviewHtml() : S.page === "chat" || S.page === "team" ? "" : boardHtml();
+  const comp = S.page === "agent" && a && !svc(a.name) ? `<div class="comp"><div class="quick">${QUICK.map(([t], i) => `<button data-q="${i}">${esc(t)}</button>`).join("")}</div><form class="box" id="form"><textarea id="ta" rows="1" placeholder="Ask or steer ${esc(titleOf(a.name))}…"></textarea><div class="row">${micBtn("ta")}<span class="hint ${S.hintBad ? "bad" : ""}" id="hint">${esc(S.hint || (a.queued ? a.queued + " waiting for its next turn · " : "") + "Enter to send")}</span><button class="send" id="sendb">↑</button></div></form></div>` : "";
   $("#root").innerHTML = `<div class="shell"><div class="hdr"><span class="brand">Avalon <button class="who" id="who"><span class="pdot ${esc(S.view)}"></span>${esc(S.st.people[S.view])}</button></span>${clockHtml()}${liveChip()}${bellHtml()}<button class="hbtn ${S.side ? "on" : ""}" id="sideT" title="Show or hide the agents list" aria-label="Agents">☰</button></div>
     ${linkDown ? `<div class="linkbar">Not linked to ${esc(S.st.people[otherPerson()])}'s laptop${S.st.bus.outbox ? ` · ${S.st.bus.outbox} message(s) waiting` : ""}. Agents keep working; talk to each other directly.</div>` : ""}
-    ${liveMenu()}<div class="body">${sideHtml()}<div style="flex:1;display:flex;flex-direction:column;min-width:0;min-height:0">${S.page === "chat" ? chatPageHtml() : `<div class="scroll" id="scroll">${main}</div>${comp}`}</div></div></div>${panelHtml()}`;
+    ${liveMenu()}<div class="body">${sideHtml()}<div style="flex:1;display:flex;flex-direction:column;min-width:0;min-height:0">${S.page === "chat" ? chatPageHtml() : S.page === "team" ? teamHtml() : `<div class="scroll" id="scroll">${main}</div>${comp}`}</div></div></div>${panelHtml()}`;
   document.querySelectorAll("details[data-k]").forEach((d) => { if (openD.has(d.dataset.k)) d.open = true; });
-  Object.entries(keep).forEach(([id, k]) => { const el = document.getElementById(id); if (el) { el.value = k.v; autosize(el); if (k.f) { el.focus(); try { el.setSelectionRange(k.s[0], k.s[1]); } catch (e) {} } } });
+  if (changedView) ["ta", "cardTa", "ovTa", "tcTa"].forEach((id) => { const el = document.getElementById(id); const d = S.drafts[key + "|" + id]; if (el && d) { el.value = d; autosize(el); } });
+  else Object.entries(keep).forEach(([id, k]) => { const el = document.getElementById(id); if (el) { el.value = k.v; autosize(el); if (k.f) { el.focus(); try { el.setSelectionRange(k.s[0], k.s[1]); } catch (e) {} } } });
   const s2 = $("#scroll"); if (s2) s2.scrollTop = changedView ? (S.page === "agent" ? s2.scrollHeight : (S.page === "board" ? prevTop : 0)) : (S.page === "agent" && atEnd ? s2.scrollHeight : prevTop);
+  const tcB = $("#tcBody"); if (tcB) { tcB.scrollTop = changedView || tcAtEnd || tcTop === undefined ? tcB.scrollHeight : tcTop; tcB.querySelectorAll("img").forEach((im) => { if (!im.complete) im.addEventListener("load", () => { if (tcB.scrollHeight - tcB.scrollTop - tcB.clientHeight < 300) tcB.scrollTop = tcB.scrollHeight; }, { once: true }); }); }
+  if (S.page === "team") tcMarkSeen();
   const ovB = $("#ovBody"); if (ovB) ovB.scrollTop = ovAtEnd || ovTop === undefined ? ovB.scrollHeight : ovTop;
   const db = $(".cv-body:not(#ovBody)"); if (db) db.scrollTop = changedView || dbTop === undefined ? 0 : dbTop;
   if ($("#panel")) $("#panel").scrollTop = panelTop;
@@ -653,12 +732,12 @@ function render() {
   for (const p of props()) SEEN.notes.set(p.id, (p.thread || []).length);
   for (const [k, v] of Object.entries(S.st.overviews || {})) SEEN.chat[k] = v.length;
   SEEN.first = false;
-  wire(a); renderToasts(); syncEdge();
+  wire(a); micSync(); renderToasts(); syncEdge();
 }
 function autosize(t) { t.style.height = "auto"; t.style.height = Math.min(t.scrollHeight, 200) + "px"; }
 function urgentNow() {   // what genuinely needs an answer right away
   if (!S.st) return false;
-  const soon = needCall().some((p) => p.deadline && p.deadline - Date.now() / 1000 < 180);
+  const soon = needCall().some((p) => p.kind === "bot" && p.deadline && p.deadline - Date.now() / 1000 < 180);
   return S.st.approvals.length > 0 || soon;
 }
 function syncEdge() {
@@ -670,12 +749,14 @@ function renderToasts() {
   let box = document.getElementById("toasts"); if (!box) { box = document.createElement("div"); box.id = "toasts"; box.className = "toasts"; document.body.appendChild(box); }
   const now = Date.now();
   S.toasts = S.toasts.filter((t) => t.until > now && (t.type === "ap" ? S.st.approvals.some((a) => a.id === t.id) : t.type === "pc" ? needCall().some((p) => p.id === t.id) : S.st.alerts.some((a) => a.id === t.id)));
-  const html = S.bell ? "" : S.toasts.map((t) => `<div class="toast ${t.type === "pc" ? "card" : t.urgent || t.type === "ap" ? "urgent" : ""}"><button class="x" data-tx="${esc(t.id)}">✕</button>${needHtml(t, t.type === "al")}</div>`).join("");
+  const html = S.bell ? "" : S.toasts.map((t) => `<div class="toast ${t.type === "pc" ? "card" : t.urgent || t.type === "ap" ? "urgent" : ""}"><button class="x" data-tx="${esc(t.id)}">✕</button>${t.type === "al" ? `<div class="need"><span class="who2">${pdot(t.agent)} ${esc(titleOf(t.agent))}</span><div class="txt bellline">${esc(plain(t.text).slice(0, 160))}</div></div>` : needHtml(t, false)}</div>`).join("");
   if (html === S.toastHtml) return; S.toastHtml = html; box.innerHTML = html;
   box.querySelectorAll("[data-tx]").forEach((b) => b.onclick = () => { S.toasts = S.toasts.filter((t) => t.id !== b.dataset.tx); renderToasts(); });
   wireActions(box);
 }
-function toast(x) { S.toasts.push({ ...x, until: Date.now() + (x.type === "ap" ? 180000 : x.type === "pc" ? 60000 : x.urgent ? 30000 : 9000) }); S.toasts = S.toasts.slice(-4); renderToasts(); setTimeout(renderToasts, 181000); }
+function toast(x) {   // pop-ups only for what can't wait: a permission request or an urgent problem; one at a time
+  if (!(x.type === "ap" || (x.type === "al" && x.urgent))) return;
+  S.toasts = [{ ...x, until: Date.now() + (x.type === "ap" ? 180000 : 30000) }]; renderToasts(); setTimeout(renderToasts, 181000); }
 async function makeReport(pid) {
   if (demoNote(pid)) { const d = demoNote(pid); d.report = { text: "**Where it stands** (demo)\nThis is a demo note: in the real hub this summary is written fresh from the agents' work when you open the note.", at: Date.now() / 1000, n: (d.thread || []).length }; render(); return; }
   if (!pid || S.reporting === pid) return; S.reporting = pid; render();
@@ -714,6 +795,7 @@ function wire(a) {
   const openAgent = (n) => { if (/overview$/.test(n)) { S.page = "chat"; S.ovWho = personOf(n) || S.st.me; S.sel = null; if (window.innerWidth < 760) S.side = false; render(); setTimeout(() => $("#ovTa")?.focus(), 30); return true; } return false; };
   R.querySelectorAll("[data-tile]").forEach((b) => b.onclick = () => { const n = b.dataset.tile; if (!n || openAgent(n)) return; S.page = "agent"; S.sel = n; render(); if (local(n)) loadEvents(n); });
   document.querySelectorAll("[data-gochat]").forEach((b) => b.onclick = (e) => { e.stopPropagation(); S.bell = false; openAgent(ovName(S.st.me)); });
+  document.querySelectorAll("[data-decopen]").forEach((b) => b.onclick = (e) => { e.stopPropagation(); S.decOpen = !S.decOpen; render(); });
   R.querySelectorAll("[data-sel]").forEach((b) => b.onclick = () => { if (openAgent(b.dataset.sel)) return; S.page = "agent"; S.sel = b.dataset.sel; S.unread[S.sel] = 0; S.hint = ""; if (window.innerWidth < 760) S.side = false; render(); if (local(S.sel)) loadEvents(S.sel); });
   R.querySelectorAll("[data-go]").forEach((b) => b.onclick = () => { S.page = b.dataset.go; render(); });
   $("#who")?.addEventListener("click", () => { try { localStorage.removeItem("hub-view"); } catch (e) {} S.view = null; renderPicker(); });
@@ -738,7 +820,7 @@ function wire(a) {
     const f = S.staged[i]; if (f && f.url) URL.revokeObjectURL(f.url); S.staged.splice(i, 1); render(); });
   $("#ovFile")?.addEventListener("change", (e) => sendFiles([...e.target.files]));
   $("#bellGo")?.addEventListener("click", (e) => { e.stopPropagation(); S.bell = true; render(); });
-  const dock = $(".dock"); if (dock && (S.ovWho || S.st.me) === S.st.me) {
+  const dock = $(".dock:not(.tcpage)"); if (dock && (S.ovWho || S.st.me) === S.st.me) {
     dock.ondragover = (e) => { e.preventDefault(); dock.classList.add("drop"); };
     dock.ondragleave = () => dock.classList.remove("drop");
     dock.ondrop = (e) => { e.preventDefault(); dock.classList.remove("drop"); if (e.dataTransfer.files.length) sendFiles([...e.dataTransfer.files]); };
@@ -790,12 +872,38 @@ function wire(a) {
       const i = S.st.props.findIndex((x) => x.id === r.id); if (i >= 0) S.st.props[i] = r; render(); }); }
   $("#intr")?.addEventListener("click", () => api(`/api/agents/${encodeURIComponent(a.name)}/interrupt`, {}));
   $("#ss")?.addEventListener("click", async () => { await api(`/api/agents/${encodeURIComponent(a.name)}/${a.state === "stopped" ? "start" : "stop"}`, {}); refresh(); });
+  document.querySelectorAll("[data-mic]").forEach((b) => b.onclick = (e) => { e.preventDefault(); if (S.mic && S.mic.id === b.dataset.mic) micStop(); else micStart(b.dataset.mic); });
+  wireTeam();
   const ta = $("#ta"); if (!ta) return;
   document.querySelectorAll("[data-q]").forEach((b) => b.onclick = () => { const q = QUICK[+b.dataset.q][1]; ta.value = q; if (q.endsWith(": ")) { ta.focus(); autosize(ta); } else $("#form").requestSubmit(); });
   ta.addEventListener("input", () => autosize(ta)); ta.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); $("#form").requestSubmit(); } });
   $("#form").addEventListener("submit", async (e) => { e.preventDefault(); const t = ta.value.trim(); if (!t || S.sending) return; S.sending = true; $("#sendb").disabled = true; ta.value = ""; autosize(ta);
     const r = await api(`/api/agents/${encodeURIComponent(a.name)}/send`, { text: t }); S.sending = false; const b = $("#sendb"); if (b) b.disabled = false;
     const h = $("#hint"); if (r.error) { const t2 = $("#ta"); if (t2 && !t2.value) t2.value = t; if (h) { h.textContent = "Not sent: " + r.error; h.className = "hint bad"; } } });
+}
+function wireTeam() {
+  const tta = $("#tcTa"); if (!tta) return;
+  const stage = (files) => { S.tcStaged = (S.tcStaged || []).concat(files.map((f) => ({ file: f, url: /^image\//.test(f.type) ? URL.createObjectURL(f) : "" }))); render(); setTimeout(() => $("#tcTa")?.focus(), 20); };
+  document.querySelectorAll("[data-tcunstage]").forEach((b) => b.onclick = (e) => { e.preventDefault(); const i = +b.dataset.tcunstage; const f = S.tcStaged[i]; if (f && f.url) URL.revokeObjectURL(f.url); S.tcStaged.splice(i, 1); render(); });
+  $("#tcFile")?.addEventListener("change", (e) => stage([...e.target.files]));
+  const pg = $(".tcpage"); pg.ondragover = (e) => { e.preventDefault(); pg.classList.add("drop"); }; pg.ondragleave = () => pg.classList.remove("drop");
+  pg.ondrop = (e) => { e.preventDefault(); pg.classList.remove("drop"); if (e.dataTransfer.files.length) stage([...e.dataTransfer.files]); };
+  tta.addEventListener("paste", (e) => { const fs = [...(e.clipboardData?.files || [])]; if (fs.length) { e.preventDefault(); stage(fs); } });
+  tta.addEventListener("input", () => autosize(tta));
+  tta.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); $("#tcForm").requestSubmit(); } });
+  $("#tcForm").addEventListener("submit", async (e) => { e.preventDefault(); if (S.tcSending) return; const t = tta.value.trim(), staged = S.tcStaged || []; if (!t && !staged.length) return;
+    const h = () => $("#tcHint"), say = (msg, bad) => { const x = h(); if (x) { x.textContent = msg; x.className = bad ? "hint bad" : "hint"; } };
+    S.tcSending = true; tta.value = ""; autosize(tta); const files = [];
+    if (staged.length) say(`Uploading ${staged.length} file(s)…`);
+    for (const sf of staged) { const f = sf.file; let r, j = {};
+      try { r = await fetch(`/api/upload?hold=1&name=${encodeURIComponent(f.name || "pasted.png")}`, { method: "POST", headers: { "X-Avalon": "1", "Content-Type": "application/octet-stream" }, body: f }); j = await r.json(); } catch (x) {}
+      if (!r || !r.ok) { S.tcSending = false; const t2 = $("#tcTa"); if (t2 && !t2.value) t2.value = t; say(`Upload failed: ${j.error || (r ? r.status : "the hub isn't answering")}`, true); return; }
+      files.push({ id: j.id, name: j.name, kb: j.kb, kind: j.kind }); }
+    const r = await api("/api/teamchat", { text: t, files }); S.tcSending = false;
+    if (r.error) { const t2 = $("#tcTa"); if (t2 && !t2.value) t2.value = t; say("Not sent: " + r.error, true); return; }
+    staged.forEach((sf) => { if (sf.url) URL.revokeObjectURL(sf.url); }); S.tcStaged = [];
+    const items = S.st.teamchat = S.st.teamchat || []; if (r.id && !items.some((x) => x.id === r.id)) items.push(r);
+    const b = $("#tcBody"); if (b) b.scrollTop = b.scrollHeight; render(); const b2 = $("#tcBody"); if (b2) b2.scrollTop = b2.scrollHeight; });
 }
 async function loadEvents(n) { const r = await api(`/api/agents/${encodeURIComponent(n)}/events?since=${S.last[n] ?? -1}`); if (r.error) return;
   if (r.last_i !== undefined && S.last[n] !== undefined && r.last_i < S.last[n]) { S.ev[n] = []; S.last[n] = -1; return loadEvents(n); }
@@ -824,6 +932,7 @@ function stream() {
   setInterval(refresh, 6000);
   setInterval(() => { const el = $("#cdn"); if (el) { const left = +el.dataset.at - Date.now() / 1000; el.textContent = mmss(left); el.className = "t " + (left < 60 ? "now" : left < 180 ? "soon" : ""); if (left < -2) refresh(); }
     document.querySelectorAll("[data-dl]").forEach((d) => { d.textContent = mmss(+d.dataset.dl - Date.now() / 1000); }); syncEdge(); }, 1000);
+  document.addEventListener("submit", () => micStop(), true);   // a sent message ends dictation into it
   document.addEventListener("selectionchange", () => { if (S.pending && !window.getSelection().toString()) soon(); });
   document.addEventListener("compositionstart", () => { S.composing = true; }); document.addEventListener("compositionend", () => { S.composing = false; if (S.pending) soon(); });
   document.addEventListener("mousedown", () => { S.mouseDown = true; }); document.addEventListener("mouseup", () => { S.mouseDown = false; if (S.pending) setTimeout(soon, 0); });
