@@ -181,4 +181,10 @@ organizer can change the table rules (seats, stack, blinds and antes, payouts, t
 round's multiplier, culling and ICM luck correction. The bot hard-codes none of them; `scout` reports what changed
 from the round before on every download.
 
+**Culling, if a round has it switched on, is an early stop inside that round, not elimination.** The round looks
+every so many iterations and stops dealing tables to teams it is confident are outside its top places; such a team is
+shown as "Culled at look k". Its round still scores, on the tables it played, and it plays every later round as
+normal (read from the portal's code; it was off at the regional). For us: fewer tables that round, so a noisier
+score, and nothing else: no rule or bar changes.
+
 More, with what it changes for the bot: `notes/pre/format_finals.md`.
