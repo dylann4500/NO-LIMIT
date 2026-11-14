@@ -11,7 +11,7 @@ neither exists any more.
 - **A pattern kill stopped every agent, twice** (sim7). The tester ran `pkill -f "modal run"` to stop its own
   jobs; every agent's command line holds its instructions, so the pattern matched all 8 agents. → Never kill by
   name or pattern (`pkill`, `killall`, `pgrep | xargs kill`). Save the PID when you start a job and stop only
-  that PID, or use `modal app stop <id>`. (hard; a hook refuses pattern kills)
+  that PID, or use `modal app stop --yes <id>`. (hard; a hook refuses pattern kills)
 - **A blocking wait made an agent ignore a human for minutes** (prac1). The tester ran 6 `modal run` jobs in a
   foreground shell and then `wait`; Samuel's message sat about 100 s before the agent even saw it, and neither of
   his two messages was ever answered. → Never block your turn: no foreground `wait`, no `sleep` of 20 s or more, no
@@ -53,7 +53,7 @@ neither exists any more.
   LATE, never skipped.
 - **A "+36 points" result was a broken test** (simulations). → Check before you trust: re-run, don't re-read. An
   implausibly large effect is a bug until `tester` reproduces it.
-- **Apps and jobs outlived the event** (audit). → After the last round: record, then `modal app stop` your apps
+- **Apps and jobs outlived the event** (audit). → After the last round: record, then `modal app stop --yes` your apps
   and kill your own PIDs.
 
 ## Modal
@@ -65,7 +65,7 @@ neither exists any more.
   and called many times (`.map` over shards); the other roles call them or run locally. Never several `modal run`s
   at once. Caps: `tester` up to 40 containers, `theory` up to 20, everyone else shares 20 (80 in all). On "App
   create rate limit exceeded", stop launching and use an app that's already deployed. (hard)
-- **Modal jobs were stopped with a pattern kill** (sim7). → `modal app list`, then `modal app stop <id>` for your
+- **Modal jobs were stopped with a pattern kill** (sim7). → `modal app list`, then `modal app stop --yes <id>` for your
   own apps only.
 - **Nobody watched for forgotten apps** (audit). → Stop a `modal run` app when its job is done; one running for
   over 45 minutes is probably forgotten. The two deployed apps (`avalon-rig`, `avalon-theory`) stay up until the

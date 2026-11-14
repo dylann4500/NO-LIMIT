@@ -104,7 +104,7 @@ candidate.
 ## Rules that bit us
 
 - A Tester's `pkill -f "modal run"` stopped every agent on the laptop, twice. Stop only your own PIDs
-  (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`, later `kill $(cat /tmp/<job>.pid)`) or `modal app stop <your app id>`.
+  (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`, later `kill $(cat /tmp/<job>.pid)`) or `modal app stop --yes <your app id>`.
 - A rehearsal lost a practice round to Modal's app-creation rate limit: your one app is `avalon-rig` (up to 40
   containers; `modal app list` first: an earlier tester may have deployed it), never a second app or several
   `modal run`s at once; the team's total is 80 (theory's `avalon-theory` 20, other roles' calls 20); after a
