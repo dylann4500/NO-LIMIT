@@ -149,5 +149,6 @@ agrees; "re-solve needed" if any; what's unverified; running jobs or "nothing".
   scripts collided in one folder otherwise).
 - At about minute 10, the dry-run download (RESEARCH asks for it): a synthetic round in the exact hand-history format
   from the kit's engine and exporter, written to `/tmp/dryrun/` (never `data/rounds/`, the watcher's), with
-  `AVALON_STAGE=dryrun`; the card, fp_train and field_trend run on it, two numbers checked against a
+  `AVALON_STAGE` set by hand to `Dryrun-1`, `Dryrun-2`, ... (never left to the environment: an inherited value wrote
+  a dry run into `analysis/Practice-2/` in a second run); the card, fp_train and field_trend run on it, two numbers checked against a
   direct count, a truncated copy tried. It found three bugs the kit's 7-table sample didn't.
