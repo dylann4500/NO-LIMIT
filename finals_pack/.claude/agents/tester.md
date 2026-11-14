@@ -39,8 +39,10 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   copies each, plus a mix), all playing the variant's own decision, some at random and some well. Losing to one by more
   than 2 SE means a hole.
 - **Modal:** one app `avalon-rig` (deploy once, `.map` over shards, up to 40 containers), image built in the background;
-  aim for 20,000 tables for 3-4 candidates in 5 minutes. It's one of only two deployed apps (with theory's
-  `avalon-theory`): the other roles call it instead of running their own, so write in `rig/NOTES.md` how to call it.
+  aim for 20,000 tables for 3-4 candidates in 5 minutes (an aim, never run: the one measured figure is 6,000 tables in
+  about 2 minutes on 40 containers, so time the first job and size each window's runs from that). It's one of only two
+  deployed apps (with theory's `avalon-theory`): the other roles call it instead of running their own, so write in
+  `rig/NOTES.md` how to call it.
   Hand histories never leave this machine; fitted parameters may go to our Modal workspace.
 - **From the first practice download, replay testing:** rebuild our tables with a rigged deck (our cards, the board,
   every card shown or exposed, random filler; find the deck order by probing the engine), replay the logged actions,
