@@ -27,7 +27,8 @@ Your own start-up instructions are in `prompts/BUILDER.md` or `prompts/RESEARCH.
 
 - `inbox/builder.log` and `inbox/research.log`: append-only. The clock, the portal watcher and the other session all
   write there. Each main session keeps **one Monitor** running on `python3 scripts/feed.py <builder|research>`: it
-  prints each new inbox line, and each line wakes you. The Monitor expires (after 30 minutes at most): **re-arm it every time
+  prints each new inbox line, and each line wakes you. A long line (a clock step with its TASKS) can arrive cut off in
+  the event: read it whole with `tail -n 3 inbox/<builder|research>.log` before you brief from it. The Monitor expires (after 30 minutes at most): **re-arm it every time
   it does**, at once, before anything else.
 - **Session to session:** use Claude Code's cross-session messaging: `ListAgents` finds the other session,
   `SendMessage` reaches it at once (it wakes it). One message per point, with numbers and file paths; never

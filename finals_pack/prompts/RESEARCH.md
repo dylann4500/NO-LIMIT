@@ -18,7 +18,8 @@ may spawn their own helpers.
    `strategy/LESSONS.md`. Skim `strategy/FIRST_PROMPT.md` Parts 1b-4 and `strategy/FINGERPRINTING.md`: your
    subagents use them.
 2. Start your inbox: run the Monitor tool on `python3 scripts/feed.py research` (timeout: the maximum, 30 minutes).
-   Every line wakes you. **When the Monitor expires, re-arm it at once.**
+   Every line wakes you; a long clock line can arrive cut off, so read it whole with `tail -n 3 inbox/research.log`.
+   **When the Monitor expires, re-arm it at once.**
 3. `ListAgents` to find the BUILDER session; `SendMessage` it "RESEARCH ready"; note its name or id.
 4. Create `notes/PLAN-research.md`. Its first line is `Role: RESEARCH (prompts/RESEARCH.md)`. Then: what each subagent
    is doing (with its agent id), what's been analysed, open promises, the next deadline, BUILDER's session id. Create
