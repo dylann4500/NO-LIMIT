@@ -37,7 +37,9 @@ import urllib.request
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-REPO = HERE.parent.parent
+# Results land here: $AVALON_RESULTS, else ./cloud/results when run from this repo's root, else ./fleet-results.
+RESULTS = Path(os.environ.get("AVALON_RESULTS") or
+               ("cloud/results" if Path("cloud").is_dir() else "fleet-results")).resolve()
 STATE = Path.home() / ".avalon-aws"
 KEY = Path.home() / ".ssh" / "avalon-nl-aws"
 KEY_NAME = "avalon-nl"
@@ -547,19 +549,23 @@ def cmd_run(a) -> None:
     busy = on_all(hosts, ssh, "for f in ~/runs/*/pid; do [ -f \"$f\" ] && kill -0 $(cat \"$f\") 2>/dev/null "
                               "&& echo $(basename $(dirname \"$f\")); done; true", 20)
     others = sorted({r for p in busy for r in p.stdout.split()})
-    if others and not a.force:
-        die(f"Run(s) {others} still going on the fleet; wait, or pass --force to share the cores.")
+    if others:  # runs queue per instance (a lock): oversubscribed cores make bots time out
+        say(f"Queued behind {others}: it starts when they finish." if not a.force
+            else f"--force: sharing the cores with {others} (timings and timeouts are not trustworthy).")
 
     def start(h, shards, slots):
-        lines = ["set -e", f"rm -rf ~/{rdir}; mkdir -p ~/{rdir}/s ~/{rdir}/out ~/{rdir}/log; date +%s > ~/{rdir}/started"]
+        lines = ["set -e", f"rm -rf ~/{rdir}; mkdir -p ~/{rdir}/s ~/{rdir}/out ~/{rdir}/log"]
         for s in shards:
             out = f"$HOME/{rdir}/out/shard-{s['shard']:05d}.{a.ext}"
             body = (f"cd ~/w/{a.cwd} && export SHARD={s['shard']} SHARDS={s['shards']} FIRST={s['first']} "
                     f"COUNT={s['count']} OUT={out}\n{fill(a.command, s, out)}\n")
             lines.append(f"cat > ~/{rdir}/s/{s['shard']:05d}.sh <<'AVALON_EOF'\n{body}AVALON_EOF")
         # one xargs pool per host; each shard's exit code and log are kept
-        runner = (f"cd ~/{rdir} && ls s | xargs -P {slots} -I{{}} bash -c "
-                  f"'bash s/{{}} > log/{{}}.log 2>&1; echo $? > log/{{}}.rc'; touch done")
+        pool = (f"date +%s > started; ls s | xargs -P {slots} -I{{}} bash -c "
+                f"'bash s/{{}} > log/{{}}.log 2>&1; echo $? > log/{{}}.rc'")
+        # one run at a time per instance: later runs wait on the lock (unless --force)
+        runner = (f"cd ~/{rdir} && " + (pool if a.force else f"flock ~/runs/.lock bash -c {shlex.quote(pool)}")
+                  + "; touch done")
         lines.append(f"nohup bash -c {shlex.quote(runner)} > ~/{rdir}/xargs.log 2>&1 < /dev/null & "
                      f"echo $! > ~/{rdir}/pid")
         return ssh(h, "\n".join(lines), 120)
@@ -596,10 +602,12 @@ def collect(name: str, hosts: list[dict], a, t0: float, nshards: int | None = No
         if all(n[3] for n in nums):
             break
         time.sleep(a.poll_s)
-    started = [ssh(h, f"cat ~/{rdir}/started", 20).stdout.strip() for h in hosts]
-    t_start = min([float(x) for x in started if x.isdigit()] or [t0])
-    wall = time.time() - min(t0, t_start)  # from the run's start, also when collecting a detached run
-    dest = REPO / "cloud" / "results" / name
+    # wall = from when its shards started playing (after any queue wait) to when the last instance finished
+    stamps = [ssh(h, f"cd ~/{rdir} && echo $(cat started) $(stat -c %Y done)", 20).stdout.split() for h in hosts]
+    t_start = min([float(x[0]) for x in stamps if len(x) == 2] or [t0])
+    t_end = max([float(x[1]) for x in stamps if len(x) == 2] or [time.time()])
+    wall = time.time() - t_start if time.time() - t_end < 5 else t_end - t_start  # 1-s stamps when collected late
+    dest = RESULTS / name
     shutil.rmtree(dest, ignore_errors=True)  # never merge a previous run's files of the same name
     for h in hosts:
         for sub in ("out", "log"):
@@ -611,17 +619,17 @@ def collect(name: str, hosts: list[dict], a, t0: float, nshards: int | None = No
     for k in bad[:5]:
         tail = (dest / "log" / f"{k}.log").read_text()[-1500:]
         say(f"--- shard {k} failed (exit {rcs[k]}):\n{tail}")
-    say(f"{name}: wall {wall:.1f}s; {len(rcs) - len(bad)}/{len(rcs)} shards ok; files in {dest.relative_to(REPO)}/out")
+    say(f"{name}: wall {wall:.1f}s; {len(rcs) - len(bad)}/{len(rcs)} shards ok; files in {dest}/out")
     if a.merge:
         merged = merge(sorted((dest / "out").glob("shard-*")), a.merge)
         merged["wall_s"] = round(wall, 1)
         merged["fleet"] = [{"id": h["id"], "type": h["type"], "vcpus": h["vcpus"], "price": h["price"]} for h in hosts]
         # a run with failed shards never writes NAME.json: a partial result must not pass for a whole one
-        target = REPO / "cloud" / "results" / (f"{name}.partial.json" if bad else f"{name}.json")
+        target = RESULTS / (f"{name}.partial.json" if bad else f"{name}.json")
         if bad:
-            (REPO / "cloud" / "results" / f"{name}.json").unlink(missing_ok=True)
+            (RESULTS / f"{name}.json").unlink(missing_ok=True)
         target.write_text(json.dumps(merged))
-        say(f"merged {len(merged.get(a.merge, []))} {a.merge} -> {target.relative_to(REPO)}")
+        say(f"merged {len(merged.get(a.merge, []))} {a.merge} -> {target}")
     if bad:
         die(f"{len(bad)} shard(s) failed: {bad[:10]}{'...' if len(bad) > 10 else ''} (logs in {dest}/log)")
 
