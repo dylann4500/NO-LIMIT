@@ -89,7 +89,8 @@ that targets a rate shows it locally against field-like sparring, within about 5
 bot, 2,000+ deals per field; after round 1 the cloned field. Evidence, not a gate: correct, legal, fast (p99 under 0.5
 ms on an idle core) and not catastrophically worse (better than −2 points per table) is fit for a practice round or
 the challenger slot; the practice round judges strength. Measure noise first (a bot against itself: about 20/√tables
-points). Record each verdict: claim `verdict <name> (sha256 12): correct | bug: …; vs live vN: diff ± se`, method with
+points). v1 has no live bot to beat: judge it against the kit's `check_or_fold` floor and one sparring field. A
+heads-up run pays 1st and 2nd, so with 50/30/20 an even bot scores 40 and the floor is 30. Record each verdict: claim `verdict <name> (sha256 12): correct | bug: …; vs live vN: diff ± se`, method with
 players, opponent pool, deals, seeds.
 
 **Verifying what decisions rest on: re-run, don't re-read.** Method matches the rules card? Bot sha as claimed? Paired
