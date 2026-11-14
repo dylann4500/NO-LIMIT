@@ -442,7 +442,8 @@ decision time.
   (guard the entry point; macOS spawns processes).
 - Same table seed = same cards by position, so every candidate plays the same deals. Seed any bot's own
   randomness from the table id and hand number so reruns are exact. Expect pairing to help little: once one
-  decision differs, the table diverges; the standard error is about 13/sqrt(tables). Use many tables.
+  decision differs, the table diverges; the paired difference's standard error is about 21/sqrt(tables) for
+  two different designs (about 11/sqrt(tables) only for a one-change variant). Use many tables.
 - Sparring fields, for sanity only: calls everything, shoves constantly, plays only premiums, re-raises
   wide; each as seven copies, plus a mixed field. They must play the variant's own decision too, some at
   random and some well. A candidate that loses to one of these by more than 2 standard errors has a hole.

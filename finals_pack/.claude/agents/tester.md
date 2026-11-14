@@ -32,8 +32,9 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   kit's engine (check today's SDK names; the regional kit had async `act(state, memory)` returning `Reply(action, memory,
   bank_ms)`, `play_table` on a `SitAndGo` from `TableRules` with table id and seed, `table_points`), every rules field
   set from `bot/rules.json`, a process pool (guard the entry point). Same seed = same cards by position; seed bots'
-  randomness from table id and hand number; rotate seats. Tables diverge once a decision differs (SE ≈
-  13/√tables): use many. Then the **first verdict on v1**.
+  randomness from table id and hand number; rotate seats. Tables diverge once a decision differs, so pairing helps
+  little (paired SE ≈ 21/√tables for two different designs, measured 18-28; about 11/√tables only for a one-change
+  variant): use many. Then the **first verdict on v1**.
 - **Sparring fields**, sanity only: calls everything, shoves constantly, plays only premiums, re-raises wide (seven
   copies each, plus a mix), all playing the variant's own decision, some at random and some well. Losing to one by more
   than 2 SE means a hole.
