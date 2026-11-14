@@ -24,7 +24,7 @@ Paired deals: the same table seed, cards by position and seat rotation for LIVE 
 | One bot's spread per table | 17.9 for an average bot at 8 seats, 50/30/20; measured 17-23 in every run, hence "20/√tables" | arith.; A | Winner-take-all 33; 65/35 23; 40/30/20/10 15; 6 seats 19; 10 seats 17; heads-up 10. Tables needed go with the square |
 | Paired difference, two different designs | 18-28 a table: ±1.04 at 400 tables, ±0.86 at 600, ±0.39 at 5,000. That is 1.25 times one bot's error; unpaired is 1.41 | A | Scales with row 1 |
 | Paired difference, a one-change variant | About 11: ±0.1 at 12,000 tables | A, simulation | Scales with row 1 |
-| The pack's "13/√tables" | True only for near-identical variants | D for different designs | Same |
+| The "13/√tables" the pack used until 14 November | True only for near-identical variants | D for different designs | Same |
 | Clock-seeded or time-capped bots | ±0.5 points a table run to run on identical deals | A, speedrun | Same |
 
 Pairing helps little between designs because a table diverges at the first different decision (A): the remedy is more tables.
