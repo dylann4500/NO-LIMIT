@@ -42,7 +42,10 @@ break-evens and HANDOFF.md; write each file the moment it passes its checks, so 
   every option on the same deals in one interleaved loop; against opponents who ALSO use the twist well; using all it
   reveals; dead cards removed; any budget planned over a whole table (roughly 120-140 hands); plus a cheap rule and
   how close it gets. The decision rule every table and the bot use is `theory/out/twist_rule.json` (its code may live
-  in `theory/twist/`; platform reads only `theory/out/`).
+  in `theory/twist/`; platform reads only `theory/out/`). Call it trusted only once it has been scored at 3 and 4
+  players and against a range (a top-35% hand), not only heads-up against random hands: in a 14 November run three
+  clauses flipped after "trusted". Every later change to what the rule does is a new `version`, never an edit under
+  the same label.
 - **m15 `pushfold.json`:** jam/fold by fictitious play keyed by players left, position and stack (bb); call tables as
   best responses to opponent shove widths of 10-70%, keyed by width so the bot picks the column from the measured width
   (equilibrium call ranges fold too much against fields that shove wide).
