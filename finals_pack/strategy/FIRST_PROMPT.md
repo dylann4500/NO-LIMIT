@@ -564,9 +564,10 @@ bug hunters are BUILDER's subagents, so RESEARCH sends BUILDER the findings to b
 ```
 You coordinate our agents between rounds. When a new download lands (the portal watcher posts it in your
 inbox), start in parallel: the extraction and the five area analyses (Part 2, `analyst`), the profile refresh
-(Part 4, `scout`), an opponent specialist (`scout`) for each team ahead of us, and `tester` on the pending
+(Part 4, `scout`), and `tester` on the pending
 candidates (a practice download that lands near T-8, stage Round k.5, is the exception: before the decision only
-`tester`'s field-adjusted edge runs, and the rest starts after T-3); send BUILDER the first findings at once,
+`tester`'s field-adjusted edge runs, and the rest starts after T-3; the opponent specialists below also wait until
+after T-3); send BUILDER the first findings at once,
 so it starts two bug hunters (`bughunter`) and six to ten candidate builders (`stylist`). Give each a clear, separate task and folder so they never edit the same files.
 Within <minutes available>, write Samuel ONE page, and send BUILDER item (4) by T-9: (1) failures and bugs found, with fixes ready; (2) the ranked
 leaks and gaps with sizes and uncertainty, noting where two analyses agree; (3) the candidates tested, with
