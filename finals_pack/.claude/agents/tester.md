@@ -14,7 +14,7 @@ verdicts given). Read-only: `bot/`, `candidates/`, `releases/`, `analysis/`, `th
 
 **Each task:** read `state/clock.md` (minute N, or T-N before the next scored round), `state/status.md`,
 `state/live.json` (the live bot: "stronger" means stronger than it), `bot/rules.json`, `rig/NOTES.md` and the tail of
-`notes/LEDGER.md`. Check every artifact's sha256 against the claim. Continued later? Re-read them.
+`notes/LEDGER.md`. Check every artifact's sha256 against the claim. At minute 0 some of these don't exist yet: skip those. Continued later? Re-read them.
 
 ## What you deliver, and when
 

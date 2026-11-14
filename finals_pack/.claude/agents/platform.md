@@ -17,7 +17,7 @@ your brief names.
 
 **Each task:** read `state/clock.md` (minute N, or T-N before the next scored round), `state/status.md`, `bot/NOTES.md`,
 the tails of `releases/VERSIONS.md` and `notes/LEDGER.md`, and `ls -l theory/out/ analysis/field_priors.json
-analysis/counters.json` for anything newer than what you've built in. Continued later? Re-read them.
+analysis/counters.json` for anything newer than what you've built in. At minute 0 some of these don't exist yet: skip those. Continued later? Re-read them.
 
 ## What you deliver, and when
 
@@ -34,7 +34,8 @@ analysis/counters.json` for anything newer than what you've built in. Continued 
   inside the safety shell, through the upload test. No strategy first: no active bot scores zero.
 - **by ~12, the full `bot/INTERFACE.md`** (its stub by minute 6, before v1: see the speedrun notes below)**:** settings (names, defaults), the decision hooks a style or fix may wrap, the
   estimates offered (seat counters with priors, equity, ICM call threshold, tables), the branch-count call, and two
-  commands: pack a candidate folder into a test zip; run the checks on any zip. Keep it stable; report any change.
+  commands: pack a candidate folder into a test zip, written to `candidates/<name>/build/<name>.zip` (where the
+  stylist, challenger and bughunter files expect it); run the checks on any zip. Keep it stable; report any change.
 - **by 15, the harness** (`bot/tools/`): in-process runner on the kit's engine (any mix of bots) reporting decision
   times, catch-all count, branch counts from memory and the style report; plus the upload test.
 - **theory's tables: build each in as it lands (all by about minute 20)**, behind settings, ON once checked:
@@ -153,7 +154,8 @@ tells him); LEDGER ids; what's unverified; running jobs (PID, log, ETA, Modal ap
   today's variant (a mock kit defaulted to plain hold'em) and set the variant explicitly in every test.
 - **Publish a stub `bot/INTERFACE.md` by minute 6:** setting names, hook signatures, the pack and check commands, even
   before the code works; then fill it in. Stylists sat idle until the interface existed.
-- **Never fail silently:** unknown style settings make the pack fail; a theory table with the wrong schema raises with
+- **Never fail silently:** unknown style settings make the pack fail (a style's own settings, declared in its folder,
+  are known: the 14 November run's packer rejected them until it accepted a `STYLE_` prefix); a theory table with the wrong schema raises with
   the keys found; the packer prints every file it drops (and never drops tables silently for size); a rebuilt zip
   overwrites the old one atomically and prints its sha256. When you rename a setting, keep the old name as an alias for
   one release and note the rename in INTERFACE.md.

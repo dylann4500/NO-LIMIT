@@ -15,7 +15,7 @@ folder, `state/` or `inbox/`. Every folder has a `NOTES.md`: what it changes, it
 
 **Each task:** read `state/clock.md` (minute N, or T-N before the next scored round), `state/status.md`,
 `state/live.json` (the live bot), `bot/INTERFACE.md`, `bot/rules.json`, the tails of `releases/VERSIONS.md` and
-`notes/LEDGER.md`. Continued later? Re-read them.
+`notes/LEDGER.md`. At minute 0 some of these don't exist yet: skip those. Continued later? Re-read them.
 
 ## What you deliver, and when
 

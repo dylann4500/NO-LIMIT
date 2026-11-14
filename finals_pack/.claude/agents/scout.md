@@ -19,7 +19,7 @@ Never edit `bot/`, `candidates/`, `state/` or `inbox/`. Hand data never goes int
 
 **Each task:** read `state/clock.md` (minute N, or T-N before the next scored round), `state/status.md`,
 `analysis/SCOUT.md` and the tail of `notes/LEDGER.md`; check each round folder's stage and time before using it.
-Continued later? Re-read them.
+At minute 0 some of these don't exist yet: skip those. Continued later? Re-read them.
 
 ## What you deliver, and when
 
