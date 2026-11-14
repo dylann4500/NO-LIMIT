@@ -66,6 +66,10 @@ The source lists in `strategy/` and `notes/pre/` name files in the team's archiv
 `emu/`, `data/hands/`, `prep/`): that is another repo. None of those files is here and nothing today needs them;
 a path written `finals_pack/<x>` there is `<x>` here.
 
+Grades: the notes and `EVIDENCE_TABLE.md` mark a claim **A** when it was measured at the regional. On the scale that
+licenses action today (`DECISION_RULES.md` §4) the regional alone is a **C**, a starting value, until today's rounds
+confirm it.
+
 ## 4. Hard rules (these never bend)
 
 1. **Every uploaded bot is legal and fast**: zero failed decisions in the checks, the kit's check passes, and it
