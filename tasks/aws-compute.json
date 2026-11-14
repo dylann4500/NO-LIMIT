@@ -1,0 +1,28 @@
+{
+  "agent": "Dylans-MacBook-Pro-1228",
+  "assignee": "",
+  "claimed_at": "2026-11-14T13:48:40Z",
+  "cmd": "",
+  "compute": "aws ec2 (pending Dylan's envelope)",
+  "details": "",
+  "expires_at": "2026-11-15T01:48:40Z",
+  "id": "aws-compute",
+  "log": [
+    {
+      "at": "2026-11-14T13:48:40Z",
+      "by": "dylann29",
+      "text": "claimed"
+    }
+  ],
+  "owner": "dylann29",
+  "paths": [
+    "cloud/aws"
+  ],
+  "posted_at": "",
+  "posted_by": "",
+  "priority": 0,
+  "result": "",
+  "state": "active",
+  "title": "AWS EC2 fleet tooling next to Modal (cloud/aws/), measured vs Modal, Sunday recommendation",
+  "updated_at": "2026-11-14T13:48:40Z"
+}
