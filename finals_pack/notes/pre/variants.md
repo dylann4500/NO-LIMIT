@@ -64,8 +64,9 @@ equity (drills), and a short rule recovers nearly all of it: build the rule firs
 
 ## 3. The twist list against the pattern
 
-`TWIST_NOTES.md` fits the pattern in T9, T10, T13 and in T2 without its fee. **It misses five families:** two boards
-with a split pot (Pittsburgh's own), a bounty, involuntary swaps, extra board cards, and passing a card. For any twist
+`TWIST_NOTES.md` fits the pattern in T9, T10, T13 and in T2 without its fee. **It missed five families when this
+was drafted; all five were added the same day:** two boards with a split pot (Pittsburgh's own, now T14), a bounty
+(T15), involuntary swaps (T16), extra board cards (T17), and passing a card (T18). For any twist
 compute first **what the best choice is worth over the default**, **the hand ranking with every player using the
 twist**, and **what the choice reveals**. The ten most likely, with what is specific to each:
 
@@ -117,6 +118,9 @@ Three mock rules pages in the organizers' style; clock started at "announced"; 2
    187 seconds per worker). Measure E[share × hit]; never multiply two averages.
 
 ## Corrections for TWIST_NOTES and theory.md
+
+All 13 were applied to both files on 14 November: nothing below is waiting to be done. They stay here because
+`TWIST_NOTES.md` points to them by number (T2's rule is item 3).
 
 **TWIST_NOTES.md**
 1. **T9, wrong.** "Voting as if your vote decides the outcome is correct, because your vote only matters when it breaks
