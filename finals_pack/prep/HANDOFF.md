@@ -27,6 +27,18 @@ poker is written on the day). Hand histories never go into git.
   one practice run on 13-14 Nov. Retired for Sunday because its own plumbing (cross-laptop sync, notifications,
   answer tracking) caused most of the practice run's problems. Don't use it; its lessons are in `strategy/LESSONS.md`.
 
+## 2b. What you can't get from git (ask Dylan or Samuel)
+
+| Needed for | What | From |
+|---|---|---|
+| Sunday and the portal checks | the portal API key file `~/.config/no-limit-2026/api-key` (Samuel's team key) | Samuel AirDrops the file; never paste it in a chat or a repo |
+| Sunday's minute 0 | the kit setup skill: copy `~/.claude/skills/no-limit-2026-setup/` (one `SKILL.md`) from Samuel's Mac | Samuel |
+| Sunday | which Claude account this laptop's `claude` uses (Samuel has a second account on an Ultra plan for Sunday; the two sessions and all subagents use this laptop's login) | Samuel and Dylan decide |
+| The rehearsal | the tournament simulator runs on **Samuel's Mac**: it needs the organizers' starter kit and two local Python environments that aren't in git (`starter-kit/` is never committed). Ask Samuel's Claude to start a run; it prints the portal copy's address and minute 0 | Samuel |
+| The rehearsal | Tailscale connected on both laptops (Samuel's Mac is `100.111.100.112`), and the rehearsal portal's key in a file on this laptop (it's the `key=` value in the login link in `docs/REHEARSAL.md`; save it as `~/.config/avalon-rehearsal/portal-key`) | Samuel |
+| Modal | `modal` logged in to the team workspace (Dylan's) on this laptop | Dylan |
+| Sunday's repo | a new private GitHub repo for the bundle (`gh repo create`, or Dylan makes it on github.com) | Dylan |
+
 ## 3. The Sunday setup (what the bundle does)
 
 One laptop (Dylan's), one repo, Claude Code. Read `CLAUDE.md`, `START.md`, `prompts/`, `.claude/agents/` and
