@@ -197,8 +197,9 @@ legality, speed and sanity; use the practice rounds for strength.
 
 **Weigh signals by how solid they are.** A leak seen in two rounds' data in the same direction (`analyst` marks
 these persistent in `notes/LEDGER.md`) is strong evidence: ship its fix. One round's number is weaker; pool rounds when you can.
-When you pick the best of k candidates, discount its edge by about 0.5 x SE x sqrt(2 ln k) (the best of 10 looks
-about +0.5 better than it is by chance alone). Never re-tune toward one practice round's difference under 2 SE.
+When you pick the best of k candidates, discount its edge by about 0.6 x SE for the best of 2, 0.85 of 3, 1.0 of 4,
+1.2 of 5, 1.5 of 10, 1.9 of 20 (the best of 10, each measured to about ±0.3, looks about +0.5 better than it is by
+chance alone). Never re-tune toward one practice round's difference under 2 SE.
 
 **Unverified is not wrong.** A `notes/LEDGER.md` line still `proposed` may be cited with the label "unverified".
 Only a line **disputed with a reproduced counter-number** blocks a switch. If `tester` runs out of time re-running a

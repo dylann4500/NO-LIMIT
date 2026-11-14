@@ -93,7 +93,8 @@ matches what wins, a PLAN CHALLENGE.
   the hand's value to that team (tournament-points equity after minus before; both are in the file).
 - **Compare like with like:** only within the same cell; before the flop, only within the same position.
 - **Noise:** points per table have SE ≈ 13-20/√tables; 1,000-table samples swing about ±2 points; compare full files of
-  the same round type; practice fields differ from scored ones. The best of k looks better by about 0.5 × SE × √(2 ln k).
+  the same round type; practice fields differ from scored ones. The best of k looks better by about 0.85 × SE at
+  k = 3, 1.0 at 4, 1.5 at 10.
 - **A second method:** if `codex` is logged in, start `codex exec` in the background to recompute your top number from
   the raw hand file another way; report whether it agrees.
 - **Fan out:** spawn up to 4 helpers yourself (in one message, one job and one output file each; nesting stops at 3

@@ -83,7 +83,8 @@ players, opponent pool, deals, seeds.
 
 **Verifying what decisions rest on: re-run, don't re-read.** Method matches the rules card? Bot sha as claimed? Paired
 deals, seat rotation? n and SE recomputed from raw files? Judged on its own tuning deals? Multiple comparisons
-(discount the best of k by 0.5 × SE × √(2 ln k))? Then append a line with claim `verdict L<k>: validated | disputed |
+(discount the best of k by 0.85 × SE at k = 3, 1.0 at 4, 1.2 at 5, 1.5 at 10)? Then append a line with claim
+`verdict L<k>: validated | disputed |
 invalidated: <reason, ≤150 words>`, your re-run number as the effect, that word as the status; a wrong METHOD is
 `invalidated` (name what depends on it). Use a different method (re-implementation from raw files, or `codex exec`),
 never another reading of the same text. Two minutes per item before T-8; if you can't finish, say what's unverified
