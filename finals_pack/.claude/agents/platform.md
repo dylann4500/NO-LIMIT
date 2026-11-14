@@ -38,7 +38,8 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
   stylist, challenger and bughunter files expect it); run the checks on any zip. Keep it stable; report any change.
 - **by 15, the harness** (`bot/tools/`): in-process runner on the kit's engine (any mix of bots) reporting decision
   times, catch-all count, branch counts from memory and the style report; plus the upload test.
-- **theory's tables: build each in as it lands (all by about minute 20)**, behind settings, ON once checked:
+- **theory's tables: build each in as it lands (all by about minute 20)**, behind settings, ON once checked (a table
+  marked `fallback: true` is theory's labelled first version, to build in and note, not to reject):
   `ranking.json` and `icm_thresholds.json` (due at 10); `twist.json`, the twist rule `twist_rule.json`, `pushfold.json`
   with the call tables, and `exploit.json` (due at 15); `theory/HANDOFF.md` (20) for keys and lookups.
 - **then the full platform** (FIRST_PROMPT Part 1) with every check passing.
