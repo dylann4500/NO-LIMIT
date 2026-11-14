@@ -3709,6 +3709,52 @@ def make_app(hub: Hub) -> web.Application:
     return app
 
 
+# ======================================================================== child processes
+# Agents run as `claude` processes with their own children (test rigs, Modal clients, Codex). If the hub dies, they
+# keep running and a restarted hub would run a second set beside them (duplicate work, clashing edits, usage). So the
+# hub records its descendants every 15 s and stops leftovers on start, and stops its own on Ctrl+C / kill.
+def descendants(root: int) -> list[tuple[int, str]]:
+    try:
+        out = subprocess.run(["ps", "-A", "-o", "pid=,ppid=,command="], capture_output=True, text=True, timeout=10).stdout
+    except Exception:  # noqa: BLE001
+        return []
+    kids, cmd = {}, {}
+    for line in out.splitlines():
+        parts = line.split(None, 2)
+        if len(parts) < 2 or not parts[0].isdigit() or not parts[1].isdigit():
+            continue
+        pid, ppid = int(parts[0]), int(parts[1])
+        kids.setdefault(ppid, []).append(pid)
+        cmd[pid] = parts[2] if len(parts) > 2 else ""
+    res, stack = [], [root]
+    while stack:
+        for c in kids.get(stack.pop(), []):
+            res.append((c, cmd.get(c, "")))
+            stack.append(c)
+    return res
+
+
+def stop_processes(procs: list) -> int:
+    """SIGTERM, then SIGKILL after 3 s, every listed process still running the SAME command (a reused pid is spared)."""
+    import signal
+    try:
+        out = subprocess.run(["ps", "-A", "-o", "pid=,command="], capture_output=True, text=True, timeout=10).stdout
+    except Exception:  # noqa: BLE001
+        return 0
+    now = {int(p): c for p, c in (l.strip().split(None, 1) for l in out.splitlines() if l.strip() and " " in l.strip())
+           if p.isdigit()}
+    hit = [pid for pid, c in procs if pid != os.getpid() and now.get(pid) == c]
+    for sig in (signal.SIGTERM, signal.SIGKILL):
+        for pid in hit:
+            try:
+                os.kill(pid, sig)
+            except Exception:  # noqa: BLE001
+                pass
+        if sig == signal.SIGTERM and hit:
+            time.sleep(3)
+    return len(hit)
+
+
 async def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--person", required=True, choices=list(PEOPLE))
@@ -3750,6 +3796,28 @@ async def main():
         if merged != other:
             asyncio.create_task(hub.bus.set_shared("prop:" + pr["id"], merged))
     hub.default_scale = a.scale
+    left = load_json(hub.data / "children.json", [])
+    if left and not a.view_only:   # a previous run of this hub died: stop what it left running
+        n = await asyncio.to_thread(stop_processes, [tuple(x) for x in left])
+        if n:
+            print(f"stopped {n} process(es) left running by the previous hub run", flush=True)
+    atomic_write(hub.data / "children.json", "[]")
+    if not a.view_only:
+        import signal as _sig
+
+        def _bye(*_):   # Ctrl+C or kill: take the agents' processes down too
+            stop_processes(descendants(os.getpid()))
+            atomic_write(hub.data / "children.json", "[]")
+            os._exit(0)
+        for s_ in (_sig.SIGTERM, _sig.SIGINT):
+            asyncio.get_running_loop().add_signal_handler(s_, _bye)
+
+        async def record_children():
+            while True:
+                kids = await asyncio.to_thread(descendants, os.getpid())
+                atomic_write(hub.data / "children.json", json.dumps(kids))
+                await asyncio.sleep(15)
+        asyncio.create_task(hub.forever("children", record_children))
     hub.view_only = a.view_only
     hub.worker_model = a.worker_model
     hub.bus.scale = a.scale

@@ -1,5 +1,7 @@
 # Eval results, 2026-11-13
 
+Round 2 is at the bottom.
+
 Checklist: `hub/tests/EVAL_CHECKLIST.md`. Each test, how to run it:
 
 | Suite | Command (from the repo root unless noted) | Result |
@@ -53,3 +55,41 @@ Checklist: `hub/tests/EVAL_CHECKLIST.md`. Each test, how to run it:
 - Opus agents for a full 6-round event.
 - An 8-seat field: the emulator with 2 teams gives 3-seat tables.
 - A conditional greenlight ("upload v13 once the tester passes it") still triggers the upload ask at once.
+
+---
+
+# Round 2 (afternoon)
+
+| Suite | Result |
+|---|---|
+| Integration | **62/62**, adding clock-change notices (C9) and clock drift against the portal (C10) |
+| Deadline guard | 17/17: the portal already runs the chosen bot, so no cut; an expiry never undoes a greenlight |
+| Leftover processes (`unit_orphans.py`) | 4/4 |
+| Second independent code review of the day's changes | 10 defects found, all fixed |
+| Live simulation 2 (Sonnet, build hour + 2 scored rounds, the new prompt pack) | Stopped by hand at 91% weekly usage, during scored round 2. Answers rated 26 good, 3 partial, 0 bad. 5 uploads via the Live menu, 0 rejected, no background errors |
+
+## Fixed in round 2
+
+**From the review: could cost a decision or a round**
+- A Greenlight could be lost when a note sync raced with it. The other laptop then expired the note and the default rule ran. Sync now merges the current value, and an expiry never undoes a human decision.
+- The T-4 cut could revert a bot already active on the portal, and send Dylan "upload v6 now" and "upload nothing" at the same time. It now checks the portal first and never sends a conflicting upload ask.
+- "Data landed" was counted before the hand file arrived. That caused false "card failed" cuts and no "no new data" fallback.
+- An empty results list right after a round was called a forfeit and never retried.
+- A clock correction re-sent steps already sent (duplicate Build notes, "LATE" labels). Sent steps now carry over.
+- The default "Which bot?" note silently failed when the live bot came from `declare_live`, while the alert said it was posted.
+- Long notes stopped refreshing their "What's going on" report.
+- A file dropped in the Chat was announced before its upload finished. `fetch_file` now waits up to 90 s.
+- A merged note could fail to reach the other laptop when the time stamps tied.
+- The re-send rule could undo a newer write when the laptops' clocks differ. Re-send now needs a gap of more than 2 s.
+
+**From the live run**
+- **Leftover processes.** Stopping or crashing a hub left its agents' `claude` processes and test workers running. A restarted hub would then run a second set beside them. The hub now records its child processes every 15 s, stops leftovers on start, and stops its own on Ctrl+C or a kill signal.
+- **Clock drift.** A stray "the competition starts now" moved minute 0 six minutes off the portal for the rest of the run. Every stage label and deadline was off, and one deadline-guard cut came from that. The portal watcher now compares real round starts with the clock and posts the corrected minute 0 in both Chats.
+- **Stale Overseer notes** ("upload v14 for practice 3, restore v8 by …") stayed in the bell. They expire after 8 event-minutes, or 15 if urgent.
+- **Stale pinned summaries** ("which bot played isn't confirmed" after it was). Summaries show "as of HH:MM, newer updates below", and Overseers are told to rewrite them.
+- **Conditional greenlights** ("approve once the tester passes it") no longer declare the bot live or ask Dylan to upload before the condition holds.
+
+**Prompt pack (FIRST_PROMPT.md), for bot strength**
+- **Shared defaults for every style**, counted by the check run: no accidental limps or flat calls of opens at 10bb+, shove-or-fold at about 12bb or less, fold one pair to raises. A limp-or-jam style may limp by design. In simulation 1, bots v1-v10 limped and flat-called because nothing checked, and the leak survived into scored round 1.
+- **A defaults check heads every round analysis.**
+- **Rate-targeting candidates** must show their rate in a local run, within about 5 points, before they ship. This is the 74.6% → 92.8% lesson; DECISION_RULES.md says the same.
