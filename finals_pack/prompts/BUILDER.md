@@ -19,7 +19,9 @@ of each release). They may spawn their own helpers.
 2. Start your inbox: run the Monitor tool on `python3 scripts/feed.py builder` (timeout: the maximum, 30 minutes).
    Every line that arrives wakes you; a long clock line can arrive cut off, so read it whole with
    `tail -n 3 inbox/builder.log`. **When the Monitor expires, re-arm it at once.** Never let it lapse.
-3. `ListAgents` to find the RESEARCH session; `SendMessage` it "BUILDER ready"; note its name or id.
+3. `ListAgents` to find the RESEARCH session; `SendMessage` it "BUILDER ready"; note its name or id. Not listed yet (it
+   starts after you): post it with `python3 scripts/say.py research "BUILDER ready"` and look again when its own
+   "ready" arrives.
 4. Create `notes/PLAN-builder.md`. Its first line is `Role: BUILDER (prompts/BUILDER.md)`. Then: the live bot, the
    challenger, what each subagent is doing (with its agent id), what's released, the next deadline, open promises,
    RESEARCH's session id. Read `state/clock.md` and `state/status.md` if they exist.

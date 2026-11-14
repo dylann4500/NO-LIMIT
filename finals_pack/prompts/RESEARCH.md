@@ -20,7 +20,9 @@ may spawn their own helpers.
 2. Start your inbox: run the Monitor tool on `python3 scripts/feed.py research` (timeout: the maximum, 30 minutes).
    Every line wakes you; a long clock line can arrive cut off, so read it whole with `tail -n 3 inbox/research.log`.
    **When the Monitor expires, re-arm it at once.**
-3. `ListAgents` to find the BUILDER session; `SendMessage` it "RESEARCH ready"; note its name or id.
+3. `ListAgents` to find the BUILDER session; `SendMessage` it "RESEARCH ready"; note its name or id. Not listed yet (it
+   starts after you): post it with `python3 scripts/say.py builder "RESEARCH ready"` and look again when its own
+   "ready" arrives.
 4. Create `notes/PLAN-research.md`. Its first line is `Role: RESEARCH (prompts/RESEARCH.md)`. Then: what each subagent
    is doing (with its agent id), what's been analysed, open promises, the next deadline, BUILDER's session id. Create
    `notes/LEDGER.md` if missing. Read `state/clock.md` and `state/status.md` if they exist.
