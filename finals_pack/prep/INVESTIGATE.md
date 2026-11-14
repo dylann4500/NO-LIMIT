@@ -71,7 +71,9 @@ failures, and both humans able to follow what's happening by reading their own t
 **Results so far (14 Nov, Dylan's laptop).** The sessions tested were desktop-app sessions with Remote Control on,
 in bypass-permissions mode (Claude Code 2.1.321), not terminal sessions:
 - **Monitor.** With the Monitor on `scripts/feed.py builder`, a line posted with `say.py` reached a busy session
-  within seconds (twice) and **woke an idle one** (posted 05:36:52; the session was working by 05:36:59).
+  within seconds (twice) and **woke an idle one** (posted 05:36:52; the session was working by 05:36:59). The
+  expiry notice after 30 minutes ("Monitor expired after 30m ... Re-arm it") also woke the idle session, so a
+  session that re-arms on that notice never goes deaf.
 - **Cross-session messaging.** `ListAgents` lists other sessions by name: 41 on this laptop, most from other
   projects, so the two sessions need exact names. A `SendMessage` to an idle session woke it, and its reply came
   back about a second later. Both were in the same permission mode. The tool states the rule: a session in a
