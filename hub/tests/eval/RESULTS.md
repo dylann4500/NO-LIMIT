@@ -93,3 +93,60 @@ Checklist: `hub/tests/EVAL_CHECKLIST.md`. Each test, how to run it:
 - **Shared defaults for every style**, counted by the check run: no accidental limps or flat calls of opens at 10bb+, shove-or-fold at about 12bb or less, fold one pair to raises. A limp-or-jam style may limp by design. In simulation 1, bots v1-v10 limped and flat-called because nothing checked, and the leak survived into scored round 1.
 - **A defaults check heads every round analysis.**
 - **Rate-targeting candidates** must show their rate in a local run, within about 5 points, before they ship. This is the 74.6% → 92.8% lesson; DECISION_RULES.md says the same.
+
+---
+
+# Round 3 (night): the lean hub
+
+**What changed.** Four agents per laptop, one job each:
+- Samuel: Chat (the lead), Analyst, Tester, Opponents.
+- Dylan: Chat (the lead), Platform & releases, Styles & fixes, Challenger.
+
+The clock hands each worker its task directly. The board shows plain progress tiles, and a tile opens the agent
+doing it. Decisions are pinned in the Chat and answered in words. There are no ideas, no prompting notes and no
+narrator.
+
+| Suite | Result |
+|---|---|
+| Static (pyflakes: undefined names; JS syntax) | 0 / OK |
+| unit_lean (roster consistency, tiles, decisions, dispatch, worker-reply tracking, Live menu) | 25/25 |
+| unit_guard, unit_decisions, unit_watchdog, unit_polling, unit_sync_race, unit_orphans | all pass |
+| Integration (two linked hubs, fake portal, agents off) | **76/76** |
+| Screens (tiles, Chat in the agent list, decision pinned, agent page, 390 px, no errors) | all pass |
+| Redraw with a full day's data (300 tiles, 200 decisions, long Chat) | board 8 ms, Chat 7 ms (median) |
+| Plan battery, 22 scenarios (6 new worker ones), tune and held-out, peer pressure, Sonnet + Haiku | base 100% on both splits; see below |
+| Live simulation (Sonnet everywhere, build hour + 3 scored rounds, 2 simulated teams, AI Samuel and Dylan) | Ran to the end. 6 uploads via the Live menu, 0 rejected. Decisions answered in words and recorded with the person's words. Answers rated 63 good, 23 partial, 1 bad. errors.log empty. The clock-drift alert fired live and was corrected |
+
+**Reinforcement experiment.** With the plan out of context and a peer pushing the wrong answer:
+- **System prompt rules only** (as now): 100% on the tuning and held-out scenarios, Sonnet and Haiku.
+- **A pinned rules card:** no gain.
+- **A self-check:** broke the answer format twice.
+- **A generic rule reminder:** caused the one held-out error.
+
+So no rule reminders are added. The problems we saw are about state (stale briefs, missing context, silence), and
+that's what the hub now handles.
+
+**Fixed from this round's live run and review:**
+- A human's message to a worker went unanswered three times; the agent kept working silently. Every message to any
+  agent is now tracked until that agent replies in text. Its first sentence must be the answer or "working on it,
+  ready by HH:MM". It's re-raised at 150 s, and the person's Chat is told at 6 min.
+- The leads (the Chats) can't speak without a turn, so they no longer promise later messages. Dylan's Chat is now
+  woken with each round result.
+- Duplicate tiles appeared when an agent's label differed from the hub's (e.g. "Build · Test rig"); they now merge.
+  Agents' stage spellings are normalised ("Practice-1"). Old analysis tiles close when the next round lands.
+  Releases found on disk are owned by Platform.
+- The Live menu always lists the live and the active bot, however many newer bots exist. Bots were built at about
+  one every 3 minutes in the run.
+- The contradiction check was too chatty. It now posts at most one item, drops reworded repeats, and ignores
+  uploads in progress and lagging briefs.
+- Hub messages never appear under a person's name. Compaction output never reaches the Chat. Pre-flight results
+  show as a list. Decisions are pinned above the conversation.
+- Worker processes that detached from the hub (a test rig's workers) are stopped at shutdown too.
+
+**Not covered:**
+- Two physical laptops on a hotspot.
+- The real portal (its round ids and timing).
+- Opus agents for a full 6-round event.
+- An 8-seat field.
+
+The emulator's 3-seat field and rounds of about 2 minutes made some simulated complaints artifacts, not hub bugs.

@@ -3599,6 +3599,9 @@ class PortalWatcher:
         await self.hub.tile("data-" + stage_slug(stage), f"{stage} data", "done" if files else "in progress (hands not downloadable yet)",
                             owner="s-data", stage=stage)
         if files and not quiet:
+            for t in self.hub.tiles():   # an older round's analysis that never recorded a change is over now
+                if t["id"].startswith("analysis-") and t["state"] == "in progress" and t["id"] != "analysis-" + stage_slug(stage):
+                    await self.hub.tile(t["id"], t["label"], "done")
             await self.hub.tile("analysis-" + stage_slug(stage), f"{stage} analysis", "in progress", owner="s-data", stage=stage)
         older = sorted([p for p in self.hub.props() if p.get("kind") == "analysis" and p["id"] != aid
                         and p.get("status") in ("running", "planned", "new")], key=lambda p: p.get("created", 0))
@@ -3643,7 +3646,7 @@ class PortalWatcher:
                                "the result in one line when they next talk to you."})
             if ov.state == "stopped" and not ov.paused:
                 await ov.start()
-        await self.tell("d-overview", "fyi", line)
+        await self.tell("d-overview", "task", line + " Tell Dylan the result in one line now (the Chat is how he hears it).")
         self.st["done"].append(r["id"])   # only now: a crash before this re-announces the round after the restart
         self.st.setdefault("done_stages", []).append(stage)
         self.save()
@@ -4150,8 +4153,8 @@ async def main():
     if not a.view_only:
         import signal as _sig
 
-        def _bye(*_):   # Ctrl+C or kill: take the agents' processes down too
-            stop_processes(descendants(os.getpid()))
+        def _bye(*_):   # Ctrl+C or kill: take the agents' processes down too, incl. ones already detached from us
+            stop_processes(descendants(os.getpid()) + [tuple(x) for x in load_json(hub.data / "children.json", [])])
             atomic_write(hub.data / "children.json", "[]")
             os._exit(0)
         for s_ in (_sig.SIGTERM, _sig.SIGINT):

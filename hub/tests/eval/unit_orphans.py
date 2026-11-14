@@ -19,5 +19,10 @@ for _ in range(60):
         time.sleep(1)
 time.sleep(4)
 print("leftover stopped by the new hub:", q.poll() is not None)
+# a tool's worker that detached from the hub (its parent shell exited) but was in the last snapshot
+r2 = subprocess.Popen(["sleep", "302"], start_new_session=True); time.sleep(0.5)
+cmd2 = next(c for pid, c in H.descendants(os.getpid()) if pid == r2.pid)
+json.dump([[r2.pid, cmd2]], open(f"{SP}/data/children.json", "w"))
 h.send_signal(15); h.wait(20); print("hub exits cleanly on SIGTERM:", h.returncode == 0)
+time.sleep(4); print("a detached worker from the last snapshot is stopped at shutdown:", r2.poll() is not None)
 p.kill()
