@@ -219,7 +219,17 @@ background subagents, continuing one, and the raised subagent limit from the set
 `/permissions`) if Sunday runs in terminal tabs, and two people typing into one session through Remote Control.
 Step 3, the rehearsal. Step 6, the Sunday repo.
 
-**Research merged since** (`finals_pack/notes/pre/`): `field.md` and `contrarian.md`. They found that the bundle
-gave 50/30/20 as the prizes; the prizes are $100,000 / $50,000 / $25,000 (corrected in `CLAUDE.md` and
-`DECISION_RULES.md` section 1). The memo's proposals to change decision rules are not applied: an independent
-check is running, and the humans decide.
+**Research merged since** (`finals_pack/notes/pre/`, each drafted by its own session and reviewed by the lead):
+`field.md`, `contrarian.md`, `stat_definitions.md`, `variants.md` (Pittsburgh's variant found: three hole cards, two
+boards, discard one face down after the turn betting, each board pays half the pot; three timed valuation drills),
+`whatwins.md`, `buildplan.md`, `testplan.md`, `challenger_bar.md` (an independent check: no change to any bar). Both
+prompts and the timeline now tell Sunday's morning research to check and extend these drafts. The research also
+found factual errors in the bundle, now corrected (the prizes, the paired-noise figure, the best-of-k discount,
+13 corrections to `TWIST_NOTES.md` and `theory.md`, and more: `git log`).
+
+**Waiting for the humans:** `prep/PROPOSALS_14NOV.md`, one page: seven proposed changes to decision rules and
+defaults (none applied), two fair-play questions, and four set-up choices.
+
+**AWS.** A separate session is building `cloud/aws/` (branch `aws-compute`) so simulations and evals can also run
+on AWS credits. It waits for Dylan's sign-in, a yes to quota increases and a spending limit; until then dry runs
+only. Modal stays the path the bundle describes.
