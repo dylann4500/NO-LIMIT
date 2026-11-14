@@ -37,6 +37,41 @@ size; the rules say points per place vary), but you should know the order of eve
 | 12 | **Connectors off for the Finals sessions** | Each trivial subagent cost about 56,000 tokens of start-up context here, mostly this account's tools, connectors and skills |
 | 13 | ~~AWS~~ **decided (Dylan, 14 Nov, about 06:05): not used.** | The credits cannot be obtained before the Finals. Modal stays the only compute, as the bundle says. The tooling built overnight is kept, shelved, in `cloud/aws/`; it never ran on AWS |
 
+## E. Rule wordings found unclear by the tabletop test (both of you; evidence in `prep/TABLETOP_14NOV.md`)
+
+Eighteen Sunday moments were given to 36 fresh agents who had only the bundle: 5 came out clear, 10 slow (right,
+but after a guess or a search), 3 split (the two sessions told their humans different things), none wrong. The
+report's section 3 has exact replacement wording for each. The five that would cost most:
+
+| # | The gap | What happened in the test |
+|---|---|---|
+| 14 | **Late data** (its P1): if a scored round's data lands at T-6, is the challenger still judged? | Both agents played the challenger; the cut-off table read literally says "no change from new data" |
+| 15 | **One switch deadline and a pass mark for the heads-up run** (P2) | A challenger with no tester verdict: BUILDER waited until T-3, RESEARCH until T-4; neither found what "passing" a heads-up run means |
+| 16 | **A practice round that has not started when the clock says "put the live bot back"** (P3) | The two sessions gave Dylan opposite advice |
+| 17 | **"A big lead" has no units** (P4) | 2nd with a 4.7-point lead and a challenger at z 1.2: agents guessed the bar is 1.0 (challenger plays); the words as printed give 1.5 (live bot plays) |
+| 18 | **Standings held: what "clearly in the top 3" means** (P5) | Third by 0.3: both agents chose the lower bar; `LESSONS.md` read literally gives the higher one |
+
+P6-P14 are smaller: what happens when you two disagree and the one who disagrees must click; nobody there to
+click; which figures change when points per place are not 50/30/20; "out of contention" (the watcher's own line
+says the challenger plays from then on, which no rule says); round 1's bot when the best scorer has no heads-up
+run; and six one-line clarifications.
+
+## F. From the consistency read and the sample check (smaller; both of you)
+
+| # | Decide | Evidence |
+|---|---|---|
+| 19 | **Where scores come from**: add to `DECISION_RULES.md` that scores are taken from `results.json`, never from a hand file | `notes/pre/first1000.md`: the first-1,000 file is a fair sample of the round, but its score for us missed the full round by +0.4 on average and by 2.0 once; it shows other teams only at our tables. The analyst's role file already says this now |
+| 20 | **Fetch 5,000 tables first instead of 1,000?** | The same note recommends it (score error 0.30 instead of 0.66). I left the watcher at 1,000: the practice rounds that decide the bot have only about 1,000 tables anyway, and the full file starts with the same tables, so the analyst can re-run on its first 5,000. One line changes it if you want it |
+| 21 | **Is "over a third of teams differ between a practice and the next scored round" a broken assumption or normal?** | `field.md` treats it as a warning sign; `challenger_bar.md` counted about 46% doing so at the regional |
+| 22 | **A control arm in scored rounds** | `FINGERPRINTING.md` wants 15% of scored-round tables with counters off; `EVIDENCE_TABLE.md` says no control arm in scored rounds without a stated reason |
+| 23 | **Speed bar for the twist decision** | `TWIST_NOTES.md` says p99 under 0.8 ms; `tester.md` and `challenger.md` say under 0.5 ms |
+| 24 | **Latest release time for the challenger** | The timeline says T-15, T-13 at the latest; the cut-off in `DECISION_RULES.md` is T-12 |
+
+Three places the consistency read expects an agent to go wrong even though nothing is inconsistent: Dylan
+clicking "make it active" the moment BUILDER declares the round-1 bot (minute 50, when practice 4 starts) instead
+of at the clock's reminder; the practice download at T-8 being treated like a scored round's and loading the CPU
+during the upload test; and the T-9 to T-5 arithmetic when there are too few yardstick teams.
+
 ## D. Applied already (for information)
 
 Factual corrections, each traced to a source in its commit message: the prizes ($100,000 / $50,000 / $25,000, not
