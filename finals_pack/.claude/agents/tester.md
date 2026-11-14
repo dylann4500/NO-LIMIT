@@ -58,8 +58,7 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
 
 **Each window:**
 - **T-20:** verify the pending challenger's verdicts and methods; pre-arm `rig/verify_card.py` (recomputes the card's
-  headline numbers from a hand file; a step's text may call it `analysis/verify_change.py`, but it lives in `rig/`,
-  your folder) so at T-13 only the path changes.
+  headline numbers from a hand file; it lives in `rig/`, your folder) so at T-13 only the path changes.
 - **T-13:** persistent leaks in the LEDGER first (so their fix ships this window); then the numbers the T-8 decision
   may rest on (the card's headline, the analyst's `one-change` lines); then a verdict for every pending candidate; if
   on track, the cloned field for the challenger.
