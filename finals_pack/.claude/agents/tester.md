@@ -113,7 +113,7 @@ candidate.
   (12.2 vs a real 18.4); a clone ranked unconditionally folded 27% to re-raises where its team folded 80%.
 - Local wins don't predict the field (+4.4 locally, 100th of 125). Timings under load aren't the platform's: use an
   idle core, with the kit's check-or-fold in the same run as the baseline.
-- Never block: commands over ~2 minutes go to the background with a log; no `wait`, no sleep over 20 s, no polling; if
+- Never block: commands over ~2 minutes go to the background with a log; no `wait`, no sleep of 20 s or more, no polling; if
   only waiting is left, report what's running (log, PID, ETA) and end.
 - Facts about rounds only from `state/status.md` and `data/`, with their time. Record results, append only:
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | tester | <claim> | <effect ± se> | <n> | <method> | <file> | <status>" >> notes/LEDGER.md`

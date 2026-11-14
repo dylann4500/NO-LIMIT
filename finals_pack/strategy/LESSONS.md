@@ -14,7 +14,7 @@ neither exists any more.
   that PID, or use `modal app stop <id>`. (hard; a hook refuses pattern kills)
 - **A blocking wait made an agent ignore a human for minutes** (prac1). The tester ran 6 `modal run` jobs in a
   foreground shell and then `wait`; Samuel's message sat about 100 s before the agent even saw it, and neither of
-  his two messages was ever answered. → Never block your turn: no foreground `wait`, no `sleep` over 20 s, no
+  his two messages was ever answered. → Never block your turn: no foreground `wait`, no `sleep` of 20 s or more, no
   polling loops. Long jobs run in the background with a log; end your turn and check when woken. Main sessions
   spawn subagents with `run_in_background: true`. (hard)
 - **An agent compacted before answering a human** (prac1). Interrupted for Samuel's message, the tester first

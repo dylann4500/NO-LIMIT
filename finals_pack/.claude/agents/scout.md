@@ -97,7 +97,7 @@ memo when §5's trigger fires (§6: close rare-spot gaps first; a size mask work
 - In rehearsals agents used the previous run's data until caught: check every file's stage and time.
 - Never kill by pattern (one `pkill -f "modal run"` stopped every agent twice): only your own PIDs
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`). Never block: commands over ~2 minutes go to the background with a log;
-  no `wait`, no sleep over 20 s, no polling. Modal has only two deployed apps, the tester's `avalon-rig` (up to 40
+  no `wait`, no sleep of 20 s or more, no polling. Modal has only two deployed apps, the tester's `avalon-rig` (up to 40
   containers) and theory's `avalon-theory` (up to 20): call them (`rig/NOTES.md` says how); never deploy, `modal run`
   or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: at most 4
   worker processes. Hand histories never leave this machine.

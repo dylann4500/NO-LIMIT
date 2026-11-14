@@ -98,7 +98,7 @@ reports a measured value outside a solved grid.
 - The weakest pilot team spent the hour benchmarking one parameter: ship the labelled fallback on time, then improve.
 - Never kill by pattern (one `pkill -f "modal run"` stopped every agent twice): only your own PIDs
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`) or `modal app stop <id>`. Never block: commands over ~2 minutes go to
-  the background with a log; no `wait`, no sleep over 20 s, no polling. Your one Modal app is `avalon-theory` (up to
+  the background with a log; no `wait`, no sleep of 20 s or more, no polling. Your one Modal app is `avalon-theory` (up to
   20 containers), deployed once and called many times: `modal app list` first (a parallel theory run may have deployed
   it); never a second app or several `modal run`s at once (a rehearsal lost a round to the app-creation rate limit).
   The team's total is 80 (the tester's `avalon-rig` 40, other roles' calls 20). Else run locally: at most 4 worker
