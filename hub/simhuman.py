@@ -2,7 +2,7 @@
 
 It sees only what a person would see on their screen (the bell: permission requests, notes, cards waiting
 for their call; the agents' briefs; the clock), every 40-90 seconds like a busy human, and acts only through
-the same buttons: allow/deny, greenlight/reject/suggest, post an idea, message an agent, and (Dylan) upload a
+the same controls: allow/deny, answering decision notes in words, post an idea, message an agent, and (Dylan) upload a
 bot to the rehearsal portal and make it active. Everything it does is logged, so its confusion is a bug report.
 
   uv run --no-project --with claude-agent-sdk --with aiohttp python hub/simhuman.py --person dylan \\
@@ -29,7 +29,7 @@ COMMON = """How the screen works: the board of notes is everything. Notes are gr
 Practice 1-4, Round 1, Round 1.5, ...). Each note is a conversation with an Overseer: it posts live updates there,
 and you can ask questions or steer with note_chat (it reaches the Overseer, which hands the work to agents and
 answers in the note). 'Analysis for <stage>' notes hold the round's analysis, a pinned summary with numbered
-suggestions, and progress. 'Which bot?' notes ask whether to use a bot: answer with note_action approve/reject.
+suggestions, and progress. 'Which bot?' notes ask whether to use a bot: there are no buttons; answer in the note with note_chat in your own words ('yes, use v13' / 'no, keep v8 because...'), after reading what's asked. Check the decision gets recorded.
 The Live menu lists bots; make_live makes a ready bot live. Close (note_action remove) notes that are finished
 and no longer relevant. The bell shows permission requests and urgent messages. Your main conversation is your Chat
 (message_agent to s-overview for Samuel, d-overview for Dylan): a readable chat that knows everything the

@@ -212,6 +212,14 @@ UPLOAD_ASK = re.compile(r"upload\W{0,3}(v\d+)(?:\.zip)?\W{0,3}(?:now|by|before|i
 CONDITIONAL = re.compile(r"\b(if|once|only when|only after|provided|as long as|unless|assuming|conditions?|after (?:the|s-|it))\b", re.I)
 
 
+# "the competition starts now", "it's starting", "we're live", "the variant was announced (at 14:02)"
+START_RX = re.compile(r"\b(competition|event|variant|tournament|finals?)\b[^.?!\n]{0,40}\b(start(?:s|ed|ing)?|begin(?:s|ning)?|began|"
+                      r"announced|is live|kick(?:s|ed)? off|has started|is on)\b|^\s*(go|start|we'?re live|it'?s on|"
+                      r"it'?s (?:starting|started|begun)|it (?:starts|started|begins|began)(?: now)?)\s*[.!]*\s*$", re.I)
+AT_RX = re.compile(r"\b(?:at|was|@)\s*(\d{1,2}:\d{2}(?::\d{2})?)\b")
+PREFLIGHT_RX = re.compile(r"\b(pre-?flight|run (?:the |a )?(?:check|test)s?|check (?:everything|that everything|it all))\b", re.I)
+
+
 def norm_bot(x: str) -> str:
     """'releases/v3.zip', 'v3 (1).zip' (a browser's second download) -> 'v3'."""
     return re.sub(r"\s*\(\d+\)$", "", re.sub(r"\.zip$", "", (x or "").strip().split("/")[-1].lower()).strip())
@@ -285,7 +293,9 @@ class Hub:
         self.view_only = False
         self.traffic: list = []
         self.card_ok = False
-        self.landed_at: dict[str, float] = {}   # stage -> when its results/hands landed (the deadline guard reads it)
+        self.landed_at: dict[str, float] = {}
+        self.note_pending: dict[str, dict] = {}   # note id -> a human's question there with no answer yet
+        self.checked_issues: dict[str, float] = {}   # contradiction text -> when it was raised   # stage -> when its results/hands landed (the deadline guard reads it)
 
     def note_error(self, where: str, e: BaseException):
         """Record a background failure (hub/errors.log) without stopping anything; shown in the Hub service."""
@@ -639,6 +649,7 @@ class Hub:
                 t1 = next((t for k in DISPATCH if k == f"b{at}" for (_, _, ag, t) in DISPATCH[k] if ag == agent), "")
                 first = (f"Starts at minute {at}: {t1}" if at is not None else "Starts when its first task arrives.")
             await self.ensure_note(f"B{i}-{t0}", kind="build", stage="Build", owner=self.owner_overseer(who),
+                                   status="running" if task else "planned",
                                    author=agent, title=f"Build {i} of {len(BUILD_NOTES)} · {name}",
                                    headline=f"{name}: {agent.split('-', 1)[1].title()} is on it.",
                                    thread=[{"who": "Clock", "at": time.time(), "action": "update",
@@ -667,6 +678,8 @@ class Hub:
                 await self.note_append(p["id"], "Clock", why, status="done")
 
     async def note_append(self, pid: str, who: str, text: str, action: str = "update", **fields):
+        if who not in PEOPLE.values() and who not in ("Portal", "Clock", "Hub"):
+            self.note_pending.pop(pid, None)   # an agent answered in this note
         p = self.get_prop(pid)
         if not p or p.get("status") == "removed":
             return
@@ -811,6 +824,10 @@ class Hub:
         pseen = {k for k in self.bus.shared if k.startswith("palert:")}
         while True:
             await asyncio.sleep(3)
+            req = self.bus.shared.get("preflight_req")
+            if isinstance(req, dict) and req.get("at", 0) > getattr(self, "preflight_done", 0) and req.get("from") != self.person:
+                self.preflight_done = req["at"]
+                asyncio.create_task(self.preflight(req.get("who", "the other laptop"), relay=False))
             for k, v in list(self.bus.shared.items()):
                 if k.startswith("palert:") and k not in pseen and isinstance(v, dict):
                     pseen.add(k)
@@ -1001,8 +1018,16 @@ class Hub:
         await self.save_prop(p)
         ov = p.get("owner") if str(p.get("owner", "")).endswith("overseer") else self.owner_overseer(p.get("author_person") or self.person)
         recent = "\n".join(f"  {t['who']}: {str(t['text'])[:400]}" for t in p["thread"][-7:-1])
+        self.note_pending[p["id"]] = {"at": time.time(), "who": who, "text": text[:300], "to": ov}
+        deciding = p.get("status") in ("needs_call", "revise") and p.get("kind") in ("bot", "question")
+        decide = ("\nTHIS NOTE IS WAITING FOR THE HUMANS' DECISION. If this message clearly decides it (yes or no; which bot), "
+                  f"record it now: update_proposal(id='{p['id']}', status='approved' or 'rejected', decided_by='{who}')"
+                  + (" (approved on a Which-bot note makes that bot live and asks Dylan to upload it)" if p.get("bot") else "") +
+                  ". If it sets a condition, record 'approved' only once the condition holds and say so here. If it is a "
+                  "question or unclear, answer it plainly and ask for a clear decision. Never record a decision the human "
+                  "didn't make.\n") if deciding else ""
         await self.bus.send({"id": new_id(), "from": who, "from_kind": "human", "to": ov, "kind": "task", "note": p["id"], "text": (
-            f"[note #{p['id']} \"{p['title']}\" ({p.get('stage', '')}) chat] {who}: {text}\n"
+            f"[note #{p['id']} \"{p['title']}\" ({p.get('stage', '')}) chat] {who}: {text}\n" + decide
             + (f"Recent in this note:\n{recent}\n" if recent else "") +
             "\nYour reply text in this turn is shown in the note word for word, so answer the human directly and fully "
             "in plain language (no update_proposal needed for the answer). If this turn has messages from more than one "
@@ -1029,6 +1054,185 @@ class Hub:
             "workers / subagents / Modal and post results in the same note (update_proposal(id, note=..., summary=...)). "
             "If it leads to a new bot, ask with propose(kind='bot', bot=...).")})
         return p
+
+    # ---------------- the Chat: commands the hub handles itself (no model in the loop)
+    async def chat_command(self, text: str, who: str) -> str | None:
+        """'The competition starts now' starts the clock (once); 'run the check' runs the pre-flight. Returns what the
+        hub did, or None to leave the message to the Chat."""
+        if PREFLIGHT_RX.search(text) and len(text) < 120:
+            asyncio.create_task(self.preflight(who))
+            return "Running the pre-flight check on both laptops; results appear here in about a minute."
+        if not self.bus.shared.get("schedule") and START_RX.search(text):
+            m = AT_RX.search(text)
+            try:
+                s = await self.start_now(who, at=m.group(1) if m else None)
+            except ValueError as e:
+                return f"Couldn't read that time ({e}). Say e.g. 'the variant was announced at 14:02'."
+            return f"Clock started: {s} Both laptops now follow it, and your Overseer has the game plan."
+        return None
+
+    async def start_now(self, who: str, at: str | None = None) -> str:
+        """Minute 0 (now, or at HH:MM), the Overseer told to start the plan. Only when no clock is set."""
+        s = await self.clock.set_start(at or "", 6, self.default_scale, t0=None if at else time.time())
+        await self.overseer().human("Start building: the variant is announced" + (f" (at {at})" if at else " now") +
+                                    " (minute 0). Kick off the build-hour plan.", who)
+        return s
+
+    async def preflight(self, who: str, relay: bool = True):
+        """Check, for real, everything Sunday depends on; post the results in this laptop's Chat (and ask the other
+        laptop to run its own)."""
+        if relay:
+            await self.bus.set_shared("preflight_req", {"at": time.time(), "from": self.person, "who": who})
+        rows = []
+        def row(ok_, what, detail=""):
+            rows.append(f"{'✅' if ok_ else '❌'} **{what}**" + (f": {detail}" if detail else ""))
+        other = [n for n, v in self.bus.directory.items() if v.get("person") != self.person and not v.get("service")
+                 and time.time() - v.get("seen", 0) < 120]
+        row(self.bus.online and bool(other), "Link to the other laptop",
+            f"{len(other)} of its agents seen" if other else ("link up, but the other laptop's hub isn't running"
+                                                            if self.bus.online else self.bus.error or "down"))
+        if self.portal:
+            P = self.portal
+            try:
+                await asyncio.wait_for(P.identify(), 30)
+                rounds = (await P.aget(f"/competitions/{P.cid}/tournaments"))["items"]
+                team = await P.aget(f"/teams/{P.team}")
+                row(True, "Portal: read access", f"team {P.team_name}, competition {P.comp_name}, {len(rounds)} round(s) listed, "
+                    f"active bot {team.get('active_filename') or 'none'}")
+                done = sorted([r for r in rounds if r.get("completed_at")], key=lambda r: r["created_at"])
+                if done:
+                    tmp = self.data / "preflight"
+                    tmp.mkdir(exist_ok=True)
+                    files = await asyncio.wait_for(P.fetch_hands(done[-1]["id"], tmp, small_first=True), 120)
+                    row(bool(files), "Portal: hand-history download",
+                        f"{Path(files[0]).stat().st_size // 1024} KB saved and verified" if files else
+                        "FAILED. On the real portal, copy the Download link after practice 1 and restart with --hands-url (SUNDAY.md step 7)")
+                else:
+                    row(True, "Portal: hand-history download", "no finished round to try yet; the watcher downloads each round as it ends")
+            except Exception as e:  # noqa: BLE001
+                row(False, "Portal", f"{type(e).__name__}: {e} (check the key file and --portal-base)")
+        else:
+            row(True, "Portal", "watched from Samuel's laptop")
+        try:
+            out = await one_shot("Reply with exactly: OK", ClaudeAgentOptions(model=NARRATOR_MODEL, tools=[], max_turns=1,
+                                 setting_sources=[], cwd=str(self.data), system_prompt="Reply OK."), 90)
+            row("OK" in out.upper(), "Claude", "answering" if "OK" in out.upper() else f"unexpected reply: {out[:80]}")
+        except Exception as e:  # noqa: BLE001
+            row(False, "Claude", f"{type(e).__name__}: is `claude` logged in on this laptop?")
+        if self.codex:
+            row(not self.codex.broken and bool(self.codex.bin), "Codex", self.codex.broken or ("ready" if self.codex.bin else "not installed (optional)"))
+        try:
+            r = await asyncio.to_thread(subprocess.run, ["git", "-C", str(self.repo), "status", "--short"], capture_output=True, text=True, timeout=20)
+            probe = self.repo / ".preflight"
+            probe.write_text("ok")
+            probe.unlink()
+            want = ["START_HERE.md", "DECISION_RULES.md", "FIRST_PROMPT.md", "TWIST_NOTES.md", "FINGERPRINTING.md"]
+            miss = [f for f in want if not (self.repo / f).exists() and not (self.repo / "docs" / f).exists()]
+            row(r.returncode == 0 and not miss, "Team repo", "git works, writable" + (f"; MISSING {', '.join(miss)}" if miss else ", plan docs present"))
+        except Exception as e:  # noqa: BLE001
+            row(False, "Team repo", f"{type(e).__name__}: {e}")
+        free = shutil.disk_usage(str(self.data)).free / 1e9
+        row(free > 5, "Disk space", f"{free:.0f} GB free")
+        sch = self.bus.shared.get("schedule")
+        row(True, "Clock", f"minute 0 = {time.strftime('%H:%M:%S', time.localtime(sch['start']))}" if sch else
+            "not started (tell the Chat 'the competition starts now' at the announcement)")
+        bad = sum(r.startswith("❌") for r in rows)
+        ov = next((a for a in self.agents.values() if a.name.endswith("overview")), None)
+        if ov:
+            await ov.ov_log("Hub", f"**Pre-flight check on {PEOPLE[self.person]}'s laptop: "
+                            + ("everything works.**" if not bad else f"{bad} problem(s).**") + "\n\n" + "\n".join(rows), urgent=bool(bad))
+        if bad:
+            await self.add_alert("hub", f"Pre-flight: {bad} problem(s) on this laptop. See the Chat.", True)
+
+    # ---------------- nothing a human asks goes unanswered
+    async def watch_unanswered(self):
+        now = time.time()
+        for a in self.agents.values():
+            if not a.name.endswith("overview") or not a.pending_q:
+                continue
+            q = a.pending_q[0]
+            age = now - q["at"]
+            if age > 150 and a.state in ("idle", "done", "stopped", "error") and not q.get("nudged"):
+                q["nudged"] = True   # it finished a turn without answering: ask again
+                await a.add_item({"kind": "hub", "wake": True, "text": f"You haven't answered {q['who']}'s message from "
+                                  f"{hhmm(q['at'])}: \"{q['text']}\". Answer it now, plainly; if it's an instruction, say "
+                                  "who is doing it and when it will be done."})
+                if a.state == "stopped" and not a.paused:
+                    await a.start()
+            elif age > 360 and not q.get("told"):
+                q["told"] = True
+                await a.ov_log("Hub", f"Still no answer to your message from {hhmm(q['at'])} (\"{q['text'][:80]}\"). "
+                               + ("The Chat is busy with a long turn; it answers when that ends." if a.state == "working"
+                                  else "I've asked it again."))
+        for pid, q in list(self.note_pending.items()):
+            age = now - q["at"]
+            if age > 300 and not q.get("nudged"):
+                q["nudged"] = True
+                try:
+                    await self.bus.send({"id": new_id(), "from": "hub", "from_kind": "hub", "to": q["to"], "kind": "task",
+                                         "note": pid, "text": f"{q['who']} asked in note #{pid} at {hhmm(q['at'])} and has no "
+                                         f"answer yet: \"{q['text']}\". Answer it in the note now (update_proposal(id='{pid}', "
+                                         "note=...)); if work is needed, say who is doing it and when."})
+                except Exception as e:  # noqa: BLE001
+                    self.note_error("note-nudge", e)
+            elif age > 900 and not q.get("told"):
+                q["told"] = True
+                await self.chat_ping(f"No answer yet to {q['who']}'s question in note #{pid} (\"{q['text'][:80]}\"). "
+                                     "I've reminded the Overseer; ask in the Chat if it's urgent.")
+
+    # ---------------- contradictions surface on their own
+    async def consistency_check(self):
+        """Every 4 minutes once the event runs: a cheap model reads the facts on screen and names any two that can't
+        both be true (clock vs portal, live vs active bot, a summary vs a later result, an instruction not followed)."""
+        sch = self.bus.shared.get("schedule")
+        now = time.time()
+        if not sch or now - getattr(self, "last_consistency", 0) < 240 or self.view_only:
+            return
+        self.last_consistency = now
+        live, act = self.bus.shared.get("live") or {}, self.bus.shared.get("portal_active") or {}
+        facts = [f"Time now {hhmm(now)}; clock minute 0 {hhmm(sch['start'])}; stage {stage_of(sch, now)}; next step: "
+                 f"{(self.clock.next_step() or (0, 'none'))[1]}",
+                 f"Declared live bot: {live.get('filename') or 'none'} (set {hhmm(live['at']) if live.get('at') else '-'}); "
+                 f"active on the portal: {act.get('filename') or 'unknown'}"]
+        for p in [p for p in self.props() if p.get("status") in OPEN][:8]:
+            facts.append(f"Note #{p['id']} [{p.get('kind')}/{p.get('status')}] {p.get('title')}: summary: {(p.get('body') or '')[:300]} | "
+                         f"latest: " + " / ".join(f"{t.get('who')}: {str(t.get('text'))[:160]}" for t in (p.get("thread") or [])[-2:]))
+        for a in self.agents.values():
+            facts.append(f"Agent {a.name} [{a.state}] status {(now - a.status_at) / 60:.0f} min old: {a.task[:160]}" if a.status_at
+                         else f"Agent {a.name} [{a.state}]: {a.task[:160]}")
+        humans = [x for x in self.ledger() if x.get("type") == "human"][-6:]
+        facts += [f"Human instruction ({hhmm(x.get('at', 0))}): {str(x.get('claim'))[:200]}" for x in humans]
+        prompt = ("These are the facts on a team's screen during a live competition. List only real contradictions that "
+                  "could change a decision or an action in the next 20 minutes: two statements that can't both be true now "
+                  "(different bots, times, numbers or results for the same thing), or a human instruction that the current "
+                  "state ignores. Ignore note statuses (running/planned/done) and agent states (idle/stopped/working): those "
+                  "lag by design. Not stale wording, not style. At most 2. For each: what conflicts "
+                  "and what to check or fix, in one plain sentence each. JSON only: [{\"issue\": \"...\", \"fix\": \"...\"}] "
+                  "or [] if none.\n\n" + "\n".join(facts))
+        try:
+            out = await one_shot(prompt, ClaudeAgentOptions(model=NARRATOR_MODEL, tools=[], max_turns=1, setting_sources=[],
+                                 cwd=str(self.data), system_prompt="You find contradictions. Output JSON only."), 90)
+            items = json.loads(out[out.index("["):out.rindex("]") + 1]) if "[" in out else []
+        except Exception as e:  # noqa: BLE001
+            self.note_error("consistency", e)
+            return
+        self.checked_issues = {k: t for k, t in self.checked_issues.items() if now - t < 1800}
+        new = []
+        for it in items[:4]:
+            if not isinstance(it, dict) or not it.get("issue"):
+                continue
+            key = re.sub(r"\W+", " ", str(it["issue"]).lower())[:120]
+            if key in self.checked_issues:
+                continue
+            self.checked_issues[key] = now
+            new.append(f"- {it['issue']} → {it.get('fix', '')}")
+        if new:
+            text = "**Something doesn't add up:**\n" + "\n".join(new)
+            ov = next((a for a in self.agents.values() if a.name.endswith("overview")), None)
+            if ov:
+                await ov.ov_log("Hub", text, urgent=True)
+            await self.overseer().add_item({"kind": "hub", "wake": False, "text": "[consistency check] " + text +
+                                            "\nResolve each (check the facts, fix the wrong one, tell the humans in a note)."})
 
     async def watch_stalls(self):
         """An agent whose turn has produced nothing for STALL_S (a hung connection, a stuck tool) is interrupted, then
@@ -1160,6 +1364,8 @@ class Agent:
         self.interrupted = False
         self.preempting = False
         self.eta: float | None = None
+        self.human_text_in_turn = ""
+        self.pending_q: list = []   # Chat only: human messages not yet answered (re-raised if they sit)
         self.status_at = 0.0   # when the agent last called set_status   # when this agent expects its current deliverable (set_status eta_minutes)
         self.last_msg_at = 0.0          # last message from Claude in the current turn (the stall watchdog reads it)
         self.stall_kicked = 0.0
@@ -1368,6 +1574,10 @@ class Agent:
     async def ov_log(self, who: str, text: str, urgent: bool = False):
         """The Overview conversation, shared so the other person can read (and write in) it too."""
         self.ovchat = (self.ovchat + [{"who": who, "at": time.time(), "text": text[:4000], "urgent": urgent}])[-40:]
+        if who == "Chat":
+            self.pending_q = []   # it answered
+        elif who in PEOPLE.values():
+            self.pending_q.append({"who": who, "text": text[:300], "at": time.time()})
         atomic_write(self.dir / "ovchat.json", json.dumps(self.ovchat))
         await self.hub.bus.set_shared("ovchat:" + self.name, {"items": self.ovchat, "updated": time.time()})
         self.hub.emit("shared", {"ovchat": self.name})
@@ -1607,6 +1817,8 @@ class Agent:
                     i["taken"] = True
                 self.save_items()
                 self.human_in_turn = any(b["kind"] == "human" or b.get("from_kind") == "human" for b in batch)
+                self.human_text_in_turn = "\n".join(str(b.get("text", "")) for b in batch
+                                                     if b["kind"] == "human" or b.get("from_kind") == "human")
                 prompt = "\n\n".join(self.format(b) for b in batch)
                 if any(b.get("retry") for b in batch):
                     prompt = ("(Retrying this input after an error: some actions from the previous attempt may already have "
@@ -1996,6 +2208,11 @@ class Agent:
             if hub.bus.shared.get("schedule") and not me.human_in_turn:
                 return ok("The clock is set. Only change it when a human tells you a time in this turn; otherwise tell "
                           "your human with notify_human.")
+            if hub.bus.shared.get("schedule") and not re.search(r"\d", me.human_text_in_turn or ""):
+                s_ = hub.bus.shared["schedule"]
+                return ok(f"The clock is already running (minute 0 = {time.strftime('%H:%M:%S', time.localtime(s_['start']))}). "
+                          "A message without a time ('it's starting now') never moves it: ask the human for the exact time "
+                          "of an event (e.g. 'practice 1 started at 14:25') and set that.")
             if me.name.endswith("overview") and not hub.bus.shared.get("schedule"):
                 ov = hub.agents.get(me.name.replace("overview", "overseer"))
                 if ov:
@@ -2224,11 +2441,13 @@ class Agent:
             return ok(f"{bot_name(a['file'])}: {st}.")
 
         @tool("update_proposal", "Update a note: note= a progress line or a result shown in its chat; summary= replaces the "
+              "note's pinned summary. status approved / rejected (with decided_by=<the human>) records a human's decision "
+              "given in the note's chat, only when they clearly made it. Also: "
               "note's pinned summary (for an analysis note: the high-level picture in plain words + numbered suggestions "
               "for what to do); status planned / running / done / blocked. When a later result corrects or settles "
               "something the summary says (a withdrawn number, 'not confirmed yet'), rewrite the summary too: humans read "
               "it first.",
-              schema(["id"], {"id": "string", "status": "string", "note": "string", "summary": "string"}))
+              schema(["id"], {"id": "string", "status": "string", "note": "string", "summary": "string", "decided_by": "string"}))
         async def update_proposal(a):
             me.turn_note_refs.add(a["id"].lstrip("#"))
             p = hub.get_prop(a["id"].lstrip("#"))
@@ -2237,7 +2456,19 @@ class Agent:
             st = a.get("status")
             if p.get("status") == "removed":
                 return ok(f"Card #{p['id']} was removed from the board by a human; it's no longer relevant. Stop work on it.")
-            if st in ("planned", "running", "done", "blocked"):
+            if st in ("approved", "rejected"):
+                if p.get("status") not in ("needs_call", "revise", "expired") or p.get("kind") not in ("bot", "question"):
+                    return ok(f"Note #{p['id']} isn't waiting for a decision ({p.get('status')}).")
+                humans = [t for t in p.get("thread", []) if t.get("who") in PEOPLE.values() and t.get("at", 0) >= p.get("created", 0)]
+                who_ = a.get("decided_by") if a.get("decided_by") in PEOPLE.values() else (humans[-1]["who"] if humans else None)
+                if not humans or not who_:
+                    return ok("No human has answered in this note yet: a decision is recorded only from what a human said.")
+                p["status"], p["decided_by"] = st, who_
+                p.setdefault("thread", []).append({"who": "Hub", "at": time.time(), "action": st,
+                                                   "text": f"Recorded: {who_} {'approved' if st == 'approved' else 'said no to'} this."})
+                if st == "approved" and p.get("bot"):
+                    await hub.make_live(p["bot"], who_, f"approved by {who_} in note #{p['id']}", tell=False)
+            elif st in ("planned", "running", "done", "blocked"):
                 p["status"] = st
             if a.get("summary"):
                 p["body"] = a["summary"][:8000]
@@ -2788,7 +3019,8 @@ class Clock:
 
     async def loop(self):
         while True:
-            for job in (self.tick, self.hub.expire_decisions, self.guard.tick, self.hub.watch_stalls):
+            for job in (self.tick, self.hub.expire_decisions, self.guard.tick, self.hub.watch_stalls,
+                        self.hub.watch_unanswered, self.hub.consistency_check):
                 try:
                     await asyncio.wait_for(job(), 120)
                 except Exception as e:  # noqa: BLE001   one failing job must not switch off the others
@@ -3538,6 +3770,15 @@ def make_app(hub: Hub) -> web.Application:
         if not text:
             return web.json_response({"error": "Type a message first."}, status=400)
         who = PEOPLE[hub.person]
+        if name.endswith("overview") and not hub.view_only:
+            done = await hub.chat_command(text, who)
+            if done:   # the hub did it itself: log both lines in the Chat the human wrote in
+                ov = hub.agents.get(name)
+                if ov:
+                    await ov.ov_log(who, text)
+                    await ov.ov_log("Hub", done)
+                    ov.pending_q = []
+                return web.json_response({"ok": True, "hub": done})
         if not name.endswith("overview"):
             await hub.human_item(f"to {name}: {text}")
         if name in hub.agents:
@@ -3643,11 +3884,13 @@ def make_app(hub: Hub) -> web.Application:
     async def start_event(req):
         if hub.bus.shared.get("schedule"):
             return web.json_response({"error": "The clock is already running. To change it, tell your Overseer the right time."}, status=400)
-        s = await hub.clock.set_start("", 6, hub.default_scale, t0=time.time())
-        ov = hub.overseer()
-        await ov.human("Start building: the variant is announced now (minute 0). Kick off the build-hour plan.",
-                       PEOPLE[hub.person])
+        s = await hub.start_now(PEOPLE[hub.person])
         return web.json_response({"ok": True, "text": s})
+
+    async def preflight_ep(req):
+        asyncio.create_task(hub.preflight(PEOPLE[hub.person]))
+        return web.json_response({"ok": True})
+    r.add_post("/api/preflight", preflight_ep)
 
     r.add_post("/api/props/{id}/ask", ask_prop)
 

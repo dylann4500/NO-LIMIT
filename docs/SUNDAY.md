@@ -38,8 +38,10 @@ curl -s -H "Authorization: Bearer $(cat ~/.config/no-limit-2026/api-key)" -A ava
 ```
    It should list a team, ideally including the Finals competition. If you have a new key for the
    Finals, save it in that file.
-5. **Both: run each hub once for a minute** on a phone hotspot, using the Sunday commands below. Open
-   http://127.0.0.1:7777: no red "Not linked" bar under the header means the laptops are linked. Then press Ctrl+C.
+5. **Both: run each hub once** on a phone hotspot, using the Sunday commands below. Open
+   http://127.0.0.1:7777 and press **Check everything works** (or type "run the check" in the Chat). Both
+   Chats list the results: the link, the portal (reading it, and downloading a hand file once a round exists),
+   Claude, Codex, the repo and its plan docs, disk space. Fix every ❌, then press Ctrl+C.
 6. **Decide who claims the $250 Codex credit** before either of you opens the link.
 
 ## Sunday morning, before minute 0
@@ -81,8 +83,8 @@ cd ~/NoLimit/NO-LIMIT
 | ~10 | Dylan | When the bell says "Upload v1.zip now": Live menu → click v1 to download it → upload it on the portal and make it **active**. The Live chip turns green when the portal runs it |
 | 20, 30, 40 | Dylan | Before each practice round a "Which bot?" note asks which style plays. Answer it; if a new bot goes live, the bell says "Upload … now": download it from the Live menu, upload, make active |
 | after practice 1 | Samuel | **Step 7 below:** give the watcher the hand-history link |
-| any time | Both | Read the bell. Greenlight or reject notes; click one to ask about it. Post ideas with + New idea |
-| 50-60 | Dylan | The best real-field scorer goes active for scored round 1. Your Overseer posts it as a Live bot note; greenlight, upload, make active |
+| any time | Both | Read the bell. Open notes waiting for you, read the red box and answer in words; ask anything first. Post ideas with + New idea |
+| 50-60 | Dylan | The best real-field scorer goes active for scored round 1. Your Overseer posts it as a "Which bot?" note; answer it, then upload and make active |
 
 ### Step 7 (Samuel, once): the hand-history link
 
@@ -105,7 +107,7 @@ The countdown strip shows the next step. The clock reminds each of you when a st
 | T-13 | Samuel | Results land. Read your Overseer's brief and new findings. Push back if something looks off |
 | T-12 | Dylan | If your Overseer says the challenger is ready: upload it and make it active (it plays the practice round) |
 | T-9 | Dylan | **Put the live bot back as active straight away** |
-| T-8 | Both | **Decide.** The green Live bot note is on the board. Greenlight, reject or suggest. Either of you can decide |
+| T-8 | Both | **Decide.** Open the "Which bot?" note, read what's being asked, answer in words ("yes, use v13" / "no, keep v8"). Either of you can decide |
 | T-5 | | No decision means the live bot plays; nothing to upload |
 | T-3 | Dylan | Upload the greenlit bot (exactly the file named on the note, e.g. `releases/v4.zip`), make it active, check the team page |
 

@@ -99,7 +99,7 @@ with a one-sentence, plain-English headline. The note's colour and label say wha
 At the top of the board, **Now** shows the stage, which bot the portal is running, decisions waiting for you,
 and what every agent on both laptops is doing at this moment. Each note shows its progress (e.g. Data ✓ ·
 Numbers ✓ · Angles 2/3 · Checked · Summary), its key number (e.g. 3rd of 3 · 27.75 pts/table), who is on it,
-and a green pulse while it is being updated. The board has three rows: **Needs your call** (big notes with Greenlight / Reject on them),
+and a green pulse while it is being updated. The board has three rows: **Needs your call** (notes waiting for your answer: open one to read and answer it),
 **Being worked on** (with a **+ New idea** note to post your own) and **Recent**.
 To tidy up, hover a note and click the small **x** in its corner (or **Remove** inside it), or press **Clear finished** next
 to Recent. Removing a note that's still being worked on tells the agents to stop work on it; it's gone
@@ -110,7 +110,9 @@ written fresh when you open it (about 10 seconds), in plain language: where it s
 how sure we are), what's running, what's next, and what we need from you. Below are the conversation and a
 folded activity log. Ask anything ("why?", "how sure are you?") or give an instruction ("try it at 30bb
 instead"): it goes to the Overseer, which hands it to the right agent and answers there. If it's your call,
-the Greenlight and Reject buttons are there too, and anything you type counts as "do this instead".
+a red box at the top says what you're being asked and by when. There are no Greenlight buttons: answer in your
+own words ("yes, use v13", "no, keep v8 because…"). The Overseer records the decision only when your answer is
+clear, and asks back if it isn't, so you never approve something you haven't understood.
 
 **Chat** (docked on the right of the board; the header button shows or hides it) is your main conversation, and
 together with the board it is all you need on the day. Tell it when the competition starts ("the competition
@@ -181,12 +183,12 @@ Samuel's things are marked indigo, Dylan's rose.
   laptops) to the Overseer. Your instructions go to the top of every agent's context.
 - **Post ideas** on the board → + New idea. Your Overseer plans them, runs them and posts the result back
   on the note. Your ideas come before its own plans.
-- **Greenlight, reject or redirect.** Agents can't act on their own analysis:
+- **Answer, refuse or redirect, in words.** Agents can't act on their own analysis:
   - every **finding** goes on the board for you to see;
-  - every **proposed change** and every **live-bot decision** waits for a greenlight;
-  - "Suggest instead" sends your alternative back as an instruction.
+  - every **proposed change** and every **live-bot decision** waits for your answer in its note;
+  - anything else you type there is an instruction ("try v12 instead").
 
-  Live-bot decisions can be greenlit by either of you. Other notes say whose call they are.
+  Live-bot decisions can be answered by either of you. Other notes say whose call they are.
 - **Defaults keep things moving.** If nobody answers a live-bot decision by T-5, the pre-registered rule's
   answer plays (the challenger if it cleared the bar, else the live bot). If
   nobody answers a permission request in 3 minutes, it's refused and the agent finds another way.

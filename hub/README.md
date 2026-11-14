@@ -54,8 +54,8 @@ Ctrl+C stops it.
   Recent.
 - **Click a note:** a side panel with details, evidence and a chat. What you type goes to the note
   author's Overseer (`/api/props/{id}/ask`), which routes it and answers in the chat with
-  `update_proposal(note=...)`. If it's your call, Greenlight / Reject are there and typed text is a
-  "do this instead".
+  `update_proposal(note=...)`. If it's your call, a red box says what's asked; you answer in words and the
+  Overseer records `update_proposal(status=approved|rejected, decided_by=...)` only from a clear human answer.
 - **Start building** (before minute 0): starts the shared clock now (`/api/start`) and tells the
   Overseer to begin; both Overseers then dispatch work at each minute from the `DISPATCH` table in
   `hub.py` and check the `CHECKPOINTS` list (behind schedule → optional work is skipped).

@@ -197,14 +197,28 @@ async def main():
         async with s.post(S + "/api/start", data="x", headers={"Content-Type": "text/plain"}) as r:
             check("S7b", "non-JSON POSTs refused (403)", r.status == 403)
 
-        # C1: start building on Samuel's laptop; Dylan's laptop gets the clock
-        c, d, _ = await api(s, S, "POST", "/api/start", {})
-        check("C1a", "Start building accepted", c == 200, json.dumps(d))
+        # PF: "run the check" in the Chat runs the pre-flight on both laptops, results in both Chats
+        c, d, _ = await api(s, S, "POST", "/api/agents/s-overview/send", {"text": "run the check"})
+        async def pf(base, ovn):
+            return next((t for t in (await state(base)).get("overviews", {}).get(ovn, []) if "Pre-flight check" in str(t.get("text"))), None)
+        pfs = await wait_for(lambda: pf(S, "s-overview"), 150, 3)
+        check("PF1", "pre-flight results in Samuel's Chat", bool(pfs), (pfs or {}).get("text", "")[:300])
+        check("PF2", "pre-flight reads the portal", bool(pfs) and "✅ **Portal: read access" in pfs["text"], (pfs or {}).get("text", "")[:600])
+        check("PF3", "pre-flight also ran on Dylan's laptop", bool(await wait_for(lambda: pf(D, "d-overview"), 150, 3)))
+        print("      " + ((pfs or {}).get("text", "") or "").replace("\n", "\n      ")[:1500])
+
+        # C1: telling the Chat "the competition starts now" starts the clock (the hub does it, no model needed)
+        c, d, _ = await api(s, S, "POST", "/api/agents/s-overview/send", {"text": "the competition starts now"})
+        check("C1a", "'the competition starts now' in the Chat starts the clock", c == 200 and "Clock started" in json.dumps(d), json.dumps(d))
         async def dsched():
             return (await state(D)).get("schedule")
         check("C1", "clock reaches Dylan's laptop", bool(await wait_for(dsched, 30)))
         c, d, _ = await api(s, D, "POST", "/api/start", {})
         check("C1b", "second Start is refused (clock already running)", c == 400)
+        t0_before = (await state(S))["schedule"]["start"]
+        await api(s, S, "POST", "/api/agents/s-overview/send", {"text": "ok it's starting now, go!"})
+        await asyncio.sleep(3)
+        check("C1c", "a vague 'it's starting now' doesn't move a running clock", (await state(S))["schedule"]["start"] == t0_before)
         x = await state(S)
         check("C4", "stage is Build at minute 0", x.get("stage") == "Build", x.get("stage"))
 
@@ -394,6 +408,12 @@ async def main():
             return any("clock looks off" in str(t.get("text")) for t in (await state(base)).get("overviews", {}).get(ovn, []))
         check("C10a", "clock drift vs the portal is flagged in Samuel's Chat", bool(await wait_for(lambda: drift_told(S, "s-overview"), 120, 5)))
         check("C10b", "… and in Dylan's Chat", bool(await wait_for(lambda: drift_told(D, "d-overview"), 60, 3)))
+
+        # H7: a Chat message nobody answers is raised again with the Chat after 150 s (agents are off here)
+        await api(s, S, "POST", "/api/agents/s-overview/send", {"text": "what is the live bot doing right now?"})
+        await asyncio.sleep(170)
+        check("H7", "an unanswered Chat message is re-raised with the Chat",
+              any("haven't answered" in i.get("text", "") for i in inbox("s-overview")))
 
         # S5 view-only preview
         vo = subprocess.Popen([sys.executable, str(HUB / "hub.py"), "--person", "samuel", "--repo", str(out / "repo-s"),

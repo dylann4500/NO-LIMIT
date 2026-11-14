@@ -220,6 +220,8 @@ button:active:not(:disabled) { transform: scale(.97); }
 .lbl { font-size: .74rem; border-radius: 999px; padding: 1px 10px; background: var(--hover); color: var(--muted); white-space: nowrap; }
 .lbl.working { background: var(--ok-soft); color: var(--ok); } .lbl.waiting, .lbl.blocked { background: var(--warn-soft); color: var(--warn); } .lbl.error, .lbl.limited { background: var(--bad-soft); color: var(--bad); }
 .tbtn { background: none; border: 1px solid var(--line); border-radius: 8px; padding: 3px 10px; color: var(--muted); font-size: .8rem; }
+.cv-ask { border: 2px solid var(--bad, #b91c1c); border-radius: 14px; padding: 12px 16px; margin-bottom: 14px; background: var(--panel); }
+.cv-ask b { color: var(--bad, #b91c1c); } .cv-ask p { margin: 6px 0 0; }
 .fold-btn { text-transform: none; letter-spacing: 0; margin-left: 10px; font: 600 .8rem var(--sans, inherit); color: var(--fg); background: var(--panel); vertical-align: middle; cursor: pointer; }
 .fold-btn:hover { border-color: var(--fg); }
 .tbtn.on { color: var(--fg); background: var(--panel); border-color: var(--ink, var(--muted)); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
@@ -324,7 +326,7 @@ function clockHtml() {
 function bellHtml() { const nd = needs(); const urgent = nd.some((x) => x.urgent || x.type === "ap"); return `<button class="bell ${nd.length ? "has" : ""} ${urgent ? "urgent" : ""}" id="bell" aria-label="Needs you">${BELL}${nd.length ? `<span class="n">${nd.length}</span>` : ""}</button>`; }
 function needHtml(x, compact) {
   if (x.type === "ap") return `<div class="need"><span class="who2">${pdot(x.agent)} ${esc(titleOf(x.agent))}</span> wants to run ${esc(x.tool)}${x.risky ? " <b style='color:var(--bad)'>(risky)</b>" : ""}<code>${esc(x.input)}</code><div class="nacts"><button class="mini go" data-ap="${esc(x.id)}" data-d="allow">Allow</button>${x.risky ? "" : `<button class="mini" data-ap="${esc(x.id)}" data-d="always">Always</button>`}<button class="mini no" data-ap="${esc(x.id)}" data-d="deny">Deny</button></div></div>`;
-  if (x.type === "pc") return `<div class="need"><b>${esc(NOTE[x.kind] || x.kind)}</b> · your call${x.deadline ? " by " + hhmm(x.deadline) : ""}<div class="txt">${esc(cardTitle(x))}</div><div class="nacts"><button class="mini go" data-pa="approve" data-pid="${esc(x.id)}">Greenlight</button><button class="mini no" data-pa="reject" data-pid="${esc(x.id)}">Reject</button><button class="mini" data-open="${esc(x.id)}">Open</button></div></div>`;
+  if (x.type === "pc") return `<div class="need"><b>${esc(NOTE[x.kind] || x.kind)}</b> · your call${x.deadline ? " by " + hhmm(x.deadline) : ""}<div class="txt">${esc(cardTitle(x))}</div><div class="nacts"><button class="mini go" data-open="${esc(x.id)}">Open and answer</button></div></div>`;
   return `<div class="need"><span class="who2">${pdot(x.agent)} ${esc(titleOf(x.agent))}</span> · ${hhmm(x.at)}${x.urgent ? " · <b style='color:var(--bad)'>urgent</b>" : ""}<div class="txt md">${md(x.text)}</div>${compact ? "" : `<div class="nacts"><button class="mini" data-dis="${esc(x.id)}">Done</button></div>`}</div>`;
 }
 function panelHtml() {
@@ -434,12 +436,12 @@ function noteHtml(p, big) {
     ${["build", "live", "analysis"].includes(kindOf(p)) && gist(p) ? `<div class="gist">${esc(gist(p))}</div>` : ""}
     ${SIMPLE_NOTES ? "" : noteOnIt(p)}
     ${subHtml}
-    ${call ? `<div class="acts"><button class="go" data-pa="approve" data-pid="${esc(p.id)}">${p.bot ? "Use it" : "Greenlight"}</button><button class="no" data-pa="reject" data-pid="${esc(p.id)}">${p.bot ? "Not now" : "Reject"}</button></div>` : ""}
+    ${call ? `<div class="acts"><span class="hint" style="font-weight:600">Open to read it and answer →</span></div>` : ""}
   </div>`;
 }
 function boardHtml() {
   const ps = props(), sch = S.st.schedule, cur = S.st.stage;
-  const hero = sch ? "" : `<div class="hero"><div style="flex:1;min-width:260px"><h1>Ready when you are</h1><p>When the competition starts, tell the <b>Chat</b> on the right (“the competition starts now”, or the announcement time). That sets the clock on both laptops and starts the Overseer with the whole game plan. Notes appear here as each part of the day happens. The button does the same thing.</p></div><button class="bigbtn" id="startBtn">Start building</button><div><input id="schin" placeholder="HH:MM"> <button class="mini" id="schgo">Set time</button></div></div>`;
+  const hero = sch ? "" : `<div class="hero"><div style="flex:1;min-width:260px"><h1>Ready when you are</h1><p>When the competition starts, tell the <b>Chat</b> on the right (“the competition starts now”, or the announcement time). That sets the clock on both laptops and starts the Overseer with the whole game plan. Notes appear here as each part of the day happens. The button does the same thing.</p></div><button class="mini" id="preflightBtn" title="Tests the link, the portal (reading and a hand-history download), Claude, Codex, the repo and disk, on both laptops">Check everything works</button><button class="bigbtn" id="startBtn">Start building</button><div><input id="schin" placeholder="HH:MM"> <button class="mini" id="schgo">Set time</button></div></div>`;
   const call = ps.filter((p) => p.status === "needs_call" && myCall(p)).sort((a, b) => (a.deadline || 9e12) - (b.deadline || 9e12));
   const newNote = `<div class="note newnote" style="--rot:0deg">${S.ideaOpen ? `<textarea id="ideaBody" placeholder="An idea to try, or a question for the agents…"></textarea><div class="row"><span class="hint" id="ideaHint" style="flex:1"></span><button class="mini" id="ideaX">Cancel</button><button class="mini go" id="ideaGo">Post</button></div>` : `<button class="big" id="ideaOpen" style="border:0;background:none;color:inherit;height:100%;width:100%">＋ New idea<br><span style="font-weight:400;font-size:.8rem">Ask a question or suggest something to try</span></button>`}</div>`;
   const stages = {}; ps.forEach((p) => { const st = p.stage || "Earlier"; (stages[st] = stages[st] || []).push(p); });
@@ -480,6 +482,9 @@ function drawerHtml() {
       <div class="cv-title">${esc(cardTitle(p))}</div>
       <div class="cv-tools"><button class="tbtn" data-rm="${esc(p.id)}">Close note</button><button class="tbtn" id="cardX" aria-label="Back to the board">✕</button></div></div>
     <div class="cv-body"><div class="cv-col">
+      ${call ? `<div class="cv-ask"><b>We need your answer${p.deadline ? ` by ${hhmm(p.deadline)} (<span data-dl="${p.deadline}">${mmss(p.deadline - Date.now() / 1000)}</span> left)` : ""}</b>
+        <p>${p.bot ? `Should <b>${esc(bname(p.bot))}</b> play${p.stage ? " after " + esc(p.stage) : ""}? ` : ""}${esc(p.headline || p.title || "")}</p>
+        <p class="hint">Read "What's going on" below: it says what's being decided, the evidence, and what each answer means. Then reply below, e.g. ${p.bot ? `"yes, use ${esc(bname(p.bot))}" or "no, keep the live bot because…"` : `"yes, go ahead" or "no, because…"`}. Nothing is decided until you answer clearly${p.deadline ? "; with no answer by the deadline, the pre-registered rule decides" : ""}.</p></div>` : ""}
       <div class="cv-report"><div class="cv-rh"><span>What's going on</span><span class="hint">${busy ? "Writing a fresh update…" : rep ? "Updated " + hhmm(rep.at) : ""}</span><button class="tbtn" id="repGo" ${busy ? "disabled" : ""}>${rep ? "Refresh" : "Write it"}</button></div>
         <div class="a md">${rep ? md(rep.text) : busy ? `<p style="color:var(--muted)">Asking the agents…</p>` : `<p style="color:var(--muted)">No update written yet.</p>`}</div></div>
       ${p.body ? `<details class="cv-sum" ${k === "analysis" ? "open" : ""}><summary>${k === "analysis" ? "The Overseer's summary and suggestions" : "Details"}${p.body_at ? ` <small class="hint">as of ${new Date(p.body_at * 1000).toTimeString().slice(0, 5)}${(p.updated || 0) - p.body_at > 300 ? " · newer updates below" : ""}</small>` : ""}</summary><div class="md">${md(p.body)}</div></details>` : ""}
@@ -487,10 +492,10 @@ function drawerHtml() {
       ${log.length ? `<details class="cv-log"><summary>Activity log · ${log.length}</summary>${log.map((t) => `<div class="cv-lr"><b>${hhmm(t.at)}</b> ${esc(t.who)}: <span class="md">${md(t.text)}</span></div>`).join("")}</details>` : ""}
     </div></div>
     <div class="cv-ft"><div class="cv-col">
-      ${call ? `<div class="acts"><button class="go" data-pa="approve" data-pid="${esc(p.id)}">${p.bot ? "Use " + esc(bname(p.bot)) : "Greenlight"}</button><button class="no" data-pa="reject" data-pid="${esc(p.id)}">${p.bot ? "Not now" : "Reject"}</button><span class="hint">or type a different instruction below</span></div>` : ""}
+      ${call ? `<div class="acts"><span class="hint">Answer in your own words below. Ask first if anything is unclear.</span></div>` : ""}
       ${p.bot ? `<div class="acts"><button class="mini" data-dlbot="${esc(bname(p.bot))}">Download ${esc(bname(p.bot))}.zip</button><span class="hint" id="dlHint"></span></div>` : ""}
       <div class="chips">${chips.map((c) => `<button data-chip="${esc(c)}">${esc(c)}</button>`).join("")}</div>
-      <form id="cardForm" class="box"><textarea id="cardTa" rows="1" placeholder="${call ? "Suggest something else, or ask why…" : "Ask a question or steer the work…"}"></textarea><div class="row"><span class="hint" id="cardHint">Enter to send · goes to the Overseer</span><button class="send" id="cardSend" aria-label="Send">↑</button></div></form>
+      <form id="cardForm" class="box"><textarea id="cardTa" rows="1" placeholder="${call ? (p.bot ? `Your answer, e.g. "yes, use ${esc(bname(p.bot))}" or "no, because…", or a question first` : "Your answer, or a question first…") : "Ask a question or steer the work…"}"></textarea><div class="row"><span class="hint" id="cardHint">Enter to send · goes to the Overseer</span><button class="send" id="cardSend" aria-label="Send">↑</button></div></form>
     </div></div></div>`;
 }
 const bname = (f) => String(f || "").split("/").pop().replace(/\.zip$/, "").replace(/\s*\(\d+\)$/, "");
@@ -732,6 +737,7 @@ function wire(a) {
   $("#cvBack")?.addEventListener("click", () => { S.card = null; render(); });
   $("#repGo")?.addEventListener("click", () => makeReport(S.card));
   $("#cardX")?.addEventListener("click", () => { S.card = null; render(); });
+  $("#preflightBtn")?.addEventListener("click", async () => { $("#preflightBtn").disabled = true; $("#preflightBtn").textContent = "Checking… (results in the Chat)"; await api("/api/preflight", {}); });
   $("#startBtn")?.addEventListener("click", async () => { $("#startBtn").disabled = true; $("#startBtn").textContent = "Starting…"; const r = await api("/api/start", {}); if (r.error) $("#startBtn").textContent = r.error; refresh(); });
   $("#schin")?.addEventListener("keydown", (e) => { if (e.key === "Enter") $("#schgo").click(); });
   $("#schgo")?.addEventListener("click", async () => { const r = await api("/api/schedule", { start: $("#schin").value }); if (r.error) $("#schin").style.borderColor = "var(--bad)"; else { $("#schin").blur(); refresh(); } });
