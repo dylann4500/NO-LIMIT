@@ -212,9 +212,12 @@ the guard's decisions, run directly; the kit download and Python build (31 secon
 `~/avalon-rehearsal` exists (the bundle at `4a3f85f` minus `prep/`, its own local git repo) and passes the quick
 suite; the rehearsal portal's key file is in place.
 
-**Still open from section 5.** The rest of step 2 needs Dylan at the keyboard: trust and `/permissions`, the guard
-from inside a session and a subagent, background subagents, concurrency, and a repeat in terminal sessions if
-Sunday runs in terminal tabs. Step 3, the rehearsal. Step 6, the Sunday repo.
+Also done since, in a desktop-app session inside the rehearsal clone: the guard from a session and from a subagent,
+background subagents, continuing one, and the raised subagent limit from the settings' `env` block (24 at once).
+
+**Still open from section 5.** Of step 2, only a repeat in terminal `claude` sessions (with the trust question and
+`/permissions`) if Sunday runs in terminal tabs, and two people typing into one session through Remote Control.
+Step 3, the rehearsal. Step 6, the Sunday repo.
 
 **Research merged since** (`finals_pack/notes/pre/`): `field.md` and `contrarian.md`. They found that the bundle
 gave 50/30/20 as the prizes; the prizes are $100,000 / $50,000 / $25,000 (corrected in `CLAUDE.md` and

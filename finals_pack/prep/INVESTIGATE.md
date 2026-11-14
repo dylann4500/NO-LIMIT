@@ -86,15 +86,26 @@ in bypass-permissions mode (Claude Code 2.1.321), not terminal sessions:
 - **Subagents.** Background subagents report back by themselves (a main session kept working while 20 ran). The
   limit is real: with 24 spawned in one message and the variable unset, 20 ran and the 21st failed at once with
   "Concurrent subagent limit reached. You can run 20 subagents at once"; later spawns succeeded as slots freed.
-  The bundle's `.claude/settings.json` now sets `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40` in `env` (not yet
-  verified to take effect in a desktop-app session).
+  The bundle's `.claude/settings.json` now sets `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40` in `env`, and it takes
+  effect in a desktop-app session, even when added while the session runs: with it, 24 subagents were running at
+  the same moment with no refusal.
 - **Cost of a subagent.** Each trivial subagent here (one shell command) used about 56,000 tokens: its start-up
   context, most of it tools, connectors and skills of this laptop's Claude account. With 40 subagents per session
   that is the main lever on speed and usage: before Sunday, switch off the connectors the Finals sessions don't
   need.
-- **Still to do, with Dylan at the keyboard:** trust the folder and look at `/permissions`; the guard from inside
-  a trusted session and from a subagent; that the `env` setting raises the limit; and all of the above once more
-  in a terminal `claude` session if Sunday runs in terminal tabs.
+- **Inside a session in the rehearsal clone** (a desktop-app session, bypass-permissions mode, 05:46-05:50): all
+  eight checks passed. The guard refused `pkill -f ...` and `rm -rf ~/...` with its own messages, in the main
+  session and in a subagent, and nothing stopped to ask for permission. `sleep 60` is refused by Claude Code
+  itself before the guard sees it (the guard's rule still catches what Claude Code lets through, such as
+  `sleep 25` and sleep loops). Three background subagents returned at once and reported by themselves while the
+  session ran its own command; a finished one, continued with a message, still knew its earlier answer. The
+  Monitor on `feed.py research` delivered a `say.py` line (read by `feed.py` in 0.6 s; the session saw it at its
+  next tool call, 6 s later, because it was mid-turn). `ListAgents` showed the lead session by name and a
+  `SendMessage` to it arrived. The guard also refused `rm -rf inbox/ state/` as whole shared folders, which is
+  right for the day.
+- **Still to do, with Dylan at the keyboard:** all of the above once more in a terminal `claude` session if
+  Sunday runs in terminal tabs (trust the folder first and look at `/permissions`); two people typing into one
+  session through Remote Control.
 
 ## 3. Build-hour throughput (where most of the outcome is set)
 
