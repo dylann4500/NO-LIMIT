@@ -128,7 +128,9 @@ nothing else: in a timed run the base ignored three of theory's tables for 7 min
 **Releases:** checks 1-2 and the upload test on the exact zip, always (hard rule). A bot plays a scored round only with
 a `tester` verdict that includes a heads-up run (RESEARCH spawns one tester per release); the verdict of record is the tester's own file
 `rig/out/verdict-vN.md`, which you never copy: the VERSIONS line says "tester: pending" until that file exists and
-"tester: rig/out/verdict-vN.md" from your next commit after it does. Name = the next free vN in `releases/VERSIONS.md`; pack only the bot. The zips are git-ignored and
+"tester: rig/out/verdict-vN.md" from your next commit after it does. Name = the next free vN in `releases/VERSIONS.md`, or the number BUILDER's brief gives when more than one platform run
+can release (two runs once appended v9 and v10 at the same moment); a release replaced before anyone reviewed it
+keeps its line, marked "superseded by vN before review"; pack only the bot. The zips are git-ignored and
 stay on this laptop: commit with explicit paths (`git add bot/ candidates/<folders used>`), then add the VERSIONS.md
 line (format at its top) with that commit's sha and the zip's sha256 (`shasum -a 256 releases/vN.zip`) and commit it
 too (`git add releases/VERSIONS.md`); never `git add` a zip, never `git add -A`, stash, `checkout -- .`, `restore .`,
