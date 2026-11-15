@@ -92,7 +92,8 @@ confirm it.
 5. The organizers' portal is read-only for agents. Only Dylan uploads.
 6. **Never kill processes by name or pattern** (`pkill`, `killall`, `pgrep | xargs kill`): every Claude process's
    command line contains these instructions, so a pattern like `pkill -f "modal run"` kills every agent. Stop only
-   what you started, by PID (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`; later `kill $(cat /tmp/<job>.pid)`) or
+   what you started, by PID (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`; later `kill $(cat /tmp/<job>.pid)`; put your role and target in
+   `<job>`, as in `/tmp/tester-v7-mix.pid`: every agent of a session shares `/tmp` and the scratchpad) or
    `modal app stop --yes <id>` (without `--yes` it asks for confirmation and aborts when there is no terminal). A hook
    refuses pattern kills. The same hook refuses recursive deletes outside the repo and `/tmp` (or of a whole shared
    folder), `git stash`, `git reset --hard`, `git clean -f`, force pushes, `sudo`, Modal deletes and any write to the
