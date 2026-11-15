@@ -127,8 +127,10 @@ alternatives alive and re-choose as results come in.
 for today raises a PLAN CHALLENGE: a subagent reports it at once to the session that spawned it, and that session
 tells the other one (`SendMessage` to BUILDER or RESEARCH, and `say.py --record`). Both sessions put it to their
 human at once, in plain words. RESEARCH records it once in `state/decisions.md` (one challenge, one entry; BUILDER
-adds its view to that entry, never a second one). By default BUILDER has `challenger` build the alternative and the
-next practice round judges it. A challenge never waits for the next scheduled step, and never skips a hard rule or a
+adds its view to that entry, never a second one). By default BUILDER has `challenger` build the alternative for the
+next practice round it can be released for (released by T-15 of that window; a challenge raised later targets the
+practice after). BUILDER redirects the running `challenger` to it unless a human says to keep both lines. Nothing from a
+challenge enters this window's live bot unless it is already a validated `one-change` line with a tested build by T-8. A challenge never waits for the next scheduled step, and never skips a hard rule or a
 test.
 
 **Uploads.** `state/live.json` (set only by the BUILDER session, with `scripts/live.py`) is the bot that should be

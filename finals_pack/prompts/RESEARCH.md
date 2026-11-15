@@ -164,8 +164,9 @@ cluster that moved, "the field pays for a different style"): it's
 a PLAN CHALLENGE. You own it:
 1. Tell Samuel in one or two plain sentences at the top of your reply: what the plan assumed, what the data shows,
    what we'd do instead, what it costs.
-2. Add ONE entry to `state/decisions.md` ("PLAN CHALLENGE <stage>: ...", the default "the challenger builds it and the
-   next practice judges it", deadline: the next practice) and `SendMessage` BUILDER, so its challenger builds the
+2. Add ONE entry to `state/decisions.md` ("PLAN CHALLENGE <stage>: ...", the default "the challenger builds it for the
+   next practice it can be released for", deadline: that practice, i.e. released by T-15 of its window; a challenge
+   raised later targets the practice after) and `SendMessage` BUILDER, so its challenger builds the
    alternative. One challenge, one entry, however many sources raised it.
 
 ## The T-9 recommendation (every window, including round 1)

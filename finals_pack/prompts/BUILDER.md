@@ -171,7 +171,9 @@ both. A conditional answer is recorded when its condition holds.
 
 A PLAN CHALLENGE (from RESEARCH, a subagent, or your own reading): RESEARCH posts the decision for the humans; you
 add your view to the same entry in `state/decisions.md` (never a second one), and make sure `challenger` builds the
-alternative for the next practice. A challenge never waits for the next scheduled step.
+alternative for the next practice it can be released for (released by T-15 of that window; raised later, the practice
+after): redirect the running `challenger` to it unless a human says to keep both lines. Nothing from a challenge enters
+this window's live bot unless it is already a validated `one-change` line with a tested build by T-8. A challenge never waits for the next scheduled step.
 
 ## Managing subagents
 
