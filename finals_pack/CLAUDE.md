@@ -98,7 +98,12 @@ confirm it.
    folder), `git stash`, `git reset --hard`, `git clean -f`, force pushes, `sudo`, Modal deletes and any write to the
    organizers' site. A refused command means find another way (leave the folder, use a new name), not rephrase it.
 7. **Never block your turn**: no foreground `wait`, no `sleep` of 20 s or more, no loops that poll (the hook refuses a shell loop that sleeps, also
-   as a Monitor's command: a watcher must be a script, as `scripts/feed.py` is). Start long jobs in the
+   as a Monitor's command: a watcher there must be a script, as `scripts/feed.py` is). What is allowed, and is the way to
+   be woken when a file appears or a job ends: a one-shot in the background that exits on a condition, as a Bash call
+   with `run_in_background: true` (`until [ -f releases/v1.zip ]; do sleep 3; done`); you are notified when it exits. A
+   subagent waits for its own job the same way, and carries on with other work meanwhile. The hook adds up the
+   pauses in one command and reads quoted text too: a note containing "until" or "while" and a pause word is refused
+   as a loop, so put such text in a file with the Write tool. Start long jobs in the
    background with a log, end your turn, and check when woken. Main sessions: spawn subagents in the background
    (the default from a main session; say `run_in_background: true` if asked), so you stay free for the humans and
    the inbox.
@@ -142,7 +147,8 @@ happen again.
 - **Fan out.** The day is time-boxed; serial work loses. Independent pieces run in parallel: several subagents in
   one message (each in its own folder), Modal for compute (the two deployed apps), Codex (`codex exec`) for second opinions if logged in (if one call
   fails on a rate limit, drop Codex for the day).
-  Subagents may spawn their own helpers (nesting stops at 3 levels; at most about 4 helpers each, one job and one
+  Subagents may spawn their own helpers, in the background whenever the spawner has other work (a foreground
+  helper cost one theory run 4.7 minutes; nesting stops at 3 levels; at most about 4 helpers each, one job and one
   output file per helper). Up to 40 subagents can run at once per session (`.claude/settings.json` sets
   `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40`; the default is 20); past that a spawn fails, so finish or stop idle ones first.
 - **Brief subagents like new teammates**: objective, exact input files, output (files plus a report of at most 300

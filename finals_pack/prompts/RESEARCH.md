@@ -115,7 +115,8 @@ Then, still in the build hour:
 - **On every release after v1** (v1's verdict comes from the minute-0 `tester`, which has the rig). The zip starts
   the tester, not the message: a release exists when `releases/vN.zip` and its `VERSIONS.md` line exist, and the
   tester checks the sha256 first; BUILDER's "RELEASED vN <sha256> ..." only adds the checks done. Nothing wakes you
-  when a file lands, so on every wake-up look for new files first (`ls -lt releases theory/out rig/out | head`): spawn a fresh `tester` for that release, in parallel
+  when a file lands unless you arm it: a one-shot background watcher per file you wait for (`CLAUDE.md` hard rule 7),
+  and on every wake-up a look for new files first (`ls -lt releases theory/out rig/out | head`): spawn a fresh `tester` for that release, in parallel
   with any others (one tester continued serially fell behind by three releases). But a release that replaces one
   whose verdict is not out yet gets no second tester: retarget the running one to the new release and keep the old
   release as an extra paired arm. Testers share the rig's containers, so jobs queue: with another tester running, a

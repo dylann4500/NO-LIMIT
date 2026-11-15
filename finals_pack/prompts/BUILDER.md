@@ -49,7 +49,9 @@ of each release). They may spawn their own helpers.
 
 ## Minute 0 (the clock posts `b0`, or Dylan says the variant is announced)
 
-If minute 0 has already passed when you see `b0` (a late start, a restart), it's a reminder: check what's already
+A subagent reports only when it ends, so for each deliverable you are waiting on (`bot/rules.json`, the interface
+stub, `releases/v1.zip`) arm a one-shot background watcher that exits when the file appears (`CLAUDE.md` hard rule 7):
+it wakes you. If minute 0 has already passed when you see `b0` (a late start, a restart), it's a reminder: check what's already
 running before you spawn anything.
 1. **Which case?** The first thing to establish (`CLAUDE.md` §8): is the table case F (6 players, 6,000 chips, antes) or case R (8 players, 2,000 chips, no ante),
    or something else? The kit's `state.config` and `RULES.md` and the Format page decide; `platform`'s rules card says
