@@ -76,7 +76,8 @@ names the profile it depends on); result `drift:<team>:<k>` (JS, Δaccuracy, n).
   "unknown", and the seat's open and 3-bet rates at this table are inside the team's 90% range.
 - **Bounded loss** (data-biased response, Johanson & Bowling 2009): each counter moves a decision parameter by
   at most δ_max × min(1, n_spot / n_full); δ_max starts at a 10-point frequency shift.
-- **Measured:** a table-hash arm: 50% of practice tables with counters on, a 15% off arm in scored rounds;
+- **Measured:** a table-hash arm in practice rounds only (50% of practice tables with counters on). In a scored round
+  tables with counters switched off are kept only for a new counter nobody has validated, with the reason written down;
   compare the change in equity per hand where a counter would fire (far less noisy than points per table).
 
 ## 4. Opponents adapting within a table
