@@ -154,7 +154,9 @@ happen again.
   and the session checks `uptime` before any timing test and whenever it adds an agent; Monte Carlo or
   match runs longer than about a minute of CPU go to Modal (one app per purpose). A timing or upload test counts only
   if `uptime` shows load below the core count AND the kit's `check_or_fold` example runs in the same minute as a
-  baseline; otherwise say "inconclusive: machine loaded" and re-run.
+  baseline; otherwise say "inconclusive: machine loaded" and re-run. On this Mac a script that starts a process
+  pool needs an `if __name__ == "__main__":` guard (without it, it forks in a loop), and there is no `timeout`
+  command: cap a job inside Python or stop it by its PID.
 - **Silent fallbacks are bugs.** Every loader, packer, setting and table lookup fails loudly on a mismatch (unknown
   setting names, missing keys, a dropped file, a zip that wasn't overwritten). A speedrun had five silent fallbacks
   in 20 minutes, each switching off a feature without a sound.
