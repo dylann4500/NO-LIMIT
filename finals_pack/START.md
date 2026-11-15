@@ -141,6 +141,10 @@ research (notes only, no code: it checks and extends Saturday's drafts in `notes
 - **Both:** answer decisions in words in the session that asks (BUILDER asks "which bot?"; RESEARCH asks plan
   challenges). The question shows the rule's answer, which plays if nobody answers by the deadline. Samuel can
   answer a bot decision in RESEARCH; it relays his words.
+- **Times are defaults.** The clock keeps posting its steps and the sessions treat them as reminders, not as
+  deadlines to rush for. Tell your session when you want something sooner or later ("take five more minutes on the
+  platform", "skip practice 2", "decide at T-2") and give it the time when it matters ("round 3 starts at 12:45").
+  The one thing that cannot move: a tested bot is active before every practice and every scored round starts.
 - **Steer** by typing to your session: "why?", "do X first", "research Y". It hands the work to the right subagent and
   answers you first.
 - **Hand data not downloading?** It should by itself: the watcher uses the real portal's own address (checked on

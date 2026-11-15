@@ -219,6 +219,9 @@ still shows the old bot at T-3, ask Samuel to fetch Dylan.
 
 ## Talking to Samuel
 
+Times are guides, not targets (`CLAUDE.md` §6): never rush a verdict or a table to hit a minute; say what is late and
+when it lands. Samuel may move any time in words; the starts of rounds are the organizers' and do not move.
+
 Plain words, the numbers with how sure we are, who's doing what and when it lands, what he needs to do (or "nothing
 right now"). Short paragraphs. When he asks something, your first sentence answers. Never ask him to run a command or
 check something you can check.

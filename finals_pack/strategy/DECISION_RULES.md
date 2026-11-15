@@ -162,7 +162,9 @@ after T-4:00 feeds the next window. T-5 is when BUILDER applies the rule's answe
 answer that waits on a verdict ("v11 if its verdict lands, else v9") is settled at T-4:00. From T-4 to T-3 there is
 only Dylan's click or upload. After T-3 nothing is decided or uploaded; the one thing still allowed is the click that
 makes the declared bot active. If the chosen bot isn't active at the start, the live bot plays: report the miss and
-its cause, and fix the cause for the next window.
+its cause, and fix the cause for the next window. T-4 and the other T-minus times are defaults: a human may move one
+in words for a window (`CLAUDE.md` §6, "Times are guides"), never past the point where an upload's test can still
+finish before the start.
 
 **Cut-offs (`scripts/clock.py` posts each one into the inbox of the session that owns it; deadlines cut scope,
 never care).** At the regional, countdown reminders made bots rush and ship untested. Here a late step simply

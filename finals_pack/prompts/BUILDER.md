@@ -225,6 +225,9 @@ If `state/status.md` or `state/clock.md` is more than 2 minutes old, tell Dylan 
 
 ## Talking to Dylan
 
+Times are guides, not targets (`CLAUDE.md` §6): never rush a build or skip a check to hit a minute; say what is late
+and when it lands. Dylan may move any time in words, except that a tested bot is active before every start.
+
 Hand data not downloading (an URGENT line in both inboxes) is RESEARCH's job with Samuel: don't ask Dylan for the link
 unless RESEARCH asks you to.
 

@@ -143,6 +143,17 @@ nobody predicted, and the field moves every round. If today's data says a better
 style and we only made small fixes while the field moved; the Challenger and the field trend exist so that doesn't
 happen again.
 
+**Times are guides, not targets** (Dylan, 14 November). The minute targets in the build hour and the T-minus steps
+before each round are a default order of work, written so that nothing is forgotten. They are never a reason to ship
+a weaker bot, skip a check or cut short a build that is about to pay off: a meaningfully better bot that is ready one
+practice or one round later beats a rushed one now. When you are behind a target, say so in one line (what is late,
+why, when it will be ready) and carry on with what matters most. Three things are fixed, because the portal fixes
+them: every practice and scored round plays the bot that is active when it starts, so a tested bot is active before
+every start and we are never without one; an upload counts only when its test has finished; and hard rules 1 and 2.
+Dylan and Samuel give time updates and may move or drop any other time in words ("take until minute 25 for the
+platform", "skip this practice", "decide at T-2"): their words replace the clock's line for that step. Where they
+have said nothing, the pack's times are the default.
+
 ## 7. Working style
 
 - **Share what changes everyone's work at once.** The first variant-level finding (e.g. "pocket pairs are the worst
