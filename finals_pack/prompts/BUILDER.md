@@ -122,7 +122,11 @@ running before you spawn anything.
   not a base until that verdict lands: until then picks are packed on the previous base. Write what counts as
   "worse" in `state/decisions.md` before the number arrives, tell `platform` which commit is the base (it tags it and
   its pack command takes the commit), and put the base's version on each pick's VERSIONS line. In both timed runs a
-  fix release became the base before its verdict and carried a regression into the next pick.
+  fix release became the base before its verdict and carried a regression into the next pick. **No base yet**: before
+  the first clean verdict on a platform commit there is none. Picks then say "base: none yet" on their VERSIONS line
+  and are packed on the newest platform commit that passes its own checks; a design that shipped standalone because
+  the pack command did not exist says "base: none (standalone)" and is ported the moment the pack command arrives. A
+  verdict of "fit as the base once X is fixed" makes that fix release the base candidate.
 - Keep `platform` building in RESEARCH's tables as they land (`theory/out/*.json`, including `twist_rule.json`).
 - **Broadcast the first variant-level finding** (theory's ranking or twist rule, or any report that flips a hold'em
   assumption): `SendMessage` it to every running `stylist` and `challenger` at once, with the table's file, `version` and `made` as

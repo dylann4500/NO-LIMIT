@@ -54,7 +54,8 @@ assigns every release number. With one run doing all of it in series, v1 was lat
 - **then the full platform** (FIRST_PROMPT Part 1) with every check passing.
 - **each practice (20, 30, 40, 50):** release the bot BUILDER names, packed fresh from the base BUILDER names (a
   commit you tag `base-vN` once its release has a tester verdict; your pack command takes the commit) so every style
-  carries the same tested tables; released and upload-tested 3 minutes before. **~50:** the bot for scored round 1.
+  carries the same tested tables; before any commit has a clean verdict there is no base, and the VERSIONS line says
+  "base: none yet"; released and upload-tested 3 minutes before. **~50:** the bot for scored round 1.
 
 **Each window:**
 - **By T-15:** release the challenger BUILDER names (packed and tested by `challenger` by T-16) as `releases/vN.zip`,
