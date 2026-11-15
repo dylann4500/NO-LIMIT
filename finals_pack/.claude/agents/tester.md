@@ -23,7 +23,9 @@ verdicts given). Read-only: `bot/`, `candidates/`, `releases/`, `analysis/`, `th
 **Every release, from v1 on** (v1's from the build-hour tester that builds the rig; from v2 on RESEARCH spawns one fresh
 tester per release, or retargets you to a release that replaced yours before your verdict: keep the old one as an extra
 paired arm): its verdict (below), always including a
-heads-up run (`--players 2`). A bot plays a scored round only with a tester verdict that includes one.
+heads-up run (`--players 2`). A bot plays a scored round only with a tester verdict that includes one. For a release
+that changes heads-up play, also run it head to head against the live bot: against the sparring mix one heads-up
+fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0.4.
 
 **Build hour:**
 - **~minute 5:** check `bot/rules.json` field by field against the kit and the Format page, its first line (case F or
