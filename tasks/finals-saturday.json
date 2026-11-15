@@ -62,6 +62,11 @@
       "at": "2026-11-15T01:20:02Z",
       "by": "dylann29",
       "text": "emu/rehearsal b088a98 (full suite 228 passing). Since the last note: Pittsburgh dossiers merged (all 20 Finals opponents carded from raw hands; field_three_regionals.md); 57 more instruction fixes from timed runs A, B and C (C was the first at six seats with antes); Dylan approved every recommendation on prep/PROPOSALS_14NOV.md and items 2-17, 19-24, 30 are applied (one switch deadline at T-4, late data, big-lead test, held standings, SE from yardsticks, flat calls with a stated plan); START.md now starts the two sessions in the desktop app (terminal tabs are an untested fallback) and the Sunday repo is local. Samuel: sections A-C of that page changed DECISION_RULES.md on Dylan's word; say if anything should change, and item 22 (the 22-25 points figure in PLAN.md) still needs your source. Running: a dress run on a fourth twist (stops 17:50). Modal is capped at 100 containers on the Starter plan; Dylan asked Modal for 400."
+    },
+    {
+      "at": "2026-11-15T02:02:41Z",
+      "by": "dylann29",
+      "text": "FINAL for Saturday: emu/rehearsal e50d987+1 (full suite 228). The Sunday repo is built on Dylan's laptop: ~/avalon-finals (local, no remote) = finals_pack at 439bec9 without prep/. prep/HANDOFF.md section 10 has the final state, what no run tested, what is open for the humans, and Sunday morning counted back from the 11:00 start. Samuel: (1) Dylan approved the decisions page and sections A-C are applied to DECISION_RULES.md: say if anything should change; (2) item 22, your source for the 22-25 points figure; (3) START.md now starts the sessions in the desktop app: you open RESEARCH from your computer under the same Claude account as Dylan's laptop (smoke-tested today). If you change finals_pack after this, tell Dylan: ~/avalon-finals has to be rebuilt."
     }
   ],
   "owner": "dylann29",
@@ -74,5 +79,5 @@
   "result": "",
   "state": "active",
   "title": "Saturday handoff: review and merge the overnight research branches, apply speedrun findings, rehearsal prep on Dylan's Mac",
-  "updated_at": "2026-11-15T01:20:02Z"
+  "updated_at": "2026-11-15T02:02:41Z"
 }

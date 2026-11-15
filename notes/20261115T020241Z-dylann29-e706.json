@@ -1,0 +1,8 @@
+{
+  "agent": "Dylans-MacBook-Pro-1228",
+  "at": "2026-11-15T02:02:41Z",
+  "by": "dylann29",
+  "pin": false,
+  "task": "finals-saturday",
+  "text": "FINAL for Saturday: emu/rehearsal e50d987+1 (full suite 228). The Sunday repo is built on Dylan's laptop: ~/avalon-finals (local, no remote) = finals_pack at 439bec9 without prep/. prep/HANDOFF.md section 10 has the final state, what no run tested, what is open for the humans, and Sunday morning counted back from the 11:00 start. Samuel: (1) Dylan approved the decisions page and sections A-C are applied to DECISION_RULES.md: say if anything should change; (2) item 22, your source for the 22-25 points figure; (3) START.md now starts the sessions in the desktop app: you open RESEARCH from your computer under the same Claude account as Dylan's laptop (smoke-tested today). If you change finals_pack after this, tell Dylan: ~/avalon-finals has to be rebuilt."
+}
