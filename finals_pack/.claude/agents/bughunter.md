@@ -63,6 +63,10 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
 11. **Hard-coded format:** search the source for the table size, starting stack, blind and ante levels, payouts and
     time limits written as literals, then run the zip at another table size and payout list (table rules are set per
     round and can change between rounds: `CLAUDE.md` §8). A decision that ignores `state.config` is a bug.
+12. **The deep all-in call:** scripted spots with 3 or more players where an open, one or more callers and then an
+    all-in face us while we hold AA, and the same with KK, at 30bb or more to call and with a high tournament
+    break-even. AA must never fold; report how often KK and QQ fold and whether the design means it. Both timed runs
+    shipped a call rule that folded AA here, and three general reviews missed it.
 
 **A second opinion by a different method:** if `codex` is logged in, start `codex exec` in the background on the same
 target with this list (log in your folder), carry on, then merge its findings, re-running each before you report it.
@@ -93,7 +97,7 @@ breaks; effect: how often it fires per 1,000 hands, or the wrong number against 
 Whoever spawned you (a main session, or the agent you're helping) relays it: you never write to the inboxes, message
 the humans or the other session, or run `scripts/say.py` or `scripts/live.py`.
 
-Line 1: "<target> (sha256 …): N bugs reproduced, worst: <one line>" or "<target>: no bug reproduced in checks 1-11".
+Line 1: "<target> (sha256 …): N bugs reproduced, worst: <one line>" or "<target>: no bug reproduced in checks 1-12".
 Then each bug, worst first: what it breaks, how often, the reproduction (path and command), who should fix it; the
 checks you ran with their numbers (failed decisions, p99, max, upload test); what's unverified; the Codex job (merged,
 or log path if still running); LEDGER ids; your folder.
