@@ -39,6 +39,10 @@ break-evens and HANDOFF.md; write each file the moment it passes its checks, so 
 - **m10 `icm_thresholds.json`:** Malmuth-Harville from the payouts; a busted player gets their place's payout;
   break-even all-in call equity by players left and stack shares. Tests: heads-up = pot odds; 6 equal stacks ≈ 58% and 5 equal ≈ 61% in case F (8 equal ≈ 56% in case R); 3
   equal ≈ 57%; 4 equal ≈ 62-65% (for 50/30/20; other payouts: compute and say so).
+- **m12 `call_multiway.json`:** the break-even equity to call an all-in when one or two players have already called
+  it, by players left, players already in and stack shares, with side pots and the matched part counted
+  (`icm_thresholds.json` is single-caller, and three-way equities are not a threshold: in a timed run the bot compared
+  3-way equity with a heads-up threshold and two bughunters each wrote their own side-pot ICM).
 - **m15 `twist.json` and `twist_rule.json`:** the twist's option values by common random numbers (TWIST_NOTES §0):
   every option on the same deals in one interleaved loop; against opponents who ALSO use the twist well; using all it
   reveals; dead cards removed; any budget planned over a whole table (150-175 hands in case F: simulated 155, measured 163-174 in a timed run;
@@ -48,7 +52,9 @@ break-evens and HANDOFF.md; write each file the moment it passes its checks, so 
   players and against a range (a top-35% hand), not only heads-up against random hands: in a 14 November run three
   clauses flipped after "trusted". Every later change to what the rule does is a new `version`, never an edit under
   the same label.
-- **m15 `pushfold.json`:** jam/fold by fictitious play keyed by players left, position and stack (bb); call tables as
+- **m15 `pushfold.json`:** jam/fold by fictitious play keyed by players left, position and stack (bb; the file's `keys`
+  say whether the stack is before or after posting the ante, and what a reader does between two rows of the grid: a
+  gap at 8-10bb was read three different ways in a timed run); call tables as
   best responses to opponent shove widths of 10-70%, keyed by width so the bot picks the column from the measured width
   (equilibrium call ranges fold too much against fields that shove wide).
 - **m15 `exploit.json`:** break-even fold rates for a grid of our bet and raise sizes by street, bluff break-evens,
@@ -62,7 +68,8 @@ Every JSON carries `version`, `made` (HH:MM), `inputs` (the rules-card values us
 `checks` summary. `fallback: true` means "usable, not final", never "do not ship". A re-issue that changes a table's
 keys or shape, or a constant its readers use (a budget, a scale), bumps `version` and gets a dated line in
 `theory/HANDOFF.md` saying what changed: platform's loader stops on a shape it doesn't expect, but nothing stops a
-reader that hard-coded the old constant, so every constant a reader needs is in the table as data. Only finished
+reader that hard-coded the old constant, so every constant a reader needs is in the table as data. Re-issue a table only when a number a builder uses has moved by more than its stated error, and say in one line what
+moved; a table's `version` changes whenever its `fallback` flag does (never the same label with a new flag). Only finished
 tables go in `theory/out/`; work files go in `theory/cache/` (platform builds in whatever it finds in `out/`).
 
 **Refits (minute 30, then every T-13, when briefed):** real-field numbers outrank the tables. Re-issue the
@@ -117,9 +124,9 @@ reports a measured value outside a solved grid.
 - Never kill by pattern (one `pkill -f "modal run"` stopped every agent twice): only your own PIDs
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`) or `modal app stop --yes <id>`. Never block: commands over ~2 minutes go to
   the background with a log; no `wait`, no sleep of 20 s or more, no polling. Your one Modal app is `avalon-theory` (up to
-  20 containers), deployed once and called many times: `modal app list` first (a parallel theory run may have deployed
-  it); never a second app or several `modal run`s at once (a rehearsal lost a round to the app-creation rate limit).
-  The team's total is 80 (the tester's `avalon-rig` 40, other roles' calls 20). Else run locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total).
+  20 containers), deployed once and called many times: run (3) deploys it and runs (1) and (2) run locally (a second deploy replaces the first's functions, and in
+  three timed runs no case-F table needed Modal: local is enough under about a minute); `modal app list` first; never a second app or several `modal run`s at once (a rehearsal lost a round to the app-creation rate limit).
+  The team's total is 80 (the tester's `avalon-rig` 40, other roles' calls 20). Else run locally: the worker count your brief gives (1 if it gives none; heavy runs go to Modal, and a timing test needs the same-minute `check_or_fold` baseline).
 - Record each table, append only (claim: the table and its headline check; effect: that check's error ± se):
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | theory | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`
   Say "fallback" or "unverified" plainly.
@@ -129,7 +136,8 @@ reports a measured value outside a solved grid.
 
 ## Report (your final message: at most 300 words, then stop)
 
-Whoever spawned you (a main session, or the agent you're helping) relays it: you never write to the inboxes, message
+While you work, at each deliverable (a file written, a zip legal, a number measured) send one line to the session that
+spawned you (`SendMessage` to `main`), then carry on: it hears nothing else from you until you end. Whoever spawned you (a main session, or the agent you're helping) relays it: you never write to the inboxes, message
 the humans or the other session, or run `scripts/say.py` or `scripts/live.py`.
 
 Line 1: what landed, e.g. "theory/out/pushfold.json v1 at 14:14 (m14): converged (BR gain 0.01bb, 640 iterations);
@@ -140,7 +148,8 @@ betting"); LEDGER ids; what's unverified; running jobs and Modal app ids, or "no
 ## From the 14 November speedrun
 - Three theory agents in parallel delivered every table by minute 12. Then they sat idle: always continue with the
   second wave (the twist's value with betting, multiway all-in tables, the value of what the twist reveals about
-  neighbours, refits against variant-aware sparring) until told otherwise.
+  neighbours, refits against variant-aware sparring, written to `theory/out/rehearsal/` and never into the live files:
+  only a field download refits the tables platform embeds) until told otherwise.
 - One shared rule for the twist decision (e.g. which card to keep or pass), used by every table and written to
   `theory/out/twist_rule.json` for platform (its code may live in `theory/twist/`), so the numbers agree across tables
   and with the bot.

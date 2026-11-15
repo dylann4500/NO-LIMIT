@@ -38,7 +38,9 @@ Your own start-up instructions are in `prompts/BUILDER.md` or `prompts/RESEARCH.
   `python3 scripts/say.py <builder|research> "<text>"`, which lands in the other session's inbox. (A message from a
   session in a different permission mode is held until a human approves it: if the other session doesn't react to
   something it should, send it again with `say.py` and tell your human.)
-- Subagents never write to inboxes; they report to whoever spawned them.
+- Subagents never write to inboxes; they report to whoever spawned them: a final report when they end, and one line
+  at each deliverable while they work (`SendMessage` to `main`). A message to a busy subagent is read at its next tool
+  round, not at once: keep tool rounds short while a release is near, and never rely on a correction arriving in time.
 
 ## 3. Files: where everything lives
 
@@ -49,7 +51,7 @@ Your own start-up instructions are in `prompts/BUILDER.md` or `prompts/RESEARCH.
 | `state/variant.md` | the variant's rules text as the portal's own API gives it, saved the moment it is announced, with the portal's time for minute 0. A head start while the kit unpacks: the kit and the Format page still decide the rules card | portal watcher |
 | `state/schedule.json`, `state/clock.md` | minute 0, the round times, the next steps | clock |
 | `state/live.json` | the bot we have **decided** should be active next: each build-hour practice pick, then the round-1 bot, then each scored round's bot (never a window's challenger: BUILDER tells Dylan that file directly) | BUILDER only: `python3 scripts/live.py vN "why"` |
-| `state/decisions.md` | every decision asked of the humans: question, evidence, the rule's answer, deadline, the human's words, outcome | BUILDER (bots), RESEARCH (plan challenges): each appends under its own dated heading and never rewrites the other's entry |
+| `state/decisions.md` | every decision asked of the humans: question, evidence, the rule's answer, deadline, the human's words, outcome | BUILDER (bots), RESEARCH (plan challenges): each appends under its own dated heading (`cat >> state/decisions.md`; check the file exists first and never create it with a plain write) and never rewrites the other's entry: to add a view, append a line that names the entry |
 | `data/rounds/<NN-stage>/` | `results.json`, `round.json`, `hands-first-1000.jsonl.gz`, then `hands-full.jsonl.gz`, `played_by.txt` | portal watcher (never in git) |
 | `notes/format.md` | the organizers' Format page as Dylan pasted it at minute 0 (weights, payouts, cooldown) | BUILDER |
 | `bot/` | the platform (the bot's shared code) | `platform` only |
@@ -159,10 +161,12 @@ happen again.
 - **Check before you trust**: re-run, don't re-read. Local wins don't predict the field; the practice rounds do.
 - **The laptop's CPU is shared by every agent of both sessions** (a speedrun hit load 50 on 12 cores, and then even
   the kit's do-nothing bot failed timing tests; in a second run four agents at 4 workers each put this laptop's 15
-  cores at load 17-19 by minute 8 and v1's upload test was inconclusive). Each **session** keeps its subagents' local worker processes to about 6 in all
-  and enforces it itself: every brief gives a worker count (2 unless the session says otherwise, never more than 4),
-  and the session checks `uptime` before any timing test and whenever it adds an agent; Monte Carlo or
-  match runs longer than about a minute of CPU go to Modal (the two deployed apps, hard rule 8). A timing or upload test counts only
+  cores at load 17-19 by minute 8 and v1's upload test was inconclusive). Three things protect the timing tests, and the session
+  enforces them: heavy runs (Monte Carlo or matches longer than about a minute of CPU) go to Modal (the two deployed
+  apps, hard rule 8); once more than six agents are live in a session each runs one local worker, and every brief gives
+  the worker count; and every timing or upload test has the kit's `check_or_fold` baseline in the same minute. About 6
+  local workers a session is a guide for heavy local runs only, not a count of agents: a fresh tester and bughunter
+  per release cannot fit under it, and need not. A timing or upload test counts only
   if `uptime` shows load below the core count AND the kit's `check_or_fold` example runs in the same minute as a
   baseline; otherwise say "inconclusive: machine loaded" and re-run. A request
   for a quiet window ("nothing heavy locally until HH:MM") means no local match or Monte Carlo runs; Modal clients,
@@ -172,13 +176,15 @@ happen again.
 - **Silent fallbacks are bugs.** Every loader, packer, setting and table lookup fails loudly on a mismatch (unknown
   setting names, missing keys, a dropped file, a zip that wasn't overwritten). A speedrun had five silent fallbacks
   in 20 minutes, each switching off a feature without a sound.
-- **Run `date` before you write a time down**; never estimate the clock.
+- **Run `date` before you write a time down**; never estimate the clock. In a message, write the time `date` printed
+  in that same tool round, not the time you expect to send; give a target as "minute N" and an ETA as "in N minutes".
 - **Nothing wakes an agent at a clock time.** A main session acts at a time only because a line arrives then: the
   clock posts every step and cut-off, the watcher every round start and result. If something must happen at a time
   that has no clock step, tie it to the step before it or ask your human to say it; never plan to "come back at
   HH:MM" (both timed runs missed their stop that way). A subagent's time limit is kept by the subagent itself, with
   `date` at each step, and checked by the session that spawned it on every wake-up.
-- **A file named in your brief** (`REPORT.md`, `card.md`, `DESIGN.md`, ...) **is a requested deliverable: write it.**
+- **A file named in your brief** (`NOTES.md`, `card.md`, `DESIGN.md`, ...) **is a requested deliverable: write it.**
+  Never name a subagent's deliverable `REPORT.md` or `FINDINGS.md`: the desktop app refuses those names to subagents.
 - **Keep your PLAN file current** (`notes/PLAN-<session>.md`; its first line names your role and prompt file):
   what's running where, open promises, next deadline. **After compaction or a restart, first re-read your prompt file
   (`prompts/BUILDER.md` or `prompts/RESEARCH.md`)**, then your PLAN file, `state/status.md`, `state/clock.md` and the
@@ -204,11 +210,11 @@ says which case holds (F, R, or what differs from both), and BUILDER tells every
 | The field's mean score | 16.7 a table | 12.5 |
 | Tables one opponent shares with us | about a quarter: roughly 250 of 1,000 | about a third: 300-350 |
 | Equity to call all-in, equal stacks | 58.1% on hand 1; 60.6% with 5 left, 65.2% with 4, 57.1% with 3, pot odds heads-up | 55.6% on hand 1; the same from 4 left down |
-| Hands a table | about 155 simulated with regional bots, 163-174 measured in a timed run; a seat is dealt 105-115 | about 131; a seat is dealt 90 |
-| One bot's spread a table (its ratio to 17.9 is the day's multiplier for every figure in points per table, `DECISION_RULES.md` §2 rule 3: 1.06 in case F); paired noise | 18.9; about 22/√tables (estimate: measure it) | 17.9; about 21/√tables |
+| Hands a table | about 155 simulated with regional bots; 163-174 and 180 measured in two timed runs against sane bots (73-83 in a sparring mix that busts itself); a seat is dealt 105-115 | about 131; a seat is dealt 90 |
+| One bot's spread a table (its ratio to 17.9 is the day's multiplier for every figure in points per table, `DECISION_RULES.md` §2 rule 3: 1.06 in case F); paired noise | 18.9 by arithmetic, 20.2-20.4 measured in a timed run; about 21-22/√tables (measure it) | 17.9; about 21/√tables |
 | Sparring field | five copies beside the candidate | seven |
-| Rig speed | about 0.9 of the case-R rate (estimate: time the first job) | as measured in `tester.md` |
-| A bot that only folds | out near hand 121, about 11 of 16.7 (simulated) | out near hand 102, about 7 of 12.5 |
+| Rig speed | about 0.9 of the case-R rate for the same bots (an estimate; one timed run's own bots ran 28 tables a second a process): time the first job | as measured in `tester.md` |
+| A bot that only folds | out near hand 121-127; its score depends on the field: about 11 of 16.7 simulated against regional bots, 27-30 in a sparring mix that busts itself, about 1 in a sane field | out near hand 102, about 7 of 12.5 |
 | Round weights | linear, 1 to 6, as of Saturday afternoon | 1 to 6 at Bay Area |
 
 The case-F column is arithmetic, or simulation on the regional kit's engine, from `notes/pre/format_finals.md`, which

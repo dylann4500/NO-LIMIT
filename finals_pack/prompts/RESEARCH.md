@@ -85,18 +85,22 @@ running before you spawn anything. The first thing to establish is which case th
 (6 players, 6,000 chips, antes), the main case, or case R (8 players, 2,000 chips, no ante). BUILDER tells you from
 `platform`'s rules card; until then every brief says "expect case F; check the kit first", and when it is known you
 send it to every running subagent. Every brief names the team Python (`starter-kit/.venv/bin/python`, announced by
-BUILDER once `platform` has set it up; system `python3` may not build the kit's evaluator) and the CPU budget (a
-worker count per subagent, 2 as a rule, about 6 for your whole session; longer runs go to Modal: `avalon-rig` for the tester, `avalon-theory` for
+BUILDER once `platform` has set it up: at minute 0 it does not exist yet, so the brief says "use it if it exists, else
+system `python3` for anything that does not need the evaluator"; system `python3` may not build the kit's evaluator) and the CPU budget (a
+worker count per subagent: one each once more than six agents are live, and about 6 in all only as a guide for heavy
+local runs; longer runs go to Modal: `avalon-rig` for the tester, `avalon-theory` for
 theory) and the role's own pre-event note (`theory`: `notes/pre/variants.md`; `tester`: `testplan.md`; `scout`:
 `field.md`; `analyst` and `scout`: `stat_definitions.md`; all, in case F: `format_finals.md`). Spawn in ONE message, in
 the background:
-- `theory` x3 (the speedrun showed this lands everything by minute 12): (1) hand ranking + ICM thresholds by minute
-  10; (2) the twist's option values and the twist decision rule (`theory/out/twist_rule.json`) by 15; (3) push/fold,
+- `theory` x3 (the speedrun showed this lands everything by minute 12): (1) in case F the format card by minute 3 and the deep card (`notes/pre/format_finals.md` section 5), hand ranking + ICM thresholds by minute
+  10, then the call threshold against two or more players (`call_multiway.json`) by about 12; (2) the twist's option values and the twist decision rule (`theory/out/twist_rule.json`) by 15; (3) push/fold,
   call tables and break-evens by 15, `theory/HANDOFF.md` by 20. As each lands, `SendMessage` BUILDER one line with the
   path and the headline (e.g. "pairs are the worst hands here"): BUILDER broadcasts it so nobody re-derives it. Relay
   a number only from the file itself, opened by you, never from a subagent's progress line: quote the file's
-  `version` and `made`, and say so if `fallback` is true (in two timed runs wrong numbers were relayed for 8 and 19
-  minutes).
+  `version` and `made` (in two timed runs wrong numbers were relayed for 8 and 19 minutes). A file marked
+  `fallback: true` is relayed only as its path and "fallback, do not build on it", never with a headline number (a
+  correctly quoted fallback still sent a wrong number for 7 minutes). One message per re-issue, saying in one line
+  what moved, for the agents that read that table.
 - `analyst`: parsers for today's hand-history format and `analysis/roundcard.py <round folder>` (card in under 60 s;
   stage folder `analysis/<stage>/`, the stage name with spaces as '-') ready for practice 1's download (about minute 25).
 - `tester`: check the rules card (`bot/rules.json`) against the kit and `notes/format.md` as soon as both exist; the
@@ -115,10 +119,12 @@ Then, still in the build hour:
   CHALLENGE (in a second run the trend flagged one 11.8 SE off on such a field).
 - **About minute 12 (when the first tables are in): theory wave 2.** The twist's value with betting, multiway all-in
   tables, the value of what the twist reveals about neighbours, and the tables' field columns refitted against
-  variant-aware sparring. Don't let `theory` sit idle.
+  variant-aware sparring, as a rehearsal written to `theory/out/rehearsal/` (never into the files `platform` embeds: in
+  a timed run columns chosen from our own sparring bots reached them). Don't let `theory` sit idle.
 - **On every release after v1** (v1's verdict comes from the minute-0 `tester`, which has the rig). The zip starts
   the tester, not the message: a release exists when `releases/vN.zip` and its `VERSIONS.md` line exist, and the
-  tester checks the sha256 first; BUILDER's "RELEASED vN <sha256> ..." only adds the checks done. Nothing wakes you
+  tester checks the sha256 first (a zip with no line yet: start the tester on a copy with its sha256 pinned, and have it
+  confirm the line when it appears); BUILDER's "RELEASED vN <sha256> ..." only adds the checks done. Nothing wakes you
   when a file lands unless you arm it: a one-shot background watcher per file you wait for (`CLAUDE.md` hard rule 7),
   and on every wake-up a look for new files first (`ls -lt releases theory/out rig/out | head`): spawn a fresh `tester` for that release, in parallel
   with any others (one tester continued serially fell behind by three releases). But a release that replaces one
@@ -130,7 +136,8 @@ Then, still in the build hour:
   `rig/out/verdict-vN.md`, written by the tester when it finishes: send BUILDER the path and its first line at once. **No bot plays a scored round without a tester verdict that includes a heads-up run** (heads-up
   decides 50 vs 30 points). Every verdict reports the kit's `check_or_fold` floor in the same field and the load
   average: in the speedrun's variant the do-nothing bot scored as well as ours in a field that busts itself, which is
-  a PLAN CHALLENGE-sized fact if it holds on the real field.
+  a PLAN CHALLENGE-sized fact if it holds on the real field; against sparring bots that bust themselves it is only a
+  property of the sparring field (the floor scored 27-30 there and 1.0 in a sane one).
 - **By minute 40:** ask `analyst` and `tester` which style the field rewarded in practices 1-3 and what the best teams
   are doing, adjusted for which tables each style had, the round size and how mature the field was (plus replay tests
   on the same downloads); send BUILDER one paragraph with the numbers by minute 50. That's the round-1 live bot

@@ -163,6 +163,8 @@ research (notes only, no code: it checks and extends Saturday's drafts in `notes
 from a clean repo. Use a separate copy of the bundle, `~/avalon-rehearsal` (trust it once, as above), and run the
 same two tabs and two sessions there, pointed at the rehearsal portal on Samuel's Mac (the simulator: ask Samuel's Claude to start
 one): `python3 scripts/portal_watch.py --base http://100.111.100.112:8765/tournament/api --key-file <the rehearsal
-key>` and the clock started at the rehearsal's minute 0. Tell both sessions at the start: "this is a rehearsal: the
+key>` and the clock started at the rehearsal's minute 0. The clock has no line for a stop and nothing wakes a session at a clock
+time: end a rehearsal by typing "stop" into both sessions, or name a clock step as the stop in what you tell them (b40,
+b47 and b50 exist; there is no b45). Tell both sessions at the start: "this is a rehearsal: the
 portal is a copy; nothing about the copy (its cooldown, its pages, the simulated teams) carries over to Sunday".
 If you ever did run something in `~/avalon-finals`, delete it, build it again from the bundle and trust it again.

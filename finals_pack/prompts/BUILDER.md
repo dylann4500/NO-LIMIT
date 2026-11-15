@@ -73,11 +73,16 @@ running before you spawn anything.
 2. Spawn in ONE message, in the background, each brief naming the role's own pre-event note (`platform`:
    `notes/pre/buildplan.md`; `stylist`: `notes/pre/whatwins.md`; both, in case F: `notes/pre/format_finals.md`; the
    clean-room `challenger` reads none of them):
-   - `platform`: set up the team Python (`starter-kit/.venv`, plus the `.venv` link) and announce it; the rules card
+   - `platform`, **two runs in this same message**, each with its own files; you assign every release number.
+     **The v1 run** has one job: a minimal legal bot in `bot/minimal/`, released as `releases/v1.zip` by about minute 6
+     (the clock's deadline is minute 10); nothing else until v1 is out. Afterwards continue it for releases that only
+     copy and check bytes. With one platform run v1 was late in every timed run; a run with this one job released it
+     in under a minute.
+     **The core run**: the team Python (`starter-kit/.venv`, plus the `.venv` link), announced; the rules card
      `bot/rules.json` from the kit and `notes/format.md` (players, stacks, blinds and antes, hands per match, time limits,
-     weights, payouts, cooldown) by minute 5; a stub `bot/INTERFACE.md` by minute 6; a minimal legal bot and
-     `releases/v1.zip` by minute 10; the test harness by 15; then the shared platform (FIRST_PROMPT Part 1), building
-     in each of RESEARCH's tables as it lands (all by about minute 20).
+     weights, payouts, cooldown) by minute 5; a stub `bot/INTERFACE.md` by minute 6; then the shared platform in this
+     order: an importable skeleton, the pack and check commands, the tools and the test harness (by 15), and
+     RESEARCH's tables as each lands (all by about minute 20; FIRST_PROMPT Part 1).
    - `stylist`: styles A (wide pressure), B (shove-heavy), C (tight) as settings on the platform, built as soon as
      the interface stub exists; they are starting corners, not a menu (say if today's rules favour another axis).
    - `challenger` (a fresh agent, not the memo writer): clean-room design D from the kit and today's rules only (not
@@ -90,7 +95,10 @@ running before you spawn anything.
    as at Bay Area, and Dylan clicks now. Tell Dylan and RESEARCH which case holds and write it at the top of
    `notes/format.md`, with a second fact you ask Dylan for: does a rejected upload start the cooldown? A team with no active bot scores zero.
 5. **Every release, from v1 on (D's included):** spawn a fresh `bughunter` on it at once (background, at most 8
-   minutes; its brief names, as one question, the code path this release changed: general reviews missed a bug
+   minutes; its brief names, as one question, the code path this release changed (for a design's first
+   release the four that paid in every design: are thresholds computed from `state.config.payouts` and the real
+   stacks; is the stack read before the ante; is any Monte Carlo capped by the clock; what happens with memory of the
+   wrong type; for a later release, "is the claimed fix real"): general reviews missed a bug
    that a narrow question found in under 4 minutes), and `SendMessage` RESEARCH "RELEASED vN <sha256> <one line>" so it
    spawns a tester for it. A candidate you mean to pick gets its bughunter earlier, when its builder reports it legal:
    a hunt takes 3-8 minutes and a pick is declared 3 minutes before its practice, so in a timed run every pick was
@@ -117,11 +125,17 @@ running before you spawn anything.
   not a base until that verdict lands: until then picks are packed on the previous base. Write what counts as
   "worse" in `state/decisions.md` before the number arrives, tell `platform` which commit is the base (it tags it and
   its pack command takes the commit), and put the base's version on each pick's VERSIONS line. In both timed runs a
-  fix release became the base before its verdict and carried a regression into the next pick.
+  fix release became the base before its verdict and carried a regression into the next pick. **No base yet**: before
+  the first clean verdict on a platform commit there is none. Picks then say "base: none yet" on their VERSIONS line
+  and are packed on the newest platform commit that passes its own checks; a design that shipped standalone because
+  the pack command did not exist says "base: none (standalone)" and is ported the moment the pack command arrives. A
+  verdict of "fit as the base once X is fixed" makes that fix release the base candidate.
 - Keep `platform` building in RESEARCH's tables as they land (`theory/out/*.json`, including `twist_rule.json`).
 - **Broadcast the first variant-level finding** (theory's ranking or twist rule, or any report that flips a hold'em
   assumption): `SendMessage` it to every running `stylist` and `challenger` at once, with the table's file, `version` and `made` as
-  RESEARCH quoted them (no version, no broadcast: ask for it), so nobody re-derives it (in the
+  RESEARCH quoted them (no version, no broadcast: ask for it; a `fallback: true` file is passed on only as "fallback, do
+  not build on it"), so nobody re-derives it. After that, one relay per re-issue and only to the agents that read that
+  table: about 25 re-issues in 33 minutes cost 8 to 10 minutes of relaying in one timed run (in the
   speedrun five agents re-derived "pairs are the worst hands" with their own simulations).
 - **After every platform release, diff the interface** (`git diff <previous>..HEAD -- bot/INTERFACE.md`): if a setting
   was renamed or removed, grep `candidates/` and tell each affected stylist. A silent rename switched a style's
@@ -184,8 +198,9 @@ this window's live bot unless it is already a validated `one-change` line with a
   (SendMessage to its id) so it keeps its context; start a fresh one if it errored, drifted or its context is long.
   Exceptions: a fresh `bughunter` for every release; a fresh `challenger` for design D.
 - Independent work runs in parallel (several subagents in one message, each in its own folder). Only `platform`
-  touches `bot/` and `releases/`; only you ask for a release, and with more than one platform run live you give the
-  version number in the brief.
+  touches `bot/` and `releases/`; only you ask for a release, and you give its
+  version number in the brief (two platform runs are live from minute 0). A release is made for a pick or for a fix to a pick; a build that is neither stays a
+  candidate in its folder until you ask for it (15 releases in 19 minutes left most verdicts on superseded bots).
 - When a subagent reports, check its claims (open the file, run the check) before you tell anyone. A bug a
   `bughunter` reproduces goes to `platform` first; one in a table or rule that came from `theory/` goes to RESEARCH
   with the report's path (theory fixes it and re-issues; `platform` builds the re-issue in).

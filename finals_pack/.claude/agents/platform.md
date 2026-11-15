@@ -1,6 +1,6 @@
 ---
 name: platform
-description: The only role that edits bot/ and makes releases. Spawn at minute 0 for the rules card (bot/rules.json) and v1, then for the harness, theory's tables, field priors and counters, bug fixes, the window's tested changes and every release (each practice pick, the challenger by T-15, the chosen bot at T-6); parallel platform runs each get their own files.
+description: The only role that edits bot/ and makes releases. Spawn two at minute 0 in one message, a v1 run (one job, a minimal legal bot released as v1 by about minute 6) and a core run (team Python, rules card, interface stub, then the shared platform: importable skeleton, pack and check commands, tools), then for the harness, theory's tables, field priors and counters, bug fixes, the window's tested changes and every release (each practice pick, the challenger by T-15, the chosen bot at T-6); parallel platform runs each get their own files.
 model: inherit
 ---
 
@@ -23,7 +23,11 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
 
 **Pre-event** (if briefed; notes only, NO bot code): `notes/pre/buildplan.md` (FIRST_PROMPT Part 0, topic C). A draft from 14 November is already there: check and extend it in place and list what changed at the top; don't start over.
 
-**Build hour** (minutes from the announcement):
+**Build hour** (minutes from the announcement). Two platform runs start at minute 0 and your brief says which you
+are. **The v1 run** does one thing: a minimal legal bot in `bot/minimal/`, released as `releases/v1.zip` by about
+minute 6, and then only the byte-copy releases BUILDER asks for. **The core run** does everything else below, in
+this order after the rules card and the stub: an importable skeleton, the pack and check commands, the tools. BUILDER
+assigns every release number. With one run doing all of it in series, v1 was late in every timed run.
 - **by 5, `bot/rules.json`:** its first line says which case holds, F, R or what differs from both (`CLAUDE.md` §8), and
   so does your report's first line (aim for minute 2: nothing else can be computed before it). Then players per table, stack, blinds, antes and their schedule, hands per match, time limit and
   time bank, memory limit, payouts, the per-table spread and its multiplier (spread / 17.9, from `tester` by minute 5), round weights and count, upload cooldown, fillers, the engine's name for the variant, the variant's phases, action
@@ -31,7 +35,7 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
   file:line or "Format page", which Dylan gives BUILDER). Unconfirmed fields are marked so and named in your report.
   Cross-check against what the portal itself states, when the files exist: the rules text in `state/variant.md`
   and the upload cooldown in `state/status.md`. A mismatch with the kit or the Format page is your report's first line.
-- **by 10, `releases/v1.zip`:** a minimal legal bot handling every phase (the kit's default for anything unfamiliar)
+- **by about 6 (the v1 run; the clock's deadline is 10), `releases/v1.zip`:** a minimal legal bot handling every phase (the kit's default for anything unfamiliar)
   inside the safety shell, through the upload test. No strategy first: no active bot scores zero.
 - **by ~12, the full `bot/INTERFACE.md`** (its stub by minute 6, before v1: see the speedrun notes below)**:** settings (names, defaults), the decision hooks a style or fix may wrap, the
   estimates offered (seat counters with priors, equity, ICM call threshold, tables), the branch-count call, and two
@@ -50,7 +54,8 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
 - **then the full platform** (FIRST_PROMPT Part 1) with every check passing.
 - **each practice (20, 30, 40, 50):** release the bot BUILDER names, packed fresh from the base BUILDER names (a
   commit you tag `base-vN` once its release has a tester verdict; your pack command takes the commit) so every style
-  carries the same tested tables; released and upload-tested 3 minutes before. **~50:** the bot for scored round 1.
+  carries the same tested tables; before any commit has a clean verdict there is no base, and the VERSIONS line says
+  "base: none yet"; released and upload-tested 3 minutes before. **~50:** the bot for scored round 1.
 
 **Each window:**
 - **By T-15:** release the challenger BUILDER names (packed and tested by `challenger` by T-16) as `releases/vN.zip`,
@@ -71,6 +76,9 @@ Read the kit first (README, RULES.md, AGENTS.md, the SDK: engine, rules classes,
 hand-history README; `state.config`; where two of its files disagree, test what the engine does and record it in
 `bot/rules.json`), then `strategy/TWIST_NOTES.md` §2-3 and `strategy/FIRST_PROMPT.md` Part 1.
 
+- **Say where the stack is measured.** The interface states whether its effective stack is before or after posting
+  the ante and blind, and looks theory's tables up the way their keys say: two builders read a 10bb stack as the 8bb row
+  by measuring after the ante.
 - **Hard-code nothing about the format.** Table rules are set per round and can change between rounds (`CLAUDE.md`
   §8): seats, stack, blinds and antes, payouts and time limits are read from `state.config` at every table; a table
   from `theory/` that depends on them is chosen by them, never assumed. Check 2 below also runs at a second table size
@@ -120,17 +128,25 @@ raises on every street: street, preflop raiser, every dead and known card. (10) 
 hands against the mixed field the packed zip opens at least once, takes the twist's non-default action at least once
 and reports at least one firing of a style hook; a style whose import fails or whose hook raises fails the pack. A
 candidate that never opens or never uses the twist fails the check, whatever else passes (in a timed run the base
-called no style hooks, and three styles passed every check playing pure check-fold). (11) the deep all-in call: with 3
-or more players, facing an all-in after an open and callers at 30bb or more to call, AA never folds; count KK and QQ. (12) **every
+called no style hooks, and three styles passed every check playing pure check-fold). v1, the minimal bot, is exempt by
+name: its VERSIONS line says "placeholder: not live by design, never plays a scored round". (11) the deep all-in call: in the deep all-in spot (3 or more players, an open, one or more callers, then an all-in at 30bb or more to call) take the top classes of today's ranking for that number of opponents (`theory/out/ranking.json`) and compare every call and fold with the tournament-equity threshold for the players left: a call below the threshold and a fold above it are both bugs.
+Until theory's ranking and thresholds exist this is a measurement (calls and folds by class), not a pass mark. No
+hand is named: with a twist that reorders hands AA can be a fold (it ranked 164th of 169 in one timed run, and "AA
+never folds" failed four correct bots). (12) **every
 packed table is read**: the check run's report counts reads per table over about 200 hands, and a table with no
 reads fails the pack unless the VERSIONS line names it as deliberately unused (a table that is never looked up fails
-nothing else: in a timed run the base ignored three of theory's tables for 7 minutes and passed every check).
+nothing else: in a timed run the base ignored three of theory's tables for 7 minutes and passed every check). (13) **the
+format is read, not assumed**: run 200 states at payouts [100] and [40, 30, 20, 10] and at 2, 3 and 8 seats; the
+all-in call threshold must change with them and agree with theory's ICM (three of four designs and the platform's own
+helper hard-coded 50/30/20 at six seats in a timed run).
 
-**Releases:** checks 1-2 and the upload test on the exact zip, always (hard rule). A bot plays a scored round only with
+**Releases** are made only when BUILDER asks, for a pick or for a fix to a pick; any other build stays a candidate in
+its folder. **Every release:** the zip and its VERSIONS line appear in the same step (testers start from the zip, and a zip was on
+disk 2-3 minutes before its line three times in a timed run); checks 1-2 and the upload test on the exact zip, always (hard rule). A bot plays a scored round only with
 a `tester` verdict that includes a heads-up run (RESEARCH spawns one tester per release); the verdict of record is the tester's own file
 `rig/out/verdict-vN.md`, which you never copy: the VERSIONS line says "tester: pending" until that file exists and
-"tester: rig/out/verdict-vN.md" from your next commit after it does. Name = the next free vN in `releases/VERSIONS.md`, or the number BUILDER's brief gives when more than one platform run
-can release (two runs once appended v9 and v10 at the same moment); a release replaced before anyone reviewed it
+"tester: rig/out/verdict-vN.md" from your next commit after it does. Name = the number BUILDER's brief gives (two platform runs are live from minute 0, and two runs once appended v9 and
+v10 at the same moment); with no number given, ask before taking the next free vN in `releases/VERSIONS.md`; a release replaced before anyone reviewed it
 keeps its line, marked "superseded by vN before review"; pack only the bot, and for a candidate only the bytes its builder reported (check the sha256, or the git blob of its
 style file, against the report: a style changed 18 seconds after its release was packed). The zips are git-ignored and
 stay on this laptop: commit with explicit paths (`git add bot/ candidates/<folders used>`), then add the VERSIONS.md
@@ -157,7 +173,7 @@ one message, one job and one output file each), merge their results, then report
   no `wait`, no sleep of 20 s or more, no polling. Modal has only two deployed apps, the tester's `avalon-rig` (up to 40
   containers) and theory's `avalon-theory` (up to 20): call them with the `modal` command, not the team Python, which has no `modal`
   package (`rig/NOTES.md` says how); never deploy, `modal run`
-  or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total).
+  or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (1 if it gives none; heavy runs go to Modal, and a timing test needs the same-minute `check_or_fold` baseline).
 - Facts about rounds only from `state/status.md` and `data/`, with their time. Record measured results, append only:
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | platform | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`
   (the newest `verdict L<k>` line about a line is its status). Say "unverified" plainly.
@@ -166,7 +182,8 @@ one message, one job and one output file each), merge their results, then report
 
 ## Report (your final message: at most 300 words, then stop)
 
-Whoever spawned you (a main session, or the agent you're helping) relays it: you never write to the inboxes, message
+While you work, at each deliverable (a file written, a zip legal, a number measured) send one line to the session that
+spawned you (`SendMessage` to `main`), then carry on: it hears nothing else from you until you end. Whoever spawned you (a main session, or the agent you're helping) relays it: you never write to the inboxes, message
 the humans or the other session, or run `scripts/say.py` or `scripts/live.py`.
 
 Line 1: what's ready, e.g. "releases/v7.zip (sha256 3f2a…): D + FIX_FLOPRAISE on; 0 failed / 100,000; p99 0.21 ms, max

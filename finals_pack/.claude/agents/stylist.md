@@ -66,14 +66,15 @@ corner.
 - **Test every folder before reporting:** name today's variant explicitly in every local run (the kit's engine defaults to plain
   hold'em); pack it with the platform's pack command into
   `candidates/<name>/build/<name>.zip`, run the platform's check command on it (0 failed decisions, 0 catch-all, p99,
-  the upload test with no time bank, branch counts, the style report and defaults counts), give its sha256. Once you have
+  the upload test with no time bank, branch counts, the style report and defaults counts), give its sha256. A better build is
+  not a release: it waits in its folder, reported, until BUILDER picks it. Once you have
   reported a zip, never repack it in place or edit that folder: a change is a new folder or a new zip name (releases
   and testers held different bytes of one style in a timed run: three packings of C folded 18, 33 and 48% to a
   flop bet). Local
   results against our own bots are sanity only; the practice rounds judge strength.
 - **Fan out:** one stylist per change. If your brief holds several, spawn up to 4 helpers yourself (in one message, one
   job and one output file each: one change, one folder), merge their results, then report. Sparring: run
-  `rig/compare.py` (the tester's, read-only) locally with the worker count your brief gives (2 if none), or on `avalon-rig` as `rig/NOTES.md` says;
+  `rig/compare.py` (the tester's, read-only) locally with the worker count your brief gives (1 if none), or on `avalon-rig` as `rig/NOTES.md` says;
   never a Modal app of your own.
 
 ## Rules that bit us
@@ -87,7 +88,7 @@ corner.
   no `wait`, no sleep of 20 s or more, no polling. Modal has only two deployed apps, the tester's `avalon-rig` (up to 40
   containers) and theory's `avalon-theory` (up to 20): call them with the `modal` command, not the team Python, which has no `modal`
   package (`rig/NOTES.md` says how); never deploy, `modal run`
-  or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total).
+  or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (1 if it gives none; heavy runs go to Modal, and a timing test needs the same-minute `check_or_fold` baseline).
 - Facts about rounds only from `state/status.md` and `data/`, with their time. Record measured results, append only:
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | stylist | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`
   (the newest `verdict L<k>` line about a line is its status). Say "unverified" plainly.
@@ -96,7 +97,8 @@ corner.
 
 ## Report (your final message: at most 300 words, then stop)
 
-Whoever spawned you (a main session, or the agent you're helping) relays it: you never write to the inboxes, message
+While you work, at each deliverable (a file written, a zip legal, a number measured) send one line to the session that
+spawned you (`SendMessage` to `main`), then carry on: it hears nothing else from you until you end. Whoever spawned you (a main session, or the agent you're helping) relays it: you never write to the inboxes, message
 the humans or the other session, or run `scripts/say.py` or `scripts/live.py`.
 
 Line 1: what's ready, e.g. "candidates/fix-flopraise/build/fix-flopraise.zip (sha256 9c1e…): one pair folds to flop

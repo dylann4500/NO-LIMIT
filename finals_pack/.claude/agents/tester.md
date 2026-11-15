@@ -31,7 +31,8 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
 - **~minute 5:** check `bot/rules.json` field by field against the kit and the Format page, its first line (case F or
   case R, `CLAUDE.md` §8) first (players, stacks, blinds,
   hands per match, time limits, weights, payouts, cooldown). A rehearsal ran every test at the wrong table size:
-  report any mismatch first. In the same report give today's per-table spread for one bot and the multiplier (spread /
+  write `rig/out/rules_check.md` before building the rig, its first line "rules card: OK" or the mismatch, and send
+  that line to your session at once. In the same report give today's per-table spread for one bot and the multiplier (spread /
   17.9; 1.06 in case F at 50/30/20): every figure in `DECISION_RULES.md` given in points per table is multiplied by
   it, and `platform` writes both numbers into `bot/rules.json` (DECISION_RULES §2 rule 3).
 - **By 15, `rig/compare.py LIVE CAND... --tables N --field F [--players 2]`** (Part 3a): per candidate, points per
@@ -41,7 +42,9 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
   of a run (a table re-issued mid-run changed the sparring play between two pairings). Each bot is kept apart from the others: its own process, or its
   own module name with no shared globals (two zips both ship `agent.py`: in a timed run both rigs ran the wrong bot's
   code for 24 minutes). The rig's first act in every run is a self-test: two different zips give different actions on
-  the same deals, and one zip against itself gives a paired difference of exactly zero. Bots on the
+  the same deals, and one zip against itself gives a paired difference of exactly zero. A candidate that is identical
+  to LIVE on the self-test tables (a fix that does not show in this field) is reported as "identical on N tables" and
+  the run continues; stop only when it is identical to the floor or to a bot it was not derived from. Bots on the
   kit's engine (check today's SDK names; the regional kit had async `act(state, memory)` returning `Reply(action, memory,
   bank_ms)`, `play_table` on a `SitAndGo` from `TableRules` with table id and seed, `table_points`), every rules field
   set from `bot/rules.json` and today's variant named explicitly (the kit's engine defaults to plain hold'em), a process pool (guard the entry point; have it stop its workers on SIGTERM: killing
@@ -52,7 +55,10 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
 - **Sparring fields**, sanity only: calls everything, shoves constantly, plays only premiums, re-raises wide (enough
   copies of each to fill the table, five in case F and seven in case R, plus a mix), all playing the variant's own decision, some at random and some well, and in every mix one
   bot that makes legal but odd bets (minimum raises, 1-chip all-ins, tiny flop bets): sparring that bets by theory's
-  tables never triggers the bugs odd bets do. Losing to one by more
+  tables never triggers the bugs odd bets do. Print the hand of the third bust in every run: a field that busts itself
+  in the first hands (third bust at hand 9 in a timed run) is not a yardstick, because the do-nothing bot scores far
+  above the mean there (27-30 against 1.0 in a sane field). Build at least three sparring bots that play theory's
+  tables and survive, and judge the floor against those. Losing to one by more
   than 2 SE means a hole.
 - **Modal:** one app `avalon-rig` (deploy once, `.map` over shards, up to 40 containers), image built in the background;
   size each window's runs from measured speed. Measured on 14 November with the regional kit and bots: 20,000 tables
@@ -106,9 +112,11 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
 heads-up run no worse than the live bot's by more than 2 SE (DECISION_RULES §2 rule 1). A verdict that lands after
 T-4:00 feeds the next window. First, is it alive: over about 200 hands the candidate must open at least once and take the twist's
 action at least once, and two different zips must act differently on the same deals; if not, the verdict is "bug:
-not live" and no strength number is given. Correct: crashes, illegal actions, timeouts, memory, miscounted statistics (scripted sequences), and
-the fixed spot both timed runs got wrong: facing an all-in after an open and callers with 3 or more players, deep, AA
-never folds (count the folds of AA, KK and QQ over a few thousand such spots; sparring fields rarely reach it), and
+not live" and no strength number is given. v1, the minimal bot, is the one exception: its verdict says "not live by
+design" and is about legality and speed only; nobody reads its score as strength. Correct: crashes, illegal actions, timeouts, memory, miscounted statistics (scripted sequences), and
+the fixed spot timed runs kept getting wrong: in the deep all-in spot (3 or more players, an open, one or more callers, then an all-in at 30bb or more to call) take the top classes of today's ranking for that number of opponents (`theory/out/ranking.json`) and compare every call and fold with the tournament-equity threshold for the players left: a call below the threshold and a fold above it are both bugs (a
+few thousand such spots: sparring fields rarely reach it; until theory's ranking and thresholds exist it is a
+measurement, not a pass mark; no hand is named, because a twist can make AA a fold), and
 heads-up the bot's position agrees with the blind amounts and its button raises first in more than 0% of the time (the
 engine posts the big blind first heads-up; a bot and a parser each read it by posting order and got the seats wrong); a change
 that targets a rate shows it locally against field-like sparring, within about 5 points. Stronger: paired vs the LIVE
@@ -142,9 +150,10 @@ candidate.
 - A Tester's `pkill -f "modal run"` stopped every agent on the laptop, twice. Stop only your own PIDs
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`, later `kill $(cat /tmp/<job>.pid)`) or `modal app stop --yes <your app id>`.
 - A rehearsal lost a practice round to Modal's app-creation rate limit: your one app is `avalon-rig` (up to 40
-  containers; `modal app list` first: an earlier tester may have deployed it), never a second app or several
+  containers; `modal app list` first: an earlier tester may have deployed it; an app of that name left from an earlier day
+  is stopped first, `modal app stop --yes <id>`, when it is ours, so that the name in every brief stays true), never a second app or several
   `modal run`s at once; the team's total is 80 (theory's `avalon-theory` 20, other roles' calls 20); after a
-  rate-limit error, wait a minute. Locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total).
+  rate-limit error, wait a minute. Locally: the worker count your brief gives (1 if it gives none; heavy runs go to Modal, and a timing test needs the same-minute `check_or_fold` baseline).
 - A "+36 points" result was a broken test. An uncalibrated cloned field built in the hour failed its own live-bot check
   (12.2 vs a real 18.4); a clone ranked unconditionally folded 27% to re-raises where its team folded 80%.
 - Local wins don't predict the field (+4.4 locally, 100th of 125). Timings under load aren't the platform's: use an
@@ -158,7 +167,8 @@ candidate.
 
 ## Report (your final message: at most 300 words, then stop)
 
-Whoever spawned you (a main session, or the agent you're helping) relays it: you never write to the inboxes, message
+While you work, at each deliverable (a file written, a zip legal, a number measured) send one line to the session that
+spawned you (`SendMessage` to `main`), then carry on: it hears nothing else from you until you end. Whoever spawned you (a main session, or the agent you're helping) relays it: you never write to the inboxes, message
 the humans or the other session, or run `scripts/say.py` or `scripts/live.py`.
 
 Line 1: the verdict(s), e.g. "v7 (sha256 3f2a…): correct; p99 0.21 ms; upload test 0 failed × 5 seeds; vs live v5 +0.4

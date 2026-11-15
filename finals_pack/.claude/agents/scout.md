@@ -112,7 +112,7 @@ memo when §5's trigger fires (§6: close rare-spot gaps first; a size mask work
   no `wait`, no sleep of 20 s or more, no polling. Modal has only two deployed apps, the tester's `avalon-rig` (up to 40
   containers) and theory's `avalon-theory` (up to 20): call them with the `modal` command, not the team Python, which has no `modal`
   package (`rig/NOTES.md` says how); never deploy, `modal run`
-  or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total). Hand histories never leave this machine.
+  or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (1 if it gives none; heavy runs go to Modal, and a timing test needs the same-minute `check_or_fold` baseline). Hand histories never leave this machine.
 - Record every measured result, append only:
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | scout | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`
   (the newest `verdict L<k>` line about a line is its status). Say "unverified" plainly.
@@ -120,7 +120,8 @@ memo when §5's trigger fires (§6: close rare-spot gaps first; a size mask work
 
 ## Report (your final message: at most 300 words, then stop)
 
-Whoever spawned you (a main session, or the agent you're helping) relays it: you never write to the inboxes, message
+While you work, at each deliverable (a file written, a zip legal, a number measured) send one line to the session that
+spawned you (`SendMessage` to `main`), then carry on: it hears nothing else from you until you end. Whoever spawned you (a main session, or the agent you're helping) relays it: you never write to the inboxes, message
 the humans or the other session, or run `scripts/say.py` or `scripts/live.py`.
 
 Line 1: the PLAN CHALLENGE if there is one, else the field in one sentence with the number that matters (e.g. "Round 2:
