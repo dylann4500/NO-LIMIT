@@ -102,8 +102,8 @@ Then, still in the build hour:
   variant-aware sparring. Don't let `theory` sit idle.
 - **On every release after v1** (BUILDER sends "RELEASED vN <sha256> ..."; v1's verdict comes from the minute-0
   `tester`, which has the rig): spawn a fresh `tester` for that release, in parallel
-  with any others (one tester continued serially fell behind by three releases). Its verdict goes to BUILDER for the
-  `VERSIONS.md` line. **No bot plays a scored round without a tester verdict that includes a heads-up run** (heads-up
+  with any others (one tester continued serially fell behind by three releases). Its verdict is the file
+  `rig/out/verdict-vN.md`, written by the tester when it finishes: send BUILDER the path and its first line at once. **No bot plays a scored round without a tester verdict that includes a heads-up run** (heads-up
   decides 50 vs 30 points). Every verdict reports the kit's `check_or_fold` floor in the same field and the load
   average: in the speedrun's variant the do-nothing bot scored as well as ours in a field that busts itself, which is
   a PLAN CHALLENGE-sized fact if it holds on the real field.

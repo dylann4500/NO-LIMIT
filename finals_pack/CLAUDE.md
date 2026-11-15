@@ -54,7 +54,7 @@ Your own start-up instructions are in `prompts/BUILDER.md` or `prompts/RESEARCH.
 | `notes/format.md` | the organizers' Format page as Dylan pasted it at minute 0 (weights, payouts, cooldown) | BUILDER |
 | `bot/` | the platform (the bot's shared code) | `platform` only |
 | `candidates/<name>/` | styles, the challenger, fixes, each in its own folder | `stylist`, `challenger` |
-| `releases/vN.zip` + `releases/VERSIONS.md` | every released bot (zips stay local, git-ignored); one line each: commit, the zip's sha256, what changed, checks, role, the tester's verdict | `platform` only |
+| `releases/vN.zip` + `releases/VERSIONS.md` | every released bot (zips stay local, git-ignored); one line each: commit, the zip's sha256, what changed, checks, role, and a pointer to the tester's verdict, which lives in the tester's own `rig/out/verdict-vN.md` | `platform` only (the verdict file: `tester`) |
 | `theory/out/*.json` + `theory/HANDOFF.md` | today's maths tables (ranking, ICM, push/fold, twist, break-evens): **the single source of preflop and equity truth**. Everyone reads them; nobody re-derives them (only the clean-room design D may compute its own) | `theory` |
 | `starter-kit/.venv/bin/python` | **the team's Python** for anything that needs the kit's SDK or its evaluator (set up once at minute 0 by `platform` and announced; system `python3` may not build the evaluator) | `platform` |
 | `analysis/` | parsers, `roundcard.py`, `fp_train.py`, `field_trend.py`; per round `analysis/<stage>/card.md`, `field_trend.md`, lens reports, where `<stage>` is the stage name with spaces as '-' (`analysis/Practice-1/`, `analysis/Round-2.5/`) | `analyst`, `scout` |

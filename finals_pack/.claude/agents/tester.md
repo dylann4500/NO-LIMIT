@@ -97,7 +97,8 @@ bot, 2,000+ deals per field; after round 1 the cloned field. Evidence, not a gat
 ms on an idle core) and not catastrophically worse (better than −2 points per table) is fit for a practice round or
 the challenger slot; the practice round judges strength. Measure noise first (a bot against itself: about 20/√tables
 points in case R, about 6% more in case F). v1 has no live bot to beat: judge it against the kit's `check_or_fold` floor and one sparring field. A
-heads-up run pays 1st and 2nd, so with 50/30/20 an even bot scores 40 and the floor is 30. Record each verdict: claim `verdict <name> (sha256 12): correct | bug: …; vs live vN: diff ± se`, method with
+heads-up run pays 1st and 2nd, so with 50/30/20 an even bot scores 40 and the floor is 30. Write each verdict to `rig/out/verdict-<name>.md` the moment it is done, its first line the
+verdict line of your report: that file is the verdict of record, and nobody copies its text. Also record it: claim `verdict <name> (sha256 12): correct | bug: …; vs live vN: diff ± se`, method with
 players, opponent pool, deals, seeds.
 
 **Verifying what decisions rest on: re-run, don't re-read.** Method matches the rules card? Bot sha as claimed? Paired
