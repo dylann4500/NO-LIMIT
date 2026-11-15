@@ -92,7 +92,7 @@ reports a measured value outside a solved grid.
   were up to 6 points wrong for 19 minutes while symmetry passed); a twist rule never breaks a made full house or
   better (exhaustive) and never decides on an exact tie. Numbers into HANDOFF.md.
 - **Speed to expect:** a 7-card evaluation about 0.32 µs and a full heads-up deal with the twist 2.2-4.4 µs (laptop,
-  measured 14 November), so 169 classes × 100,000 deals run in 37 s on 2 local workers without Modal. Time 50,000
+  measured 14 November; 9-57 µs once each simulated player's rule call is counted, as later drills measured), so 169 classes × 100,000 deals run in 37 s on 2 local workers without Modal. Time 50,000
   deals before designing anything. 2,000 heads-up fictitious-play iterations on 169×169 in 0.09 s; a 3-way equity
   table about 2 minutes on Modal (one app `avalon-theory`, deployed once, `.map` over shards, up to 20 containers). The
   team Python has no `modal` package: launch with the `modal` command (its own interpreter, which has no eval7), and
