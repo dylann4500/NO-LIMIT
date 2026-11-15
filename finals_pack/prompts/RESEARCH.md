@@ -103,8 +103,10 @@ Then, still in the build hour:
 - **About minute 12 (when the first tables are in): theory wave 2.** The twist's value with betting, multiway all-in
   tables, the value of what the twist reveals about neighbours, and the tables' field columns refitted against
   variant-aware sparring. Don't let `theory` sit idle.
-- **On every release after v1** (BUILDER sends "RELEASED vN <sha256> ..."; v1's verdict comes from the minute-0
-  `tester`, which has the rig): spawn a fresh `tester` for that release, in parallel
+- **On every release after v1** (v1's verdict comes from the minute-0 `tester`, which has the rig). The zip starts
+  the tester, not the message: a release exists when `releases/vN.zip` and its `VERSIONS.md` line exist, and the
+  tester checks the sha256 first; BUILDER's "RELEASED vN <sha256> ..." only adds the checks done. Nothing wakes you
+  when a file lands, so on every wake-up look for new files first (`ls -lt releases theory/out rig/out | head`): spawn a fresh `tester` for that release, in parallel
   with any others (one tester continued serially fell behind by three releases). Its verdict is the file
   `rig/out/verdict-vN.md`, written by the tester when it finishes: send BUILDER the path and its first line at once. **No bot plays a scored round without a tester verdict that includes a heads-up run** (heads-up
   decides 50 vs 30 points). Every verdict reports the kit's `check_or_fold` floor in the same field and the load
