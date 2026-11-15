@@ -86,6 +86,8 @@ memo when §5's trigger fires (§6: close rare-spot gaps first; a size mask work
 
 ## How to do it well
 
+- Positions in a download: identify the blinds by amount, never by posting order (heads-up the engine posts the big
+  blind first and the button is the small blind; antes are separate events before the blinds).
 - The live bot sees anonymous seats and recognises teams by naive Bayes over bet-size and action tokens (§1); downloads
   have no timing data.
 - Never put team profiles into default play: counters only behind `CTR_<team>`. Nothing learned at one table carries

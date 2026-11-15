@@ -95,7 +95,9 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
 action at least once, and two different zips must act differently on the same deals; if not, the verdict is "bug:
 not live" and no strength number is given. Correct: crashes, illegal actions, timeouts, memory, miscounted statistics (scripted sequences), and
 the fixed spot both timed runs got wrong: facing an all-in after an open and callers with 3 or more players, deep, AA
-never folds (count the folds of AA, KK and QQ over a few thousand such spots; sparring fields rarely reach it); a change
+never folds (count the folds of AA, KK and QQ over a few thousand such spots; sparring fields rarely reach it), and
+heads-up the bot's position agrees with the blind amounts and its button raises first in more than 0% of the time (the
+engine posts the big blind first heads-up; a bot and a parser each read it by posting order and got the seats wrong); a change
 that targets a rate shows it locally against field-like sparring, within about 5 points. Stronger: paired vs the LIVE
 bot, 2,000+ deals per field; after round 1 the cloned field. Evidence, not a gate: correct, legal, fast (p99 under 0.5
 ms on an idle core) and not catastrophically worse (better than −2 points per table) is fit for a practice round or

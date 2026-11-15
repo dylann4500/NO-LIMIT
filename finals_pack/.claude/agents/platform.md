@@ -180,6 +180,9 @@ tells him); LEDGER ids; what's unverified; running jobs (PID, log, ETA, Modal ap
   the keys found; the packer prints every file it drops (and never drops tables silently for size); a rebuilt zip
   overwrites the old one atomically and prints its sha256. When you rename a setting, keep the old name as an alias for
   one release and note the rename in INTERFACE.md.
+- **Heads-up blinds:** heads-up the engine posts the big blind before the small blind, and the button is the small blind (the regional kit's engine, with or without antes; antes are
+  separate events before the blinds). Take the blinds by amount, never by posting order. Before the first release,
+  play a heads-up table on the real engine and check the button raises first in more than 0% of the time.
 - **Minute-0 checks that caught real bugs:** positions (button, small blind, big blind) derived from the state and
   compared with the engine's blind events at 2, 3 and a full table of players (a heads-up blind swap shipped otherwise); ICM with a
   seat busted this hand gets its place's payout (the kit's `icm()` scores it 0: the regional's bug, again).

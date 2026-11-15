@@ -68,6 +68,9 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
     all-in face us while we hold AA, and the same with KK, at 30bb or more to call and with a high tournament
     break-even. AA must never fold; report how often KK and QQ fold and whether the design means it. Both timed runs
     shipped a call rule that folded AA here, and three general reviews missed it.
+13. **Heads-up seats:** on the real engine, heads-up, the engine posts the big blind before the small blind and the
+    button is the small blind. Check the bot's own idea of its position against the blind amounts on 200 heads-up
+    hands, and that from the button it raises first in more than 0% of the time.
 
 **A second opinion by a different method:** if `codex` is logged in, start `codex exec` in the background on the same
 target with this list (log in your folder), carry on, then merge its findings, re-running each before you report it.
@@ -98,7 +101,7 @@ breaks; effect: how often it fires per 1,000 hands, or the wrong number against 
 Whoever spawned you (a main session, or the agent you're helping) relays it: you never write to the inboxes, message
 the humans or the other session, or run `scripts/say.py` or `scripts/live.py`.
 
-Line 1: "<target> (sha256 …): N bugs reproduced, worst: <one line>" or "<target>: no bug reproduced in checks 1-12".
+Line 1: "<target> (sha256 …): N bugs reproduced, worst: <one line>" or "<target>: no bug reproduced in checks 1-13".
 Then each bug, worst first: what it breaks, how often, the reproduction (path and command), who should fix it; the
 checks you ran with their numbers (failed decisions, p99, max, upload test); what's unverified; the Codex job (merged,
 or log path if still running); LEDGER ids; your folder.

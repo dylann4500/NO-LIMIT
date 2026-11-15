@@ -115,6 +115,9 @@ platform by T-15, then a `tester` verdict); the practice score it would need to 
 (RESEARCH's tester computes the field-adjusted edge); LEDGER ids; what's unverified; running jobs or "nothing".
 
 ## From the 14 November speedrun
+- Heads-up the engine posts the big blind before the small blind and the button is the small blind: take blinds by
+  amount. A design D shipped with the wrong heads-up seat, and its small blind never raised. Before D's first
+  release, a heads-up table on the real engine: the button raises first in more than 0% of the time.
 - Never use the kit's ICM helper without a busted-seat test (a seat busted this hand must get its place's payout); use
   the platform's ICM helper once it exists. Design D shipped with the kit's bug and folded everything with 3 left.
 - Report strength against the platform base (the harness), not only against your own sparring bots: D's +10.7

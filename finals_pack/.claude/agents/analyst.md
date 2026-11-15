@@ -89,7 +89,8 @@ matches what wins, a PLAN CHALLENGE.
 - **The shared extraction** (Part 2), saved as `analysis/<stage>/decisions.jsonl.gz` so each lens loads it instead of
   re-parsing: for every decision of every non-filler seat, the street (board deals so far); the situation (unopened,
   limped pots included; checked to, including the big blind's option; facing a bet or raise; facing a re-raise);
-  preflop position (small blind, big blind, other; heads-up the button is the small blind); players left (in case R 6-8, 4-5,
+  preflop position (small blind, big blind, other; heads-up the button is the small blind, and the engine
+  posts the big blind first there: identify blinds by amount, never by order, and skip `ante` events); players left (in case R 6-8, 4-5,
   2-3); effective stack in big blinds (the smaller of the player's stack and the biggest other stack in the hand):
   <10, 10-20, 20-40, 40+ (in case F: players left 5-6, 4, 2-3, and further bands above 40bb, `notes/pre/format_finals.md`); the action (fold, check, call, small raise, large raise, all-in; small = to at most 2.5x the
   bet faced preflop or at most 55% of the pot after; an all-in call is a call; the variant's phase its own class); and
