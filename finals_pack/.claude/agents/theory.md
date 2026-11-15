@@ -39,6 +39,10 @@ break-evens and HANDOFF.md; write each file the moment it passes its checks, so 
 - **m10 `icm_thresholds.json`:** Malmuth-Harville from the payouts; a busted player gets their place's payout;
   break-even all-in call equity by players left and stack shares. Tests: heads-up = pot odds; 6 equal stacks ≈ 58% and 5 equal ≈ 61% in case F (8 equal ≈ 56% in case R); 3
   equal ≈ 57%; 4 equal ≈ 62-65% (for 50/30/20; other payouts: compute and say so).
+- **m12 `call_multiway.json`:** the break-even equity to call an all-in when one or two players have already called
+  it, by players left, players already in and stack shares, with side pots and the matched part counted
+  (`icm_thresholds.json` is single-caller, and three-way equities are not a threshold: in a timed run the bot compared
+  3-way equity with a heads-up threshold and two bughunters each wrote their own side-pot ICM).
 - **m15 `twist.json` and `twist_rule.json`:** the twist's option values by common random numbers (TWIST_NOTES §0):
   every option on the same deals in one interleaved loop; against opponents who ALSO use the twist well; using all it
   reveals; dead cards removed; any budget planned over a whole table (150-175 hands in case F: simulated 155, measured 163-174 in a timed run;

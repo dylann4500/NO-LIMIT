@@ -42,7 +42,7 @@
    "tasks": [
     [
      "theory",
-     "The maths tables (strategy/FIRST_PROMPT.md Part 1b) into theory/out/, three theory agents in parallel: hand ranking + ICM thresholds by minute 10; the twist's option values (its decision rule in theory/out/twist_rule.json) + push/fold + call tables + break-evens by 15; theory/HANDOFF.md by 20; then a second wave. Report each file as it lands (you send each to BUILDER; its platform builds each in as it lands)."
+     "The maths tables (strategy/FIRST_PROMPT.md Part 1b) into theory/out/, three theory agents in parallel: hand ranking + ICM thresholds by minute 10, then the call threshold against two or more players (theory/out/call_multiway.json) by about 12; the twist's option values (its decision rule in theory/out/twist_rule.json) + push/fold + call tables + break-evens by 15; theory/HANDOFF.md by 20; then a second wave. Report each file as it lands (you send each to BUILDER; its platform builds each in as it lands)."
     ],
     [
      "analyst",

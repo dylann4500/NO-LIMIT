@@ -115,6 +115,7 @@ Six of our regional bots (v10, v9s, v6, v3b, v8, v7) at case F against eight at 
 |---|---|---|---|---|
 | 1 | Format card: depth by level and players, pot by players, break-evens for our sizes, ratios after each raise level, stack-to-call multiples | minute 3 | seconds (formulas) | Sent to every stylist at once; section 6 has the check values |
 | 2 | ICM: break-even calls and bubble factors for 6 to 2 players, equal stacks and a grid of stack shares, with the antes as dead money | minute 8 | under a minute (120 orderings a table at six seats, 336 at eight) | Checks: 58.1 / 60.6 / 65.2 / 57.1 / 50%; the busted-seat test |
+| 2b | Multiway all-in call: break-even equity to call an all-in that one or two players have already called, by players left, players already in and stack shares, side pots counted | minute 12 | under a minute | Added after the dress run: the ICM table above is single-caller, and nothing gave the threshold for a second or third caller |
 | 3 | Ranking under the twist against 1 to 5 opponents and a top-30% range | minute 10 | about 40 s on 2 workers per opponent count (heads-up; more players cost more) | As planned, five opponent counts instead of seven |
 | 4 | Deep card: the stack-off threshold BF / (BF + 1 + 1/ratio) on a grid, and the equity of each made-hand class against the best 2, 5, 10 and 20% of holdings by board type | minute 13 | grid instant; equities about 2 minutes on Modal | New for case F; the stylists' stack-off rule reads it |
 | 5 | The twist's option values and rule | minute 15 | as planned | Unchanged |

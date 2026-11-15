@@ -92,7 +92,7 @@ theory) and the role's own pre-event note (`theory`: `notes/pre/variants.md`; `t
 `field.md`; `analyst` and `scout`: `stat_definitions.md`; all, in case F: `format_finals.md`). Spawn in ONE message, in
 the background:
 - `theory` x3 (the speedrun showed this lands everything by minute 12): (1) hand ranking + ICM thresholds by minute
-  10; (2) the twist's option values and the twist decision rule (`theory/out/twist_rule.json`) by 15; (3) push/fold,
+  10, then the call threshold against two or more players (`call_multiway.json`) by about 12; (2) the twist's option values and the twist decision rule (`theory/out/twist_rule.json`) by 15; (3) push/fold,
   call tables and break-evens by 15, `theory/HANDOFF.md` by 20. As each lands, `SendMessage` BUILDER one line with the
   path and the headline (e.g. "pairs are the worst hands here"): BUILDER broadcasts it so nobody re-derives it. Relay
   a number only from the file itself, opened by you, never from a subagent's progress line: quote the file's

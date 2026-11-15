@@ -347,7 +347,8 @@ Run in parallel with Part 1. It computes the parts of today's game that converge
 **The brief** (`theory`'s, three agents in parallel: hand ranking and ICM thresholds by minute 10; the twist's
 option values, with the twist decision rule in `theory/out/twist_rule.json`, push/fold, call tables and
 break-evens by 15; `theory/HANDOFF.md` by 20; then a second wave): today's hand ranking;
-ICM thresholds (a busted player keeps their place's payout); the twist's option values; push and call tables
+ICM thresholds (a busted player keeps their place's payout), and after them the break-even equity to call an
+all-in that one or two players have already called (side pots counted); the twist's option values; push and call tables
 keyed by players left, position and stack, with call tables as best responses to opponent shove widths of
 10-70% (both regional fields open-shoved 35-50% at 10bb or less and 10-35% at 10-20bb, so equilibrium call
 ranges fold too much); break-even
