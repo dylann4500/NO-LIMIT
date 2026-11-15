@@ -119,7 +119,7 @@ running before you spawn anything.
 - **Keep the stylists working:** once A/B/C are legal (minutes 12-29 in the two timed runs), continue the same `stylist` agents
   (SendMessage) for rebuilds and one-change candidates; a continued agent rebuilt in 1-2 minutes.
 - **CPU:** if `uptime` shows load above the core count, ask RESEARCH to move its rig to Modal and pause local fan-out
-  before any upload test; an upload test counts only next to the kit's `check_or_fold` run in the same minute.
+  before any upload test (say "no local match or Monte Carlo runs until HH:MM; Modal clients are fine"); an upload test counts only next to the kit's `check_or_fold` run in the same minute.
 - When a practice result lands (inbox), read `analysis/<stage>/card.md` and `field_trend.md` (stage with spaces as
   '-', e.g. `analysis/Practice-1/`) and RESEARCH's read.
 - **Round 1** (DECISION_RULES §3 "Round 1"): at minute 50, once practice 4 has started, `live.py` the tester's adjusted best scorer of practices

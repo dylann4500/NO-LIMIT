@@ -157,7 +157,9 @@ happen again.
   and the session checks `uptime` before any timing test and whenever it adds an agent; Monte Carlo or
   match runs longer than about a minute of CPU go to Modal (the two deployed apps, hard rule 8). A timing or upload test counts only
   if `uptime` shows load below the core count AND the kit's `check_or_fold` example runs in the same minute as a
-  baseline; otherwise say "inconclusive: machine loaded" and re-run. On this Mac a script that starts a process
+  baseline; otherwise say "inconclusive: machine loaded" and re-run. A request
+  for a quiet window ("nothing heavy locally until HH:MM") means no local match or Monte Carlo runs; Modal clients,
+  one light process each, carry on, and nobody stops work altogether. On this Mac a script that starts a process
   pool needs an `if __name__ == "__main__":` guard (without it, it forks in a loop), and there is no `timeout`
   command: cap a job inside Python or stop it by its PID.
 - **Silent fallbacks are bugs.** Every loader, packer, setting and table lookup fails loudly on a mismatch (unknown
