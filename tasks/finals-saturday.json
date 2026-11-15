@@ -82,6 +82,11 @@
       "at": "2026-11-15T11:58:35Z",
       "by": "dylann29",
       "text": "renewed 4h"
+    },
+    {
+      "at": "2026-11-15T12:02:56Z",
+      "by": "dylann29",
+      "text": "emu/rehearsal 82c059f: the six fixes from the rehearsal review (B1-B6) are applied, approved by Dylan AND Samuel at 03:50 (B2 edits hard rule 1: failed decisions are judged against the kit's check_or_fold bot in the same run). Full script tests 228/228. The starting-bundle zip is repacked (sha256 86eb7f8d9eef..., same name in nolimit-live and Dylan's Downloads; Saturday's zip kept as avalon-finals-starting-bundle-saturday.zip). Same 68 entries, 7 files changed: CLAUDE.md, START.md (new starters: Opus subagents at high effort, the suggestions line with the decision rules excepted, /compact at each scored round start, roles stay background subagents), DECISION_RULES.md, FIRST_PROMPT.md, prompts/BUILDER.md, prompts/RESEARCH.md, tester.md. Also: the API key now sees the Finals competition; the watcher was tested read-only on the real portal (rounds, rankings, standings, hand-file download all work). Overnight analyses of fingerprinting and the time budget are in ~/avalon-rehearsal-log/analysis/fp/reports on Dylan's laptop; wording for those is still to be proposed."
     }
   ],
   "owner": "dylann29",
@@ -94,5 +99,5 @@
   "result": "",
   "state": "active",
   "title": "Saturday handoff: review and merge the overnight research branches, apply speedrun findings, rehearsal prep on Dylan's Mac",
-  "updated_at": "2026-11-15T11:58:35Z"
+  "updated_at": "2026-11-15T12:02:56Z"
 }
