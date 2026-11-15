@@ -1,0 +1,28 @@
+{
+  "agent": "Dylans-MacBook-Pro-1228",
+  "assignee": "",
+  "claimed_at": "2026-11-15T04:11:31Z",
+  "cmd": "",
+  "compute": "",
+  "details": "",
+  "expires_at": "2026-11-15T08:11:31Z",
+  "id": "emu-finals-rehearsal",
+  "log": [
+    {
+      "at": "2026-11-15T04:11:31Z",
+      "by": "dylann29",
+      "text": "claimed"
+    }
+  ],
+  "owner": "dylann29",
+  "paths": [
+    "emu"
+  ],
+  "posted_at": "",
+  "posted_by": "",
+  "priority": 0,
+  "result": "",
+  "state": "active",
+  "title": "Emulator on Dylan's laptop for tonight's full rehearsal: six-seat Finals table, a static field of bots, the mock portal answering the watcher; Samuel is not available tonight (Dylan)",
+  "updated_at": "2026-11-15T04:11:31Z"
+}
