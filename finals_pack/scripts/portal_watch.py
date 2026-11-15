@@ -574,10 +574,11 @@ class Watcher:
             line += " · hand data not downloadable yet (retrying)"
         self.say("both", line)
         if me and (me.get("contender") is False or me.get("culled_at_look")):
-            self.say("both", f"after {stage} the portal marks us culled in that round (culled_at_look: {me.get('culled_at_look') or 'culled'}). "
-                             "That is an early stop inside one round, not elimination: we were dealt fewer tables, the round "
-                             "still scores on the tables we played (a noisier score), later rounds are unaffected and no "
-                             "decision rule changes.")
+            self.say("both", f"after {stage} the portal marks us out of contention in that round (culled_at_look: {me.get('culled_at_look') or 'culled'}). "
+                             "By the portal's code this is an early stop inside one round (fewer tables; the round still "
+                             "scores). RESEARCH asks Samuel to ask an organizer at once whether such teams still play and "
+                             "can still be paid; BUILDER tells Dylan what it means. Until the answer nothing changes; if it "
+                             "is final, the last-rounds bar (z >= 0) applies (DECISION_RULES §3).")
         nt = next((me.get(k) for k in ("tables", "tables_played", "n_tables") if me and me.get(k) is not None), None)
         if me and (nt == 0 or me.get("forfeited")):
             self.say("both", f"URGENT: we played no tables in {stage} (forfeited: {bool(me.get('forfeited'))}): no active "
@@ -776,9 +777,9 @@ class Watcher:
             if held and not self.st.get("standings_held"):
                 self.st["standings_held"] = True
                 self.say("both", "the portal marks the standings as held: totals may be stale. Until they're back, "
-                                 "DECISION_RULES treats us as outside the top 3 unless we were clearly in it; RESEARCH works "
-                                 "out our total from each round's results x weights (rounds that finish during the hold have their "
-                                 "results held too: no score for those until release).")
+                                 "RESEARCH has tester work the standings out for every team from each round's results x weights; "
+                                 "only if that can't be done does DECISION_RULES treat us as outside the top 3 (rounds that finish "
+                                 "during the hold have their results held too: no score for those until release).")
             elif not held and self.st.get("standings_held"):
                 self.st["standings_held"] = False
                 self.say("both", "the standings can be read again.")
@@ -787,9 +788,9 @@ class Watcher:
             if not self.st.get("standings_held"):
                 self.st["standings_held"] = True
                 self.say("both", f"the standings can't be read ({type(e).__name__}: {str(e)[:80]}): the leaderboard may "
-                                 "be held. Active-bot checks continue. Until it's back, DECISION_RULES treats us as outside "
-                                 "the top 3 unless we were clearly in it; RESEARCH works out our total from each round's "
-                                 "results x weights.")
+                                 "be held. Active-bot checks continue. Until it's back, RESEARCH has tester work the standings "
+                                 "out for every team from each round's results x weights; only if that can't be done does "
+                                 "DECISION_RULES treat us as outside the top 3.")
             return self.st.get("standings") or []
 
     def watch_competition(self) -> None:

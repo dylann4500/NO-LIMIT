@@ -105,8 +105,8 @@ neither exists any more.
   VARIANT IS ANNOUNCED" line, which carries the portal's own time for minute 0). When a scored round really starts at
   another time, pin it
   (`python3 scripts/clock.py pin scored<k> HH:MM`); never move minute 0 after round 1.
-- **A hidden leaderboard switched off the checks** (audit). → Standings hidden: work out our total from each
-  round's results and weights; if that's impossible, treat us as outside the top 3 (`DECISION_RULES.md` §3).
+- **A hidden leaderboard switched off the checks** (audit). → Standings hidden: `tester` works out every team's total from each
+  round's results and weights; only if that's impossible, treat us as outside the top 3 (`DECISION_RULES.md` §3).
 - **A silent portal went unnoticed** (audit). → No round seen 8 minutes after an expected start, or
   `state/status.md` going stale during a round: tell both humans (the watcher may be down, or the round delayed).
 

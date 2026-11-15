@@ -48,8 +48,8 @@ corner.
   near hand 100 and finishes 4th). Define each as a fraction of TODAY's ranking (`theory/out/ranking.json`) plus
   stack-depth rules; regional numbers are hold'em numbers.
 - **Shared defaults** each style keeps unless its design overrides one and says so: no open-limping (a limp-or-jam
-  style limps by design, with a planned re-shove); no flat call of an open at 10bb+ except big-blind defence at the
-  right price; shove-or-fold first in at about 12bb or less (a case-R depth: with case F's antes a fold-through wins 2.7bb, not
+  style limps by design, with a planned re-shove); a flat call of an open at 10bb+ only where your style states the postflop plan behind it (big-blind
+  defence at the right price needs none); the check run still counts every flat call; shove-or-fold first in at about 12bb or less (a case-R depth: with case F's antes a fold-through wins 2.7bb, not
   1.5, so recompute it, `notes/pre/format_finals.md`); fold one pair to raises and large late bets unless that
   seat has shown bluffs; fold to a 3-bet of our open no more than break-even (`theory/out/exploit.json`; usually
   65-75% in case R and about 59-68% with case F's antes, and about 57% for the open size a timed run used; a starting value: take

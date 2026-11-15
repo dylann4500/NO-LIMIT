@@ -31,7 +31,9 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
 - **~minute 5:** check `bot/rules.json` field by field against the kit and the Format page, its first line (case F or
   case R, `CLAUDE.md` §8) first (players, stacks, blinds,
   hands per match, time limits, weights, payouts, cooldown). A rehearsal ran every test at the wrong table size:
-  report any mismatch first.
+  report any mismatch first. In the same report give today's per-table spread for one bot and the multiplier (spread /
+  17.9; 1.06 in case F at 50/30/20): every figure in `DECISION_RULES.md` given in points per table is multiplied by
+  it, and `platform` writes both numbers into `bot/rules.json` (DECISION_RULES §2 rule 3).
 - **By 15, `rig/compare.py LIVE CAND... --tables N --field F [--players 2]`** (Part 3a): per candidate, points per
   table ± SE, the paired difference vs LIVE ± SE, failed decisions, p99, p99.9 and max decision time by phase (judge on p99.9 beside the
   `check_or_fold` baseline: the max spikes under load). It saves each bot's points per table, so two
@@ -89,7 +91,9 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
   e.g. `analysis/Round-2.5/fp/`, written by the watcher's quick `fp_train.py` run). Edge =
   (challenger's practice score − yardsticks' practice scores) − (live bot's last scored score − yardsticks' scored
   scores); under 4 yardsticks, scores minus the field median (say so); pool the challenger's practices when its core
-  is unchanged; practice SE at least 0.7 points per table; z = edge / SE. Write `rig/out/<stage>-edge.md`, and give
+  is unchanged; SE of the edge: with 6 or more yardsticks, the standard deviation of their own (practice score − last scored
+  score) times √(1 + 1/number of yardsticks); with fewer, 0.8; never below 0.7 (0.8 and 0.7 times the day's multiplier,
+  DECISION_RULES §2 rule 3); z = edge / SE; give the edge in points too and say so if the SE is above 1.0. Every score comes from the round's `results.json`, never from a hand file. Write `rig/out/<stage>-edge.md`, and give
   the practice score the challenger needs as soon as the live side's numbers exist.
 - **T-6, on the chosen zip:** the upload test with no time bank (2 players, 20 hands, time bank 0, vs the kit's
   check-or-fold, several seeds; vs a call-everything bot so the twist fires). The kit's command-line runner can't
@@ -98,7 +102,9 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
 
 ## How to do it well
 
-**Verdicts.** First, is it alive: over about 200 hands the candidate must open at least once and take the twist's
+**Verdicts.** A verdict's first words are "fit for a scored round" or "not fit": fit means correct, fast, and a
+heads-up run no worse than the live bot's by more than 2 SE (DECISION_RULES §2 rule 1). A verdict that lands after
+T-4:00 feeds the next window. First, is it alive: over about 200 hands the candidate must open at least once and take the twist's
 action at least once, and two different zips must act differently on the same deals; if not, the verdict is "bug:
 not live" and no strength number is given. Correct: crashes, illegal actions, timeouts, memory, miscounted statistics (scripted sequences), and
 the fixed spot both timed runs got wrong: facing an all-in after an open and callers with 3 or more players, deep, AA

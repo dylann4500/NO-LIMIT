@@ -54,7 +54,7 @@ given) by T-16 of the next window; `platform` releases it by T-15 as `releases/v
 sha256), Dylan activates it at T-12, and RESEARCH's `tester` gives the release its verdict (with a heads-up run:
 without one no bot plays a scored round). Only tested code is released; a late challenger skips its slot and keeps
 building. Until 30% of the total weight is played, at least every other practice plays a divergent challenger (another
-style class or a rewrite, not the live bot plus tweaks), unless our lead over 4th exceeds one round's typical swing;
+style class or a rewrite, not the live bot plus tweaks), unless our lead over 4th on the standings is more than 3 x the coming round's weight (DECISION_RULES §3);
 after that, keep one divergent line alive as insurance.
 
 **Last round** (29% of all points with multipliers 1 to 6, 41% with Fibonacci, 51% with powers of two; the Finals was set to 1 to 6 on Saturday afternoon, re-read at minute 0): planned from the round before: durable fixes plus any held-back exploit.

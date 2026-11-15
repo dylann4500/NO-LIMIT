@@ -26,7 +26,7 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
 **Build hour** (minutes from the announcement):
 - **by 5, `bot/rules.json`:** its first line says which case holds, F, R or what differs from both (`CLAUDE.md` §8), and
   so does your report's first line (aim for minute 2: nothing else can be computed before it). Then players per table, stack, blinds, antes and their schedule, hands per match, time limit and
-  time bank, memory limit, payouts, round weights and count, upload cooldown, fillers, the engine's name for the variant, the variant's phases, action
+  time bank, memory limit, payouts, the per-table spread and its multiplier (spread / 17.9, from `tester` by minute 5), round weights and count, upload cooldown, fillers, the engine's name for the variant, the variant's phases, action
   kinds, `state.variant` keys, failure defaults, anything unusual in `state.config`; each with its source (kit
   file:line or "Format page", which Dylan gives BUILDER). Unconfirmed fields are marked so and named in your report.
   Cross-check against what the portal itself states, when the files exist: the rules text in `state/variant.md`
@@ -60,7 +60,7 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
   landed: `analysis/field_priors.json` (seat priors); `analysis/counters.json` and the recogniser data behind `FP_ON`,
   `CTR_<team>`, `ANTI_ADAPT_<team>`, `DISGUISE_*` (default off, outside the change count); the live-bot changes BUILDER
   names (stylist's `fix-*`, `ctr-*` folders), each behind its own setting with a branch count.
-- **T-6:** the chosen bot through the upload test with no time bank; release it if it's a new zip. **T-4** is the
+- **T-6:** the chosen bot through the upload test with no time bank; release it if it's a new zip. **T-4:00** is the one switch deadline and the
   cut-off: not released and tested (with a `tester` verdict that includes a heads-up run), the live bot plays; report
   the cause. **T-3:** confirm the exact file.
 - **Last round** (29% of all points with multipliers 1 to 6, 41% with Fibonacci, 51% with powers of two; the Finals was set to 1 to 6 on Saturday afternoon, re-read at minute 0): durable fixes plus any held-back exploit BUILDER names; same tests.
@@ -104,7 +104,8 @@ hand-history README; `state.config`; where two of its files disagree, test what 
   once; when the bettor covers us, only the matched part is ours.
 - **Settings:** every change and adaptive rule is a named setting with a branch count; old behaviour stays the default
   until BUILDER decides. **Shared defaults are a report, not a gate:** count open-limps, flat calls of opens at 10bb+
-  outside the big blind, first-in non-shove raises under 12bb, one-pair calls of raises.
+  outside the big blind, first-in non-shove raises under 12bb, one-pair calls of raises. A counted flat call behind
+  which the style states its postflop plan is not a defect.
 
 **The checks** (numbers, never "passed"): (1) the zip imports from an empty folder; heads-up vs the kit's
 check-or-fold, 20 hands, time bank 0: 0 failed decisions on several seeds; the same vs a call-everything bot, counting

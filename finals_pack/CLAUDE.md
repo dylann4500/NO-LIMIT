@@ -205,7 +205,7 @@ says which case holds (F, R, or what differs from both), and BUILDER tells every
 | Tables one opponent shares with us | about a quarter: roughly 250 of 1,000 | about a third: 300-350 |
 | Equity to call all-in, equal stacks | 58.1% on hand 1; 60.6% with 5 left, 65.2% with 4, 57.1% with 3, pot odds heads-up | 55.6% on hand 1; the same from 4 left down |
 | Hands a table | about 155 simulated with regional bots, 163-174 measured in a timed run; a seat is dealt 105-115 | about 131; a seat is dealt 90 |
-| One bot's spread a table; paired noise | 18.9; about 22/√tables (estimate: measure it) | 17.9; about 21/√tables |
+| One bot's spread a table (its ratio to 17.9 is the day's multiplier for every figure in points per table, `DECISION_RULES.md` §2 rule 3: 1.06 in case F); paired noise | 18.9; about 22/√tables (estimate: measure it) | 17.9; about 21/√tables |
 | Sparring field | five copies beside the candidate | seven |
 | Rig speed | about 0.9 of the case-R rate (estimate: time the first job) | as measured in `tester.md` |
 | A bot that only folds | out near hand 121, about 11 of 16.7 (simulated) | out near hand 102, about 7 of 12.5 |
@@ -226,14 +226,16 @@ from the round before on every download.
 every so many iterations and stops dealing tables to teams it is confident are outside its top places; such a team is
 shown as "Culled at look k". Its round still scores, on the tables it played, and it plays every later round as
 normal (read from the portal's code; it was off at the regional). For us: fewer tables that round, so a noisier
-score, and nothing else: no rule or bar changes.
+score. What we do is one rule (`DECISION_RULES.md` §3, "When to be bolder"): RESEARCH asks Samuel to ask an organizer
+at once whether such teams still play and can still be paid; until the answer nothing changes.
 
 **The last round may be dark, and the leaderboard can be held at any moment** (read from the portal's code; neither
 was used at the regional, and neither was set for the Finals on Saturday afternoon). If the competition names a final round (`final_weight` in `state/portal.json`,
 `comp_settings`), that round's results and our own bot's health report are held until the organizers reveal them:
 nothing from it reaches us. When the leaderboard is held, the standings are hidden and every round that finishes
 during the hold has its results held too, practice rounds included. What we do is already written: with the
-standings hidden we count as outside the top 3 unless we were clearly in it, and with no practice result by T-6 the
+standings held, `tester` works them out for all 21 teams from each round's results x weights, and only if that can't be
+done do we count as outside the top 3, and with no practice result by T-6 the
 rule's answer is the live bot (`DECISION_RULES.md` §3, `prompts/RESEARCH.md`).
 
 **Round multipliers.** A round's points count times its multiplier, and the series is one of three: linear (1 to

@@ -49,7 +49,7 @@ moment. **Start both sessions in the same permission mode:** a session holds mes
 a different mode until a human approves them. So never start just one of them with
 `--dangerously-skip-permissions`; the repo's settings already remove the permission prompts.
 
-**Model and effort:** the strongest model you have (Opus 5.5 or Fable 5.2) at **high** effort for both sessions
+**Model and effort:** Fable 5.2 at **high** effort for both sessions
 (`/model`, `/effort high`; `xhigh`/`max` think longer and answer slower). Subagents use the session's model and effort
 unless a role file or the session picks another. The `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40` prefix raises the
 default limit of 20 subagents running at once per session (checked on 14 Nov: the 21st spawn fails outright, it

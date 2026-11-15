@@ -10,7 +10,8 @@ broke in rehearsals is in `LESSONS.md`; the briefs for the subagents are in `FIR
 At the regional we finished 6th (376.71). 2 Curry won with 428.72, about 2.5 points per table per round
 more than us.
 
-- **Our own mistakes cost about 22-25 points; fixing them alone would have put us about 3rd.** They were:
+- **Our own mistakes cost about 22-25 points; fixing them alone would have put us about 3rd.** (The figure's source
+  is being confirmed by Samuel; the research could rebuild 5 to 9 points for two of the mistakes.) They were:
   - over-calling flop and turn bets;
   - over-folding after v6;
   - the starter kit's ICM function scoring a busted stack as 0;
@@ -98,7 +99,7 @@ How sure we are of each of these: `EVIDENCE_TABLE.md`.
 | 15 | Test rig running (paired runs, sparring) | RESEARCH (`tester`) |
 | 17, 27, 37, 47 | BUILDER has declared the bot for the next practice (the most informative test) with `scripts/live.py`; 3 minutes before each practice the clock reminds Dylan in its tab and BUILDER tells him the file: upload it, or activate it if it's already uploaded | Dylan |
 | 20, 30, 40, 50 | Practice rounds | |
-| 50 | BUILDER declares `tester`'s adjusted best scorer of practices 1-3 for scored round 1 (`scripts/live.py`; no question then). Practice 4's bot, if different, is round 1's challenger | BUILDER |
+| 50 | BUILDER declares `tester`'s adjusted best scorer of practices 1-3, among bots whose verdict has a heads-up run at b50, for scored round 1 (`scripts/live.py`; no question then). Practice 4's bot, if different, is round 1's challenger | BUILDER |
 | after 50 | Round 1 runs like every window from T-9: Dylan makes the declared bot active (a click: it's already uploaded); the round-1 question is asked once, at T-8 | Dylan, both humans |
 
 **Every window after that.** At Bay Area a practice round started 7 to 10 minutes before each scored round; the
@@ -121,7 +122,7 @@ every upload and every click, and nothing is uploaded inside a window that is no
 | T-13 | Previous round's result and hand data land (the portal watcher saves them under `data/rounds/`, runs the round card and posts to both inboxes); RESEARCH analyses; BUILDER's stylists start on the one-change lines already in the LEDGER | Both sessions |
 | T-12 | Challenger made active: BUILDER tells Dylan its exact file (he uploads it if it isn't on the portal yet: the first real upload); never declared with `scripts/live.py` | Dylan (BUILDER names the file) |
 | T-10 | Practice round plays the challenger | |
-| T-9 | The `state/live.json` bot put back as active straight away: a click in the portal's uploads list, no re-upload | Dylan (BUILDER asks) |
+| T-9 | The `state/live.json` bot put back as active, once `state/status.md` shows the practice round as started (and at T-5 at the latest): a click in the portal's uploads list, no re-upload | Dylan (BUILDER asks) |
 | T-9 | RESEARCH sends BUILDER the recommendation (the threshold, then the final answer once the practice lands) | RESEARCH |
 | T-8 | **Decide** by the pre-registered rule (`DECISION_RULES.md` §3): the challenger if it clears the field-adjusted bar for our standing, else the live bot with this window's tested changes. BUILDER asks in its terminal, with the rule's answer, and records it in `state/decisions.md`. The practice's download lands about now: before the decision only `tester`'s field-adjusted edge matters; its full analysis runs after T-3 | Both humans |
 | T-6 | Chosen bot tested with no time bank | BUILDER (`platform`) |
@@ -143,8 +144,8 @@ The full rules are in `DECISION_RULES.md`; they always apply.
   measured mix, what a plan challenge points to, or a fresh rewrite. A rewrite is normal at any standing.
 - **Which bot plays:** compared against yardstick teams (those that didn't change), so the challenger's
   practice and the live bot's scored round are on one scale. The challenger plays at z ≥ 0.5 outside the top 3
-  (≥ 0 in the last two rounds), z ≥ 1.0 in the top 3 (1.5 with a big lead). If nobody answers in time,
-  BUILDER applies the rule's answer at T-5. In round 1 the live bot is the adjusted best scorer of practices 1-3
+  (≥ 0 in the last two rounds), z ≥ 1.0 in the top 3 (1.5 when our lead over 4th is more than 3 x the coming round's weight, in standings points). If nobody answers in time,
+  BUILDER applies the rule's answer at T-5. In round 1 the live bot is the adjusted best scorer of practices 1-3 among bots whose verdict has a heads-up run at b50
   and the challenger is practice 4's bot, if different.
 - **Exploration:** until 30% of the weight is played, at least every other practice round plays a different
   design, at any standing unless our lead is big.
@@ -153,8 +154,8 @@ The full rules are in `DECISION_RULES.md`; they always apply.
   alternative for the next practice.
 - **Folding to re-raises:** near break-even (usually 65-75% in case R, about 59-68% with case F's antes) is the default, not a cap (the regional winner
   folded 81-87%); it doesn't apply to folding to 4-bets after our own light 3-bets.
-- **Standings or results held:** work out our total from each round's results and multipliers; where that can't be
-  done we count as outside the top 3 unless we were clearly in it, and with no practice result by T-6 the rule's
+- **Standings or results held:** `tester` works out all 21 teams' totals from each round's results and multipliers; only
+  where that can't be done do we count as outside the top 3, and with no practice result by T-6 the rule's
   answer is the live bot. The last round's results may be held altogether (`CLAUDE.md` §8).
 - **Bolder:** behind 3rd, or outside the top 3 after 15% of the weight: the challenger slot carries a divergent
   design and the bar drops; plan the last round (29% of all points with multipliers 1 to 6, 41% with Fibonacci, 51% with powers of two; the Finals was set to 1 to 6 on Saturday afternoon, re-read at minute 0) from the round before.
@@ -234,7 +235,7 @@ each brief is to check and extend the draft in place and list what changed at th
 | | RESEARCH | `tester`: every bot that played practices 1-3 (A, B, C, D, ...) ranked by its practice score minus the yardstick teams' scores in the same practice, adjusting for confounds (which tables each had, practice size, how mature the field was), with replay tests of each on the same downloads; by minute 50 the adjusted best scorer (the round-1 live bot), with a verdict that includes a heads-up run; say which comparison carries the decision. Started on practices 1-2; RESEARCH continues it with practice 3's data when it lands (about minute 45) | a ranking, which RESEARCH sends BUILDER by minute 50 |
 | | RESEARCH | `analyst`: which style did the field reward in practices 1-3, and what are the best teams doing (winners lens)? One paragraph with the numbers, to BUILDER by minute 50 for the round-1 live bot; if no style we built matches what wins, a PLAN CHALLENGE. Continued with practice 3's data like `tester` | a paragraph sent to BUILDER |
 | b47 | BUILDER | itself: as b17, for practice 4 | the pick active by minute 50 |
-| b50 | BUILDER | itself: declare `tester`'s adjusted best scorer of practices 1-3 for scored round 1 (`python3 scripts/live.py vN "round 1: adjusted best scorer"`; it already played, so it's released and uploaded); no question now. Practice 4's bot, if different, is round 1's challenger; the round-1 question is asked once, at T-8 (`DECISION_RULES.md` §3, "Round 1") | `state/live.json`; the round-1 bot made active at T-9 (a click) |
+| b50 | BUILDER | itself: declare `tester`'s adjusted best scorer of practices 1-3, among bots whose verdict has a heads-up run at b50 (a higher-ranked bot whose verdict lands by T-4 replaces it by a click, no question asked), for scored round 1 (`python3 scripts/live.py vN "round 1: adjusted best scorer"`; it already played, so it's released and uploaded); no question now. Practice 4's bot, if different, is round 1's challenger; the round-1 question is asked once, at T-8 (`DECISION_RULES.md` §3, "Round 1") | `state/live.json`; the round-1 bot made active at T-9 (a click) |
 | | RESEARCH | itself: the round-1 recommendation by T-9, like every window: the edge = each bot's practice score minus the yardstick teams' scores in the same practice; the same bars | "RECOMMENDATION round 1" sent to BUILDER |
 
 **Every scored window** (`T<n>` = minutes before the scored round)
@@ -248,7 +249,7 @@ each brief is to check and extend the draft in place and list what changed at th
 | | Both, when `state/clock.md` shows these are the last two rounds | itself: apply the last-rounds bar (`DECISION_RULES.md` §3) and plan the last round: durable fixes, any exploit held back, the bar for our standing and the weights | |
 | T15 | BUILDER | `platform`: the tested challenger released as `releases/vN.zip` (a `VERSIONS.md` line with its sha256), with a `bughunter` pass in the background; Dylan activates it at T-12. Nothing tested: the most informative released bot instead | `releases/vN.zip` and its `VERSIONS.md` line |
 | T13 | (portal watcher) | `scripts/portal_watch.py` saves the round's results and hands, runs `analysis/roundcard.py` when it exists, and posts the result line to both inboxes and "DATA LANDED" to RESEARCH's | `data/rounds/<NN-stage>/`, `analysis/<stage>/card.md` |
-| | RESEARCH | `scout`: the FIELD TREND first (plan assumptions checked; a PLAN CHALLENGE if one is off by 2 SE or more), then the fingerprint card: counters on or off by the gate, `counters.json` for `platform`, accuracy and drift lines for `tester`, by T-9 | `analysis/<stage>/field_trend.md`, `analysis/<stage>/fp/` |
+| | RESEARCH | `scout`: the FIELD TREND first (plan assumptions checked; a PLAN CHALLENGE if a field rate is 2 points or more outside its band in two downloads running, or a score is off by 2 SE or more), then the fingerprint card: counters on or off by the gate, `counters.json` for `platform`, accuracy and drift lines for `tester`, by T-9 | `analysis/<stage>/field_trend.md`, `analysis/<stage>/fp/` |
 | | RESEARCH | `analyst`, one per lens, each spawned on DATA LANDED, never to wait for it (winners; leaks, with the defaults check first; two of sizing / twist / the biggest opponent), plus a Codex recompute of the top number: every independent change that clears the bar; then opponent profiles where a profile pays most | `one-change <stage>` in `notes/LEDGER.md` by T-9, sent to BUILDER |
 | | RESEARCH | `theory`: the call and fold columns refitted from the new data and re-issued (real-field numbers outrank the tables) | `theory/out/` |
 | | RESEARCH | `tester`: the numbers the T-8 decision may rest on re-run (the card's headline, `analyst`'s changes), persistent leaks first, each line marked validated or disputed; a verdict for every pending candidate (correct? a heads-up run? paired vs the live bot); if on track, the cloned field on Modal for the challenger | ledger statuses |

@@ -88,7 +88,7 @@ running before you spawn anything.
    wait before you click". When the upload shows as ready, read the active bot in `state/status.md`: if v1 is active
    without a click, uploads activate themselves today (the Finals' own pages say so); if not, it takes a click,
    as at Bay Area, and Dylan clicks now. Tell Dylan and RESEARCH which case holds and write it at the top of
-   `notes/format.md`. A team with no active bot scores zero.
+   `notes/format.md`, with a second fact you ask Dylan for: does a rejected upload start the cooldown? A team with no active bot scores zero.
 5. **Every release, from v1 on (D's included):** spawn a fresh `bughunter` on it at once (background, at most 8
    minutes; its brief names, as one question, the code path this release changed: general reviews missed a bug
    that a narrow question found in under 4 minutes), and `SendMessage` RESEARCH "RELEASED vN <sha256> <one line>" so it
@@ -132,7 +132,7 @@ running before you spawn anything.
   before any upload test (say "no local match or Monte Carlo runs until HH:MM; Modal clients are fine"); an upload test counts only next to the kit's `check_or_fold` run in the same minute.
 - When a practice result lands (inbox), read `analysis/<stage>/card.md` and `field_trend.md` (stage with spaces as
   '-', e.g. `analysis/Practice-1/`) and RESEARCH's read.
-- **Round 1** (DECISION_RULES §3 "Round 1"): at minute 50, once practice 4 has started, `live.py` the tester's adjusted best scorer of practices
+- **Round 1** (DECISION_RULES §3 "Round 1"): at minute 50, once practice 4 has started, `live.py` the tester's adjusted best scorer, among bots whose verdict has a heads-up run at b50, of practices
   1-3 (no question then); practice 4's bot, if different, is the challenger. The round-1 question is asked once, at
   T-8 of round 1, like every other window.
 
@@ -145,12 +145,12 @@ running before you spawn anything.
 | T-13 | Data lands (RESEARCH analyses it). Spawn in ONE message: `challenger` (start the NEXT window's challenger from the data in hand: D matured, the best response to the measured mix, a PLAN CHALLENGE's alternative, or a rewrite; say why); `stylist` (this window's live-bot fixes from the one-change lines already in the LEDGER, persistent leaks first; one stylist per new line as RESEARCH sends it, due by T-9; scout's counters); `platform` (bug fixes; integrate the fixes). |
 | T-12 | Tell Dylan the challenger's exact file: "activate releases/vC.zip now (upload it if it isn't on the portal yet)"; if uploads activate themselves, the upload is the activation once its test ends. Confirm the active bot in `state/status.md`. Don't `live.py` it: `state/live.json` stays the scored-round bot. |
 | T-10 | The practice round plays the challenger. |
-| T-9 | Tell Dylan: "put vL back now" (the `state/live.json` bot; a click), once the practice round's "started" line is in your inbox: a click before it starts makes the practice play the live bot. If none has started by the T-8 step, put it back anyway. RESEARCH's recommendation arrives (the threshold first; the final answer when the practice result lands, about T-8 to T-7). |
+| T-9 | Tell Dylan: "put vL back now" (the `state/live.json` bot; a click), but read `state/status.md` first: if the practice round is not shown as started, the challenger stays active, you tell Dylan to wait (the clock's beep is early) and tell RESEARCH. The live bot goes back the moment the watcher posts the practice's start, and at T-5 at the latest whether or not it has started. A practice that starts after T-8 cannot give a result by T-6: the rule's answer is the live bot. Only a challenger with a tester verdict may stay active past T-9. RESEARCH's recommendation arrives (the threshold first; the final answer when the practice result lands, about T-8 to T-7). |
 | T-8 | **Ask the decision** (below), deadline T-5, with the rule's answer. |
-| T-6 | `platform`: the chosen bot through the upload test with no time bank; released if it's a new zip. |
-| T-5 | No clear human answer: apply the rule's answer (`live.py`), say so in one line. |
-| T-4 | Cut-off: if the chosen bot isn't released and tested with a tester verdict (`rig/out/verdict-vN.md` exists and says so), the live bot plays; nothing is uploaded. |
-| T-3 | Dylan uploads or activates the chosen bot (a zip uploaded now is active only when its upload test ends); confirm in `state/status.md` that the portal runs it. After this nothing changes. |
+| T-6 | `platform`: the chosen bot through the upload test with no time bank; released if it's a new zip. A zip whose `VERSIONS.md` line already has the upload test on the same sha256 is not tested again, unless that test ran on a loaded machine. |
+| T-5 | No clear human answer: apply the rule's answer (`live.py`), say so in one line. An answer that waits on a verdict ("v11 if its verdict lands, else v9") is settled at T-4:00. |
+| T-4 | The one switch deadline: a bot can be the chosen bot only if at T-4:00 its zip is released, its `VERSIONS.md` line has the upload test and a tester verdict with a heads-up run is in the LEDGER (`rig/out/verdict-vN.md` says "fit for a scored round"). Anything that arrives later feeds the next window; otherwise the live bot plays and nothing is uploaded. |
+| T-3 | Dylan uploads or activates the chosen bot (a zip uploaded now is active only when its upload test ends); confirm in `state/status.md` that the portal runs it. After T-3 nothing is decided or uploaded; the one thing still allowed is the click that makes the declared bot active. |
 
 Between steps: keep subagents fed, answer Dylan, and make sure the challenger line never stops.
 
@@ -163,14 +163,17 @@ ask in your terminal, plain words, at the top of your reply:
 - what each answer means, and the **rule's answer, which plays if nobody answers by HH:MM**.
 
 Record only a clear answer, with the human's own words, in `state/decisions.md`. Samuel can answer too (RESEARCH
-relays his words to you with SendMessage). If they disagree, the rule's answer stands until they agree; say so to
+relays his words to you with SendMessage). If they disagree, the rule's answer stands until they agree, and Dylan makes the click it needs even if he argued
+against it (if he won't, the live bot stays active: re-declare it and record why); say so to
 both. A conditional answer is recorded when its condition holds.
 
 ## Plan challenges
 
 A PLAN CHALLENGE (from RESEARCH, a subagent, or your own reading): RESEARCH posts the decision for the humans; you
 add your view to the same entry in `state/decisions.md` (never a second one), and make sure `challenger` builds the
-alternative for the next practice. A challenge never waits for the next scheduled step.
+alternative for the next practice it can be released for (released by T-15 of that window; raised later, the practice
+after): redirect the running `challenger` to it unless a human says to keep both lines. Nothing from a challenge enters
+this window's live bot unless it is already a validated `one-change` line with a tested build by T-8. A challenge never waits for the next scheduled step.
 
 ## Managing subagents
 
@@ -206,6 +209,12 @@ If `state/status.md` or `state/clock.md` is more than 2 minutes old, tell Dylan 
 (START.md). Never start `portal_watch.py` or `clock.py run` yourself.
 
 ## Talking to Dylan
+
+Hand data not downloading (an URGENT line in both inboxes) is RESEARCH's job with Samuel: don't ask Dylan for the link
+unless RESEARCH asks you to.
+
+If the watcher says the portal marks us out of contention, tell Dylan what it means and ask him for nothing else:
+RESEARCH has Samuel ask an organizer, and nothing changes until the answer (DECISION_RULES §3, "When to be bolder").
 
 An upload may be an activation (v1's upload settles it: minute-0 step 4). So Dylan uploads nothing inside a window
 that is not meant to be the next bot to play, never a zip "to have it ready"; after every upload and every click you

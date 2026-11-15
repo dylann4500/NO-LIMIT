@@ -37,8 +37,10 @@ rounds), `analysis/RATES.md` and the tail of `notes/LEDGER.md`; check the round 
   hand, set `AVALON_STAGE` the same way. `-I` drops the script's folder from `sys.path`: insert it yourself at the top.
   Standard library (numpy only if it imports). The card: our points per table by bot ± se, n tables; our rates by seat
   and street with n; per-opponent rates; the gap to each team with SE; the **defaults check** (ours vs the field:
-  open-limp rate; flat calls of an open at 10bb+ outside the big blind; first-in non-shove raises under 12bb; one-pair
-  calls of raises and large late bets). It also saves the shared extraction and `analysis/<stage>/field_rates.json`.
+  open-limp rate; flat calls of an open at 10bb+ outside the big blind (counted always; not a leak in itself when the live bot's style
+  states the postflop plan behind them); first-in non-shove raises under 12bb; one-pair
+  calls of raises and large late bets; and the scores of any teams still playing the kit's `check_or_fold` example,
+  which plan assumption 8 in DECISION_RULES §5 is checked against). It also saves the shared extraction and `analysis/<stage>/field_rates.json`.
   Every field rate (the card's, `field_rates.json`, the `refit`) is counted as `notes/pre/stat_definitions.md` defines
   it (what a chance is, what the event is; the team-equal mean unless a line says pooled).
 - Test it on practice 1's file the moment it lands (time it, fix what breaks); then job `leaks` on the bot that

@@ -36,7 +36,9 @@ never block your turn; Modal has only two deployed apps, `avalon-rig` (`tester`,
 1. **Every bot we upload is legal and fast**: zero failed decisions in the checks, the kit's check passes,
    and it passes the upload test with no time bank. *(A bot that times out or acts illegally checks when
    checking is free and otherwise folds, and can zero a round.)* **A bot plays a scored round only with a `tester` verdict that includes a heads-up run.**
-   *(In a speedrun a release with no verdict shipped a heads-up regression of −1.9 ± 0.4.)*
+   *(In a speedrun a release with no verdict shipped a heads-up regression of −1.9 ± 0.4.)* A verdict's first words are
+   "fit for a scored round" or "not fit": fit means correct, fast, and a heads-up run no worse than the live bot's
+   by more than 2 SE.
 2. **Only upload a zip that has been through that test**, put the `state/live.json` bot back as active after the
    practice round, and have a tested bot active by T-3 every round. *(A missed upload or an untested zip can zero
    a round. A missed deadline is a failure to report and fix, not a safe outcome.)* Each round plays a snapshot of
@@ -48,7 +50,11 @@ never block your turn; Modal has only two deployed apps, `avalon-rig` (`tester`,
    plan at most two real uploads per window (§3, "Uploads").
 3. **The rules card is right**: players per table, stacks, blinds, hands per match, round weights, payouts
    and the cooldown come from the kit and the Format page. *(At a rehearsal we ran every test at the wrong
-   table size.)*
+   table size.)* Every figure on this page given in points per table (0.7, 0.8, 1.4, 2.0, 2 and 3) assumes 8 players
+   and 50/30/20. By minute 5 `tester` works out today's per-table spread and the multiplier (spread / 17.9), which
+   `platform` writes in `bot/rules.json`; both sessions multiply those figures by it (in case F at 50/30/20 it is
+   18.9 / 17.9 = 1.06). Bars given in z do not change. Role-file check values marked 50/30/20 are not used on another
+   payout.
 4. **No pre-written bot code; hand histories never go into git.** *(Event rules.)*
 
 ## 3. Decisions, written in advance
@@ -62,23 +68,38 @@ asked by the BUILDER session at T-8; decided by the humans):
   compare each with **yardstick teams**, the teams `scout`'s drift check says did not change bot between the two
   rounds: edge = (challenger's practice score − the yardsticks' practice scores) − (live bot's last scored score
   − the yardsticks' scored scores). With fewer than 4 yardsticks, use scores minus the field median, and say so.
-  Pool the challenger's practice rounds when its core is unchanged. Practice SE is **at least 0.7** points per
-  table (more with 21 teams); z = edge / SE of the edge.
+  No hand file for the scored round means no yardsticks: use scores minus the field median (`results.json` is enough).
+  Every score in this comparison is taken from the round's results file (`results.json`), never from a hand file.
+  Pool the challenger's practice rounds when its core is unchanged. SE of the edge: the standard deviation of the yardstick teams' own (practice score − last scored score),
+  times √(1 + 1/number of yardsticks), when there are 6 or more yardsticks; with fewer, 0.8. Never below 0.7. z = edge /
+  SE. Give the edge in points too, and say so if the SE is above 1.0. (0.8 and 0.7 are points per table at 8 seats and
+  50/30/20: times the day's multiplier, §2 rule 3.)
 - Play the challenger if it passed rule 2.1 and:
-  - **we are outside the top 3, or the standings are hidden and we weren't clearly in it**: z ≥ **0.5**
+  - **we are outside the top 3** (if the portal's standings are held, the standings are `tester`'s totals for all 21
+    teams from each round's results x weights; only if those can't be computed either are we treated as outside the
+    top 3): z ≥ **0.5**
     (**the last-rounds bar**: z ≥ 0 in the last two rounds: a coin flip with upside beats certain 4th);
-  - **we are in the top 3**: z ≥ **1.0**, or z ≥ 1.5 if our lead over 4th is more than one round's typical
-    swing (about 3 points per table times the round's weight share).
+  - **we are in the top 3**: z ≥ **1.0**, or z ≥ 1.5 if our lead over 4th on the standings is more than 3 x the
+    coming round's weight, in the standings' own points (before a round of weight 4: more than 12).
 - Otherwise the live bot plays, with this window's changes (below).
+- An earlier released bot with a verdict is a candidate like any other: compare its last scored round with the live
+  bot's against yardstick teams, same bars.
 - BUILDER writes the question in `state/decisions.md` and asks it in its terminal, with the rule, both bots'
   numbers and the rule's answer. The rule's answer plays at T-5 if no human has answered (BUILDER applies it with
-  `scripts/live.py`); a human can always overrule it.
+  `scripts/live.py`); either human can overrule it, unless the other has given the opposite answer: then the rule's
+  answer stands until they agree, and both sessions say so to both humans at once. Dylan makes the click the rule's
+  answer needs even if he argued against it. If he won't, the live bot stays active: BUILDER re-declares it and records
+  why. If the portal still shows the old bot at T-3, BUILDER says so once to Dylan and has RESEARCH ask Samuel to fetch
+  him; the click stays valid until the round starts. If the round starts on the old bot, BUILDER re-declares the bot that
+  played (`live.py`), and the next window compares against it.
 - The practice's download (stage `Round k.5`) lands near T-8: before the decision only `tester`'s field-adjusted
   edge matters; the full analysis loop on it runs after T-3.
-- **Round 1:** the live bot is `tester`'s adjusted best scorer of practices 1-3 (declared at b50 with
-  `scripts/live.py`, no question asked then); practice 4's bot, if different, is the challenger; the edge = each
+- **Round 1:** the live bot is `tester`'s adjusted best scorer of practices 1-3 **among bots whose verdict has a
+  heads-up run at b50**; a higher-ranked bot whose verdict lands by T-4 replaces it by a click, with no question asked
+  (declared at b50 with `scripts/live.py`, no question asked then); practice 4's bot, if different, is the challenger; the edge = each
   bot's practice score minus the yardstick teams' scores in the same practice; the same bars; asked once, at T-8 of
-  round 1.
+  round 1. Between two close candidates for round 1, prefer the more aggressive: this is one sentence, not a rule, and
+  worth at most 1 point (early practices over-reward tight play).
 
 **Changes to the live bot each window:** every independent change that clears the bar, each in a different
 situation, each behind its own on/off setting, each with a branch-fired count, the combined build passing rule
@@ -98,7 +119,7 @@ alternatives alive and re-choose as results come in.
   round 1 only scored-round bots are declared: see "Uploads").
 - **Until 30% of the total weight has been played:** at least every other practice round plays a *divergent*
   challenger (a different style class or a rewrite, not the live bot plus tweaks), even when we're in the top 3,
-  unless our lead over 4th is more than one round's typical swing.
+  unless our lead over 4th is that big (more than 3 x the coming round's weight, as defined above).
 - **After that:** `challenger` keeps one divergent line alive as insurance against a field shift; raise the
   budget again whenever a PLAN CHALLENGE stands or we are behind 3rd.
 - Divergent candidates are judged by the real field (practice rounds). The cloned field may veto one only if it
@@ -108,8 +129,10 @@ alternatives alive and re-choose as results come in.
 for today raises a PLAN CHALLENGE: a subagent reports it at once to the session that spawned it, and that session
 tells the other one (`SendMessage` to BUILDER or RESEARCH, and `say.py --record`). Both sessions put it to their
 human at once, in plain words. RESEARCH records it once in `state/decisions.md` (one challenge, one entry; BUILDER
-adds its view to that entry, never a second one). By default BUILDER has `challenger` build the alternative and the
-next practice round judges it. A challenge never waits for the next scheduled step, and never skips a hard rule or a
+adds its view to that entry, never a second one). By default BUILDER has `challenger` build the alternative for the
+next practice round it can be released for (released by T-15 of that window; a challenge raised later targets the
+practice after). BUILDER redirects the running `challenger` to it unless a human says to keep both lines. Nothing from a
+challenge enters this window's live bot unless it is already a validated `one-change` line with a tested build by T-8. A challenge never waits for the next scheduled step, and never skips a hard rule or a
 test.
 
 **Uploads.** `state/live.json` (set only by the BUILDER session, with `scripts/live.py`) is the bot that should be
@@ -121,14 +144,25 @@ it plays the practice round at T-10, and at T-9 Dylan puts the `state/live.json`
 has at most two real uploads, about 8 minutes apart: the challenger at T-12 and, only if the chosen bot is a new
 zip, the chosen bot at about T-4 to T-3. Putting the live bot back, and choosing the challenger, are clicks on bots
 already uploaded: BUILDER tells Dylan which version to click in the portal's uploads list. Never let a cooldown
-leave the chosen bot unuploaded at T-3. When in doubt, the live bot stays active. If uploads activate themselves, the
+leave the chosen bot unuploaded at T-3. When in doubt about what is on the portal or which file is which, the live bot stays
+active. (This is not a tie-break for the which-bot rule.) The T-9 put-back assumes the
+practice started at T-10. Before saying "put vL back", BUILDER reads `state/status.md`: if the practice round is not
+shown as started, the challenger stays active, BUILDER tells Dylan to wait (the clock's beep is early) and tells
+RESEARCH. The live bot goes back the moment the watcher posts the practice's start, and at T-5 at the latest whether
+or not it has started. A practice that starts after T-8 cannot give a result by T-6: the rule's answer is the live bot
+and that practice feeds the next window. Only a challenger with a `tester` verdict may stay active past T-9. If uploads activate themselves, the
 challenger's upload at T-12 is also its activation, the T-9 click is unchanged (it puts an earlier upload back), and
 a new chosen bot uploaded at T-4 becomes active only when its upload test finishes: if that is after the round
 starts, the live bot, active since T-9, plays.
 
-**Deadlines:** if the chosen bot can't be tested and uploaded by T-3, the live bot (active again after the practice
-round) plays: confirm it's active, report the miss and its cause, and fix the cause for the next window. Don't wait
-past T-3 for a release.
+**Deadlines: one switch deadline, T-4.** A bot can be the chosen bot only if at T-4:00 its zip is released, its
+`VERSIONS.md` line has the upload test, and a `tester` verdict with a heads-up run is in `notes/LEDGER.md` (the
+tester's own file, `rig/out/verdict-vN.md`, holds the same verdict). A verdict, an answer or a number that arrives
+after T-4:00 feeds the next window. T-5 is when BUILDER applies the rule's answer if no human has answered; a rule's
+answer that waits on a verdict ("v11 if its verdict lands, else v9") is settled at T-4:00. From T-4 to T-3 there is
+only Dylan's click or upload. After T-3 nothing is decided or uploaded; the one thing still allowed is the click that
+makes the declared bot active. If the chosen bot isn't active at the start, the live bot plays: report the miss and
+its cause, and fix the cause for the next window.
 
 **Cut-offs (`scripts/clock.py` posts each one into the inbox of the session that owns it; deadlines cut scope,
 never care).** At the regional, countdown reminders made bots rush and ship untested. Here a late step simply
@@ -140,7 +174,7 @@ file (`notes/PLAN-<session>.md`): a late estimate only lets the session re-scope
 | Cut-off | If it hasn't happened | Who is told |
 |---|---|---|
 | T-12: a new challenger released (due by T-15) | Practice plays the most informative already-tested bot (else the live bot); the challenger keeps building for next window | BUILDER, Dylan (`challenger` isn't interrupted) |
-| T-10: last round's data landed | No change from new data; live bot plus already-validated changes | both sessions, both humans |
+| T-10: last round's data landed | No new **changes to the live bot** from that round: live bot plus already-validated changes. The which-bot decision still runs: if that round's result and the practice result are both in by T-6, `tester` gives the edge (yardsticks if the file exists, else scores minus the field median, said so) and the rule's answer follows it. If either is missing at T-6, the rule's answer is the live bot | both sessions, both humans |
 | 3 min after data: round card written | `analyst` computes the decision numbers by hand; the card script is fixed after T-3 | RESEARCH (it stops the card job and re-briefs `analyst`) |
 | T-8: one-change proposal recorded | No new-data change in the live bot; the idea goes to the challenger or next practice | RESEARCH (it stops `analyst`'s proposal), BUILDER |
 | T-7: "Which bot?" decision asked | BUILDER asks it at once, with the rule's answer as the default | BUILDER, both humans |
@@ -165,8 +199,13 @@ is not required.
 **When to be bolder:**
 - Behind 3rd, or outside the top 3 once 15% of the total weight has been played: the challenger slot carries a
   divergent design, and the bar drops as above.
-- A PLAN CHALLENGE stands, or two or more plan assumptions (§5) are off by 2 SE or more: the plan's premise is
+- A PLAN CHALLENGE stands, or two or more plan assumptions (§5) are off (a field rate 2 points or more outside its band in two
+  downloads running; a score by 2 SE or more): the plan's premise is
   false today; say so to both humans and put the alternative in the next practice round.
+- The portal marks us out of contention: RESEARCH asks Samuel to ask an organizer at once whether such teams still
+  play and can still be paid (BUILDER tells Dylan what it means and asks him for nothing else). Until the answer,
+  nothing changes. If it is final, the last-rounds bar (z ≥ 0) applies from then on. Hard rule 1 still holds: no
+  verdict, no scored round.
 - The last round is 29% of all points with multipliers 1 to 6, 41% with Fibonacci, 51% with powers of two; the Finals was set to 1 to 6 on Saturday afternoon, re-read at minute 0: plan it from the round before (durable fixes plus any exploit
   we've been holding back).
 
@@ -204,7 +243,9 @@ legality, speed and sanity; use the practice rounds for strength.
 these persistent in `notes/LEDGER.md`) is strong evidence: ship its fix. One round's number is weaker; pool rounds when you can.
 When you pick the best of k candidates, discount its edge by about 0.6 x SE for the best of 2, 0.85 of 3, 1.0 of 4,
 1.2 of 5, 1.5 of 10, 1.9 of 20 (the best of 10, each measured to about ±0.3, looks about +0.5 better than it is by
-chance alone). Never re-tune toward one practice round's difference under 2 SE.
+chance alone). This is for picking one of k measured the same way (round 1's pick, k fixes from one lens). It does not apply
+to the challenger-against-live edge: the bars already allow for it. Never re-tune toward one practice round's
+difference under 2 SE.
 
 **Unverified is not wrong.** A `notes/LEDGER.md` line still `proposed` may be cited with the label "unverified".
 Only a line **disputed with a reproduced counter-number** blocks a switch. If `tester` runs out of time re-running a
@@ -238,13 +279,18 @@ that counter-wave.
   powers of two (1 to 32). The watcher keeps it in `state/portal.json` (`comp_settings`) and posts any change. On Saturday
   afternoon the Finals competition was set to linear: re-read it at minute 0.
 
-**Plan assumptions** (`scout` checks each against every download; one off by 2 SE or more is a PLAN CHALLENGE):
-1. The field folds to 3-bets of our opens at about 60-70%.
-2. Open-limping and flat-calling opens at 10bb+ lose money in this field.
+**Plan assumptions** (`scout` checks each against every download; a field rate 2 points or more outside its band in two downloads running, or a score off by 2 SE or more, is a PLAN CHALLENGE):
+1. When we 3-bet an open, the opener folds about 60-70% of the time.
+2. Open-limping loses money in this field, and so does flat-calling opens at 10bb+ without a stated postflop plan
+   (flat calls are allowed where the style states the plan behind them; the check run still counts them).
 3. The field open-shoves 35-50% of first-in chances at 10bb or less.
 4. After the flop, big bets and raises are mostly strong hands (one pair should fold to raises).
 5. Our base style is the best response to the field's measured mix (no style the top 5 share beats it).
 6. The twist is worth what `theory`'s tables say, and the field uses it about as well as we do.
 7. Scores are compressed near the field's mean (the points paid divided by the seats: 16.7 a table in case F with
    50/30/20, 12.5 in case R); differences under 2.0 between two practice rounds (1.4 between a
-   practice round and a scored round) are noise.
+   practice round and a scored round) are noise. (A check on the field, not a bar: the bars in §3 are in z.)
+8. Our base style beats the kit's do-nothing example (`check_or_fold`) on the real field by 1 point or more.
+   (`analyst`'s defaults check gives the kit-example teams' scores on every card. Two downloads in which they match or
+   beat the bot we played is a PLAN CHALLENGE; its alternative takes the next practice it can be released for, ahead
+   of the b40 "leader or closest rival" pick.)

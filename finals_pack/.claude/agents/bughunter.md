@@ -60,7 +60,8 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
 9. **Claimed rates:** if NOTES.md says a change targets a rate, measure it locally against sparring bots that behave
    like the field: within about 5 points, or report the gap.
 10. **Defaults report:** open-limps, flat calls of opens at 10bb+ outside the big blind, first-in non-shove raises under
-    12bb, one-pair calls of raises; a break is a bug only if the design didn't intend it.
+    12bb, one-pair calls of raises; a break is a bug only if the design didn't intend it (a flat
+    call is intended when the style states the postflop plan behind it: count it, don't report it as a defect).
 11. **Hard-coded format:** search the source for the table size, starting stack, blind and ante levels, payouts and
     time limits written as literals, then run the zip at another table size and payout list (table rules are set per
     round and can change between rounds: `CLAUDE.md` §8). A decision that ignores `state.config` is a bug.

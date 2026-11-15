@@ -88,6 +88,8 @@ not put us ahead), and "the top-3 bar is too cautious".
 
 ## 5. If you make one edit
 
+(Applied on 14 November: `strategy/DECISION_RULES.md` §3 now carries this wording.)
+
 No bar needs it. In section 3's first bullet, replace "Practice SE is **at least 0.7** points per table (more
 with 21 teams); z = edge / SE of the edge." with:
 

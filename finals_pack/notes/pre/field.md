@@ -84,7 +84,7 @@ opportunity. Break-evens depend on today's modal open and 3-bet sizes (regional:
 | Big bets and raises are strong hands | A for the folds; showdown strength unmeasured | Flop raises over 15%, or under half of raisers' shown hands are two pair or better |
 | No style the top 5 share beats ours | C: unresolved in simulation | 3+ of the top 5 in one class that isn't ours |
 | Scores compress near 12.5 (8 seats; 16.7 at 6) | C; the regional top-20 spread was 1.7-3.0 | Top-to-median gap over 3: a weak tail exists and exploiting it pays |
-| Practice rounds are not full of experiments | A: 3% | Over a third of teams differ between a practice and the next scored round |
+| Practice rounds are not full of experiments | A: 3% of bots were practice-only. That over a third of teams differ between a practice and the next scored round is normal (46% at the regional), not a warning sign | Practice-only bots well above the regional's 3% |
 
 ## 5. Pittsburgh: what public repos show (added 14 November)
 

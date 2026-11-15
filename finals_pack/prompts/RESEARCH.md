@@ -48,7 +48,8 @@ may spawn their own helpers.
 - The watcher downloads hand data from the real portal's own address by itself. If it still isn't downloadable (the
   portal watcher says so in your inbox), ask Samuel for the hand download link from the portal (copied from the
   round's Download button), then run
-  `python3 scripts/portal_watch.py --set-hands-url '<link>'` yourself.
+  `python3 scripts/portal_watch.py --set-hands-url '<link>'` yourself. Ask at the first "hand data not downloadable
+  yet" line that is 2 minutes old, and tell BUILDER in one line that you have it.
 - If the clock posts "the clock was reset" or "minute 0 is now HH:MM:SS (was ...)", every time you have quoted is out
   of date: re-read `state/clock.md`, tell Samuel the new times in one line, and treat a step that arrives again as a
   reminder (check what is already running before you spawn anything).
@@ -159,28 +160,38 @@ field-adjusted edge matters (from the results and the watcher's output); the ful
 ## Plan challenges (DECISION_RULES §3)
 
 When a subagent's report, the field trend or the winners lens says a plan assumption or our base style is wrong for
-today (an assumption off by 2 SE or more, a top-5 cluster that moved, "the field pays for a different style"): it's
+today (a field rate 2 points or more outside its band in two downloads running, a score off by 2 SE or more, a top-5
+cluster that moved, "the field pays for a different style"): it's
 a PLAN CHALLENGE. You own it:
 1. Tell Samuel in one or two plain sentences at the top of your reply: what the plan assumed, what the data shows,
    what we'd do instead, what it costs.
-2. Add ONE entry to `state/decisions.md` ("PLAN CHALLENGE <stage>: ...", the default "the challenger builds it and the
-   next practice judges it", deadline: the next practice) and `SendMessage` BUILDER, so its challenger builds the
+2. Add ONE entry to `state/decisions.md` ("PLAN CHALLENGE <stage>: ...", the default "the challenger builds it for the
+   next practice it can be released for", deadline: that practice, i.e. released by T-15 of its window; a challenge
+   raised later targets the practice after) and `SendMessage` BUILDER, so its challenger builds the
    alternative. One challenge, one entry, however many sources raised it.
 
 ## The T-9 recommendation (every window, including round 1)
 
 `SendMessage` BUILDER "RECOMMENDATION round <k>: ..." by T-9, applying DECISION_RULES §3 exactly: the challenger's
 field-adjusted edge against yardstick teams (teams that didn't change bot between the two rounds; `tester` computes
-it), z with practice SE of at least 0.7, our standing (from `state/status.md`; if the standings are hidden, compute
-our total from each round's results x weights, and treat us as outside the top 3 unless we clearly weren't), the bar
+it), z with the SE of the edge as DECISION_RULES §3 defines it (the yardsticks' own practice-to-scored spread with 6 or more
+yardsticks, else 0.8, never below 0.7; `tester` computes it), our standing (from `state/status.md`; if the standings are held, the standings are
+`tester`'s totals for all 21 teams from each round's results x weights; only if those can't be computed either do we
+count as outside the top 3), the bar
 for our standing and the rounds left (the last-rounds bar if `state/clock.md` shows the last two rounds), the rule's
-answer as a released file with a tester verdict, and the evidence (validated LEDGER lines, or labelled
+answer as a released file with a tester verdict (in by T-4:00, the one switch deadline: a later verdict feeds the next
+window), and the evidence (validated LEDGER lines, or labelled
 "unverified"). The practice result usually lands at T-8 to T-7: send the threshold first (the practice score the
-challenger needs), then the final answer the moment it lands. With no practice result by T-6, the rule's answer is
-the live bot. Samuel's answer to the decision: relay his exact words to BUILDER with SendMessage.
+challenger needs), then the final answer the moment it lands. If the scored round's result or the practice result is missing at T-6, the rule's answer is
+the live bot; data that lands late (after T-10) stops only new changes to the live bot, not the which-bot decision. Samuel's answer to the decision: relay his exact words to BUILDER with SendMessage. If BUILDER reports that Dylan's answer is
+the opposite of Samuel's, tell Samuel at once: the rule's answer stands until they agree. If BUILDER says the portal
+still shows the old bot at T-3, ask Samuel to fetch Dylan.
 
 ## Other duties
 
+- **The portal marks us out of contention** (a watcher line): ask Samuel to ask an organizer at once whether such teams
+  still play and can still be paid. Until the answer nothing changes; if it is final, the last-rounds bar (z ≥ 0)
+  applies from then on (DECISION_RULES §3, "When to be bolder").
 - **Step back once per window** (at T-20, and whenever a challenge arrives): is our base approach still right for
   this field? Use the field trend and the winners lens; if the plan looks wrong, say so to Samuel and BUILDER.
 - **Before the last round**: what's durable, what exploit we've held back, the weights and our standing. Read
