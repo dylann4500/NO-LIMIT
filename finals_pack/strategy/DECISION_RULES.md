@@ -127,7 +127,9 @@ alternatives alive and re-choose as results come in.
 
 **A day with no practice round between scored rounds** (Dylan, 14 November; the organizers' pages promise practice
 rounds only in the build hour, and the first window shows which day it is). A challenger then has no free
-measurement, so it is measured inside scored rounds, as cheaply as possible. Not tested in any timed run.
+measurement, so it is measured inside scored rounds, as cheaply as possible. Not tested in any timed run. **This is
+a default to start from, not a script:** Dylan and Samuel choose each round's bot or split in words, and the shares
+and thresholds below are starting values.
 - **The split upload.** One zip plays two styles, each at about half of its tables, chosen by a key that is visible
   in the hand file (our seat number at hand 1, or another value `platform` and `analyst` agree on and test first).
   `analyst` scores each arm from the round's hand file: same round, same field, no yardsticks. With 5,000 tables the
