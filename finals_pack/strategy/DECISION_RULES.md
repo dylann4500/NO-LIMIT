@@ -68,6 +68,7 @@ asked by the BUILDER session at T-8; decided by the humans):
   compare each with **yardstick teams**, the teams `scout`'s drift check says did not change bot between the two
   rounds: edge = (challenger's practice score − the yardsticks' practice scores) − (live bot's last scored score
   − the yardsticks' scored scores). With fewer than 4 yardsticks, use scores minus the field median, and say so.
+  No hand file for the scored round means no yardsticks: use scores minus the field median (`results.json` is enough).
   Every score in this comparison is taken from the round's results file (`results.json`), never from a hand file.
   Pool the challenger's practice rounds when its core is unchanged. SE of the edge: the standard deviation of the yardstick teams' own (practice score − last scored score),
   times √(1 + 1/number of yardsticks), when there are 6 or more yardsticks; with fewer, 0.8. Never below 0.7. z = edge /
@@ -143,7 +144,8 @@ it plays the practice round at T-10, and at T-9 Dylan puts the `state/live.json`
 has at most two real uploads, about 8 minutes apart: the challenger at T-12 and, only if the chosen bot is a new
 zip, the chosen bot at about T-4 to T-3. Putting the live bot back, and choosing the challenger, are clicks on bots
 already uploaded: BUILDER tells Dylan which version to click in the portal's uploads list. Never let a cooldown
-leave the chosen bot unuploaded at T-3. When in doubt, the live bot stays active. The T-9 put-back assumes the
+leave the chosen bot unuploaded at T-3. When in doubt about what is on the portal or which file is which, the live bot stays
+active. (This is not a tie-break for the which-bot rule.) The T-9 put-back assumes the
 practice started at T-10. Before saying "put vL back", BUILDER reads `state/status.md`: if the practice round is not
 shown as started, the challenger stays active, BUILDER tells Dylan to wait (the clock's beep is early) and tells
 RESEARCH. The live bot goes back the moment the watcher posts the practice's start, and at T-5 at the latest whether
@@ -241,7 +243,9 @@ legality, speed and sanity; use the practice rounds for strength.
 these persistent in `notes/LEDGER.md`) is strong evidence: ship its fix. One round's number is weaker; pool rounds when you can.
 When you pick the best of k candidates, discount its edge by about 0.6 x SE for the best of 2, 0.85 of 3, 1.0 of 4,
 1.2 of 5, 1.5 of 10, 1.9 of 20 (the best of 10, each measured to about ±0.3, looks about +0.5 better than it is by
-chance alone). Never re-tune toward one practice round's difference under 2 SE.
+chance alone). This is for picking one of k measured the same way (round 1's pick, k fixes from one lens). It does not apply
+to the challenger-against-live edge: the bars already allow for it. Never re-tune toward one practice round's
+difference under 2 SE.
 
 **Unverified is not wrong.** A `notes/LEDGER.md` line still `proposed` may be cited with the label "unverified".
 Only a line **disputed with a reproduced counter-number** blocks a switch. If `tester` runs out of time re-running a
@@ -276,7 +280,7 @@ that counter-wave.
   afternoon the Finals competition was set to linear: re-read it at minute 0.
 
 **Plan assumptions** (`scout` checks each against every download; a field rate 2 points or more outside its band in two downloads running, or a score off by 2 SE or more, is a PLAN CHALLENGE):
-1. The field folds to 3-bets of our opens at about 60-70%.
+1. When we 3-bet an open, the opener folds about 60-70% of the time.
 2. Open-limping loses money in this field, and so does flat-calling opens at 10bb+ without a stated postflop plan
    (flat calls are allowed where the style states the plan behind them; the check run still counts them).
 3. The field open-shoves 35-50% of first-in chances at 10bb or less.
@@ -285,7 +289,7 @@ that counter-wave.
 6. The twist is worth what `theory`'s tables say, and the field uses it about as well as we do.
 7. Scores are compressed near the field's mean (the points paid divided by the seats: 16.7 a table in case F with
    50/30/20, 12.5 in case R); differences under 2.0 between two practice rounds (1.4 between a
-   practice round and a scored round) are noise.
+   practice round and a scored round) are noise. (A check on the field, not a bar: the bars in §3 are in z.)
 8. Our base style beats the kit's do-nothing example (`check_or_fold`) on the real field by 1 point or more.
    (`analyst`'s defaults check gives the kit-example teams' scores on every card. Two downloads in which they match or
    beat the bot we played is a PLAN CHALLENGE; its alternative takes the next practice it can be released for, ahead

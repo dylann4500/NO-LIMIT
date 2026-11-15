@@ -48,7 +48,8 @@ may spawn their own helpers.
 - The watcher downloads hand data from the real portal's own address by itself. If it still isn't downloadable (the
   portal watcher says so in your inbox), ask Samuel for the hand download link from the portal (copied from the
   round's Download button), then run
-  `python3 scripts/portal_watch.py --set-hands-url '<link>'` yourself.
+  `python3 scripts/portal_watch.py --set-hands-url '<link>'` yourself. Ask at the first "hand data not downloadable
+  yet" line that is 2 minutes old, and tell BUILDER in one line that you have it.
 - If the clock posts "the clock was reset" or "minute 0 is now HH:MM:SS (was ...)", every time you have quoted is out
   of date: re-read `state/clock.md`, tell Samuel the new times in one line, and treat a step that arrives again as a
   reminder (check what is already running before you spawn anything).
