@@ -65,10 +65,10 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
 11. **Hard-coded format:** search the source for the table size, starting stack, blind and ante levels, payouts and
     time limits written as literals, then run the zip at another table size and payout list (table rules are set per
     round and can change between rounds: `CLAUDE.md` §8). A decision that ignores `state.config` is a bug.
-12. **The deep all-in call:** scripted spots with 3 or more players where an open, one or more callers and then an
-    all-in face us while we hold AA, and the same with KK, at 30bb or more to call and with a high tournament
-    break-even. AA must never fold; report how often KK and QQ fold and whether the design means it. Both timed runs
-    shipped a call rule that folded AA here, and three general reviews missed it.
+12. **The deep all-in call:** in the deep all-in spot (3 or more players, an open, one or more callers, then an all-in at 30bb or more to call) take the top classes of today's ranking for that number of opponents (`theory/out/ranking.json`) and compare every call and fold with the tournament-equity threshold for the players left: a call below the threshold and a fold above it are both bugs.
+    Until theory's ranking and thresholds exist, report the calls and folds by class as a measurement, not a verdict.
+    The spot is fixed, the hand is not: two timed runs shipped a call rule that folded the best hands here, and in a
+    third, whose twist made pairs the worst hands, "AA never folds" failed four correct bots.
 13. **Heads-up seats:** on the real engine, heads-up, the engine posts the big blind before the small blind and the
     button is the small blind. Check the bot's own idea of its position against the blind amounts on 200 heads-up
     hands, and that from the button it raises first in more than 0% of the time.

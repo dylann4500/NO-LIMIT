@@ -108,8 +108,9 @@ T-4:00 feeds the next window. First, is it alive: over about 200 hands the candi
 action at least once, and two different zips must act differently on the same deals; if not, the verdict is "bug:
 not live" and no strength number is given. v1, the minimal bot, is the one exception: its verdict says "not live by
 design" and is about legality and speed only; nobody reads its score as strength. Correct: crashes, illegal actions, timeouts, memory, miscounted statistics (scripted sequences), and
-the fixed spot both timed runs got wrong: facing an all-in after an open and callers with 3 or more players, deep, AA
-never folds (count the folds of AA, KK and QQ over a few thousand such spots; sparring fields rarely reach it), and
+the fixed spot timed runs kept getting wrong: in the deep all-in spot (3 or more players, an open, one or more callers, then an all-in at 30bb or more to call) take the top classes of today's ranking for that number of opponents (`theory/out/ranking.json`) and compare every call and fold with the tournament-equity threshold for the players left: a call below the threshold and a fold above it are both bugs (a
+few thousand such spots: sparring fields rarely reach it; until theory's ranking and thresholds exist it is a
+measurement, not a pass mark; no hand is named, because a twist can make AA a fold), and
 heads-up the bot's position agrees with the blind amounts and its button raises first in more than 0% of the time (the
 engine posts the big blind first heads-up; a bot and a parser each read it by posting order and got the seats wrong); a change
 that targets a rate shows it locally against field-like sparring, within about 5 points. Stronger: paired vs the LIVE

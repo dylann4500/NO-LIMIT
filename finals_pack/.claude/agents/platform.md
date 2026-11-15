@@ -125,8 +125,10 @@ hands against the mixed field the packed zip opens at least once, takes the twis
 and reports at least one firing of a style hook; a style whose import fails or whose hook raises fails the pack. A
 candidate that never opens or never uses the twist fails the check, whatever else passes (in a timed run the base
 called no style hooks, and three styles passed every check playing pure check-fold). v1, the minimal bot, is exempt by
-name: its VERSIONS line says "placeholder: not live by design, never plays a scored round". (11) the deep all-in call: with 3
-or more players, facing an all-in after an open and callers at 30bb or more to call, AA never folds; count KK and QQ. (12) **every
+name: its VERSIONS line says "placeholder: not live by design, never plays a scored round". (11) the deep all-in call: in the deep all-in spot (3 or more players, an open, one or more callers, then an all-in at 30bb or more to call) take the top classes of today's ranking for that number of opponents (`theory/out/ranking.json`) and compare every call and fold with the tournament-equity threshold for the players left: a call below the threshold and a fold above it are both bugs.
+Until theory's ranking and thresholds exist this is a measurement (calls and folds by class), not a pass mark. No
+hand is named: with a twist that reorders hands AA can be a fold (it ranked 164th of 169 in one timed run, and "AA
+never folds" failed four correct bots). (12) **every
 packed table is read**: the check run's report counts reads per table over about 200 hands, and a table with no
 reads fails the pack unless the VERSIONS line names it as deliberately unused (a table that is never looked up fails
 nothing else: in a timed run the base ignored three of theory's tables for 7 minutes and passed every check).
