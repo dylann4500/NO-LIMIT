@@ -46,8 +46,9 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
   `ranking.json` and `icm_thresholds.json` (due at 10); `twist.json`, the twist rule `twist_rule.json`, `pushfold.json`
   with the call tables, and `exploit.json` (due at 15); `theory/HANDOFF.md` (20) for keys and lookups.
 - **then the full platform** (FIRST_PROMPT Part 1) with every check passing.
-- **each practice (20, 30, 40, 50):** release the bot BUILDER names, packed fresh from the current `bot/` so every
-  style carries the newest tables; released and upload-tested 3 minutes before. **~50:** the bot for scored round 1.
+- **each practice (20, 30, 40, 50):** release the bot BUILDER names, packed fresh from the base BUILDER names (a
+  commit you tag `base-vN` once its release has a tester verdict; your pack command takes the commit) so every style
+  carries the same tested tables; released and upload-tested 3 minutes before. **~50:** the bot for scored round 1.
 
 **Each window:**
 - **By T-15:** release the challenger BUILDER names (packed and tested by `challenger` by T-16) as `releases/vN.zip`,

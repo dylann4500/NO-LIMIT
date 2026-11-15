@@ -90,12 +90,18 @@ running before you spawn anything.
   D, not only the base. In a second run they were legal at minutes 16-29: nothing can be packed before `platform`'s
   packer exists, and it landed at minute 15. Styles are legal 2-4 minutes after the packer.
 - **You pick the bot for each practice: the most informative test**, not a fixed rota (DECISION_RULES §3
-  "Exploration"): one practice must be design D; every style rebuilt with the newest shared tables before its upload,
+  "Exploration"): one practice must be design D; every style rebuilt on the current **base** before its upload,
   so practice scores compare styles, not timing. By 3 minutes before each practice the pick is released and
   upload-tested, and you **declare it: `python3 scripts/live.py vN "practice k pick"`** (the clock's reminder to
   Dylan names the declared bot), then tell Dylan exactly which file to upload or activate. `state/live.json` holds one
   bot: declare practice k+1's pick only after practice k has started (its "started" line is in your inbox), or the
   reminder and the watcher's active-bot check point at the wrong bot.
+- **The base.** Every pick is packed on a named platform commit, the base: the newest one whose own release has its
+  tester verdict (correct, with a heads-up run) and is not measured worse than the base before it. A fix release is
+  not a base until that verdict lands: until then picks are packed on the previous base. Write what counts as
+  "worse" in `state/decisions.md` before the number arrives, tell `platform` which commit is the base (it tags it and
+  its pack command takes the commit), and put the base's version on each pick's VERSIONS line. In both timed runs a
+  fix release became the base before its verdict and carried a regression into the next pick.
 - Keep `platform` building in RESEARCH's tables as they land (`theory/out/*.json`, including `twist_rule.json`).
 - **Broadcast the first variant-level finding** (theory's ranking or twist rule, or any report that flips a hold'em
   assumption): `SendMessage` it to every running `stylist` and `challenger` at once, so nobody re-derives it (in the
