@@ -37,7 +37,9 @@ crowded, what punishes them, practice 1's field (mostly minimal bots) vs round 3
   calibration (ECE, 10 bins), drift per team, profiled-us, adaptation and the yardstick teams, and writes
   `analysis/<stage>/fp/` by the analyst's stage rule (`$AVALON_STAGE` with spaces as '-', e.g. `analysis/Round-2.5/fp/`;
   else the round folder's name without its `NN-` prefix with its first letter capitalised (`06-round-2.5` → `Round-2.5`); else `kit-sample`). Quick mode under 60 s; full under 2
-  minutes.
+  minutes. The earlier round it compares with is the latest lower-numbered `NN-` folder under `data/rounds/` that has
+  already been analysed, never a dry-run or test folder; teams are matched across rounds by team name (entry ids
+  change every round).
 - **~minute 35 (when practice 2's data lands):** the first FIELD TREND from practices 1-2 (practice 1's field is mostly minimal bots: say so), first
   profiles, recogniser accuracy (same-round) and how identifiable we are.
 
