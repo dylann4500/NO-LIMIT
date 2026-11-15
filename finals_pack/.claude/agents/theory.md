@@ -96,7 +96,9 @@ reports a measured value outside a solved grid.
   deals before designing anything. 2,000 heads-up fictitious-play iterations on 169×169 in 0.09 s; a 3-way equity
   table about 2 minutes on Modal (one app `avalon-theory`, deployed once, `.map` over shards, up to 20 containers). The
   team Python has no `modal` package: launch with the `modal` command (its own interpreter, which has no eval7), and
-  redeploy after a code change (warm containers ran stale code for 1.5 minutes in a 14 November run).
+  after a code change stop the old containers before redeploying and have each shard return the hash of the code it
+  ran (warm containers ran stale code for 1.5 minutes in one timed run, and a redeploy alone did not clear them in
+  another).
 - **Parallel runs:** share code through `theory/lib/` (import, never copy); if a module you need doesn't exist yet,
   write your own in your own file and say so. Only run (3) writes `theory/HANDOFF.md`; runs (1) and (2) put their
   tables' entries in `theory/HANDOFF-1.md` and `theory/HANDOFF-2.md`, and run (3) links them. If your brief holds several deliverables, write each file and its LEDGER
