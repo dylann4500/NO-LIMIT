@@ -194,7 +194,8 @@ is not required.
 **When to be bolder:**
 - Behind 3rd, or outside the top 3 once 15% of the total weight has been played: the challenger slot carries a
   divergent design, and the bar drops as above.
-- A PLAN CHALLENGE stands, or two or more plan assumptions (§5) are off by 2 SE or more: the plan's premise is
+- A PLAN CHALLENGE stands, or two or more plan assumptions (§5) are off (a field rate 2 points or more outside its band in two
+  downloads running; a score by 2 SE or more): the plan's premise is
   false today; say so to both humans and put the alternative in the next practice round.
 - The portal marks us out of contention: RESEARCH asks Samuel to ask an organizer at once whether such teams still
   play and can still be paid (BUILDER tells Dylan what it means and asks him for nothing else). Until the answer,
@@ -271,7 +272,7 @@ that counter-wave.
   powers of two (1 to 32). The watcher keeps it in `state/portal.json` (`comp_settings`) and posts any change. On Saturday
   afternoon the Finals competition was set to linear: re-read it at minute 0.
 
-**Plan assumptions** (`scout` checks each against every download; one off by 2 SE or more is a PLAN CHALLENGE):
+**Plan assumptions** (`scout` checks each against every download; a field rate 2 points or more outside its band in two downloads running, or a score off by 2 SE or more, is a PLAN CHALLENGE):
 1. The field folds to 3-bets of our opens at about 60-70%.
 2. Open-limping and flat-calling opens at 10bb+ lose money in this field.
 3. The field open-shoves 35-50% of first-in chances at 10bb or less.

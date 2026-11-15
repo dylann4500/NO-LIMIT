@@ -159,7 +159,8 @@ field-adjusted edge matters (from the results and the watcher's output); the ful
 ## Plan challenges (DECISION_RULES §3)
 
 When a subagent's report, the field trend or the winners lens says a plan assumption or our base style is wrong for
-today (an assumption off by 2 SE or more, a top-5 cluster that moved, "the field pays for a different style"): it's
+today (a field rate 2 points or more outside its band in two downloads running, a score off by 2 SE or more, a top-5
+cluster that moved, "the field pays for a different style"): it's
 a PLAN CHALLENGE. You own it:
 1. Tell Samuel in one or two plain sentences at the top of your reply: what the plan assumed, what the data shows,
    what we'd do instead, what it costs.
