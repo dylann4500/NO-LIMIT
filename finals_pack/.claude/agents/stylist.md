@@ -66,7 +66,8 @@ corner.
 - **Test every folder before reporting:** name today's variant explicitly in every local run (the kit's engine defaults to plain
   hold'em); pack it with the platform's pack command into
   `candidates/<name>/build/<name>.zip`, run the platform's check command on it (0 failed decisions, 0 catch-all, p99,
-  the upload test with no time bank, branch counts, the style report and defaults counts), give its sha256. Once you have
+  the upload test with no time bank, branch counts, the style report and defaults counts), give its sha256. A better build is
+  not a release: it waits in its folder, reported, until BUILDER picks it. Once you have
   reported a zip, never repack it in place or edit that folder: a change is a new folder or a new zip name (releases
   and testers held different bytes of one style in a timed run: three packings of C folded 18, 33 and 48% to a
   flop bet). Local
