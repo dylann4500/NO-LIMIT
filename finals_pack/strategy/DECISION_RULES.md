@@ -284,3 +284,7 @@ that counter-wave.
 7. Scores are compressed near the field's mean (the points paid divided by the seats: 16.7 a table in case F with
    50/30/20, 12.5 in case R); differences under 2.0 between two practice rounds (1.4 between a
    practice round and a scored round) are noise.
+8. Our base style beats the kit's do-nothing example (`check_or_fold`) on the real field by 1 point or more.
+   (`analyst`'s defaults check gives the kit-example teams' scores on every card. Two downloads in which they match or
+   beat the bot we played is a PLAN CHALLENGE; its alternative takes the next practice it can be released for, ahead
+   of the b40 "leader or closest rival" pick.)
