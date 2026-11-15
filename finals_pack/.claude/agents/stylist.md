@@ -74,7 +74,7 @@ corner.
   results against our own bots are sanity only; the practice rounds judge strength.
 - **Fan out:** one stylist per change. If your brief holds several, spawn up to 4 helpers yourself (in one message, one
   job and one output file each: one change, one folder), merge their results, then report. Sparring: run
-  `rig/compare.py` (the tester's, read-only) locally with the worker count your brief gives (2 if none), or on `avalon-rig` as `rig/NOTES.md` says;
+  `rig/compare.py` (the tester's, read-only) locally with the worker count your brief gives (1 if none), or on `avalon-rig` as `rig/NOTES.md` says;
   never a Modal app of your own.
 
 ## Rules that bit us

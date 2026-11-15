@@ -42,7 +42,9 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
   of a run (a table re-issued mid-run changed the sparring play between two pairings). Each bot is kept apart from the others: its own process, or its
   own module name with no shared globals (two zips both ship `agent.py`: in a timed run both rigs ran the wrong bot's
   code for 24 minutes). The rig's first act in every run is a self-test: two different zips give different actions on
-  the same deals, and one zip against itself gives a paired difference of exactly zero. Bots on the
+  the same deals, and one zip against itself gives a paired difference of exactly zero. A candidate that is identical
+  to LIVE on the self-test tables (a fix that does not show in this field) is reported as "identical on N tables" and
+  the run continues; stop only when it is identical to the floor or to a bot it was not derived from. Bots on the
   kit's engine (check today's SDK names; the regional kit had async `act(state, memory)` returning `Reply(action, memory,
   bank_ms)`, `play_table` on a `SitAndGo` from `TableRules` with table id and seed, `table_points`), every rules field
   set from `bot/rules.json` and today's variant named explicitly (the kit's engine defaults to plain hold'em), a process pool (guard the entry point; have it stop its workers on SIGTERM: killing
