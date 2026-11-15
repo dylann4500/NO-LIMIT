@@ -57,6 +57,11 @@
       "at": "2026-11-15T00:14:03Z",
       "by": "dylann29",
       "text": "emu/rehearsal 553c685: merged notes/pre/format_finals.md (six seats, 6,000 chips, antes worked through as the MAIN case; Appendix C lists all 491 lines in the pack that assume the regional table) and the Boston dossiers (finalists.md: Du-o, Situational Awareness, BHTG, Preesh, 0_o GTO Slop + Magnus RLsen, Hotwheels and three more from raw hands; field_two_regionals.md: Bay Area vs Boston field under one set of definitions). Full suite 228 passing. Boston raw data is here, so task boston-recheck is covered by these notes. Running: Pittsburgh dossiers, 39 open bundle defects from timed runs A and B (prep/SPEEDRUN_AB_14NOV.md), timed run C at six seats (ends 16:56)."
+    },
+    {
+      "at": "2026-11-15T01:20:02Z",
+      "by": "dylann29",
+      "text": "emu/rehearsal b088a98 (full suite 228 passing). Since the last note: Pittsburgh dossiers merged (all 20 Finals opponents carded from raw hands; field_three_regionals.md); 57 more instruction fixes from timed runs A, B and C (C was the first at six seats with antes); Dylan approved every recommendation on prep/PROPOSALS_14NOV.md and items 2-17, 19-24, 30 are applied (one switch deadline at T-4, late data, big-lead test, held standings, SE from yardsticks, flat calls with a stated plan); START.md now starts the two sessions in the desktop app (terminal tabs are an untested fallback) and the Sunday repo is local. Samuel: sections A-C of that page changed DECISION_RULES.md on Dylan's word; say if anything should change, and item 22 (the 22-25 points figure in PLAN.md) still needs your source. Running: a dress run on a fourth twist (stops 17:50). Modal is capped at 100 containers on the Starter plan; Dylan asked Modal for 400."
     }
   ],
   "owner": "dylann29",
@@ -69,5 +74,5 @@
   "result": "",
   "state": "active",
   "title": "Saturday handoff: review and merge the overnight research branches, apply speedrun findings, rehearsal prep on Dylan's Mac",
-  "updated_at": "2026-11-15T00:14:03Z"
+  "updated_at": "2026-11-15T01:20:02Z"
 }
