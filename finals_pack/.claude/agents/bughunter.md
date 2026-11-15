@@ -48,7 +48,7 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
    hole cards passed than the rules let play: `eval7.evaluate` itself takes 5 to 9 cards and returns the best five;
    comparison direction; a high evaluator used for lows).
 5. **Branch counts over 1,000 hands:** any branch that never fires or fires absurdly; any setting ON whose branch never
-   fires.
+   fires; any packed table that is never read (count the reads: this is how a timed run found three unread tables).
 6. **Hidden exceptions:** 1,000 hands with the catch-all counted (or, in your copy, re-raising); any hit is a bug.
 7. **Memory:** truncated, garbage and empty bytes at every phase; size vs the limit in `bot/rules.json`; nothing
    carried in globals or on self; the current hand rebuilt from the state (a scripted hand with raises on every
