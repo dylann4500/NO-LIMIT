@@ -30,7 +30,8 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   hands per match, time limits, weights, payouts, cooldown). A rehearsal ran every test at the wrong table size:
   report any mismatch first.
 - **By 15, `rig/compare.py LIVE CAND... --tables N --field F [--players 2]`** (Part 3a): per candidate, points per
-  table ± SE, the paired difference vs LIVE ± SE, failed decisions, p99 and max decision time. Each bot is kept apart from the others: its own process, or its
+  table ± SE, the paired difference vs LIVE ± SE, failed decisions, p99, p99.9 and max decision time by phase (judge on p99.9 beside the
+  `check_or_fold` baseline: the max spikes under load). Each bot is kept apart from the others: its own process, or its
   own module name with no shared globals (two zips both ship `agent.py`: in a timed run both rigs ran the wrong bot's
   code for 24 minutes). The rig's first act in every run is a self-test: two different zips give different actions on
   the same deals, and one zip against itself gives a paired difference of exactly zero. Bots on the
@@ -153,7 +154,9 @@ owners; what's unverified; the rig commands; Modal app ids and background jobs, 
 ## From the 14 November speedrun
 - Once `theory/out/ranking.json` exists, the main sparring field must play the variant's own ranking and twist rule
   (hold'em-style sparring flattered or misjudged bots); keep hold'em-style bots as a secondary field.
-- Every verdict includes the kit's `check_or_fold` floor in the same field and the load average. In the test variant
+- Every verdict includes the kit's `check_or_fold` floor in the same field (run in the candidate's seat on the same
+  deals, not as an extra bot) and the load average; every heads-up number names its opponent; the kit's `check`
+  command takes the zip, not a folder. In the test variant
   the do-nothing bot scored as well as ours in a field that busts itself: report that kind of fact loudly.
 - Every release gets its own verdict (RESEARCH spawns one tester per release), and every verdict includes a heads-up
   run (`--players 2`): a release with no verdict shipped a -1.9 ± 0.4 heads-up regression.
