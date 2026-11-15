@@ -12,7 +12,7 @@ beats us. The full method is `strategy/FINGERPRINTING.md`; read it at the start 
 
 **Your files** in `analysis/`: `fp_train.py` (and `fp_*.py`), per round `analysis/<stage>/field_trend.md` and
 `analysis/<stage>/fp/` (profiles, likelihood table, metrics, drift, `yardsticks.json`, profiled-us, adaptation, card),
-`analysis/counters.json` (the current gated counters, with stage and time), `analysis/profiles/<team>.md`, and
+`analysis/counters.json` (the current counters, with stage and time), `analysis/profiles/<team>.md`, and
 `analysis/SCOUT.md` (your notes: yardsticks, drift history, accuracy by round). The analyst also writes in `analysis/`
 (parsers, `roundcard.py`, cards, lens files, `field_priors.json`): never edit those; importing its parser is fine.
 Never edit `bot/`, `candidates/`, `state/` or `inbox/`. Hand data never goes into git.
@@ -60,13 +60,14 @@ crowded, what punishes them, practice 1's field (mostly minimal bots) vs round 3
    downloads running, a score off by 2 SE or more, or a top-5 cluster that moved, is a PLAN CHALLENGE:** report it at once (if your brief also holds the card, end the run,
    say "card not started", and let RESEARCH spawn it).
 2. **The fingerprint card, by T-9** (FINGERPRINTING §2-3): run `fp_train.py` if `analysis/<stage>/fp/` is missing.
-   Decisions use LAGGED accuracy. Drift (size-histogram JS divergence over 0.15 bits, or lagged accuracy 20+ points
-   below same-round): invalidate that team's profile, retrain from the newest round, counters off until a download
-   shows lagged accuracy of 55%+; a rare-spot rate moved over 3 SE alone: refresh rates, keep counters. Confirm or
-   overrule each automatic invalidation in one line. A team's counters are ON only with lagged recall at 40 hands of
-   50%+ and no drift flag; at the table a counter applies when post × gain − (1 − post) × loss > 0, post ≥ 0.6, the
-   seat isn't "unknown", and its open and 3-bet rates sit inside the team's 90% range; each moves a decision by at
-   most 10 frequency points × min(1, n_spot / n_full). `analysis/counters.json`: per team on/off and why, rare-spot
+   Report lagged and same-round accuracy and calibration: they are numbers to report, not gates (every accuracy or
+   confidence bar tested on 15 November cost points). Drift (size-histogram JS divergence over 0.15 bits, or lagged
+   accuracy 20+ points below same-round): invalidate that team's profile, retrain it from the newest round and keep
+   its older bot as the team's second class; a rare-spot rate moved over 3 SE alone: refresh rates. Confirm or
+   overrule each automatic invalidation in one line. At the table nothing is switched on or off by accuracy: the bot
+   weights each team's rates by its belief, blends them with the seat's own actions, and changes an action only
+   through an expected-value comparison; a seat that fits no profile is "unknown" and gets the field's rates; a
+   profile shifts a frequency by at most 20 points. `analysis/counters.json`: per team its rare-spot
    rates with n (fold to 3-bet, fold to c-bets by street heads-up, big-blind fold vs a late open, all-in calls), up to
    3 adjustments with gain and loss in points per table and setting `CTR_<team>`, `ANTI_ADAPT_<team>` flags, the
    likelihood-table path. Platform builds it in behind `FP_ON`; the stylist builds counter strategy from it. Accuracy,
@@ -102,7 +103,8 @@ memo when §5's trigger fires (§6: close rare-spot gaps first; a size mask work
 ## Rules that bit us
 
 - Bet sizes name a team fast (73% by hand 20 at the regional; opponents named us 88% by hand 20, mostly from open
-  sizes), but about 1 in 5 confident calls is wrong after a team changes bot: lagged accuracy and the unknown gate.
+  sizes), but about 1 in 5 confident calls is wrong after a team changes bot: the unknown class and a second profile per
+  team (its practice bot and its last scored bot) are what catch it.
 - Boston's top 20 went from folding 75% to 3-bets to 57.5% by round 5 and partly back; our plan never tracked it. In a
   rehearsal the field trend caught a field folding 81-92% to 3-bets (the plan said 60-70%) after practice 1: raise a
   challenge early, even when unsure (say how sure).

@@ -246,7 +246,7 @@
     ],
     [
      "scout",
-     "First the FIELD TREND (analysis/<stage>/field_trend.md; plan assumptions checked; a PLAN CHALLENGE if one breaks), then the fingerprint card: counters on/off by the gate, analysis/counters.json by T-9; report its path (you send it to BUILDER for platform) and the accuracy/drift items (you pass them to tester)."
+     "First the FIELD TREND (analysis/<stage>/field_trend.md; plan assumptions checked; a PLAN CHALLENGE if one breaks), then the fingerprint card: analysis/counters.json by T-9 (each team's rates; no accuracy gate); report its path (you send it to BUILDER for platform) and the accuracy/drift items (you pass them to tester)."
     ]
    ]
   },

@@ -116,7 +116,8 @@ confirm it.
    command, never with the team Python (it has no `modal` package); every other role calls them or runs locally (20
    containers between them).
    Never launch several `modal run`s at once: the workspace has an app-creation rate limit, and a rehearsal lost a
-   round to it. Shared cap: 80 containers.
+   round to it. Shared cap: 80 containers. The cap counts containers, not cores: the rig asks for 32 cores a
+   container (`tester.md`), and big containers are never left warm.
 
 ## 5. Humans
 
@@ -183,7 +184,9 @@ which is why a tested bot stays active while the better one is being finished.
   local workers a session is a guide for heavy local runs only, not a count of agents: a fresh tester and bughunter
   per release cannot fit under it, and need not. A timing or upload test counts only
   if `uptime` shows load below the core count AND the kit's `check_or_fold` example runs in the same minute as a
-  baseline; otherwise say "inconclusive: machine loaded" and re-run. A request
+  baseline; otherwise say "inconclusive: machine loaded" and re-run. This laptop has 24 GB of memory: read a hand
+  file as a stream, one table at a time, never a whole round in memory and never in several processes at once (on
+  15 November analyses doing that closed the app and then restarted the machine). A request
   for a quiet window ("nothing heavy locally until HH:MM") means no local match or Monte Carlo runs; Modal clients,
   one light process each, carry on, and nobody stops work altogether. On this Mac a script that starts a process
   pool needs an `if __name__ == "__main__":` guard (without it, it forks in a loop), and there is no `timeout`
@@ -272,7 +275,10 @@ statement of the platform's rules: re-read Sunday's own pages at minute 0.
 - A failed decision (a timeout, an error, an illegal action) checks when checking is free and otherwise folds; in a
   phase the variant adds it takes that phase's automatic choice. It does not always fold.
 - Scored play has a time bank: 100 ms a table by default (`state.config.time_bank_ms`); one timeout empties it and
-  each table starts with a full one. The upload test has none: a heads-up match of up to 20 hands at the 1 ms limit
+  each table starts with a full one. After a timeout every slow decision at that table fails, so a failure can come
+  in a cluster. (The rehearsal kit's code timed the round trip and charged the bank only past 1 ms plus 2 ms of
+  delivery grace; the real platform's grace is not known, so plan for 1 ms.) A scattered failed decision cost about
+  0.25 points at its table in a paired test; at the Bay Area regional the platform made no decision for us in 151,797 tables. The upload test has none: a heads-up match of up to 20 hands at the 1 ms limit
   against a check-or-fold bot, rejected if the bot does not start within the start-up allowance, crashes, or fails
   more than 10% of its decisions. Our own bar stays stricter: no more failed decisions than the kit's `check_or_fold`
   bot in the same run (hard rule 1).

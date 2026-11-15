@@ -130,7 +130,7 @@ Then, still in the build hour:
   with any others (one tester continued serially fell behind by three releases). But a release that replaces one
   whose verdict is not out yet gets no second tester: retarget the running one to the new release and keep the old
   release as an extra paired arm. Testers share the rig's containers, so jobs queue: with another tester running, a
-  mix job took 181 s and 196 s against 68 s and 44 s alone, and five releases came in 7 minutes; keep each job small
+  mix job took 181 s and 196 s against 68 s and 44 s alone, and five releases came in 7 minutes; on one-core containers keep each job small
   while another runs (run C's RESEARCH proposed at most 1,000 tables a job), and ask BUILDER which verdict it needs
   first. Its verdict is the file
   `rig/out/verdict-vN.md`, written by the tester when it finishes: send BUILDER the path and its first line at once. **No bot plays a scored round without a tester verdict that includes a heads-up run** (heads-up

@@ -63,7 +63,17 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
   tables and survive, and judge the floor against those. Losing to one by more
   than 2 SE means a hole.
 - **Modal:** one app `avalon-rig` (deploy once, `.map` over shards, up to 40 containers), image built in the background;
-  size each window's runs from measured speed. Measured on 14 November with the regional kit and bots: 20,000 tables
+  size each window's runs from measured speed. **Ask for 32 cores a container and keep a pool of 32 worker processes
+  alive across calls** (Dylan and Samuel, 15 November). The plan caps containers, not cores. Measured that night
+  on a copy of the rehearsal's rig: one 32-core container ran 29 times the tables of a one-core container, with
+  per-table results identical on the same seeds, and 15 of them ran 27,000 paired tables in 82 s; nothing above 15
+  containers was tested, so time the first job. Send each container many small calls; keep the shutdown window short;
+  avoid 64-core containers (they start one every 15-20 s); and never leave big containers warm (60 of them idle for
+  six hours is about 560 dollars; the workspace's limit for the month is 350). At that speed a 20,000-table paired
+  run takes about half a minute (SE about 0.11 points a table; 5,000 gives 0.23, 1,000 gives 0.5): use it for a
+  verdict that decides a scored round. More tables remove noise, not bias: the rehearsal's two sparring fields
+  disagreed by about 5 points between designs, so between designs the practice round stays the judge.
+  The one-core figures that follow are the fallback if many-core containers fail on the day. Measured on 14 November with the regional kit and bots: 20,000 tables
   in 144 s on 80 containers (139 tables a second, 250 tables a shard, 2.6 tables a second per container), and
   earlier 6,000 in about 2 minutes on 40. So with `avalon-rig`'s 40 containers a 5-minute window affords about
   15,000-20,000 tables in all: three candidates at about 5,000 each (paired SE about 0.3 points), or one

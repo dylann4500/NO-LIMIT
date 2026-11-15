@@ -34,8 +34,9 @@ corner.
   `analysis/<stage>/lens-*.md`), on top of the live bot. Persistent leaks (two rounds) and quick fixes first: a fix makes
   this window's T-6 release only if its tested folder reaches platform by about T-8; the rest ship in the next window's
   live bot or go to the challenger.
-- **Counters** from `analysis/counters.json` (the scout's gate says which teams are on): adjustments as `CTR_<team>`
-  settings that act only when the recogniser (`FP_ON`) names that team, each capped as counters.json says. Profiles
+- **Counters** from `analysis/counters.json` (each team's rates and adjustments): adjustments as `CTR_<team>`
+  settings weighted by the recogniser's belief that the seat is that team (`FP_ON`; no confidence bar,
+  FINGERPRINTING §3), each capped as counters.json says. Profiles
   never change default play.
 - **Last round:** durable fixes only, unless BUILDER names a held-back exploit.
 
