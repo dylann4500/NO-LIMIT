@@ -93,6 +93,10 @@ separate currency on candidate flop cards, and the result picks the flop.
 - Value: score every possible board outcome on the same sampled opponent hands and runouts, then bid on the
   cards of the best outcome. Size bids from the budget: balance / auctions expected to remain, scaled by how
   much the outcomes differ and by the pot. Cap bids relative to the richest live opponent's balance.
+  Measured against this in a 14 November timed run (the regional engine's flop auction, six seats): a flat budget of
+  balance ÷ auctions remaining ran the winner dry in 44% of tables, and sizing each bid by the pot did better; a seat
+  with no balance left lost heavily heads-up, and reading what an opponent paid was worth about 2 points a table.
+  Fit the budget on the engine before trusting either rule.
 - Measured: never bidding scored 14.5 points per table; a cheap rule 17.7; simulated bidding 20.6-22.1;
   points rose with thinking time (0.1 ms 18.6, 0.6 ms 20.4). A budget 3x too large fell back to 18.8.
 - Classic mistakes: tuning the budget only against bad bidders; crediting a balance drop to the wrong hand
