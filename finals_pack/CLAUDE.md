@@ -180,7 +180,8 @@ happen again.
   that has no clock step, tie it to the step before it or ask your human to say it; never plan to "come back at
   HH:MM" (both timed runs missed their stop that way). A subagent's time limit is kept by the subagent itself, with
   `date` at each step, and checked by the session that spawned it on every wake-up.
-- **A file named in your brief** (`REPORT.md`, `card.md`, `DESIGN.md`, ...) **is a requested deliverable: write it.**
+- **A file named in your brief** (`NOTES.md`, `card.md`, `DESIGN.md`, ...) **is a requested deliverable: write it.**
+  Never name a subagent's deliverable `REPORT.md` or `FINDINGS.md`: the desktop app refuses those names to subagents.
 - **Keep your PLAN file current** (`notes/PLAN-<session>.md`; its first line names your role and prompt file):
   what's running where, open promises, next deadline. **After compaction or a restart, first re-read your prompt file
   (`prompts/BUILDER.md` or `prompts/RESEARCH.md`)**, then your PLAN file, `state/status.md`, `state/clock.md` and the
