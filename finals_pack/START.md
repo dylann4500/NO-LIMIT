@@ -4,7 +4,7 @@ Everything runs on Dylan's laptop, in this repo: two Claude Code sessions (**BUI
 plus two scripts (the **clock** and the **portal watcher**). No dashboard. The two sessions run in the Claude desktop app's Code tab (every check and timed run on 14 November
 ran there); the two scripts run in terminal tabs. You talk to your session by typing into it.
 
-## Saturday night (once, about 20 minutes)
+## Before the day (once, about 20 minutes; Saturday night or first thing Sunday)
 
 1. **Make the repo.** `~/avalon-finals` on Dylan's laptop: a fresh local git repo whose contents are exactly this
    folder, minus `prep/` (that's for Saturday's checks only). It needs no GitHub remote, because everything runs on
@@ -131,9 +131,8 @@ research (notes only, no code: it checks and extends Saturday's drafts in `notes
 
 ## During the day
 
-- **Both:** when the portal shows a scored round has started, type `/compact` in your session. It goes dark for about
-  two minutes and is back before the results land. (In the 14 to 15 November rehearsal the sessions compacted by
-  themselves 34 times, once on top of a round's decision.) Try `/compact` once during set-up.
+- **Both:** when the portal shows a scored round has started, type `/compact` in your session. It goes dark for about two minutes and is back before the results land. (In the 14 to 15 November rehearsal BUILDER compacted by itself 5 times and RESEARCH 6, about every 30 minutes, once on top of a round's decision.) Optional and untested: also when practices 1 and 3 start (minutes 20 and 40), since two of last night's fell in the build hour at moments nobody chose. Try `/compact` once during set-up, Samuel from his own computer too (if it doesn't work there, Dylan types it into RESEARCH on the laptop).
+- **Three questions worth typing.** Before a style is dropped: "has it played a portal practice?" At T-5: "what is on the portal, and what does the rule say?" When a different line takes over: "did it keep the previous bot's fixes?"
 - **One of you keeps the portal open in a signed-in browser tab all day** (Dylan's upload tab will do). Organizer
   announcements appear only there, as a banner refreshed every 5 minutes: the API key cannot read them (checked on
   14 November: 403), so neither script and neither session will ever see one. Read each announcement to your session

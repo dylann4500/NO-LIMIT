@@ -78,7 +78,7 @@ after that, keep one divergent line alive as insurance.
   new folder or a new zip name.
 - **Test before reporting:** name today's variant explicitly in every local run (the kit's engine defaults to plain
   hold'em); pack with the platform's pack command into `candidates/<folder>/build/<name>.zip`; run its
-  check command: 0 failed decisions, 0 catch-all, p99 under 0.5 ms, the upload test with no time bank (and vs a
+  check command: failed decisions beside the kit's `check_or_fold` in the same run (hard rule 1), 0 catch-all, p99 under 0.5 ms, the upload test with no time bank (and vs a
   call-everything bot so the twist fires), branch counts, the style report. An element that targets a rate shows it
   in a local run, within about 5 points.
 - **Fan out:** to compare 2-3 alternative designs, spawn up to 4 helpers yourself (in one message, one job and one

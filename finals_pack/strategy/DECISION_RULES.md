@@ -33,8 +33,7 @@ working rules that never bend either: the portal is read-only for agents and onl
 never block your turn; Modal has only two deployed apps, `avalon-rig` (`tester`, up to 40 containers) and
 `avalon-theory` (`theory`, up to 20), and the other roles call them or run locally, sharing 20 (80 in all).)
 
-1. **Every bot we upload is legal and fast**: no more failed decisions in the checks than the kit's `check_or_fold`
-   bot has in the same run (a stalled machine fails every bot's decisions; on a quiet machine that is zero), the kit's check passes,
+1. **Every bot we upload is legal and fast**: no illegal actions or errors in the checks, and no more timeouts than the kit's `check_or_fold` bot has in the same run (a stalled machine times out every bot's decisions; on a quiet machine that is zero), the kit's check passes,
    and it passes the upload test with no time bank. *(A bot that times out or acts illegally checks when
    checking is free and otherwise folds, and can zero a round.)* **A bot plays a scored round only with a `tester` verdict that includes a heads-up run.**
    *(In a speedrun a release with no verdict shipped a heads-up regression of −1.9 ± 0.4.)* A verdict's first words are
@@ -234,8 +233,7 @@ about T-13, while the challenger is packed and tested by T-16 and released by T-
 the data already in hand (it starts at the previous window's T-13) and targets the next window.
 
 **Practice rounds are experiments.** Any bot that is legal and fast (rule 2.1's checks) may play one; the `tester`
-verdict is needed only for a scored round. Pick the most informative candidate; a strength verdict from local tests
-is not required.
+verdict is needed only for a scored round. Pick the most informative candidate; a strength verdict from local tests is not required. A few failed decisions in a portal round are priced, not a bar: about 0.25 points at that table each (`CLAUDE.md` §8). What holds a bot back is what the watcher marks URGENT: misses above 1% of decisions, a restart, or a give-up.
 
 **When to be bolder:**
 - Behind 3rd, or outside the top 3 once 15% of the total weight has been played: the challenger slot carries a
@@ -261,7 +259,7 @@ is not required.
 - After round 2, `scout`'s field trend shows the top 5 teams now limp-or-shove at 15bb or less and fold to 3-bets
   58%; our wide-3-bet base loses to them. → PLAN CHALLENGE; `challenger` builds the counter-style; it plays the
   next practice round whatever our standing.
-- The challenger fails the no-time-bank test once in three runs. → It doesn't play, whatever its score
+- The challenger fails the no-time-bank test once in three runs, and the kit's `check_or_fold` in the same runs does not. → It doesn't play, whatever its score
   (hard rule 2.1); fix it for the next window.
 
 **When behind schedule:** drop extra verification passes and polish first; keep idea generation, the field trend,
@@ -300,14 +298,11 @@ both, open-shove at 10bb or less 41% in both), but their **top 20s did not**: Bo
 75% to 3-bets to 57.5% by round 5 and 4-betting 23%, then partly reversed; Bay Area's barely moved. The Finals
 field is the top teams of all three regionals, who studied the same lessons, so expect them to start near or past
 that counter-wave.
-- **Seat priors:** start each seat at the field rate with weight 4 (as if 4 observations). Until the first
-  practice download use the regional values (FIRST_PROMPT Part 1); from that download on, `analyst` replaces
-  them with the Finals field's rates (analysis/field_priors.json). Never use a weight above 10 for a field
-  prior; team-profile priors from Finals rounds get weight about 30, capped.
+- **Seat priors:** start each seat at the field rate. Until the first practice download use the regional values (FIRST_PROMPT Part 1) with weight 4 (as if 4 observations; weight 10 on another variant's values hurt); from that download on, `analyst` replaces them with the Finals field's rates (analysis/field_priors.json), at the per-spot strengths of `FINGERPRINTING.md` §3 (10 when unsure), which also give the strengths for team profiles.
 - Use them, measure them, override them when this event's data says otherwise, and say why.
 - **Folding to re-raises:** recompute the break-even fold rate for our open size and range (usually 65-75% in case R, about 59-68% with case F's antes, for
   3-bets of 3-3.5x). Folding far above it invites the seat-learners (2 Curry re-raised a seat 18% fresh, 43% after
-  one fold, 62% after two). It is a default, not a cap: the regional winner itself folded 81-87%. It is about our
+  one fold, 62% after two). It is a default, not a cap: the regional winner itself folded 81-87%, in a field where few seats punished it; eight of today's 20 opponents re-raised a seat more after it folded (`notes/pre/finalists.md` §3). It is about our
   opens facing 3-bets, not folding to 4-bets after our own light 3-bets.
 - **Styles A/B/C are three corners to try, not a menu:** the cycle (wide beats tight, shove beats wide, tight beats
   shove) held only in pure simulated fields on the Bay Area variant; at realistic mixes no lead exceeded 1.4 points,

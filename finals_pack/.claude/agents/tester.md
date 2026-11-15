@@ -24,7 +24,7 @@ verdicts given). Read-only: `bot/`, `candidates/`, `releases/`, `analysis/`, `th
 tester per release, or retargets you to a release that replaced yours before your verdict: keep the old one as an extra
 paired arm): its verdict (below), always including a
 heads-up run at the real table's settings (the day's full table with all but two seats already out, six seats with four
-out in case F, so `state.config` is the real one; a bare `--players 2` table is a format the event never shows, and
+out in case F, so `state.config` is the real one; a bare `--players 2` table is a format no scored round shows (only the upload test is a two-player table), and
 platform bots refused it in the 14 November rehearsal). A bot plays a scored round only with a tester verdict that includes one. For a release
 that changes heads-up play, also run it head to head against the live bot: against the sparring mix one heads-up
 fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0.4.
@@ -54,7 +54,7 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
   randomness from table id and hand number; rotate seats. Tables diverge once a decision differs, so pairing helps
   little (paired SE ≈ 22/√tables for two different designs in case F, an estimate to measure, and 21 in case R, measured 18-28; about 11/√tables only for a one-change
   variant): use many. Then the **first verdict on v1**.
-- **Sparring fields**, sanity only: calls everything, shoves constantly, plays only premiums, re-raises wide (enough
+- **Sparring fields**, sanity only: calls everything, shoves constantly, plays only premiums, re-raises wide and more often against a seat that folded to its last re-raise (enough
   copies of each to fill the table, five in case F and seven in case R, plus a mix), all playing the variant's own decision, some at random and some well, and in every mix one
   bot that makes legal but odd bets (minimum raises, 1-chip all-ins, tiny flop bets): sparring that bets by theory's
   tables never triggers the bugs odd bets do. Print the hand of the third bust in every run: a field that busts itself
@@ -69,9 +69,7 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
   per-table results identical on the same seeds, and 15 of them ran 27,000 paired tables in 82 s; nothing above 15
   containers was tested, so time the first job. Send each container many small calls; keep the shutdown window short;
   avoid 64-core containers (they start one every 15-20 s); and never leave big containers warm (60 of them idle for
-  six hours is about 560 dollars; the workspace's limit for the month is 350). At that speed a 20,000-table paired
-  run takes about half a minute (SE about 0.11 points a table; 5,000 gives 0.23, 1,000 gives 0.5): use it for a
-  verdict that decides a scored round. More tables remove noise, not bias: the rehearsal's two sparring fields
+  six hours is about 560 dollars; the workspace's limit for the month is 350, of which 118 was used by 04:30 on 15 November). At that speed a 20,000-table paired run should take about 40 s warm and a minute cold on the rig's 40 containers (projected from 15; SE about 0.11 points a table between versions of one design and about 0.18 between designs; 5,000 tables give 0.23, 1,000 give 0.5): use it for the paired difference in a verdict that decides a scored round. Pass marks written in SE (the heads-up run within 2 SE of the live bot's; a loss to a sparring bot of more than 2 SE) were set on runs of about 1,000 tables, where 2 SE is 0.4 to 1 point: keep those runs at about 1,000 tables. At 20,000 tables 2 SE is under 0.1 points, less than any sparring field's bias (the bot that won the rehearsal's last round read -0.38 ± 0.20 against the sparring mix and +2.56 ± 0.37 against the live bot itself). More tables remove noise, not bias: the rehearsal's two sparring fields
   disagreed by about 5 points between designs, so between designs the practice round stays the judge.
   The one-core figures that follow are the fallback if many-core containers fail on the day. Measured on 14 November with the regional kit and bots: 20,000 tables
   in 144 s on 80 containers (139 tables a second, 250 tables a shard, 2.6 tables a second per container), and
@@ -115,7 +113,7 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
   the practice score the challenger needs as soon as the live side's numbers exist.
 - **T-6, on the chosen zip:** the upload test with no time bank (2 players, 20 hands, time bank 0, vs the kit's
   check-or-fold, several seeds; vs a call-everything bot so the twist fires). The kit's command-line runner can't
-  run it (no switch for the hand count or the time bank): use your own runner in `rig/`, written in the build hour. With the recogniser on: posteriors match
+  run it (no switch for the hand count or the time bank): use your own runner in `rig/`, written in the build hour. With the recogniser on: the direction test (FINGERPRINTING §3), then posteriors match
   offline within 1e-4 on 200 tables, added p99.9 latency at most 0.2 ms, memory under 4 KB, truncation raises nothing.
 
 ## How to do it well
@@ -132,9 +130,7 @@ measurement, not a pass mark; no hand is named, because a twist can make AA a fo
 heads-up the bot's position agrees with the blind amounts and its button raises first in more than 0% of the time (the
 engine posts the big blind first heads-up; a bot and a parser each read it by posting order and got the seats wrong); a change
 that targets a rate shows it locally against field-like sparring, within about 5 points. Stronger: paired vs the LIVE
-bot, 2,000+ deals per field; after round 1 the cloned field. Evidence, not a gate: correct, legal, fast (p99 under 0.5
-ms on an idle core) and not catastrophically worse (better than −2 points per table) is fit for a practice round or
-the challenger slot; the practice round judges strength. Measure noise first (a bot against itself: about 20/√tables
+bot, 2,000+ deals per field; after round 1 the cloned field. Evidence, not a gate: correct, legal and fast (p99 under 0.5 ms on an idle core) is fit for a practice round or the challenger slot; a loss of 2 points or more in a sparring field is reported as a warning, and only a calibrated cloned field with the reason understood may veto (DECISION_RULES §3); the practice round judges strength. Measure noise first (a bot against itself: about 20/√tables
 points in case R, about 6% more in case F). v1 has no live bot to beat: judge it against the kit's `check_or_fold` floor and one sparring field. A
 heads-up run pays 1st and 2nd, so with 50/30/20 an even bot scores 40 and the floor is 30. Write each verdict to `rig/out/verdict-<name>.md` the moment it is done, its first line the
 verdict line of your report: that file is the verdict of record, and nobody copies its text. Also record it: claim `verdict <name> (sha256 12): correct | bug: …; vs live vN: diff ± se`, method with

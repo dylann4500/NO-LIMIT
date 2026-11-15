@@ -93,12 +93,10 @@ hand-history README; `state.config`; where two of its files disagree, test what 
 - **One artifact**, every table embedded (data files only if the kit allows); test the exact zip from an empty folder.
 - **Speed, for the worst decision:** tables built at import; one throwaway decision of every phase at import; then
   `gc.collect()`, `gc.freeze()`, higher GC thresholds. Sampling ends at an iteration count; a deadline 0.15-0.2 ms from
-  the call's start is only the backstop; a twist decision with a cheap failure default may use 0.5 ms while the bank is
-  healthy, if it pays. On the organizers' pages the bank is 100 ms a table, one timeout empties all of it, and each
+  the call's start is only the backstop; a twist decision with a cheap failure default may use 0.5 ms until this table has had a timeout, if it pays. On the organizers' pages the bank is 100 ms a table, one timeout empties all of it, and each
   table starts full. Never switch to a weaker fallback on the bank's level alone: in a paired test on 15 November a
   bot whose fallback started when the bank fell below half lost 3.2 points at every table with one timeout (5.7 if
-  it came in the first 50 hands), where a bot with no such trigger lost about 0.3. If there is a fallback, start it
-  on failures actually seen. The upload test has no bank, and the import has a start-up allowance of its own (an upload that
+  it came in the first 50 hands), where a bot with no such trigger lost about 0.3. If there is a fallback, start it only after several failed decisions at that table, never after one (one timeout is one failure and an empty bank; degraded play paid only past about 13 failures in the rest of a table, about 1 decision in 10). The upload test has no bank, and the import has a start-up allowance of its own (an upload that
   doesn't start within it is rejected: time the import).
   Report max and p99.9 over 100,000 varied states with the kit's check-or-fold in the same run as the baseline.
 - **Three layers:** platform (shell, memory, seat records); variant engine (cards, evaluation, equity against a range,
@@ -119,7 +117,7 @@ hand-history README; `state.config`; where two of its files disagree, test what 
   which the style states its postflop plan is not a defect.
 
 **The checks** (numbers, never "passed"): (1) the zip imports from an empty folder; heads-up vs the kit's
-check-or-fold, 20 hands, time bank 0: 0 failed decisions on several seeds; the same vs a call-everything bot, counting
+check-or-fold, 20 hands, time bank 0: 0 illegal actions or errors and no more timeouts than the check-or-fold opponent, on several seeds (hard rule 1); the same vs a call-everything bot, counting
 the twist phase; the kit's own check passes. (2) 100,000 states from local play (2, 3 and a full table of players, all-in seats), memory
 rotated real/cut/garbage/empty: 0 illegal, 0 exceptions, 0 catch-all; max, p99.9. (3) ICM: equal stacks equal shares;
 shares sum to the pool; busted player gets their payout; break-even calls: heads-up = pot odds, 6 equal ≈ 58% and 5 equal ≈ 61% in case F (8 equal ≈ 56% in case R), 3 equal

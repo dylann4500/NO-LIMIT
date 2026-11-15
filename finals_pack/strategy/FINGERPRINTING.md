@@ -25,7 +25,7 @@ Everything here is written live on the day from this description; no code is bro
 - **Re-tested on 14 to 15 November** (all three regionals, re-implemented from scratch, and by play against the
   rehearsal's opponents). Starting points only: today's bots are new, so re-measure from today's first hand file.
   - From a 1,000-table practice profile a seat is named correctly after 20 hands 78% of the time at the Bay Area
-    (61-90 across rounds), 86% at Boston, 83% at Pittsburgh; 35% without bet sizes. No trained model beat naive
+    (61-90 across rounds), 86% at Boston, 82% at Pittsburgh; 35% without bet sizes. No trained model beat naive
     Bayes (logistic regression, trees and sequence models were 3 to 7 points worse).
   - What limits it is a bot the profile never saw, not the classifier: a team that changed its bot is named wrongly
     with confidence unless the unknown class catches it (section 1).
@@ -50,12 +50,12 @@ Everything here is written live on the day from this description; no code is bro
   and unknown. The likelihood table ships as a data file; per seat, memory holds one log-score per class and a count
   (about 700 bytes a table in the 15 November build). The rehearsal's trained tables held 6,500 to 14,700 tokens,
   not a few hundred: keep them as plain Python lists or scaled integers (numpy was slower per event). Measured
-  cost: 2.5 µs an event, about 45 µs a decision on average and 105 µs at the 99th percentile. Posterior per hand:
+  cost: 2.5 µs an event, about 45 µs a decision on average and 105 µs at the 99th percentile, with the scores packed as bytes (a prototype that kept them in JSON memory and re-read the hand added 0.1-0.15 ms at the 99th percentile and 0.2-0.8 ms at the 99.9th). Posterior per hand:
   softmax(score/T + log prior), T fitted for calibration; then 3 Sinkhorn passes so each team's mass across the
-  table's seats is at most 1 (fillers exempt).
+  table's seats is at most 1 (a team's two classes counted together; filler and unknown exempt).
 - **Unknown class:** its likelihood table is the whole field's token rates from the same file, so a seat that fits
   no team better than it fits "anyone" lands there. On 15 November this took confident calls from 89% to 98% right
-  and changed bots named wrongly from 47% to 5%, with fewer seats labelled (56% against 79% at 20 hands). An unknown
+  and changed bots named wrongly from 47% to 5%, with fewer seats labelled (56% against 79% at 20 hands). In the play test, where changed bots stayed close to their old profiles, it cost about 0.1 points a table: its value is against a bot unlike any profile. An unknown
   seat is played on the field's rates plus its own actions (section 3). Score a seat on its last 20 hands as well as
   on the whole table: a seat that changes design mid-table is only found that way (the label drops in 2 to 6 hands
   and the new design is found about 15 hands later).
@@ -114,19 +114,16 @@ against other work; the later rounds, where bots have settled, are where it pays
 - **Strength s**, the number of the seat's own actions the prior is worth (fitted on one regional, held on the
   other two; re-fit from today's file if there is time, else start here): opening 3-4, answering a re-raise 3-7,
   first bet after the flop 4-7, blind defence 6-11, facing a bet 11-16, facing an open 12-23, facing an all-in
-  24-29 (the lower figure with the field's rate as the prior, the higher with a team's). 10 when unsure: in play,
-  anything from 5 to 50 gave the same result.
+  24-29 (the lower figure with the field's rate as the prior, the higher with a team's). These are for counting in context (next bullet), the better form; with the plain formula above the fitted strengths are larger and differ between events, so use 10 there (in play, with the plain formula, anything from 5 to 50 gave the same result).
 - **Count in context:** compare what the seat did with what the prior expected in those same situations (a button
   open is not an early-position open) and shift by the difference. In prediction this was worth more than
   identity in most spots.
 - **Act through expected value, not a switch:** in each spot compute the action's value with the predicted rate,
-  and change the base bot's action only where that beats it by about a quarter of a big blind. A margin of half a
-  big blind or more threw the gain away in play, and so did waiting for a confident label. Start at hand 1.
+  and change the base bot's action only where that beats it by about a quarter of a big blind. A margin of half a big blind lost about a third of the gain in play and one big blind two thirds; waiting for a confident label lost too. Start at hand 1.
 - **Cap** what a profile may shift a frequency by at 20 points (data-biased response, Johanson & Bowling 2009). A
   10-point cap cost 0.3 to 0.6 points a table in play; no cap doubles what a sign error costs.
 - **Direction test, before any release with this on:** give the bot a seat that always folds in a spot and one
-  that never does, and check it bluffs more into the first and less into the second, for every spot it adjusts. A
-  reversed sign costs 1 to 2 points a table and no accuracy number shows it. Then replay equivalence, timing and
+  that never does, and check it bluffs more into the first and less into the second, for every spot it adjusts. A reversed sign cost 1.2 to 2.3 points a table at the regional's scale (about 0.5 at the Finals' estimated scale), and no accuracy number shows it. Then replay equivalence, timing and
   memory as in section 7.
 - **Measured:** a table-hash arm in practice rounds (half the practice tables with it on). Compare the decisions
   it changed and the equity per hand where it fired: points per table cannot see 0.3 points in 5,000 tables.
@@ -173,7 +170,7 @@ matters most.
 |---|---|---|
 | Data lands (T-13) | `scout` runs `analysis/fp_train.py` (RESEARCH briefs it as soon as the portal watcher posts the data; it runs beside the round card, never after it) | download → `analysis/<stage>/fp/` (the stage name with spaces as '-', e.g. `analysis/Round-2/fp/`: profiles, likelihood table, counters, metrics, drift, profiled_us, adapt, card) in <= 2 min; ledger lines and invalidations |
 | T-12 to T-9 | `scout` | counters.json for `platform` (each team's rates with n; no accuracy gate, section 2; RESEARCH sends BUILDER the path); ledger lines for `tester`; confirm or overrule invalidations |
-| T-12 to T-9 | `tester` | re-run lagged accuracy and calibration on a different split (or a Codex re-implementation); mark the lines validated or disputed |
+| T-12 to T-9 | `tester` | re-run lagged accuracy and calibration on a different split (or a Codex re-implementation); mark the lines validated or disputed (a report only: after the T-9 edge) |
 | Practice download (stage `Round k.5`, about T-8) | `tester` (the portal watcher has already run `fp_train.py` quick mode on it) | before the decision only `tester`'s field-adjusted edge matters (the watcher's drift output names the yardstick teams); `scout`'s review of it waits until after T-3 |
 | T-8 to T-6 | `platform` | embed the data file behind FP_ON, CTR_<team>, ANTI_ADAPT_<team>, DISGUISE_* (outside the change count) |
 | T-6 | `tester` | the direction test (section 3), replay equivalence (bot posteriors = offline within 1e-4 on 200 tables), latency, memory, truncation |

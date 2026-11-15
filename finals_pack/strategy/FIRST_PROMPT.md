@@ -119,7 +119,7 @@ decision of every phase at import; then collect garbage once, freeze it and rais
 thresholds; end any sampling at an iteration count, with a deadline of 0.15-0.2 ms from the start of
 the call only as a backstop that should never fire on an idle core (count its firings; the rest of the decision needs time too), so typical compute stays near 0.1 ms. Exception: a
 twist decision whose failure default is cheap (check the rules; a failed bid that just bids nothing is
-cheap) may take up to 0.5 ms while the time bank is healthy, if the extra time measurably buys points. A deadline
+cheap) may take up to 0.5 ms until this table has had a timeout, if the extra time measurably buys points. A deadline
 can't protect against the process being paused mid-call, so keep the work small. Measure the maximum and
 the 99.9th percentile over 100,000 varied states, and always measure the kit's check-or-fold example in
 the same run as a baseline: the build machine is usually busy, so judge our numbers against it, and if
@@ -192,9 +192,7 @@ Keep running counts for every seat in the table's memory and update them from th
 this costs microseconds and a few hundred bytes. For each tendency (how often they raise first in, re-raise,
 fold to a re-raise, fold to a bet on each street, bet when checked to, raise a bet, call an all-in), the
 estimate is (times they did it + weight x prior rate) / (chances + weight), so it starts at the field's rate
-and moves as evidence arrives. Use weight 4 (the spread between teams at both regionals implies 3-7); before
-the first download the field's rate is the regional value, after it the Finals field's (`analyst` publishes
-them). Never use a weight above 10 for a field prior. Three things we got wrong and want right:
+and moves as evidence arrives. Use weight 4 while the field's rate is the regional value (before the first download; weight 10 on another variant's values hurt); after it, the Finals field's rates (`analyst` publishes them) at the per-spot strengths in `FINGERPRINTING.md` §3 (10 when unsure). Three things we got wrong and want right:
 - our own bets and raises change the situation for everyone else, so count opponents' responses to OUR
   actions too. Ours silently never did, and the bot never learned who folded to it.
 - every rate is opportunities-based and must lie between 0 and 1; ours had one inverted.
@@ -218,8 +216,7 @@ randomly and some well; ones that ignore it flatter us.
 
 CHECKS, BEFORE I UPLOAD ANYTHING (report the numbers, not "passed")
 1. The packed upload imports from an empty folder; the upload-test conditions (heads-up against the kit's
-   check-or-fold bot, 20 hands, no time bank) give no more failed decisions than that check-or-fold bot has in
-   the same run, on several seeds (on a quiet machine that is zero). That bot folds
+   check-or-fold bot, 20 hands, no time bank) give no illegal actions or errors, and no more timeouts than that check-or-fold bot has in the same run, on several seeds (on a quiet machine that is zero). That bot folds
    to everything, so the twist never fires: run the same conditions against a bot that calls everything
    and confirm the twist phase fired (count it).
 2. 100,000 states harvested from local play against sparring bots (generating legal states from scratch is
@@ -462,7 +459,7 @@ decision time.
   wide; each as enough copies to fill the table (five in case F, seven in case R), plus a mixed field. They must play the variant's own decision too, some at
   random and some well. A candidate that loses to one of these by more than 2 standard errors has a hole.
 - Pick up any folder under candidates/ and test it. Fit to play a practice round or be the challenger:
-  no more failed decisions than the kit's check-or-fold bot in the same run, the kit's check passes, 99th-percentile time under 0.5 ms measured on an idle core
+  no illegal actions or errors and no more timeouts than the kit's check-or-fold bot in the same run, the kit's check passes, 99th-percentile time under 0.5 ms measured on an idle core
   (timings under load are not the platform's), and no catastrophic loss (about -2 points/table) in the
   cloned field. Report the paired difference and sparring results as evidence; they are not a gate, because
   local wins don't predict the field. The practice round decides strength.
@@ -478,10 +475,7 @@ decision time.
   the image build in the background. It is the team's one test-rig app, `avalon-rig`: deploy it once and call
   it many times (`.map` over shards), up to 40 containers; never several `modal run`s at once (`CLAUDE.md` hard
   rule 8). Only `avalon-rig` and `avalon-theory` (up to 20) are deployed; the other roles call them or run
-  locally, sharing 20 containers (80 in all). Size runs from measured speed: on 14 November 20,000 tables took 144 s
-  on 80 containers (139 tables a second; the regional kit and bots), so `avalon-rig`'s 40 containers give about
-  15,000-20,000 tables in a five-minute window: three candidates at about 5,000 each, or one 20,000-table
-  confirmation, not 20,000 each. Shard size matters: a second run that day reached 126-151 tables a second on the 40
+  locally, sharing 20 containers (80 in all). Ask for 32 cores a container and keep a pool of 32 workers alive across calls (`tester.md`: about 29 times the tables of a one-core container, identical per-table results). Size runs from measured speed. The fallback, on one-core containers: 20,000 tables took 144 s on 80 containers on 14 November (the regional kit and bots), so 40 one-core containers give about 15,000-20,000 tables in a five-minute window. Shard size matters: a second run that day reached 126-151 tables a second on the 40
   containers with 30-table shards and 53 with 150-table shards. Start small and time the first job on today's kit. Hand histories never leave this machine; fitted opponent parameters may go to our own Modal
   workspace.
 ```
@@ -529,10 +523,7 @@ table, score each seat against every profile from its sizes and preflop actions 
 first hand use a blend of the teams' rates weighted by how well each matches, mixed with the field's rate,
 as the seat's priors; then keep updating with what the seat does at this table. Don't wait for a
 confident match: the weighting already discounts weak evidence, and waiting throws away the first third of
-every table. Let the blend's share grow over the first ten or so hands rather than starting at full
-strength, and give the rare tendencies (fold to a re-raise, folds to bets on each street, bet when checked
-to, calling an all-in: a seat gets only 0 to 4 chances per table) priors from the team's newest-round profile with
-weight about 30 (capped; falling back to the field rate with weight 4), while frequent ones (how often they open or re-raise) can be learned mostly live. Cap how far any single team's profile can pull a decision, because about one confident match
+every table. Give each spot's prior the strength in `FINGERPRINTING.md` §3 from hand 1 (10 when unsure): the rare tendencies (fold to a re-raise, folds to bets on each street, bet when checked to, calling an all-in: a seat gets only 0 to 4 chances per table) lean on the team's newest-round profile, while frequent ones (how often they open or re-raise) are learned mostly live. Cap how far any single team's profile can pull a decision, because about one confident match
 in five is wrong when a team has changed its bot, and treat a seat that fits no profile as a new bot.
 For showdown-based rates, remember that shown hands are selected: whether a bet is called depends on the
 caller's cards and the public history, and earlier bets are shown only when the bettor kept going. Count

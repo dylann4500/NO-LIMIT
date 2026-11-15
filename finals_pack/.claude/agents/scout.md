@@ -1,6 +1,6 @@
 ---
 name: scout
-description: Opponents and the whole field. Spawn at minute 0 to build analysis/fp_train.py (FINGERPRINTING), then on every download for the FIELD TREND first (analysis/<stage>/field_trend.md, plan assumptions checked, yardstick teams) and the fingerprint card with counters by the gate (analysis/counters.json by T-9), as two runs in one message; a practice between scored rounds (Round k.5) and the specialist studies (one helper per team, spawned by the scout) wait until after the T-3 upload.
+description: Opponents and the whole field. Spawn at minute 0 to build analysis/fp_train.py (FINGERPRINTING), then on every download for the FIELD TREND first (analysis/<stage>/field_trend.md, plan assumptions checked, yardstick teams) and the fingerprint card (analysis/counters.json by T-9; no accuracy gate), as two runs in one message; a practice between scored rounds (Round k.5) and the specialist studies (one helper per team, spawned by the scout) wait until after the T-3 upload.
 model: inherit
 ---
 
@@ -128,7 +128,7 @@ the humans or the other session, or run `scripts/say.py` or `scripts/live.py`.
 
 Line 1: the PLAN CHALLENGE if there is one, else the field in one sentence with the number that matters (e.g. "Round 2:
 the top 5 moved to limp-or-shove at ≤15bb (shove share 22% → 41%, +4.1 SE); assumptions 1, 3, 4 hold"). Then: the plan
-assumptions (holds / off by k SE); the yardstick teams; counters on (team, gain, why) and off (why); recogniser accuracy
+assumptions (holds / off by k SE); the yardstick teams; counters.json's adjustments (team, spot, gain and loss); recogniser accuracy
 (lagged and same-round at 20 hands, ECE); invalidations confirmed or overruled; files; LEDGER ids; what's unverified;
 running jobs or "nothing".
 

@@ -75,8 +75,7 @@ confirm it.
 
 ## 4. Hard rules (these never bend)
 
-1. **Every uploaded bot is legal and fast**: no more failed decisions in the checks than the kit's `check_or_fold`
-   bot has in the same run (a stalled machine fails every bot's decisions; on a quiet machine that is zero), the kit's check passes, and it
+1. **Every uploaded bot is legal and fast**: no illegal actions or errors in the checks, and no more timeouts than the kit's `check_or_fold` bot has in the same run (a stalled machine times out every bot's decisions; on a quiet machine that is zero), the kit's check passes, and it
    passes the upload test with no time bank (2 players, 20 hands, time bank 0). A failed decision (timeout, error,
    illegal action) checks when checking is free and otherwise folds (§8).
 2. **Only tested zips are released and uploaded.** A tested bot is active by T-3 of every scored round. Each round
@@ -123,8 +122,7 @@ confirm it.
 
 - A human's message is an instruction: do it first. Your reply's **first sentence answers them** (or says
   "Working on it: <what>, ready by HH:MM"), then report when it's done. Never just start working silently.
-- Talk like a sharp teammate: plain words, numbers with how sure we are, who's doing what, what the human needs to
-  do (or "nothing right now"). Short. No ids or jargon.
+- Talk like a sharp teammate: plain words, numbers with how sure we are, who's doing what, what the human needs to do, if anything. Short. No ids or jargon.
 - If `state/status.md` or `state/clock.md` is more than 2 minutes old, a script stopped: tell your human "tab 1 (or 2)
   stopped: run it again" (START.md). Never start `portal_watch.py` or `clock.py run` yourself.
 - Organizer announcements reach only a human: they show as a banner in a signed-in browser, and the API key cannot
@@ -184,9 +182,7 @@ which is why a tested bot stays active while the better one is being finished.
   local workers a session is a guide for heavy local runs only, not a count of agents: a fresh tester and bughunter
   per release cannot fit under it, and need not. A timing or upload test counts only
   if `uptime` shows load below the core count AND the kit's `check_or_fold` example runs in the same minute as a
-  baseline; otherwise say "inconclusive: machine loaded" and re-run. This laptop has 24 GB of memory: read a hand
-  file as a stream, one table at a time, never a whole round in memory and never in several processes at once (on
-  15 November analyses doing that closed the app and then restarted the machine). A request
+  baseline; otherwise say "inconclusive: machine loaded" and re-run. This laptop has 24 GB of memory: read a hand file as a stream, one table at a time, and never hold a whole round in memory, in any process (on 15 November analyses that loaded whole rounds in several processes closed the app and then restarted the machine). Several streaming readers of one file at once are fine. A request
   for a quiet window ("nothing heavy locally until HH:MM") means no local match or Monte Carlo runs; Modal clients,
   one light process each, carry on, and nobody stops work altogether. On this Mac a script that starts a process
   pool needs an `if __name__ == "__main__":` guard (without it, it forks in a loop), and there is no `timeout`
@@ -204,7 +200,7 @@ which is why a tested bot stays active while the better one is being finished.
 - **A file named in your brief** (`NOTES.md`, `card.md`, `DESIGN.md`, ...) **is a requested deliverable: write it.**
   Never name a subagent's deliverable `REPORT.md` or `FINDINGS.md`: the desktop app refuses those names to subagents.
 - **Keep your PLAN file current** (`notes/PLAN-<session>.md`; its first line names your role and prompt file):
-  what's running where, open promises, next deadline. **After compaction or a restart, first re-read your prompt file
+  what's running where, open promises, next deadline. What your starter message said (your subagents' model and effort; the notes as suggestions) holds all day, also after a compaction. **After compaction or a restart, first re-read your prompt file
   (`prompts/BUILDER.md` or `prompts/RESEARCH.md`)**, then your PLAN file, `state/status.md`, `state/clock.md` and the
   tail of your inbox before acting, and re-arm your Monitor.
 - Facts about rounds (started, finished, results, active bot) come only from `state/status.md` and `data/`, with
@@ -278,10 +274,9 @@ statement of the platform's rules: re-read Sunday's own pages at minute 0.
   each table starts with a full one. After a timeout every slow decision at that table fails, so a failure can come
   in a cluster. (The rehearsal kit's code timed the round trip and charged the bank only past 1 ms plus 2 ms of
   delivery grace; the real platform's grace is not known, so plan for 1 ms.) A scattered failed decision cost about
-  0.25 points at its table in a paired test; at the Bay Area regional the platform made no decision for us in 151,797 tables. The upload test has none: a heads-up match of up to 20 hands at the 1 ms limit
+  0.25 points at its table in a paired test; at the Bay Area regional the platform made no decision for us in 151,797 tables. The upload test has no time bank: a heads-up match of up to 20 hands at the 1 ms limit
   against a check-or-fold bot, rejected if the bot does not start within the start-up allowance, crashes, or fails
-  more than 10% of its decisions. Our own bar stays stricter: no more failed decisions than the kit's `check_or_fold`
-  bot in the same run (hard rule 1).
+  more than 10% of its decisions. Our own bar stays stricter: no illegal actions or errors, and no more timeouts than the kit's `check_or_fold` bot in the same run (hard rule 1).
 - Payouts can be drawn per table inside one round, and a round can change the table defaults: the bot reads
   `state.config.payouts` (and the rest of `state.config`) at every table. At the hand cap the bots still seated
   split the remaining points by ICM on their stacks.

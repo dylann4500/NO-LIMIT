@@ -36,7 +36,7 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
    3 of 3; never raises in ten chances: below its prior); responses to OUR bets counted; every rate
    opportunity-based, inside [0, 1], moving off its prior over 200 hands; the same with memory cut mid-hand; no past
    moment rebuilt from seats' current status.
-2. **Tournament equity:** 2 and 3 players left; a busted player in a paid place keeps its payout; shares sum to the
+2. **Tournament equity:** 2 and 3 players left; a busted player in a paid place keeps its payout; a seat that is all-in this hand is not busted when we fold; shares sum to the
    pool; break-even calls: heads-up = pot odds, 6 equal stacks ≈ 58% and 5 equal ≈ 61% in case F (8 equal ≈ 56% in case R), 3 equal ≈ 57% (50/30/20; else compute by hand);
    the pot counted once; only the matched part when the bettor covers us.
 3. **Position, blinds, first to act, effective stack** at a full table (today's size), 3 and 2 players and after a bust; in case F also with ante

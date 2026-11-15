@@ -148,8 +148,7 @@ Then, still in the build hour:
 **A scored round** (`Round k`; it landed about T-13 at Bay Area, but the organizers' pages promise results only "in the
 following 20-minute window": the T-10 cut-off covers a late one): spawn in ONE message, in the background:
 - `scout`: the FIELD TREND first (`analysis/<stage>/field_trend.md`: field rates vs earlier rounds with SE, the top 5
-  teams' style cluster, the plan assumptions in DECISION_RULES §5 checked), then the fingerprint card and counters by
-  the gate.
+  teams' style cluster, the plan assumptions in DECISION_RULES §5 checked), then the fingerprint card and `analysis/counters.json` by T-9 (no accuracy gate: FINGERPRINTING §2).
 - `analyst` x3 or x4 (one per lens): **winners** (what the 5 best teams do that we don't; not filtered by our plan),
   **leaks** (our losing actions, FIRST_PROMPT Part 2, the defaults check first, as a report), and two of **sizing** /
   **twist** / **the biggest opponent**. Each records results in `notes/LEDGER.md`.
