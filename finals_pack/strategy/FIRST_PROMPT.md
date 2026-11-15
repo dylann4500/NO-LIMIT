@@ -115,8 +115,8 @@ SPEED: DESIGN FOR THE WORST DECISION, NOT THE AVERAGE
 The upload test gives no time bank, and the slowest decisions come from garbage-collection pauses, cold
 first calls and machine jitter, not from our logic. So: build all tables at import; run one full throwaway
 decision of every phase at import; then collect garbage once, freeze it and raise the collector's
-thresholds; cap any sampling by an iteration count and by a deadline of 0.15-0.2 ms from the start of
-the call (the rest of the decision needs time too), so typical compute stays near 0.1 ms. Exception: a
+thresholds; end any sampling at an iteration count, with a deadline of 0.15-0.2 ms from the start of
+the call only as a backstop that should never fire on an idle core (count its firings; the rest of the decision needs time too), so typical compute stays near 0.1 ms. Exception: a
 twist decision whose failure default is cheap (check the rules; a failed bid that just bids nothing is
 cheap) may take up to 0.5 ms while the time bank is healthy, if the extra time measurably buys points. A deadline
 can't protect against the process being paused mid-call, so keep the work small. Measure the maximum and
