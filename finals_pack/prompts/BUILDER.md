@@ -85,7 +85,8 @@ running before you spawn anything.
    as at Bay Area, and Dylan clicks now. Tell Dylan and RESEARCH which case holds and write it at the top of
    `notes/format.md`. A team with no active bot scores zero.
 5. **Every release, from v1 on (D's included):** spawn a fresh `bughunter` on it at once (background, at most 8
-   minutes), and `SendMessage` RESEARCH "RELEASED vN <sha256> <one line>" so it spawns a tester for it. In the
+   minutes; its brief names, as one question, the code path this release changed: general reviews missed a bug
+   that a narrow question found in under 4 minutes), and `SendMessage` RESEARCH "RELEASED vN <sha256> <one line>" so it spawns a tester for it. In the
    speedrun both reviewed early releases had a real problem, and a release without a tester verdict shipped a
    heads-up regression. **No bot plays a scored round without a tester verdict that includes a heads-up run.**
 
