@@ -159,6 +159,9 @@ event. Say the number if you want one applied.
 
 ## 5. GTO Wizard
 
+**Decided (Dylan, 15 November): no GTO Wizard benchmark.** What follows is the reasoning from the review, kept for
+the record.
+
 Run nothing before the event. The benchmark is heads-up no-limit hold'em at 200 big blinds against their solver bot,
 scored in big blinds per 100 hands. Our bots are built for a six-seat tournament table with a twist, so the bot
 would need the twist stripped out first. Every hand played is public under the key's name, and the team's adapter
