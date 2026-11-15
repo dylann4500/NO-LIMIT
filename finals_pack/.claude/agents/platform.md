@@ -37,7 +37,9 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
   estimates offered (seat counters with priors, equity, ICM call threshold, tables), the branch-count call, and two
   commands: pack a candidate folder into a test zip, written to `candidates/<name>/build/<name>.zip` (where the
   stylist, challenger and bughunter files expect it); run the checks on any zip. Keep it stable; report any change.
-- **by 15, the harness** (`bot/tools/`): in-process runner on the kit's engine (any mix of bots) reporting decision
+- **by 15, the harness** (`bot/tools/`): in-process runner on the kit's engine (any mix of bots, each kept apart: its own
+  process, or loaded under a module name of its own with nothing shared, never two zips' `agent` modules in one
+  interpreter; it starts by proving that two different zips act differently on the same deals) reporting decision
   times, catch-all count, branch counts from memory and the style report; plus the upload test.
 - **theory's tables: build each in as it lands (all by about minute 20)**, behind settings, ON once checked (a table
   marked `fallback: true` is theory's labelled first version, to build in and note, not to reject):

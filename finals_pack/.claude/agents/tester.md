@@ -30,7 +30,10 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   hands per match, time limits, weights, payouts, cooldown). A rehearsal ran every test at the wrong table size:
   report any mismatch first.
 - **By 15, `rig/compare.py LIVE CAND... --tables N --field F [--players 2]`** (Part 3a): per candidate, points per
-  table ± SE, the paired difference vs LIVE ± SE, failed decisions, p99 and max decision time. Bots in-process on the
+  table ± SE, the paired difference vs LIVE ± SE, failed decisions, p99 and max decision time. Each bot is kept apart from the others: its own process, or its
+  own module name with no shared globals (two zips both ship `agent.py`: in a timed run both rigs ran the wrong bot's
+  code for 24 minutes). The rig's first act in every run is a self-test: two different zips give different actions on
+  the same deals, and one zip against itself gives a paired difference of exactly zero. Bots on the
   kit's engine (check today's SDK names; the regional kit had async `act(state, memory)` returning `Reply(action, memory,
   bank_ms)`, `play_table` on a `SitAndGo` from `TableRules` with table id and seed, `table_points`), every rules field
   set from `bot/rules.json`, a process pool (guard the entry point; have it stop its workers on SIGTERM: killing

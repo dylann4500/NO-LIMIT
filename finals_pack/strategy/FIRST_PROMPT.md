@@ -441,6 +441,8 @@ Build our test rig in rig/, separate from the bots. One deliverable first: rig/c
 --tables N --field F, printing for each candidate points per table with a standard error, the paired
 difference against LIVE with its standard error, failed decisions, and the 99th-percentile and maximum
 decision time.
+- Keep every bot's code apart (its own process, or its own module name: two zips both ship agent.py) and prove at
+  the start of each run that two different zips act differently on the same deals.
 - Run bots IN-PROCESS, not through the kit's command-line runner (it starts two processes per bot and is
   slow). In the regional kit that meant: an object with an async act(state, memory) returning the
   protocol's Reply(action, memory, bank_ms); tables played with the engine's play_table on a SitAndGo built
