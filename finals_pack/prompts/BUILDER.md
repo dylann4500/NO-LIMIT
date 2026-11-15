@@ -182,7 +182,11 @@ Bash call with `run_in_background: true` (the hook refuses the same loop in the 
 e.g. `n=$(wc -l < inbox/builder.log); until [ $(wc -l < inbox/builder.log) -gt $n ] || [ $SECONDS -gt 600 ]; do sleep 5; done`
 (in the background): it notifies you once when it ends. Read the new lines, then start it again.
 
-## If a script stops
+## If a script stops, or the clock moves
+
+If the clock posts "the clock was reset" or "minute 0 is now HH:MM:SS (was ...)", every time you have quoted is out of
+date: re-read `state/clock.md`, tell Dylan the new times in one line, and treat a step that arrives again as a
+reminder (check what is already running before you spawn anything).
 
 If `state/status.md` or `state/clock.md` is more than 2 minutes old, tell Dylan "tab 1 (or 2) stopped: run it again"
 (START.md). Never start `portal_watch.py` or `clock.py run` yourself.

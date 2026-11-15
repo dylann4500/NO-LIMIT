@@ -47,6 +47,9 @@ may spawn their own helpers.
   portal watcher says so in your inbox), ask Samuel for the hand download link from the portal (copied from the
   round's Download button), then run
   `python3 scripts/portal_watch.py --set-hands-url '<link>'` yourself.
+- If the clock posts "the clock was reset" or "minute 0 is now HH:MM:SS (was ...)", every time you have quoted is out
+  of date: re-read `state/clock.md`, tell Samuel the new times in one line, and treat a step that arrives again as a
+  reminder (check what is already running before you spawn anything).
 - If `state/status.md` or `state/clock.md` is more than 2 minutes old, tell Samuel "tab 1 (or 2) stopped: run it
   again" (START.md). Never start `portal_watch.py` or `clock.py run` yourself.
 
