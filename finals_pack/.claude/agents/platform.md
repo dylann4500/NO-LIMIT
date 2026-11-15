@@ -151,7 +151,8 @@ one message, one job and one output file each), merge their results, then report
 - Never kill by pattern (one `pkill -f "modal run"` stopped every agent twice): only your own PIDs
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`). Never block: commands over ~2 minutes go to the background with a log;
   no `wait`, no sleep of 20 s or more, no polling. Modal has only two deployed apps, the tester's `avalon-rig` (up to 40
-  containers) and theory's `avalon-theory` (up to 20): call them (`rig/NOTES.md` says how); never deploy, `modal run`
+  containers) and theory's `avalon-theory` (up to 20): call them with the `modal` command, not the team Python, which has no `modal`
+  package (`rig/NOTES.md` says how); never deploy, `modal run`
   or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total).
 - Facts about rounds only from `state/status.md` and `data/`, with their time. Record measured results, append only:
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | platform | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`

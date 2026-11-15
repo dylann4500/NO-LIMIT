@@ -56,7 +56,7 @@ Your own start-up instructions are in `prompts/BUILDER.md` or `prompts/RESEARCH.
 | `candidates/<name>/` | styles, the challenger, fixes, each in its own folder | `stylist`, `challenger` |
 | `releases/vN.zip` + `releases/VERSIONS.md` | every released bot (zips stay local, git-ignored); one line each: commit, the zip's sha256, what changed, checks, role, and a pointer to the tester's verdict, which lives in the tester's own `rig/out/verdict-vN.md` | `platform` only (the verdict file: `tester`) |
 | `theory/out/*.json` + `theory/HANDOFF.md` | today's maths tables (ranking, ICM, push/fold, twist, break-evens): **the single source of preflop and equity truth**. Everyone reads them; nobody re-derives them (only the clean-room design D may compute its own) | `theory` |
-| `starter-kit/.venv/bin/python` | **the team's Python** for anything that needs the kit's SDK or its evaluator (set up once at minute 0 by `platform` and announced; system `python3` may not build the evaluator) | `platform` |
+| `starter-kit/.venv/bin/python` | **the team's Python** for anything that needs the kit's SDK or its evaluator (set up once at minute 0 by `platform` and announced; system `python3` may not build the evaluator). It has no `modal` package: Modal jobs are launched with the `modal` command (`modal deploy`, `modal run`), whose own Python has no kit, so the kit's code runs only inside the image, built from the kit's requirements | `platform` |
 | `analysis/` | parsers, `roundcard.py`, `fp_train.py`, `field_trend.py`; per round `analysis/<stage>/card.md`, `field_trend.md`, lens reports, where `<stage>` is the stage name with spaces as '-' (`analysis/Practice-1/`, `analysis/Round-2.5/`) | `analyst`, `scout` |
 | `rig/` | the test rig: paired runner, sparring bots, Modal fan-out | `tester` |
 | `notes/LEDGER.md` | what the team knows: one line per result (id, claim, effect ± se, n, method, file, status) | everyone appends; `tester` marks validated/disputed |
@@ -103,7 +103,8 @@ confirm it.
    (the default from a main session; say `run_in_background: true` if asked), so you stay free for the humans and
    the inbox.
 8. **Modal**: two deployed apps only, `avalon-rig` (the tester's, up to 40 containers) and `avalon-theory` (theory's, up
-   to 20), each deployed once and called many times with `.map`; every other role calls them or runs locally (20
+   to 20), each deployed once and called many times with `.map`, and launched with the `modal`
+   command, never with the team Python (it has no `modal` package); every other role calls them or runs locally (20
    containers between them).
    Never launch several `modal run`s at once: the workspace has an app-creation rate limit, and a rehearsal lost a
    round to it. Shared cap: 80 containers.
