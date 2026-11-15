@@ -192,7 +192,7 @@ Keep running counts for every seat in the table's memory and update them from th
 this costs microseconds and a few hundred bytes. For each tendency (how often they raise first in, re-raise,
 fold to a re-raise, fold to a bet on each street, bet when checked to, raise a bet, call an all-in), the
 estimate is (times they did it + weight x prior rate) / (chances + weight), so it starts at the field's rate
-and moves as evidence arrives. Use weight 4 while the field's rate is the regional value (before the first download; weight 10 on another variant's values hurt); after it, the Finals field's rates (`analyst` publishes them) at the per-spot strengths in `FINGERPRINTING.md` §3 (10 when unsure). Three things we got wrong and want right:
+and moves as evidence arrives. Use weight 4 while the field's rate is the regional value (before the first download; weight 10 on another variant's values hurt), and until then let no estimate change an action against a seat that has not folded three times in that spot with no call (`FINGERPRINTING.md` §3); after it, the Finals field's rates (`analyst` publishes them) with weight 10, or 5 or less in all-in spots (`FINGERPRINTING.md` §3; its larger per-spot strengths are for counting in context). Three things we got wrong and want right:
 - our own bets and raises change the situation for everyone else, so count opponents' responses to OUR
   actions too. Ours silently never did, and the bot never learned who folded to it.
 - every rate is opportunities-based and must lie between 0 and 1; ours had one inverted.

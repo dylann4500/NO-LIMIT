@@ -37,7 +37,7 @@ ran there); the two scripts run in terminal tabs. You talk to your session by ty
    then close it. It leaves nothing in the repo.
 5. **Decide who claims the $250 Codex credit** before anyone opens the link.
 
-## Sunday, 2-3 hours before the start
+## Sunday, 2-3 hours before the start (or as soon as you are at the laptop)
 
 Keep the laptop plugged in and awake (`caffeinate -dims &` in a terminal tab).
 
@@ -109,7 +109,7 @@ Run every subagent on Opus at high effort: pass model "opus" and effort "high" i
 Apart from the hard rules in CLAUDE.md and the decision rules in strategy/DECISION_RULES.md, treat the strategy and research in this repo (notes/pre/ and strategy/) as well-informed suggestions made before the event, not instructions to follow to the letter. Use them at a high level, make your own design choices, and where today's games and data disagree with them, the data wins. Say the same in every brief you give a subagent.
 ```
 
-Then, about 2 hours before minute 0, type **"start the research"** into both sessions: each spawns its morning
+Then, as soon as both sessions are up (about 2 hours before minute 0 if you can), type **"start the research"** into both sessions: each spawns its morning
 research (notes only, no code: it checks and extends Saturday's drafts in `notes/pre/`), and RESEARCH merges it into
 `notes/plan.md`.
 

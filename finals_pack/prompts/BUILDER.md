@@ -239,9 +239,9 @@ unless RESEARCH asks you to.
 If the watcher says the portal marks us out of contention, tell Dylan what it means and ask him for nothing else:
 RESEARCH has Samuel ask an organizer, and nothing changes until the answer (DECISION_RULES §3, "When to be bolder").
 
-An upload may be an activation (v1's upload settles it: minute-0 step 4). After v1's upload also compare the sha256 that `state/status.md` shows for it with `shasum -a 256 releases/v1.zip`: if they differ, the portal's hash is not the zip's own, the watcher's T-2 "upload and activate" alarm will be false all day, and you confirm the active bot by its file name and tell Dylan to ignore that one line. So Dylan uploads nothing inside a window
+An upload may be an activation (v1's upload settles it: minute-0 step 4). So Dylan uploads nothing inside a window
 that is not meant to be the next bot to play, never a zip "to have it ready"; after every upload and every click you
-confirm the active bot in `state/status.md` and say it back to him in one line.
+confirm the active bot in `state/status.md` and say it back to him in one line. After v1's upload also compare the sha256 that `state/status.md` shows for it with `shasum -a 256 releases/v1.zip`: if they differ, the portal's hash is not the zip's own, the watcher's T-2 "upload and activate" alarm will be false all day, and you confirm the active bot by its file name and tell Dylan to ignore that one line.
 
 He reads your terminal between uploads. When he must act, that message holds only the action, the exact file
 (`releases/v7.zip`) and the deadline; everything else goes in a separate message. When nothing is needed from him,

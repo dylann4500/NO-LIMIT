@@ -104,7 +104,7 @@ hand-history README; `state.config`; where two of its files disagree, test what 
 - **The twist:** all options on the same deals in one interleaved loop, against opponents who also use it well, using
   all it reveals, dead cards removed; keep a cheap rule if it's as good.
 - **Seats:** counts in memory from hand 1 (raise first in, 3-bet, fold to 3-bet, fold to a bet by street, bet when
-  checked to, raise a bet, call an all-in; exact sizes). Estimate = (did + w × prior) / (chances + w): w = 4 on regional priors, then FINGERPRINTING §3's per-spot strengths (10 when unsure); priors from `analysis/field_priors.json` once it exists. Count responses to OUR bets;
+  checked to, raise a bet, call an all-in; exact sizes). Estimate = (did + w × prior) / (chances + w): w = 4 on regional priors, which change no action against a seat that has not folded three times in that spot with no call (FINGERPRINTING §3); priors from `analysis/field_priors.json` once it exists, then w = 10, or 5 or less in all-in spots (FINGERPRINTING §3's per-spot strengths are for counting in context). Count responses to OUR bets;
   every rate opportunity-based, inside [0, 1].
 - **ICM** (Malmuth-Harville; payouts from `state.config.payouts` at every table, which a round may draw per table,
   with `rules.json` only as the check; at the hand cap the organizers' pages split the remaining points by ICM on the
