@@ -238,3 +238,62 @@ describes.
 shards of 250: 144 s of wall time, 139 tables a second, 6 failed decisions in 18.7 million (host noise). The old
 aim in `tester.md` (20,000 tables for 3-4 candidates in 5 minutes) cannot be reached at the cap; the role file and
 `FIRST_PROMPT.md` now give the measured figure and what a window affords on `avalon-rig`'s 40 containers.
+
+## 10. Saturday evening: the final state (14 November, 18:05, Dylan's Claude)
+
+**The Sunday repo exists.** `~/avalon-finals` on Dylan's laptop, a local git repo with no remote (commit `93e5c97`):
+`finals_pack/` at `emu/rehearsal` `439bec9`, without `prep/`. The full suite passes there (228), it holds no bot code
+and no runtime files, and nothing has been run in it. `~/avalon-rehearsal` holds the same files; from it
+`python3 scripts/portal_watch.py --once` prints team avalon and the competition "Finals" with 0 rounds. If the bundle
+changes again: delete `~/avalon-finals`, copy `finals_pack/` to it without `prep/` and `__pycache__`, `git init`,
+commit, run the tests, and trust the folder again.
+
+**What changed since section 9** (all on `emu/rehearsal`; `git log` has one commit per item):
+- **The Finals competition is on the portal:** 21 teams by name, linear weights 1 to 6 as read at 16:32 (they can
+  change), a 30-second upload cooldown, uploads that activate themselves, no variant and no round yet
+  (`prep/PORTAL_SIGNED_IN_14NOV.md`). The Finals start at 11:00 on Sunday.
+- **Main case: six seats, 6,000 chips, antes** (Dylan), from the Finals defaults in the portal's code; the regional
+  table is the fallback (`CLAUDE.md` section 8, `notes/pre/format_finals.md`).
+- **All 20 opponents carded from raw hands** of the three regionals (`notes/pre/finalists.md`,
+  `field_three_regionals.md`). Team 72 is the Bay Area's. Raw data stays in `data/boston/` and `data/pittsburgh/` on
+  Dylan's laptop, never in git.
+- **Four timed runs of the build hour** (A and B at eight seats, C and a dress run at six seats, three different
+  twists) and a tabletop test of the decision rules. Their reports are in `prep/SPEEDRUN_*` and `TABLETOP_14NOV.md`;
+  about 190 instruction fixes came out of them and two consistency reads.
+- **Dylan approved every recommendation on `prep/PROPOSALS_14NOV.md`** and they are applied (one switch deadline at
+  T-4, late data, the big-lead test, held standings, the SE from the yardsticks, flat calls with a stated plan).
+  Samuel has not yet confirmed sections A to C, and item 22 (the "22-25 points" figure in `PLAN.md`) needs his source.
+- **`START.md` starts the two sessions in the Claude desktop app**, which is how every check and timed run ran;
+  terminal tabs are the untested fallback.
+
+**Not tested by any run.** The scored-round windows after minute 45 (only the tabletop test covers them); the last
+22 fixes and the approved decision wordings (merged after the last run started); a session started by hand in the
+desktop app and renamed; Sunday's fresh Claude account.
+
+**Open for the humans before 11:00:**
+1. Open `~/avalon-finals` once in the desktop app under Sunday's account and accept the trust question (`START.md`
+   step 4 has the two-command check).
+2. Choose the permission mode for the two sessions (the same in both; every test used Bypass permissions) and whether
+   subagents run on Opus (one line added to each starter; the dress run's measurement is in `START.md`).
+3. Try once what no test did: start a session by hand in `~/avalon-rehearsal`, rename it, and have Samuel open it
+   from his computer.
+4. Samuel: sections A to C of the decisions page, and item 22.
+5. Modal: the workspace is on the Starter plan with 100 containers and a $350 usage limit for November ($57 used at
+   17:00); the bundle uses 80. Dylan asked Modal for 400 containers on Saturday evening. If it is granted, tell both
+   sessions the new cap in words on the day; nothing in the bundle depends on it. Check the card on file.
+
+**Sunday morning, counted back from 11:00:**
+
+| When | What |
+|---|---|
+| 08:30 | Laptop plugged in and awake; desktop app signed in to Sunday's account; portal open in a signed-in browser tab |
+| 08:40 | Two terminal tabs in `~/avalon-finals`: `python3 scripts/portal_watch.py`, then `python3 scripts/clock.py run` |
+| 08:45 | Two desktop-app sessions in `~/avalon-finals` (`START.md`): model, effort, permission mode, starter, rename to BUILDER and RESEARCH; Samuel opens RESEARCH from his computer |
+| 09:00 | Type "start the research" into both: each checks and extends the notes in `notes/pre/` |
+| 11:00 | Minute 0: Samuel gives RESEARCH the time; Dylan gives BUILDER the kit and the Format page; both say which table it is, six seats or eight |
+| 11:10 | First check: is there a legal first bot? |
+| 11:20 | Second check: is there one shared platform the styles build on? |
+
+**Left on Dylan's laptop, safe to delete after the event:** `~/avalon-speedrun`, `-b`, `-c`, `-d`, `~/avalon-dress`
+(throwaway bot code from the timed runs: never taken to the event), `/tmp/avalon-kit-*`, and about 25 idle Claude
+sessions in the desktop app. No clock process is running.
