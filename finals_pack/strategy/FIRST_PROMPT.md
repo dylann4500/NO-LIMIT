@@ -523,7 +523,7 @@ table, score each seat against every profile from its sizes and preflop actions 
 first hand use a blend of the teams' rates weighted by how well each matches, mixed with the field's rate,
 as the seat's priors; then keep updating with what the seat does at this table. Don't wait for a
 confident match: the weighting already discounts weak evidence, and waiting throws away the first third of
-every table. Give each spot's prior the strength in `FINGERPRINTING.md` §3 from hand 1 (10 when unsure): the rare tendencies (fold to a re-raise, folds to bets on each street, bet when checked to, calling an all-in: a seat gets only 0 to 4 chances per table) lean on the team's newest-round profile, while frequent ones (how often they open or re-raise) are learned mostly live. Cap how far any single team's profile can pull a decision, because about one confident match
+every table. Give each spot's prior the strength in `FINGERPRINTING.md` §3 from hand 1 (with the plain formula 10, or 5 or less where the prior is the field's rate in an all-in spot): the rare tendencies (fold to a re-raise, folds to bets on each street, bet when checked to, calling an all-in: a seat gets only 0 to 4 chances per table) lean on the team's newest-round profile, while frequent ones (how often they open or re-raise) are learned mostly live. Cap how far any single team's profile can pull a decision, because about one confident match
 in five is wrong when a team has changed its bot, and treat a seat that fits no profile as a new bot.
 For showdown-based rates, remember that shown hands are selected: whether a bet is called depends on the
 caller's cards and the public history, and earlier bets are shown only when the bettor kept going. Count
