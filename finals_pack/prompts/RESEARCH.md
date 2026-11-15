@@ -116,7 +116,12 @@ Then, still in the build hour:
   the tester, not the message: a release exists when `releases/vN.zip` and its `VERSIONS.md` line exist, and the
   tester checks the sha256 first; BUILDER's "RELEASED vN <sha256> ..." only adds the checks done. Nothing wakes you
   when a file lands, so on every wake-up look for new files first (`ls -lt releases theory/out rig/out | head`): spawn a fresh `tester` for that release, in parallel
-  with any others (one tester continued serially fell behind by three releases). Its verdict is the file
+  with any others (one tester continued serially fell behind by three releases). But a release that replaces one
+  whose verdict is not out yet gets no second tester: retarget the running one to the new release and keep the old
+  release as an extra paired arm. Testers share the rig's containers, so jobs queue: with another tester running, a
+  mix job took 181 s and 196 s against 68 s and 44 s alone, and five releases came in 7 minutes; keep each job small
+  while another runs (run C's RESEARCH proposed at most 1,000 tables a job), and ask BUILDER which verdict it needs
+  first. Its verdict is the file
   `rig/out/verdict-vN.md`, written by the tester when it finishes: send BUILDER the path and its first line at once. **No bot plays a scored round without a tester verdict that includes a heads-up run** (heads-up
   decides 50 vs 30 points). Every verdict reports the kit's `check_or_fold` floor in the same field and the load
   average: in the speedrun's variant the do-nothing bot scored as well as ours in a field that busts itself, which is
