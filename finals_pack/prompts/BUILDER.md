@@ -13,6 +13,8 @@ of each release). They may spawn their own helpers.
 
 ## Start-up (now, before anything else)
 
+0. If `Monitor`, `SendMessage`, `ListAgents` or `TaskStop` are listed as deferred tools (the desktop app does this),
+   load them first: `ToolSearch` with `select:Monitor,SendMessage,ListAgents,TaskStop`.
 1. Start your inbox first, before any reading (the feed shows only lines posted after it starts, and the reading
    below takes minutes): run the Monitor tool on `python3 scripts/feed.py builder` (timeout: the maximum, 30 minutes).
    Every line that arrives wakes you; a long clock line can arrive cut off, so read it whole with
