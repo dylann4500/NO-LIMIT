@@ -83,7 +83,9 @@ running before you spawn anything. The first thing to establish is which case th
 send it to every running subagent. Every brief names the team Python (`starter-kit/.venv/bin/python`, announced by
 BUILDER once `platform` has set it up; system `python3` may not build the kit's evaluator) and the CPU budget (a
 worker count per subagent, 2 as a rule, about 6 for your whole session; longer runs go to Modal: `avalon-rig` for the tester, `avalon-theory` for
-theory). Spawn in ONE message, in the background:
+theory) and the role's own pre-event note (`theory`: `notes/pre/variants.md`; `tester`: `testplan.md`; `scout`:
+`field.md`; `analyst` and `scout`: `stat_definitions.md`; all, in case F: `format_finals.md`). Spawn in ONE message, in
+the background:
 - `theory` x3 (the speedrun showed this lands everything by minute 12): (1) hand ranking + ICM thresholds by minute
   10; (2) the twist's option values and the twist decision rule (`theory/out/twist_rule.json`) by 15; (3) push/fold,
   call tables and break-evens by 15, `theory/HANDOFF.md` by 20. As each lands, `SendMessage` BUILDER one line with the

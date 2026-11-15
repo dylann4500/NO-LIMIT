@@ -65,7 +65,9 @@ running before you spawn anything.
    **A head start:** when the portal watcher posts "THE VARIANT IS ANNOUNCED", the portal's rules text is already in
    `state/variant.md` and the cooldown the portal states is in `state/status.md`. Name both in the briefs below so
    your subagents read the rules while the kit unpacks; the kit and the Format page still decide the rules card.
-2. Spawn in ONE message, in the background:
+2. Spawn in ONE message, in the background, each brief naming the role's own pre-event note (`platform`:
+   `notes/pre/buildplan.md`; `stylist`: `notes/pre/whatwins.md`; both, in case F: `notes/pre/format_finals.md`; the
+   clean-room `challenger` reads none of them):
    - `platform`: set up the team Python (`starter-kit/.venv`, plus the `.venv` link) and announce it; the rules card
      `bot/rules.json` from the kit and `notes/format.md` (players, stacks, blinds and antes, hands per match, time limits,
      weights, payouts, cooldown) by minute 5; a stub `bot/INTERFACE.md` by minute 6; a minimal legal bot and
