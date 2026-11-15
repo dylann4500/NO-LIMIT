@@ -90,7 +90,7 @@ Rerun the top two on fresh deals before recommending either: in the clean-room t
 
 - **Can predict**: legality and speed; a hole against a simple strategy; whether a targeted rate is hit; a heads-up regression (-1.9 ± 0.4 shipped unchecked: A); a collapse of several points, once the cloned field is calibrated.
 - **Cannot predict**: an order within 1-2 points; strength from beating our own bots; adaptive rules; how 20 strong teams respond.
-- **The practice round judges, with noise of its own.** A 1,000-table practice has a standard error of at least 0.7 (A, regional), so two practices must differ by 2 points to mean anything (arith.). A fixed bot scored 0.37 ± 0.06 higher in practice than in the next scored round (A). Only 8-17% of regional teams kept one bot from scored round through practice to scored round (A): among 20 opponents expect 2-4 yardsticks, so the field-median fallback will be usual (C).
+- **The practice round judges, with noise of its own.** A 1,000-table practice has a standard error of at least 0.7 (A, regional; the SE of the edge is now taken from the yardsticks' own spread, `DECISION_RULES.md` §3), so two practices must differ by 2 points to mean anything (arith.). A fixed bot scored 0.37 ± 0.06 higher in practice than in the next scored round (A). Only 8-17% of regional teams kept one bot from scored round through practice to scored round (A): among 20 opponents expect 2-4 yardsticks, so the field-median fallback will be usual (C).
 
 ## 8. If the format is not the one assumed
 

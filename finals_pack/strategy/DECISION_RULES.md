@@ -62,8 +62,10 @@ asked by the BUILDER session at T-8; decided by the humans):
   compare each with **yardstick teams**, the teams `scout`'s drift check says did not change bot between the two
   rounds: edge = (challenger's practice score − the yardsticks' practice scores) − (live bot's last scored score
   − the yardsticks' scored scores). With fewer than 4 yardsticks, use scores minus the field median, and say so.
-  Pool the challenger's practice rounds when its core is unchanged. Practice SE is **at least 0.7** points per
-  table (more with 21 teams); z = edge / SE of the edge.
+  Pool the challenger's practice rounds when its core is unchanged. SE of the edge: the standard deviation of the yardstick teams' own (practice score − last scored score),
+  times √(1 + 1/number of yardsticks), when there are 6 or more yardsticks; with fewer, 0.8. Never below 0.7. z = edge /
+  SE. Give the edge in points too, and say so if the SE is above 1.0. (0.8 and 0.7 are points per table at 8 seats and
+  50/30/20: times the day's multiplier, §2 rule 3.)
 - Play the challenger if it passed rule 2.1 and:
   - **we are outside the top 3, or the standings are hidden and we weren't clearly in it**: z ≥ **0.5**
     (**the last-rounds bar**: z ≥ 0 in the last two rounds: a coin flip with upside beats certain 4th);

@@ -171,7 +171,8 @@ a PLAN CHALLENGE. You own it:
 
 `SendMessage` BUILDER "RECOMMENDATION round <k>: ..." by T-9, applying DECISION_RULES §3 exactly: the challenger's
 field-adjusted edge against yardstick teams (teams that didn't change bot between the two rounds; `tester` computes
-it), z with practice SE of at least 0.7, our standing (from `state/status.md`; if the standings are hidden, compute
+it), z with the SE of the edge as DECISION_RULES §3 defines it (the yardsticks' own practice-to-scored spread with 6 or more
+yardsticks, else 0.8, never below 0.7; `tester` computes it), our standing (from `state/status.md`; if the standings are hidden, compute
 our total from each round's results x weights, and treat us as outside the top 3 unless we clearly weren't), the bar
 for our standing and the rounds left (the last-rounds bar if `state/clock.md` shows the last two rounds), the rule's
 answer as a released file with a tester verdict, and the evidence (validated LEDGER lines, or labelled
