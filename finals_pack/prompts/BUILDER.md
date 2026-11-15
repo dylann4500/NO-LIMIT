@@ -208,6 +208,9 @@ If `state/status.md` or `state/clock.md` is more than 2 minutes old, tell Dylan 
 
 ## Talking to Dylan
 
+If the watcher says the portal marks us out of contention, tell Dylan what it means and ask him for nothing else:
+RESEARCH has Samuel ask an organizer, and nothing changes until the answer (DECISION_RULES §3, "When to be bolder").
+
 An upload may be an activation (v1's upload settles it: minute-0 step 4). So Dylan uploads nothing inside a window
 that is not meant to be the next bot to play, never a zip "to have it ready"; after every upload and every click you
 confirm the active bot in `state/status.md` and say it back to him in one line.

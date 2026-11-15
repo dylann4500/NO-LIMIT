@@ -76,6 +76,8 @@ asked by the BUILDER session at T-8; decided by the humans):
   - **we are in the top 3**: z ≥ **1.0**, or z ≥ 1.5 if our lead over 4th on the standings is more than 3 x the
     coming round's weight, in the standings' own points (before a round of weight 4: more than 12).
 - Otherwise the live bot plays, with this window's changes (below).
+- An earlier released bot with a verdict is a candidate like any other: compare its last scored round with the live
+  bot's against yardstick teams, same bars.
 - BUILDER writes the question in `state/decisions.md` and asks it in its terminal, with the rule, both bots'
   numbers and the rule's answer. The rule's answer plays at T-5 if no human has answered (BUILDER applies it with
   `scripts/live.py`); either human can overrule it, unless the other has given the opposite answer: then the rule's
@@ -189,6 +191,10 @@ is not required.
   divergent design, and the bar drops as above.
 - A PLAN CHALLENGE stands, or two or more plan assumptions (§5) are off by 2 SE or more: the plan's premise is
   false today; say so to both humans and put the alternative in the next practice round.
+- The portal marks us out of contention: RESEARCH asks Samuel to ask an organizer at once whether such teams still
+  play and can still be paid (BUILDER tells Dylan what it means and asks him for nothing else). Until the answer,
+  nothing changes. If it is final, the last-rounds bar (z ≥ 0) applies from then on. Hard rule 1 still holds: no
+  verdict, no scored round.
 - The last round is 29% of all points with multipliers 1 to 6, 41% with Fibonacci, 51% with powers of two; the Finals was set to 1 to 6 on Saturday afternoon, re-read at minute 0: plan it from the round before (durable fixes plus any exploit
   we've been holding back).
 

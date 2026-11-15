@@ -226,7 +226,8 @@ from the round before on every download.
 every so many iterations and stops dealing tables to teams it is confident are outside its top places; such a team is
 shown as "Culled at look k". Its round still scores, on the tables it played, and it plays every later round as
 normal (read from the portal's code; it was off at the regional). For us: fewer tables that round, so a noisier
-score, and nothing else: no rule or bar changes.
+score. What we do is one rule (`DECISION_RULES.md` §3, "When to be bolder"): RESEARCH asks Samuel to ask an organizer
+at once whether such teams still play and can still be paid; until the answer nothing changes.
 
 **The last round may be dark, and the leaderboard can be held at any moment** (read from the portal's code; neither
 was used at the regional, and neither was set for the Finals on Saturday afternoon). If the competition names a final round (`final_weight` in `state/portal.json`,

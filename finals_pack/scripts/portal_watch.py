@@ -574,10 +574,11 @@ class Watcher:
             line += " · hand data not downloadable yet (retrying)"
         self.say("both", line)
         if me and (me.get("contender") is False or me.get("culled_at_look")):
-            self.say("both", f"after {stage} the portal marks us culled in that round (culled_at_look: {me.get('culled_at_look') or 'culled'}). "
-                             "That is an early stop inside one round, not elimination: we were dealt fewer tables, the round "
-                             "still scores on the tables we played (a noisier score), later rounds are unaffected and no "
-                             "decision rule changes.")
+            self.say("both", f"after {stage} the portal marks us out of contention in that round (culled_at_look: {me.get('culled_at_look') or 'culled'}). "
+                             "By the portal's code this is an early stop inside one round (fewer tables; the round still "
+                             "scores). RESEARCH asks Samuel to ask an organizer at once whether such teams still play and "
+                             "can still be paid; BUILDER tells Dylan what it means. Until the answer nothing changes; if it "
+                             "is final, the last-rounds bar (z >= 0) applies (DECISION_RULES §3).")
         nt = next((me.get(k) for k in ("tables", "tables_played", "n_tables") if me and me.get(k) is not None), None)
         if me and (nt == 0 or me.get("forfeited")):
             self.say("both", f"URGENT: we played no tables in {stage} (forfeited: {bool(me.get('forfeited'))}): no active "

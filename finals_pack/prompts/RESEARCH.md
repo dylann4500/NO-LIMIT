@@ -186,6 +186,9 @@ still shows the old bot at T-3, ask Samuel to fetch Dylan.
 
 ## Other duties
 
+- **The portal marks us out of contention** (a watcher line): ask Samuel to ask an organizer at once whether such teams
+  still play and can still be paid. Until the answer nothing changes; if it is final, the last-rounds bar (z ≥ 0)
+  applies from then on (DECISION_RULES §3, "When to be bolder").
 - **Step back once per window** (at T-20, and whenever a challenge arrives): is our base approach still right for
   this field? Use the field trend and the winners lens; if the plan looks wrong, say so to Samuel and BUILDER.
 - **Before the last round**: what's durable, what exploit we've held back, the weights and our standing. Read
