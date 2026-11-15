@@ -131,12 +131,24 @@ measurement, so it is measured inside scored rounds, as cheaply as possible. Not
 - **The split upload.** One zip plays two styles, each at about half of its tables, chosen by a key that is visible
   in the hand file (our seat number at hand 1, or another value `platform` and `analyst` agree on and test first).
   `analyst` scores each arm from the round's hand file: same round, same field, no yardsticks. With 5,000 tables the
-  difference between the arms has an SE of about 0.55 points at six seats, so arms 1.1 points apart are 2 SE apart.
+  difference between the arms has an SE of about 0.55 points at six seats when they share the tables 50/50 and about
+  0.6 at 70/30, so arms 1.2 points apart are 2 SE apart either way.
   Both arms pass every release check and the zip's VERSIONS line names the arms and the key. If the two designs cannot
   share a zip (a standalone design), play one in round 1 and the other in round 2 and compare them against yardstick
   teams.
-- **Rounds 1 and 2 are the test:** a 50/50 split of the two best designs of the build hour (the round-1 pick and its
-  challenger). Together these rounds are 3/21 of the total under linear weights.
+- **Rounds 1 and 2 are the test, with the downside bounded.** A bad round 1 is hard to win back in a tight field (at
+  Bay Area we finished 4.54 standings points behind 5th, which is 4.5 points a table in round 1), so nothing unmeasured
+  plays it: both arms have a build-hour practice score on the real field and a tester verdict. If the two best
+  designs' adjusted practice scores are 2 points or more apart, the leader plays every table. If they are closer, the
+  practices cannot tell them apart: the leader takes 70% of our tables and the other design 30%, which costs three
+  tenths of the gap between them and measures it nearly as well as 50/50. Together these rounds are 3/21 of the total
+  under linear weights.
+- **Past hands choose who gets tables, the field decides.** From round 2 on, every candidate, and every new version
+  of the live bot, is first run on Modal against the field cloned from the last round's hand file (`tester`, FIRST_PROMPT
+  Part 3b). The clone is used only once it reproduces the live bot's real score within 2 points. A candidate that loses
+  2 points or more there gets no tables; among the rest, the one it favours gets the challenger's share. It is a
+  filter, not the judge: at the regional it got two large differences right in sign and size, could not rank strong
+  bots against each other, and cannot see an opponent that adapts (`EVIDENCE_TABLE.md`).
 - **Rounds 3 and 4.** In the top 3: the better arm at three quarters or more of our tables, a challenger at the rest
   or none. 4th or lower: 50/50 between the best measured style and a challenger.
 - **Rounds 5 and 6.** In the top 3: the best measured bot at every table. 4th to 8th: the arm that measured better;
