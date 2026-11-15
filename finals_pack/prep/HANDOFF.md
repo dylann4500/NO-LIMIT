@@ -259,7 +259,7 @@ commit, run the tests, and trust the folder again.
   Dylan's laptop, never in git.
 - **Four timed runs of the build hour** (A and B at eight seats, C and a dress run at six seats, three different
   twists) and a tabletop test of the decision rules. Their reports are in `prep/SPEEDRUN_*` and `TABLETOP_14NOV.md`;
-  about 190 instruction fixes came out of them and two consistency reads.
+  about 160 instruction fixes came out of them and two consistency reads.
 - **Dylan approved every recommendation on `prep/PROPOSALS_14NOV.md`** and they are applied (one switch deadline at
   T-4, late data, the big-lead test, held standings, the SE from the yardsticks, flat calls with a stated plan).
   Samuel has not yet confirmed sections A to C, and item 22 (the "22-25 points" figure in `PLAN.md`) needs his source.
