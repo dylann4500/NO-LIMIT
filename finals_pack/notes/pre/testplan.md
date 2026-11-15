@@ -15,7 +15,7 @@ Drafted Saturday 14 November for Sunday's `tester` to check and extend. Notes on
 3. **Second run: the same bot on two disjoint sets of deals.** That difference is today's noise.
 4. **Sparring**: four hold'em-style fields now; the variant-aware field once theory's ranking exists (speedrun: ranking at minute 9, field at 16).
 5. **First verdict on v1 by minute 12** (speedrun: 12), with a heads-up run, check-or-fold in the same field and the load average.
-6. **Only then** the Modal image build, in the background. Its first job measures tables per second.
+6. **The Modal deploy, in the background, as soon as the runner prints its first number**: it took 4-10 s in the timed runs, and v1's verdict must not wait for it. Its first job measures tables per second.
 
 Not in the build hour: the cloned field. Built in the hour, uncalibrated, it scored our bot 12.2 against a real 18.4 (A).
 

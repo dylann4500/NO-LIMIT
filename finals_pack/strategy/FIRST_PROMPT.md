@@ -469,7 +469,8 @@ decision time.
   turn, burn, river). Check stacks every hand and drop tables that drift. Report where each candidate acts
   differently from the logged action and from the current live bot, how often per table, by situation.
   The outcome column is observational, not counterfactual.
-- Then, and only then: wrap the same shard function for Modal (check that modal imports first) and start
+- As soon as the runner prints a number: wrap the same shard function for Modal (launch with the `modal` command: the
+  team Python has no modal package) and start
   the image build in the background. It is the team's one test-rig app, `avalon-rig`: deploy it once and call
   it many times (`.map` over shards), up to 40 containers; never several `modal run`s at once (`CLAUDE.md` hard
   rule 8). Only `avalon-rig` and `avalon-theory` (up to 20) are deployed; the other roles call them or run
