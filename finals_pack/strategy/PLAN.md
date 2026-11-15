@@ -10,7 +10,8 @@ broke in rehearsals is in `LESSONS.md`; the briefs for the subagents are in `FIR
 At the regional we finished 6th (376.71). 2 Curry won with 428.72, about 2.5 points per table per round
 more than us.
 
-- **Our own mistakes cost about 22-25 points; fixing them alone would have put us about 3rd.** They were:
+- **Our own mistakes cost about 22-25 points; fixing them alone would have put us about 3rd.** (The figure's source
+  is being confirmed by Samuel; the research could rebuild 5 to 9 points for two of the mistakes.) They were:
   - over-calling flop and turn bets;
   - over-folding after v6;
   - the starter kit's ICM function scoring a busted stack as 0;
