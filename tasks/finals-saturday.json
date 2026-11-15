@@ -97,6 +97,11 @@
       "at": "2026-11-15T13:01:45Z",
       "by": "dylann29",
       "text": "emu/rehearsal 3de4175: the bundle was checked by six independent agents between 04:20 and 05:30 while Dylan slept (he asked for it; Samuel: see finals_pack/prep/CHANGES_15NOV.md, 'Judgement calls made without you'). No blocker found. About 100 wording corrections and eleven script defects fixed; 297 script checks pass (228 before); the patched watcher was re-run read-only against the real portal. The 32-core rig and the fingerprinting page were each built from the written instructions alone by a fresh agent and worked. Hard rule 1 now reads: no illegal actions or errors, and no more timeouts than the kit's check_or_fold in the same run. The final zip is repacked (sha256 29f12a112034..., usual name in nolimit-live and Dylan's Downloads); three earlier zips are kept as fallbacks, Saturday's rehearsed one among them. Modal is at 135 dollars of a limit that has risen to 500; no analysis apps or containers are left running."
+    },
+    {
+      "at": "2026-11-15T13:07:34Z",
+      "by": "dylann29",
+      "text": "FINAL for the event: emu/rehearsal e59eb2d. A third reader checked the last corrections (two sentences made exact). The starting-bundle zip is repacked from that commit (sha256 8ce948ef94aa..., in nolimit-live and Dylan's Downloads) and the day-of command on it gives 297 passed. Read finals_pack/prep/CHANGES_15NOV.md first. If anyone changes finals_pack after this, the zip has to be repacked."
     }
   ],
   "owner": "dylann29",
@@ -109,5 +114,5 @@
   "result": "",
   "state": "active",
   "title": "Saturday handoff: review and merge the overnight research branches, apply speedrun findings, rehearsal prep on Dylan's Mac",
-  "updated_at": "2026-11-15T13:01:45Z"
+  "updated_at": "2026-11-15T13:07:34Z"
 }

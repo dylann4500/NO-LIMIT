@@ -1,0 +1,8 @@
+{
+  "agent": "Dylans-MacBook-Pro-1228",
+  "at": "2026-11-15T13:07:34Z",
+  "by": "dylann29",
+  "pin": false,
+  "task": "finals-saturday",
+  "text": "FINAL for the event: emu/rehearsal e59eb2d. A third reader checked the last corrections (two sentences made exact). The starting-bundle zip is repacked from that commit (sha256 8ce948ef94aa..., in nolimit-live and Dylan's Downloads) and the day-of command on it gives 297 passed. Read finals_pack/prep/CHANGES_15NOV.md first. If anyone changes finals_pack after this, the zip has to be repacked."
+}
