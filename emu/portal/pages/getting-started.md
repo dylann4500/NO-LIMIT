@@ -1,6 +1,6 @@
 # Getting started
 
-Each bot is a Python Agent with one method: act. Each round snapshots every team's active bot, and scored rounds play it at thousands of 8-player sit-and-go tables; its round score is its average points per table.
+Each bot is a Python Agent with one method: act. Each round snapshots every team's active bot, and scored rounds play it at thousands of {{PLAYERS}}-player sit-and-go tables; its round score is its average points per table.
 
 ## Build and submit
 
@@ -32,7 +32,7 @@ poker-agent play . examples/check_or_fold examples/min_raiser --tables 200
 
 `check FILE` runs the server's upload checks on one file or zip without executing code. In a zip it parses every .py file and rejects the upload if any of them imports poker_engine or pokerkit, even one the bot never loads; `check agent.py` sees only agent.py, while `pack` checks the whole zip it builds.
 
-`play` runs sit-and-go tables of the variant in RULES.md with one seat per folder argument, 2 to 10. The command above plays 3-handed tables, where every place pays; repeat folders to fill the 8 seats a round uses. Each folder runs as two processes shared by its seats. play prints the last 64 KB of each process's stderr to stderr, then reports average points, finishing places and failed decisions per seat as JSON on stdout. `--seed` replays the same randomness, and changes under sdk/ affect only local play.
+`play` runs sit-and-go tables of the variant in RULES.md with one seat per folder argument, 2 to 10. The command above plays 3-handed tables, where every place pays; repeat folders to fill the {{PLAYERS}} seats a round uses. Each folder runs as two processes shared by its seats. play prints the last 64 KB of each process's stderr to stderr, then reports average points, finishing places and failed decisions per seat as JSON on stdout. `--seed` replays the same randomness, and changes under sdk/ affect only local play.
 
 ### Write act
 

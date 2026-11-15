@@ -1,7 +1,7 @@
 """Play one emulated tournament round for a whole field, the way the organizers' workers do.
 
-Every iteration seats every entry once (kit `seat_iteration`: shuffle, tables of 8, the short
-last table filled with non-scoring fillers), plays each table on the kit's real engine with real
+Every iteration seats every entry once (kit `seat_iteration`: shuffle, tables of rules["players"] (8 at
+the regional, 6 at the Finals: emu/tables.py), the short last table filled with non-scoring fillers), plays each table on the kit's real engine with real
 bot processes, and keeps:
   - results.jsonl: one line per table (points, places, failures, decisions, hands per seat);
   - one participant download per entry, in the real format: a header line
@@ -150,7 +150,7 @@ def slug(team: str) -> str:
     return "".join(c if c.isalnum() else "_" for c in team).strip("_").lower()
 
 
-def merge(field: dict, shards: list[Path], dest: Path, round_no: int) -> dict:
+def merge(field: dict, shards: list[Path], dest: Path, round_no: int, download_teams: list[str] | None = None) -> dict:
     """Concatenate shards (in iteration order) into one round: per-team downloads named like the
     real ones, results.jsonl, and the round score per team. Entry ids are fresh per round, as on
     the real platform; team names are the stable key."""
@@ -168,6 +168,8 @@ def merge(field: dict, shards: list[Path], dest: Path, round_no: int) -> dict:
         results += [json.loads(line) for line in (s / "results.jsonl").read_text().splitlines()]
     (dest / "results.jsonl").write_text("".join(json.dumps(r) + "\n" for r in results))
     for team in teams:
+        if download_teams is not None and team not in download_teams:
+            continue  # only these teams' downloads are wanted (a fixed field: avalon's)
         header = gzip.compress(encoded({"tournament_id": tid, "you": ids[team], "entries": entries}),
                                mtime=0)
         for suffix, part in (("", "part.gz"), ("-first-1000", "first.part.gz")):
@@ -252,6 +254,7 @@ def main() -> None:
     m.add_argument("--field", required=True)
     m.add_argument("--round", type=int, required=True)
     m.add_argument("--out", required=True)
+    m.add_argument("--download-teams", default=None, help="comma-separated teams whose downloads to write (default all)")
     m.add_argument("shards", nargs="+")
     a = p.parse_args()
     field = load_field(a.field)
@@ -262,7 +265,8 @@ def main() -> None:
         for team, log in meta["bot_stderr"].items():
             print(f"--- {team} stderr (tail) ---\n{log}", file=sys.stderr)
     elif a.cmd == "merge":
-        s = merge(field, [Path(x) for x in a.shards], Path(a.out), a.round)
+        s = merge(field, [Path(x) for x in a.shards], Path(a.out), a.round,
+                  a.download_teams.split(",") if a.download_teams else None)
         for team, v in sorted(s["scores"].items(), key=lambda kv: -kv[1]["points"]):
             print(f"{v['points']:7.2f}  {team:28s} tables={v['tables']} failed={v['failed_decisions']}")
     else:

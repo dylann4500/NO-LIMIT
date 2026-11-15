@@ -8,11 +8,14 @@ What it does, like the real portal:
   - Upload a zip (page or POST /api/teams/<team>/submissions?filename=x.zip, raw zip body). The upload
     test (20 heads-up hands vs check-or-fold, no time bank, <=10% failed decisions) runs straight away:
     status goes validating -> ready | rejected, with rejection_reason and check_log.
-  - Make a ready upload the active bot (page button or PATCH /api/teams/<team> {"active_submission_id"}).
+  - An upload that passes its test becomes the active bot by itself, unless a newer upload is already active
+    (as on the Finals pages: "Your newest upload that passes its test match becomes active"). An earlier ready
+    upload can be chosen again (page button or PATCH /api/teams/<team> {"active_submission_id"}).
     Activating copies it into emu/runs/<run>/avalon/submission/, which the rehearsal snapshots at each
-    round start. A new upload is NOT made active by itself: always confirm the active bot.
+    round start.
   - Rounds, results, standings and our hand-history downloads, read from the rehearsal's own files.
-  - Format and Getting started pages (avalon/portal/*.md: without the variant until the start).
+  - Format and Getting started pages (avalon/portal/*.md: without the variant until the start), and the
+    starter kit as a zip at /tournament/kit.zip once the variant is announced (linked from both pages).
   - Upload cooldown: one upload per --cooldown seconds (default: the run's setting, else 30); a sooner
     upload gets 429 with Retry-After. The upload test plays the run's variant on the run's kit.
 
@@ -24,9 +27,10 @@ API (participant paths copied from the real site's front-end code; Bearer key re
   GET  /api/teams/<team>   PATCH /api/teams/<team>
   GET  /api/teams/<team>/submissions             POST /api/teams/<team>/submissions?filename=
   GET  /api/teams/<team>/health
-  GET  /api/tournaments/<tid>/hands[?subset=first-1000]   (mock only: the real download link is on the
-                                                          team and round pages; find it on the day)
-The API key is in emu/runs/<run>/avalon/portal/api-key (also printed at start). Keep this server on
+  GET  /api/competitions/<cid>/variant           (404 until the announcement, then {id, title, rules})
+  GET  /api/teams/<team>/tournaments/<tid>/hands[?tables=1000]   (the real portal's download, checked 14 Nov)
+  GET  /api/tournaments/<tid>/hands[?subset=first-1000]          (the older mock shape; the watcher tries both)
+The API key is in emu/runs/<run>/portal-key (copied to avalon/portal/api-key; the file's path is printed at start). Keep this server on
 your own network: it copies the organizers' site and must never be published.
 """
 
@@ -61,7 +65,7 @@ iso = lambda t: time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(t))  # noqa: E73
 
 
 class Portal:
-    def __init__(self, run: str, cooldown: int | None = None):
+    def __init__(self, run: str, cooldown: int | None = None, stable_key: bool = False):
         self.run = run
         self.dir = ROOT / "emu" / "runs" / run
         self.ws = self.dir / TEAM
@@ -70,14 +74,16 @@ class Portal:
         self.state_file = self.ws / "portal_state.json"
         self.lock = threading.Lock()
         self.state = json.loads(self.state_file.read_text()) if self.state_file.exists() else {"subs": [], "active": None}
-        # One key for every rehearsal run, so links shared with a teammate keep working.
-        stable = Path.home() / ".config" / "avalon-rehearsal" / "portal-key"
+        # The run's own key, in emu/runs/<run>/portal-key (git-ignored; survives a restart of rehearsal.py, which
+        # rebuilds avalon/). --stable-key: one key for every run, in ~/.config, so shared links keep working.
+        stable = (Path.home() / ".config" / "avalon-rehearsal" / "portal-key") if stable_key else self.dir / "portal-key"
         stable.parent.mkdir(parents=True, exist_ok=True)
         if not stable.exists():
             old = self.ws / "portal" / "api-key"
             stable.write_text(old.read_text() if old.exists() else "nlk_" + secrets.token_hex(16) + "\n")
             stable.chmod(0o600)
         self.key = stable.read_text().strip()
+        self.key_file = stable
         keyf = self.ws / "portal" / "api-key"
         keyf.parent.mkdir(parents=True, exist_ok=True)
         keyf.write_text(self.key + "\n")
@@ -249,6 +255,10 @@ class Portal:
         with self.lock:
             s.update(status="rejected" if reason else "ready", rejection_reason=reason, check_log=log or reason)
             self.save()
+            ids = [x["id"] for x in self.state["subs"]]
+            newer_active = self.state["active"] in ids and ids.index(self.state["active"]) > ids.index(s["id"])
+        if not reason and not newer_active:  # the Finals pages: a passing upload becomes active by itself
+            self.activate(s["id"])
 
     def activate(self, sid):
         s = next((x for x in self.state["subs"] if x["id"] == sid), None)
@@ -266,6 +276,18 @@ class Portal:
             self.state["active"] = sid
             self.save()
         return 200, self.team()
+
+    def kit_zip(self, kit: Path) -> bytes:
+        """The team's kit/ folder as one zip (a top folder starter-kit/), built once."""
+        out = self.dir / "starter-kit.zip"
+        if not out.exists():
+            buf = io.BytesIO()
+            with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+                for f in sorted(kit.rglob("*")):
+                    if f.is_file() and "__pycache__" not in f.parts:
+                        z.write(f, "starter-kit/" + str(f.relative_to(kit)))
+            out.write_bytes(buf.getvalue())
+        return out.read_bytes()
 
     def hands_file(self, rd, subset):
         d = self.ws / "downloads" / rd["name"]
@@ -411,7 +433,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send(302, b"", "text/plain", {"Set-Cookie": f"nlk={self.P.key}; Path=/; HttpOnly",
                                                            "Location": "/tournament/team"})
             return self.send(200, page("Sign in", "<h1>Sign in</h1><form class=card><p>API key (in "
-                                       "<code>emu/runs/&lt;run&gt;/avalon/portal/api-key</code>)</p><input name=key "
+                                       "<code>emu/runs/&lt;run&gt;/portal-key</code>)</p><input name=key "
                                        "size=44 autofocus> <button>Sign in</button></form>"), "text/html")
         if p.startswith("/tournament/api") or p.startswith("/api"):
             if not self.authed():
@@ -438,6 +460,8 @@ class Handler(BaseHTTPRequestHandler):
             if wait:
                 return self.send(429, {"detail": f"Your team can upload once every {self.P.cooldown} seconds. "
                                                  f"Try again in {wait} s."}, extra={"Retry-After": str(wait)})
+            if not self.P.started():
+                return self.send(409, {"detail": "Uploads open when the event starts and its variant is announced."})
             s = self.P.upload(fn, body)
             return self.send(201, self.P.sub_view(s))
         return self.send(404, {"detail": "not found"})
@@ -458,8 +482,16 @@ class Handler(BaseHTTPRequestHandler):
     def api_get(self, p, q):
         P = self.P
         p = p.rstrip("/")
+        ev = P.event() or {"weights": P.settings.get("weights")}
+        started = P.started()
         comp = {"id": P.cid, "name": f"No Limit rehearsal ({P.run})", "upload_cooldown_seconds": P.cooldown,
-                "variant": P.settings.get("variant", "flop_discard_reveal") if P.started() else None}
+                "submission_cooldown_seconds": P.cooldown, "frozen": False, "final_weight": None,
+                "leaderboard_held": False, "round_weighting": {(1, 2, 3, 4, 5, 6): "linear", (1, 2, 3, 5, 8, 13): "fibonacci"}.get(
+                    tuple(ev.get("weights") or (1, 2, 3, 4, 5, 6)), "custom"),
+                "weights": ev.get("weights") or [1, 2, 3, 4, 5, 6],
+                "created_at": iso(P.state_file.parent.stat().st_ctime),
+                "variant": P.settings.get("variant", "flop_discard_reveal") if started else None,
+                "variant_announced_at": iso(ev["start"]) if started else None}
         if p == "/auth/api-key":   # what the real portal answers for an API key (its /me is browser-only)
             return self.send(200, {"expires_at": "2026-12-31T00:00:00Z", "ends_with": P.key[-8:],
                                    "teams": [{"competition_id": P.cid, "team_id": P.team_id}]})
@@ -476,6 +508,13 @@ class Handler(BaseHTTPRequestHandler):
                                               "label": r["label"], "created_at": r["created_at"],
                                               "completed_at": r["completed_at"], "cancelled_at": None}
                                              for r in P.rounds()]})
+        if p == f"/competitions/{P.cid}/variant":
+            if not started:
+                return self.send(404, {"detail": "The variant has not been announced yet."})
+            rules = (P.ws / "portal" / "format.md").read_text()
+            title = next((ln[3:].strip() for ln in rules.splitlines() if ln.startswith("## ")), P.settings.get("variant"))
+            vr = P.settings.get("variant_rules_text") or rules
+            return self.send(200, {"id": P.settings.get("variant"), "title": title, "rules": vr})
         if p == f"/competitions/{P.cid}/standings":
             return self.send(200, P.standings())
         if p == f"/competitions/{P.cid}/teams":
@@ -496,6 +535,16 @@ class Handler(BaseHTTPRequestHandler):
                                  {"Content-Disposition": f'attachment; filename="{f.name}"'})
             return self.send(200, {k: rd[k] for k in ("id", "kind", "weight", "iterations", "label", "created_at",
                                                      "completed_at")})
+        m = re.fullmatch(r"/teams/([^/]+)/tournaments/([^/]+)/hands", p)
+        if m and m.group(1) in (P.team_id, TEAM):
+            rd = P.find_round(m.group(2))
+            if not rd:
+                return self.send(404, {"detail": "no such round"})
+            f = P.hands_file(rd, bool(q.get("tables")) or q.get("subset", [""])[0] == "first-1000")
+            if not f:
+                return self.send(404, {"detail": "hand history not ready"})
+            return self.send(200, f.read_bytes(), "application/gzip",
+                             {"Content-Disposition": f'attachment; filename="{f.name}"'})
         m = re.fullmatch(r"/teams/([^/]+)(/submissions|/health)?", p)
         if m and m.group(1) in (P.team_id, TEAM):
             t = P.team()
@@ -523,7 +572,8 @@ class Handler(BaseHTTPRequestHandler):
                     f"{html.escape(act['filename']) + ' · uploaded ' + fmt_t(act['created_at']) if act else 'None: you forfeit any round that starts now'}"
                     f"</div></div><h2>Upload</h2><div class=card><input type=file id=f accept=.zip> "
                     f"<button onclick=up()>Upload</button> <span id=msg class=muted>A .zip with agent.py at its root. "
-                    f"The upload test runs at once; then make it active. One upload every {P.cooldown} s.</span></div>"
+                    f"The upload test runs at once; your newest upload that passes it becomes active by itself "
+                    f"(choose an earlier one below to play it instead). One upload every {P.cooldown} s.</span></div>"
                     f"<h2>Uploads</h2><div class='card tw'><table><tr><th>Time</th><th>File</th><th>Status</th>"
                     f"<th>Reason</th><th></th></tr>{rows or '<tr><td colspan=5 class=muted>No uploads yet</td></tr>'}"
                     f"</table></div><script>"
@@ -571,11 +621,20 @@ class Handler(BaseHTTPRequestHandler):
             text = f.read_text() if f.exists() else "# Not published yet"
             other = ("<a href='/tournament/getting-started'>Getting started</a>" if name == "format.md"
                      else "<a href='/tournament/format'>Format</a>")
-            note = "" if P.started() else "<p class=muted>The variant is announced at the start of the event.</p>"
+            note = ("<p><b><a href='/tournament/kit.zip'>Download the starter kit</a></b> (zip)</p>" if P.started()
+                    else "<p class=muted>The variant is announced at the start of the event. Its rules and starter kit "
+                         "appear here then, and uploads open.</p>")
             body = (f"<div class='card md'>{note}<p class=muted>Upload cooldown: {P.cooldown} s · {other}</p>"
                     f"{md_html(text)}</div>")
             return self.send(200, page("Format" if name == "format.md" else "Getting started", body, "format"),
                              "text/html")
+        if p == "/tournament/kit.zip":
+            kit = P.ws / "kit"
+            if not P.started() or not kit.is_dir():
+                return self.send(404, page("Starter kit", "<h1>The starter kit appears when the variant is announced</h1>"),
+                                 "text/html")
+            return self.send(200, P.kit_zip(kit), "application/zip",
+                             {"Content-Disposition": 'attachment; filename="starter-kit.zip"'})
         if p == "/tournament/standings":
             st = P.standings()["items"]
             rows = "".join(f"<tr class={'me' if x['team_name'] == TEAM else ''}><td>{x['rank']}</td>"
@@ -603,12 +662,15 @@ def main():
     ap.add_argument("--port", type=int, default=8765)
     ap.add_argument("--cooldown", type=int, default=None, help="upload cooldown, seconds (default: the run's, else 30)")
     ap.add_argument("--host", default="0.0.0.0", help="0.0.0.0 = reachable on your Wi-Fi; 127.0.0.1 = this Mac only")
+    ap.add_argument("--stable-key", action="store_true",
+                    help="use one key for every run (~/.config/avalon-rehearsal/portal-key) instead of emu/runs/<run>/portal-key")
     a = ap.parse_args()
-    Handler.P = Portal(a.run, a.cooldown)
+    Handler.P = Portal(a.run, a.cooldown, a.stable_key)
     srv = ThreadingHTTPServer((a.host, a.port), Handler)
     ip = lan_ip()
     print(f"rehearsal portal for run {a.run}: http://{ip}:{a.port}/tournament/  (this Mac: http://127.0.0.1:{a.port}/tournament/)")
-    print(f"API base: http://{ip}:{a.port}/tournament/api   key: {Handler.P.key}")
+    print(f"API base: http://{ip}:{a.port}/tournament/api   key file: {Handler.P.key_file}")
+    print(f"sign in: http://127.0.0.1:{a.port}/tournament/login (paste the key from that file)")
     print(f"team id: {Handler.P.team_id}   competition id: {Handler.P.cid}", flush=True)
     srv.serve_forever()
 

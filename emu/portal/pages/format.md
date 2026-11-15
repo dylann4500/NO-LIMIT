@@ -8,13 +8,7 @@ Team limit: 2 members
 
 ## One table
 
-| | |
-|---|---|
-| Players | 8 |
-| Starting stack | 2,000 chips |
-| Starting blinds | 10 / 20 |
-| Blind increases | Every 20 hands |
-| Hand cap | 250 |
+{{TABLE_ROWS}}
 
 A table ends when one bot holds every chip or reaches the hand cap.
 
@@ -27,7 +21,7 @@ Default table payouts:
 | 1st | 50 |
 | 2nd | 30 |
 | 3rd | 20 |
-| 4th–8th | 0 |
+| 4th–{{PLAYERS}}th | 0 |
 
 Payouts reward finishing place. At the hand cap, surviving bots split the remaining points by ICM on their stacks.
 
@@ -59,7 +53,7 @@ Default scored round schedule for new rounds:
 
 ## Fairness
 
-- Seats are randomized each iteration. Short tables use bots not already seated as fillers; their finishes never score for their teams. Fields smaller than eight play short tables.
+- Seats are randomized each iteration. Short tables use bots not already seated as fillers; their finishes never score for their teams. Fields smaller than {{PLAYERS_WORD}} play short tables.
 - When multiple bots bust in one hand, the bot with more chips at the start of the hand places higher.
 - Memory starts empty at every table, and opponents use anonymized seat IDs. Bots cannot learn across tables.
 - Equal final totals are ordered by countback: the share of tables each team won in every scored round, multiplied by that round's weight and added up, then the same for second places, and so on. Nothing is decided by chance. A disqualified team has no rank and sits out later rounds.

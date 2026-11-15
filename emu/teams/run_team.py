@@ -83,10 +83,17 @@ def schedule_table(weights=(1, 2, 3, 4, 5, 6)) -> str:
 
 
 def portal_files(dest: Path, variant_title: str, variant_rules: str, weights=(1, 2, 3, 4, 5, 6),
-                 cooldown: int = 30) -> None:
+                 cooldown: int = 30, table: str = "regional") -> None:
+    """The Getting started and Format pages; `table` (emu/tables.py) fills the table rows and the player count."""
+    import sys
+    sys.path.insert(0, str(EMU))
+    import tables
+    players = tables.TABLES[table]["players"]
     dest.mkdir(parents=True, exist_ok=True)
     for page in ("getting-started.md", "format.md"):
         text = (EMU / "portal" / "pages" / page).read_text()
+        text = text.replace("{{TABLE_ROWS}}", tables.format_rows(table)).replace("{{PLAYERS_WORD}}", tables.WORDS[players])
+        text = text.replace("{{PLAYERS}}", str(players))
         text = text.replace("{{VARIANT_TITLE}}", variant_title).replace("{{VARIANT_RULES}}", variant_rules)
         text = text.replace("{{SCHEDULE_TABLE}}", schedule_table(weights)).replace("{{COOLDOWN}}", str(cooldown))
         (dest / page).write_text(text)

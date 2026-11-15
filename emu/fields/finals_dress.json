@@ -1,0 +1,24 @@
+{
+  "name": "finals_dress: 17 fixed opponents for a Finals rehearsal on flop_pass_holdem at 6 seats (with avalon: 18 entries, 3 full tables an iteration)",
+  "source": "the 15 release zips of the 14 Nov timed run (/Users/dylan/avalon-dress/releases, VERSIONS.md), copied into emu/runs/field_dress/ (git-ignored), plus the kit's two examples",
+  "rules": {"variant": "flop_pass_holdem", "table": "finals"},
+  "entries": [
+    {"team": "Sim D3", "bot": "../runs/field_dress/v14.zip", "note": "design D, latest (v14)"},
+    {"team": "Sim A5", "bot": "../runs/field_dress/v13.zip", "note": "style A, latest (v13)"},
+    {"team": "Sim B4", "bot": "../runs/field_dress/v15.zip", "note": "style B, latest (v15)"},
+    {"team": "Sim C3", "bot": "../runs/field_dress/v12.zip", "note": "style C, latest (v12)"},
+    {"team": "Sim Base11", "bot": "../runs/field_dress/v11.zip", "note": "platform base, latest (v11)"},
+    {"team": "Sim Base9", "bot": "../runs/field_dress/v9.zip", "note": "platform base + jam table (v9)"},
+    {"team": "Sim B3", "bot": "../runs/field_dress/v10.zip", "note": "style B3 (v10)"},
+    {"team": "Sim D2", "bot": "../runs/field_dress/v7.zip", "note": "design D2 (v7)"},
+    {"team": "Sim A2", "bot": "../runs/field_dress/v4.zip", "note": "style A2 (v4)"},
+    {"team": "Sim C1", "bot": "../runs/field_dress/v8.zip", "note": "style C (v8)"},
+    {"team": "Sim Base6", "bot": "../runs/field_dress/v6.zip", "note": "platform base, no style (v6)"},
+    {"team": "Sim D1", "bot": "../runs/field_dress/v2.zip", "note": "design D (v2)"},
+    {"team": "Sim A1", "bot": "../runs/field_dress/v3.zip", "note": "style A (v3)"},
+    {"team": "Sim B1", "bot": "../runs/field_dress/v5.zip", "note": "style B (v5)"},
+    {"team": "Sim Placeholder", "bot": "../runs/field_dress/v1.zip", "note": "do-nothing placeholder (v1)"},
+    {"team": "Sim Check Or Fold", "bot": "../../starter-kit/examples/check_or_fold", "note": "kit example, weak"},
+    {"team": "Sim Min Raiser", "bot": "../../starter-kit/examples/min_raiser", "note": "kit example, weak"}
+  ]
+}

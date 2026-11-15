@@ -28,9 +28,17 @@ prep/.venv/bin/python emu/rehearsal.py --run r8 --field finals --round-iteration
 | `--local-rounds` | play rounds on this Mac instead of Modal |
 | `--field finals` | 7 simulated finalists, each with regional notes (`teams/finalists/`): per-seat learning, recognition by sizes, defence to wide re-raises, simulation, copying the leaders. With avalon, one 8-seat table |
 | `--avalon-start` | avalon's bot at the start: `empty` (default, as on Sunday) or a `bots/` folder |
+| `--table` | `regional` (default: 8 x 2,000, no antes) or `finals` (6 x 6,000, blinds and antes 10/20/4 .. 2000/4000/800; `tables.py`): the kit's defaults, the upload test, every round, seating and the Format page |
+| `--field-file` | a fixed-bot field (`fields/finals_dress.json`): opponents as team + bot folder or zip, the same bot all event; no sandboxes, no agent teams, no Modal secret |
+| `--shards`, `--local-workers`, `--local-concurrency` | Modal shards a round (19; the app is capped at `EMU_MAX_CONTAINERS`, default 20, incl. the merge); local shard processes (4) and tables at once per process (4) |
 
 Needs: the kit in `starter-kit/` (with `.venv`), the Modal client in `prep/.venv` signed in to the team
 workspace, and the Modal secret `emu-anthropic` (a Claude Code OAuth token or an Anthropic API key).
+
+## Finals rehearsal with a fixed field
+
+See `NOTES_FINALS_REHEARSAL.md`: Finals table, 17 fixed opponents from the 14 Nov timed run, avalon through the mock
+portal (`portal_server.py`) from any folder, read by `finals_pack/scripts/portal_watch.py`.
 
 ## Play avalon yourself
 

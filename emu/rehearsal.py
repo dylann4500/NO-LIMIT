@@ -18,6 +18,13 @@ installed SDK, the upload test, local rounds and the Modal round image all use i
 self-check loads the variant from that kit and plays the upload test with it; it stops the run if not.
 
   prep/.venv/bin/python emu/rehearsal.py --run full1
+
+Finals rehearsal with a fixed-bot field (no sandboxes, no agent teams, no Modal secret):
+  prep/.venv/bin/python emu/rehearsal.py --run dress1 --table finals --variant flop_pass_holdem \
+      --field-file emu/fields/finals_dress.json --wait
+--table finals plays 6 x 6,000 with antes (emu/tables.py) in the kit, the upload test, every round and the Format
+page. --field-file lists opponents as {"team", "bot": folder or zip}; each keeps that bot all event and only
+avalon is live (upload on the mock portal, emu/portal_server.py).
 """
 
 import argparse
@@ -41,6 +48,7 @@ sys.path.insert(0, str(EMU / "teams"))
 sys.path.insert(0, str(EMU))
 sys.path.insert(0, str(EMU / "variants"))
 import modal  # noqa: E402
+import tables  # noqa: E402
 from make_kit import kit_env  # noqa: E402
 import run_team  # noqa: E402
 from pilot import upload_test  # noqa: E402
@@ -101,10 +109,14 @@ class Event:
             chosen = [x for x in FINALS7 if not a.personas or x[0] in a.personas.split(",")]
         else:
             chosen = [t for t in TEAMS if t[0] in a.personas.split(",")] if a.personas else TEAMS[: a.teams]
+        if a.field_file:
+            chosen = []  # a fixed-bot field: no agent teams at all
         self.teams = {team_name(p): (p, m, prep, cpu) for p, m, prep, cpu in chosen}
+        self.fixed: dict[str, str] = self.load_fixed(Path(a.field_file)) if a.field_file else {}
         self.weights = [int(w) for w in a.weights.split(",")]
-        self.slug = {t: run_team.team_slug(t) for t in [*self.teams, AVALON]}
+        self.slug = {t: run_team.team_slug(t) for t in [*self.teams, *self.fixed, AVALON]}
         self.active: dict[str, str | None] = {t: None for t in [*self.teams, AVALON]}
+        self.active.update(self.fixed)
         self.sandboxes: dict[str, modal.Sandbox] = {}
         self.procs = {}
         self.vol = modal.Volume.from_name(run_team.VOLUME, create_if_missing=True)
@@ -117,18 +129,71 @@ class Event:
         self.announce_avalon_dir = self.dir / "avalon_announce"
         self.local_ok = False  # set by self_check: the local engine plays the variant
 
+    # ---------------------------------------------------------------- fixed-bot field
+    def load_fixed(self, path: Path) -> dict[str, str]:
+        """A field file's opponents: {team: bot folder}. A bot is a folder with agent.py or a zip (extracted into
+        emu/runs/<run>/field/<slug>/; the zip itself is never changed). Paths are relative to the field file, else
+        to the repo root. avalon's own entry, if any, is ignored: avalon plays what it uploads."""
+        import zipfile
+        spec = json.loads(path.read_text())
+        out: dict[str, str] = {}
+        for e in spec["entries"]:
+            team = e["team"]
+            if team == AVALON:
+                continue
+            if team in out:
+                raise SystemExit(f"{path}: team {team!r} listed twice")
+            src = Path(e["bot"]).expanduser()
+            if not src.is_absolute():
+                src = (path.parent / src) if (path.parent / src).exists() else ROOT / src
+            src = src.resolve()
+            if src.suffix == ".zip":
+                dest = self.dir / "field" / run_team.team_slug(team)
+                shutil.rmtree(dest, ignore_errors=True)
+                with zipfile.ZipFile(src) as z:
+                    for n in z.namelist():
+                        if n.startswith("/") or ".." in Path(n).parts:
+                            raise SystemExit(f"{src}: unsafe path {n}")
+                    z.extractall(dest)
+                src = dest
+            if not (src / "agent.py").is_file():
+                raise SystemExit(f"{team}: no agent.py in {src}")
+            out[team] = str(src)
+        log(f"fixed field from {path}: {len(out)} opponents")
+        return out
+
+    def check_fixed(self) -> None:
+        """Every fixed bot passes the upload test at this table (heads-up, 20 hands, no time bank); one that doesn't
+        is dropped from the field, loudly."""
+        def one(team):
+            return team, upload_test(Path(self.fixed[team]), self.a.variant, self.kit)
+        with ThreadPoolExecutor(min(4, self.a.local_workers)) as pool:
+            res = dict(pool.map(one, list(self.fixed)))
+        for team, r in res.items():
+            if not r["ok"]:
+                log(f"FIELD: {team} DROPPED: fails the upload test ({r['reason']})")
+                self.fixed.pop(team)
+                self.active.pop(team)
+        log(f"field check: {len(self.fixed)} fixed opponents pass the upload test at the {self.a.table} table")
+
     # ---------------------------------------------------------------- kit and self-check
     def prepare_kit(self) -> None:
-        """For a mock variant, build the run's mock kit (the variant's module installed in its engine)."""
+        """For a mock variant, build the run's mock kit (the variant's module installed in its engine), with the
+        run's table format (--table) as the kit's defaults."""
         if self.mock:
             out = self.dir / "kit_build"
-            log(f"building the mock kit for {self.a.variant} in {out}")
-            subprocess.run([KITPY, str(EMU / "variants" / "make_kit.py"), self.a.variant, str(out), "--force"],
-                           check=True, stdout=subprocess.DEVNULL)
+            log(f"building the mock kit for {self.a.variant} ({self.a.table} table) in {out}")
+            subprocess.run([KITPY, str(EMU / "variants" / "make_kit.py"), self.a.variant, str(out), "--force",
+                            "--table", self.a.table], check=True, stdout=subprocess.DEVNULL)
             self.kit = out
+        elif self.a.table != "regional":
+            raise SystemExit("--table finals needs a mock variant (emu/variants/<variant>.py): the kit's defaults "
+                             "come from make_kit.py")
         os.environ["EMU_KIT"] = str(self.kit)  # read by modal_rounds when imported: the round image's SDK
         (self.dir / "settings.json").write_text(json.dumps(
-            {"variant": self.a.variant, "cooldown": self.a.cooldown, "kit": str(self.kit)}, indent=1))
+            {"variant": self.a.variant, "cooldown": self.a.cooldown, "kit": str(self.kit), "table": self.a.table,
+             "weights": self.weights,
+             "rules": tables.rules(self.a.table, self.a.variant)}, indent=1))
 
     def self_check(self) -> None:
         """Before READY: the variant loads from every kit copy, the upload test plays it, and the
@@ -144,6 +209,18 @@ class Event:
                 problems.append(f"{label} ({kit}): load_variant({v!r}) failed: {r.stderr.strip()[-400:]}")
             elif not Path(r.stdout.strip()).resolve().is_relative_to(kit.resolve()):
                 problems.append(f"{label}: the engine came from {r.stdout.strip()}, not {kit}")
+        want = tables.TABLES[self.a.table]
+        r = subprocess.run([KITPY, "-c", "import json; from poker_engine.table import TableRules, rules_to_dict; "
+                            "print(json.dumps(rules_to_dict(TableRules())))"], capture_output=True, text=True,
+                           env=kit_env(self.kit))
+        if r.returncode:
+            problems.append(f"the run kit's TableRules can't be read: {r.stderr.strip()[-300:]}")
+        else:
+            d = json.loads(r.stdout)
+            if (d["players"], d["starting_stack"], d["blinds"]) != (want["players"], want["starting_stack"],
+                                                                     [list(b) for b in want["blinds"]]):
+                problems.append(f"the run kit's table defaults ({d['players']} x {d['starting_stack']}, first level "
+                                f"{d['blinds'][0]}) are not the {self.a.table} table's")
         if not problems:
             self.local_ok = True
             t = upload_test(ROOT / "starter-kit" / "examples" / "check_or_fold", v, self.kit)
@@ -173,7 +250,8 @@ class Event:
         run_team.kit_files(ws / "kit", Path(self.a.variant_rules) if self.a.variant_rules else None, self.kit)
         rules = (Path(self.a.variant_rules) if self.a.variant_rules else self.kit / "RULES.md").read_text()
         run_team.portal_files(ws / "portal", rules.splitlines()[0].lstrip("# ").strip(),
-                              "\n".join(rules.splitlines()[1:]).strip(), self.weights, self.a.cooldown)
+                              "\n".join(rules.splitlines()[1:]).strip(), self.weights, self.a.cooldown,
+                              self.a.table)
         for d in ("submission", "results", "downloads", "inbox"):
             (ws / d).mkdir()
         if team == AVALON:
@@ -186,7 +264,7 @@ class Event:
             shutil.move(str(ws / "portal"), ann / "portal")
             run_team.portal_files(ws / "portal", "To be announced",
                                   "The variant is announced at the start of the event, together with the starter kit.",
-                                  self.weights, self.a.cooldown)
+                                  self.weights, self.a.cooldown, self.a.table)
             if self.a.avalon_start != "empty":
                 shutil.copytree(ROOT / "bots" / self.a.avalon_start, ws / "submission", dirs_exist_ok=True)
         elif self.a.field == "finals":
@@ -221,7 +299,7 @@ class Event:
         shutil.move(str(ws / "portal"), ann / "portal")
         run_team.portal_files(ws / "portal", "To be announced",
                               "The variant is announced at the start of the event, together with the starter kit.",
-                              self.weights, self.a.cooldown)
+                              self.weights, self.a.cooldown, self.a.table)
         kit = ws.parent / "announce.tgz"
         kit.write_bytes(run_team.tar_dir(ann))
         with self.vol.batch_upload(force=True) as up:
@@ -294,6 +372,8 @@ class Event:
         return dest / "submission"
 
     def upload(self, team: str, label: str) -> dict:
+        if team in self.fixed:  # a fixed bot: checked once before READY, the same bot all event
+            return {"ok": True, "reason": "", "fixed": True, "active": self.fixed[team]}
         try:
             sub = self.snapshot(team, label)
             test = upload_test(sub, self.a.variant, self.kit)
@@ -316,9 +396,9 @@ class Event:
             if not r["ok"]:
                 log(f"{label}: {t} upload REJECTED ({r['reason']}); active stays {r['active']}")
         forfeit = [t for t, b in self.active.items() if not b]
-        entries = [{"team": t, "bot": str(Path(b).relative_to(ROOT)) if b else "starter-kit/examples/check_or_fold"}
+        entries = [{"team": t, "bot": str(Path(b).resolve()) if b else str(self.kit / "examples" / "check_or_fold")}
                    for t, b in self.active.items()]
-        field = {"name": f"{self.a.run} {label}", "rules": {"variant": self.a.variant, "players": 8},
+        field = {"name": f"{self.a.run} {label}", "rules": tables.rules(self.a.table, self.a.variant),
                  "entries": entries, "forfeit": forfeit}
         (rdir / "field.json").write_text(json.dumps(field, indent=1))
         iters = self.a.practice_iterations if ev["kind"] == "practice" else self.a.round_iterations
@@ -347,8 +427,10 @@ class Event:
         for attempt in range(len(delays) + 1):
             try:
                 remote = modal_rounds.play_round_on_modal(field, f"{self.a.run}-{name}", iters, rdir, round_no,
-                                                          shards=self.a.shards, local_teams=(self.slug[AVALON],))
-                self.remote[name] = remote["remote_downloads"]
+                                                          shards=self.a.shards, local_teams=(self.slug[AVALON],),
+                                                          remote_downloads=bool(self.teams))
+                if remote["remote_downloads"]:
+                    self.remote[name] = remote["remote_downloads"]
                 return True
             except RuntimeError as e:  # shards ran and failed: bots or engine, not the launch
                 log(f"{label}: Modal shards failed: {str(e)[:500]}")
@@ -372,12 +454,12 @@ class Event:
         return False
 
     def play_local(self, rdir: Path, name: str, iters: int, round_no: int) -> None:
-        shards = min(self.a.shards, 4)  # each local shard runs two processes per team
+        shards = min(self.a.shards, self.a.local_workers)  # each local shard runs two processes per team
         per = -(-iters // shards)
         procs = [subprocess.Popen([KITPY, str(EMU / "tournament.py"), "play", "--field", str(rdir / "field.json"),
                                    "--seed", f"{self.a.run}-{name}", "--first-iteration", str(k * per),
                                    "--iterations", str(min(per, iters - k * per)), "--out", str(rdir / f"shard{k}"),
-                                   "--concurrency", "4"], env=kit_env(self.kit),
+                                   "--concurrency", str(self.a.local_concurrency)], env=kit_env(self.kit),
                                   stdout=subprocess.DEVNULL, stderr=open(rdir / f"shard{k}.err", "w"))
                  for k in range(shards) if k * per < iters]
         for p in procs:
@@ -477,11 +559,13 @@ class Event:
         tomorrow) for the build to begin. Write it with `rehearsal.py --run <run> --start now|21:00`."""
         sig = self.dir / "START"
         if not self.a.wait:
-            return time.time() + 300 + 60 * max(int(p * self.a.prep_scale) for _, _, p, _ in self.teams.values())
+            lead = 300 if self.teams else 20  # sandboxes need ~5 minutes; a fixed field none
+            return time.time() + lead + 60 * max((int(p * self.a.prep_scale) for _, _, p, _ in self.teams.values()),
+                                                 default=0)
         log(f"READY. Waiting for the start signal ({sig}); nothing runs until then.")
         while not sig.exists():
             time.sleep(5)
-        start = parse_start(sig.read_text().strip())
+        start = parse_start(sig.read_text().strip(), 360 if self.teams else 20)
         log(f"start signal: the build begins at {time.strftime('%H:%M:%S', time.localtime(start))}")
         return start
 
@@ -498,10 +582,13 @@ class Event:
         atexit.register(self.stop_sandboxes)
         for sig_ in (signal.SIGTERM, signal.SIGINT):
             signal.signal(sig_, lambda *_: (self.stop_sandboxes(), _sys.exit(1)))
-        log(f"{self.a.run}: {len(self.teams)} simulated teams + avalon; variant {self.a.variant}; scale {self.a.scale}")
+        log(f"{self.a.run}: {len(self.teams)} simulated teams, {len(self.fixed)} fixed bots + avalon; variant "
+            f"{self.a.variant}; {self.a.table} table; scale {self.a.scale}")
         self.prepare_kit()
         self.workspace(AVALON)
         self.self_check()
+        if self.fixed:
+            self.check_fixed()
         log(f"avalon workspace: {self.dir / AVALON} (submission/ starts as: {self.a.avalon_start}; "
             f"kit/ and the variant's pages appear at the start)")
         start = self.wait_for_start()
@@ -551,18 +638,21 @@ class Event:
                 log(f"{team}: only {prep} of {planned} min of pre-event research before the start")
             self.start_team(team, start, prep)
 
-        with ThreadPoolExecutor(len(self.teams)) as pool:
-            for f in [pool.submit(launch, t) for t in self.teams]:
-                try:
-                    f.result()
-                except Exception as e:  # noqa: BLE001
-                    log(f"team failed to start: {e!r}")
+        if self.teams:
+            with ThreadPoolExecutor(len(self.teams)) as pool:
+                for f in [pool.submit(launch, t) for t in self.teams]:
+                    try:
+                        f.result()
+                    except Exception as e:  # noqa: BLE001
+                        log(f"team failed to start: {e!r}")
         for t in self.teams:
             if t not in self.sandboxes:
                 log(f"{t}: no sandbox; it will forfeit")
-        (self.dir / "event.json").write_text(json.dumps({"start": start, "events": self.events, "teams": self.teams,
-                                                         "variant": self.a.variant, "cooldown": self.a.cooldown},
-                                                        indent=1))
+        (self.dir / "event.json").write_text(json.dumps({
+            "start": start, "events": self.events,
+            "teams": {**self.teams, **{t: ["fixed", b] for t, b in self.fixed.items()}},
+            "variant": self.a.variant, "cooldown": self.a.cooldown, "table": self.a.table, "weights": self.weights,
+            "pid": os.getpid()}, indent=1))
         (self.dir / AVALON / "inbox" / "0-start.md").write_text(
             f"The build starts at {time.strftime('%H:%M:%S', time.localtime(start))}. Schedule: "
             + "; ".join(f"{e['label']} at +{e['t'] / 60:.0f} min" for e in self.events) + "\n")
@@ -582,16 +672,16 @@ class Event:
             list(pool.map(self.collect, list(self.sandboxes)))
         for sb in self.sandboxes.values():
             sb.terminate()
-        log(f"done. final results: {self.dir / 'rounds' / 'scored6' / 'results.md'}")
+        log(f"done. final results: {self.dir / 'rounds' / f'scored{len(self.weights)}' / 'results.md'}")
 
 
-def parse_start(text: str) -> float:
+def parse_start(text: str, lead: int = 360) -> float:
     if text.lower() == "now":
-        return time.time() + 360  # time to create and fill the sandboxes
+        return time.time() + lead  # time to create and fill the sandboxes (a fixed field needs none)
     hh, mm = (int(x) for x in text.split(":"))
     now = time.localtime()
     t = time.mktime((now.tm_year, now.tm_mon, now.tm_mday, hh, mm, 0, 0, 0, -1))
-    return t if t > time.time() + 300 else t + 86400 if t < time.time() - 3600 else time.time() + 360
+    return t if t > time.time() + min(lead, 300) else t + 86400 if t < time.time() - 3600 else time.time() + lead
 
 
 def main() -> None:
@@ -604,7 +694,14 @@ def main() -> None:
     p.add_argument("--variant-rules", default=None, help="RULES.md of a mock variant")
     p.add_argument("--practice-iterations", type=int, default=1000)
     p.add_argument("--round-iterations", type=int, default=5000)
-    p.add_argument("--shards", type=int, default=40, help="Modal containers per round (local: at most 4)")
+    p.add_argument("--shards", type=int, default=19,
+                   help="Modal shards per round (the app holds at most EMU_MAX_CONTAINERS, default 20, incl. the merge)")
+    p.add_argument("--local-workers", type=int, default=4, help="local rounds: shard processes (at most 4 here)")
+    p.add_argument("--local-concurrency", type=int, default=4, help="local rounds: tables at once per shard process")
+    p.add_argument("--table", choices=sorted(tables.TABLES), default="regional",
+                   help="table format: regional (8 x 2,000, no antes) or finals (6 x 6,000, antes 10/20/4 ...)")
+    p.add_argument("--field-file", default=None,
+                   help="a fixed-bot field: JSON {entries: [{team, bot: folder or zip}]}; no agent teams, no secret")
     p.add_argument("--local-rounds", action="store_true", help="play rounds on this machine instead of Modal")
     p.add_argument("--weights", default="1,2,3,4,5,6", help="round weights; Boston used 1,2,3,5,8,13")
     p.add_argument("--field", default="", help="'finals': the 7 simulated finalists with regional notes (+ avalon = 8)")

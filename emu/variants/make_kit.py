@@ -1,6 +1,6 @@
 """Write a mock starter kit for one mock variant, the way the organizers ship a real one.
 
-    starter-kit/.venv/bin/python emu/variants/make_kit.py <variant_id> <out_dir> [--force]
+    starter-kit/.venv/bin/python emu/variants/make_kit.py <variant_id> <out_dir> [--force] [--table finals]
 
 The kit is a copy of starter-kit/ (no .venv, __pycache__ or local hand histories) where:
   - sdk/engine/src/poker_engine/variants/ holds only __init__.py, the variant's module, its
@@ -13,6 +13,10 @@ The kit is a copy of starter-kit/ (no .venv, __pycache__ or local hand histories
     examples and a scripted sample bot; Bay Area's CASES.md and coverage.json are dropped and
     the README's private-event bullet is rewritten for the variant.
 README.md and AGENTS.md keep the organizers' text.
+With --table finals (emu/tables.py) the kit's table defaults become the Finals' (patch_format): TableRules
+defaults 6 players, 6,000 chips, blinds and antes 10/20/4 .. 2000/4000/800; `poker-agent play` fills 6 seats
+by repeating folders; the README's table bullet says so; the sample is played at 6 seats. --table regional
+(the default) keeps the regional kit's 8 players, 2,000 chips, no antes.
 
 Use the kit without installing it: put its three src folders first on PYTHONPATH (see
 `kit_env`), or install them into a throwaway venv. Variant modules and rules live beside this
@@ -182,7 +186,54 @@ def helpers(module: Path) -> list[str]:
     return sorted({a or b for a, b in found})
 
 
-def build(variant: str, out: Path, force: bool) -> None:
+sys.path.insert(0, str(HERE.parent))
+from tables import FINALS_BLINDS as LEVELS  # noqa: E402  (emu/tables.py: the one place the Finals levels live)
+
+
+def patch_format(kit: Path) -> None:
+    """Table format: 6 players, 6,000 chips, antes, 20 hands per level, 250-hand cap."""
+    table = kit / "sdk/engine/src/poker_engine/table.py"
+    old_levels = "\n".join(
+        f"        ({a}, {b}),"
+        for a, b in [(10, 20), (20, 40), (30, 60), (50, 100), (80, 160), (125, 250), (200, 400),
+                     (300, 600), (500, 1000), (800, 1600), (1200, 2400), (2000, 4000)]
+    )
+    new_levels = "\n".join(f"        ({a}, {b}, {c})," for a, b, c in LEVELS)
+    patch(table, "    BlindLevel(small, big)\n    for small, big in [\n" + old_levels + "\n",
+          "    BlindLevel(small, big, ante)\n    for small, big, ante in [\n" + new_levels + "\n",
+          replace=True)
+    patch(table, "    players: int = 8\n    starting_stack: int = 2000\n",
+          "    players: int = 6\n    starting_stack: int = 6000\n", replace=True)
+    cli = kit / "sdk/agent-sdk/src/poker_agent_sdk/cli.py"
+    patch(cli, '    play.add_argument("--hand-cap", type=int, default=250)\n',
+          '    play.add_argument("--hand-cap", type=int, default=TableRules().hand_cap)\n', replace=True)
+    patch(cli, '    play.add_argument("--decision-ms", type=int, default=1)\n',
+          '    play.add_argument("--decision-ms", type=int, default=TableRules().decision_ms)\n',
+          replace=True)
+    patch(cli,
+          '    seed = arguments.seed or secrets.token_hex(8)\n',
+          '    # Fewer folders than a full table: repeat them in order until every seat is filled.\n'
+          '    bots = [bots[seat % len(bots)] for seat in range(max(len(bots), TableRules().players))]\n'
+          '    seed = arguments.seed or secrets.token_hex(8)\n',
+          replace=True)
+    readme = kit / "README.md"
+    patch(readme,
+          "- 8 players, 2,000 chips each. Blinds rise every 20 hands: 10/20, 20/40, 30/60, 50/100,\n"
+          "  80/160, 125/250, 200/400, 300/600, 500/1000, 800/1600, 1200/2400, 2000/4000\n"
+          "  (the last level repeats).\n",
+          "- 6 players, 6,000 chips each. Every player posts an ante each hand. Blinds and antes\n"
+          "  (small blind/big blind/ante) rise every 20 hands: 10/20/4, 20/40/8, 30/60/12, 50/100/20,\n"
+          "  80/160/32, 125/250/50, 200/400/80, 300/600/120, 500/1000/200, 800/1600/320,\n"
+          "  1200/2400/480, 2000/4000/800 (the last level repeats).\n",
+          replace=True)
+    patch(readme,
+          "`poker-agent play` runs real sit-and-go tables between bot folders (repeat a folder to give it more seats)\n",
+          "`poker-agent play` runs real 6-player sit-and-go tables between bot folders (repeat a folder to give it more\n"
+          "seats; with fewer than 6 folders, they are repeated in order to fill the table)\n",
+          replace=True)
+
+
+def build(variant: str, out: Path, force: bool, table: str = "regional") -> None:
     module, rules = HERE / f"{variant}.py", HERE / f"{variant}.md"
     if variant not in SPECS or not module.is_file() or not rules.is_file():
         raise SystemExit(f"No mock variant {variant!r} in {HERE} (known: {', '.join(SPECS)}).")
@@ -215,9 +266,11 @@ def build(variant: str, out: Path, force: bool) -> None:
     for name in ("CASES.md", "coverage.json"):  # Bay Area's case index for its own sample.
         (out / "hand-history" / name).unlink(missing_ok=True)
     patch_readme(out, variant)
+    if table == "finals":
+        patch_format(out)
     # The sample is played by the kit's own engine, in a child process using the kit's sources.
     subprocess.run(
-        [sys.executable, str(Path(__file__).resolve()), "--sample", variant, str(out)],
+        [sys.executable, str(Path(__file__).resolve()), "--sample", variant, str(out), "--table", table],
         check=True,
         env=kit_env(out),
         cwd=out,
@@ -263,7 +316,7 @@ class Agent(poker_agent_sdk.Agent):
 '''
 
 
-def sample(variant: str, kit: Path) -> None:
+def sample(variant: str, kit: Path, table: str = "regional") -> None:
     """Play the sample's tables on the kit's engine and write hand-history/sample.jsonl(.gz)."""
     import asyncio
 
@@ -289,7 +342,10 @@ def sample(variant: str, kit: Path) -> None:
         ],
     }
     # (players, hand cap, filler seats): full tables, short ones, heads-up, and fillers.
-    layouts = [(8, 60, 0), (8, 60, 0), (6, 60, 0), (8, 40, 2), (3, 60, 0), (2, 80, 0), (8, 250, 0)]
+    if table == "finals":
+        layouts = [(6, 60, 0), (6, 60, 0), (5, 60, 0), (6, 40, 2), (3, 60, 0), (2, 80, 0), (6, 250, 0)]
+    else:
+        layouts = [(8, 60, 0), (8, 60, 0), (6, 60, 0), (8, 40, 2), (3, 60, 0), (2, 80, 0), (8, 250, 0)]
     with tempfile.TemporaryDirectory() as scratch:
         bot = Path(scratch) / "sample_bot"
         bot.mkdir()
@@ -349,11 +405,13 @@ def main() -> None:
     parser.add_argument("out", type=Path)
     parser.add_argument("--force", action="store_true", help="replace an existing out_dir")
     parser.add_argument("--sample", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--table", choices=("regional", "finals"), default="regional",
+                        help="table format: the regional's (8 x 2,000, no antes) or the Finals' (6 x 6,000, antes)")
     args = parser.parse_args()
     if args.sample:
-        sample(args.variant, args.out)
+        sample(args.variant, args.out, args.table)
     else:
-        build(args.variant, args.out.resolve(), args.force)
+        build(args.variant, args.out.resolve(), args.force, args.table)
 
 
 if __name__ == "__main__":
