@@ -86,8 +86,9 @@ asked by the BUILDER session at T-8; decided by the humans):
   played (`live.py`), and the next window compares against it.
 - The practice's download (stage `Round k.5`) lands near T-8: before the decision only `tester`'s field-adjusted
   edge matters; the full analysis loop on it runs after T-3.
-- **Round 1:** the live bot is `tester`'s adjusted best scorer of practices 1-3 (declared at b50 with
-  `scripts/live.py`, no question asked then); practice 4's bot, if different, is the challenger; the edge = each
+- **Round 1:** the live bot is `tester`'s adjusted best scorer of practices 1-3 **among bots whose verdict has a
+  heads-up run at b50**; a higher-ranked bot whose verdict lands by T-4 replaces it by a click, with no question asked
+  (declared at b50 with `scripts/live.py`, no question asked then); practice 4's bot, if different, is the challenger; the edge = each
   bot's practice score minus the yardstick teams' scores in the same practice; the same bars; asked once, at T-8 of
   round 1.
 

@@ -98,7 +98,7 @@ How sure we are of each of these: `EVIDENCE_TABLE.md`.
 | 15 | Test rig running (paired runs, sparring) | RESEARCH (`tester`) |
 | 17, 27, 37, 47 | BUILDER has declared the bot for the next practice (the most informative test) with `scripts/live.py`; 3 minutes before each practice the clock reminds Dylan in its tab and BUILDER tells him the file: upload it, or activate it if it's already uploaded | Dylan |
 | 20, 30, 40, 50 | Practice rounds | |
-| 50 | BUILDER declares `tester`'s adjusted best scorer of practices 1-3 for scored round 1 (`scripts/live.py`; no question then). Practice 4's bot, if different, is round 1's challenger | BUILDER |
+| 50 | BUILDER declares `tester`'s adjusted best scorer of practices 1-3, among bots whose verdict has a heads-up run at b50, for scored round 1 (`scripts/live.py`; no question then). Practice 4's bot, if different, is round 1's challenger | BUILDER |
 | after 50 | Round 1 runs like every window from T-9: Dylan makes the declared bot active (a click: it's already uploaded); the round-1 question is asked once, at T-8 | Dylan, both humans |
 
 **Every window after that.** At Bay Area a practice round started 7 to 10 minutes before each scored round; the
@@ -144,7 +144,7 @@ The full rules are in `DECISION_RULES.md`; they always apply.
 - **Which bot plays:** compared against yardstick teams (those that didn't change), so the challenger's
   practice and the live bot's scored round are on one scale. The challenger plays at z ≥ 0.5 outside the top 3
   (≥ 0 in the last two rounds), z ≥ 1.0 in the top 3 (1.5 when our lead over 4th is more than 3 x the coming round's weight, in standings points). If nobody answers in time,
-  BUILDER applies the rule's answer at T-5. In round 1 the live bot is the adjusted best scorer of practices 1-3
+  BUILDER applies the rule's answer at T-5. In round 1 the live bot is the adjusted best scorer of practices 1-3 among bots whose verdict has a heads-up run at b50
   and the challenger is practice 4's bot, if different.
 - **Exploration:** until 30% of the weight is played, at least every other practice round plays a different
   design, at any standing unless our lead is big.
@@ -234,7 +234,7 @@ each brief is to check and extend the draft in place and list what changed at th
 | | RESEARCH | `tester`: every bot that played practices 1-3 (A, B, C, D, ...) ranked by its practice score minus the yardstick teams' scores in the same practice, adjusting for confounds (which tables each had, practice size, how mature the field was), with replay tests of each on the same downloads; by minute 50 the adjusted best scorer (the round-1 live bot), with a verdict that includes a heads-up run; say which comparison carries the decision. Started on practices 1-2; RESEARCH continues it with practice 3's data when it lands (about minute 45) | a ranking, which RESEARCH sends BUILDER by minute 50 |
 | | RESEARCH | `analyst`: which style did the field reward in practices 1-3, and what are the best teams doing (winners lens)? One paragraph with the numbers, to BUILDER by minute 50 for the round-1 live bot; if no style we built matches what wins, a PLAN CHALLENGE. Continued with practice 3's data like `tester` | a paragraph sent to BUILDER |
 | b47 | BUILDER | itself: as b17, for practice 4 | the pick active by minute 50 |
-| b50 | BUILDER | itself: declare `tester`'s adjusted best scorer of practices 1-3 for scored round 1 (`python3 scripts/live.py vN "round 1: adjusted best scorer"`; it already played, so it's released and uploaded); no question now. Practice 4's bot, if different, is round 1's challenger; the round-1 question is asked once, at T-8 (`DECISION_RULES.md` §3, "Round 1") | `state/live.json`; the round-1 bot made active at T-9 (a click) |
+| b50 | BUILDER | itself: declare `tester`'s adjusted best scorer of practices 1-3, among bots whose verdict has a heads-up run at b50 (a higher-ranked bot whose verdict lands by T-4 replaces it by a click, no question asked), for scored round 1 (`python3 scripts/live.py vN "round 1: adjusted best scorer"`; it already played, so it's released and uploaded); no question now. Practice 4's bot, if different, is round 1's challenger; the round-1 question is asked once, at T-8 (`DECISION_RULES.md` §3, "Round 1") | `state/live.json`; the round-1 bot made active at T-9 (a click) |
 | | RESEARCH | itself: the round-1 recommendation by T-9, like every window: the edge = each bot's practice score minus the yardstick teams' scores in the same practice; the same bars | "RECOMMENDATION round 1" sent to BUILDER |
 
 **Every scored window** (`T<n>` = minutes before the scored round)

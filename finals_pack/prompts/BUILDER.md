@@ -132,7 +132,7 @@ running before you spawn anything.
   before any upload test (say "no local match or Monte Carlo runs until HH:MM; Modal clients are fine"); an upload test counts only next to the kit's `check_or_fold` run in the same minute.
 - When a practice result lands (inbox), read `analysis/<stage>/card.md` and `field_trend.md` (stage with spaces as
   '-', e.g. `analysis/Practice-1/`) and RESEARCH's read.
-- **Round 1** (DECISION_RULES §3 "Round 1"): at minute 50, once practice 4 has started, `live.py` the tester's adjusted best scorer of practices
+- **Round 1** (DECISION_RULES §3 "Round 1"): at minute 50, once practice 4 has started, `live.py` the tester's adjusted best scorer, among bots whose verdict has a heads-up run at b50, of practices
   1-3 (no question then); practice 4's bot, if different, is the challenger. The round-1 question is asked once, at
   T-8 of round 1, like every other window.
 
