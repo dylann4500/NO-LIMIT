@@ -93,7 +93,7 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
   scores); under 4 yardsticks, scores minus the field median (say so); pool the challenger's practices when its core
   is unchanged; SE of the edge: with 6 or more yardsticks, the standard deviation of their own (practice score − last scored
   score) times √(1 + 1/number of yardsticks); with fewer, 0.8; never below 0.7 (0.8 and 0.7 times the day's multiplier,
-  DECISION_RULES §2 rule 3); z = edge / SE; give the edge in points too and say so if the SE is above 1.0. Write `rig/out/<stage>-edge.md`, and give
+  DECISION_RULES §2 rule 3); z = edge / SE; give the edge in points too and say so if the SE is above 1.0. Every score comes from the round's `results.json`, never from a hand file. Write `rig/out/<stage>-edge.md`, and give
   the practice score the challenger needs as soon as the live side's numbers exist.
 - **T-6, on the chosen zip:** the upload test with no time bank (2 players, 20 hands, time bank 0, vs the kit's
   check-or-fold, several seeds; vs a call-everything bot so the twist fires). The kit's command-line runner can't

@@ -68,6 +68,7 @@ asked by the BUILDER session at T-8; decided by the humans):
   compare each with **yardstick teams**, the teams `scout`'s drift check says did not change bot between the two
   rounds: edge = (challenger's practice score − the yardsticks' practice scores) − (live bot's last scored score
   − the yardsticks' scored scores). With fewer than 4 yardsticks, use scores minus the field median, and say so.
+  Every score in this comparison is taken from the round's results file (`results.json`), never from a hand file.
   Pool the challenger's practice rounds when its core is unchanged. SE of the edge: the standard deviation of the yardstick teams' own (practice score − last scored score),
   times √(1 + 1/number of yardsticks), when there are 6 or more yardsticks; with fewer, 0.8. Never below 0.7. z = edge /
   SE. Give the edge in points too, and say so if the SE is above 1.0. (0.8 and 0.7 are points per table at 8 seats and
