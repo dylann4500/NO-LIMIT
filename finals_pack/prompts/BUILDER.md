@@ -198,8 +198,8 @@ this window's live bot unless it is already a validated `one-change` line with a
   (SendMessage to its id) so it keeps its context; start a fresh one if it errored, drifted or its context is long.
   Exceptions: a fresh `bughunter` for every release; a fresh `challenger` for design D.
 - Independent work runs in parallel (several subagents in one message, each in its own folder). Only `platform`
-  touches `bot/` and `releases/`; only you ask for a release, and with more than one platform run live you give the
-  version number in the brief. A release is made for a pick or for a fix to a pick; a build that is neither stays a
+  touches `bot/` and `releases/`; only you ask for a release, and you give its
+  version number in the brief (two platform runs are live from minute 0). A release is made for a pick or for a fix to a pick; a build that is neither stays a
   candidate in its folder until you ask for it (15 releases in 19 minutes left most verdicts on superseded bots).
 - When a subagent reports, check its claims (open the file, run the check) before you tell anyone. A bug a
   `bughunter` reproduces goes to `platform` first; one in a table or rule that came from `theory/` goes to RESEARCH

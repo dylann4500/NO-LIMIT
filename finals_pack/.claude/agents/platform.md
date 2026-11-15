@@ -145,8 +145,8 @@ its folder. **Every release:** the zip and its VERSIONS line appear in the same 
 disk 2-3 minutes before its line three times in a timed run); checks 1-2 and the upload test on the exact zip, always (hard rule). A bot plays a scored round only with
 a `tester` verdict that includes a heads-up run (RESEARCH spawns one tester per release); the verdict of record is the tester's own file
 `rig/out/verdict-vN.md`, which you never copy: the VERSIONS line says "tester: pending" until that file exists and
-"tester: rig/out/verdict-vN.md" from your next commit after it does. Name = the next free vN in `releases/VERSIONS.md`, or the number BUILDER's brief gives when more than one platform run
-can release (two runs once appended v9 and v10 at the same moment); a release replaced before anyone reviewed it
+"tester: rig/out/verdict-vN.md" from your next commit after it does. Name = the number BUILDER's brief gives (two platform runs are live from minute 0, and two runs once appended v9 and
+v10 at the same moment); with no number given, ask before taking the next free vN in `releases/VERSIONS.md`; a release replaced before anyone reviewed it
 keeps its line, marked "superseded by vN before review"; pack only the bot, and for a candidate only the bytes its builder reported (check the sha256, or the git blob of its
 style file, against the report: a style changed 18 seconds after its release was packed). The zips are git-ignored and
 stay on this laptop: commit with explicit paths (`git add bot/ candidates/<folders used>`), then add the VERSIONS.md
