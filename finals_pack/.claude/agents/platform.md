@@ -60,7 +60,7 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
   landed: `analysis/field_priors.json` (seat priors); `analysis/counters.json` and the recogniser data behind `FP_ON`,
   `CTR_<team>`, `ANTI_ADAPT_<team>`, `DISGUISE_*` (default off, outside the change count); the live-bot changes BUILDER
   names (stylist's `fix-*`, `ctr-*` folders), each behind its own setting with a branch count.
-- **T-6:** the chosen bot through the upload test with no time bank; release it if it's a new zip. **T-4** is the
+- **T-6:** the chosen bot through the upload test with no time bank; release it if it's a new zip. **T-4:00** is the one switch deadline and the
   cut-off: not released and tested (with a `tester` verdict that includes a heads-up run), the live bot plays; report
   the cause. **T-3:** confirm the exact file.
 - **Last round** (29% of all points with multipliers 1 to 6, 41% with Fibonacci, 51% with powers of two; the Finals was set to 1 to 6 on Saturday afternoon, re-read at minute 0): durable fixes plus any held-back exploit BUILDER names; same tests.

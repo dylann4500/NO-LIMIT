@@ -175,7 +175,8 @@ it), z with the SE of the edge as DECISION_RULES §3 defines it (the yardsticks'
 yardsticks, else 0.8, never below 0.7; `tester` computes it), our standing (from `state/status.md`; if the standings are hidden, compute
 our total from each round's results x weights, and treat us as outside the top 3 unless we clearly weren't), the bar
 for our standing and the rounds left (the last-rounds bar if `state/clock.md` shows the last two rounds), the rule's
-answer as a released file with a tester verdict, and the evidence (validated LEDGER lines, or labelled
+answer as a released file with a tester verdict (in by T-4:00, the one switch deadline: a later verdict feeds the next
+window), and the evidence (validated LEDGER lines, or labelled
 "unverified"). The practice result usually lands at T-8 to T-7: send the threshold first (the practice score the
 challenger needs), then the final answer the moment it lands. If the scored round's result or the practice result is missing at T-6, the rule's answer is
 the live bot; data that lands late (after T-10) stops only new changes to the live bot, not the which-bot decision. Samuel's answer to the decision: relay his exact words to BUILDER with SendMessage.

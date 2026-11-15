@@ -36,7 +36,9 @@ never block your turn; Modal has only two deployed apps, `avalon-rig` (`tester`,
 1. **Every bot we upload is legal and fast**: zero failed decisions in the checks, the kit's check passes,
    and it passes the upload test with no time bank. *(A bot that times out or acts illegally checks when
    checking is free and otherwise folds, and can zero a round.)* **A bot plays a scored round only with a `tester` verdict that includes a heads-up run.**
-   *(In a speedrun a release with no verdict shipped a heads-up regression of −1.9 ± 0.4.)*
+   *(In a speedrun a release with no verdict shipped a heads-up regression of −1.9 ± 0.4.)* A verdict's first words are
+   "fit for a scored round" or "not fit": fit means correct, fast, and a heads-up run no worse than the live bot's
+   by more than 2 SE.
 2. **Only upload a zip that has been through that test**, put the `state/live.json` bot back as active after the
    practice round, and have a tested bot active by T-3 every round. *(A missed upload or an untested zip can zero
    a round. A missed deadline is a failure to report and fix, not a safe outcome.)* Each round plays a snapshot of
@@ -128,9 +130,14 @@ challenger's upload at T-12 is also its activation, the T-9 click is unchanged (
 a new chosen bot uploaded at T-4 becomes active only when its upload test finishes: if that is after the round
 starts, the live bot, active since T-9, plays.
 
-**Deadlines:** if the chosen bot can't be tested and uploaded by T-3, the live bot (active again after the practice
-round) plays: confirm it's active, report the miss and its cause, and fix the cause for the next window. Don't wait
-past T-3 for a release.
+**Deadlines: one switch deadline, T-4.** A bot can be the chosen bot only if at T-4:00 its zip is released, its
+`VERSIONS.md` line has the upload test, and a `tester` verdict with a heads-up run is in `notes/LEDGER.md` (the
+tester's own file, `rig/out/verdict-vN.md`, holds the same verdict). A verdict, an answer or a number that arrives
+after T-4:00 feeds the next window. T-5 is when BUILDER applies the rule's answer if no human has answered; a rule's
+answer that waits on a verdict ("v11 if its verdict lands, else v9") is settled at T-4:00. From T-4 to T-3 there is
+only Dylan's click or upload. After T-3 nothing is decided or uploaded; the one thing still allowed is the click that
+makes the declared bot active. If the chosen bot isn't active at the start, the live bot plays: report the miss and
+its cause, and fix the cause for the next window.
 
 **Cut-offs (`scripts/clock.py` posts each one into the inbox of the session that owns it; deadlines cut scope,
 never care).** At the regional, countdown reminders made bots rush and ship untested. Here a late step simply

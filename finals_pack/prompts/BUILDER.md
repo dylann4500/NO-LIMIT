@@ -148,9 +148,9 @@ running before you spawn anything.
 | T-9 | Tell Dylan: "put vL back now" (the `state/live.json` bot; a click), once the practice round's "started" line is in your inbox: a click before it starts makes the practice play the live bot. If none has started by the T-8 step, put it back anyway. RESEARCH's recommendation arrives (the threshold first; the final answer when the practice result lands, about T-8 to T-7). |
 | T-8 | **Ask the decision** (below), deadline T-5, with the rule's answer. |
 | T-6 | `platform`: the chosen bot through the upload test with no time bank; released if it's a new zip. |
-| T-5 | No clear human answer: apply the rule's answer (`live.py`), say so in one line. |
-| T-4 | Cut-off: if the chosen bot isn't released and tested with a tester verdict (`rig/out/verdict-vN.md` exists and says so), the live bot plays; nothing is uploaded. |
-| T-3 | Dylan uploads or activates the chosen bot (a zip uploaded now is active only when its upload test ends); confirm in `state/status.md` that the portal runs it. After this nothing changes. |
+| T-5 | No clear human answer: apply the rule's answer (`live.py`), say so in one line. An answer that waits on a verdict ("v11 if its verdict lands, else v9") is settled at T-4:00. |
+| T-4 | The one switch deadline: a bot can be the chosen bot only if at T-4:00 its zip is released, its `VERSIONS.md` line has the upload test and a tester verdict with a heads-up run is in the LEDGER (`rig/out/verdict-vN.md` says "fit for a scored round"). Anything that arrives later feeds the next window; otherwise the live bot plays and nothing is uploaded. |
+| T-3 | Dylan uploads or activates the chosen bot (a zip uploaded now is active only when its upload test ends); confirm in `state/status.md` that the portal runs it. After T-3 nothing is decided or uploaded; the one thing still allowed is the click that makes the declared bot active. |
 
 Between steps: keep subagents fed, answer Dylan, and make sure the challenger line never stops.
 
