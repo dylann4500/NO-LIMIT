@@ -143,7 +143,7 @@ The full rules are in `DECISION_RULES.md`; they always apply.
   measured mix, what a plan challenge points to, or a fresh rewrite. A rewrite is normal at any standing.
 - **Which bot plays:** compared against yardstick teams (those that didn't change), so the challenger's
   practice and the live bot's scored round are on one scale. The challenger plays at z ≥ 0.5 outside the top 3
-  (≥ 0 in the last two rounds), z ≥ 1.0 in the top 3 (1.5 with a big lead). If nobody answers in time,
+  (≥ 0 in the last two rounds), z ≥ 1.0 in the top 3 (1.5 when our lead over 4th is more than 3 x the coming round's weight, in standings points). If nobody answers in time,
   BUILDER applies the rule's answer at T-5. In round 1 the live bot is the adjusted best scorer of practices 1-3
   and the challenger is practice 4's bot, if different.
 - **Exploration:** until 30% of the weight is played, at least every other practice round plays a different

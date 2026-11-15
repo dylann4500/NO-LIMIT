@@ -71,8 +71,8 @@ asked by the BUILDER session at T-8; decided by the humans):
 - Play the challenger if it passed rule 2.1 and:
   - **we are outside the top 3, or the standings are hidden and we weren't clearly in it**: z ≥ **0.5**
     (**the last-rounds bar**: z ≥ 0 in the last two rounds: a coin flip with upside beats certain 4th);
-  - **we are in the top 3**: z ≥ **1.0**, or z ≥ 1.5 if our lead over 4th is more than one round's typical
-    swing (about 3 points per table times the round's weight share).
+  - **we are in the top 3**: z ≥ **1.0**, or z ≥ 1.5 if our lead over 4th on the standings is more than 3 x the
+    coming round's weight, in the standings' own points (before a round of weight 4: more than 12).
 - Otherwise the live bot plays, with this window's changes (below).
 - BUILDER writes the question in `state/decisions.md` and asks it in its terminal, with the rule, both bots'
   numbers and the rule's answer. The rule's answer plays at T-5 if no human has answered (BUILDER applies it with
@@ -102,7 +102,7 @@ alternatives alive and re-choose as results come in.
   round 1 only scored-round bots are declared: see "Uploads").
 - **Until 30% of the total weight has been played:** at least every other practice round plays a *divergent*
   challenger (a different style class or a rewrite, not the live bot plus tweaks), even when we're in the top 3,
-  unless our lead over 4th is more than one round's typical swing.
+  unless our lead over 4th is that big (more than 3 x the coming round's weight, as defined above).
 - **After that:** `challenger` keeps one divergent line alive as insurance against a field shift; raise the
   budget again whenever a PLAN CHALLENGE stands or we are behind 3rd.
 - Divergent candidates are judged by the real field (practice rounds). The cloned field may veto one only if it
