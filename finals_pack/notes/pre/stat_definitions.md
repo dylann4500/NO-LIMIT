@@ -20,7 +20,8 @@ The definitions behind the regional reference values in `field.md` Appendix A.
   shown alone only with its standard error (5-11 points). Class labels need 300 hands dealt and 30 chances of
   each rate used.
 - **Stack depth**: the actor's chips behind plus chips in on this street, over the big blind, when it acts.
-  Bands: 10bb or less; over 10 to 15; over 15 to 20.
+  Bands: 10bb or less; over 10 to 15; over 15 to 20. Nothing here bands the
+  depth above 20bb: add bands for it on Sunday (with 300 big blinds at the start, most early decisions are there).
 - Multiway pots and all-in situations are included unless a row says otherwise.
 - **VPIP and PFR** (the class labels and the "teams that raise" filter use them): of the hands a seat starts with
   chips, those where it calls or raises before the flop (VPIP) and those where it raises before the flop, all-in
