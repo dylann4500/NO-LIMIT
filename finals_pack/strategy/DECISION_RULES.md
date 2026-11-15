@@ -69,7 +69,9 @@ asked by the BUILDER session at T-8; decided by the humans):
   SE. Give the edge in points too, and say so if the SE is above 1.0. (0.8 and 0.7 are points per table at 8 seats and
   50/30/20: times the day's multiplier, §2 rule 3.)
 - Play the challenger if it passed rule 2.1 and:
-  - **we are outside the top 3, or the standings are hidden and we weren't clearly in it**: z ≥ **0.5**
+  - **we are outside the top 3** (if the portal's standings are held, the standings are `tester`'s totals for all 21
+    teams from each round's results x weights; only if those can't be computed either are we treated as outside the
+    top 3): z ≥ **0.5**
     (**the last-rounds bar**: z ≥ 0 in the last two rounds: a coin flip with upside beats certain 4th);
   - **we are in the top 3**: z ≥ **1.0**, or z ≥ 1.5 if our lead over 4th on the standings is more than 3 x the
     coming round's weight, in the standings' own points (before a round of weight 4: more than 12).

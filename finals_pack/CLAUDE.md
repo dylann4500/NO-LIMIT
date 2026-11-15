@@ -233,7 +233,8 @@ was used at the regional, and neither was set for the Finals on Saturday afterno
 `comp_settings`), that round's results and our own bot's health report are held until the organizers reveal them:
 nothing from it reaches us. When the leaderboard is held, the standings are hidden and every round that finishes
 during the hold has its results held too, practice rounds included. What we do is already written: with the
-standings hidden we count as outside the top 3 unless we were clearly in it, and with no practice result by T-6 the
+standings held, `tester` works them out for all 21 teams from each round's results x weights, and only if that can't be
+done do we count as outside the top 3, and with no practice result by T-6 the
 rule's answer is the live bot (`DECISION_RULES.md` §3, `prompts/RESEARCH.md`).
 
 **Round multipliers.** A round's points count times its multiplier, and the series is one of three: linear (1 to

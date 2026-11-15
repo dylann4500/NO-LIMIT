@@ -776,9 +776,9 @@ class Watcher:
             if held and not self.st.get("standings_held"):
                 self.st["standings_held"] = True
                 self.say("both", "the portal marks the standings as held: totals may be stale. Until they're back, "
-                                 "DECISION_RULES treats us as outside the top 3 unless we were clearly in it; RESEARCH works "
-                                 "out our total from each round's results x weights (rounds that finish during the hold have their "
-                                 "results held too: no score for those until release).")
+                                 "RESEARCH has tester work the standings out for every team from each round's results x weights; "
+                                 "only if that can't be done does DECISION_RULES treat us as outside the top 3 (rounds that finish "
+                                 "during the hold have their results held too: no score for those until release).")
             elif not held and self.st.get("standings_held"):
                 self.st["standings_held"] = False
                 self.say("both", "the standings can be read again.")
@@ -787,9 +787,9 @@ class Watcher:
             if not self.st.get("standings_held"):
                 self.st["standings_held"] = True
                 self.say("both", f"the standings can't be read ({type(e).__name__}: {str(e)[:80]}): the leaderboard may "
-                                 "be held. Active-bot checks continue. Until it's back, DECISION_RULES treats us as outside "
-                                 "the top 3 unless we were clearly in it; RESEARCH works out our total from each round's "
-                                 "results x weights.")
+                                 "be held. Active-bot checks continue. Until it's back, RESEARCH has tester work the standings "
+                                 "out for every team from each round's results x weights; only if that can't be done does "
+                                 "DECISION_RULES treat us as outside the top 3.")
             return self.st.get("standings") or []
 
     def watch_competition(self) -> None:

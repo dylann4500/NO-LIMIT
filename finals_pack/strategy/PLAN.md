@@ -153,8 +153,8 @@ The full rules are in `DECISION_RULES.md`; they always apply.
   alternative for the next practice.
 - **Folding to re-raises:** near break-even (usually 65-75% in case R, about 59-68% with case F's antes) is the default, not a cap (the regional winner
   folded 81-87%); it doesn't apply to folding to 4-bets after our own light 3-bets.
-- **Standings or results held:** work out our total from each round's results and multipliers; where that can't be
-  done we count as outside the top 3 unless we were clearly in it, and with no practice result by T-6 the rule's
+- **Standings or results held:** `tester` works out all 21 teams' totals from each round's results and multipliers; only
+  where that can't be done do we count as outside the top 3, and with no practice result by T-6 the rule's
   answer is the live bot. The last round's results may be held altogether (`CLAUDE.md` §8).
 - **Bolder:** behind 3rd, or outside the top 3 after 15% of the weight: the challenger slot carries a divergent
   design and the bar drops; plan the last round (29% of all points with multipliers 1 to 6, 41% with Fibonacci, 51% with powers of two; the Finals was set to 1 to 6 on Saturday afternoon, re-read at minute 0) from the round before.
