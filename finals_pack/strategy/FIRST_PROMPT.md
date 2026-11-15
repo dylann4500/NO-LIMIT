@@ -529,9 +529,7 @@ For showdown-based rates, remember that shown hands are selected: whether a bet 
 caller's cards and the public history, and earlier bets are shown only when the bettor kept going. Count
 how often each team gives up after betting (that's public), treat unseen hands as the weak end, and keep a
 low and a high estimate of its bluff share; use the middle unless a decision is close.
-Sizes can be copied: before a team's profile moves a decision far from the field's, check that the seat's
-live open and re-raise rates at this table fit that team, and if they don't, fall back to the field's
-rates. Compare sizes in bins (about a quarter of a big blind for opens, a tenth of the pot for bets).
+Sizes can be copied: before a team's profile moves a decision far from the field's, check that the seat's live open and re-raise rates at this table fit that team, and if they don't, treat the seat as unknown (`FINGERPRINTING.md` §1: the field's rates plus its own counts). Compare sizes in bins (about a quarter of a big blind for opens, a tenth of the pot for bets).
 Teams change, between rounds and within a table, so nothing in a profile is constant:
 - Between rounds: keep each team's rates per round, weight the newest round most, and flag every rate
   that moved by more than its noise since the round before. Use the newest round's level; don't
