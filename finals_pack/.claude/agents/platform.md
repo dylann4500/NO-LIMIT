@@ -124,7 +124,8 @@ raises on every street: street, preflop raiser, every dead and known card. (10) 
 hands against the mixed field the packed zip opens at least once, takes the twist's non-default action at least once
 and reports at least one firing of a style hook; a style whose import fails or whose hook raises fails the pack. A
 candidate that never opens or never uses the twist fails the check, whatever else passes (in a timed run the base
-called no style hooks, and three styles passed every check playing pure check-fold). (11) the deep all-in call: with 3
+called no style hooks, and three styles passed every check playing pure check-fold). v1, the minimal bot, is exempt by
+name: its VERSIONS line says "placeholder: not live by design, never plays a scored round". (11) the deep all-in call: with 3
 or more players, facing an all-in after an open and callers at 30bb or more to call, AA never folds; count KK and QQ. (12) **every
 packed table is read**: the check run's report counts reads per table over about 200 hands, and a table with no
 reads fails the pack unless the VERSIONS line names it as deliberately unused (a table that is never looked up fails

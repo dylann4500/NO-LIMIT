@@ -106,7 +106,8 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
 heads-up run no worse than the live bot's by more than 2 SE (DECISION_RULES §2 rule 1). A verdict that lands after
 T-4:00 feeds the next window. First, is it alive: over about 200 hands the candidate must open at least once and take the twist's
 action at least once, and two different zips must act differently on the same deals; if not, the verdict is "bug:
-not live" and no strength number is given. Correct: crashes, illegal actions, timeouts, memory, miscounted statistics (scripted sequences), and
+not live" and no strength number is given. v1, the minimal bot, is the one exception: its verdict says "not live by
+design" and is about legality and speed only; nobody reads its score as strength. Correct: crashes, illegal actions, timeouts, memory, miscounted statistics (scripted sequences), and
 the fixed spot both timed runs got wrong: facing an all-in after an open and callers with 3 or more players, deep, AA
 never folds (count the folds of AA, KK and QQ over a few thousand such spots; sparring fields rarely reach it), and
 heads-up the bot's position agrees with the blind amounts and its button raises first in more than 0% of the time (the
