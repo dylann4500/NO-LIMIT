@@ -104,7 +104,8 @@ hand-history README; `state.config`; where two of its files disagree, test what 
   once; when the bettor covers us, only the matched part is ours.
 - **Settings:** every change and adaptive rule is a named setting with a branch count; old behaviour stays the default
   until BUILDER decides. **Shared defaults are a report, not a gate:** count open-limps, flat calls of opens at 10bb+
-  outside the big blind, first-in non-shove raises under 12bb, one-pair calls of raises.
+  outside the big blind, first-in non-shove raises under 12bb, one-pair calls of raises. A counted flat call behind
+  which the style states its postflop plan is not a defect.
 
 **The checks** (numbers, never "passed"): (1) the zip imports from an empty folder; heads-up vs the kit's
 check-or-fold, 20 hands, time bank 0: 0 failed decisions on several seeds; the same vs a call-everything bot, counting

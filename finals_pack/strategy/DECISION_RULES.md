@@ -276,7 +276,8 @@ that counter-wave.
 
 **Plan assumptions** (`scout` checks each against every download; a field rate 2 points or more outside its band in two downloads running, or a score off by 2 SE or more, is a PLAN CHALLENGE):
 1. The field folds to 3-bets of our opens at about 60-70%.
-2. Open-limping and flat-calling opens at 10bb+ lose money in this field.
+2. Open-limping loses money in this field, and so does flat-calling opens at 10bb+ without a stated postflop plan
+   (flat calls are allowed where the style states the plan behind them; the check run still counts them).
 3. The field open-shoves 35-50% of first-in chances at 10bb or less.
 4. After the flop, big bets and raises are mostly strong hands (one pair should fold to raises).
 5. Our base style is the best response to the field's measured mix (no style the top 5 share beats it).

@@ -163,8 +163,8 @@ Treat these as starting values to be replaced by today's data, not as truths abo
   last round), so
   wide re-raises against openers who fold are profitable. But every raise needs a plan for being
   re-raised: a bot of ours that 3-bet 58% of hands and then folded 96% of the time to the next raise lost
-  10 points per table. Raise or fold before the flop; limping and flat-calling raises lost money for
-  almost every bot we measured, except cheap big-blind defence.
+  10 points per table. Raise or fold before the flop unless the style states the postflop plan behind a flat call: limping, and flat
+  calls with no such plan, lost money for almost every bot we measured, except cheap big-blind defence.
 - After the flop, big bets and raises from these bots are strong hands far more often than bluffs. Calling
   down raises with one pair was the single most common leak in 17 of 30 bots that reviewed their own
   histories, and ours cost us our placing. Fold one pair to raises and to large late bets unless that
@@ -285,8 +285,8 @@ HOW TO WORK
   All three share the post-flop equity logic (fold to bets near break-even, adjusted per seat).
   Shared defaults (from the measured priors above; every style keeps them unless its design deliberately
   overrides one and says so in VERSIONS.md): no open-limping (a limp-or-jam style limps by design, with its
-  planned re-shove); no flat-calling an open at 10 big blinds or more except big-blind defence at the right
-  price; shove-or-fold first in at about 12 big blinds or less (a case-R depth); fold one pair to raises and to large late
+  planned re-shove); flat calls of an open at 10 big blinds or more are allowed where the style states the postflop plan behind them
+  (big-blind defence at the right price needs none), and the check run still counts them; shove-or-fold first in at about 12 big blinds or less (a case-R depth); fold one pair to raises and to large late
   bets unless that seat is shown to bluff. The check run counts each (open-limp rate, flat calls of opens at
   10bb+ outside the big blind, first-in non-shove raises under 12bb, one-pair calls of raises) and reports it;
   a style that breaks one must say whether that is intended. If today's field pays for limping or flat-calling
@@ -393,7 +393,8 @@ after the hand minus before (both are in the file). Compare actions only within 
 before the flop only within the same position: pooled across positions, big-blind calls against other
 seats' folds looked like a 0.76-point leak that was really about 0.1.
 
-Before the questions, the defaults check (one line each, ours vs the field): open-limp rate; flat calls of an
+Before the questions, the defaults check (one line each, ours vs the field; a flat call with a stated postflop plan
+is counted, not flagged): open-limp rate; flat calls of an
 open at 10bb+ outside the big blind; first-in raises that aren't all-in under 12bb; one-pair calls of raises
 and large late bets. Flag any of ours that is far from the field and not intended by the live bot's style.
 
