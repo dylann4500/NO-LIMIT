@@ -34,8 +34,9 @@ GIT = r"\bgit(?:\s+-[Cc]\s+\S+)*\s+"
 DANGER = [
     (r"\brm\s+(?:-\S*[rR]|--recursive)", "a recursive delete outside the repo and /tmp (or of a whole shared folder)"),
     (r"\bfind\b[^\n]*\s-delete\b", "find -delete outside the repo and /tmp"),
+    (r"\bfind\b[^\n]*\s-exec(?:dir)?\s+rm\b", "find -exec rm outside the repo and /tmp"),
     (r"rmtree", "rmtree of a folder outside the repo and /tmp"),
-    (r"\bunlink\b", "unlink outside the repo and /tmp"),
+    (r"(?<![.\w])unlink\s+(?!\()", "unlink outside the repo and /tmp"),   # the shell command (not os.unlink(p))
     (GIT + r"push\b[^\n;&|]*(?:--force|\s-f\b|\s\+\S)", "a force push"),
     (GIT + r"reset\b[^\n;&|]*--hard", "git reset --hard"),
     (GIT + r"clean\b[^\n;&|]*\s-\w*f", "git clean -f"),
@@ -141,8 +142,20 @@ def scrub_deletes(cmd: str, project: str, cwd: str) -> str:
     def inside(t: str, cwd_: str) -> bool:
         if re.match(r"^\$\{?TMPDIR\}?/[^*?\[]", t):
             return True
-        if "$" in t or "`" in t:
-            return False
+        if "$(" in t or "`" in t:
+            return False      # a command's output: anything
+        if "$" in t:
+            # an unknown variable: judge the literal part before it. "/tmp/x-$k" or "$SP/run/$v" (SP set earlier in
+            # this command) stays inside its folder whatever the variable holds; "$X/y", "/tmp/$k" or "data/$k"
+            # could be a top-level folder (or the root) when the variable is empty: refused
+            lit = t[:t.find("$")]
+            if not lit or lit.endswith("/"):
+                return bool(lit.strip("/")) and inside(lit.rstrip("/"), cwd_)
+            lp = _abs(lit, cwd_)
+            stem = os.path.join(real(os.path.dirname(lp)), os.path.basename(lp))
+            if any(x.startswith(stem) for x in prot):     # "dat$x" could be data/, "rel$x" releases/
+                return False
+            return inside(lit, cwd_)
         p = _abs(t, cwd_)
         p = os.path.join(real(os.path.dirname(p)), os.path.basename(p)) if not any(c in p for c in "*?[") else p
         judge = p
@@ -158,22 +171,40 @@ def scrub_deletes(cmd: str, project: str, cwd: str) -> str:
             return False
         return True
 
-    out = []
-    for part in re.split(r"(&&|\|\||;|\||\n)", cmd):
+    out, env = [], {}
+
+    def sub(t: str) -> str:   # $NAME / ${NAME} set earlier in this same command (SP=/private/tmp/...; rm -rf $SP/x)
+        return re.sub(r"\$\{?(\w+)\}?", lambda m: env.get(m.group(1), m.group(0)), t)
+
+    for part in re.split(r"(&&|\|\||(?<!\\);|\||\n)", cmd):
         try:
             toks = shlex.split(part)
         except ValueError:
             out.append(part)
             continue
+        while toks and toks[0] in ("do", "then", "else", "{", "(", "!", "export"):   # the command follows the keyword
+            toks = toks[1:]
+        if toks and all(re.fullmatch(r"\w+=\S*", x) for x in toks):   # NAME=value on its own: remembered
+            for x in toks:
+                k, v = x.split("=", 1)
+                env[k] = sub(v)
+            out.append(part)
+            continue
         while toks and re.fullmatch(r"\w+=\S*", toks[0]):
             toks = toks[1:]
+        toks = [sub(x) for x in toks]
+        if toks and (toks[0] in ("grep", "egrep", "fgrep", "rg", "ag", "ack") or toks[:2] == ["git", "grep"]) \
+                and "$(" not in part and "`" not in part:
+            continue      # it only reads: a pattern like "rmtree" or "rm -rf" is text
         if toks and toks[0] == "cd" and len(toks) > 1:
             cwd = _abs(toks[1], cwd)
         if toks and toks[0] in ("rm", "unlink"):
             targets = [t for t in toks[1:] if not t.startswith("-")]
             if targets and all(inside(t, cwd) for t in targets):
                 continue
-        if toks and toks[0] == "find" and "-delete" in toks and len(toks) > 1 and ("-name" in toks or "-iname" in toks):
+        ex = toks.index("-exec") if "-exec" in toks else -1     # find ... -exec rm -rf {} +: as find -delete
+        if toks and toks[0] == "find" and len(toks) > 1 and ("-name" in toks or "-iname" in toks) and \
+                ("-delete" in toks or toks[ex + 1:ex + 2] == ["rm"] and ex > 0):
             base = _abs(toks[1], cwd)   # selected files only
             if any(base == r or base.startswith(r + "/") for r in safe) and not base.startswith(os.path.join(project, ".git")):
                 continue

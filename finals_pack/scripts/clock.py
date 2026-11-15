@@ -41,6 +41,7 @@ from say import post  # noqa: E402
 
 DEFAULTS = {"build": 60, "gap": 20, "scored": 6, "scale": 1.0}
 EARLY = ("b0", "b10", "b15")      # build steps that still fire when minute 0 is set late
+WATCHER_DEAD_S = 300              # the portal watcher hasn't polled for this long: said once; windows aren't held
 SHAPE = ("start", "build", "gap", "scored", "scale", "round_at")
 
 
@@ -811,6 +812,23 @@ class Daemon:
                     quiet(f"schedule changed: minute 0 {hms(float(s['start']))}, scored rounds at "
                           + ", ".join(hhmm(t) for t in round_starts(s)))
             seen = read_seen(root)
+            # a window is held for a late round only while the portal watcher is alive; a dead watcher is said once
+            last_poll = float((load_json(sp(root, "portal.json"), {}) or {}).get("last_poll") or 0)
+            alive = bool(last_poll) and now - last_poll < WATCHER_DEAD_S
+            hold_seen = seen if alive else {}
+            rs0 = round_starts(s)
+            wk = f"{int(float(s['start']))}:watchdog:{int(last_poll)}"
+            if (last_poll and not alive and wk not in sent and rs0
+                    and float(s["start"]) <= now <= rs0[-1] + 20 * unit(s)):
+                sent.add(wk)
+                changed = True
+                msg = (f"the portal watcher hasn't checked the portal since {hms(last_poll)} "
+                       f"({(now - last_poll) / 60:.0f} min): is its terminal tab still running? Restart it there: "
+                       "python3 scripts/portal_watch.py (it resumes from state/). Until then no results, hand data or "
+                       "active-bot alarms arrive, and the clock doesn't hold a window for a late round.")
+                self.say("both", msg)
+                if self.echo:
+                    loud("DYLAN + SAMUEL: " + msg, now)
             s2, notes = autopin(s, seen, now)
             if notes:
                 write_json(sp(root, "schedule.json"), s2)
@@ -830,7 +848,7 @@ class Daemon:
                 grace = max(5 * U, rs[0] - m["at"]) if m["key"] in EARLY else 5 * U
                 if not (m["at"] <= now < m["at"] + grace):
                     continue
-                if m["kind"] == "T" and held(s, m["k"], seen, now):
+                if m["kind"] == "T" and held(s, m["k"], hold_seen, now):
                     hk = f"{tk}:hold{m['k']}"
                     if hk not in sent:
                         sent.add(hk)
@@ -853,7 +871,7 @@ class Daemon:
                 fired.append(m["key"])
                 changed = True
             gbefore = json.dumps(gst, sort_keys=True)
-            for to, text, human in guard_tick(s, root, now, gst, seen):
+            for to, text, human in guard_tick(s, root, now, gst, hold_seen):
                 self.say(to, text)
                 if human and self.echo:
                     loud(human, now)

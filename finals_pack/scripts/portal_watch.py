@@ -269,7 +269,27 @@ class Watcher:
             comps = {c.get("id"): c for c in ((self.get("/competitions") or {}).get("items") or [])}
             teams.sort(key=lambda t: str((comps.get(t["competition_id"]) or {}).get("created_at")
                                          or (comps.get(t["competition_id"]) or {}).get("starts_at") or ""))
+            cur = next((t for t in teams if t["competition_id"] == self.st.get("cid")), None)
+            if cur is not None and cur is not teams[-1] and self.todays():
+                # today's event is here (a round today, or today's announcement): a competition that appears later
+                # (a side or follow-on one) must never make the watcher move the day's data aside. Say so once.
+                new = teams[-1]["competition_id"]
+                if f"newer:{new}" not in self.checked:
+                    self.checked.add(f"newer:{new}")
+                    nm = (comps.get(new) or {}).get("name") or new
+                    self.say("both", f"a newer competition, \"{nm}\" ({new}), has appeared on our key. The watcher stays on "
+                                     f"{self.comp_name or cur['competition_id']}, which has today's rounds or announcement. "
+                                     f"If the event really moved there, restart the watcher with AVALON_COMPETITION_ID={new}.")
+                return cur
         return teams[-1]
+
+    def todays(self) -> bool:
+        """The competition being watched is today's: a round created in the last 12 hours or still running, or the
+        variant announced in the last 12 hours."""
+        cut = time.time() - OLD_ROUND_S
+        rv = self.st.get("rounds_view") or []
+        return (any((ts_of(r.get("created_at")) or 0) > cut or not r.get("completed_at") for r in rv)
+                or any((ts_of(a) or 0) > cut for a in [self.st.get("variant_at"), *(self.st.get("variant_tries") or {})]))
 
     def identify(self, t: dict | None = None) -> None:
         t = t or self.pick_team()
@@ -362,6 +382,8 @@ class Watcher:
         rounds = self.rounds()
         prev_ok = self.st.get("last_ok") or 0
         newly = self.track_starts(rounds, now, prev_ok)
+        pend = self.st.setdefault("start_pending", [])   # announced at the end of a poll that succeeds: a poll that
+        pend += [r["id"] for r in newly if r["id"] not in pend]   # fails after this point still announces it next time
         self.check_silent(rounds, now)
         new_done = [r for r in rounds if r.get("completed_at") and r["id"] not in self.st["done"]]
         if not self.st.get("baseline_done"):   # rounds that finished before the watcher first ran: saved quietly,
@@ -369,17 +391,18 @@ class Watcher:
             self.st["quiet_ids"] = [r["id"] for r in new_done]
         quiet_ids, caught = set(self.st.get("quiet_ids") or []), []
         for r in new_done:
-            try:
-                fr = self.landed(r, quiet=r["id"] in quiet_ids)
+            fails, errs = self.st.setdefault("land_fail", {}), self.st.setdefault("land_err", {})
+            try:   # after 3 failed reads the round lands without its scores: the hand data is saved now and the
+                #    results are read again until they come (pending_results)
+                fr = self.landed(r, quiet=r["id"] in quiet_ids,
+                                 unreadable=errs.get(r["id"]) if fails.get(r["id"], 0) >= 3 else None)
                 if r["id"] in quiet_ids:
                     caught.append(fr)
-                (self.st.get("land_fail") or {}).pop(r["id"], None)
+                fails.pop(r["id"], None)
+                errs.pop(r["id"], None)
             except Exception as e:  # noqa: BLE001   results not ready yet, a timeout: try again next poll
-                fails = self.st.setdefault("land_fail", {})
                 fails[r["id"]] = fails.get(r["id"], 0) + 1
-                if fails[r["id"]] == 3:
-                    self.say("both", f"can't read the result of {r['stage']} yet ({type(e).__name__}: {str(e)[:120]}); "
-                                     "still retrying every poll.")
+                errs[r["id"]] = f"{type(e).__name__}: {str(e)[:120]}"
                 if fails[r["id"]] >= 40:   # ~10 minutes: stop, say so
                     self.st["done"].append(r["id"])
                     self.say("both", f"URGENT: gave up reading the result of {r['stage']} after 40 tries "
@@ -398,12 +421,15 @@ class Watcher:
                                  + (f" ({n_old} of them finished more than {OLD_ROUND_S // 3600} hours ago: results only, "
                                     "no hand files.)" if n_old else ""))
         self.retry_hands()
+        self.recheck_results()
         standings = self.read_standings()
         self.watch_competition()
         active = self.read_team(now)
         self.check_team(now)
-        for r in newly:
-            self.round_started(r, active)
+        for r in rounds:
+            if r["id"] in pend and not r.get("completed_at"):
+                self.round_started(r, active)
+        self.st["start_pending"] = []
         self.write_seen(rounds)
         self.st["last_ok"], self.st["last_poll"] = time.time(), time.time()
         if self.st.get("fails", 0) >= 3:
@@ -436,18 +462,33 @@ class Watcher:
         """First sighting of each round. A running round's start is exact when we were polling just before (or the
         portal's own creation time is within 10 minutes); one first seen finished is not (no pin from it)."""
         seen, newly = self.st.setdefault("seen_start", {}), []
+        ids_now = {r["id"] for r in rounds}
         for r in rounds:
             if r["id"] in seen:
                 continue
             ca = ts_of(r.get("created_at"))
+            # the same round under a new id (the rehearsal portal re-ids a round when it finishes or is held): same
+            # stage, same creation time, and the old id has left the list. Keep its start and its bot; no new "started"
+            twin = next((i for i, e in seen.items() if i not in ids_now and e.get("stage") == r["stage"]
+                         and ca is not None and e.get("ca") is not None and abs(e["ca"] - ca) < 1), None)
+            if twin:
+                seen[r["id"]] = dict(seen[twin])
+                pb = self.st.setdefault("played_by", {})
+                if twin in pb:
+                    pb.setdefault(r["id"], pb[twin])
+                if twin in self.st["done"]:     # already saved and announced under its old id
+                    self.st["done"].append(r["id"])
+                    if twin in (self.st.get("results") or {}):
+                        self.st["results"][r["id"]] = self.st["results"][twin]
+                continue
             if r.get("completed_at"):
-                seen[r["id"]] = {"at": ca or now, "exact": False, "stage": r["stage"]}
+                seen[r["id"]] = {"at": ca or now, "exact": False, "stage": r["stage"], "ca": ca}
                 continue
             if ca and now - 600 < ca <= now + 5:
                 at, exact = min(ca, now), True
             else:
                 at, exact = now, bool(prev_ok and now - prev_ok <= 3 * SLOW)
-            seen[r["id"]] = {"at": at, "exact": exact, "stage": r["stage"]}
+            seen[r["id"]] = {"at": at, "exact": exact, "stage": r["stage"], "ca": ca}
             newly.append(r)
         return newly
 
@@ -477,9 +518,16 @@ class Watcher:
                 need = k if kind == "scored" else (k if k <= 4 else None)
                 if need and n_kind < need:
                     self.checked.add(key)
+                    once = f"silent:{int(float(s['start']))}:practice"   # practices: one line per minute 0, not one each
+                    if kind == "practice" and once in self.checked:
+                        continue
+                    if kind == "practice":
+                        self.checked.add(once)
                     self.say("both", f"URGENT: {C.event_label(kind, k)} should have started at {C.hhmm(ts)}, but the "
-                                     f"portal ({self.comp_name or self.cid}) shows {n_kind} {kind} round(s). Is the clock "
-                                     "right (clock.py show / pin), or the competition (AVALON_COMPETITION_ID)?")
+                             f"portal ({self.comp_name or self.cid}) shows {n_kind} {kind} round(s). Is the clock "
+                             "right (clock.py show / pin), or the competition (AVALON_COMPETITION_ID)?"
+                             + (" Practice rounds aren't promised: if the organizers run none, this is the only such "
+                                "line." if kind == "practice" else ""))
 
     def round_started(self, r: dict, active) -> None:
         pb = self.st.setdefault("played_by", {})
@@ -508,14 +556,26 @@ class Watcher:
             folder = self.out / f"{n:02d}-{slug}-{str(r['id'])[:6]}"
         return folder
 
-    def landed(self, r: dict, quiet: bool = False) -> str:
+    @staticmethod
+    def is_held(res) -> bool:
+        """The organizers hold a round's scores ('status: held' in the rehearsal copy, 'held: true' as the standings)."""
+        return isinstance(res, dict) and (str(res.get("status") or "").lower() == "held" or res.get("held") is True)
+
+    def landed(self, r: dict, quiet: bool = False, unreadable: str | None = None) -> str:
         """A round finished: save results and hands, then tell the sessions; run the card in the background.
-        Raises if the results can't be read (poll() retries the round next time)."""
-        res = self.get(f"/tournaments/{r['id']}/results")
-        if not isinstance(res, dict) or not isinstance(res.get("items"), list):
-            raise RuntimeError("results not ready")
-        held = str(res.get("status") or "").lower() == "held"   # the organizers hold the scores: the hands still count
-        if not res["items"] and not held and (self.st.get("land_fail") or {}).get(r["id"], 0) < 5:
+        Raises if the results can't be read (poll() retries the round next time). `unreadable` (the last error, after
+        3 failed reads): land it without scores; the hand data is saved now and the scores are read again until they
+        come (recheck_results)."""
+        if unreadable:
+            res = {"items": [], "status": "unreadable", "error": unreadable}
+        else:
+            res = self.get(f"/tournaments/{r['id']}/results")
+            if not isinstance(res, dict) or not (isinstance(res.get("items"), list) or self.is_held(res)):
+                raise RuntimeError("results not ready")
+            if not isinstance(res.get("items"), list):
+                res = dict(res, items=[])
+        held = self.is_held(res)   # the organizers hold the scores: the hands still count
+        if not res["items"] and not held and not unreadable and (self.st.get("land_fail") or {}).get(r["id"], 0) < 5:
             raise RuntimeError("results list empty (not ready yet?)")
         stage, label = r["stage"], r["label"]
         folder = self.folder_for(r)
@@ -523,9 +583,12 @@ class Watcher:
         C.write_text(folder / "results.json", json.dumps(res, indent=1))
         pbot = (self.st.get("played_by") or {}).get(r["id"])
         health = self.health_for(r["id"])
-        if not pbot and health.get("submission_id"):
-            pbot = next((u.get("filename") for u in self.st.get("uploads") or [] if u.get("id") == health["submission_id"]), None)
+        if not pbot and (health.get("submission_id") or health.get("filename")):
+            pbot = health.get("filename") or self.filename_of(health["submission_id"])
+            if pbot:    # the portal's own record of the bot that played: the status table shows it too
+                self.st.setdefault("played_by", {})[r["id"]] = pbot
         meta = {k: r.get(k) for k in ("id", "kind", "stage", "label", "weight", "created_at", "completed_at")}
+        meta["portal"] = {k: v for k, v in r.items() if not str(k).startswith("_")}   # the round's own settings, as listed
         meta.update(played_by=pbot, saved_at=time.time(), competition=self.cid)
         C.write_json(folder / "round.json", meta)
         if pbot and pbot != "no bot":
@@ -540,14 +603,10 @@ class Watcher:
             self.st.setdefault("old_rounds", []).append(r["id"])
         else:
             self.st["need_hands"][r["id"]] = {"folder": str(folder), "label": label, "stage": stage, "since": time.time()}
-        items = sorted(res["items"], key=lambda x: -(x.get("average_points") or 0))
-        ours = next((i for i, x in enumerate(items, 1) if x.get("team_name") == self.team_name
-                     or (self.team and x.get("team_id") == self.team)), None)
-        me = items[ours - 1] if ours else None
-        top = items[0] if items else {}
-        self.st.setdefault("results", {})[r["id"]] = {
-            "place": ours, "n": len(items), "pts": (me or {}).get("average_points"), "moe": (me or {}).get("margin_of_error"),
-            "top": top.get("team_name"), "top_pts": top.get("average_points"), "folder": rel(self.root, folder)}
+        ours, items, me, top = self.score(r["id"], res, folder)
+        pending = not items and not old    # held, unreadable or an empty list: read again until the scores come
+        if pending:
+            self.st.setdefault("pending_results", {})[r["id"]] = {"stage": stage, "folder": str(folder), "since": time.time()}
         fr = rel(self.root, folder) + "/"
         if quiet:
             if files and not self.small_only:
@@ -562,7 +621,12 @@ class Watcher:
                     f"(±{(me.get('margin_of_error') or 0):.2f}); 1st {top.get('team_name')} {(top.get('average_points') or 0):.2f}"
                     f"{pb} · data: {fr}")
         elif held:
-            line = f"{stage} finished: the organizers are holding its results (no scores yet){pb} · data: {fr}"
+            line = (f"{stage} finished: the organizers are holding its results (no scores yet; posted here when they "
+                    f"are out){pb} · data: {fr}")
+        elif pending:
+            line = (f"{stage} finished: its results can't be read yet ({unreadable or 'the portal lists no scores'}); "
+                    f"the watcher keeps reading and posts them when they come (else read them on the portal's round "
+                    f"page){pb} · data: {fr}")
         else:
             line = f"URGENT: {stage} finished and we have NO result (forfeit? no active bot?){pb} · data: {fr}"
         hl = self.health_text(health)
@@ -596,6 +660,45 @@ class Watcher:
         self.save()
         return fr
 
+    def score(self, tid: str, res: dict, folder: Path) -> tuple:
+        """Our place in a round's results (kept in st['results']): (place or None, items by points, our row, top row)."""
+        items = sorted([x for x in res.get("items") or [] if isinstance(x, dict)], key=lambda x: -(x.get("average_points") or 0))
+        ours = next((i for i, x in enumerate(items, 1) if x.get("team_name") == self.team_name
+                     or (self.team and x.get("team_id") == self.team)), None)
+        me = items[ours - 1] if ours else None
+        top = items[0] if items else {}
+        self.st.setdefault("results", {})[tid] = {
+            "place": ours, "n": len(items), "pts": (me or {}).get("average_points"), "moe": (me or {}).get("margin_of_error"),
+            "top": top.get("team_name"), "top_pts": top.get("average_points"), "folder": rel(self.root, folder)}
+        return ours, items, me, top
+
+    def recheck_results(self) -> None:
+        """Rounds that landed without scores (held, unreadable, an empty list): read them again (at most every 30 s)
+        and post the scores once they are out."""
+        for tid, info in list((self.st.get("pending_results") or {}).items()):
+            if time.time() - (info.get("tried") or 0) < 30:
+                continue
+            info["tried"] = time.time()
+            try:
+                res = self.get(f"/tournaments/{tid}/results")
+            except Exception:  # noqa: BLE001   still held or not readable: next time
+                continue
+            if not isinstance(res, dict) or self.is_held(res) or not isinstance(res.get("items"), list) or not res["items"]:
+                continue
+            folder = Path(info["folder"])
+            C.write_text(folder / "results.json", json.dumps(res, indent=1))
+            ours, items, me, top = self.score(tid, res, folder)
+            self.st["pending_results"].pop(tid, None)
+            if me:
+                self.say("both", f"{info['stage']} results are out: we were {ours} of {len(items)} with "
+                                 f"{(me.get('average_points') or 0):.2f} (±{(me.get('margin_of_error') or 0):.2f}); 1st "
+                                 f"{top.get('team_name')} {(top.get('average_points') or 0):.2f} · saved in "
+                                 f"{rel(self.root, folder)}/results.json")
+            else:
+                self.say("both", f"URGENT: {info['stage']} results are out and we have NO result in them (forfeit? no "
+                                 f"active bot?) · {rel(self.root, folder)}/results.json")
+            self.save()
+
     def data_landed_msg(self, stage: str, folder: Path, files: list, late: bool = False) -> None:
         cards = [n for n in ("roundcard.py", "fp_train.py") if (self.root / "analysis" / n).exists()]
         self.say("research", f"DATA LANDED{' (late)' if late else ''} {stage} {rel(self.root, folder)}/ "
@@ -613,6 +716,19 @@ class Watcher:
             return next((x for x in items if x.get("tournament_id") == tid), {}) or {}
         except Exception:  # noqa: BLE001
             return {}
+
+    def filename_of(self, sid):
+        """An upload's file name from its id: the uploads already read (all of them, not only the newest 15), else a
+        fresh read of the submissions list (this runs before the poll reads the team)."""
+        for u in list(getattr(self, "_subs", None) or []) + list(self.st.get("uploads") or []):
+            if isinstance(u, dict) and u.get("id") == sid and u.get("filename"):
+                return u["filename"]
+        try:
+            subs = self.get(f"/teams/{self.team}/submissions")
+            subs = subs.get("items", subs) if isinstance(subs, dict) else subs
+            return next((u.get("filename") for u in subs or [] if isinstance(u, dict) and u.get("id") == sid), None)
+        except Exception:  # noqa: BLE001
+            return None
 
     @staticmethod
     def health_text(h: dict) -> str:
@@ -829,21 +945,38 @@ class Watcher:
         if t < time.time() - OLD_ROUND_S:
             self.st["variant_at"] = at
             return
-        v = self.get(f"/competitions/{self.cid}/variant") or {}
+        try:
+            v, why = self.get(f"/competitions/{self.cid}/variant") or {}, "no rules text in the answer"
+        except Exception as e:  # noqa: BLE001
+            v, why = {}, f"{type(e).__name__}: {str(e)[:80]}"
         rules = v.get("rules") if isinstance(v, dict) else None
-        if not isinstance(rules, str) or not rules.strip():
-            return                      # not readable yet: look again at the next poll
-        title = str(v.get("title") or v.get("id") or comp.get("variant") or "?")
         cd = self.cooldown()
+        s = self.schedule()
+        clock = ("" if C.started(s) else
+                 f" The clock isn't started: RESEARCH runs python3 scripts/clock.py start {time.strftime('%H:%M', time.localtime(t))}.")
+        if not isinstance(rules, str) or not rules.strip():
+            tries = self.st.setdefault("variant_tries", {})
+            tries[at] = tries.get(at, 0) + 1
+            if tries[at] != 4:
+                return                  # not readable yet: look again at the next poll
+            # still unreadable a minute later: announce minute 0 anyway, without the text (saved if it comes later)
+            self.say("both", f"THE VARIANT IS ANNOUNCED on the portal: \"{comp.get('variant') or '?'}\", at {C.hms(t)} "
+                             f"(the portal's own time = minute 0). Its rules text can't be read from the API yet ({why}): "
+                             "read the Format page and the kit; state/variant.md is saved if the text comes later."
+                             + (f" Upload cooldown per the portal: {cd:g} s." if cd is not None else "") + clock)
+            return
+        late = (self.st.get("variant_tries") or {}).get(at, 0) >= 4   # minute 0 announced already, without the text
+        title = str(v.get("title") or v.get("id") or comp.get("variant") or "?")
         C.write_text(C.sp(self.root, "variant.md"),
                      f"<!-- Saved {C.hms(time.time())} by scripts/portal_watch.py from the portal's own API. Variant "
                      f"\"{title}\" (id {v.get('id') or comp.get('variant')}), announced at {C.hms(t)} = minute 0. "
                      "The kit's RULES.md and state.config and the Format page still decide the rules card. -->\n\n"
                      + rules.rstrip() + "\n")
         self.st["variant_at"] = at
-        s = self.schedule()
-        clock = ("" if C.started(s) else
-                 f" The clock isn't started: RESEARCH runs python3 scripts/clock.py start {time.strftime('%H:%M', time.localtime(t))}.")
+        if late:
+            self.say("both", f"the variant's rules text (\"{title}\") can be read now: saved in state/variant.md "
+                             f"({len(rules.splitlines())} lines); the kit and the Format page still decide the rules card.")
+            return
         self.say("both", f"THE VARIANT IS ANNOUNCED on the portal: \"{title}\", at {C.hms(t)} (the portal's own time = "
                          f"minute 0). Its rules text is saved in state/variant.md ({len(rules.splitlines())} lines): read it "
                          "now, before the kit is unpacked; the kit and the Format page still decide the rules card."
@@ -967,7 +1100,7 @@ class Watcher:
                 state = "finished · reading results"
             x = res.get(rid) or {}
             us = (f"{x['place']}/{x['n']} · {x['pts']:.2f} ±{(x.get('moe') or 0):.2f}" if x.get("place") and x.get("pts") is not None
-                  else ("no result" if x else ""))
+                  else ("scores not out yet" if rid in (self.st.get("pending_results") or {}) else "no result" if x else ""))
             topc = f"{x.get('top')} {x['top_pts']:.2f}" if x.get("top_pts") is not None else ""
             st_at = (seen.get(rid) or {}).get("at")
             L.append(f"| {r['stage']} | {r.get('label') or ''} | {C.hhmm(st_at) if st_at else ''} | {state} | "
@@ -977,10 +1110,12 @@ class Watcher:
         for i, x in enumerate((standings or [])[:10], 1):
             name = x.get("team_name") or "?"
             name = f"**{name}**" if name == self.team_name else name
-            L.append(f"| {x.get('rank', i)} | {name} | {(x.get('total') or 0):.2f} |")
+            rk = x.get("rank", i)          # before the first scored round the portal lists every rank as null
+            L.append(f"| {'–' if rk is None else rk} | {name} | {(x.get('total') or 0):.2f} |")
         ours = next((x for x in standings or [] if x.get("team_name") == self.team_name), None)
         if ours and not any(x is ours for x in (standings or [])[:10]):
-            L.append(f"| {ours.get('rank')} | **{self.team_name}** | {(ours.get('total') or 0):.2f} |")
+            L.append(f"| {ours.get('rank') if ours.get('rank') is not None else '–'} | **{self.team_name}** | "
+                     f"{(ours.get('total') or 0):.2f} |")
         L += ["", "## Uploads (newest first)", "", "| Time | File | Status | Reason |", "|---|---|---|---|"]
         for u in (self.st.get("uploads") or [])[:8]:
             L.append(f"| {C.hhmm(ts_of(u.get('created_at')))} | {u.get('filename')} | {u.get('status')} | "

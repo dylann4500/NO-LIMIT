@@ -363,6 +363,7 @@ def test_autopin_hold():
     seen = {"Practice 1": {"at": t0 + 20 * 60, "exact": True}, "Round 1": {"at": t0 + 60 * 60 + 20, "exact": True},
             "Round 2": {"at": t0 + 84 * 60, "exact": True}}
     write_json(d / "state" / "rounds_seen.json", {"rounds": seen})
+    write_json(d / "state" / "portal.json", {"last_poll": now + 3600})   # a portal watcher that is polling
     dm = C.Daemon(d, echo=False)
     dm.started_at = now - 3600
     dm.tick(now)
@@ -485,6 +486,9 @@ class MockPortal:
         self.variant = None         # the answer of /competitions/<cid>/variant (None: 404)
         self.key_teams = None       # the key's team list, when it is more than this competition's one team
         self.comps = None           # the /competitions list, when it is more than this competition
+        self.standings = None       # the standings items, when not the two-team default
+        self.fail = None            # every /api/ request answers this status code, or "drop" (connection closed)
+        self.fail_paths: dict = {}  # path -> how many more times it answers 500 (one endpoint failing mid-poll)
         mock = self
 
         class H(http.server.BaseHTTPRequestHandler):
@@ -511,6 +515,14 @@ class MockPortal:
                     return self.reply_hands(tid, "subset=first-1000" in q)
                 if not path.startswith("/api/"):
                     return self.send(404, {"detail": "not found"})
+                if mock.fail == "drop":
+                    self.close_connection = True
+                    return None
+                if mock.fail:
+                    return self.send(mock.fail, {"detail": "mock failure"})
+                if mock.fail_paths.get(path[4:], 0) > 0:
+                    mock.fail_paths[path[4:]] -= 1
+                    return self.send(500, {"detail": "mock failure"})
                 if self.headers.get("Authorization") != f"Bearer {KEY}":
                     return self.send(401, {"detail": "Missing or invalid API key"})
                 p = path[4:]
@@ -527,6 +539,8 @@ class MockPortal:
                 if p == f"/competitions/{mock.cid}/standings":
                     if not mock.standings_ok:
                         return self.send(403, {"detail": "leaderboard held"})
+                    if mock.standings is not None:
+                        return self.send(200, {"items": mock.standings, "held": False})
                     return self.send(200, {"items": [{"rank": 1, "team_name": "rivals", "total": 30.5},
                                                      {"rank": 2, "team_name": "avalon", "total": 22.1}], "held": False})
                 if p == f"/teams/{mock.team}":
@@ -542,7 +556,10 @@ class MockPortal:
                     return self.reply_hands(m.group(2), "tables=1000" in q.split("&"))
                 m = re.fullmatch(r"/tournaments/([^/]+)/(results|hands)", p)
                 if m and m.group(2) == "results":
-                    return self.send(200, mock.results[m.group(1)]) if m.group(1) in mock.results else self.send(404, {})
+                    res = mock.results.get(m.group(1))
+                    if isinstance(res, tuple):
+                        return self.send(res[0], res[1])
+                    return self.send(200, res) if res is not None else self.send(404, {})
                 if m and not mock.real:
                     return self.reply_hands(m.group(1), "subset=first-1000" in q)
                 return self.send(404, {"detail": "not found"})
@@ -944,6 +961,329 @@ def test_portal_loop():
     check("loop: light 6 s checks read only the round list between full polls", len(lists) >= 3, len(lists))
 
 
+def test_portal_day():
+    """What the day can throw at the watcher (15 November checks): each scenario in its own sandbox, the watcher run
+    in-process with the mock portal in the real portal's shape."""
+    print("\n== portal_watch.py: the day's circumstances (held/missing results, late files, outages, restarts, a second competition)")
+    import portal_watch as PW
+    now = time.time()
+
+    def setup(**kw):
+        d = sandbox()
+        (d / "key").write_text(KEY + "\n")
+        mp = MockPortal()
+        mp.real = True
+        mp.subs = [{"id": "s1", "filename": "v1.zip", "status": "ready", "created_at": iso(now - 3000)}]
+        mp.active = "s1"
+        for k, v in kw.items():
+            setattr(mp, k, v)
+        return d, mp, PW.Watcher(d, f"http://127.0.0.1:{mp.port}/api", str(d / "key"), echo=False)
+
+    def poll(w):          # as the loop does: a failed poll is counted, never raised
+        try:
+            w.poll()
+            return None
+        except Exception as e:  # noqa: BLE001
+            w.failed(e)
+            return e
+
+    def lines(d, s, who="builder"):
+        return [x for x in inbox(d, who) if s in x]
+
+    # 1. the first practice of a competition that has had no rounds; then a restart of the watcher mid-event
+    d, mp, w = setup()
+    poll(w)
+    check("no rounds yet: nothing posted (no catch-up line)", inbox(d, "builder") == [] and inbox(d, "research") == [],
+          inbox(d, "builder"))
+    mp.rounds = [{"id": "p1", "kind": "practice", "created_at": iso(time.time() - 10), "completed_at": None}]
+    poll(w)
+    poll(w)
+    check("practice 1 appears: 'Practice 1 started ... playing v1' once", len(lines(d, "Practice 1 started")) == 1
+          and "playing v1" in lines(d, "Practice 1 started")[0], inbox(d, "builder"))
+    mp.rounds[0]["completed_at"] = iso(time.time())
+    mp.results["p1"] = results_for("p1")
+    mp.hands[("p1", True)], mp.hands[("p1", False)] = hands_gz(30), hands_gz(60)
+    poll(w)
+    w.wait_jobs(20)
+    fin = lines(d, "Practice 1 finished")
+    check("...it finishes: one 'finished' line with the bot, DATA LANDED, and no catch-up line",
+          len(fin) == 1 and "played by v1" in fin[0] and lines(d, "DATA LANDED Practice 1", "research")
+          and not any("catch-up" in x for x in inbox(d, "builder")), fin)
+    w2 = PW.Watcher(d, w.base, str(d / "key"), echo=False)      # the watcher restarted (same state/)
+    mp.rounds.append({"id": "p2", "kind": "practice", "created_at": iso(time.time() + 2), "completed_at": iso(time.time() + 3)})
+    mp.results["p2"] = results_for("p2")
+    mp.hands[("p2", True)] = hands_gz(30)
+    n_before = len(inbox(d, "builder"))
+    poll(w2)
+    poll(w2)
+    w2.wait_jobs(20)
+    new = inbox(d, "builder")[n_before:]
+    check("restart mid-event: nothing said twice; the round that finished while it was down is announced once",
+          sum("Practice 1" in x for x in new) == 0 and sum("Practice 2 finished" in x for x in new) == 1
+          and not any("catch-up" in x for x in new), new)
+    mp.stop()
+
+    # 2. the portal gives a round a new id between running and finished (the rehearsal: a second "Round 4 started",
+    #    "played by ?" on 13 of 14 rounds)
+    d, mp, w = setup()
+    ca = iso(time.time() - 30)
+    mp.rounds = [{"id": "r4-run", "kind": "scored", "weight": 4, "created_at": ca, "completed_at": None}]
+    poll(w)
+    mp.subs.insert(0, {"id": "s2", "filename": "v2.zip", "status": "ready", "created_at": iso(time.time())})
+    mp.active = "s2"                                  # the active bot changes after the start
+    mp.rounds = [{"id": "r4-held", "kind": "scored", "weight": 4, "created_at": ca, "completed_at": None}]
+    poll(w)
+    check("a round re-listed under a new id is not 'started' a second time", len(lines(d, "Round 1 started")) == 1,
+          lines(d, "Round 1 started"))
+    mp.rounds = [{"id": "r4-done", "kind": "scored", "weight": 4, "created_at": ca, "completed_at": iso(time.time())}]
+    mp.results["r4-done"] = results_for("r4-done")
+    mp.hands[("r4-done", True)] = hands_gz(30)
+    poll(w)
+    fin = lines(d, "Round 1 finished")
+    st = (d / "state" / "status.md").read_text()
+    check("...and its result names the bot seen at its start (v1), in the line, played_by.txt and status.md",
+          len(fin) == 1 and "played by v1" in fin[0] and "| Round 1 |" in st and "| v1 |" in st
+          and (d / "data" / "rounds" / "01-round-1" / "played_by.txt").read_text().strip() == "v1.zip", (fin, st[-700:]))
+    mp.stop()
+
+    # 3. played by: the portal's health record names the upload, which is newer than the uploads the watcher had read
+    d, mp, w = setup()
+    poll(w)
+    mp.subs.insert(0, {"id": "s7", "filename": "v7.zip", "status": "ready", "created_at": iso(time.time())})
+    mp.rounds = [{"id": "q1", "kind": "practice", "created_at": iso(time.time() - 120), "completed_at": iso(time.time())}]
+    mp.results["q1"] = results_for("q1")
+    mp.hands[("q1", True)] = hands_gz(30)
+    mp.health = [{"tournament_id": "q1", "submission_id": "s7", "decisions": 1000, "missed": 0, "restarts": 0}]
+    mp.standings = [{"rank": None, "team_name": "rivals", "total": 0}, {"rank": None, "team_name": "avalon", "total": 0}]
+    poll(w)
+    fin = lines(d, "Practice 1 finished")
+    check("a round never seen running: played by comes from the health record (an upload read after the round landed)",
+          fin and "played by v7" in fin[0] and "| v7 |" in (d / "state" / "status.md").read_text(), fin)
+    check("status.md: no 'None' as a rank before the standings have ranks",
+          "| None |" not in (d / "state" / "status.md").read_text())
+    mp.stop()
+
+    # 4. results held as the standings are ('held': true, no items); then released
+    d, mp, w = setup()
+    poll(w)
+    mp.rounds = [{"id": "h1", "kind": "scored", "weight": 1, "created_at": iso(time.time() - 300), "completed_at": iso(time.time())}]
+    mp.results["h1"] = {"tournament_id": "h1", "held": True}
+    mp.hands[("h1", True)] = hands_gz(30)
+    poll(w)
+    held_ = lines(d, "Round 1 finished")
+    check("results held ('held': true, no items): said once, no URGENT, and the hand data is saved at once",
+          len(held_) == 1 and "holding its results" in held_[0] and "URGENT" not in held_[0]
+          and (d / "data" / "rounds" / "01-round-1" / "hands-first-1000.jsonl.gz").exists(), held_ or inbox(d, "builder"))
+    p6 = hasattr(PW.Watcher, "recheck_results")    # P6 (the results re-check) can be left out on the morning
+    if not p6:
+        print("  skip  the results re-check and the round with no result (P6 not applied)")
+    mp.results["h1"] = results_for("h1")
+    (w.st.get("pending_results") or {}).get("h1", {}).update(tried=0)
+    poll(w)
+    out_ = lines(d, "Round 1 results are out")
+    p6 and check("...released: 'Round 1 results are out: we were 2 of 3' once; results.json and status.md updated",
+          len(out_) == 1 and "we were 2 of 3" in out_[0] and "avalon" in (d / "data" / "rounds" / "01-round-1" / "results.json").read_text()
+          and "2/3" in (d / "state" / "status.md").read_text(), out_)
+    poll(w)
+    p6 and check("...and not again", len(lines(d, "results are out")) == 1)
+    mp.stop()
+
+    # 5. a round whose result never shows (404 for good): its hand data still lands; no 'gave up' alarm (P6)
+    if p6:
+        d, mp, w = setup()
+        poll(w)
+        mp.rounds = [{"id": "n1", "kind": "scored", "weight": 1, "created_at": iso(time.time() - 300), "completed_at": iso(time.time())}]
+        mp.hands[("n1", True)] = hands_gz(30)
+        for _ in range(3):
+            poll(w)
+        check("no result yet after 3 reads: nothing announced, no hand data yet", not lines(d, "Round 1") and
+              not (d / "data" / "rounds").exists())
+        poll(w)
+        fin = lines(d, "Round 1 finished")
+        check("4th read: it lands without scores ('can't be read yet'), not URGENT; DATA LANDED to RESEARCH",
+              len(fin) == 1 and "can't be read yet" in fin[0] and "URGENT" not in fin[0]
+              and lines(d, "DATA LANDED Round 1", "research"), fin or inbox(d, "builder"))
+        for _ in range(3):
+            poll(w)
+        check("...no repeat and no 'gave up' line", len(lines(d, "Round 1 finished")) == 1 and not lines(d, "gave up"))
+        mp.stop()
+
+    # 6. a hand file that arrives late, truncated, then as an error page, then whole
+    d, mp, w = setup()
+    poll(w)
+    mp.rounds = [{"id": "t1", "kind": "practice", "created_at": iso(time.time() - 300), "completed_at": iso(time.time())}]
+    mp.results["t1"] = results_for("t1")
+    poll(w)
+    fin = lines(d, "Practice 1 finished")
+    check("no hand file yet (404): 'not downloadable yet (retrying)'", fin and "not downloadable yet" in fin[0], fin)
+    good = hands_gz(200)
+    mp.hands[("t1", True)] = good[: len(good) // 2]
+    poll(w)
+    f = d / "data" / "rounds" / "01-practice-1" / "hands-first-1000.jsonl.gz"
+    check("a truncated gzip is never saved; the reason is kept", not f.exists() and w.st.get("hands_err"), w.st.get("hands_err"))
+    mp.hands[("t1", True)] = (200, b"<!DOCTYPE html><html><body>Bad gateway</body></html>" * 4)
+    poll(w)
+    check("an error page is never saved", not f.exists() and "HTML" in (w.st.get("hands_err") or ""), w.st.get("hands_err"))
+    mp.hands[("t1", True)] = good
+    poll(w)
+    check("then the whole file: saved once, 'DATA LANDED (late) Practice 1' once",
+          f.exists() and gzip.decompress(f.read_bytes()).count(b"\n") == 200
+          and len(lines(d, "DATA LANDED (late) Practice 1", "research")) == 1 and not w.st.get("need_hands"))
+    mp.stop()
+
+    # 7. the portal answers 500, then 403, then drops connections, for several polls; a round starts meanwhile
+    d, mp, w = setup()
+    poll(w)
+    mp.fail = 500
+    errs = [poll(w) for _ in range(3)]
+    mp.fail = 403
+    errs += [poll(w) for _ in range(2)]
+    mp.fail = "drop"
+    errs += [poll(w) for _ in range(2)]
+    check("an outage of 7 polls (500, 403, dropped connections): every poll fails, none raises out of the loop",
+          all(e is not None for e in errs), [type(e).__name__ for e in errs])
+    urg = lines(d, "not answered for 3 checks")
+    check("...one URGENT 'not answered for 3 checks', at the third", len(urg) == 1, urg)
+    st = (d / "state" / "status.md").read_text()
+    check("...status.md says FAILED, with the count", "**FAILED**" in st and "7 in a row" in st, st[:300])
+    mp.rounds = [{"id": "o1", "kind": "practice", "created_at": iso(time.time() - 30), "completed_at": None}]
+    mp.fail = None
+    poll(w)
+    poll(w)
+    check("recovery: 'the portal answers again' once; the round that started meanwhile: 'started' once",
+          len(lines(d, "answers again")) == 1 and len(lines(d, "Practice 1 started")) == 1, inbox(d, "builder")[-3:])
+    mp.stop()
+
+    # 8. one endpoint fails in the very poll that first sees a round: its 'started' line (and wrong-bot check) still comes
+    d, mp, w = setup()
+    poll(w)
+    mp.rounds = [{"id": "x1", "kind": "scored", "weight": 1, "created_at": iso(time.time() - 20), "completed_at": None}]
+    mp.fail_paths[f"/teams/{mp.team}"] = 1
+    e = poll(w)
+    check("the poll fails after it saw the round start", e is not None and not lines(d, "Round 1 started"), e)
+    poll(w)
+    check("...the next poll posts 'Round 1 started' (once)", len(lines(d, "Round 1 started")) == 1, inbox(d, "builder"))
+    poll(w)
+    check("...and never again", len(lines(d, "Round 1 started")) == 1)
+    mp.stop()
+
+    # 9. a second (newer) competition appears on the key mid-event; then the watcher restarts
+    d, mp, w = setup()
+    finals = {"id": "comp-finals", "name": "Finals (mock)", "created_at": iso(now - 7200), "submission_cooldown_seconds": 30}
+    mp.comp = finals
+    mp.rounds = [{"id": "e1", "kind": "practice", "created_at": iso(time.time() - 600), "completed_at": iso(time.time() - 300)}]
+    mp.results["e1"] = results_for("e1")
+    mp.hands[("e1", True)] = hands_gz(30)
+    w.st["baseline_done"] = True
+    poll(w)
+    w.wait_jobs(20)
+    mp.key_teams = [{"competition_id": "comp-community", "team_id": "team-c"}, {"competition_id": "comp-finals", "team_id": mp.team}]
+    mp.comps = [{"id": "comp-community", "name": "Finals community (mock)", "created_at": iso(time.time())}, finals]
+    w.ident_at = 0
+    poll(w)
+    w.ident_at = 0
+    poll(w)
+    check("a newer competition on the key mid-event: the watcher stays on today's competition; the data stays in place",
+          w.cid == "comp-finals" and (d / "data" / "rounds" / "01-practice-1").exists()
+          and not list((d / "data").glob("rounds.old-*")) and not lines(d, "new competition on this key"), inbox(d, "builder")[-3:])
+    note = lines(d, "a newer competition")
+    check("...said once, with the id to switch to by hand", len(note) == 1 and "AVALON_COMPETITION_ID=comp-community" in note[0], note)
+    w3 = PW.Watcher(d, w.base, str(d / "key"), echo=False)
+    poll(w3)
+    check("...a restart of the watcher stays on it too", w3.cid == "comp-finals" and not list((d / "data").glob("rounds.old-*")))
+    mp.stop()
+
+    # 10. a round's own settings (weight, multiplier, table rules) are kept with its data
+    d, mp, w = setup()
+    poll(w)
+    mp.rounds = [{"id": "w2", "kind": "scored", "weight": 2, "score_multiplier": 3, "culling": None,
+                  "rules": {"players": 6, "starting_stack": 6000}, "created_at": iso(time.time() - 300), "completed_at": iso(time.time())}]
+    mp.results["w2"] = results_for("w2")
+    mp.hands[("w2", True)] = hands_gz(30)
+    poll(w)
+    meta = json.loads((d / "data" / "rounds" / "01-round-1" / "round.json").read_text())
+    check("round.json keeps the round's own settings as the portal listed them (multiplier, rules)",
+          (meta.get("portal") or {}).get("score_multiplier") == 3 and meta["portal"].get("rules", {}).get("players") == 6, meta)
+    mp.stop()
+
+    # 11. no practice rounds at all, and a practice that is never listed
+    d, mp, w = setup()
+    t0 = time.time() - 90 * 60
+    write_json(d / "state" / "schedule.json", {"start": t0, "build": 60, "gap": 20, "scored": 6, "scale": 1.0})
+    poll(w)
+    for minute in (30, 40, 50, 60):          # 10 minutes after each build practice's time
+        w.check_silent([], t0 + minute * 60)
+    pr = [x for x in inbox(d, "builder") if "should have started" in x and "Practice" in x]
+    check("no practice rounds at all: one line (not one per practice), the first", len(pr) == 1 and "Practice 1" in pr[0], pr)
+    mp.rounds = [{"id": "s1r", "kind": "scored", "weight": 1, "created_at": iso(t0 + 3600), "completed_at": iso(t0 + 3900)},
+                 {"id": "s2r", "kind": "scored", "weight": 2, "created_at": iso(t0 + 4800), "completed_at": iso(t0 + 5100)},
+                 {"id": "pr2", "kind": "practice", "created_at": iso(t0 + 5400), "completed_at": None}]
+    rv = {r["id"]: r["stage"] for r in w.rounds()}
+    check("a practice after a hidden one is still named by the scored round before it (Round 2.5)", rv.get("pr2") == "Round 2.5", rv)
+    mp.stop()
+
+    # 12. the variant announced, its rules text answering 404 for good; then readable after all
+    d, mp, w = setup()
+    mp.comp = dict(mp.comp, variant="finals", variant_announced_at=iso(time.time() - 30))
+    for _ in range(3):
+        poll(w)
+    check("rules text 404: nothing said for the first 3 polls", not lines(d, "VARIANT IS ANNOUNCED"))
+    for _ in range(3):
+        poll(w)
+    ann = lines(d, "VARIANT IS ANNOUNCED")
+    check("...then minute 0 is announced anyway, once, saying the text can't be read",
+          len(ann) == 1 and "can't be read" in ann[0] and "clock.py start" in ann[0] and lines(d, "VARIANT IS ANNOUNCED", "research"), ann)
+    mp.variant = {"id": "finals", "title": "Finals", "rules": "# Finals\n\nsix seats\n"}
+    poll(w)
+    poll(w)
+    check("...the text readable later: saved to state/variant.md and said once (not announced twice)",
+          "six seats" in (d / "state" / "variant.md").read_text() and len(lines(d, "can be read now")) == 1
+          and len(lines(d, "VARIANT IS ANNOUNCED")) == 1)
+    every = "".join(x.read_text() for x in (d / "inbox").glob("*.log")) + (d / "state" / "status.md").read_text()
+    check("only GET requests; the key never written", {m for m, *_ in mp.log} == {"GET"} and KEY not in every)
+    mp.stop()
+
+
+def test_clock_day():
+    print("\n== clock: a restart mid-event, a dead portal watcher")
+    d = sandbox()
+    tl = C.load_timeline(d)
+    t0 = time.time() - 70 * 60
+    s = {"start": t0, "build": 60, "gap": 20, "scored": 6, "scale": 1.0}
+    write_json(d / "state" / "schedule.json", s)
+    write_json(d / "state" / "portal.json", {"last_poll": time.time() + 3600, "last_ok": time.time()})
+    r2 = C.round_ts(s, 2)
+    dm = C.Daemon(d, echo=False)
+    dm.started_at = t0
+    dm.tick(r2 - 20 * 60 + 1)                  # round 2's T-20 fires
+    dm.tick(r2 - 13 * 60 + 1)                  # T-13 fires
+    n = len(inbox(d, "builder"))
+    nr = len(inbox(d, "research"))
+    dm2 = C.Daemon(d, echo=False)              # the clock was down from T-13 to T-10.2 and restarted then
+    dm2.started_at = r2 - 10.2 * 60
+    dm2.tick(r2 - 10.2 * 60)
+    dm2.tick(r2 - 10.2 * 60 + 2)
+    new = inbox(d, "builder")[n:] + inbox(d, "research")[nr:]
+    check("clock restart: steps sent before it are not sent again", not any("T-20 before" in x or "T-13 before" in x for x in new), new)
+    want = [mk for mk in C.marks(s, tl) if mk["key"] == "s2-12"]
+    exp = sum(2 if to == "both" else 1 for to, _ in C.step_messages(s, want[0], tl, d)) if want else 0
+    t12 = [x for x in new if "T-12 before scored round 2" in x]
+    check(f"...the step due while it was down fires once per inbox ({exp}), marked LATE",
+          exp > 0 and len(t12) == exp and all("LATE" in x for x in t12), t12)
+    # the portal watcher stops: said once; a window isn't held on its stale view
+    write_json(d / "state" / "rounds_seen.json", {"rounds": {"Round 1": {"at": C.round_ts(s, 1), "exact": True}}})
+    write_json(d / "state" / "portal.json", {"last_poll": r2 - 12 * 60, "last_ok": r2 - 12 * 60})
+    r3 = C.round_ts(s, 3)
+    dm2.tick(r3 - 13 * 60 + 1)                 # 7 minutes after round 2's time, which the stale view never saw
+    dm2.tick(r3 - 13 * 60 + 3)
+    dead = [x for x in inbox(d, "builder") if "portal watcher hasn't checked" in x]
+    check("a portal watcher silent for 5+ minutes: one line to both sessions", len(dead) == 1
+          and any("portal watcher hasn't checked" in x for x in inbox(d, "research")), dead)
+    check("...and round 3's window is not held on its stale view (its T-13 fires)",
+          any("T-13 before scored round 3" in x for x in inbox(d, "builder") + inbox(d, "research"))
+          and not any("hasn't started on the portal" in x for x in inbox(d, "builder")))
+
+
 # ====================================================================== the rehearsal portal (emu/), optional
 def test_portal_emu(repo: Path):
     print("\n== portal_watch.py against the rehearsal portal (emu/portal_server.py --run prac1)")
@@ -1071,6 +1411,39 @@ def test_guard():
         ("python3 -c \"import requests; requests.post('https://pokerbot.sequoiacap.com/tournament/api/x')\"", {}, proj, "deny:organizers' site"),
         ("modal app delete ap-123", {}, proj, "deny:Modal delete"),
         ("modal volume rm avalon-data", {}, proj, "deny:Modal delete"),
+        # the rehearsal's 20 false refusals (15 November): a path set earlier in the same command, a loop variable after a
+        # fixed name, find -exec rm, a grep pattern
+        ("SP=/private/tmp/x/scratchpad; R=/r; rm -rf $SP/bdir; mkdir -p $SP/bdir", {}, proj, "allow"),
+        ("S=/private/tmp/x/scratchpad && rm -rf $S/A1 && mkdir $S/A1", {}, proj, "allow"),
+        ('SP=/private/tmp/x/scratchpad; for v in A B; do rm -rf "$SP/var11/$v"; done', {}, proj, "allow"),
+        ("for k in a b; do d=/tmp/challenger-D4off-$k; rm -rf $d; mkdir $d; done", {}, proj, "allow"),
+        ("cd /tmp && for z in a b; do rm -rf /tmp/challenger-dn-$z; done", {}, proj, "allow"),
+        ("cd /private/tmp && for v in pre post; do rm -rf tester-D5-$v; mkdir tester-D5-$v; done", {}, proj, "allow"),
+        ("SP=/private/tmp/x/scratchpad && find $SP/snap1/bot -name __pycache__ -prune -exec rm -rf {} +", {}, proj, "allow"),
+        ("find candidates -name '*.pyc' -exec rm -f {} \\;", {}, proj, "allow"),
+        ('grep -n "shutil.rmtree" scripts/*.py | head; grep -rn "rm -rf" notes/ | head -3', {}, proj, "allow"),
+        ("python3 - <<'EOF'\nimport os\nos.unlink('/tmp/x.pid')\nEOF", {}, proj, "allow"),
+        # ...while everything that could reach a top-level or outside folder stays refused
+        ("rm -rf $HOME/Documents", {}, proj, "deny:recursive delete"),
+        ("rm -rf $X/", {}, proj, "deny:recursive delete"),
+        ("rm -rf /tmp/$k", {}, proj, "deny:recursive delete"),
+        ("rm -rf data/$k", {}, proj, "deny:recursive delete"),
+        ("rm -rf rel$k", {}, proj, "deny:recursive delete"),
+        ("SP=/tmp; rm -rf $SP", {}, proj, "deny:recursive delete"),
+        ("SP=/private/tmp/x; SP=/; rm -rf $SP/", {}, proj, "deny:recursive delete"),
+        ("SP=/private/tmp/x; rm -rf $SP/../../../Users", {}, proj, "deny:recursive delete"),
+        ("SP=/private/tmp/x rm -rf $SP/y", {}, proj, "deny:recursive delete"),      # bash expands $SP before the assignment
+        ("D=$(mktemp -d); rm -rf $D", {}, proj, "deny:recursive delete"),
+        ("for d in a b; do rm -rf $d; done", {}, proj, "deny:recursive delete"),
+        ("export R=/Users; rm -rf $R/x", {}, proj, "deny:recursive delete"),
+        ("find ~ -name '*.py' -exec rm -f {} +", {}, proj, "deny:find -exec rm"),
+        ("grep -l x notes/*.md | xargs rm -rf", {}, proj, "deny:recursive delete"),
+        ('grep "$(rm -rf ~/x)" notes/a.md', {}, proj, "deny:recursive delete"),
+        ("rm -rf /tmp/x-$(cat /tmp/name)", {}, proj, "deny:recursive delete"),
+        ("unlink ~/.ssh/id_rsa", {}, proj, "deny:unlink"),
+        ("python3 - <<'EOF'\nimport shutil\nshutil.rmtree(tmp)\nEOF", {}, proj, "deny:rmtree"),
+        ("until test -f x; do sleep 2; done", {}, proj, "deny:blocks your whole turn"),
+        ("sleep 19; sleep 19; cat x.log", {}, proj, "deny:blocks your whole turn"),
     ]
     env = {**os.environ, "CLAUDE_PROJECT_DIR": proj}
     times = []
@@ -1114,13 +1487,13 @@ def main() -> int:
     ap.add_argument("--emu", action="store_true", help="also test against the rehearsal portal (emu/), if present")
     ap.add_argument("--emu-repo", default=str(HERE.parent.parent), help="the NO-LIMIT repo that holds emu/")
     ap.add_argument("--only", default="", help="comma-separated test names (say, math, carry, cutoffs, autopin, guard, "
-                                               "portal, real, loop, sim, emu)")
+                                               "portal, real, loop, day, clockday, sim, emu)")
     ap.add_argument("--keep", action="store_true", help="keep the temporary folders (printed) for a look")
     a = ap.parse_args()
     t0 = time.time()
     tests = [("say", test_say_feed_live), ("math", test_clock_math), ("carry", test_carry), ("cutoffs", test_cutoffs),
              ("autopin", test_autopin_hold), ("guard", test_guard), ("portal", test_portal_mock), ("real", test_portal_real),
-             ("loop", test_portal_loop)]
+             ("loop", test_portal_loop), ("day", test_portal_day), ("clockday", test_clock_day)]
     if not a.quick:
         tests.append(("sim", test_daemon_sim))
     if a.emu:
