@@ -36,7 +36,9 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
 - **by ~12, the full `bot/INTERFACE.md`** (its stub by minute 6, before v1: see the speedrun notes below)**:** settings (names, defaults), the decision hooks a style or fix may wrap, the
   estimates offered (seat counters with priors, equity, ICM call threshold, tables), the branch-count call, and two
   commands: pack a candidate folder into a test zip, written to `candidates/<name>/build/<name>.zip` (where the
-  stylist, challenger and bughunter files expect it); run the checks on any zip. Keep it stable; report any change.
+  stylist, challenger and bughunter files expect it); run the checks on any zip. The pack command is what every stylist and the challenger wait
+  for: it is due here, by ~12, before the harness's extras (in two timed runs it came at minute 15 and no style could
+  be legal before minutes 16-29). Keep it stable; report any change.
 - **by 15, the harness** (`bot/tools/`): in-process runner on the kit's engine (any mix of bots, each kept apart: its own
   process, or loaded under a module name of its own with nothing shared, never two zips' `agent` modules in one
   interpreter; it starts by proving that two different zips act differently on the same deals) reporting decision
