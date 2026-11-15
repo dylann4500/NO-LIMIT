@@ -32,7 +32,9 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   report any mismatch first.
 - **By 15, `rig/compare.py LIVE CAND... --tables N --field F [--players 2]`** (Part 3a): per candidate, points per
   table ± SE, the paired difference vs LIVE ± SE, failed decisions, p99, p99.9 and max decision time by phase (judge on p99.9 beside the
-  `check_or_fold` baseline: the max spikes under load). Each bot is kept apart from the others: its own process, or its
+  `check_or_fold` baseline: the max spikes under load). It saves each bot's points per table, so two
+  runs on the same seeds can be paired afterwards, and it copies the theory tables its sparring bots play at the start
+  of a run (a table re-issued mid-run changed the sparring play between two pairings). Each bot is kept apart from the others: its own process, or its
   own module name with no shared globals (two zips both ship `agent.py`: in a timed run both rigs ran the wrong bot's
   code for 24 minutes). The rig's first act in every run is a self-test: two different zips give different actions on
   the same deals, and one zip against itself gives a paired difference of exactly zero. Bots on the
