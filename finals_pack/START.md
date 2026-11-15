@@ -75,7 +75,12 @@ session and `--remote-control` shows it on claude.ai/code. Never start just one 
 `--dangerously-skip-permissions`.
 
 **Model and effort:** Fable 5.2 at **high** effort for both sessions (`xhigh`/`max` think longer and answer slower).
-Subagents use the session's model and effort unless a role file or the session picks another. The default limit is 20
+Subagents use the session's model and effort unless a role file or the session picks another. Both ways were
+run on 14 November: with every agent on Fable (two timed runs), and with the two sessions on Fable and every subagent
+on Opus (the dress run, at six seats: neither session saw a subagent's work limited by it, and it used about a quarter
+of the Fable allowance). **To run the subagents on Opus, add this line to each starter:** "Run every subagent on Opus:
+pass model "opus" in each Agent call, and tell each subagent to do the same for its helpers." Without the line they
+run on Fable. The default limit is 20
 subagents running at once per session (checked on 14 Nov: the 21st spawn fails outright, it does not queue).
 `.claude/settings.json` raises it to 40 in its `env` block for every session started in this folder: checked on
 14 Nov, 24 subagents ran at once in a desktop-app session. To confirm in any session:
