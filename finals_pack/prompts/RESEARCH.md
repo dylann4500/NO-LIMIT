@@ -135,7 +135,8 @@ Then, still in the build hour:
   `rig/out/verdict-vN.md`, written by the tester when it finishes: send BUILDER the path and its first line at once. **No bot plays a scored round without a tester verdict that includes a heads-up run** (heads-up
   decides 50 vs 30 points). Every verdict reports the kit's `check_or_fold` floor in the same field and the load
   average: in the speedrun's variant the do-nothing bot scored as well as ours in a field that busts itself, which is
-  a PLAN CHALLENGE-sized fact if it holds on the real field.
+  a PLAN CHALLENGE-sized fact if it holds on the real field; against sparring bots that bust themselves it is only a
+  property of the sparring field (the floor scored 27-30 there and 1.0 in a sane one).
 - **By minute 40:** ask `analyst` and `tester` which style the field rewarded in practices 1-3 and what the best teams
   are doing, adjusted for which tables each style had, the round size and how mature the field was (plus replay tests
   on the same downloads); send BUILDER one paragraph with the numbers by minute 50. That's the round-1 live bot
