@@ -181,8 +181,8 @@ Treat these as starting values to be replaced by today's data, not as truths abo
   that, and it made our bot fold winning calls for two rounds. Test it with two and three players left.
 - At about 12 big blinds or less (a case-R depth: recompute it with case F's antes), play shove-or-fold, and widen sharply short-handed. Opponents
   open-shoved far more often than charts: about 35-50% of first-in chances at 10 big blinds or less, 20-35%
-  at 10-15 and 10-25% at 15-20 (both regionals, last round; top teams at the high end), so call them wider
-  than a chart says, within the tournament-equity limits above.
+  at 10-15 and 10-25% at 15-20 (both regionals, last round; top teams at the high end), so call at the
+  tournament-equity threshold against that seat's measured shoving width.
 - Heads-up and three-handed play decide whether a table pays 50 or 30. Give them their own ranges and test
   them; every bot that neglected them paid for it.
 
