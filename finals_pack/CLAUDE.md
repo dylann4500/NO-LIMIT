@@ -152,7 +152,10 @@ them: every practice and scored round plays the bot that is active when it start
 every start and we are never without one; an upload counts only when its test has finished; and hard rules 1 and 2.
 Dylan and Samuel give time updates and may move or drop any other time in words ("take until minute 25 for the
 platform", "skip this practice", "decide at T-2"): their words replace the clock's line for that step. Where they
-have said nothing, the pack's times are the default.
+have said nothing, the pack's times are the default. This holds in the last minutes before a round too: a clearly
+better bot that is tested may go up late on a human's word, as long as its upload test can finish before the start (a
+really good bot in at the last minute beats a middling one in early). If it misses, the bot that was active plays,
+which is why a tested bot stays active while the better one is being finished.
 
 ## 7. Working style
 

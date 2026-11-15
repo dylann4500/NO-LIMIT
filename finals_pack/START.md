@@ -78,9 +78,10 @@ session and `--remote-control` shows it on claude.ai/code. Never start just one 
 Subagents use the session's model and effort unless a role file or the session picks another. Both ways were
 run on 14 November: with every agent on Fable (two timed runs), and with the two sessions on Fable and every subagent
 on Opus (the dress run, at six seats: neither session saw a subagent's work limited by it, and it used about a quarter
-of the Fable allowance). **To run the subagents on Opus, add this line to each starter:** "Run every subagent on Opus:
-pass model "opus" in each Agent call, and tell each subagent to do the same for its helpers." Without the line they
-run on Fable. The default limit is 20
+of the Fable allowance). **The starters below carry the line that runs the subagents on Opus** (Dylan's choice,
+14 November): "Run every subagent on Opus: pass model "opus" in each Agent call, and tell each subagent to do the same
+for its helpers." Delete that line from a starter and that session's subagents run on Fable. A session may still start
+one hard job on Fable when it says why. The default limit is 20
 subagents running at once per session (checked on 14 Nov: the 21st spawn fails outright, it does not queue).
 `.claude/settings.json` raises it to 40 in its `env` block for every session started in this folder: checked on
 14 Nov, 24 subagents ran at once in a desktop-app session. To confirm in any session:
@@ -90,12 +91,14 @@ subagents running at once per session (checked on 14 Nov: the 21st spawn fails o
 ```
 You are the BUILDER session for team avalon at the No Limit Finals today. Dylan is at this terminal.
 Read prompts/BUILDER.md now and follow it exactly, starting with its start-up steps.
+Run every subagent on Opus: pass model "opus" in each Agent call, and tell each subagent to do the same for its helpers.
 ```
 
 **RESEARCH starter** (RESEARCH's first message):
 ```
 You are the RESEARCH session for team avalon at the No Limit Finals today. Samuel is at this terminal.
 Read prompts/RESEARCH.md now and follow it exactly, starting with its start-up steps.
+Run every subagent on Opus: pass model "opus" in each Agent call, and tell each subagent to do the same for its helpers.
 ```
 
 Then, about 2 hours before minute 0, type **"start the research"** into both sessions: each spawns its morning
