@@ -32,7 +32,8 @@ rounds), `analysis/RATES.md` and the tail of `notes/LEDGER.md`; check the round 
 - `analysis/roundcard.py data/rounds/<NN-stage>/` writes `analysis/<stage>/card.md` and prints it in under 60 s.
   `<stage>` = the stage name with spaces as '-' (`analysis/Practice-1/`, `analysis/Round-2.5/`): `$AVALON_STAGE` (the
   watcher passes e.g. "Round 2.5") with spaces → '-', else the round folder's name without its `NN-` prefix with its first letter capitalised (`06-round-2.5` → `Round-2.5`), else
-  `kit-sample`. The portal watcher runs it with the team Python (`.venv/bin/python -I`, 90 s cap) when data lands; by
+  `kit-sample` (the sample the kit ships under `starter-kit/hand-history/`; its output folder is `analysis/kit-sample/`).
+  The portal watcher runs it with the team Python (`.venv/bin/python -I`, 90 s cap) when data lands; by
   hand, set `AVALON_STAGE` the same way. `-I` drops the script's folder from `sys.path`: insert it yourself at the top.
   Standard library (numpy only if it imports). The card: our points per table by bot ± se, n tables; our rates by seat
   and street with n; per-opponent rates; the gap to each team with SE; the **defaults check** (ours vs the field:
