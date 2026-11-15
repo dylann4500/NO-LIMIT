@@ -148,7 +148,8 @@ betting"); LEDGER ids; what's unverified; running jobs and Modal app ids, or "no
 ## From the 14 November speedrun
 - Three theory agents in parallel delivered every table by minute 12. Then they sat idle: always continue with the
   second wave (the twist's value with betting, multiway all-in tables, the value of what the twist reveals about
-  neighbours, refits against variant-aware sparring) until told otherwise.
+  neighbours, refits against variant-aware sparring, written to `theory/out/rehearsal/` and never into the live files:
+  only a field download refits the tables platform embeds) until told otherwise.
 - One shared rule for the twist decision (e.g. which card to keep or pass), used by every table and written to
   `theory/out/twist_rule.json` for platform (its code may live in `theory/twist/`), so the numbers agree across tables
   and with the bot.

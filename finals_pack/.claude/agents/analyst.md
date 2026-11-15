@@ -71,7 +71,9 @@ jobs on it run after the T-3 upload. Jobs (5 minutes unless briefed otherwise):
 - **`refit`** (after each build-hour practice, then every download): update `analysis/field_priors.json` with the
   field's rates under the keys `theory/HANDOFF.md` names (open-shove widths by players left and depth, fold rates to
   bets by street and size, fold to 3-bets, ...), newest round weighted most, n per rate, stage and time;
-  `analysis/<stage>/refit.md` says what moved by how many SE. Platform builds it in as seat priors (weight 4). A
+  `analysis/<stage>/refit.md` says what moved by how many SE. Write it to a temporary file and rename it (a reader got an
+  empty file while it was being rewritten), and never from a dry run or from sparring bots: only a field download
+  refits it. Platform builds it in as seat priors (weight 4). A
   measured value outside a table's solved grid: "re-solve needed: <table>" in your report (RESEARCH spawns theory).
 - **`count`:** a counting question from anyone: code, n always, the script path.
 

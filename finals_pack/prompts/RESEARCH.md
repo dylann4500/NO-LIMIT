@@ -119,7 +119,8 @@ Then, still in the build hour:
   CHALLENGE (in a second run the trend flagged one 11.8 SE off on such a field).
 - **About minute 12 (when the first tables are in): theory wave 2.** The twist's value with betting, multiway all-in
   tables, the value of what the twist reveals about neighbours, and the tables' field columns refitted against
-  variant-aware sparring. Don't let `theory` sit idle.
+  variant-aware sparring, as a rehearsal written to `theory/out/rehearsal/` (never into the files `platform` embeds: in
+  a timed run columns chosen from our own sparring bots reached them). Don't let `theory` sit idle.
 - **On every release after v1** (v1's verdict comes from the minute-0 `tester`, which has the rig). The zip starts
   the tester, not the message: a release exists when `releases/vN.zip` and its `VERSIONS.md` line exist, and the
   tester checks the sha256 first (a zip with no line yet: start the tester on a copy with its sha256 pinned, and have it
