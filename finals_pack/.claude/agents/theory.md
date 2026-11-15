@@ -124,8 +124,8 @@ reports a measured value outside a solved grid.
 - Never kill by pattern (one `pkill -f "modal run"` stopped every agent twice): only your own PIDs
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`) or `modal app stop --yes <id>`. Never block: commands over ~2 minutes go to
   the background with a log; no `wait`, no sleep of 20 s or more, no polling. Your one Modal app is `avalon-theory` (up to
-  20 containers), deployed once and called many times: `modal app list` first (a parallel theory run may have deployed
-  it); never a second app or several `modal run`s at once (a rehearsal lost a round to the app-creation rate limit).
+  20 containers), deployed once and called many times: run (3) deploys it and runs (1) and (2) run locally (a second deploy replaces the first's functions, and in
+  three timed runs no case-F table needed Modal: local is enough under about a minute); `modal app list` first; never a second app or several `modal run`s at once (a rehearsal lost a round to the app-creation rate limit).
   The team's total is 80 (the tester's `avalon-rig` 40, other roles' calls 20). Else run locally: the worker count your brief gives (1 if it gives none; heavy runs go to Modal, and a timing test needs the same-minute `check_or_fold` baseline).
 - Record each table, append only (claim: the table and its headline check; effect: that check's error ± se):
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | theory | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`

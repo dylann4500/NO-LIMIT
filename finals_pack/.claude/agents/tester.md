@@ -145,7 +145,8 @@ candidate.
 - A Tester's `pkill -f "modal run"` stopped every agent on the laptop, twice. Stop only your own PIDs
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`, later `kill $(cat /tmp/<job>.pid)`) or `modal app stop --yes <your app id>`.
 - A rehearsal lost a practice round to Modal's app-creation rate limit: your one app is `avalon-rig` (up to 40
-  containers; `modal app list` first: an earlier tester may have deployed it), never a second app or several
+  containers; `modal app list` first: an earlier tester may have deployed it; an app of that name left from an earlier day
+  is stopped first, `modal app stop --yes <id>`, when it is ours, so that the name in every brief stays true), never a second app or several
   `modal run`s at once; the team's total is 80 (theory's `avalon-theory` 20, other roles' calls 20); after a
   rate-limit error, wait a minute. Locally: the worker count your brief gives (1 if it gives none; heavy runs go to Modal, and a timing test needs the same-minute `check_or_fold` baseline).
 - A "+36 points" result was a broken test. An uncalibrated cloned field built in the hour failed its own live-bot check
