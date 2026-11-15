@@ -53,7 +53,9 @@ crowded, what punishes them, practice 1's field (mostly minimal bots) vs round 3
    `state/rounds_seen.json`; never print the key, never anything but GET). Then the field's rates this round vs
    earlier ones (open, limp, 3-bet, fold to 3-bet, open-shove by depth, fold to a bet by street, the twist's use; each
    counted as `notes/pre/stat_definitions.md` defines it: the plan's bands mean the team-equal mean), each with its
-   change in SE; the style cluster of the 5 best teams and how it moved; the yardstick teams; and all seven
+   change in SE; the style cluster of the 5 best teams and how it moved; the yardstick teams (before calling a move in a field rate a
+   trend, check it on pots we are not in: a rate measured against us moves when our own bot changes, as "fold to
+   3-bets" did from 46.0 to 39.4 between two rounds whose opponents were unchanged); and all seven
    plan assumptions of DECISION_RULES §5, each checked with data, n and SE. **An assumption off by 2 SE or more, or a
    top-5 cluster that moved, is a PLAN CHALLENGE:** report it at once (if your brief also holds the card, end the run,
    say "card not started", and let RESEARCH spawn it).
