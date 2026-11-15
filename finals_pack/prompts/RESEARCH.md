@@ -85,13 +85,14 @@ running before you spawn anything. The first thing to establish is which case th
 (6 players, 6,000 chips, antes), the main case, or case R (8 players, 2,000 chips, no ante). BUILDER tells you from
 `platform`'s rules card; until then every brief says "expect case F; check the kit first", and when it is known you
 send it to every running subagent. Every brief names the team Python (`starter-kit/.venv/bin/python`, announced by
-BUILDER once `platform` has set it up; system `python3` may not build the kit's evaluator) and the CPU budget (a
+BUILDER once `platform` has set it up: at minute 0 it does not exist yet, so the brief says "use it if it exists, else
+system `python3` for anything that does not need the evaluator"; system `python3` may not build the kit's evaluator) and the CPU budget (a
 worker count per subagent: one each once more than six agents are live, and about 6 in all only as a guide for heavy
 local runs; longer runs go to Modal: `avalon-rig` for the tester, `avalon-theory` for
 theory) and the role's own pre-event note (`theory`: `notes/pre/variants.md`; `tester`: `testplan.md`; `scout`:
 `field.md`; `analyst` and `scout`: `stat_definitions.md`; all, in case F: `format_finals.md`). Spawn in ONE message, in
 the background:
-- `theory` x3 (the speedrun showed this lands everything by minute 12): (1) hand ranking + ICM thresholds by minute
+- `theory` x3 (the speedrun showed this lands everything by minute 12): (1) in case F the format card by minute 3 and the deep card (`notes/pre/format_finals.md` section 5), hand ranking + ICM thresholds by minute
   10, then the call threshold against two or more players (`call_multiway.json`) by about 12; (2) the twist's option values and the twist decision rule (`theory/out/twist_rule.json`) by 15; (3) push/fold,
   call tables and break-evens by 15, `theory/HANDOFF.md` by 20. As each lands, `SendMessage` BUILDER one line with the
   path and the headline (e.g. "pairs are the worst hands here"): BUILDER broadcasts it so nobody re-derives it. Relay
