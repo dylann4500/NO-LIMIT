@@ -91,10 +91,10 @@ running before you spawn anything.
    `notes/format.md`. A team with no active bot scores zero.
 5. **Every release, from v1 on (D's included):** spawn a fresh `bughunter` on it at once (background, at most 8
    minutes; its brief names, as one question, the code path this release changed: general reviews missed a bug
-   that a narrow question found in under 4 minutes). A candidate you mean to pick gets its bughunter when its builder
-   reports it legal, not at release: a hunt takes 3-8 minutes and a pick is declared 3 minutes before its practice, so
-   in a timed run every pick was declared before its own review came back. The release then only confirms the bytes
-   are the reviewed ones, and `SendMessage` RESEARCH "RELEASED vN <sha256> <one line>" so it spawns a tester for it. In the
+   that a narrow question found in under 4 minutes), and `SendMessage` RESEARCH "RELEASED vN <sha256> <one line>" so it
+   spawns a tester for it. A candidate you mean to pick gets its bughunter earlier, when its builder reports it legal:
+   a hunt takes 3-8 minutes and a pick is declared 3 minutes before its practice, so in a timed run every pick was
+   declared before its own review came back; its release then only confirms the bytes are the reviewed ones. In the
    speedrun both reviewed early releases had a real problem, and a release without a tester verdict shipped a
    heads-up regression. **No bot plays a scored round without a tester verdict that includes a heads-up run.**
 
