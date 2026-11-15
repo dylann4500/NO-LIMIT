@@ -17,7 +17,7 @@ cd /Users/dylan/Documents/GitHub/nolimit-hub
 PY=/Users/dylan/Documents/GitHub/nolimit-live/prep/.venv/bin/python
 $PY emu/rehearsal.py --run dress1 --table finals --variant flop_pass_holdem \
     --field-file emu/fields/finals_dress.json --weights 1,2,3,4,5,6 --cooldown 30 \
-    --practice-iterations 334 --round-iterations 1667 --wait
+    --practice-iterations 1000 --round-iterations 5000 --wait
 ```
 
 Wait for `READY` (about 10 s). Then, in terminal 2, the mock portal:
@@ -37,8 +37,10 @@ Then the start signal, from any terminal (`now` = 20 s from now; or a clock time
   100, 120, 140 and 160 (weights 1 to 6); a practice round at minutes 70, 90, 110, 130 and 150 (10 minutes before
   each later scored round). Upload cooldown 30 s. The run ends by itself once Round 6 is delivered, at about
   minute 162.
-- Round sizes: 18 entries (17 + avalon) fill **3 tables an iteration**. `--practice-iterations 334` is about 1,000
-  tables, and `--round-iterations 1667` is about 5,000 tables. For 3,000-table scored rounds use `1000`.
+- Round sizes, as the real Format page counts them: **1,000 iterations a practice and 5,000 a scored round**.
+  Every entry plays one table an iteration, so avalon gets 1,000 and 5,000 tables. 18 entries (17 + avalon) fill
+  3 tables an iteration, so that is 3,000 and 15,000 tables in all. Measured on Modal: 114 s and 219 s
+  (section 6).
 - Rounds play on Modal (19 shard containers plus 1 merge container, never more than 20; see section 6). To play on
   this laptop instead, add `--local-rounds`. If Modal fails, the rehearsal falls back to local play by itself.
 - Order matters. Start `rehearsal.py` first, then the portal. Never restart `rehearsal.py` with the same `--run`
@@ -109,34 +111,44 @@ Never stop these with `pkill` or `killall`: the team's own processes run on this
 
 ## 6. Speed, size and cost (measured tonight)
 
-All rounds below are 18 entries at the Finals table on flop_pass_holdem, with 0 failed decisions in every round.
+All rounds below are 18 entries at the Finals table on flop_pass_holdem. Wall time runs from the round's start
+(upload snapshot) until results and avalon's downloads are on this Mac and delivered.
 
-| Where | Round | Tables | Wall time | Tables/s |
-|---|---|---|---|---|
-| this laptop (`--local-rounds`, 4 processes x 4 tables) | practice | 300 | 24.9 s | 12 |
-| this laptop | practice | 1,002 | 80.7 s | 12.4 |
-| this laptop | scored, 5,000 tables | (estimated from the above) | about 6.7 min | 12.4 |
-| Modal, 19 shards + 1 merge | practice (first round of the run: image layers rebuilt) | 1,002 | 92.4 s | 11 |
-| Modal, 19 shards + 1 merge | scored | 5,001 | 124.9 s | 40 |
+| Where | Round | Iterations (= avalon's tables) | Tables in all | Wall time | Tables/s |
+|---|---|---|---|---|---|
+| **Modal, 19 shards + 1 merge** | **practice** (first round of the run: image layers rebuilt) | **1,000** | **3,000** | **114.1 s** | 26 |
+| **Modal, 19 shards + 1 merge** | **scored** | **5,000** | **15,000** | **218.5 s (3 min 39 s)** | 69 |
+| Modal | practice (first round of its run) | 334 | 1,002 | 92.4 s | 11 |
+| Modal | scored | 1,667 | 5,001 | 124.9 s | 40 |
+| this laptop (`--local-rounds`, 4 processes x 4 tables) | practice | 100 | 300 | 24.9 s | 12 |
+| this laptop | practice | 334 | 1,002 | 80.7 s | 12.4 |
+| this laptop | practice / scored, 1,000 / 5,000 iterations | 1,000 / 5,000 | 3,000 / 15,000 | about 4 min / 20 min (estimated, not run) | 12.4 |
 
-- Most of a Modal round is overhead: about a minute of container start-up and the merge. Playing the 5,001
-  tables took 25 to 30 s per container.
+- The bold rows are tonight's sizes, run as throwaway run `modaltime_full`. In the 5,000-iteration round, avalon's
+  hand files were **65.9 MB** (full, 5,000 tables) and 13.1 MB (`-first-1000`, 1,000 tables). Both pass the kit's
+  validator. Rare failed decisions appeared: 11 of about 13 million, spread over 5 teams including the kit's
+  min_raiser (avalon 1 of 387,870). They look like timing noise on Modal's CPUs at the 1 ms limit, not bot faults.
+  There were none at the smaller sizes.
+- About a minute of each Modal round is overhead: container start-up and the merge. Playing 5,001 tables took
+  25 to 30 s per container.
 - Two Modal fixes went in tonight. (1) Each container runs 4 round processes, because one process uses one core.
   (2) For a fixed field, only avalon's hand files are merged, and they are returned directly instead of being
   written to the Modal volume. Before the fixes, a 5,001-table scored round had not finished after 12 minutes,
   because writing every team's downloads to the volume ran at about 1.5 MB/s.
-- **Recommendation: Modal** (the command above). A scored round of 5,000 tables takes about 2 minutes, and a
-  practice about 1.5 minutes. The laptop's CPUs stay free for the team's sessions and latency tests. Local rounds raised
-  the load average to about 4.5 (15 cores) for the length of the round, which is 7 minutes per scored round. `--local-rounds` is the fallback, and also finishes
-  well inside 20 minutes (about 7 minutes at 5,000 tables). Not measured: 15,000-table rounds (5,000 iterations,
-  the real minimum). By the measured rate, they should take about 5 minutes on Modal and about 20 minutes locally,
-  so do not use `--local-rounds` at that size.
+- **Recommendation: Modal** (the command above). At the real sizes, a practice takes about 2 minutes and a
+  scored round under 4, well inside the 10 minutes between round starts. **Do not use `--local-rounds` at these
+  sizes**: a 5,000-iteration round would take about 20 minutes on this laptop and overlap the next round. If
+  Modal is down, use `--local-rounds --practice-iterations 334 --round-iterations 1667`: about 80 s and 7 minutes,
+  with avalon getting 334 and 1,667 tables a round. The automatic fallback (Modal failing mid-event) plays the round at its
+  full size locally: a scored round would then take about 20 minutes. If that happens, restart under a new run
+  name with the smaller sizes. Local rounds raised the load average to about 4.5 (15 cores)
+  while they ran.
 - Container cap: `EMU_MAX_CONTAINERS` (default 20) caps the whole round app: `play_shard` gets 19 and
   `merge_round_local` 1. This holds within one rehearsal, which uses one app for the whole event. Two rehearsals at
   once would each take 20, so run only one.
 - Cost on Modal (an estimate from list prices, not a bill): a shard container is 8 CPU and 16 GB, about
-  $0.00014 a second. A round holds about 19 containers for about 1 to 2 minutes, which is roughly $0.2 to $0.4 a
-  round. The evening's 15 rounds come to roughly $5, plus the image rebuild at the first round. Check the
+  $0.00014 a second. At the real sizes, a round holds about 19 containers for 2 to 3.5 minutes, which is roughly $0.3
+  a practice and $0.6 a scored round. The evening's 9 practices and 6 scored rounds come to roughly $6 to $8. Check the
   workspace's usage page for the real figure. `--local-rounds` costs nothing on Modal.
 
 ## 7. The field (`emu/fields/finals_dress.json`)
@@ -149,7 +161,8 @@ Sim D3 (v14), Sim A5 (v13), Sim B4 (v15), Sim C3 (v12), Sim Base11 (v11); then S
 Sim D2 (v7), Sim A2 (v4), Sim C1 (v8), Sim Base6 (v6), Sim D1 (v2), Sim A1 (v3), Sim B1 (v5); weak teams:
 Sim Placeholder (v1), Sim Check Or Fold, Sim Min Raiser.
 
-All 17 pass the upload test at the Finals table. All played 300- to 5,001-table rounds with 0 failed decisions.
+All 17 pass the upload test at the Finals table. All played rounds of 100 to 5,000 iterations, with 0 failed
+decisions up to 1,667 iterations and at most 6 in 782,685 at 5,000 (section 6).
 None was dropped. The rehearsal re-checks every fixed bot before READY and drops, loudly, any bot that fails.
 Zips are extracted into `emu/runs/<run>/field/<team>/`. Each opponent keeps the same bot all event.
 
@@ -160,11 +173,11 @@ Zips are extracted into `emu/runs/<run>/field/<team>/`. Each opponent keeps the 
   21 teams, which makes 24 seats with 3 fillers. Filler seating itself works and is tested (17 entries give 1
   filler per iteration).
 - **The variant** is our mock flop_pass_holdem, not the real Finals variant.
-- **Round sizes**: about 1,000 tables a practice (334 iterations) and 5,000 a scored round (1,667 iterations).
-  The real Format page says practices are about 1,000 *iterations* and scored rounds at least 5,000 *iterations*;
-  at 21 teams that is 4,000 and 20,000 or more tables (Bay Area ran 20,000 iterations). Margins of error here are
-  therefore wider, and avalon sits at about 334 and 1,667 tables a round, not 1,000 and 5,000 or more.
-- **Results timing**: results land 1.5 to 2 minutes after a round starts on Modal. Bay Area's took 6 to 7.5
+- **Round sizes**: 1,000 iterations a practice and 5,000 a scored round, so avalon gets 1,000 and 5,000 tables,
+  as the real Format page describes. The real scored rounds are "at least" 5,000 iterations, and Bay Area ran
+  20,000, so the real ones may be bigger, with narrower margins.
+- **Results timing**: results land about 2 minutes (practice) and 3.5 minutes (scored) after a round starts on
+  Modal. Bay Area's took 6 to 7.5
   minutes. The real portal also has a compute gap after the last round.
 - **Format page text**: the mock shows the Finals table (6 x 6,000, antes). As of today, the real Finals Format page
   still shows the template's 8 players, 2,000 chips, 10/20 and no ante (`finals_pack/prep/PORTAL_SIGNED_IN_14NOV.md`).
@@ -191,8 +204,8 @@ Zips are extracted into `emu/runs/<run>/field/<team>/`. Each opponent keeps the 
   On the real portal a forfeiting team plays no tables.
 - **Overlapping rounds**: if a round is still running when the next one starts, both run at once. The real portal
   queues them. This happened in tonight's fast-clock test, with rounds 30 s apart, and worked; the merges then wait
-  for each other (one merge container). At the real clock, rounds finish in about 2 minutes, so it should not
-  happen.
+  for each other (one merge container). At the real clock, rounds finish in 2 to 3.5 minutes, so it should
+  not happen.
 
 ## 9. What changed in `emu/` tonight
 
@@ -216,6 +229,8 @@ Zips are extracted into `emu/runs/<run>/field/<team>/`. Each opponent keeps the 
 
 - `stage1`: a local 300-table Finals practice through the rehearsal's own `play()`. 6-seat tables, antes from
   10/20/4, 6,000 stacks, 0 failed decisions. avalon's download passes the kit's validator.
+- `modaltime_full`: on Modal, a 1,000-iteration practice (3,000 tables) took 114.1 s and a 5,000-iteration
+  scored round (15,000 tables) 218.5 s. avalon's full file was 65.9 MB, and both of its files pass the validator.
 - `localtime`: a local 1,002-table practice took 80.7 s. `modaltime3`: on Modal, a 1,002-table practice took
   92.4 s and a 5,001-table scored round 124.9 s. avalon's 1,667-table download passes the kit's validator.
 - `e2e` (local rounds) and `e2em` (Modal rounds), at `--scale 0.05`. Before the start, uploads were refused and
