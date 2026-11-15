@@ -112,8 +112,11 @@ eight hours before the event.
 **Changed because of this:** section 3, row 4 now splits 3-bets by seat and size; section 2's practice-1
 caution says "check". The crowded-styles shares stand: this is two or three teams of unknown rank.
 
-**Unknown:** the variant; points per place (the rules say they vary by variant); the 20 names; Pittsburgh's
-standings and which of its teams are finalists; whether any finalist recognises opponents by name.
+**Unknown:** the variant; points per place (the rules say they vary by variant); whether any finalist recognises
+opponents by name. **Known since this was drafted** (Samuel's `research/regionals_web/REPORT.md`;
+`prep/PORTAL_SIGNED_IN_14NOV.md`): Pittsburgh had 146 teams and weights 1, 2, 3, 5, 8, 13; its top five were Pluto,
+Cold Decks, Poker is all you need, Hold Em Trophies and Claude Mythos 5.5; and the portal lists all 21 finalists
+(`notes/pre/finalists.md`, "The field").
 
 ## Appendix A: regional reference values (measured 14 November)
 
@@ -153,5 +156,7 @@ Rank persistence, rechecked from points at our tables: round-to-round Spearman 0
 - A Boston entrant's eight iterations: https://github.com/AlexPha45/No-Limit-Pokerbots
 - Harvard Crimson on the Boston regional: https://www.thecrimson.com/article/2026/11/12/poker-tournament-regional/
 - Pittsburgh repositories (section 5; read 14 November, nothing copied): https://github.com/CapitanoZ/no-limit-2026-pokerbot (README, `bot/nl26/strategy.py`, `pgh.py`, `tools/analyze_history.py`); https://github.com/noe2971/PokerBot (`agent.py`); https://github.com/tranthuanhieu1610/no-limit-pittsburgh-playbook (13 of 23 notes files, including `references/sam/intel-earlier-regionals.md` and `references/ours/4-opponents.md`). All were read through a summarising fetch tool, so check a figure against the raw file before relying on it.
-- Not found: Pittsburgh's results, a list of finalists, or anything by 2 Curry. (Pittsburgh's variant was found
+- Not found: anything by 2 Curry. Found later: Pittsburgh's results (146 teams, weights 1, 2, 3, 5, 8, 13, the top
+  twelve by round) in Samuel's `research/regionals_web/REPORT.md`, and the 21 finalists on the portal
+  (`notes/pre/finalists.md`). (Pittsburgh's variant was found
   later the same morning: `notes/pre/variants.md`.)
