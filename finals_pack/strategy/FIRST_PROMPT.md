@@ -91,6 +91,7 @@ state.variant fields, and anything unusual in state.config. Our notes are in <no
 TWIST_NOTES.md there first (a checklist for any new phase, and how to value plausible twists).
 
 FIRST 10 MINUTES: A BOT THAT CANNOT LOSE US THE ROUND
+(One platform run has this as its only job, with v1 out by about minute 6; a second builds the shared platform.)
 Before any strategy, get a minimal legal bot into bot/ and releases/v1.zip (BUILDER tells Dylan). A team with no
 active bot scores zero, and practice rounds on the real field start within minutes, so every minute
 without an upload wastes real measurements. It must handle every phase the variant adds (use the kit's

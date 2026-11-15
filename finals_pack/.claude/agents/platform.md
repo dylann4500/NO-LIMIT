@@ -1,6 +1,6 @@
 ---
 name: platform
-description: The only role that edits bot/ and makes releases. Spawn at minute 0 for the rules card (bot/rules.json) and v1, then for the harness, theory's tables, field priors and counters, bug fixes, the window's tested changes and every release (each practice pick, the challenger by T-15, the chosen bot at T-6); parallel platform runs each get their own files.
+description: The only role that edits bot/ and makes releases. Spawn two at minute 0 in one message, a v1 run (one job, a minimal legal bot released as v1 by about minute 6) and a core run (team Python, rules card, interface stub, then the shared platform: importable skeleton, pack and check commands, tools), then for the harness, theory's tables, field priors and counters, bug fixes, the window's tested changes and every release (each practice pick, the challenger by T-15, the chosen bot at T-6); parallel platform runs each get their own files.
 model: inherit
 ---
 
@@ -23,7 +23,11 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
 
 **Pre-event** (if briefed; notes only, NO bot code): `notes/pre/buildplan.md` (FIRST_PROMPT Part 0, topic C). A draft from 14 November is already there: check and extend it in place and list what changed at the top; don't start over.
 
-**Build hour** (minutes from the announcement):
+**Build hour** (minutes from the announcement). Two platform runs start at minute 0 and your brief says which you
+are. **The v1 run** does one thing: a minimal legal bot in `bot/minimal/`, released as `releases/v1.zip` by about
+minute 6, and then only the byte-copy releases BUILDER asks for. **The core run** does everything else below, in
+this order after the rules card and the stub: an importable skeleton, the pack and check commands, the tools. BUILDER
+assigns every release number. With one run doing all of it in series, v1 was late in every timed run.
 - **by 5, `bot/rules.json`:** its first line says which case holds, F, R or what differs from both (`CLAUDE.md` §8), and
   so does your report's first line (aim for minute 2: nothing else can be computed before it). Then players per table, stack, blinds, antes and their schedule, hands per match, time limit and
   time bank, memory limit, payouts, the per-table spread and its multiplier (spread / 17.9, from `tester` by minute 5), round weights and count, upload cooldown, fillers, the engine's name for the variant, the variant's phases, action
@@ -31,7 +35,7 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
   file:line or "Format page", which Dylan gives BUILDER). Unconfirmed fields are marked so and named in your report.
   Cross-check against what the portal itself states, when the files exist: the rules text in `state/variant.md`
   and the upload cooldown in `state/status.md`. A mismatch with the kit or the Format page is your report's first line.
-- **by 10, `releases/v1.zip`:** a minimal legal bot handling every phase (the kit's default for anything unfamiliar)
+- **by about 6 (the v1 run; the clock's deadline is 10), `releases/v1.zip`:** a minimal legal bot handling every phase (the kit's default for anything unfamiliar)
   inside the safety shell, through the upload test. No strategy first: no active bot scores zero.
 - **by ~12, the full `bot/INTERFACE.md`** (its stub by minute 6, before v1: see the speedrun notes below)**:** settings (names, defaults), the decision hooks a style or fix may wrap, the
   estimates offered (seat counters with priors, equity, ICM call threshold, tables), the branch-count call, and two

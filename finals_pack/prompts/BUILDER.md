@@ -73,11 +73,16 @@ running before you spawn anything.
 2. Spawn in ONE message, in the background, each brief naming the role's own pre-event note (`platform`:
    `notes/pre/buildplan.md`; `stylist`: `notes/pre/whatwins.md`; both, in case F: `notes/pre/format_finals.md`; the
    clean-room `challenger` reads none of them):
-   - `platform`: set up the team Python (`starter-kit/.venv`, plus the `.venv` link) and announce it; the rules card
+   - `platform`, **two runs in this same message**, each with its own files; you assign every release number.
+     **The v1 run** has one job: a minimal legal bot in `bot/minimal/`, released as `releases/v1.zip` by about minute 6
+     (the clock's deadline is minute 10); nothing else until v1 is out. Afterwards continue it for releases that only
+     copy and check bytes. With one platform run v1 was late in every timed run; a run with this one job released it
+     in under a minute.
+     **The core run**: the team Python (`starter-kit/.venv`, plus the `.venv` link), announced; the rules card
      `bot/rules.json` from the kit and `notes/format.md` (players, stacks, blinds and antes, hands per match, time limits,
-     weights, payouts, cooldown) by minute 5; a stub `bot/INTERFACE.md` by minute 6; a minimal legal bot and
-     `releases/v1.zip` by minute 10; the test harness by 15; then the shared platform (FIRST_PROMPT Part 1), building
-     in each of RESEARCH's tables as it lands (all by about minute 20).
+     weights, payouts, cooldown) by minute 5; a stub `bot/INTERFACE.md` by minute 6; then the shared platform in this
+     order: an importable skeleton, the pack and check commands, the tools and the test harness (by 15), and
+     RESEARCH's tables as each lands (all by about minute 20; FIRST_PROMPT Part 1).
    - `stylist`: styles A (wide pressure), B (shove-heavy), C (tight) as settings on the platform, built as soon as
      the interface stub exists; they are starting corners, not a menu (say if today's rules favour another axis).
    - `challenger` (a fresh agent, not the memo writer): clean-room design D from the kit and today's rules only (not
