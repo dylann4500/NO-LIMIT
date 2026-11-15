@@ -75,7 +75,8 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
 **A second opinion by a different method:** if `codex` is logged in, start `codex exec` in the background on the same
 target with this list (log in your folder), carry on, then merge its findings, re-running each before you report it.
 
-Report only what you reproduced, each with the smallest reproduction (script path, command, output). A suspicion you
+`REPORT.md` must exist on disk: if the Write tool refuses the file, write it with a shell heredoc. A report that lives
+only in your final message is lost at the session's next compaction. Report only what you reproduced, each with the smallest reproduction (script path, command, output). A suspicion you
 couldn't reproduce goes under "unverified". Record each reproduced bug as a LEDGER line (claim: the bug and what it
 breaks; effect: how often it fires per 1,000 hands, or the wrong number against the right one).
 
