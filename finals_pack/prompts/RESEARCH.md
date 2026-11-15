@@ -81,7 +81,10 @@ theory). Spawn in ONE message, in the background:
 - `theory` x3 (the speedrun showed this lands everything by minute 12): (1) hand ranking + ICM thresholds by minute
   10; (2) the twist's option values and the twist decision rule (`theory/out/twist_rule.json`) by 15; (3) push/fold,
   call tables and break-evens by 15, `theory/HANDOFF.md` by 20. As each lands, `SendMessage` BUILDER one line with the
-  path and the headline (e.g. "pairs are the worst hands here"): BUILDER broadcasts it so nobody re-derives it.
+  path and the headline (e.g. "pairs are the worst hands here"): BUILDER broadcasts it so nobody re-derives it. Relay
+  a number only from the file itself, opened by you, never from a subagent's progress line: quote the file's
+  `version` and `made`, and say so if `fallback` is true (in two timed runs wrong numbers were relayed for 8 and 19
+  minutes).
 - `analyst`: parsers for today's hand-history format and `analysis/roundcard.py <round folder>` (card in under 60 s;
   stage folder `analysis/<stage>/`, the stage name with spaces as '-') ready for practice 1's download (about minute 25).
 - `tester`: check the rules card (`bot/rules.json`) against the kit and `notes/format.md` as soon as both exist; the

@@ -104,7 +104,8 @@ running before you spawn anything.
   fix release became the base before its verdict and carried a regression into the next pick.
 - Keep `platform` building in RESEARCH's tables as they land (`theory/out/*.json`, including `twist_rule.json`).
 - **Broadcast the first variant-level finding** (theory's ranking or twist rule, or any report that flips a hold'em
-  assumption): `SendMessage` it to every running `stylist` and `challenger` at once, so nobody re-derives it (in the
+  assumption): `SendMessage` it to every running `stylist` and `challenger` at once, with the table's file, `version` and `made` as
+  RESEARCH quoted them (no version, no broadcast: ask for it), so nobody re-derives it (in the
   speedrun five agents re-derived "pairs are the worst hands" with their own simulations).
 - **After every platform release, diff the interface** (`git diff <previous>..HEAD -- bot/INTERFACE.md`): if a setting
   was renamed or removed, grep `candidates/` and tell each affected stylist. A silent rename switched a style's
