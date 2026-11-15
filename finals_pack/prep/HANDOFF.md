@@ -241,12 +241,14 @@ aim in `tester.md` (20,000 tables for 3-4 candidates in 5 minutes) cannot be rea
 
 ## 10. Saturday evening: the final state (14 November, 18:05, Dylan's Claude)
 
-**The Sunday repo exists.** `~/avalon-finals` on Dylan's laptop, a local git repo with no remote (commit `93e5c97`):
-`finals_pack/` at `emu/rehearsal` `439bec9`, without `prep/`. The full suite passes there (228), it holds no bot code
-and no runtime files, and nothing has been run in it. `~/avalon-rehearsal` holds the same files; from it
-`python3 scripts/portal_watch.py --once` prints team avalon and the competition "Finals" with 0 rounds. If the bundle
-changes again: delete `~/avalon-finals`, copy `finals_pack/` to it without `prep/` and `__pycache__`, `git init`,
-commit, run the tests, and trust the folder again.
+**The Sunday repo is Dylan's to make by hand** (his choice, 14 November, 19:00). The lead session had built
+`~/avalon-finals` and prepared `~/avalon-rehearsal`; both were moved to the Trash at his request so that he sets up
+from nothing, as on the day. What he starts from is one file, `avalon-finals-starting-bundle.zip` (in the
+`nolimit-live` folder on his laptop, not in git): `finals_pack/` at `emu/rehearsal` `d6293ba` without `prep/`, 68
+files, the full suite passing (228) when it was packed. To make it again: copy `finals_pack/` without `prep/` and
+`__pycache__`, hidden files included (`.claude/`, `.gitignore`), `git init`, commit, run the tests, trust the folder.
+A full rehearsal against Samuel's mock portal is planned for Saturday night; fixes from it go into the bundle first
+and the zip is packed again.
 
 **What changed since section 9** (all on `emu/rehearsal`; `git log` has one commit per item):
 - **The Finals competition is on the portal:** 21 teams by name, linear weights 1 to 6 as read at 16:32 (they can
