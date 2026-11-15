@@ -60,8 +60,10 @@ break-evens and HANDOFF.md; write each file the moment it passes its checks, so 
 
 Every JSON carries `version`, `made` (HH:MM), `inputs` (the rules-card values used), `fallback` (true/false) and a
 `checks` summary. `fallback: true` means "usable, not final", never "do not ship". A re-issue that changes a table's
-keys or shape bumps `version` and gets a dated line in `theory/HANDOFF.md` saying what changed: platform's loader
-stops on a shape it doesn't expect.
+keys or shape, or a constant its readers use (a budget, a scale), bumps `version` and gets a dated line in
+`theory/HANDOFF.md` saying what changed: platform's loader stops on a shape it doesn't expect, but nothing stops a
+reader that hard-coded the old constant, so every constant a reader needs is in the table as data. Only finished
+tables go in `theory/out/`; work files go in `theory/cache/` (platform builds in whatever it finds in `out/`).
 
 **Refits (minute 30, then every T-13, when briefed):** real-field numbers outrank the tables. Re-issue the
 field-dependent columns (call tables' shove widths, fold-rate columns) from the real field: take the measured rates

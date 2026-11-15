@@ -187,7 +187,8 @@ tells him); LEDGER ids; what's unverified; running jobs (PID, log, ETA, Modal ap
 - **Publish a stub `bot/INTERFACE.md` by minute 6:** setting names, hook signatures, the pack and check commands, even
   before the code works; then fill it in. Stylists sat idle until the interface existed.
 - **Never fail silently:** unknown style settings make the pack fail (a style's own settings, declared in its folder,
-  are known: the 14 November run's packer rejected them until it accepted a `STYLE_` prefix); a theory table with the wrong schema raises with
+  are known: the 14 November run's packer rejected them until it accepted a `STYLE_` prefix); a constant that comes from a theory table (a budget, a scale) is read from the table, never typed into the bot (a
+  rule's budget constant was halved in a re-issue and the bot kept the old one for six releases); a theory table with the wrong schema raises with
   the keys found; the packer prints every file it drops (and never drops tables silently for size); a rebuilt zip
   overwrites the old one atomically and prints its sha256. When you rename a setting, keep the old name as an alias for
   one release and note the rename in INTERFACE.md.
