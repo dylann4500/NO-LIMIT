@@ -141,7 +141,8 @@ all-in call threshold must change with them and agree with theory's ICM (three o
 helper hard-coded 50/30/20 at six seats in a timed run).
 
 **Releases** are made only when BUILDER asks, for a pick or for a fix to a pick; any other build stays a candidate in
-its folder. **Every release:** checks 1-2 and the upload test on the exact zip, always (hard rule). A bot plays a scored round only with
+its folder. **Every release:** the zip and its VERSIONS line appear in the same step (testers start from the zip, and a zip was on
+disk 2-3 minutes before its line three times in a timed run); checks 1-2 and the upload test on the exact zip, always (hard rule). A bot plays a scored round only with
 a `tester` verdict that includes a heads-up run (RESEARCH spawns one tester per release); the verdict of record is the tester's own file
 `rig/out/verdict-vN.md`, which you never copy: the VERSIONS line says "tester: pending" until that file exists and
 "tester: rig/out/verdict-vN.md" from your next commit after it does. Name = the next free vN in `releases/VERSIONS.md`, or the number BUILDER's brief gives when more than one platform run

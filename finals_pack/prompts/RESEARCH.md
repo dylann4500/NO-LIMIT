@@ -122,7 +122,8 @@ Then, still in the build hour:
   variant-aware sparring. Don't let `theory` sit idle.
 - **On every release after v1** (v1's verdict comes from the minute-0 `tester`, which has the rig). The zip starts
   the tester, not the message: a release exists when `releases/vN.zip` and its `VERSIONS.md` line exist, and the
-  tester checks the sha256 first; BUILDER's "RELEASED vN <sha256> ..." only adds the checks done. Nothing wakes you
+  tester checks the sha256 first (a zip with no line yet: start the tester on a copy with its sha256 pinned, and have it
+  confirm the line when it appears); BUILDER's "RELEASED vN <sha256> ..." only adds the checks done. Nothing wakes you
   when a file lands unless you arm it: a one-shot background watcher per file you wait for (`CLAUDE.md` hard rule 7),
   and on every wake-up a look for new files first (`ls -lt releases theory/out rig/out | head`): spawn a fresh `tester` for that release, in parallel
   with any others (one tester continued serially fell behind by three releases). But a release that replaces one
