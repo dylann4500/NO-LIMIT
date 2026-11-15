@@ -54,11 +54,10 @@ Bay Area ranks are from the official results on this laptop; Pittsburgh's from t
 `research/regionals_web/REPORT.md`; Boston's from a finalist's public photo of the standings.
 
 - **Hotwheels is the Boston team:** the name is in Boston's 231 entries and not in Pittsburgh's 146 (nor Bay Area's).
-- **Which Team 72.** All three regionals had an entry of that name. The portal gives the name only, so the files
-  cannot say which one it lists. The Bay Area's qualified by right (5th); Boston's was about 10th at one team's
-  tables, behind Magnus RLsen and Hotwheels; Pittsburgh's is not in its official top 12. Read it as the Bay Area's,
-  and check on Sunday with the recognition table: the Bay Area and Boston bots share almost nothing (section 4
-  against section 8).
+- **Which Team 72: the Bay Area's** (confirmed by Dylan on 14 November). All three regionals had an entry of that
+  name and the portal gives the name only, so the files could not say; the Bay Area's qualified by right (5th).
+  Boston's Team 72 (about 10th at one team's tables) and Pittsburgh's are not in the Finals: the Bay Area card in
+  section 4 is the one to use, and the Boston card in section 8 is not.
 - **Five teams carded earlier are not on the portal's list:** Team 82 and pocket rockets (Bay Area), triple t, REspect
   and Team 72 (Boston). Their cards are kept in section 8, below the finalists, and they have no recognition row.
 

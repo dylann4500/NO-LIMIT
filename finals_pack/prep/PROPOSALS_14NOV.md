@@ -1,83 +1,102 @@
-# Decisions for Dylan and Samuel (Saturday 14 November, from the overnight research)
+# Decisions for Dylan and Samuel (Saturday night, 14 November)
 
-One page. Each item: what to decide, the evidence, and my recommendation. Nothing in section A or B has been
-applied: they change how the team decides or touch the event's rules, so they are yours. Section C lists what
-was applied, for information. Evidence files are in `notes/pre/`.
+**Nothing in sections A to D is applied until one of you says so.** The quickest answer is "apply all as
+recommended", or that plus the numbers you want changed. I then put the wording into every copy in the bundle
+tonight and re-run the tests. Sections A to C change how the team decides, so they need both of you; D is Dylan's.
+Evidence is in `notes/pre/` and in `prep/TABLETOP_14NOV.md` (the exact replacement wording for every item marked P).
 
-## A. Decision rules and defaults (strategy: both of you)
+Words used below. **Live bot**: the bot currently chosen for scored rounds. **Challenger**: the new bot tried in the
+practice round before a scored round. **z**: the challenger's measured edge over the live bot divided by that edge's
+standard error (SE). **T-4**: four minutes before a scored round starts. **Yardsticks**: teams that did not change
+bot between the two rounds being compared. **Case F / case R**: the six-seat Finals table / the regional's
+eight-seat table (`CLAUDE.md` section 8).
 
-| # | Decide | Evidence | Recommendation |
+## What changed today (for information)
+
+- **The Finals competition is on the portal:** 21 teams by name, weights linear 1 to 6 when read at 15:44 (Boston and
+  Pittsburgh used 1, 2, 3, 5, 8, 13, and it can still change), a 30-second upload cooldown, and an upload that passes
+  its test becomes the active bot by itself. No variant and no round yet.
+- **Main case: six seats, 6,000 chips, antes** (Dylan, 15:55), from the Finals defaults in the portal's own code. The
+  regional table is the fallback. The earlier fair-play question is closed: Dylan says the organizers treat what is
+  on their site as fair to read. `notes/pre/format_finals.md` is the plan for it.
+- **All 20 opponents have a card from raw hand files** (`notes/pre/finalists.md`). Team 72 is the Bay Area's (Dylan).
+- **Usage and compute:** Sunday runs on a fresh Claude account (Dylan). AWS is dropped; Modal is the only compute.
+- **The bundle:** about 110 instruction fixes from three timed runs, two consistency reads and a tabletop test are
+  merged; the full test suite passes (228).
+
+## A. Which bot plays (both of you)
+
+| # | Decide | Recommended | Why |
 |---|---|---|---|
-| 1 | **The bar for playing a challenger** (`DECISION_RULES.md` §3). The contrarian memo said the bar inside the top 3 is too cautious | An independent check (`challenger_bar.md`) rebuilt the model and tested the rule on the regional's results: of 23 strong teams that showed a new bot in practice, the current rule would have played 17 (mean gain +1.21, one loser) and refused 6 (mean −0.57). Any bar from 0 to 1.0 points lands within 1 percentage point of the best. The "too cautious" claim did not survive | **No change to any bar** |
-| 2 | **How the edge's standard error is computed** (§3, "Practice SE is at least 0.7") | One practice predicts the scored-round edge with an error of about 0.8 points (1.0 for top-20 teams), and the points per place may differ on Sunday | **Adopt the one edit** in `challenger_bar.md` §5: take the SE from the yardstick teams' own practice-to-scored spread (0.8 with fewer than 6 yardsticks, never below 0.7). It rescales itself |
-| 3 | **When a field rate triggers a PLAN CHALLENGE** (§5: "off by 2 SE or more") | A pooled field rate's SE is 0.1-0.5 points in a 1,000-table file, while the regional field itself moved 0.5-2.7 points between rounds: "2 SE" fires on ordinary drift. Found by the field forecast, confirmed by the independent check | **Change for field rates only:** "2 points or more outside the band, in two downloads running". Keep 2 SE for scores |
-| 4 | **Choosing round 1's bot from practices 1-3** | Early practices over-reward tight play (score against 3-bet rate: r −0.54 in practice 1, +0.25 by round 6); for a single unchanged bot the evidence is mixed | **Add one sentence, not a rule:** between two close candidates for round 1, prefer the more aggressive; worth at most 1 point |
-| 5 | **"No flat calls" default** (`FIRST_PROMPT.md` Part 1; plan assumption 2) | It rests on pre-event simulated bots. On the regional's real data our flats made +5.9 bb a table once the postflop leak was fixed (`whatwins.md` §1) | **Soften it:** flat calls are allowed where the style states the postflop plan behind them; the check run still counts them |
-| 6 | **"Call shoves wider than a chart"** (`FIRST_PROMPT.md` Part 1) | Mixed evidence (`whatwins.md`) | **Reword:** call at the ICM threshold against that seat's measured shoving width |
-| 7 | **"Our own mistakes cost about 22-25 points"** (`PLAN.md` §1) | The research could not rebuild the figure; the write-up gives 5-9 points for two of the mistakes | **Samuel:** confirm the source or correct the number |
+| 1 | The bar for playing a challenger | **No change** | Rebuilt and tested on the regional's results: of 23 strong teams that showed a new bot in practice, the rule would have played 17 (mean gain +1.21, one loser) and refused 6 (mean -0.57). `challenger_bar.md` |
+| 2 | How the edge's SE is computed | **Take it from the yardsticks' own practice-to-scored spread** (0.8 with fewer than 6 yardsticks, never below 0.7) | One practice predicts the scored round with an error of about 0.8 points; this rescales itself when the table or the payouts differ |
+| 3 | A scored round's data lands late (P1) | **The challenger is still judged** if that round's result and the practice result are both in by T-6; if either is missing at T-6, the live bot plays | In the tabletop test both agents did this; the cut-off table read literally says the opposite |
+| 4 | One switch deadline (P2) | **T-4.** A bot can be chosen only if at T-4 it is released, upload-tested and has a tester verdict with a heads-up run. "Fit for a scored round" means correct, fast, and heads-up no worse than the live bot by more than 2 SE | The two sessions told their humans different things four minutes before a round |
+| 5 | The practice has not started when the clock says "put the live bot back" (P3) | **The challenger stays active until the practice is shown as started;** the live bot goes back then, and at T-5 at the latest | The two sessions gave Dylan opposite advice |
+| 6 | "A big lead" (P4) | **z of 1.5 is needed only when our lead over 4th is more than 3 times the coming round's weight, in standings points** (before a round of weight 4: more than 12) | The words as printed gave the opposite bot from the one both agents chose |
+| 7 | Standings held (P5) | **Work the standings out from each round's results and weights;** only if that is impossible, treat us as outside the top 3 | Each round's results list every team, so it can always be done |
+| 8 | You two disagree, or nobody is there to click (P6, P7) | **The rule's answer stands until you agree, and Dylan makes that click even if he argued against it.** If the portal still shows the old bot at T-3, BUILDER says so once and RESEARCH asks Samuel to fetch Dylan; whatever actually played is declared afterwards | Found only after a search in the test |
+| 9 | Round 1's bot (P10) | **The best scorer of practices 1 to 3 among bots that have a heads-up verdict at minute 50** | Otherwise the declared bot may not be allowed to play |
+| 10 | The portal marks us out of contention (P9) | **Ask an organizer whether such teams still play and can be paid; nothing changes until the answer.** If it is final, the last-rounds bar (z of 0 or more) applies | The watcher's own message states a rule no page has |
+| 11 | A table that is not 8 seats at 50/30/20 (P8) | **By minute 5 the tester writes the day's per-table spread and its ratio to 17.9; every figure given in points per table is multiplied by it.** Bars in z do not move | At six seats the ratio is 1.06; at 70/20/10 it would be 1.27 |
+| 12 | Where scores come from (was 19) | **From the round's results file, never from a hand file** | The first-1,000 file's score for us missed the full round by 0.4 on average and by 2.0 once |
 
-## B. Fair play (both of you)
+## B. Reading the field (both of you)
 
-| # | Decide | What happened | Recommendation |
+| # | Decide | Recommended | Why |
 |---|---|---|---|
-| 8 | **Tell the organizers?** | While finding the hand-download address I fetched the portal's public login-page scripts. One contains default table settings for presets named "finals" and "finals_community". The rules say the variant "will remain confidential until that announcement", so I stopped reading there. The values are in no note, brief or file of ours, and no research session was told | **Don't use it, and tell the organizers** their public page exposes it. It protects the team and costs nothing |
-| 9 | **Look in a Pittsburgh kit for unused actions?** | Our Bay Area kit's replay code already handled a separate `discard` event and several boards, which Pittsburgh's variant later used (it had nothing for Boston's auction). A Pittsburgh team's public notes say their kit lists more phases | We have no Pittsburgh kit. **Don't go looking for one**; reading the kit we are given on Sunday is normal work |
+| 13 | When a field rate triggers a plan challenge (was 3) | **"2 points or more outside the band, in two downloads running."** Keep 2 SE for scores | A pooled field rate's SE is 0.1 to 0.5 points, while the regional field itself moved 0.5 to 2.7 between rounds: "2 SE" fires on ordinary drift |
+| 14 | "Over a third of teams differ between a practice and the next scored round" (was 21) | **Reword as normal, not a warning** | It was 46% at the regional |
+| 15 | Which practice judges a plan challenge (P11) | **The next practice the alternative can be released for** (released by T-15) | Otherwise a rushed build is aimed at a practice one minute away |
+| 16 | The kit's do-nothing bot (P12) | **Add as a plan assumption:** our base style beats it on the real field by 1 point or more; two downloads in which it does not is a plan challenge | At six seats a folder cashes 53% of the time in simulation (11.1 of an average 16.7) |
+| 17 | Tables with counters switched off, for comparison (was 22) | **In practice rounds only.** In a scored round only for a new counter nobody has validated, with the reason written down | `FINGERPRINTING.md` asks for 15% of scored-round tables; `EVIDENCE_TABLE.md` says none without a reason |
+| 18 | May we upload the kit's own example bot for a practice? | **Your call:** no rule of ours or the organizers' says | It would measure the floor on the real field in one practice |
 
-One caveat on item 8: after seeing it I wrote the research briefs to hold for "a table that is not 8-handed and
-payouts that differ". The bundle's own lessons already demand that (a rehearsal ran every test at the wrong table
-size; the rules say points per place vary), but you should know the order of events.
+## C. Strategy defaults (both of you; stronger now that the main case is 300 big blinds deep)
 
-## C. Set-up choices (Dylan, at noon)
+| # | Decide | Recommended | Why |
+|---|---|---|---|
+| 19 | "No flat calls" (was 5) | **Allow flat calls where the style states the postflop plan behind them;** the check run still counts them | On the regional's real data our flats made +5.9 big blinds a table once the postflop leak was fixed, and at 100 big blinds or more in position the default is probably wrong (`format_finals.md` section 1) |
+| 20 | "Call shoves wider than a chart" (was 6) | **Reword:** call at the tournament-equity threshold against that seat's measured shoving width | The evidence for "wider" is mixed |
+| 21 | Round 1 between two close candidates (was 4) | **One sentence, not a rule:** prefer the more aggressive; worth at most 1 point | Early practices over-reward tight play (score against 3-bet rate: r -0.54 in practice 1, +0.25 by round 6) |
+| 22 | "Our own mistakes cost about 22-25 points" in `PLAN.md` (was 7) | **Samuel:** confirm the source or correct it | The research could rebuild only 5 to 9 points for two of the mistakes |
+| 23 | The smaller wordings (P13, P14, and the two script messages in P1 and P9) | **Apply as written in the tabletop report** | One-line clarifications; none changes a bar |
+| 30 | The speed bar for the twist decision (was 23) | **99th percentile under 0.5 ms everywhere** | `TWIST_NOTES.md` says 0.8 ms; the tester's and the challenger's role files say 0.5. The limit is 1 ms a decision |
 
-| # | Choose | What I found |
-|---|---|---|
-| 0 | **Usage for Sunday: the most urgent item on this page** | At 06:15 on Saturday the desktop app's account (plan shown as Ultra) had used **71% of its weekly all-models limit** (Fable alone: 25%), and the week does not reset until **Wednesday 18 November**, after the Finals. Extra usage is switched off. Sunday is two sessions with up to 40 subagents each for four hours. The terminal `claude` on this laptop is signed in to a different login (it reports a Max plan), with its own limits. Decide before the rehearsal: which account runs Sunday, whether to switch on extra usage as insurance, and keep Saturday's remaining spending on the Sunday account small (the rehearsal itself will cost a lot) |
-| 10 | **Terminal tabs or the desktop app on Sunday** | Every mechanics check passed in desktop-app sessions under Remote Control. `START.md` is written for terminal tabs; nothing has been tested there |
-| 11 | **Which Claude account** | Samuel's computer must be signed in to the same account as this laptop for Remote Control. This laptop is on a Max plan login |
-| 12 | **Connectors off for the Finals sessions** | Each trivial subagent cost about 56,000 tokens of start-up context here, mostly this account's tools, connectors and skills |
-| 13 | ~~AWS~~ **decided (Dylan, 14 Nov, about 06:05): not used.** | The credits cannot be obtained before the Finals. Modal stays the only compute, as the bundle says. The tooling built overnight is kept, shelved, in `cloud/aws/`; it never ran on AWS |
+## D. Set-up for Sunday (Dylan)
 
-## E. Rule wordings found unclear by the tabletop test (both of you; evidence in `prep/TABLETOP_14NOV.md`)
+| # | Decide | Recommended | Why |
+|---|---|---|---|
+| 24 | The model for the two sessions | **Fable 5.2 for both, effort high** | Two timed runs compared (`prep/SPEEDRUN_AB_14NOV.md`): no clear winner, a lean to Fable of about 60/40 with low confidence. Opus had a first bot sooner; its rig ran the wrong bot's code for 24 minutes and its bots were slower per decision |
+| 25 | Desktop app or terminal tabs (was 10) | **Desktop app for the two sessions, terminal tabs only for the clock and the portal watcher** | Every mechanics check and every timed run was a desktop-app session; nothing was tested in terminal tabs. `START.md` is written for tabs and needs its steps 3 and 4 rewritten if you agree |
+| 26 | The fresh account | Before Sunday: sign the desktop app in to it, confirm it offers Fable 5.2 in the Code tab, open `~/avalon-finals` once to trust it, and sign Samuel's computer in to the same account | Remote Control only shows sessions of the account the other computer is signed in to. The portal key and Modal are on the laptop, not the account |
+| 27 | The Sunday repo | **Local only at `~/avalon-finals`**, built tonight from the bundle minus `prep/` | Everything runs on this laptop. Say so if you want a private GitHub copy as a backup |
+| 28 | A dry run with Samuel | **Ten minutes tonight:** Samuel opens any session of this laptop from his computer and types into it while Dylan types into another | The one mechanic never tried with two people |
+| 29 | First download size (was 20) | **Leave at 1,000 tables** | The practice rounds that decide the bot have about 1,000 tables anyway; the analyst can re-run on the full file's first 5,000 |
 
-Eighteen Sunday moments were given to 36 fresh agents who had only the bundle: 5 came out clear, 10 slow (right,
-but after a guess or a search), 3 split (the two sessions told their humans different things), none wrong. The
-report's section 3 has exact replacement wording for each. The five that would cost most:
+## E. Left as they are unless you say otherwise
 
-| # | The gap | What happened in the test |
-|---|---|---|
-| 14 | **Late data** (its P1): if a scored round's data lands at T-6, is the challenger still judged? | Both agents played the challenger; the cut-off table read literally says "no change from new data" |
-| 15 | **One switch deadline and a pass mark for the heads-up run** (P2) | A challenger with no tester verdict: BUILDER waited until T-3, RESEARCH until T-4; neither found what "passing" a heads-up run means |
-| 16 | **A practice round that has not started when the clock says "put the live bot back"** (P3) | The two sessions gave Dylan opposite advice |
-| 17 | **"A big lead" has no units** (P4) | 2nd with a 4.7-point lead and a challenger at z 1.2: agents guessed the bar is 1.0 (challenger plays); the words as printed give 1.5 (live bot plays) |
-| 18 | **Standings held: what "clearly in the top 3" means** (P5) | Third by 0.3: both agents chose the lower bar; `LESSONS.md` read literally gives the higher one |
+Process choices the timed runs raised that I did not turn into rules, because each needs a script change or a
+judgement that is yours:
 
-P6-P14 are smaller: what happens when you two disagree and the one who disagrees must click; nobody there to
-click; which figures change when points per place are not 50/30/20; "out of contention" (the watcher's own line
-says the challenger plays from then on, which no rule says); round 1's bot when the best scorer has no heads-up
-run; and six one-line clarifications.
+- A second `platform` run at minute 0, and a second, narrow bug hunter for every release.
+- A queue or cap for Modal jobs running at once; one shared upload-test runner; a queue in `live.py`.
+- A file-watcher that wakes RESEARCH when a release lands (today it looks on every wake-up).
+- A rehearsal in the build hour of the edge calculation and the round-1 recommendation.
+- How withdrawn releases are named; the 300-word limit on subagent reports.
+- Plan assumptions 2 and 4 to 7 have no measurable test; the fingerprinting thresholds are untested.
+- Hold'em shove and call priors, push/fold keyed by players behind, the leaks lens ranking on outcomes.
 
-## F. From the consistency read and the sample check (smaller; both of you)
+Three numbers a session chose while fixing instructions, for you to overrule: about 6 local worker processes per
+session and 2 per subagent; 200 hands for the check that a candidate is alive; 30 big blinds for the scripted spot
+in which AA must never fold to an all-in.
 
-| # | Decide | Evidence |
-|---|---|---|
-| 19 | **Where scores come from**: add to `DECISION_RULES.md` that scores are taken from `results.json`, never from a hand file | `notes/pre/first1000.md`: the first-1,000 file is a fair sample of the round, but its score for us missed the full round by +0.4 on average and by 2.0 once; it shows other teams only at our tables. The analyst's role file already says this now |
-| 20 | **Fetch 5,000 tables first instead of 1,000?** | The same note recommends it (score error 0.30 instead of 0.66). I left the watcher at 1,000: the practice rounds that decide the bot have only about 1,000 tables anyway, and the full file starts with the same tables, so the analyst can re-run on its first 5,000. One line changes it if you want it |
-| 21 | **Is "over a third of teams differ between a practice and the next scored round" a broken assumption or normal?** | `field.md` treats it as a warning sign; `challenger_bar.md` counted about 46% doing so at the regional |
-| 22 | **A control arm in scored rounds** | `FINGERPRINTING.md` wants 15% of scored-round tables with counters off; `EVIDENCE_TABLE.md` says no control arm in scored rounds without a stated reason |
-| 23 | **Speed bar for the twist decision** | `TWIST_NOTES.md` says p99 under 0.8 ms; `tester.md` and `challenger.md` say under 0.5 ms |
-| 24 | **Latest release time for the challenger** | The timeline says T-15, T-13 at the latest; the cut-off in `DECISION_RULES.md` is T-12 |
+## Closed today
 
-Three places the consistency read expects an agent to go wrong even though nothing is inconsistent: Dylan
-clicking "make it active" the moment BUILDER declares the round-1 bot (minute 50, when practice 4 starts) instead
-of at the clock's reminder; the practice download at T-8 being treated like a scored round's and loading the CPU
-during the upload test; and the T-9 to T-5 arithmetic when there are too few yardstick teams.
-
-## D. Applied already (for information)
-
-Factual corrections, each traced to a source in its commit message: the prizes ($100,000 / $50,000 / $25,000, not
-50/30/20); paired noise for two different designs (about 21/√tables, not 13: sample sizes were 2.6 times too
-small); the best-of-k discount (exact values); two practice rounds must differ by 2.0 points, not 1.4; sampling
-ends at an iteration count with the deadline as a backstop; ICM is cheap only for our own share; the Modal
-throughput target is marked as never measured; 13 corrections and five new entries in `TWIST_NOTES.md` and
-`theory.md` from three timed drills; the portal watcher against the real portal. Details: `prep/HANDOFF.md`
-section 9 and `git log`.
+| Was | Outcome |
+|---|---|
+| 0, usage | Reset by Dylan at about 15:00; Sunday runs on a fresh account |
+| 8, 9, fair play | Closed by Dylan: reading the organizers' public pages is fine. No Pittsburgh kit was sought |
+| 12, connectors | A fresh account has none. Switching plugins and connectors off in the repo was measured: 12% less start-up context, not worth a settings change the night before |
+| 13, AWS | Not used |
+| 24, challenger release time | Not a conflict: released by T-15 (T-13 at the latest), uploaded at T-12 |
