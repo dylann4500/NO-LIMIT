@@ -10,7 +10,8 @@ The definitions behind the regional reference values in `field.md` Appendix A.
 
 - **Unit.** Chances and events are counted per team, over all its seats in the file. Filler seats and our
   own actions are excluded; hands we are in are not.
-- **Default: the team-equal mean.** Average the teams' rates, counting only teams that raise (PFR 3%+) and
+- **Default: the team-equal mean.** Average the teams' rates, counting only teams that raise (PFR 3%+; PFR is defined at the end of
+  this list) and
   have 20+ chances. Every threshold in `field.md` section 3 and every number in the plan means this figure.
   (Appendix A averaged all teams seen, which differs only for limps and short shoves.)
 - **Pooled by opportunity** (all opponents' chances added up) is the rate we meet at a random spot. Use it
