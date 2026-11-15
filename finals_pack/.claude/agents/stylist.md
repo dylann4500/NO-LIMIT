@@ -108,6 +108,9 @@ style you'd play next and why (LEDGER ids); what's unverified; running jobs or "
 - Before simulating any equity, read `notes/LEDGER.md`, `theory/out/ranking.json`, `twist.json`, `twist_rule.json` and
   `theory/HANDOFF.md`: the variant's big finding is probably already there. Don't re-derive preflop equities (five
   agents did, with slightly different keep rules, and the numbers disagreed).
+- Count every twist default taken (a zero bid, a keep), every base action your style overrides and every fallback in
+  a counter of its own, and print them in the check's style report: one style counted its zero bids under the wrong
+  setting, so the bug read as the base's behaviour.
 - Add a self-check counter for every platform-derived field your style relies on (position, blinds, stack depth,
   players left): a style's own mismatch counter found the heads-up blind swap that the platform's checks missed.
 - Before each repack: `git log -1 -- bot/INTERFACE.md`; if it changed, re-read the settings list (a renamed setting
