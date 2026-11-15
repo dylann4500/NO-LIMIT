@@ -44,7 +44,9 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   little (paired SE ≈ 22/√tables for two different designs in case F, an estimate to measure, and 21 in case R, measured 18-28; about 11/√tables only for a one-change
   variant): use many. Then the **first verdict on v1**.
 - **Sparring fields**, sanity only: calls everything, shoves constantly, plays only premiums, re-raises wide (enough
-  copies of each to fill the table, five in case F and seven in case R, plus a mix), all playing the variant's own decision, some at random and some well. Losing to one by more
+  copies of each to fill the table, five in case F and seven in case R, plus a mix), all playing the variant's own decision, some at random and some well, and in every mix one
+  bot that makes legal but odd bets (minimum raises, 1-chip all-ins, tiny flop bets): sparring that bets by theory's
+  tables never triggers the bugs odd bets do. Losing to one by more
   than 2 SE means a hole.
 - **Modal:** one app `avalon-rig` (deploy once, `.map` over shards, up to 40 containers), image built in the background;
   size each window's runs from measured speed. Measured on 14 November with the regional kit and bots: 20,000 tables
