@@ -50,7 +50,11 @@ never block your turn; Modal has only two deployed apps, `avalon-rig` (`tester`,
    plan at most two real uploads per window (§3, "Uploads").
 3. **The rules card is right**: players per table, stacks, blinds, hands per match, round weights, payouts
    and the cooldown come from the kit and the Format page. *(At a rehearsal we ran every test at the wrong
-   table size.)*
+   table size.)* Every figure on this page given in points per table (0.7, 0.8, 1.4, 2.0, 2 and 3) assumes 8 players
+   and 50/30/20. By minute 5 `tester` works out today's per-table spread and the multiplier (spread / 17.9), which
+   `platform` writes in `bot/rules.json`; both sessions multiply those figures by it (in case F at 50/30/20 it is
+   18.9 / 17.9 = 1.06). Bars given in z do not change. Role-file check values marked 50/30/20 are not used on another
+   payout.
 4. **No pre-written bot code; hand histories never go into git.** *(Event rules.)*
 
 ## 3. Decisions, written in advance

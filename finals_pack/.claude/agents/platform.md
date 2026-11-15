@@ -26,7 +26,7 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
 **Build hour** (minutes from the announcement):
 - **by 5, `bot/rules.json`:** its first line says which case holds, F, R or what differs from both (`CLAUDE.md` §8), and
   so does your report's first line (aim for minute 2: nothing else can be computed before it). Then players per table, stack, blinds, antes and their schedule, hands per match, time limit and
-  time bank, memory limit, payouts, round weights and count, upload cooldown, fillers, the engine's name for the variant, the variant's phases, action
+  time bank, memory limit, payouts, the per-table spread and its multiplier (spread / 17.9, from `tester` by minute 5), round weights and count, upload cooldown, fillers, the engine's name for the variant, the variant's phases, action
   kinds, `state.variant` keys, failure defaults, anything unusual in `state.config`; each with its source (kit
   file:line or "Format page", which Dylan gives BUILDER). Unconfirmed fields are marked so and named in your report.
   Cross-check against what the portal itself states, when the files exist: the rules text in `state/variant.md`

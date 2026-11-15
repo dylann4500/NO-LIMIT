@@ -31,7 +31,9 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
 - **~minute 5:** check `bot/rules.json` field by field against the kit and the Format page, its first line (case F or
   case R, `CLAUDE.md` §8) first (players, stacks, blinds,
   hands per match, time limits, weights, payouts, cooldown). A rehearsal ran every test at the wrong table size:
-  report any mismatch first.
+  report any mismatch first. In the same report give today's per-table spread for one bot and the multiplier (spread /
+  17.9; 1.06 in case F at 50/30/20): every figure in `DECISION_RULES.md` given in points per table is multiplied by
+  it, and `platform` writes both numbers into `bot/rules.json` (DECISION_RULES §2 rule 3).
 - **By 15, `rig/compare.py LIVE CAND... --tables N --field F [--players 2]`** (Part 3a): per candidate, points per
   table ± SE, the paired difference vs LIVE ± SE, failed decisions, p99, p99.9 and max decision time by phase (judge on p99.9 beside the
   `check_or_fold` baseline: the max spikes under load). It saves each bot's points per table, so two
