@@ -25,8 +25,10 @@ Tags: **[C]** confirmed (our own files, or a page we fetched), **[I]** indirect 
 - **Three more drills, on one worker each (§5):** Pittsburgh's own variant 22.6 minutes (fallback at 5.1), a sealed
   split of four hole cards across two boards 16.4 (fallback at 6.9), a second-currency auction for an extra hole card
   6.0 (fallback at 4.1). They change four steps of the recipe in §4.
-- **Not found:** eight of the 20 finalists; Pittsburgh's team count, standings, weights and official rules page; the
-  Finals venue; any hint of the Finals twist.
+- **Found later on 14 November** (Samuel's `research/regionals_web/REPORT.md`; `prep/PORTAL_SIGNED_IN_14NOV.md`):
+  Pittsburgh had 146 teams and weights 1, 2, 3, 5, 8, 13; its top five were Pluto, Cold Decks, Poker is all you need,
+  Hold Em Trophies and Claude Mythos 5.5; and the portal lists all 21 finalists (`notes/pre/finalists.md`, "The
+  field"). **Still not found:** Pittsburgh's official rules page; the Finals venue; any hint of the Finals twist.
 
 ## 1. The three regionals
 
@@ -34,13 +36,14 @@ Tags: **[C]** confirmed (our own files, or a page we fetched), **[I]** indirect 
 |---|---|---|---|
 | Twist | 3 hole cards; after the flop, before betting, discard 1 face down and expose 1 of the other 2; the exposed card stays public after a fold [C] | 2 hole cards; after preflop betting 5 candidates face up; everyone bids flop-chips on each card; the 3 highest totals are the flop (ties to the earlier card); you pay only bids on chosen cards; the other 2 are dead [C] | 3 hole cards, 2 boards side by side; after the turn betting discard 1 face down; the 2 kept cards play on both boards; each board pays half the pot [C: two participant repos] |
 | Phase, action, default | `select`, `cards=(discard, reveal)`, 6 options, default (2, 0) [C] | `auction`, `bid` with five numbers, default all zeros; 1,000 flop-chips per table, balances public, bids secret [C] | `discard`, `cards=(index,)`; boards in `state.variant["boards"]` [C]; default not found |
-| Teams; weights; tables per round | 148 ranked; 1-6; 20,000 [C] | 231 ranked (Sequoia: 270 teams) [I]; 1, 2, 3, 5, 8, 13; 10,000+ [C] | not found |
-| Top five | 2 Curry 428.72, Lemonade 421.08, AZ 383.96, sandylikesfrogs 381.95, Team 72 381.25 (avalon 6th, 376.71) [C] | Du-o 727.26, Situational Awareness 715.32, BHTG 680.77, Preesh 656.03, 0_o GTO Slop 641.48 [I] | 1st: Steven Peng's team, first in four rounds and second in two [I]; rest not found |
+| Teams; weights; tables per round | 148 ranked; 1-6; 20,000 [C] | 231 ranked (Sequoia: 270 teams) [I]; 1, 2, 3, 5, 8, 13; 10,000+ [C] | 146 teams; 1, 2, 3, 5, 8, 13 [I: Samuel's `research/regionals_web/REPORT.md`]; 10,000+ [C: a Pittsburgh team's hand files] |
+| Top five | 2 Curry 428.72, Lemonade 421.08, AZ 383.96, sandylikesfrogs 381.95, Team 72 381.25 (avalon 6th, 376.71) [C] | Du-o 727.26, Situational Awareness 715.32, BHTG 680.77, Preesh 656.03, 0_o GTO Slop 641.48 [I] | Pluto 598.31, Cold Decks 588.27, Poker is all you need 570.54, Hold Em Trophies 569.84, Claude Mythos 5.5 565.12 (LLinusLLoveBot 6th, 563.09) [I: Samuel's `research/regionals_web/REPORT.md`] |
 | What winners did | 2 Curry: VPIP 38-43%, 3-bet 32-39% wide, 20+ points every round [C]. Sequoia: an exposed card pairing the board got 72% folds [C] | Leader: "aggressive play and larger auction payments"; a top-5 player: CFR failed in time, stats, heuristics and fast testing worked [I]. Average bid 28 flop-chips in round 1, 66 in round 6 [I] | not found. A top-50 bot kept the pair with the best combined chance over both boards [C] |
 
 Also [C]: Boston tables could draw their own payout split (read `state.config.payouts`). **Finalists:** top five per
-regional plus up to five wildcards [C]. Known: the ten teams above, Pittsburgh's winner and avalon. The other eight:
-not found.
+regional plus up to five wildcards [C]. Known since 14 November from the portal: all 21, the fifteen above plus avalon
+and Team 123 (Bay Area), Magnus RLsen and Hotwheels (Boston), LLinusLLoveBot and AEPi AK (Pittsburgh):
+`notes/pre/finalists.md`, "The field"; source `prep/PORTAL_SIGNED_IN_14NOV.md`.
 
 ## 2. The pattern, and what it implies
 
@@ -297,8 +300,8 @@ Web, fetched 14 November:
 - MIT Pokerbots engines, one per year: https://github.com/mitpokerbots (engine-2020 Permutation, 2021 Blotto, 2022
   Swap, 2023 River of Blood, 2024 Auction, 2025 Bounty, 2026 three hole cards with a face-up discard); 2019 not found.
 
-Searched and not found: a Pittsburgh recap by the organizers; Pittsburgh team count, standings and weights; the
-finalist list; the Finals venue; a public team named "2 Curry"; any organizer hint about the Finals twist; a public
+Searched and not found: a Pittsburgh recap by the organizers; the Finals venue; (Pittsburgh's team count, standings
+and weights and the finalist list were found later: Samuel's `research/regionals_web/REPORT.md` and the portal); a public team named "2 Curry"; any organizer hint about the Finals twist; a public
 copy of the Boston or Pittsburgh kit. Not opened (login needed): LinkedIn posts by Pittsburgh's and Boston's winners,
 X search of Sequoia's posts. Queries tried are in the session's web log (not in git).
 
