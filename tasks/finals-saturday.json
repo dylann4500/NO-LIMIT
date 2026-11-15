@@ -87,6 +87,11 @@
       "at": "2026-11-15T12:02:56Z",
       "by": "dylann29",
       "text": "emu/rehearsal 82c059f: the six fixes from the rehearsal review (B1-B6) are applied, approved by Dylan AND Samuel at 03:50 (B2 edits hard rule 1: failed decisions are judged against the kit's check_or_fold bot in the same run). Full script tests 228/228. The starting-bundle zip is repacked (sha256 86eb7f8d9eef..., same name in nolimit-live and Dylan's Downloads; Saturday's zip kept as avalon-finals-starting-bundle-saturday.zip). Same 68 entries, 7 files changed: CLAUDE.md, START.md (new starters: Opus subagents at high effort, the suggestions line with the decision rules excepted, /compact at each scored round start, roles stay background subagents), DECISION_RULES.md, FIRST_PROMPT.md, prompts/BUILDER.md, prompts/RESEARCH.md, tester.md. Also: the API key now sees the Finals competition; the watcher was tested read-only on the real portal (rounds, rankings, standings, hand-file download all work). Overnight analyses of fingerprinting and the time budget are in ~/avalon-rehearsal-log/analysis/fp/reports on Dylan's laptop; wording for those is still to be proposed."
+    },
+    {
+      "at": "2026-11-15T12:10:39Z",
+      "by": "dylann29",
+      "text": "emu/rehearsal dc66416: four more items approved by Dylan and Samuel are in the bundle (tests 228/228; zip repacked, sha256 03f3f3bb4e39...). Fingerprinting has no accuracy or confidence bar any more (every bar tested overnight cost points): confidence-weighted rates blended with the seat's own actions, an EV margin, a 20-point cap, two profiles per team, an unknown class, a direction test; written as an option in two steps. Tester: 32-core Modal containers with a worker pool (the plan caps containers, not cores), 20,000-table verdicts. CLAUDE.md: stream hand files (24 GB laptop), what one timeout does to the bank. Everything is listed in finals_pack/prep/CHANGES_15NOV.md with three zips to fall back on. Not in: reaction rules and the heuristics ladder (test still running), a probe arm."
     }
   ],
   "owner": "dylann29",
@@ -99,5 +104,5 @@
   "result": "",
   "state": "active",
   "title": "Saturday handoff: review and merge the overnight research branches, apply speedrun findings, rehearsal prep on Dylan's Mac",
-  "updated_at": "2026-11-15T12:02:56Z"
+  "updated_at": "2026-11-15T12:10:39Z"
 }
