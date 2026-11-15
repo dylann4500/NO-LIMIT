@@ -177,6 +177,10 @@ tells him); LEDGER ids; what's unverified; running jobs (PID, log, ETA, Modal ap
   the import check go first in your report and at the top of the `bot/INTERFACE.md` stub (BUILDER passes it on), so
   every agent uses it (two agents built their own venvs otherwise). Check the kit's local play command really plays
   today's variant (a mock kit defaulted to plain hold'em) and set the variant explicitly in every test.
+- **A stub is not enough to build against.** Stylists can draft from the stub but can pack and check nothing until
+  the platform imports: right after the stub, before any strategy, ship an importable skeleton (`agent.py`, the
+  style hooks, a base that only checks or folds) that the pack and check commands accept. In a timed run the engine
+  was written first and three stylists waited 7 minutes.
 - **Publish a stub `bot/INTERFACE.md` by minute 6:** setting names, hook signatures, the pack and check commands, even
   before the code works; then fill it in. Stylists sat idle until the interface existed.
 - **Never fail silently:** unknown style settings make the pack fail (a style's own settings, declared in its folder,
