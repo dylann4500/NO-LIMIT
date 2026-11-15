@@ -46,7 +46,7 @@
     ],
     [
      "analyst",
-     "Parsers for today's hand-history format and analysis/roundcard.py <round folder> (card in under 60 s, stage from the AVALON_STAGE env var, writes analysis/<stage>/card.md, <stage> = the stage name with spaces as '-', e.g. analysis/Practice-1/), ready for practice 1's download (about minute 25); portal_watch runs it by itself when data lands. At about minute 10 (when v1 exists), the dry-run download into /tmp/dryrun/ (never data/rounds/)."
+     "Parsers for today's hand-history format and analysis/roundcard.py <round folder> (card in under 60 s, stage from the AVALON_STAGE env var, writes analysis/<stage>/card.md, <stage> = the stage name with spaces as '-', e.g. analysis/Practice-1/), ready for practice 1's download (about minute 25); portal_watch runs it by itself when data lands. At about minute 10 (when v1 exists), the dry-run download into a fresh /tmp/dryrun-<HHMM>/ (never data/rounds/)."
     ],
     [
      "tester",

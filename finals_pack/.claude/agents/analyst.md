@@ -149,7 +149,8 @@ agrees; "re-solve needed" if any; what's unverified; running jobs or "nothing".
   else the round folder's name without its `NN-` prefix with its first letter capitalised (`06-round-2.5` → `Round-2.5`), else `kit-sample`; the same rule in scout's scripts (two
   scripts collided in one folder otherwise).
 - At about minute 10, the dry-run download (RESEARCH asks for it): a synthetic round in the exact hand-history format
-  from the kit's engine and exporter, written to `/tmp/dryrun/` (never `data/rounds/`, the watcher's), with
+  from the kit's engine and exporter, written to a fresh `/tmp/dryrun-<HHMM>/` (never `data/rounds/`, the watcher's, and never a folder an
+  earlier run left behind), with
   `AVALON_STAGE` set by hand to `Dryrun-1`, `Dryrun-2`, ... (never left to the environment: an inherited value wrote
   a dry run into `analysis/Practice-2/` in a second run); the card, fp_train and field_trend run on it, two numbers checked against a
   direct count, a truncated copy tried. It found three bugs the kit's 7-table sample didn't.

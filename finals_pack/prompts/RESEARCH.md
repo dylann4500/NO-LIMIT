@@ -94,7 +94,8 @@ theory). Spawn in ONE message, in the background:
 
 Then, still in the build hour:
 - **About minute 10 (when v1 exists): a dry-run download.** `analyst` generates a synthetic round in the exact
-  hand-history format in `/tmp/dryrun/` (never `data/rounds/`): about 24 tables on the kit's engine with v1 and the
+  hand-history format in a fresh folder, `/tmp/dryrun-<HHMM>/` (never `data/rounds/`, and never a `/tmp/dryrun/` left
+  by an earlier run): about 24 tables on the kit's engine with v1 and the
   sparring bots, exported by the kit's own history code. It runs `roundcard.py`, `fp_train.py` and `field_trend.py`
   on it, checks two numbers against a direct count, and tries a truncated copy of the file. It's the only end-to-end
   test of the data path before practice 1 (in the speedrun it found three bugs that would have broken practice 1). Its
