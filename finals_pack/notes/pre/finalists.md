@@ -1,53 +1,69 @@
-# The known finalists: what each did at its regional, and how to recognise it on Sunday
+# The finalists: what each did at its regional, and how to recognise it on Sunday
 
 Drafted Saturday 14 November 2026, 06:30-06:55 PST, by a research session, for `scout` and `challenger`; Boston added
-15:25-15:55 PST from its raw hand files. Notes only: the scripts behind the numbers were throwaway and have been
-deleted. Rates are counted exactly as in
+15:25-15:55 PST and Pittsburgh 15:55-16:15 PST from their raw hand files. Notes only: the scripts behind the numbers
+were throwaway and have been deleted. Rates are counted exactly as in
 `stat_definitions.md`; classes are `field.md`'s.
 
-**Grades** (as in `strategy/EVIDENCE_TABLE.md`): **A** = measured on the Bay Area or Boston hand files, a description
-of what a team did, with its sample size. **C** = a judgement, or a way to use a fact that nobody has tested. **[I]** =
+**Grades** (as in `strategy/EVIDENCE_TABLE.md`): **A** = measured on the Bay Area, Boston or Pittsburgh hand files, a
+description of what a team did, with its sample size. **C** = a judgement, or a way to use a fact that nobody has tested. **[I]** =
 second-hand (a public page). Nothing here is grade B: no counter in this
 note has been played against anyone.
 
 **Everything about Sunday is a prior.** Every bot is written new on the day for a new variant, 80-90% of regional
-teams changed bot every round, and six of the eighteen teams below ended their regional on a bot unrelated to
+teams changed bot every round, and nine of the 26 teams carded below ended their regional on a bot unrelated to
 the one they started with. Use a card only after the recognition table (section 2) says the team is playing the same
 family, and then as a candidate (grade C), never as a reason to block a change.
 
+## The field
+
+The Finals competition on the portal lists 21 teams (`prep/PORTAL_SIGNED_IN_14NOV.md`); this replaces every earlier
+guess. All 20 opponents have a card below and a row in the recognition table, each from raw hand data. (A)
+
+| Regional (variant) | In the Finals | Cards |
+|---|---|---|
+| Bay Area (three hole cards, discard and expose) | 2 Curry, Lemonade, AZ, sandylikesfrogs, Team 72 (top five); avalon (6th, us); Team 123 (7th) | Section 4 |
+| Boston (auctioned flop) | Du-o, Situational Awareness, BHTG, Preesh, 0_o GTO Slop (top five); Magnus RLsen (6th); Hotwheels | Section 5 |
+| Pittsburgh (two boards, discard after the turn) | Pluto, Cold Decks, Poker is all you need, Hold Em Trophies, Claude Mythos 5.5 (top five); LLinusLLoveBot (6th); AEPi AK (7th) | Section 6 |
+
+Hotwheels is the Boston team: the name is in Boston's 231 entries and not in Pittsburgh's 146. Its Boston rank is not
+official; at one team's tables it was 6th or 7th. Five teams carded earlier are **not** in the field and are kept only
+for reference: Team 82 and pocket rockets (Bay Area), triple t, REspect and Boston's own Team 72. The Team 72 in the
+Finals is the Bay Area's.
+
 ## 1. Summary
 
-- **Measured from raw hands (A):** the Bay Area's top five, the three teams just behind us and our own bot (about
-  1,100 tables per team per scored round, us at every table); and, since Saturday afternoon, Boston's top five and
-  five possible Boston wildcards (about 360 tables per team per round, another Boston team at every table).
-  **Nothing usable:** Pittsburgh's winner.
-- **Eight of the ten measured finalists react to what a seat has done at the table, and both regional winners
-  re-raise seats that fold.** Re-raise a seat again once it folds: 2 Curry, Du-o, Situational Awareness,
-  0_o GTO Slop. Bet into seats that fold: Team 72, Du-o, 0_o GTO Slop, BHTG (AZ mildly). Steal more from big blinds
-  that fold: Team 72, Du-o, BHTG, 0_o GTO Slop, Preesh. AZ reads who opens and who re-raises. Lemonade shows nothing
-  and sandylikesfrogs only a clock. The rules were in the first practice bots (2 Curry in practices 1 and 2: 55%
-  against 9%; Du-o in Boston's two earliest practices on file: 53% against 18%), so they are the part of a team most
-  likely to come back. (A; C for Sunday)
-- **Six of the ten fold to 4-bets 74% or more** (2 Curry 79%, Team 72 80%, Du-o 90%, Situational Awareness 90%,
-  BHTG 78%, 0_o GTO Slop 74% in round 6), and Du-o never fell below 89% in six rounds. Three almost never fold
-  (Lemonade 1%, AZ 7%, sandylikesfrogs 15%): their re-raises are mostly all-in. (A)
-- **Boston's leaders are tight openers that re-raise wide; Bay Area's opened wide.** Du-o opened 20-27% first in and
-  re-raised 33-43%. Opens are small everywhere: seven of the ten most often open to exactly 2.00bb. (A)
-- **The two teams that scored 20 a round at Bay Area did opposite things and neither chased the field.** 2 Curry:
-  wide pressure, small tweaks every round. Lemonade: limps and shoves, one rewrite, then the same bot for four rounds.
-  Du-o and BHTG also kept one family all night. (A)
-- **Against us (A, Bay Area only).** Our points fell at every one of the Bay Area teams' tables. Beyond what each
-  team's own score predicts, the losses that stand out are Team 123's last four rounds (-3.1 ± 0.3 a table against
-  our other tables), 2 Curry (-1.05 ± 0.25 beyond its score) and sandylikesfrogs (-1.11 ± 0.26). Team 82 is the only
-  one we did relatively well against (+0.35 ± 0.27, not significant). Appendix D has the table.
-- **When these teams changed bot, we usually saw it first in the scored round:** of the Bay Area eight's 12 larger
-  changes after round 2, 8 were not in the practice round before (3 were, 1 was half there), and AZ's practice bot
-  differed from its scored bots in 3 of 4 practices. Boston's files show the same where they can (Appendix K). (A)
-- **A second currency (Boston's flop-chips):** every finalist there paid in nearly every auction, paid 1.7 to 8
-  times more in big pots than in small ones and most of all when all-in itself, and still ended tables with 250-450
-  of its 1,000 unspent. (A; section 5)
-- **Most dangerous on Sunday (C):** 2 Curry, Du-o and Situational Awareness, then Lemonade, with Team 123 if it is a
-  wildcard. Reasons in section 3.
+- **Measured from raw hands (A):** all 20 opponents. Bay Area: 1,100 tables per team per scored round, us at every
+  table. Boston: 360, another Boston team at every table. Pittsburgh: 630, a third team's tables, rounds 2-6 (round 1
+  is not in the files).
+- **Fifteen of the 20 fold to 4-bets 72% or more in their last round**, and few made them pay: the three fields
+  4-bet only 8-16% of the time. The exceptions are Bay Area's three shove re-raisers (Lemonade 1%, AZ 7%, sandylikesfrogs 15%),
+  Preesh (46%) and AEPi AK (69%). (A)
+- **Fourteen of the 20 react to what a seat has done at the table, and all three regional winners do.** Re-raise a
+  seat again once it folds: 2 Curry, Team 123, Du-o, Situational Awareness, 0_o GTO Slop, Pluto, LLinusLLoveBot
+  (Magnus RLsen late). Bet into seats that fold: Team 72, Team 123, Du-o, 0_o GTO Slop, BHTG, AEPi AK. Steal from big
+  blinds that fold: Pluto (19% against 74%), Team 72, Du-o, BHTG, 0_o GTO Slop, Preesh, Hotwheels. Read who re-raises:
+  AZ, Magnus RLsen, AEPi AK, Hotwheels. The rules were in each team's first bots on file, so they are the part of a
+  team most likely to come back. (A; C for Sunday)
+- **One bot shape appeared at all three regionals:** opens of exactly 2.00bb, re-raises of exactly 3.25x, and the
+  re-raise-after-a-fold rule: 2 Curry (Bay Area 1st), 0_o GTO Slop (Boston 5th) and LLinusLLoveBot's first bot
+  (Pittsburgh, 2nd after four rounds). Expect it again; section 2 says how to tell them apart. (A; C)
+- **The counter-wave is real and late.** At Boston and Pittsburgh the top teams ended the night 4-betting 19-27% and
+  folding to 3-bets 54-61%. Cold Decks switched to it in the last round and had the best round-6 score of
+  Pittsburgh's top 12; AEPi AK rose from 15.3 to 17.9 as it switched. Bay Area's top stayed at 7% and 68%. (A; `field_three_regionals.md`)
+- **Winners keep one family.** 2 Curry, Du-o, Pluto, Lemonade (after one rewrite), BHTG and Hold Em Trophies played
+  one family all night; Pluto and 2 Curry were first or second in every round. (A)
+- **Against us (A, Bay Area only).** Our points fell at every Bay Area team's table. Beyond what each team's own score
+  predicts, the losses that stand out are Team 123's last four rounds (-3.1 ± 0.3 a table), 2 Curry (-1.05 ± 0.25)
+  and sandylikesfrogs (-1.11 ± 0.26). Appendix D has the table.
+- **Practice rounds:** at Bay Area and Boston most bot changes were first seen in the scored round (8 of 12 and 7 of
+  12); at Pittsburgh, where practices were 5,000-10,000 tables, most were in the practice before (6 of 9). AZ, Poker
+  is all you need and LLinusLLoveBot played practice bots that matched neither neighbouring scored round. (A)
+- **Twist play:** Boston's finalists spent flop-chips in proportion to the pot and kept a third in hand (section 5.2);
+  at Pittsburgh every finalist kept pairs and hands good on both boards at the field's rate, and they differed only
+  in who bets a river without a hand (section 6.3). (A)
+- **Most dangerous on Sunday (C):** the three regional winners, 2 Curry, Du-o and Pluto; then Situational Awareness,
+  Cold Decks and Lemonade. Reasons in section 3.
 
 ## 2. Recognition table for practice 1
 
@@ -65,79 +81,83 @@ the regional's 90 hands dealt per seat per table. Run the cross-tabs A, B, D and
 | **Lemonade** (2nd) | Limp or shove | Open-limp 15%+ while raising first in under 12% (21-24%; 8-11%) | 60%+ of its 3-bets all-in (72-93%) | A limper facing a raise folds under 25% (7% from round 3; 24% before) | 10 / 65 / 45 | Level 1: raises first in under 1%; 0% from early and middle seats |
 | **AZ** (3rd) | Shove re-raiser with seat reads | 75%+ of its 3-bets all-in, 3-bet 12-22%, no limps (80-86%; 14-20%) | Cross-tab H: big blind folds to a tight opener minus to a loose opener, +25 or more (+36 to +54) | Open-shove at 10-15bb 40%+ (43-47% from round 4; 29-31% before) | 40 / 120 / 300 | Big blind folds 74-81% at level 1 but 49-57% overall; folds to 4-bets under 10% |
 | **sandylikesfrogs** (4th) | Loose, three styles | Raise a flop bet 13%+ (16-22%) | Opens in hands 11-20 of a blind level minus hands 1-10, +6 or more (+7 to +13) | 15%+ of its non-all-in 3-bets at or near the minimum, 1.5x the open (19-31%) | 30 / 15 / 110 | Open-limp 4-11%; 4-bet 9-14% |
-| **Team 72** (5th) | Exploits folders | Cross-tab B: heads-up bet into a seat that folds over 67% minus one under 34%, +25 or more (+37 to +41) | Cross-tab D: button and small-blind opens against a folding big blind minus a defending one, +12 or more (+18 to +19) | Opener folds to a 3-bet 48-62% (53-59%) | 90 / 70 / 70 | 3-bets 2.5x, at the same rate from the blinds as elsewhere (26% and 26%) |
-| **Team 123** (7th, wildcard?) | Hyper-aggressive, learns seats | Big blind folds to an open under 10% (3-5%) | Big blind re-raises an open 70%+ (87-89%) | 3-bet 35%+ and folds to 4-bets 65%+ (41-46%; 66-86%) | 15 / 30 / 240 | Cross-tab A +15 or more (+20 to +21); calls shoves of 10bb or less 45% |
-| **Team 82** (8th, wildcard?) | Tight opener that folds | Opener folds to a 3-bet 78%+ (78-87%, all six rounds) | Calls a shove of 10bb or less under 22% (17-19%) | Small blind opens first in 95%+ (100% from round 3) | 40 / 80 / 5 | Flat-calls 1-4%; heads-up opens 100% |
-| **pocket rockets** (9th, wildcard?) | Raise or fold, small raises when short | Open-shove at 10-20bb under 8% while raising 45%+ there (0-5%; 51-53%) | Opener with 10-20bb folds to a 3-bet 72%+ (79-80%) | Flat-calls under 4% and never limps (1%; 0%, rounds 3-6) | 10 / 200 / 10 | Opens 2.25bb, 3-bets 2.5-2.75x; bets the river only 30-35% when checked to |
+| **Team 72** (Bay Area 5th) | Exploits folders | Cross-tab B: heads-up bet into a seat that folds over 67% minus one under 34%, +25 or more (+37 to +41) | Cross-tab D: button and small-blind opens against a folding big blind minus a defending one, +12 or more (+18 to +19) | Opener folds to a 3-bet 48-62% (53-59%) | 90 / 70 / 70 | 3-bets 2.5x, at the same rate from the blinds as elsewhere (26% and 26%) |
+| **Team 123** (Bay Area 7th) | Hyper-aggressive, learns seats | Big blind folds to an open under 10% (3-5%) | Big blind re-raises an open 70%+ (87-89%) | 3-bet 35%+ and folds to 4-bets 65%+ (41-46%; 66-86%) | 15 / 30 / 240 | Cross-tab A +15 or more (+20 to +21); calls shoves of 10bb or less 45% |
 | **avalon** (6th; how others see us) | Folds to pressure, shoves short | Opener folds to a 3-bet 82%+ (84-87%) | Open-shove at 10bb or less 72%+ (78-80%) | 70%+ of its 3-bets all-in (77-80%) | 50 / 300 / 50 | Opens 2.25bb, 3-bets 3.5x; folds to river bets 70-76% |
 | **Du-o** (Boston 1st) | Tight opener, wide re-raiser, every seat rule | 3-bet 30%+ while opening first in under 30% (33-43%; 20-27%) | 3-bettor folds to a 4-bet 82%+ (90-94%) | Two of: cross-tab A +15 (+24 to +31), B +25 (+39 to +42), D +20 (+29 to +30) | 15 / 90 / 100 | Opens 5% at level 1, 3% from early seats, 78% from the small blind; big blind folds 24-32% and re-raises 65-75%; opens 2.00bb, 3-bets 3.5x |
 | **Situational Awareness** (Boston 2nd) | Re-raiser, half its re-raises all-in | 3-bet 26%+ with 40-60% of them all-in (31-37%; 44-58%) | 3-bettor folds to a 4-bet 80%+ (88-92%) | Cross-tab A +12 or more (+19 to +28) | 40 / 180 / 75 | Every open 2.00bb, every 3-bet 3.00x; cross-tab B negative (bets less into folders); folds to flop bets 65-76% |
 | **BHTG** (Boston 3rd) | Steals, bets and raises flops | Raise a flop bet 20%+ (28-36%) | Big blind folds to an open under 27% (18-21%) | Cross-tab D +20 or more (+30 to +35) | 110 / 30 / 75 | C-bets 87-92% at 0.3 pot; 3-bets 4.00x; small blind opens 89-94%; cross-tab B +26 to +27 |
 | **Preesh** (Boston 4th) | Wide opener that folds postflop | Raise a flop bet under 6% while folding to flop bets 58%+ (2-4%; 64-67% from round 2) | Opens first in 37%+ and from the small blind 82%+ (41-50%; 86-90%) | Cross-tab D +12 or more (+12 to +22) | 80 / 10 / 80 | Opens 2.25bb; calls shoves of 10bb or less 34-39% |
 | **0_o GTO Slop** (Boston 5th) | Never folds the big blind; 2 Curry's rule | Big blind folds to an open under 10% (3-5% from round 3; 13% before) | Cross-tab B +30 or more (+43 to +47) | Cross-tab A +14 or more, with a re-raise rate under 6% after one non-fold (+20 to +26; 3%) | 10 / 95 / 75 | Every open 2.00bb, every 3-bet 3.25x: the same sizes as 2 Curry; folds to river bets 70-79% |
-| **Magnus RLsen** (Boston 6th, wildcard?) | Opens half its hands, shoves short | Opens first in 47%+ (52-53%, all six rounds) | Cross-tab F: folds to a first-time 3-bettor minus to a seat with three earlier 3-bets, +20 or more (+13 to +42) | Open-shove at 10-15bb 35%+ (40-62%) | 10 / 130 / 170 | Opens 2.5bb; c-bets 0.7 pot; from round 5 re-raises 25% and has 2 Curry's rule (+25) |
-| **Hotwheels** (Boston, wildcard?) | Shoves short, 4-bets | 4-bet 14%+ (19-26% from round 3) | Open-shove at 10-15bb 40%+ (45-53%) | C-bet 85%+ (90-92% from round 2) | 60 / 130 / 40 | 3-bets 4.00x; raises over limpers 50%; big blind folds 59-82% |
-| **triple t** (Boston, wildcard?) | Unstable; late 4-bettor | 4-bet 22%+ (29-31%, rounds 5-6) | Small blind opens 85%+ while the button opens under 42% (90-92%; 34-36%) | Opener folds to a 3-bet under 56% (48-51%) | 80 / 20 / 95 | Went back to its round-1 bot in round 4: expect anything |
-| **REspect** (Boston, wildcard?) | Hyper-aggressive rewrite | Fold to a flop bet under 32% (20-29%, all six rounds) | 4-bet 40%+ (54-68% from round 4) | 3-bet 30%+ and never flat-calls (32-39%; 0%) | 145 / 100 / 15 | Folds to 4-bets 89%; folds to turn bets 67% |
-| **Team 72 (Boston)** (wildcard?; not Bay Area's Team 72) | Tight, pays for flops | Small blind opens 95%+ while opening under 30% overall (98%; 24-25%, rounds 5-6) | 3-bettor folds to a 4-bet 78%+ (84-88% from round 3) | C-bet 85%+ (91-93%, all six rounds) | 10 / 260 / 70 | Button opens only 22% |
-| **Pittsburgh's winner** (Steven Peng's team) [I] | Unknown | | | | | First in four rounds, second in two; nothing else found |
+| **Magnus RLsen** (Boston 6th) | Opens half its hands, shoves short | Opens first in 47%+ (52-53%, all six rounds) | Cross-tab F: folds to a first-time 3-bettor minus to a seat with three earlier 3-bets, +20 or more (+13 to +42) | Open-shove at 10-15bb 35%+ (40-62%) | 10 / 130 / 170 | Opens 2.5bb; c-bets 0.7 pot; from round 5 re-raises 25% and has 2 Curry's rule (+25) |
+| **Hotwheels** (Boston, about 6th-7th) | Shoves short, 4-bets | 4-bet 14%+ (19-26% from round 3) | Open-shove at 10-15bb 40%+ (45-53%) | C-bet 85%+ (90-92% from round 2) | 60 / 130 / 40 | 3-bets 4.00x; raises over limpers 50%; big blind folds 59-82% |
+| **Pluto** (Pittsburgh 1st) | Tight early, reads the blinds, calls down | Cross-tab D: button and small-blind opens against a folding big blind minus a defending one, +30 or more (+52 to +58) | Cross-tab H: big blind folds to a tight opener minus a loose one, +20 or more (+28 to +43) | C-bet under 65% while raising under 2% of flop bets (52-60%; 0.5-0.8%) | 75 / 185 / 125 | Every open 2.25bb, every 3-bet 2.75x, every bet half pot; opens 8-9% at level 1; cross-tab A +11 to +14 |
+| **Cold Decks** (Pittsburgh 2nd) | Quiet caller that turned to 4-bets in round 6 | Open-shove at 10-15bb 28%+ (32-39%, every round) | Bets the turn when checked to under 40% (30-35%, every round) | Opens 2.25bb and 3-bets 4.00x (57-69% of its 3-bets) | 80 / 205 / 10 | Round 6 only: folds to 3-bets 49% and 4-bets 29% (75% and 11% before) |
+| **Poker is all you need** (Pittsburgh 3rd) | Small raises everywhere | 70%+ of its non-all-in 3-bets at the minimum, 1.5x (70-81%) | Big blind re-raises an open 70%+ (77-87%) | Raise a flop bet 18%+ (20-36%) | 10 / 35 / 155 | C-bets and river bets of 0.1 pot; opens 2.00bb; folds to 4-bets 86% |
+| **Hold Em Trophies** (Pittsburgh 4th) | Steady 4-bettor, shoves short | 4-bet 15%+ (19-27%, every round) | 3-bettor folds to a 4-bet 70%+ (75-83%) | Open-shove at 10bb or less 50%+ and at 10-15bb 28%+ (53-62%; 29-40%) | 65 / 290 / 110 | Opens 2.25bb, 3-bets 2.75x; flat-calls 0% from round 4 |
+| **Claude Mythos 5.5** (Pittsburgh 5th) | Re-raises from the blinds, value-only rivers | Big blind folds to an open under 25% and re-raises it 75%+ (17-18%; 81-83%, from round 3) | 3-bettor folds to a 4-bet 82%+ (87-90%) | Bets the river when checked to under 30% (23-27%, every round) | 30 / 120 / 270 | Opens 2.25bb, 3-bets 2.75x; small blind opens 90-92% |
+| **LLinusLLoveBot** (Pittsburgh 6th) | Two bots, both with 2 Curry's rule | Cross-tab A +14 or more (+14 to +39, every round) | 3-bet 28%+ (30-41%) | Either 2.00bb opens with first-in shoves 70%+ at 10bb or less (its early bot), or 2.75bb opens, limps 3-4% and c-bets about 50% (its late bot) | 75 / 15 / 10 | Early bot: 3-bets 3.25x like 2 Curry, raises 22% of flop bets. Late bot: small blind opens only 46% |
+| **AEPi AK** (Pittsburgh 7th) | Late riser: 4-bets and bets into folders | 4-bet 25%+ (29-41% from round 4; 9% in round 2) | Cross-tab B +25 or more (+31 to +47, every round) | Raise a flop bet under 2% (0.4-0.9%, every round) | 70 / 250 / 105 | One open size (2.50bb), 3-bets 2.75x, every c-bet 0.6 pot; cross-tab F -35 to -52 from round 4 |
 
-The Boston rows are measured on the same cross-tabs as the Bay Area rows (Appendix I), from a third of the tables.
-Two teams share a name: Boston's Team 72 is not the Bay Area's. Two teams share sizes and a rule: a seat that opens
-2.00bb, 3-bets 3.25x and re-raises again after a fold may be 2 Curry or 0_o GTO Slop; the big blind tells them apart
-(2 Curry folded 32-54%, 0_o GTO Slop 3-13%).
+All rows are measured on the same cross-tabs (Appendices C, I and M). Rows are kept only for teams in the field.
+**Three teams share one shape:** a seat that opens exactly 2.00bb, 3-bets exactly 3.25x and re-raises again after a
+fold may be 2 Curry, 0_o GTO Slop or LLinusLLoveBot's early bot. The big blind tells them apart: 2 Curry folded it
+32-54%, LLinusLLoveBot 31-35%, 0_o GTO Slop 3-13%; and 2 Curry flat-calls 1-2% and never raises flop bets (5%), where
+LLinusLLoveBot raised 22% of them. **Four Pittsburgh teams share sizes** (opens 2.25bb, 3-bets 2.75x: Pluto, Hold Em
+Trophies, Claude Mythos 5.5, and AEPi AK's 3-bets), so sizes separate them less than the cross-tabs do.
 
-**Three things that make a practice-1 reading wrong** (A, regional): two of these eight teams were not seated in
+**Three things that make a practice-1 reading wrong** (A, Bay Area): two of its eight teams were not seated in
 practice 1 (Lemonade, Team 72); Lemonade and Team 123 played throwaway bots in the build practices (Team 123 an
 all-in-every-hand bot in practice 3); and a team's rates in a field of drafts differ from its scored rates. The seat
 rules were the stable part: 2 Curry's, Team 72's and AZ's were all measurable by practice 2.
 
-## 3. What the known finalists have in common, and where our bot differs
+## 3. What the finalists have in common, and where our bot differs
 
-**In common** (the ten measured finalists, five from each regional, each in its last round; A):
+**In common** (all 20 opponents, each in its last round; A):
 
-1. **Small opens and no limps.** Nine of ten never limp (Lemonade 21%; sandylikesfrogs 6%). Seven most often open
-   to exactly 2.00bb. The small blind opens 68-99% in nine (median 85%).
-2. **Seven of ten re-raise 20% or more** (39, 39, 36, 26, 22, 21, 20; the others 13-17%). From the big blind the ten
-   re-raise a single open 23-75% of the time (median 44%; the whole field's median was 12% at Bay Area).
-3. **They defend the big blind:** eight of ten fold it to an open under 50%, and all five of Boston's under 45%
-   (0_o GTO Slop 5%).
-4. **They still fold to re-raises, less so at the top of Boston:** fold to a 3-bet 30-81%, median 65% (Bay Area's
-   five: 30, 53, 72, 77, 81; Boston's: 49, 58, 63, 66, 74). Boston's five 4-bet 7-20%, Bay Area's 5-14%.
-5. **Six of ten fold to 4-bets 74% or more** (section 1); only Preesh sits in the middle (46%).
-6. **Eight react to seats** (section 1), and the rules are old: in each team's first practice bots.
-7. **Postflop is plain:** c-bets 55-95% (median 82%); flop bets are raised under 9% of the time by eight of ten
-   (sandylikesfrogs 16%, BHTG 35%).
-8. **Short stacks shove, but less than we do:** first-in shoves at 10bb or less 28-61% (median 45%).
+1. **Small opens and no limps.** Sixteen never limp (Lemonade 21%; sandylikesfrogs 6%; Poker is all you need and
+   LLinusLLoveBot 4%). Ten most often open to exactly 2.00bb and six to 2.25bb. First-in opens run 23-53% (Lemonade
+   8%), median 36%; the small blind opens 68% or more in 17 (median 81%).
+2. **Sixteen of 20 re-raise 20% or more** (median 25%; ten at 26% or more). From the big blind the top teams
+   re-raise a single open about half the time (the three top groups: 40%, 43%, 54%).
+3. **They defend the big blind:** sixteen fold it to an open under 50% (median 37%); two fold it 5% (Team 123,
+   0_o GTO Slop).
+4. **Fold to a 3-bet runs from 30% to 84%, median 63%.** Seven 4-bet 15% or more, none of them from the Bay Area
+   (Du-o, Magnus RLsen, Hotwheels, Cold Decks, Hold Em Trophies, Claude Mythos 5.5, AEPi AK).
+5. **Fifteen fold to 4-bets 72% or more** (section 1).
+6. **Fourteen react to seats** (section 1). Eight have the re-raise-after-a-fold rule.
+7. **Postflop is plain where there is one board:** c-bets 55-95% (median 81%) at Bay Area and Boston, and flop bets
+   are raised under 10% of the time by all but five (BHTG 35%, Poker is all you need 20%, sandylikesfrogs 16%,
+   LLinusLLoveBot 12%, Team 123 11%). With two boards c-bets fall to 51-68% for six of Pittsburgh's seven.
+8. **Short stacks shove, but less than we do:** first-in shoves at 10bb or less 24-63% (median 47%).
 
-**Where the regionals' leaders differ.** Bay Area's five opened 41-53% first in (Lemonade aside); Boston's five
-23-41%, and Du-o 5% at level 1. Boston's re-raise more from the blinds and fold less there. `field_two_regionals.md`
-has the field-level comparison.
+**Where the regionals' leaders differ.** Bay Area's leaders opened 39-53% first in (Lemonade aside); Boston's five
+23-41% and Pittsburgh's seven 25-38%, and Du-o, Pluto and Poker is all you need opened 5-9% at level 1. Boston's and
+Pittsburgh's leaders ended the night 4-betting; Bay Area's did not. `field_three_regionals.md` has the field-level
+comparison.
 
-**Where our round-6 bot differed most from the ten** (A):
+**Where our round-6 bot differed most from the 20** (A):
 
-| Our rate | Us | The ten: median (range) | Reading (C) |
+| Our rate | Us | The 20: median (range) | Reading (C) |
 |---|---|---|---|
-| Fold to any 3-bet | 87% | 65% (30-81%) | Higher than all ten; what the re-raise rule of four of them feeds on |
-| Fold to a small 3-bet (under 2.6x) | 80% | 44% (10-84%) | Only Situational Awareness folds more |
-| Fold to a river bet | 76% | 57% (39-77%) | Level with 0_o GTO Slop at the top |
-| Open-shove at 10bb or less | 78% | 45% (28-61%) | Higher than all ten |
+| Fold to any 3-bet | 87% | 63% (30-84%) | Higher than all 20; what the re-raise rule of eight of them feeds on |
+| Open-shove at 10bb or less | 78% | 47% (24-63%) | Higher than all 20 |
 | Share of our 3-bets that are all-in | 78% | 33% (2-84%) | Only AZ and Lemonade are similar |
-| Open from the small blind; from the button | 59%; 44% | 85%; 56% | Only Lemonade opens the small blind less |
-| Raise over limpers | 16% | 28% (10-49%) | Only Du-o and BHTG are lower |
-| Raise a flop bet | 13% | 6% (1-35%) | Only sandylikesfrogs and BHTG are higher |
-| Heads-up: call a first-in shove | 21% | 37% (25-54%) | Lower than all ten |
-| Open first in | 34% | 37% (8-53%) | No longer an outlier: Boston's five open as tight or tighter |
+| Fold to a river bet | 76% | 53% (32-91%) | Only Poker is all you need and 0_o GTO Slop fold as much |
+| Open from the small blind | 59% | 81% (44-99%) | Only Lemonade and LLinusLLoveBot's late bot open it less |
+| 4-bet | 4% | 12% (5-41%) | Lower than all 20 |
+| Fold to a small 3-bet (under 2.6x), against the ten of Bay Area and Boston | 80% | 44% (10-84%) | Only Situational Awareness folds more |
 
-**Most dangerous (C).** *2 Curry*: the only Bay Area team above 20 in all six rounds, the same family from practice 1
-to round 6, and the team whose rule fits our largest gap. *Du-o*: won Boston clearly (727 to the 5th's 641) and was
-the best team at the viewpoint team's tables in every round (21.6-25.0); it has all three seat rules at full
-strength and folded to 4-bets 89-94% without anyone making it pay. *Situational Awareness*: 20.8-22.9 in every round,
-re-raises a seat after one fold 30% against 8%, and closed two of its own gaps during the night (small-blind opens,
-big-blind defence). Then *Lemonade*: 19.3-20.7 with a style none of the others used; a field of pressure bots
-has little to act on, because it rarely raises first in. *Team 123*, if invited, is the opponent that cost us most
-per table and the fastest rewriter at Bay Area; *0_o GTO Slop* is its Boston counterpart (12 versions, 2 Curry's
-rule, never folds its big blind).
+**Most dangerous (C).** The three regional winners, for the same three reasons: each was first or second in almost
+every round, each kept one bot family from its first practice to round 6, and each reads seats.
+*2 Curry* is the only Bay Area team above 20 in all six rounds, and its re-raise rule fits our largest gap.
+*Du-o* was the best team at the viewpoint tables in every Boston round (21.6-25.0) with all three seat rules at full
+strength. *Pluto* had Pittsburgh's best first hour (21.0 in round 1, 2.2 above anyone in the top 12), steals 74%
+against big blinds that fold, and cannot be bluffed off a hand after the flop. Then *Situational Awareness*
+(20.8-22.9 every round, re-raises a seat after one fold 30% against 8%), *Cold Decks* (never below 17.8, and the one
+finalist that found the counter-wave in the heaviest round and gained) and *Lemonade* (19.3-20.7 with a style no
+one else used). *Team 123*, *0_o GTO Slop* and *Poker is all you need* are the fast rewriters: expect each to arrive
+with a bot we have not seen.
 
 ## 4. Bay Area cards
 
@@ -226,7 +246,7 @@ opponent (Appendix A). Each card's "use" lines are grade C: the rate is measured
 - **To have removed it:** betting into folders is what won it round 1 and is why it faded as the folders left.
   Expect it again.
 
-### Team 123 (7th: 9.9, 12.8, 17.8, 19.8, 19.7, 18.1; possible wildcard)
+### Team 123 (7th: 9.9, 12.8, 17.8, 19.8, 19.7, 18.1; in the field)
 
 - **Class:** three unrelated bots. Round 1 tight (VPIP 14%); round 2 shove-heavy; rounds 3-6 a hyper-aggressive
   rewrite, never shown in the practice before round 3.
@@ -242,7 +262,7 @@ opponent (Appendix A). Each card's "use" lines are grade C: the rate is measured
 - **To have removed it:** its fold to 4-bets rose all night, so nobody punished it there. But this team rewrote
   twice in six rounds: a different bot on Sunday is more likely than not.
 
-### Team 82 (8th: 18.6, 17.1, 16.2, 17.9, 17.7, 18.5; possible wildcard)
+### Team 82 (8th: 18.6, 17.1, 16.2, 17.9, 17.7, 18.5; not in the Finals field)
 
 - **Class:** rounds 1-5 one tight family (VPIP 20-24%, 3-bets 3-8%, flat-calls 1-4%, big blind folds 75-89%), shoving
   when short. Round 6 rewrite, half-visible in the practice before: big blind folds 75% to 25% and re-raises 53%,
@@ -254,7 +274,7 @@ opponent (Appendix A). Each card's "use" lines are grade C: the rate is measured
   and 19% heads-up. (3) Its small-blind open is any two cards (100% from round 3, n = 30,394).
 - **To have removed it:** the fold to 3-bets survived the round-6 rewrite, so it is probably in the team's plan.
 
-### pocket rockets (9th: 18.9, 16.9, 18.0, 17.6, 16.6, 17.8; possible wildcard)
+### pocket rockets (9th: 18.9, 16.9, 18.0, 17.6, 16.6, 17.8; not in the Finals field)
 
 - **Class:** rounds 1-2 limped 21-24%; rounds 3-5 raise or fold (opens 45%, 3-bets 15%); round 6 wide pressure (3-bets
   28% at 2.5-2.75x, big blind folds 64% to 40%), shown in the practice before it.
@@ -438,7 +458,7 @@ We never played these teams, so there is no "against us".
 - **To have removed it:** this team studies the leaders' hands between rounds; expect a different bot each round,
   and the seat rules to stay.
 
-#### Magnus RLsen (6th, 640.89, possible wildcard; points 19.8, 20.7, 19.7, 18.3, 19.9, 16.8)
+#### Magnus RLsen (6th, 640.89, in the field; points 19.8, 20.7, 19.7, 18.3, 19.9, 16.8)
 
 - Opens 52% first in in every round (2.5bb; 39% at level 1), shoves short stacks more than anyone here (61-76% at
   10bb or less, 40-62% at 10-15bb), c-bets 0.7 pot.
@@ -450,7 +470,7 @@ We never played these teams, so there is no "against us".
 - **Use:** (1) Re-raise its opens the first two times at a table (84-88% folds), then stop. (2) 4-bet its round-5
   re-raises. (3) It calls 10-15bb shoves 10%.
 
-#### Hotwheels (estimated 6th-7th, possible wildcard; points 17.3, 16.1, 18.8, 19.8, 18.7, 18.2)
+#### Hotwheels (estimated 6th-7th, in the field; points 17.3, 16.1, 18.8, 19.8, 18.7, 18.2)
 
 - From round 3: opens 37-41% (2.00bb), re-raises 16-18% at 4.00x, 4-bets 19-26%, c-bets 91%, raises over limpers 50%,
   shoves short (60-66% at 10bb or less, 45-52% at 10-15bb). Big blind folds 75-82% until round 4, 59% after.
@@ -459,14 +479,14 @@ We never played these teams, so there is no "against us".
 - **Auction:** 39 a time unless all-in, then 154.
 - **Use:** steal its big blind (68% folds in rounds 3-6, n = 12,077); re-raise it once or twice a table, not more.
 
-#### triple t (estimated 8th, possible wildcard; points 17.9, 19.2, 15.8, 15.9, 20.7, 17.6)
+#### triple t (estimated 8th, not in the Finals field; points 17.9, 19.2, 15.8, 15.9, 20.7, 17.6)
 
 - **Unstable:** three bots in four spells: in round 4 it went back to its round-1 bot. Rounds 5-6: opens 32% (small blind 91%,
   button 35%), 4-bets 30% of the re-raises it faces and folds 49%, folds to 4-bets 63% (72% all-in, n = 308).
 - **Within a table:** steals more from folders (+17). **Auction:** front-loaded, 128 in hands 1-20 falling to 36.
 - **Use:** little is safe; treat as unknown until practice 1.
 
-#### REspect (estimated 9th, possible wildcard; points 13.4, 12.6, 13.7, 18.9, 18.3, 19.1)
+#### REspect (estimated 9th, not in the Finals field; points 13.4, 12.6, 13.7, 18.9, 18.3, 19.1)
 
 - **Round-4 rewrite worth 5 points**, shown in a more extreme form in the practice before it: re-raises 35% (48% from
   the blinds), **4-bets 59% of the re-raises it faces** and folds 33% (n = 3,938), folds to 4-bets 89% (n = 1,135),
@@ -476,7 +496,7 @@ We never played these teams, so there is no "against us".
 - **Use:** (1) 4-bet its re-raises. (2) Re-raise it for value only, and be ready for its 4-bet. (3) One flop bet
   does not move it; the second one does.
 
-#### Team 72 (Boston) (estimated 10th, possible wildcard; points 16.8, 17.8, 14.8, 12.9, 19.2, 19.2)
+#### Team 72 (Boston) (estimated 10th, not in the Finals field; points 16.8, 17.8, 14.8, 12.9, 19.2, 19.2)
 
 - **Not the Bay Area's Team 72.** Three bots: passive in rounds 1-2; re-raising 24% in rounds 3-4 (its worst scores);
   tight in rounds 5-6, in the practice before: opens 25% (button 22%, small blind 98%, level 1 15%), 4-bets 22%,
@@ -484,7 +504,199 @@ We never played these teams, so there is no "against us".
 - **Auction:** the most polarised: 25 a time with nobody all-in, 215 when all-in itself.
 - **Use:** its small-blind open is any two cards; 4-bet its re-raises.
 
-## 6. Public material on these teams, and Pittsburgh's winner (second-hand)
+## 6. Pittsburgh: which file is which round, and the cards
+
+Added Saturday 14 November, 15:55-16:15 PST, from nine raw files in `data/pittsburgh/` (never in git): one Pittsburgh
+team's downloads, with "Brian meow meow Bi" (the viewpoint team) at every table. Variant: three hole cards, two
+boards, one card discarded face down after the turn betting, each board pays half the pot. Official scores for the
+top 12 are in Samuel's `research/regionals_web/REPORT.md` (146 entries, weights 1, 2, 3, 5, 8, 13). Each team is seen at
+about 630 tables a scored round.
+
+**Two things differ from the other two data sets.** The viewpoint team's bot was a calling station that busted
+before hand 40 at 48-80% of its tables and scored 0.4-2.2 points a table, so (1) other teams' points at these tables
+sit 1.0-1.5 **above** their official scores, not below, and (2) one seat in eight is a loose caller for the first
+30-45 hands of every table, which colours early-table rates a little for everyone.
+
+### 6.1 The files
+
+For each file: the official top 12's points per table at these tables, compared with each official round after
+removing one common shift. The figure is the misfit (chi-square on 11 degrees of freedom: about 11 is a perfect match
+at this sample size, 30 or more is a clear mismatch).
+
+| File (as named) | Tournament | Tables | Teams seated | Misfit against official round 1, 2, 3, 4, 5, 6 | What it is | Name right? |
+|---|---|---|---|---|---|---|
+| `pitt_r5_r6` | b808eec7 | 5,039 | 111 | **19**, 36, 62, 55, 67, 72 | Practice between rounds 1 and 2 | No |
+| `pitt_r2` | d44e4147 | 10,100 | 111 | 75, **28**, 48, 58, 79, 99 | **Round 2** | Yes |
+| `pitt_r5_r6_2` | bb8a3341 | 5,000 | 112 | 24, **6**, 17, 16, 22, 30 | Practice between rounds 2 and 3 | No |
+| `pitt_r3` | ca825b02 | 10,003 | 112 | 68, 21, **7**, 17, 26, 40 | **Round 3** | Yes |
+| `pitt_p7` | 242e19e4 | 10,000 | 112 | 51, 53, 64, 41, 65, 91 | Practice between rounds 3 and 4 | Yes |
+| `pitt_r4` | 3c389150 | 10,003 | 112 | 58, 39, 26, **14**, 22, 34 | **Round 4** | Yes |
+| `pitt_p8` | 269048db | 10,000 | 112 | 34, 25, 27, 10, 10, 14 | Practice between rounds 4 and 5 | Yes |
+| `pitt_r5` | 85b14143 | 10,003 | 112 | 62, 42, 39, 19, **13**, 24 | **Round 5** | Yes |
+| `pitt_r6` | 268dab24 | 10,003 | 112 | 71, 41, 35, 31, 13, **8** | **Round 6** | Yes |
+
+**How sure.**
+
+- **Scored or practice: certain.** Scored downloads are the first 10,000 iterations and run to iteration 10,002
+  (`r2`, `r3`, `r4`, `r5`, `r6`). Practices are complete runs of exactly 5,000 or 10,000 iterations.
+- **Rounds 3, 4, 5 and 6: about 95% each, and 99% as a set.** Each file's best match is its named round, and any swap
+  of two of them fits at least 14 points worse (odds of about a thousand to one).
+- **Round 2: about 90%.** It is a scored file, it cannot be round 1 (misfit 75 against 28), and the practice that
+  follows it carries the round-2 pattern almost exactly (misfit 6). Its own fit is only fair: Hold Em Trophies scored
+  16.5 here where 19.3 was expected (3 standard errors).
+- **Time order of all nine: very likely.** Teams' bots change step by step along the order in the table (each file's
+  nearest neighbours by bot similarity are the files next to it), 111 teams are seated in the first two files and
+  112 after, and the viewpoint team's own bot is identical in `r5_r6` and `r2`, in `r3`, `p7` and `r4`, and in `p8`
+  and `r5`.
+- **The two files named `r5_r6` are not rounds 5 or 6.** They are 5,000-table practices from early in the night.
+  Read as practice numbers the names fit: in the Bay Area's numbering practices 5 and 6 are the ones after rounds
+  1 and 2, as `p7` and `p8` are the ones after rounds 3 and 4. That the first one comes after round 1 and not before
+  it rests on one sign (a third of the teams already play their round-2 bot): about 75%.
+- **Missing:** round 1, every build practice, and the practice before round 6.
+
+### 6.2 The two second-hand claims in `field.md` section 5
+
+- **"In practice 1 an opener folded 70-80% to a re-raise, and shoves were called under 20%": cannot be checked.**
+  There is no build practice on file. In the earliest file (after round 1) openers folded 67% pooled by opportunity
+  (63% as a team mean) and shoves of 10bb or less were called 25%; in round 2, 70% and 25%. Not contradicted, not
+  confirmed. (A for the later figures)
+- **"The round-3 leaders applied steady pressure with small raises, and by round 4 opponents fought back": confirmed.**
+  (A)
+  - Round 3's top four officially were Poker is all you need, Pluto, LLinusLLoveBot and Claude Mythos 5.5. From the
+    big blind they re-raised a single open 82%, 44%, 55% and 81% of the time (the note said 44-79%), and Poker is
+    all you need made 70% of its re-raises the minimum size.
+  - The field's fold to a 3-bet peaked in round 3 (70% pooled) and fell every round after (68%, 68%, 64%); its 4-bets
+    rose 8.6%, 9.3%, 11.0%, 14.1%; the top 12 went from folding 73% and 4-betting 10% in round 2 to 54% and 27% in
+    round 6.
+  - Against Poker is all you need itself, opponents re-raised its opens 17% in round 2, then 19%, 21%, 27% and 28%
+    (other finalists' opens: 9-17%), and big blinds folded to it 59% falling to 48%. Its score went 19.9, 18.6, 18.0,
+    17.0. So the fight-back began in round 4 and was strongest in rounds 5 and 6.
+
+### 6.3 The discard and the two boards
+
+The discard is face down and never shown, so nobody's choice can be read directly. What the files show is the two
+cards a team kept whenever it reached showdown, and both boards. (A; Appendix N)
+
+- **All seven keep the same kind of hand.** At showdown each held a pocket pair 30-36% of the time (median team 34%;
+  three random cards hold a pair 17% of the time), had two pair or better on both boards 28-30% and on one board
+  49-52%, and scooped 23-26%. No team's discard rule shows as different from the field's.
+- **They differ in who bets the river without a hand.** A river bettor's hand, when shown: Claude Mythos 5.5 had two
+  pair or better on both boards 60% of the time and on neither 3%; Hold Em Trophies 44% and 3%; Cold Decks 48% and 9%;
+  Pluto 41% and 13%; LLinusLLoveBot 37% and 9%; AEPi AK 46% and 6%; **Poker is all you need 17% and 29%** (median
+  team: 41% and 7%).
+- **River bets are one size each:** Pluto 0.5 pot (every bet), Claude Mythos 5.5 0.7, AEPi AK 0.6, LLinusLLoveBot
+  the full pot, Poker is all you need 0.1.
+- **Two boards make everyone call more.** Pittsburgh's field folded to a flop bet 39-44%, a turn bet 33-37% and a
+  river bet 35-40%, 10-14 points under the other two regionals; c-bets were 60-66%.
+- For Sunday (C): with more than one board, expect finalists to continue with far more hands, to bet less often, and
+  to keep bets on later streets for hands good on both boards.
+
+### 6.4 Cards
+
+Official points per table are in the headings; round 1 is official only (no file). "Use" lines are grade C.
+
+#### Pluto (1st: 21.03, 20.15, 19.68, 19.35, 18.41, 17.99)
+
+- **Class:** none of `field.md`'s fits. Tight early and steals by reading the blinds: opens 25-34% first in (9% at
+  level 1, 8% from early seats, 43% on the button, 69% in the small blind), always 2.25bb; re-raises 22-25%, always
+  2.75x (35% from the blinds, 8% elsewhere); c-bets only 52-60%, every bet half the pot; flat-calls 0.4%; raised a
+  flop bet 0.6% of the time (n = 8,313).
+- **Changed:** one family in all nine files and never a jump: opens 34% to 25% (button 50% to 36%), folds to 3-bets
+  74% to 64%, 4-bets 9% to 14%. Its practice bot was its next scored bot every time. First or second in every round.
+- **Within a table** (already there in the first file): opens the button and small blind 19% against a big blind
+  that defends and 74% against one that folds (n = 10,376; 21,410), the largest such read at any regional. In its
+  own big blind it folds 64% to a seat that opens rarely and 31% to one that opens often (n = 10,307; 4,657).
+  Re-raises 25% after one fold, 13% after one non-fold, 55% after three folds (n = 13,049; 9,487; 11,533).
+- **Use:** (1) Defend the first big blinds of each table against its button and small-blind opens: its steal rate
+  falls to 19%. (2) 4-bet its re-raises: it folded 74% in five rounds (n = 2,647), and opponents 4-bet it only 6-10%.
+  (3) It calls down and never raises: folds to flop bets 43%, turn 39%, river 38% (n = 8,313; 4,546; 2,988). Bet for
+  value, thinly; do not bluff. (4) With 10-20bb it raises 33% and shoves 5%, and folds to a re-raise 63-65% (n = 3,132).
+- **To have removed it:** its fold to 3-bets fell in every round, so the team works on its numbers. The blind reads
+  are the design.
+
+#### Cold Decks (2nd: 18.73, 18.51, 17.79, 18.87, 18.16, 18.42)
+
+- **Class:** rounds 2-3 quiet (opens 31-32% at 2.25bb, re-raises 12% at 4.00x, c-bets 86%). Round 4, shown in the
+  practice before: re-raises 18% (12 all-in), first-in shoves at 10bb or less 34% to 46%. Round 5, also in the
+  practice: c-bets 84% to 71%. **Round 6 (no practice on file): folds to 3-bets 75% to 49%, 4-bets 11% to 29%**,
+  re-raises 24%, c-bets 54%, and the best round-6 score of the top 12.
+- **In every round:** open-shoves 32-39% at 10-15bb (field 21-24%); bets the turn only 30-35% when checked to; calls
+  shoves of 10bb or less 32-40%.
+- **Within a table:** nothing until late: bets into folders from round 5 (+27 to +29), a re-raise rule in round 6 (+19).
+- **Use:** (1) Its round-6 bot answers re-raises: re-raise it for value only. (2) 4-bet its re-raises: it folded 73%
+  in rounds 4-6 (n = 985). (3) It calls down: folds to flop bets 47%, turn 32%, river 38% (n = 4,158; 2,104; 1,700 in
+  rounds 4-5). (4) Heads-up it called a first-in shove 60% (n = 1,256).
+- **To have removed it:** it found the counter-wave by itself in the heaviest round and gained. Expect the round-6 bot.
+
+#### Poker is all you need (3rd: 15.66, 18.66, 19.89, 18.61, 17.99, 17.00)
+
+- **Class:** hyper-aggressive with small sizes. Opens 26-32% at 2.00bb (8% at level 1, small blind 93%); re-raises
+  36-45%, and 70-81% of those at the minimum (1.5x); from the big blind re-raises 77-87% of opens; c-bets 82-98% with
+  bets of 0.1-0.3 pot; raises 20-36% of the flop bets it faces.
+- **Changed:** round 3 (not in the practice before): short shoves 15% to 46%, 4-bets 6% to 16%. Round 4: it started
+  giving up to pressure (folds to 3-bets 76% to 85%, to 4-bets 77% to 86%, to flop bets 52% to 72%) and re-raised
+  less (45% to 36%). Rounds 4-6 are one bot. The practices before rounds 4 and 5 matched neither neighbour.
+- **Within a table:** nothing.
+- **Use:** (1) Raise back: it folded to 4-bets 86% (n = 3,340), to a raise of its flop bet 85% (n = 739), to flop
+  bets 72%, turn 82% and river 89% (n = 3,916; 1,151; 597). (2) Never fold to its minimum re-raise for the price
+  alone; call or 4-bet. (3) Its river bet is 0.1 pot and had no made hand on either board 29% of the time (n = 2,359).
+- **To have removed it:** its own regional found these in two rounds: it had the best score of the top 12 in round 3
+  and the 11th in round 6. Expect a rebuilt bot; the small sizes are the signature to look for.
+
+#### Hold Em Trophies (4th: 18.01, 17.96, 17.43, 17.77, 17.66, 17.96)
+
+- **Class:** none fits. One family (opens 34% at 2.25bb in every round, 3-bets 2.75x), tuned a little each round, so
+  not one bot: re-raises 18% to 27%, big blind folds 68% to 48%, flat-calls 3% to 0% from round 4. **It 4-bet 19-27%
+  in every round**, the steadiest 4-bettor of the 20, and folded to 4-bets 75-83% (n = 2,849).
+- **Short stacks:** shoves 53-62% at 10bb or less and 29-40% at 10-15bb.
+- **Within a table:** bets into folders from round 3 (58% against 74%; +17 to +23).
+- **Use:** (1) Do not re-raise it light: it 4-bets 21% and folds 66% (n = 12,845). (2) 4-bet its own re-raises: 79%
+  folds. (3) C-bet it (65% folds to flop bets, n = 7,156), then believe its river bets: 3% had no made hand on either
+  board (n = 1,183).
+- **To have removed it:** the flattest scorer of the top 12 (17.4-18.0); expect the same family, tuned.
+
+#### Claude Mythos 5.5 (5th: 18.18, 18.04, 18.49, 17.28, 17.27, 17.76)
+
+- **Class:** wide pressure from the blinds since round 3. Round 2: opens 41% (2.25bb, small blind 91%), re-raises
+  18%, big blind folds 61%. Round 3, half-shown in the practice before: big blind folds 18% and re-raises 81-83%,
+  re-raises 36% overall (56% from the blinds), folds to 4-bets 89% (n = 3,381). Rounds 5-6: 4-bets 13% then 20%,
+  folds to 3-bets 85% to 73%.
+- **Short stacks:** shoves 55-61% at 10bb or less; calls such shoves 39%, the most of the seven.
+- **Within a table:** nothing on re-raises, bets or steals.
+- **Two boards:** the most honest river bettor: two pair or better on both boards 60%, on neither 3% (n = 988); it
+  bets the river only 24% when checked to and folds to river bets 59%.
+- **Use:** (1) 4-bet its blind re-raises: 89% folds. (2) Do not open light into its big blind. (3) Fold to its river
+  bets; bet rivers into it.
+- **To have removed it:** it was already raising its 4-bets in rounds 5 and 6.
+
+#### LLinusLLoveBot (6th: 18.81, 18.92, 19.36, 18.35, 17.35, 16.76)
+
+- **Two bots.** Rounds 1-2, and again in the practice before round 5: 2 Curry's shape (opens 40% at 2.00bb, re-raises
+  33-36% at 3.25x, shoves 71-76% at 10bb or less, c-bets 82-85%, raises 22% of flop bets, folds to 4-bets 85%).
+  Rounds 3-6, shown in the practice before round 3: opens 26% at 2.75bb, limps 4%, c-bets 50%, folds to 3-bets 55%,
+  rarely shoves (24% at 10bb or less), calls down (folds to flop, turn and river bets 43%, 36%, 36%), and opens the
+  small blind only 46%.
+- **Within a table (both bots):** re-raises 40% after one fold and 14% after one non-fold (n = 12,060; 10,362; +14 to
+  +39 in every round); folds to a first-time 3-bettor 76% and to a frequent one 57%.
+- **Fell late** (19.4 to 16.8) as opponents' 4-bets against it rose from 10% to 17%.
+- **Use:** (1) Do not fold its first re-raise; 4-bet it: 73% folds (n = 4,302). (2) Against the late bot, attack its
+  blinds short-handed: heads-up it opened 36%. (3) Bet for value: it calls down.
+- **To have removed it:** which bot comes is open; the re-raise rule is in both.
+
+#### AEPi AK (7th: 15.95, 15.31, 16.16, 16.63, 17.89, 17.90)
+
+- **Class:** counter-wave defender by the end. After round 1 it re-raised 4% and flat-called 12%. By round 6 its big
+  blind re-raised 64% of opens (5% at the start), it **4-bet 41% of the re-raises it faced** (9%) and folded to 40% of
+  them (76%). Opens 34-38% in one size (3.00bb, then 2.50bb), c-bets 0.6 pot every time, raised a flop bet 0.6% of
+  the time. Its changes for rounds 3, 4 and 5 were all in the practice before.
+- **Within a table:** heads-up it bets 52% into a seat that rarely folds and 90% into one that folds (n = 25,274;
+  2,883; every round). Folds 78.5% to a first-time 3-bettor and 38% to a frequent one, 4-betting 16% and 53%
+  (n = 3,667; 5,125).
+- **Use:** (1) Re-raise it once a table at most. (2) Do not fold twice to its bets. (3) It never raises a flop bet and
+  folds 55% (n = 3,633): c-bet freely; on the river it folds 34%.
+- **To have removed it:** it improved by defending in every round; expect it to arrive already defending.
+
+## 7. Public material on these teams (second-hand)
 
 | Team | Public [I] |
 |---|---|
@@ -493,9 +705,11 @@ We never played these teams, so there is no "against us".
 | **BHTG** | Nothing found |
 | **Preesh** | 19.82 points a table in the last round, from a rival's screen. Nothing else |
 | **0_o GTO Slop** | Artem Saraiev (MIT): CFR did not work in time; "tons of stats, a few good heuristics, and fast testing". Two coding agents checking each other, 12 versions, a local arena, study of the leaders' hand histories. Reached 5th only in the last round, by 0.59 |
-| **Magnus RLsen** | Daniel Potapo (Harvard). 19.38 in the last round. Wildcard status not found |
-| **Hotwheels, triple t, REspect, Team 72 (Boston)** | Nothing searched for; names come from the files |
-| **Pittsburgh's winner** | Steven Peng's team, by his own post seen as a search snippet: first in four rounds and second in two, "by a huge margin". Team name, school and method: nothing found. No Pittsburgh standings or recap exist publicly. No hand data yet |
+| **Magnus RLsen** | Daniel Potapo (Harvard). 19.38 in the last round |
+| **Hotwheels** | Nothing searched for; the name is in Boston's entry list and not in Pittsburgh's |
+| **Pluto** | Pittsburgh's winner (Penn and CMU, per Samuel's report). A member's post, seen as a repost: first in four rounds and second in two, "insanely dominant". No strategy details |
+| **Cold Decks, Hold Em Trophies, Claude Mythos 5.5, LLinusLLoveBot, AEPi AK** | Nothing beyond the official scores in `research/regionals_web/REPORT.md` |
+| **Poker is all you need** | CMU, per Samuel's report. A Pittsburgh team's public notes describe the round-3 winner as applying steady pressure with small raises, which the files confirm (section 6.2) |
 
 Also public and relevant to every card: the per-round scores of the Bay Area leaders and the line that 2 Curry folded
 to 81% of re-raises are in a public Pittsburgh team's notes, which took them from our own write-up. Any finalist can
@@ -532,7 +746,11 @@ read them, 2 Curry included.
   the viewpoint team left out of field means. The auction's `auction` and `bid` events are skipped when counting
   streets, so the flop begins at the first board event as at Bay Area. What a seat paid is its flop-chip balance
   before the hand minus after. Bay Area's practice 1 and rounds 1, 3 and 6 were re-run with the same script for
-  `field_two_regionals.md`; the top 20's means again match `field.md` to the point.
+  `field_three_regionals.md`; the top 20's means again match `field.md` to the point.
+- **Pittsburgh** (added late afternoon): the same pass over the nine files of section 6.1. Two boards arrive as two
+  `board` events per street; a street starts at the first of each pair. The `discard` event is skipped. Showdown
+  hands are classed by a small evaluator written for the pass. Counters were added for how opponents answered each
+  team (re-raising its opens, folding to its bets), used in section 6.2.
 - **Not done:** no controlled regressions, no showdown ranges, no replay of any counter. Nothing here says a counter
   gains points: every "use" line is grade C.
 
@@ -1154,6 +1372,9 @@ Team 123's practice-3 bot had nothing in common with what they played in round 1
 - Hand files and results: `/Users/dylan/Documents/GitHub/nolimit-live/data/hands/` and `data/results-bay-area/` (never in git).
 - Boston hand files: `/Users/dylan/Documents/GitHub/nolimit-live/data/boston/` (13 files, never in git); rules in
   `emu/variants/flop_auction_holdem.md`.
+- Pittsburgh hand files: `/Users/dylan/Documents/GitHub/nolimit-live/data/pittsburgh/` (9 files, never in git);
+  official top 12 by round and the finalist names: `research/regionals_web/REPORT.md` (Samuel) and
+  `finals_pack/prep/PORTAL_SIGNED_IN_14NOV.md`.
 - Earlier studies this note builds on: `research/finals_prep/adaptation/REPORT.md` (bot changes, 2 Curry's rule, seat
   regressions), `res_boston.txt`, `res_boston_q3a.txt`, `res_boston_q3b2.txt` (Boston); `research/finals_prep/identity/REPORT.md`;
   `finals_pack/strategy/FINGERPRINTING.md`; `notes/pre/field.md`, `stat_definitions.md`, `variants.md`.
@@ -1645,3 +1866,368 @@ In the build hour: Du-o, BHTG, Preesh, 0_o GTO Slop, Hotwheels and Team 72 (Bost
 Seat rules on show before round 1: all three of Du-o's (re-raise after a fold 53% against 18%; bets into folders
 100% against 55%; steals 74% against 38%), BHTG's two, Situational Awareness's re-raise rule (28-30% against 10%)
 and 0_o GTO Slop's betting rule. 0_o GTO Slop's re-raise rule arrived with its round-1 bot.
+
+## Appendix L: Pittsburgh style cards by round
+
+Percent. Columns: the practice between rounds 1 and 2 (the earliest file; round 1 itself is missing), then rounds 2
+to 6. A cell with fewer than 300 chances shows its count (200 for the folds by street); fold to a 4-bet, bettor folds
+to a flop raise and the river rows always show it. Points at the viewpoint team's tables run 1.0-1.5 above official.
+
+### L.0 Reference: Pittsburgh's field and its official top 12 (team-equal means, raising teams, without the viewpoint team)
+
+| Statistic | Practice after R1 | R2 | R3 | R4 | R5 | R6 |
+|---|---|---|---|---|---|---|
+| Open first in | 35 / 38 | 34 / 37 | 35 / 34 | 33 / 34 | 32 / 32 | 32 / 32 |
+| Open-limp | 4 / 0 | 2 / 0 | 2 / 1 | 3 / 1 | 2 / 1 | 2 / 1 |
+| 3-bet | 9 / 16 | 10 / 18 | 13 / 22 | 13 / 24 | 15 / 25 | 17 / 28 |
+| Flat-call outside the big blind | 11 / 4 | 8 / 2 | 7 / 1 | 7 / 1 | 6 / 1 | 6 / 1 |
+| Big blind folds to an open | 61 / 52 | 65 / 58 | 63 / 52 | 61 / 48 | 61 / 45 | 58 / 41 |
+| Fold to a 3-bet | 63 / 70 | 65 / 73 | 67 / 69 | 65 / 68 | 65 / 65 | 63 / 54 |
+| 4-bet | 11 / 11 | 11 / 10 | 10 / 12 | 11 / 12 | 13 / 16 | 16 / 27 |
+| Fold to a 4-bet | 32 / 49 | 34 / 55 | 41 / 61 | 43 / 67 | 49 / 74 | 52 / 78 |
+| Open-shove at 10bb or less | 41 / 48 | 43 / 47 | 44 / 45 | 43 / 46 | 44 / 46 | 44 / 46 |
+| Open-shove at 10-15bb | 21 / 27 | 21 / 26 | 22 / 20 | 22 / 21 | 24 / 23 | 23 / 23 |
+| Call a shove of 10bb or less | 27 / 31 | 24 / 32 | 27 / 34 | 27 / 35 | 28 / 35 | 29 / 36 |
+| C-bet | 59 / 65 | 60 / 68 | 60 / 65 | 63 / 66 | 66 / 67 | 64 / 62 |
+| Fold to a flop bet | 42 / 49 | 39 / 48 | 40 / 46 | 40 / 47 | 41 / 47 | 44 / 50 |
+| Fold to a turn bet | 34 / 41 | 33 / 41 | 34 / 41 | 34 / 42 | 36 / 43 | 37 / 42 |
+| Fold to a river bet | 35 / 44 | 35 / 43 | 36 / 42 | 37 / 43 | 38 / 45 | 40 / 45 |
+| Raise a flop bet | 8 / 9 | 8 / 9 | 7 / 8 | 7 / 8 | 7 / 7 | 9 / 7 |
+| Bettor folds to a flop raise | 25 / 34 | 24 / 35 | 25 / 34 | 27 / 35 | 29 / 39 | 31 / 37 |
+
+Each cell: all raising teams / the official top 12. The practice after round 1 has 5,039 tables; scored rounds about 10,000.
+
+### L.1 Pluto (official rank 1)
+
+| | Practice after R1 | R2 | R3 | R4 | R5 | R6 |
+|---|---|---|---|---|---|---|
+| Official points per table | (round 1: 21.03) | 20.15 | 19.68 | 19.35 | 18.41 | 17.99 |
+| Points per table at the viewpoint team's tables | 22.5 | 22.1 | 20.7 | 20.8 | 20.6 | 19.3 |
+| Open first in | 34 | 34 | 30 | 28 | 27 | 25 |
+| Open-limp | 0 | 0 | 0 | 0 | 0 | 0 |
+| VPIP / PFR | 27 / 25 | 28 / 26 | 26 / 23 | 25 / 22 | 24 / 21 | 23 / 21 |
+| 3-bet (of which all-in) | 23 (8) | 25 (9) | 24 (9) | 24 (8) | 22 (8) | 24 (8) |
+| Flat-call outside the big blind | 0 | 0 | 0 | 0 | 0 | 0 |
+| Big blind folds to an open / re-raises it | 51 / 44 | 48 / 47 | 50 / 44 | 51 / 43 | 53 / 41 | 51 / 42 |
+| Fold to a 3-bet | 74 | 74 | 69 | 67 | 67 | 64 |
+| 4-bet | 8 | 9 | 9 | 10 | 12 | 14 |
+| Fold to a 4-bet | 77 (n=216) | 80 (n=472) | 70 (n=489) | 74 (n=551) | 70 (n=520) | 77 (n=615) |
+| Open-shove at 10bb or less / 10-15 / 15-20 | 44 / 7 / 5 | 44 / 8 / 6 | 42 / 4 / 4 | 39 / 5 / 4 | 40 / 5 / 5 | 42 / 4 / 4 |
+| Call a shove of 10bb or less / 10-15 / 15-20 / over 20 | 32 / 12 / 15 / 16 | 30 / 13 / 14 / 13 | 34 / 17 / 19 / 17 | 34 / 16 / 18 / 19 | 34 / 17 / 18 / 19 | 32 / 16 / 19 / 20 |
+| C-bet | 54 | 57 | 55 | 57 | 59 | 52 |
+| Fold to a flop / turn / river bet | 41 / 35 / 36 | 42 / 39 / 35 | 43 / 39 / 38 | 44 / 40 / 39 | 42 / 40 / 39 | 46 / 37 / 39 |
+| Raise a flop bet | 1 | 1 | 1 | 1 | 0 | 1 |
+| Bettor folds to a flop raise | 10 (n=41) | 24 (n=110) | 19 (n=105) | 25 (n=121) | 28 (n=71) | 22 (n=119) |
+| Open from the small blind / the button | 69 / 49 | 74 / 50 | 70 / 45 | 70 / 41 | 67 / 41 | 62 / 36 |
+| Modal open, bb (share of opens) | 2.25 (100%) | 2.25 (100%) | 2.25 (100%) | 2.25 (100%) | 2.25 (100%) | 2.25 (100%) |
+| Modal 3-bet, x the open (share) | 2.75 (99%) | 2.75 (100%) | 2.75 (100%) | 2.75 (100%) | 2.75 (100%) | 2.75 (100%) |
+| Bets the river when checked to | 41 (n=396) | 39 (n=656) | 44 (n=646) | 40 (n=712) | 40 (n=579) | 43 (n=464) |
+| River bettor at showdown: two pair or better on both boards / one / neither | 43 / 45 / 12 (n=268) | 41 / 45 / 14 (n=439) | 43 / 45 / 13 (n=449) | 44 / 44 / 12 (n=445) | 42 / 43 / 15 (n=367) | 35 / 51 / 14 (n=372) |
+| Tables seen | 305 | 629 | 652 | 681 | 644 | 634 |
+
+### L.2 Cold Decks (official rank 2)
+
+| | Practice after R1 | R2 | R3 | R4 | R5 | R6 |
+|---|---|---|---|---|---|---|
+| Official points per table | (round 1: 18.73) | 18.51 | 17.79 | 18.87 | 18.16 | 18.42 |
+| Points per table at the viewpoint team's tables | 21.9 | 20.1 | 20.0 | 20.7 | 19.0 | 18.7 |
+| Open first in | 33 | 32 | 31 | 34 | 32 | 35 |
+| Open-limp | 0 | 0 | 0 | 0 | 0 | 0 |
+| VPIP / PFR | 27 / 22 | 26 / 20 | 26 / 20 | 29 / 23 | 28 / 23 | 31 / 26 |
+| 3-bet (of which all-in) | 14 (7) | 12 (6) | 12 (6) | 18 (12) | 18 (12) | 24 (11) |
+| Flat-call outside the big blind | 1 | 1 | 1 | 1 | 1 | 1 |
+| Big blind folds to an open / re-raises it | 46 / 17 | 45 / 16 | 45 / 16 | 41 / 27 | 43 / 26 | 39 / 36 |
+| Fold to a 3-bet | 73 | 74 | 73 | 73 | 75 | 49 |
+| 4-bet | 13 | 11 | 11 | 13 | 11 | 29 |
+| Fold to a 4-bet | 66 (n=125) | 72 (n=210) | 67 (n=203) | 73 (n=263) | 68 (n=264) | 75 (n=458) |
+| Open-shove at 10bb or less / 10-15 / 15-20 | 37 / 33 / 13 | 35 / 33 / 10 | 34 / 32 / 10 | 46 / 38 / 12 | 45 / 37 / 12 | 49 / 39 / 11 |
+| Call a shove of 10bb or less / 10-15 / 15-20 / over 20 | 32 / 18 / 20 / 18 | 33 / 18 / 18 / 21 | 32 / 17 / 18 / 17 | 37 / 19 / 19 / 16 | 36 / 18 / 18 / 17 | 40 / 22 / 23 / 18 |
+| C-bet | 85 | 86 | 86 | 84 | 71 | 54 |
+| Fold to a flop / turn / river bet | 47 / 29 / 32 | 49 / 30 / 33 | 49 / 34 / 39 | 47 / 29 / 36 | 48 / 35 / 39 | 48 / 32 / 34 |
+| Raise a flop bet | 7 | 7 | 4 | 6 | 4 | 5 |
+| Bettor folds to a flop raise | 29 (n=121) | 23 (n=172) | 36 (n=196) | 33 (n=187) | 34 (n=131) | 36 (n=154) |
+| Open from the small blind / the button | 70 / 37 | 69 / 38 | 69 / 36 | 78 / 40 | 78 / 41 | 78 / 48 |
+| Modal open, bb (share of opens) | 2.25 (88%) | 2.25 (87%) | 2.25 (88%) | 2.25 (88%) | 2.25 (88%) | 2.25 (86%) |
+| Modal 3-bet, x the open (share) | 4.00 (63%) | 4.00 (57%) | 4.00 (58%) | 4.00 (61%) | 4.00 (58%) | 4.00 (69%) |
+| Bets the river when checked to | 20 (n=446) | 21 (n=782) | 53 (n=725) | 55 (n=827) | 39 (n=749) | 23 (n=764) |
+| River bettor at showdown: two pair or better on both boards / one / neither | 57 / 39 / 3 (n=145) | 62 / 36 / 2 (n=269) | 43 / 45 / 12 (n=377) | 40 / 48 / 13 (n=446) | 50 / 42 / 8 (n=276) | 57 / 38 / 4 (n=208) |
+| Tables seen | 320 | 594 | 596 | 645 | 646 | 606 |
+
+### L.3 Poker is all you need (official rank 3)
+
+| | Practice after R1 | R2 | R3 | R4 | R5 | R6 |
+|---|---|---|---|---|---|---|
+| Official points per table | (round 1: 15.66) | 18.66 | 19.89 | 18.61 | 17.99 | 17.00 |
+| Points per table at the viewpoint team's tables | 18.9 | 21.8 | 21.9 | 19.1 | 20.0 | 19.0 |
+| Open first in | 32 | 32 | 28 | 26 | 27 | 27 |
+| Open-limp | 2 | 2 | 5 | 4 | 4 | 4 |
+| VPIP / PFR | 35 / 33 | 35 / 32 | 34 / 31 | 30 / 27 | 31 / 27 | 31 / 27 |
+| 3-bet (of which all-in) | 44 (9) | 45 (9) | 45 (8) | 36 (9) | 36 (9) | 37 (10) |
+| Flat-call outside the big blind | 1 | 1 | 2 | 1 | 1 | 1 |
+| Big blind folds to an open / re-raises it | 14 / 86 | 13 / 87 | 18 / 82 | 20 / 80 | 20 / 80 | 22 / 77 |
+| Fold to a 3-bet | 75 | 76 | 76 | 85 | 84 | 84 |
+| 4-bet | 6 | 6 | 16 | 9 | 9 | 10 |
+| Fold to a 4-bet | 74 (n=605) | 80 (n=1326) | 77 (n=1341) | 86 (n=951) | 86 (n=1205) | 86 (n=1184) |
+| Open-shove at 10bb or less / 10-15 / 15-20 | 16 / 6 / 6 | 15 / 6 / 6 | 46 / 7 / 6 | 41 / 4 / 3 | 43 / 3 / 3 | 42 / 4 / 4 |
+| Call a shove of 10bb or less / 10-15 / 15-20 / over 20 | 31 / 15 / 13 / 19 | 32 / 16 / 15 / 18 | 35 / 14 / 9 / 12 | 32 / 13 / 10 / 11 | 32 / 12 / 13 / 10 | 31 / 13 / 11 / 11 |
+| C-bet | 91 | 91 | 98 | 83 | 84 | 82 |
+| Fold to a flop / turn / river bet | 57 / 69 / 73 (n=79) | 58 / 68 / 71 (n=143) | 52 / 63 / 85 (n=178) | 72 / 82 / 90 (n=187) | 69 / 82 / 86 | 73 / 81 / 91 |
+| Raise a flop bet | 32 | 32 | 36 | 21 | 24 | 20 |
+| Bettor folds to a flop raise | 82 (n=192) | 83 (n=380) | 69 (n=366) | 85 (n=251) | 86 (n=189) | 85 (n=299) |
+| Open from the small blind / the button | 94 / 49 | 95 / 50 | 95 / 36 | 93 / 33 | 94 / 33 | 92 / 31 |
+| Modal open, bb (share of opens) | 2.00 (79%) | 2.00 (78%) | 2.00 (84%) | 2.00 (94%) | 2.00 (94%) | 2.00 (93%) |
+| Modal 3-bet, x the open (share) | 1.50 (73%) | 1.50 (74%) | 1.50 (70%) | 1.50 (81%) | 1.50 (80%) | 1.50 (80%) |
+| Bets the river when checked to | 95 (n=116) | 94 (n=272) | 74 (n=222) | 71 (n=319) | 66 (n=268) | 76 (n=285) |
+| River bettor at showdown: two pair or better on both boards / one / neither | 17 / 53 / 30 (n=522) | 16 / 53 / 31 (n=1086) | 16 / 53 / 31 (n=818) | 15 / 54 / 31 (n=911) | 18 / 55 / 27 (n=707) | 18 / 55 / 27 (n=741) |
+| Tables seen | 317 | 625 | 666 | 665 | 680 | 658 |
+
+### L.4 Hold Em Trophies (official rank 4)
+
+| | Practice after R1 | R2 | R3 | R4 | R5 | R6 |
+|---|---|---|---|---|---|---|
+| Official points per table | (round 1: 18.01) | 17.96 | 17.43 | 17.77 | 17.66 | 17.96 |
+| Points per table at the viewpoint team's tables | 20.6 | 16.5 | 18.6 | 18.3 | 19.8 | 19.0 |
+| Open first in | 35 | 34 | 34 | 34 | 34 | 33 |
+| Open-limp | 0 | 0 | 0 | 0 | 0 | 0 |
+| VPIP / PFR | 28 / 25 | 27 / 25 | 27 / 25 | 27 / 26 | 28 / 27 | 28 / 27 |
+| 3-bet (of which all-in) | 19 (8) | 18 (7) | 21 (8) | 23 (9) | 27 (9) | 27 (9) |
+| Flat-call outside the big blind | 3 | 3 | 3 | 0 | 0 | 0 |
+| Big blind folds to an open / re-raises it | 68 / 32 | 68 / 32 | 62 / 38 | 59 / 41 | 51 / 49 | 48 / 52 |
+| Fold to a 3-bet | 66 | 68 | 67 | 69 | 67 | 63 |
+| 4-bet | 19 | 20 | 19 | 19 | 20 | 27 |
+| Fold to a 4-bet | 75 (n=221) | 76 (n=437) | 75 (n=424) | 78 (n=527) | 81 (n=668) | 83 (n=793) |
+| Open-shove at 10bb or less / 10-15 / 15-20 | 56 / 42 / 19 | 56 / 40 / 15 | 58 / 29 / 11 | 62 / 37 / 14 | 57 / 37 / 15 | 53 / 33 / 14 |
+| Call a shove of 10bb or less / 10-15 / 15-20 / over 20 | 35 / 18 / 16 / 19 | 33 / 17 / 17 / 16 | 33 / 18 / 15 / 15 | 32 / 16 / 15 / 16 | 32 / 15 / 16 / 16 | 32 / 16 / 15 / 16 |
+| C-bet | 75 | 79 | 69 | 69 | 70 | 64 |
+| Fold to a flop / turn / river bet | 71 / 44 / 35 | 68 / 49 / 38 | 65 / 45 / 38 | 60 / 46 / 40 | 65 / 41 / 42 | 65 / 46 / 46 |
+| Raise a flop bet | 4 | 4 | 4 | 4 | 3 | 4 |
+| Bettor folds to a flop raise | 73 (n=115) | 63 (n=257) | 58 (n=172) | 49 (n=183) | 54 (n=180) | 53 (n=233) |
+| Open from the small blind / the button | 74 / 52 | 77 / 51 | 75 / 49 | 76 / 50 | 76 / 49 | 74 / 49 |
+| Modal open, bb (share of opens) | 2.25 (88%) | 2.25 (87%) | 2.25 (91%) | 2.25 (92%) | 2.25 (93%) | 2.25 (94%) |
+| Modal 3-bet, x the open (share) | 2.75 (96%) | 2.75 (96%) | 2.75 (96%) | 2.75 (98%) | 2.75 (98%) | 2.75 (97%) |
+| Bets the river when checked to | 35 (n=281) | 33 (n=511) | 36 (n=514) | 36 (n=447) | 38 (n=448) | 34 (n=425) |
+| River bettor at showdown: two pair or better on both boards / one / neither | 38 / 57 / 5 (n=146) | 45 / 53 / 2 (n=236) | 45 / 51 / 4 (n=251) | 45 / 51 / 4 (n=272) | 40 / 57 / 2 (n=208) | 44 / 51 / 4 (n=216) |
+| Tables seen | 322 | 616 | 567 | 629 | 632 | 668 |
+
+### L.5 Claude Mythos 5.5 (official rank 5)
+
+| | Practice after R1 | R2 | R3 | R4 | R5 | R6 |
+|---|---|---|---|---|---|---|
+| Official points per table | (round 1: 18.18) | 18.04 | 18.49 | 17.28 | 17.27 | 17.76 |
+| Points per table at the viewpoint team's tables | 20.7 | 18.9 | 19.3 | 17.1 | 19.1 | 18.2 |
+| Open first in | 43 | 41 | 41 | 40 | 40 | 37 |
+| Open-limp | 0 | 0 | 0 | 0 | 0 | 0 |
+| VPIP / PFR | 32 / 29 | 31 / 27 | 36 / 33 | 35 / 33 | 34 / 32 | 33 / 31 |
+| 3-bet (of which all-in) | 19 (9) | 18 (8) | 36 (14) | 37 (13) | 34 (12) | 35 (13) |
+| Flat-call outside the big blind | 3 | 3 | 3 | 2 | 2 | 2 |
+| Big blind folds to an open / re-raises it | 59 / 36 | 61 / 34 | 18 / 81 | 18 / 82 | 18 / 81 | 16 / 83 |
+| Fold to a 3-bet | 79 | 79 | 85 | 83 | 77 | 73 |
+| 4-bet | 7 | 8 | 6 | 7 | 13 | 20 |
+| Fold to a 4-bet | 78 (n=191) | 76 (n=356) | 90 (n=765) | 90 (n=799) | 87 (n=798) | 88 (n=1019) |
+| Open-shove at 10bb or less / 10-15 / 15-20 | 56 / 22 / 20 | 54 / 22 / 18 | 55 / 21 / 21 | 55 / 26 / 21 | 56 / 34 / 25 | 61 / 36 / 26 |
+| Call a shove of 10bb or less / 10-15 / 15-20 / over 20 | 41 / 15 / 12 / 9 | 39 / 12 / 12 / 9 | 39 / 13 / 10 / 7 | 39 / 14 / 10 / 7 | 39 / 15 / 12 / 9 | 39 / 15 / 12 / 8 |
+| C-bet | 71 | 72 | 72 | 73 | 79 | 68 |
+| Fold to a flop / turn / river bet | 48 / 45 / 54 | 49 / 50 / 53 | 50 / 53 / 54 | 52 / 49 / 62 | 53 / 52 / 59 | 58 / 54 / 59 |
+| Raise a flop bet | 4 | 4 | 3 | 4 | 2 | 3 |
+| Bettor folds to a flop raise | 38 (n=146) | 46 (n=285) | 46 (n=298) | 47 (n=294) | 51 (n=188) | 49 (n=273) |
+| Open from the small blind / the button | 92 / 60 | 92 / 59 | 92 / 59 | 90 / 60 | 92 / 59 | 91 / 47 |
+| Modal open, bb (share of opens) | 2.25 (74%) | 2.25 (75%) | 2.25 (74%) | 2.25 (75%) | 2.25 (76%) | 2.25 (70%) |
+| Modal 3-bet, x the open (share) | 2.75 (80%) | 2.75 (79%) | 2.75 (93%) | 2.75 (93%) | 2.75 (92%) | 2.75 (93%) |
+| Bets the river when checked to | 25 (n=476) | 25 (n=872) | 23 (n=835) | 23 (n=765) | 23 (n=623) | 27 (n=504) |
+| River bettor at showdown: two pair or better on both boards / one / neither | 58 / 38 / 4 (n=171) | 55 / 36 / 9 (n=289) | 56 / 41 / 3 (n=269) | 61 / 37 / 2 (n=267) | 64 / 33 / 4 (n=215) | 58 / 39 / 3 (n=237) |
+| Tables seen | 309 | 666 | 628 | 622 | 619 | 658 |
+
+### L.6 LLinusLLoveBot (official rank 6)
+
+| | Practice after R1 | R2 | R3 | R4 | R5 | R6 |
+|---|---|---|---|---|---|---|
+| Official points per table | (round 1: 18.81) | 18.92 | 19.36 | 18.35 | 17.35 | 16.76 |
+| Points per table at the viewpoint team's tables | 20.9 | 21.9 | 20.1 | 20.0 | 17.6 | 17.4 |
+| Open first in | 41 | 40 | 26 | 26 | 25 | 25 |
+| Open-limp | 0 | 0 | 4 | 4 | 3 | 4 |
+| VPIP / PFR | 34 / 31 | 35 / 32 | 28 / 24 | 31 / 27 | 27 / 23 | 29 / 25 |
+| 3-bet (of which all-in) | 33 (9) | 36 (10) | 31 (5) | 41 (6) | 30 (6) | 36 (5) |
+| Flat-call outside the big blind | 0 | 0 | 1 | 1 | 1 | 1 |
+| Big blind folds to an open / re-raises it | 35 / 62 | 31 / 66 | 37 / 55 | 24 / 71 | 36 / 56 | 30 / 63 |
+| Fold to a 3-bet | 74 | 75 | 55 | 54 | 56 | 57 |
+| 4-bet | 19 | 17 | 8 | 7 | 9 | 10 |
+| Fold to a 4-bet | 85 (n=347) | 86 (n=921) | 72 (n=871) | 75 (n=1265) | 74 (n=959) | 72 (n=1207) |
+| Open-shove at 10bb or less / 10-15 / 15-20 | 75 / 59 / 36 | 71 / 59 / 35 | 23 / 4 / 0 | 26 / 5 / 0 | 25 / 5 / 0 | 24 / 5 / 0 |
+| Call a shove of 10bb or less / 10-15 / 15-20 / over 20 | 25 / 11 / 7 / 7 | 34 / 14 / 12 / 13 | 32 / 25 / 23 / 23 | 33 / 25 / 25 / 22 | 31 / 23 / 24 / 22 | 32 / 27 / 24 / 22 |
+| C-bet | 85 | 82 | 52 | 49 | 49 | 51 |
+| Fold to a flop / turn / river bet | 71 / 66 / 80 (n=172) | 69 / 60 / 79 | 42 / 38 / 36 | 44 / 36 / 36 | 42 / 37 / 38 | 44 / 34 / 34 |
+| Raise a flop bet | 22 | 22 | 13 | 14 | 12 | 12 |
+| Bettor folds to a flop raise | 56 (n=159) | 58 (n=370) | 46 (n=155) | 49 (n=175) | 55 (n=105) | 45 (n=184) |
+| Open from the small blind / the button | 75 / 57 | 74 / 58 | 45 / 47 | 47 / 37 | 45 / 48 | 45 / 36 |
+| Modal open, bb (share of opens) | 2.00 (100%) | 2.00 (100%) | 2.75 (50%) | 2.75 (48%) | 2.75 (53%) | 2.75 (50%) |
+| Modal 3-bet, x the open (share) | 3.25 (100%) | 3.25 (100%) | 2.75 (63%) | 2.75 (64%) | 2.75 (62%) | 2.75 (65%) |
+| Bets the river when checked to | 47 (n=266) | 46 (n=590) | 52 (n=647) | 50 (n=701) | 48 (n=668) | 45 (n=575) |
+| River bettor at showdown: two pair or better on both boards / one / neither | 38 / 47 / 15 (n=225) | 44 / 49 / 8 (n=482) | 35 / 54 / 11 (n=374) | 39 / 54 / 8 (n=414) | 38 / 54 / 8 (n=318) | 37 / 56 / 7 (n=326) |
+| Tables seen | 267 | 643 | 602 | 610 | 655 | 613 |
+
+### L.7 AEPi AK (official rank 7)
+
+| | Practice after R1 | R2 | R3 | R4 | R5 | R6 |
+|---|---|---|---|---|---|---|
+| Official points per table | (round 1: 15.95) | 15.31 | 16.16 | 16.63 | 17.89 | 17.90 |
+| Points per table at the viewpoint team's tables | 15.6 | 17.0 | 17.8 | 17.6 | 18.5 | 18.3 |
+| Open first in | 35 | 35 | 34 | 34 | 35 | 38 |
+| Open-limp | 0 | 0 | 0 | 0 | 1 | 0 |
+| VPIP / PFR | 27 / 20 | 28 / 23 | 27 / 23 | 28 / 23 | 28 / 25 | 32 / 28 |
+| 3-bet (of which all-in) | 4 (1) | 12 (2) | 15 (4) | 12 (3) | 17 (6) | 21 (6) |
+| Flat-call outside the big blind | 12 | 7 | 3 | 10 | 4 | 5 |
+| Big blind folds to an open / re-raises it | 64 / 5 | 63 / 21 | 65 / 26 | 61 / 34 | 48 / 51 | 34 / 64 |
+| Fold to a 3-bet | 76 | 72 | 64 | 48 | 47 | 40 |
+| 4-bet | 9 | 10 | 22 | 29 | 30 | 41 |
+| Fold to a 4-bet | 0 (n=56) | 39 (n=318) | 77 (n=438) | 60 (n=305) | 55 (n=341) | 70 (n=564) |
+| Open-shove at 10bb or less / 10-15 / 15-20 | 57 / 35 / 30 | 57 / 39 / 28 | 50 / 38 / 31 | 49 / 34 / 28 | 49 / 30 / 28 | 47 / 32 / 33 |
+| Call a shove of 10bb or less / 10-15 / 15-20 / over 20 | 20 / 15 / 20 (n=287) / 25 | 25 / 23 / 27 / 34 | 24 / 24 / 26 / 24 | 27 / 25 / 28 / 27 | 27 / 19 / 23 / 23 | 35 / 23 / 23 / 25 |
+| C-bet | 49 | 63 | 66 | 62 | 64 | 57 |
+| Fold to a flop / turn / river bet | 59 / 44 / 32 | 59 / 43 / 31 | 55 / 43 / 28 | 51 / 40 / 31 | 51 / 44 / 35 | 57 / 43 / 32 |
+| Raise a flop bet | 1 | 1 | 0 | 1 | 1 | 1 |
+| Bettor folds to a flop raise | 30 (n=128) | 37 (n=237) | 33 (n=198) | 30 (n=243) | 37 (n=170) | 38 (n=286) |
+| Open from the small blind / the button | 77 / 50 | 77 / 49 | 80 / 49 | 76 / 48 | 78 / 47 | 87 / 47 |
+| Modal open, bb (share of opens) | 3.00 (100%) | 3.00 (100%) | 2.50 (100%) | 2.50 (100%) | 2.50 (100%) | 2.50 (100%) |
+| Modal 3-bet, x the open (share) | 3.00 (100%) | 2.75 (98%) | 2.75 (98%) | 2.75 (97%) | 2.75 (98%) | 2.75 (99%) |
+| Bets the river when checked to | 31 (n=417) | 46 (n=580) | 54 (n=668) | 49 (n=829) | 49 (n=612) | 49 (n=508) |
+| River bettor at showdown: two pair or better on both boards / one / neither | 48 / 49 / 3 (n=260) | 48 / 46 / 6 (n=486) | 45 / 47 / 7 (n=592) | 47 / 45 / 8 (n=671) | 46 / 46 / 8 (n=471) | 46 / 49 / 5 (n=496) |
+| Tables seen | 300 | 604 | 660 | 674 | 639 | 645 |
+
+## Appendix M: Pittsburgh seat-history tests
+
+Same cross-tabs as Appendices C and I, pooled over all nine files, with each scored round's contrast in the last
+column.
+
+### M.1 Seat-history cross-tabs, Pittsburgh (percent; chances in brackets; all nine files pooled)
+
+**A. Re-raise a lone opener (both stacks 25bb or more, no callers): after it did not fold to its one earlier re-raise / after it folded / no history**
+
+| Team | First | Second | Third | Second minus first | By scored round: 2, 3, 4, 5, 6 |
+|---|---|---|---|---|---|
+| Pluto | 13.2 (9487) | 25.4 (13049) | 11.5 (34885) | +12.3 (z +24) | +12, +11, +13, +14, +13 |
+| Cold Decks | 9.4 (9993) | 12.8 (14600) | 10.8 (35696) | +3.4 (z +8) | +1, +1, +1, +3, +19 |
+| Poker is all you need | 24.9 (8524) | 27.4 (13231) | 19.9 (31461) | +2.5 (z +4) | +0, +1, +2, +3, +8 |
+| Hold Em Trophies | 21.0 (9225) | 21.5 (13929) | 19.5 (31974) | +0.5 (z +1) | +2, -1, -1, +2, +0 |
+| Claude Mythos 5.5 | 27.2 (8707) | 27.6 (13146) | 25.4 (29405) | +0.4 (z +1) | -0, +2, -3, -1, -1 |
+| LLinusLLoveBot | 14.1 (10362) | 39.7 (12060) | 26.5 (30132) | +25.6 (z +46) | +39, +16, +28, +14, +31 |
+| AEPi AK | 13.5 (9190) | 12.7 (14376) | 11.8 (34941) | -0.8 (z -2) | -3, -1, -0, +0, -1 |
+| All 111 teams with 150+ chances each side | | | | median +0.0, 10th-90th percentile -0.5 to +2.0 | |
+
+**F. Opener folds to a 3-bet: from a seat with no earlier 3-bets / with 3 or more**
+
+| Team | First | Second | Second minus first | By scored round: 2, 3, 4, 5, 6 |
+|---|---|---|---|---|
+| Pluto | 77.3 (2198) | 70.8 (2994) | -6.5 (z -5) | -8, -8, -4, -5, -14 |
+| Cold Decks | 78.1 (3453) | 71.0 (4464) | -7.1 (z -7) | -5, -9, -10, -5, -2 |
+| Poker is all you need | 80.3 (633) | 71.6 (2345) | -8.6 (z -5) | +10, -36, -14, -10, -7 |
+| Hold Em Trophies | 68.6 (2862) | 68.0 (4168) | -0.6 (z -1) | +8, +5, +2, +1, -10 |
+| Claude Mythos 5.5 | 83.5 (3819) | 82.3 (5740) | -1.2 (z -1) | +7, +3, +8, -6, -22 |
+| LLinusLLoveBot | 75.9 (3160) | 57.1 (3787) | -18.7 (z -17) | -31, -14, -10, -11, -5 |
+| AEPi AK | 78.5 (3667) | 37.7 (5125) | -40.8 (z -43) | -16, -20, -52, -50, -35 |
+| All 107 teams with 150+ chances each side | | | median +1.8, 10th-90th percentile -8.2 to +13.4 | |
+
+**D. Open from the button or small blind: big blind has folded under 34% of opens / over 67%**
+
+| Team | First | Second | Second minus first | By scored round: 2, 3, 4, 5, 6 |
+|---|---|---|---|---|
+| Pluto | 18.7 (10376) | 73.8 (21410) | +55.1 (z +113) | +58, +56, +55, +57, +52 |
+| Cold Decks | 49.0 (9013) | 50.5 (21142) | +1.5 (z +2) | +1, +3, -2, +1, +2 |
+| Poker is all you need | 56.8 (10323) | 61.5 (22349) | +4.7 (z +8) | +8, -0, +4, +4, +6 |
+| Hold Em Trophies | 56.1 (9638) | 59.8 (21660) | +3.7 (z +6) | +2, +6, +4, +6, +6 |
+| Claude Mythos 5.5 | 68.7 (10369) | 69.6 (21040) | +0.9 (z +2) | -2, +2, +3, +1, +1 |
+| LLinusLLoveBot | 47.6 (8985) | 55.9 (22239) | +8.3 (z +13) | +22, +1, +2, +0, +2 |
+| AEPi AK | 47.5 (9043) | 55.6 (20475) | +8.1 (z +13) | -0, +2, -2, +24, +16 |
+| All 111 teams with 150+ chances each side | | | median +1.4, 10th-90th percentile -1.1 to +12.6 | |
+
+**H. Big blind folds to an open: opener has opened under 25% / over 45%**
+
+| Team | First | Second | Second minus first | By scored round: 2, 3, 4, 5, 6 |
+|---|---|---|---|---|
+| Pluto | 64.2 (10307) | 30.6 (4657) | -33.6 (z -41) | -43, -33, -32, -28, -33 |
+| Cold Decks | 42.8 (9576) | 45.5 (4955) | +2.7 (z +3) | -1, -1, +4, +2, -3 |
+| Poker is all you need | 17.3 (9138) | 13.9 (4510) | -3.4 (z -5) | -0, -2, -5, -8, -4 |
+| Hold Em Trophies | 57.3 (9696) | 61.4 (4971) | +4.1 (z +5) | +0, -4, -3, +3, +9 |
+| Claude Mythos 5.5 | 27.3 (9704) | 31.0 (4357) | +3.7 (z +4) | -1, +0, +3, +0, +3 |
+| LLinusLLoveBot | 33.2 (9641) | 31.1 (4691) | -2.1 (z -3) | -3, -11, +3, -3, +5 |
+| AEPi AK | 54.3 (9365) | 53.3 (4271) | -0.9 (z -1) | -9, -5, -3, -2, -3 |
+| All 111 teams with 150+ chances each side | | | median -2.1, 10th-90th percentile -18.6 to +2.7 | |
+
+**B. Heads-up, bet with no bet to call: opponent has folded under 34% of bets faced / over 67%**
+
+| Team | First | Second | Second minus first | By scored round: 2, 3, 4, 5, 6 |
+|---|---|---|---|---|
+| Pluto | 53.9 (24920) | 57.9 (2898) | +4.0 (z +4) | +11, -1, +2, +5, +2 |
+| Cold Decks | 40.8 (27170) | 49.5 (4166) | +8.8 (z +11) | -0, -5, -0, +29, +27 |
+| Poker is all you need | 87.2 (27150) | 83.7 (2653) | -3.4 (z -5) | -3, +1, -7, -8, -4 |
+| Hold Em Trophies | 57.9 (19454) | 73.7 (2493) | +15.8 (z +17) | +5, +21, +17, +18, +23 |
+| Claude Mythos 5.5 | 52.7 (23619) | 58.1 (3690) | +5.4 (z +6) | +4, +1, +6, +8, +2 |
+| LLinusLLoveBot | 55.9 (26452) | 54.1 (3856) | -1.8 (z -2) | +10, -6, -3, -2, -1 |
+| AEPi AK | 52.1 (25274) | 89.8 (2883) | +37.8 (z +59) | +31, +44, +44, +47, +47 |
+| All 111 teams with 150+ chances each side | | | median -2.8, 10th-90th percentile -8.9 to +14.1 | |
+
+**C. Heads-up, fold to a bet: bettor has bet under 40% of its chances / over 70%**
+
+| Team | First | Second | Second minus first | By scored round: 2, 3, 4, 5, 6 |
+|---|---|---|---|---|
+| Pluto | 39.5 (5507) | 37.6 (6890) | -1.9 (z -2) | -3, -4, +1, -1, +5 |
+| Cold Decks | 40.6 (7300) | 38.1 (9628) | -2.4 (z -3) | -7, -1, -3, +1, +4 |
+| Poker is all you need | 72.5 (3123) | 62.4 (3505) | -10.1 (z -9) | -10, -19, -11, -6, -12 |
+| Hold Em Trophies | 52.4 (4954) | 51.9 (5007) | -0.6 (z -1) | -1, -9, -9, +9, +4 |
+| Claude Mythos 5.5 | 53.3 (6752) | 47.6 (7059) | -5.7 (z -7) | -4, -3, -10, -7, -10 |
+| LLinusLLoveBot | 45.3 (6320) | 43.1 (6801) | -2.2 (z -3) | -4, -8, -8, -8, +3 |
+| AEPi AK | 43.4 (6199) | 42.9 (7300) | -0.5 (z -1) | -1, -1, -5, -2, +5 |
+| All 111 teams with 150+ chances each side | | | median -3.7, 10th-90th percentile -8.3 to +0.4 | |
+
+**G. Re-raise a lone opener: opener has opened under 25% / over 45%**
+
+| Team | First | Second | Second minus first | By scored round: 2, 3, 4, 5, 6 |
+|---|---|---|---|---|
+| Pluto | 18.8 (21998) | 36.5 (11828) | +17.7 (z +34) | +22, +19, +17, +12, +19 |
+| Cold Decks | 13.0 (20882) | 13.4 (12397) | +0.4 (z +1) | +1, +0, +2, +0, -1 |
+| Poker is all you need | 34.4 (20843) | 36.0 (12131) | +1.7 (z +3) | +3, +2, -1, +0, +5 |
+| Hold Em Trophies | 24.4 (20832) | 23.6 (12183) | -0.8 (z -2) | +2, +5, +1, -2, -2 |
+| Claude Mythos 5.5 | 32.4 (21086) | 29.5 (11400) | -3.0 (z -6) | -0, +1, -3, -6, -1 |
+| LLinusLLoveBot | 32.6 (20228) | 37.7 (11715) | +5.1 (z +9) | +6, +8, +8, +5, -1 |
+| AEPi AK | 14.2 (20477) | 14.6 (11367) | +0.3 (z +1) | +2, +2, -2, -2, -0 |
+| All 111 teams with 150+ chances each side | | | median +0.4, 10th-90th percentile -1.0 to +5.1 | |
+
+Cross-tab E (shove calls by how often the shover has shoved) rises 5-15 points for all seven, Pluto most (21% to
+36%), but the early shovers at these tables include the viewpoint team's calling station, so it is not read here.
+The level clock is +1.2 to +3.3 for the seven against a Pittsburgh median of +1.5.
+
+## Appendix N: Pittsburgh, two boards
+
+### N.1 Two boards and the discard: what the showdowns show (the rounds of each team's last bot family)
+
+| Team (rounds) | Reaches the discard, per hand dealt | Showdowns | Kept a pocket pair | Scooped both boards | Two pair or better on both boards / one / neither | Same, when it bet the river | Same, when it called a river bet | Bets the river when checked to | Usual river bet, share of pot | Folds to a river bet |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Pluto (2-6) | 8.1 | 28167 | 33% | 26% | 28 / 51 / 21 | 41 / 45 / 13 (n=2072) | 34 / 55 / 11 (n=1592) | 41% (n=3057) | 0.5 (100% of its river bets) | 38% (n=2988) |
+| Cold Decks (2-6) | 9.8 | 30469 | 30% | 24% | 28 / 52 / 19 | 48 / 43 / 9 (n=1576) | 29 / 59 / 12 (n=2480) | 38% (n=3847) | 0.7 (63% of its river bets) | 36% (n=4175) |
+| Poker is all you need (4-6) | 8.8 | 16834 | 36% | 24% | 28 / 50 / 22 | 17 / 55 / 29 (n=2359) | 30 / 67 / 4 (n=27) | 71% (n=872) | 0.1 (76% of its river bets) | 89% (n=597) |
+| Hold Em Trophies (2-6) | 8.3 | 26521 | 36% | 25% | 29 / 51 / 20 | 44 / 53 / 3 (n=1183) | 30 / 56 / 14 (n=1103) | 35% (n=2345) | 0.5 (55% of its river bets) | 41% (n=2068) |
+| Claude Mythos 5.5 (3-6) | 9.7 | 23178 | 33% | 23% | 29 / 51 / 20 | 60 / 37 / 3 (n=988) | 36 / 51 / 13 (n=877) | 24% (n=2727) | 0.7 (100% of its river bets) | 59% (n=2531) |
+| LLinusLLoveBot (3-6) | 9.2 | 21256 | 32% | 26% | 29 / 49 / 22 | 37 / 54 / 9 (n=1432) | 32 / 53 / 15 (n=1149) | 49% (n=2591) | 1.0 (61% of its river bets) | 36% (n=2204) |
+| AEPi AK (5-6) | 9.2 | 11060 | 35% | 24% | 30 / 51 / 20 | 46 / 48 / 6 (n=967) | 29 / 57 / 13 (n=696) | 49% (n=1120) | 0.6 (88% of its river bets) | 34% (n=1224) |
+| Median raising team, round 6 | 9.7 | | 34% | 24% | | 41 / 50 / 7 | | 39% | | 37% |
+
+Hands are classed by the best five cards from the two kept cards and each board's five; "two pair or better" counts
+a pair on the board. Only hands that reached showdown are seen, so these are selected samples: read them as
+differences between teams, not as ranges.
+
+## Appendix O: Pittsburgh, practices against scored rounds
+
+Four practices are on file, each with 300-670 tables per team, so they read as well as scored rounds. Labels as in
+Appendix E.
+
+| Team | Practice before round 2 | Before round 3 | Before round 4 | Before round 5 |
+|---|---|---|---|---|
+| Pluto | Same | Same | Same | Same |
+| Cold Decks | Same | Same | New: round 4's re-raises and short shoves were in the practice | New: round 5's lower c-bet rate was in the practice |
+| Poker is all you need | Same | Old: round 3's shoves and 4-bets unseen | Differs from both | Differs from both |
+| Hold Em Trophies | Same | Same (small drift) | Same | Same (small drift) |
+| Claude Mythos 5.5 | Same | Half-way: big blind folds 61%, 41% in practice, 18% in round 3 | Same | Same |
+| LLinusLLoveBot | Same | New: the 2.75bb bot was in the practice | Same (small) | Differs: it played its round-2 bot again, then round 5 went back to the newer one |
+| AEPi AK | Old: round 2's re-raises unseen | New | New | New |
+
+Of 9 changes with a practice before them, 6 were in it, 1 half and 2 not. There is no practice on file before round
+6, where Cold Decks, Claude Mythos 5.5 and AEPi AK all changed again.
