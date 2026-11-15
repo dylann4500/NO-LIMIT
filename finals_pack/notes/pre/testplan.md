@@ -13,7 +13,7 @@ Drafted Saturday 14 November for Sunday's `tester` to check and extend. Notes on
 1. **Minutes 0-5: the rules card, then today's noise figure.** Check the card field by field; from its payouts and seats take the per-table spread in section 1 and write today's sample sizes into the rig's notes.
 2. **By minute 6 the runner prints a number** (speedrun: minute 6, A). Its first run is the noise run: the same zip as LIVE and as CAND on the same deals must show a paired difference of exactly zero. If not, the bot is clock-seeded or time-capped: tell `platform` at once.
 3. **Second run: the same bot on two disjoint sets of deals.** That difference is today's noise.
-4. **Sparring**: four hold'em-style fields now; the variant-aware field once theory's ranking exists (speedrun: ranking at minute 9, field at 16).
+4. **Sparring** (two warnings from a timed run: a field of pure callers is slow, 100 s for 600 tables, so keep it small; and the timing columns of a Modal run are not a timing test, its throttled CPUs showed 23 would-be timeouts): four hold'em-style fields now; the variant-aware field once theory's ranking exists (speedrun: ranking at minute 9, field at 16).
 5. **First verdict on v1 by minute 12** (speedrun: 12), with a heads-up run, check-or-fold in the same field and the load average.
 6. **The Modal deploy, in the background, as soon as the runner prints its first number**: it took 4-10 s in the timed runs, and v1's verdict must not wait for it. Its first job measures tables per second.
 
