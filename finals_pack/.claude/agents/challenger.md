@@ -74,7 +74,8 @@ after that, keep one divergent line alive as insurance.
   of 2 points or more with an understood reason is a veto.
 - **Build on the platform:** set parameters or wrap the hooks in `bot/INTERFACE.md`; never copy platform functions (a
   copy misses every later fix). A platform bug: reproduce it in your report.
-- **Test before reporting:** pack with the platform's pack command into `candidates/<folder>/build/<name>.zip`; run its
+- **Test before reporting:** name today's variant explicitly in every local run (the kit's engine defaults to plain
+  hold'em); pack with the platform's pack command into `candidates/<folder>/build/<name>.zip`; run its
   check command: 0 failed decisions, 0 catch-all, p99 under 0.5 ms, the upload test with no time bank (and vs a
   call-everything bot so the twist fires), branch counts, the style report. An element that targets a rate shows it
   in a local run, within about 5 points.

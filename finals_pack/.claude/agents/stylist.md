@@ -62,7 +62,8 @@ corner.
 - **A fix is one change**, behind a named setting that defaults to the old behaviour, with a branch count. **A change
   that targets a rate** (e.g. fold to 3-bets at 72%) must show it in a local run against sparring bots that behave like
   this field: within about 5 points of the target, with n, or it doesn't ship.
-- **Test every folder before reporting:** pack it with the platform's pack command into
+- **Test every folder before reporting:** name today's variant explicitly in every local run (the kit's engine defaults to plain
+  hold'em); pack it with the platform's pack command into
   `candidates/<name>/build/<name>.zip`, run the platform's check command on it (0 failed decisions, 0 catch-all, p99,
   the upload test with no time bank, branch counts, the style report and defaults counts), give its sha256. Local
   results against our own bots are sanity only; the practice rounds judge strength.

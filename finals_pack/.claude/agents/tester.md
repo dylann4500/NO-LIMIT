@@ -36,7 +36,7 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   the same deals, and one zip against itself gives a paired difference of exactly zero. Bots on the
   kit's engine (check today's SDK names; the regional kit had async `act(state, memory)` returning `Reply(action, memory,
   bank_ms)`, `play_table` on a `SitAndGo` from `TableRules` with table id and seed, `table_points`), every rules field
-  set from `bot/rules.json`, a process pool (guard the entry point; have it stop its workers on SIGTERM: killing
+  set from `bot/rules.json` and today's variant named explicitly (the kit's engine defaults to plain hold'em), a process pool (guard the entry point; have it stop its workers on SIGTERM: killing
   only the parent's PID left orphan workers in a 14 November run). Same seed = same cards by position; seed bots'
   randomness from table id and hand number; rotate seats. Tables diverge once a decision differs, so pairing helps
   little (paired SE ≈ 22/√tables for two different designs in case F, an estimate to measure, and 21 in case R, measured 18-28; about 11/√tables only for a one-change

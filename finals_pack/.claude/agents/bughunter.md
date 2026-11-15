@@ -53,7 +53,8 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
 7. **Memory:** truncated, garbage and empty bytes at every phase; size vs the limit in `bot/rules.json`; nothing
    carried in globals or on self; the current hand rebuilt from the state (a scripted hand with raises on every
    street: street, preflop raiser, every dead and known card).
-8. **Worst-case time:** the slowest phase with the most opponents and options, p99 and max over 1,000+ calls; the
+8. **Worst-case time:** name today's variant explicitly in every local run (the kit's engine defaults to plain
+  hold'em); the slowest phase with the most opponents and options, p99 and max over 1,000+ calls; the
    upload test on the exact zip (heads-up vs the kit's check-or-fold, 20 hands, time bank 0, several seeds) and vs a
    call-everything bot so the twist fires.
 9. **Claimed rates:** if NOTES.md says a change targets a rate, measure it locally against sparring bots that behave
