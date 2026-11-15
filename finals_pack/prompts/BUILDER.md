@@ -94,7 +94,9 @@ running before you spawn anything.
 
 - Styles and design D were legal by minute 12-13 in one speedrun, so even practice 1 (minute 20) can play a style or
   D, not only the base. In a second run they were legal at minutes 16-29: nothing can be packed before `platform`'s
-  packer exists, and it landed at minute 15. Styles are legal 2-4 minutes after the packer.
+  packer exists, and it landed at minute 15. Styles are legal 2-4 minutes after the packer. In a third run design D,
+  which carried its own betting code, was legal at minute 11 and took practice 1; the styles followed at 17-19, once
+  the platform could be imported.
 - **You pick the bot for each practice: the most informative test**, not a fixed rota (DECISION_RULES §3
   "Exploration"): one practice must be design D; every style rebuilt on the current **base** before its upload,
   so practice scores compare styles, not timing. By 3 minutes before each practice the pick is released and
