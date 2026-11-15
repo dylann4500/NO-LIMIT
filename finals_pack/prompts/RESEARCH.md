@@ -96,8 +96,10 @@ the background:
   call tables and break-evens by 15, `theory/HANDOFF.md` by 20. As each lands, `SendMessage` BUILDER one line with the
   path and the headline (e.g. "pairs are the worst hands here"): BUILDER broadcasts it so nobody re-derives it. Relay
   a number only from the file itself, opened by you, never from a subagent's progress line: quote the file's
-  `version` and `made`, and say so if `fallback` is true (in two timed runs wrong numbers were relayed for 8 and 19
-  minutes).
+  `version` and `made` (in two timed runs wrong numbers were relayed for 8 and 19 minutes). A file marked
+  `fallback: true` is relayed only as its path and "fallback, do not build on it", never with a headline number (a
+  correctly quoted fallback still sent a wrong number for 7 minutes). One message per re-issue, saying in one line
+  what moved, for the agents that read that table.
 - `analyst`: parsers for today's hand-history format and `analysis/roundcard.py <round folder>` (card in under 60 s;
   stage folder `analysis/<stage>/`, the stage name with spaces as '-') ready for practice 1's download (about minute 25).
 - `tester`: check the rules card (`bot/rules.json`) against the kit and `notes/format.md` as soon as both exist; the

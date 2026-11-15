@@ -62,7 +62,8 @@ Every JSON carries `version`, `made` (HH:MM), `inputs` (the rules-card values us
 `checks` summary. `fallback: true` means "usable, not final", never "do not ship". A re-issue that changes a table's
 keys or shape, or a constant its readers use (a budget, a scale), bumps `version` and gets a dated line in
 `theory/HANDOFF.md` saying what changed: platform's loader stops on a shape it doesn't expect, but nothing stops a
-reader that hard-coded the old constant, so every constant a reader needs is in the table as data. Only finished
+reader that hard-coded the old constant, so every constant a reader needs is in the table as data. Re-issue a table only when a number a builder uses has moved by more than its stated error, and say in one line what
+moved; a table's `version` changes whenever its `fallback` flag does (never the same label with a new flag). Only finished
 tables go in `theory/out/`; work files go in `theory/cache/` (platform builds in whatever it finds in `out/`).
 
 **Refits (minute 30, then every T-13, when briefed):** real-field numbers outrank the tables. Re-issue the

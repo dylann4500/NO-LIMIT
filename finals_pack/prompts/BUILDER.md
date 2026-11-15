@@ -130,7 +130,9 @@ running before you spawn anything.
 - Keep `platform` building in RESEARCH's tables as they land (`theory/out/*.json`, including `twist_rule.json`).
 - **Broadcast the first variant-level finding** (theory's ranking or twist rule, or any report that flips a hold'em
   assumption): `SendMessage` it to every running `stylist` and `challenger` at once, with the table's file, `version` and `made` as
-  RESEARCH quoted them (no version, no broadcast: ask for it), so nobody re-derives it (in the
+  RESEARCH quoted them (no version, no broadcast: ask for it; a `fallback: true` file is passed on only as "fallback, do
+  not build on it"), so nobody re-derives it. After that, one relay per re-issue and only to the agents that read that
+  table: about 25 re-issues in 33 minutes cost 8 to 10 minutes of relaying in one timed run (in the
   speedrun five agents re-derived "pairs are the worst hands" with their own simulations).
 - **After every platform release, diff the interface** (`git diff <previous>..HEAD -- bot/INTERFACE.md`): if a setting
   was renamed or removed, grep `candidates/` and tell each affected stylist. A silent rename switched a style's
