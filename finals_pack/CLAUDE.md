@@ -102,7 +102,9 @@ confirm it.
    background with a log, end your turn, and check when woken. Main sessions: spawn subagents in the background
    (the default from a main session; say `run_in_background: true` if asked), so you stay free for the humans and
    the inbox.
-8. **Modal**: one app per purpose (deploy once and call it many times, or one `modal run` that fans out with `.map`).
+8. **Modal**: two deployed apps only, `avalon-rig` (the tester's, up to 40 containers) and `avalon-theory` (theory's, up
+   to 20), each deployed once and called many times with `.map`; every other role calls them or runs locally (20
+   containers between them).
    Never launch several `modal run`s at once: the workspace has an app-creation rate limit, and a rehearsal lost a
    round to it. Shared cap: 80 containers.
 
@@ -137,7 +139,7 @@ happen again.
 - **Share what changes everyone's work at once.** The first variant-level finding (e.g. "pocket pairs are the worst
   hands in this variant") goes to every agent building strategy the moment it's known, so nobody re-derives it.
 - **Fan out.** The day is time-boxed; serial work loses. Independent pieces run in parallel: several subagents in
-  one message (each in its own folder), Modal for compute, Codex (`codex exec`) for second opinions if logged in (if one call
+  one message (each in its own folder), Modal for compute (the two deployed apps), Codex (`codex exec`) for second opinions if logged in (if one call
   fails on a rate limit, drop Codex for the day).
   Subagents may spawn their own helpers (nesting stops at 3 levels; at most about 4 helpers each, one job and one
   output file per helper). Up to 40 subagents can run at once per session (`.claude/settings.json` sets
@@ -152,7 +154,7 @@ happen again.
   cores at load 17-19 by minute 8 and v1's upload test was inconclusive). Each **session** keeps its subagents' local worker processes to about 6 in all
   and enforces it itself: every brief gives a worker count (2 unless the session says otherwise, never more than 4),
   and the session checks `uptime` before any timing test and whenever it adds an agent; Monte Carlo or
-  match runs longer than about a minute of CPU go to Modal (one app per purpose). A timing or upload test counts only
+  match runs longer than about a minute of CPU go to Modal (the two deployed apps, hard rule 8). A timing or upload test counts only
   if `uptime` shows load below the core count AND the kit's `check_or_fold` example runs in the same minute as a
   baseline; otherwise say "inconclusive: machine loaded" and re-run. On this Mac a script that starts a process
   pool needs an `if __name__ == "__main__":` guard (without it, it forks in a loop), and there is no `timeout`
