@@ -176,7 +176,8 @@ happen again.
 - **Silent fallbacks are bugs.** Every loader, packer, setting and table lookup fails loudly on a mismatch (unknown
   setting names, missing keys, a dropped file, a zip that wasn't overwritten). A speedrun had five silent fallbacks
   in 20 minutes, each switching off a feature without a sound.
-- **Run `date` before you write a time down**; never estimate the clock.
+- **Run `date` before you write a time down**; never estimate the clock. In a message, write the time `date` printed
+  in that same tool round, not the time you expect to send; give a target as "minute N" and an ETA as "in N minutes".
 - **Nothing wakes an agent at a clock time.** A main session acts at a time only because a line arrives then: the
   clock posts every step and cut-off, the watcher every round start and result. If something must happen at a time
   that has no clock step, tie it to the step before it or ask your human to say it; never plan to "come back at
