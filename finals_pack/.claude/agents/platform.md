@@ -110,7 +110,11 @@ shares sum to the pool; busted player gets their payout; break-even calls: heads
 also with memory cut mid-hand. (5) position, blinds, first to act, effective stack at a full table, 3 and 2 players (in case F with ante events and a stack too short for the ante) and after a
 bust. (6) a board-made hand is no hand of ours; equity falls clearly from check to bet to raise. (7) every branch's
 firing count over 1,000 hands. (8) the style report by players left plus the defaults counts. (9) a scripted hand with
-raises on every street: street, preflop raiser, every dead and known card.
+raises on every street: street, preflop raiser, every dead and known card. (10) **the style is live**: over about 200
+hands against the mixed field the packed zip opens at least once, takes the twist's non-default action at least once
+and reports at least one firing of a style hook; a style whose import fails or whose hook raises fails the pack. A
+candidate that never opens or never uses the twist fails the check, whatever else passes (in a timed run the base
+called no style hooks, and three styles passed every check playing pure check-fold).
 
 **Releases:** checks 1-2 and the upload test on the exact zip, always (hard rule). A bot plays a scored round only with
 a `tester` verdict that includes a heads-up run (RESEARCH spawns one tester per release); until it lands, write

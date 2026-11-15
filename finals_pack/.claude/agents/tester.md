@@ -86,7 +86,9 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
 
 ## How to do it well
 
-**Verdicts.** Correct: crashes, illegal actions, timeouts, memory, miscounted statistics (scripted sequences); a change
+**Verdicts.** First, is it alive: over about 200 hands the candidate must open at least once and take the twist's
+action at least once, and two different zips must act differently on the same deals; if not, the verdict is "bug:
+not live" and no strength number is given. Correct: crashes, illegal actions, timeouts, memory, miscounted statistics (scripted sequences); a change
 that targets a rate shows it locally against field-like sparring, within about 5 points. Stronger: paired vs the LIVE
 bot, 2,000+ deals per field; after round 1 the cloned field. Evidence, not a gate: correct, legal, fast (p99 under 0.5
 ms on an idle core) and not catastrophically worse (better than −2 points per table) is fit for a practice round or
