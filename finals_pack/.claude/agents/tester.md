@@ -23,8 +23,7 @@ verdicts given). Read-only: `bot/`, `candidates/`, `releases/`, `analysis/`, `th
 **Every release, from v1 on** (v1's from the build-hour tester that builds the rig; from v2 on RESEARCH spawns one fresh
 tester per release, or retargets you to a release that replaced yours before your verdict: keep the old one as an extra
 paired arm): its verdict (below), always including a
-heads-up run at the real table's settings (the day's full table with all but two seats already out, six seats with four
-out in case F, so `state.config` is the real one; a bare `--players 2` table is a format no scored round shows (only the upload test is a two-player table), and
+heads-up run at the real table's settings (the day's full table with all but two seats already out, six seats with four out in case F, so `state.config` is the real one; the two left share every chip and start at the hand where today's sparring tables reach heads-up (say which in the verdict); a bare `--players 2` table is a format no scored round shows (only the upload test is a two-player table), and
 platform bots refused it in the 14 November rehearsal). A bot plays a scored round only with a tester verdict that includes one. For a release
 that changes heads-up play, also run it head to head against the live bot: against the sparring mix one heads-up
 fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0.4.
@@ -50,8 +49,7 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
   kit's engine (check today's SDK names; the regional kit had async `act(state, memory)` returning `Reply(action, memory,
   bank_ms)`, `play_table` on a `SitAndGo` from `TableRules` with table id and seed, `table_points`), every rules field
   set from `bot/rules.json` and today's variant named explicitly (the kit's engine defaults to plain hold'em), a process pool (guard the entry point; have it stop its workers on SIGTERM: killing
-  only the parent's PID left orphan workers in a 14 November run). Same seed = same cards by position; seed bots'
-  randomness from table id and hand number; rotate seats. Tables diverge once a decision differs, so pairing helps
+  only the parent's PID left orphan workers in a 14 November run). Same seed = same cards by position; seed bots' randomness from table id and hand number; rotate seats; in the rig the clock never changes play (count decisions over 1 ms, never fail them: a 32-core container had ten times the slow decisions of a one-core one), and Modal's timing columns are not a timing test. Tables diverge once a decision differs, so pairing helps
   little (paired SE ≈ 22/√tables for two different designs in case F, an estimate to measure, and 21 in case R, measured 18-28; about 11/√tables only for a one-change
   variant): use many. Then the **first verdict on v1**.
 - **Sparring fields**, sanity only: calls everything, shoves constantly, plays only premiums, re-raises wide and more often against a seat that folded to its last re-raise (enough
@@ -63,11 +61,9 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
   tables and survive, and judge the floor against those. Losing to one by more
   than 2 SE means a hole.
 - **Modal:** one app `avalon-rig` (deploy once, `.map` over shards, up to 40 containers), image built in the background;
-  size each window's runs from measured speed. **Ask for 32 cores a container and keep a pool of 32 worker processes
-  alive across calls** (Dylan and Samuel, 15 November). The plan caps containers, not cores. Measured that night
-  on a copy of the rehearsal's rig: one 32-core container ran 29 times the tables of a one-core container, with
-  per-table results identical on the same seeds, and 15 of them ran 27,000 paired tables in 82 s; nothing above 15
-  containers was tested, so time the first job. Send each container many small calls; keep the shutdown window short;
+  size each window's runs from measured speed. **Ask for 32 cores a container and keep a pool of 32 worker processes alive across calls** (Dylan and Samuel, 15 November). Exactly 32 workers (`os.cpu_count()` says 48 there) and about 4 to 8 GB of memory (2.5 GB measured with two bots); key each loaded bot by its sha256 and have each worker unpack it into its own folder, because workers sharing a folder read half-written files. Build the local runner first and give v1's verdict from it; then one deploy holding a one-core function and the 32-core class, falling back to the one-core function if the other errors (an agent following these words alone had the pooled rig at minute 9 with the image cached: expect minute 15 to 20). The plan caps containers, not cores. Measured that night
+  on a copy of the rehearsal's rig: one 32-core container ran 17 to 29 times the tables of a one-core container in two separate builds, with per-table results identical on the same seeds, and 15 of them ran 27,000 paired tables in 82 s; nothing above 15
+  containers was tested, so time the first job. Send each container many small calls (about 64 tables each: two a worker); keep the shutdown window short;
   avoid 64-core containers (they start one every 15-20 s); and never leave big containers warm (60 of them idle for
   six hours is about 560 dollars; the workspace's limit for the month is 350, of which 118 was used by 04:30 on 15 November). At that speed a 20,000-table paired run should take about 40 s warm and a minute cold on the rig's 40 containers (projected from 15; SE about 0.11 points a table between versions of one design and about 0.18 between designs; 5,000 tables give 0.23, 1,000 give 0.5): use it for the paired difference in a verdict that decides a scored round. Pass marks written in SE (the heads-up run within 2 SE of the live bot's; a loss to a sparring bot of more than 2 SE) were set on runs of about 1,000 tables, where 2 SE is 0.4 to 1 point: keep those runs at about 1,000 tables. At 20,000 tables 2 SE is under 0.1 points, less than any sparring field's bias (the bot that won the rehearsal's last round read -0.38 ± 0.20 against the sparring mix and +2.56 ± 0.37 against the live bot itself). More tables remove noise, not bias: the rehearsal's two sparring fields
   disagreed by about 5 points between designs, so between designs the practice round stays the judge.
@@ -82,9 +78,8 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
   All of these are case-R tables: a case-F table lasts about 155 hands against 131, so expect about 0.9 of each rate
   (an estimate). Start with small shards, time the first job on today's kit and resize. It's one of only two
   deployed apps (with theory's `avalon-theory`): the other roles call it instead of running their own, so write in
-  `rig/NOTES.md` how to call it. The team Python has no `modal` package: launch with the `modal` command (its own
-  interpreter, which has no eval7; the kit's code runs inside the image). Warm containers keep the code they started
-  with, and a redeploy alone did not clear them in a timed run: stop the app's old containers before redeploying, and
+  `rig/NOTES.md` how to call it. The team Python has no `modal` package: deploy with the `modal` command; call the deployed app from a small client run by that command's own Python (the interpreter on the first line of the `modal` script), with `modal.Cls.from_name` or `modal.Function.from_name`: `modal run` creates a new app every time (that interpreter has no eval7; the kit's code runs inside the image). Warm containers keep the code they started
+  with, and a redeploy alone did not clear them in a timed run: stop the app's old containers before redeploying (`modal container list --json`, then `modal container stop --yes <id>` for each container of the app, for example through `xargs -n1`; without `--yes` it aborts; the container cap does not hold across a redeploy), and
   have every shard return the hash of the code it ran, discarding shards whose hash is not the current one.
   Hand histories never leave this machine; fitted parameters may go to our Modal workspace.
 - **From the first practice download, replay testing:** rebuild our tables with a rigged deck (our cards, the board,
