@@ -282,7 +282,7 @@
   {
    "when": "T9",
    "to": "builder",
-   "text": "Tell Dylan to put the state/live.json bot back as active (a click) as soon as the practice round has started: its 'started' line is in your inbox. If it hasn't started yet, wait for it (a click before the start makes the practice play the live bot), but no later than the T-8 step: the organizers' pages do not promise a practice round in every window, and the live bot must be back whatever happens. RESEARCH's recommendation arrives now (the threshold first; the final answer when the practice result lands)."
+   "text": "Before telling Dylan to put the state/live.json bot back (a click), read state/status.md: if the practice round is not shown as started, the challenger stays active, tell Dylan to wait (this beep is early) and tell RESEARCH. The live bot goes back the moment the watcher posts the practice's start, and at T-5 at the latest whether or not it has started. A practice that starts after T-8 cannot give a result by T-6: the rule's answer is the live bot. Only a challenger with a tester verdict may stay active past T-9. RESEARCH's recommendation arrives now (the threshold first; the final answer when the practice result lands)."
   },
   {
    "when": "T9",
@@ -379,7 +379,7 @@
    "when": "T9",
    "who": "dylan",
    "kind": "live",
-   "text": "Put the live bot back as active now, once the practice round has started (tab 1 prints its 'started' line), and at decision time at the latest if none has (scored round {k} at {ts})"
+   "text": "Put the live bot back as active now, once the practice round has started (tab 1 prints its 'started' line; if it has not, wait: BUILDER says when), and at T-5 at the latest (scored round {k} at {ts})"
   },
   {
    "when": "T8",

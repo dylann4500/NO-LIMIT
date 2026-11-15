@@ -125,7 +125,12 @@ it plays the practice round at T-10, and at T-9 Dylan puts the `state/live.json`
 has at most two real uploads, about 8 minutes apart: the challenger at T-12 and, only if the chosen bot is a new
 zip, the chosen bot at about T-4 to T-3. Putting the live bot back, and choosing the challenger, are clicks on bots
 already uploaded: BUILDER tells Dylan which version to click in the portal's uploads list. Never let a cooldown
-leave the chosen bot unuploaded at T-3. When in doubt, the live bot stays active. If uploads activate themselves, the
+leave the chosen bot unuploaded at T-3. When in doubt, the live bot stays active. The T-9 put-back assumes the
+practice started at T-10. Before saying "put vL back", BUILDER reads `state/status.md`: if the practice round is not
+shown as started, the challenger stays active, BUILDER tells Dylan to wait (the clock's beep is early) and tells
+RESEARCH. The live bot goes back the moment the watcher posts the practice's start, and at T-5 at the latest whether
+or not it has started. A practice that starts after T-8 cannot give a result by T-6: the rule's answer is the live bot
+and that practice feeds the next window. Only a challenger with a `tester` verdict may stay active past T-9. If uploads activate themselves, the
 challenger's upload at T-12 is also its activation, the T-9 click is unchanged (it puts an earlier upload back), and
 a new chosen bot uploaded at T-4 becomes active only when its upload test finishes: if that is after the round
 starts, the live bot, active since T-9, plays.

@@ -121,7 +121,7 @@ every upload and every click, and nothing is uploaded inside a window that is no
 | T-13 | Previous round's result and hand data land (the portal watcher saves them under `data/rounds/`, runs the round card and posts to both inboxes); RESEARCH analyses; BUILDER's stylists start on the one-change lines already in the LEDGER | Both sessions |
 | T-12 | Challenger made active: BUILDER tells Dylan its exact file (he uploads it if it isn't on the portal yet: the first real upload); never declared with `scripts/live.py` | Dylan (BUILDER names the file) |
 | T-10 | Practice round plays the challenger | |
-| T-9 | The `state/live.json` bot put back as active straight away: a click in the portal's uploads list, no re-upload | Dylan (BUILDER asks) |
+| T-9 | The `state/live.json` bot put back as active, once `state/status.md` shows the practice round as started (and at T-5 at the latest): a click in the portal's uploads list, no re-upload | Dylan (BUILDER asks) |
 | T-9 | RESEARCH sends BUILDER the recommendation (the threshold, then the final answer once the practice lands) | RESEARCH |
 | T-8 | **Decide** by the pre-registered rule (`DECISION_RULES.md` §3): the challenger if it clears the field-adjusted bar for our standing, else the live bot with this window's tested changes. BUILDER asks in its terminal, with the rule's answer, and records it in `state/decisions.md`. The practice's download lands about now: before the decision only `tester`'s field-adjusted edge matters; its full analysis runs after T-3 | Both humans |
 | T-6 | Chosen bot tested with no time bank | BUILDER (`platform`) |
