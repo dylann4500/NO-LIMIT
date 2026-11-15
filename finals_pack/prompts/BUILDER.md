@@ -95,7 +95,10 @@ running before you spawn anything.
    as at Bay Area, and Dylan clicks now. Tell Dylan and RESEARCH which case holds and write it at the top of
    `notes/format.md`, with a second fact you ask Dylan for: does a rejected upload start the cooldown? A team with no active bot scores zero.
 5. **Every release, from v1 on (D's included):** spawn a fresh `bughunter` on it at once (background, at most 8
-   minutes; its brief names, as one question, the code path this release changed: general reviews missed a bug
+   minutes; its brief names, as one question, the code path this release changed (for a design's first
+   release the four that paid in every design: are thresholds computed from `state.config.payouts` and the real
+   stacks; is the stack read before the ante; is any Monte Carlo capped by the clock; what happens with memory of the
+   wrong type; for a later release, "is the claimed fix real"): general reviews missed a bug
    that a narrow question found in under 4 minutes), and `SendMessage` RESEARCH "RELEASED vN <sha256> <one line>" so it
    spawns a tester for it. A candidate you mean to pick gets its bughunter earlier, when its builder reports it legal:
    a hunt takes 3-8 minutes and a pick is declared 3 minutes before its practice, so in a timed run every pick was
