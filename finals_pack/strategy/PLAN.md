@@ -84,7 +84,7 @@ How sure we are of each of these: `EVIDENCE_TABLE.md`.
    wider; folding more is the wrong answer to aggression.
 4. **Evidence before shipping, but standing still isn't safe.** An analysis that sounds convincing is a
    candidate until the real field (a practice round) has tested it; candidates go into the challenger and
-   practice rounds quickly. Folding to a 3-bet of our open: no more than break-even (usually 65-75% in case R, about 59-68% with case F's antes).
+   practice rounds quickly. Folding to a 3-bet of our open: no more than break-even (usually 65-75% in case R; about 57-68% with case F's antes: two styles drafted to the regional number folded too much in a timed run).
 
 ## 3. The timeline
 

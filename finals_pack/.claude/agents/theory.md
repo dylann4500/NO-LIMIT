@@ -41,7 +41,7 @@ break-evens and HANDOFF.md; write each file the moment it passes its checks, so 
   equal ≈ 57%; 4 equal ≈ 62-65% (for 50/30/20; other payouts: compute and say so).
 - **m15 `twist.json` and `twist_rule.json`:** the twist's option values by common random numbers (TWIST_NOTES §0):
   every option on the same deals in one interleaved loop; against opponents who ALSO use the twist well; using all it
-  reveals; dead cards removed; any budget planned over a whole table (about 150-160 hands in case F by simulation,
+  reveals; dead cards removed; any budget planned over a whole table (150-175 hands in case F: simulated 155, measured 163-174 in a timed run;
   120-140 in case R; count today's); plus a cheap rule and
   how close it gets. The decision rule every table and the bot use is `theory/out/twist_rule.json` (its code may live
   in `theory/twist/`; platform reads only `theory/out/`). Call it trusted only once it has been scored at 3 and 4

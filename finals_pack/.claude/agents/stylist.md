@@ -52,7 +52,8 @@ corner.
   right price; shove-or-fold first in at about 12bb or less (a case-R depth: with case F's antes a fold-through wins 2.7bb, not
   1.5, so recompute it, `notes/pre/format_finals.md`); fold one pair to raises and large late bets unless that
   seat has shown bluffs; fold to a 3-bet of our open no more than break-even (`theory/out/exploit.json`; usually
-  65-75% in case R and about 59-68% with case F's antes; a starting value). If the field pays for limping or flat-calling, that's a finding, not a failure.
+  65-75% in case R and about 59-68% with case F's antes, and about 57% for the open size a timed run used; a starting value: take
+  today's from `theory/out/exploit.json`). If the field pays for limping or flat-calling, that's a finding, not a failure.
 - **Adapt to seats, not "table mood":** blend the seat's live count with a prior, grow with observations, cap it, stay
   conservative on small counts. Against seats that raise, re-raise or shove a lot, call off and re-raise wider; tighten
   only against seats that call too much. Each adaptive rule is a named setting. Heads-up and three-handed get their

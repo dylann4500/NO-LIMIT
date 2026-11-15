@@ -197,7 +197,7 @@ says which case holds (F, R, or what differs from both), and BUILDER tells every
 | The field's mean score | 16.7 a table | 12.5 |
 | Tables one opponent shares with us | about a quarter: roughly 250 of 1,000 | about a third: 300-350 |
 | Equity to call all-in, equal stacks | 58.1% on hand 1; 60.6% with 5 left, 65.2% with 4, 57.1% with 3, pot odds heads-up | 55.6% on hand 1; the same from 4 left down |
-| Hands a table | about 155; a seat is dealt 105-115 (simulated) | about 131; a seat is dealt 90 |
+| Hands a table | about 155 simulated with regional bots, 163-174 measured in a timed run; a seat is dealt 105-115 | about 131; a seat is dealt 90 |
 | One bot's spread a table; paired noise | 18.9; about 22/√tables (estimate: measure it) | 17.9; about 21/√tables |
 | Sparring field | five copies beside the candidate | seven |
 | Rig speed | about 0.9 of the case-R rate (estimate: time the first job) | as measured in `tester.md` |

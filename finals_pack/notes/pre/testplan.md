@@ -53,7 +53,7 @@ Tables per candidate for a paired difference to reach 2 standard errors (arith.,
 
 | Field | Made of | For |
 |---|---|---|
-| Calls everything; shoves constantly; premiums only; re-raises wide | Seven copies each, plus a mix; each plays the twist, some at random, some by theory's rule | Holes: a loss of over 2 standard errors to any one. A loose candidate lost 8.5 ± 1.5 to the premiums-only field (B) |
+| Calls everything; shoves constantly; premiums only; re-raises wide | Players − 1 copies each (seven in case R, five in case F), plus a mix; each plays the twist, some at random, some by theory's rule | Holes: a loss of over 2 standard errors to any one. A loose candidate lost 8.5 ± 1.5 to the premiums-only field (B) |
 | The same four on today's ranking and twist rule | The main field once the ranking exists | Hold'em-valued sparring misjudged bots where pairs were the worst hands (A) |
 | The kit's check-or-fold, in every field (in the candidate's seat on the same deals, not as an extra bot) | The floor | It scored 20.1 beside our 20.5 in the speedrun (A): local fields that bust themselves flatter folding |
 | Field-like sparring, from the first download | The four re-set to the field's measured rates | Rate targets. Regional proxies read a fold rate at 21-26% that was 57-69% on the field (A) |
