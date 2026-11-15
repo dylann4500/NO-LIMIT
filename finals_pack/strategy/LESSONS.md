@@ -199,7 +199,7 @@ neither exists any more.
 ## From the 14 November speedrun (a timed build hour on an unseen variant, this bundle)
 
 - About 12 agents running simulations locally pushed the load to 50 on 12 cores; the kit's do-nothing bot then failed
-  timing tests too. **Rule:** at most 4 local workers per subagent, long runs on Modal, and a timing or upload test
+  timing tests too. **Rule:** about 6 local workers a session, handed out by the session (2 a subagent as a rule, never more than 4), long runs on Modal, and a timing or upload test
   counts only with load below the core count and `check_or_fold` run in the same minute.
 - Five agents re-derived the variant's hand ranking with their own simulations and disagreed. **Rule:** `theory/out`
   is the single source of equity truth; BUILDER broadcasts the first variant-level finding at once.
@@ -211,7 +211,7 @@ neither exists any more.
 - The stylists idled 6 minutes waiting for the interface. **Rule:** a stub `bot/INTERFACE.md` by minute 6.
 - The data path had only been tested on the kit's 7-table sample; a synthetic round found three bugs (truncated file
   crash, 8-max position labels, a folder collision). **Rule:** the dry-run download at about minute 10, into
-  `/tmp/dryrun/` (never `data/rounds/`).
+  a fresh `/tmp/dryrun-<HHMM>/` (never `data/rounds/`).
 - The theory agents finished by minute 12 and then idled. **Rule:** tighter targets and a second wave.
 - In that variant the kit's do-nothing bot scored as well as ours in a field that busts itself. **Rule:** every
   verdict reports the floor bot; if folding is that strong on the real field, it's a PLAN CHALLENGE.

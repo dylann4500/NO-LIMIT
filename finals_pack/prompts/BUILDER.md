@@ -13,12 +13,15 @@ of each release). They may spawn their own helpers.
 
 ## Start-up (now, before anything else)
 
-1. Read `CLAUDE.md` (you have it), then `strategy/DECISION_RULES.md` (how we decide: it always applies),
-   `strategy/PLAN.md` (the game plan and timeline), `strategy/LESSONS.md` (what broke before). Skim
-   `strategy/FIRST_PROMPT.md` Part 1 and `strategy/TWIST_NOTES.md` §0-2: your subagents use them.
-2. Start your inbox: run the Monitor tool on `python3 scripts/feed.py builder` (timeout: the maximum, 30 minutes).
+1. Start your inbox first, before any reading (the feed shows only lines posted after it starts, and the reading
+   below takes minutes): run the Monitor tool on `python3 scripts/feed.py builder` (timeout: the maximum, 30 minutes).
    Every line that arrives wakes you; a long clock line can arrive cut off, so read it whole with
    `tail -n 3 inbox/builder.log`. **When the Monitor expires, re-arm it at once.** Never let it lapse.
+2. Read `CLAUDE.md` (you have it), then `strategy/DECISION_RULES.md` (how we decide: it always applies),
+   `strategy/PLAN.md` (the game plan and timeline), `strategy/LESSONS.md` (what broke before). Skim
+   `strategy/FIRST_PROMPT.md` Part 1 and `strategy/TWIST_NOTES.md` §0-2: your subagents use them.
+   Skim your side's notes in `notes/pre/` too: they are already there, while `notes/plan.md` exists only if someone ran
+   the morning research.
 3. `ListAgents` to find the RESEARCH session; `SendMessage` it "BUILDER ready"; note its name or id. Not listed yet (it
    starts after you): post it with `python3 scripts/say.py research "BUILDER ready"` and look again when its own
    "ready" arrives.
@@ -62,7 +65,9 @@ running before you spawn anything.
    **A head start:** when the portal watcher posts "THE VARIANT IS ANNOUNCED", the portal's rules text is already in
    `state/variant.md` and the cooldown the portal states is in `state/status.md`. Name both in the briefs below so
    your subagents read the rules while the kit unpacks; the kit and the Format page still decide the rules card.
-2. Spawn in ONE message, in the background:
+2. Spawn in ONE message, in the background, each brief naming the role's own pre-event note (`platform`:
+   `notes/pre/buildplan.md`; `stylist`: `notes/pre/whatwins.md`; both, in case F: `notes/pre/format_finals.md`; the
+   clean-room `challenger` reads none of them):
    - `platform`: set up the team Python (`starter-kit/.venv`, plus the `.venv` link) and announce it; the rules card
      `bot/rules.json` from the kit and `notes/format.md` (players, stacks, blinds and antes, hands per match, time limits,
      weights, payouts, cooldown) by minute 5; a stub `bot/INTERFACE.md` by minute 6; a minimal legal bot and
@@ -80,7 +85,8 @@ running before you spawn anything.
    as at Bay Area, and Dylan clicks now. Tell Dylan and RESEARCH which case holds and write it at the top of
    `notes/format.md`. A team with no active bot scores zero.
 5. **Every release, from v1 on (D's included):** spawn a fresh `bughunter` on it at once (background, at most 8
-   minutes), and `SendMessage` RESEARCH "RELEASED vN <sha256> <one line>" so it spawns a tester for it. In the
+   minutes; its brief names, as one question, the code path this release changed: general reviews missed a bug
+   that a narrow question found in under 4 minutes), and `SendMessage` RESEARCH "RELEASED vN <sha256> <one line>" so it spawns a tester for it. In the
    speedrun both reviewed early releases had a real problem, and a release without a tester verdict shipped a
    heads-up regression. **No bot plays a scored round without a tester verdict that includes a heads-up run.**
 
@@ -90,15 +96,22 @@ running before you spawn anything.
   D, not only the base. In a second run they were legal at minutes 16-29: nothing can be packed before `platform`'s
   packer exists, and it landed at minute 15. Styles are legal 2-4 minutes after the packer.
 - **You pick the bot for each practice: the most informative test**, not a fixed rota (DECISION_RULES §3
-  "Exploration"): one practice must be design D; every style rebuilt with the newest shared tables before its upload,
+  "Exploration"): one practice must be design D; every style rebuilt on the current **base** before its upload,
   so practice scores compare styles, not timing. By 3 minutes before each practice the pick is released and
   upload-tested, and you **declare it: `python3 scripts/live.py vN "practice k pick"`** (the clock's reminder to
   Dylan names the declared bot), then tell Dylan exactly which file to upload or activate. `state/live.json` holds one
   bot: declare practice k+1's pick only after practice k has started (its "started" line is in your inbox), or the
   reminder and the watcher's active-bot check point at the wrong bot.
+- **The base.** Every pick is packed on a named platform commit, the base: the newest one whose own release has its
+  tester verdict (correct, with a heads-up run) and is not measured worse than the base before it. A fix release is
+  not a base until that verdict lands: until then picks are packed on the previous base. Write what counts as
+  "worse" in `state/decisions.md` before the number arrives, tell `platform` which commit is the base (it tags it and
+  its pack command takes the commit), and put the base's version on each pick's VERSIONS line. In both timed runs a
+  fix release became the base before its verdict and carried a regression into the next pick.
 - Keep `platform` building in RESEARCH's tables as they land (`theory/out/*.json`, including `twist_rule.json`).
 - **Broadcast the first variant-level finding** (theory's ranking or twist rule, or any report that flips a hold'em
-  assumption): `SendMessage` it to every running `stylist` and `challenger` at once, so nobody re-derives it (in the
+  assumption): `SendMessage` it to every running `stylist` and `challenger` at once, with the table's file, `version` and `made` as
+  RESEARCH quoted them (no version, no broadcast: ask for it), so nobody re-derives it (in the
   speedrun five agents re-derived "pairs are the worst hands" with their own simulations).
 - **After every platform release, diff the interface** (`git diff <previous>..HEAD -- bot/INTERFACE.md`): if a setting
   was renamed or removed, grep `candidates/` and tell each affected stylist. A silent rename switched a style's
@@ -126,7 +139,7 @@ running before you spawn anything.
 | T-8 | **Ask the decision** (below), deadline T-5, with the rule's answer. |
 | T-6 | `platform`: the chosen bot through the upload test with no time bank; released if it's a new zip. |
 | T-5 | No clear human answer: apply the rule's answer (`live.py`), say so in one line. |
-| T-4 | Cut-off: if the chosen bot isn't released and tested with a tester verdict, the live bot plays; nothing is uploaded. |
+| T-4 | Cut-off: if the chosen bot isn't released and tested with a tester verdict (`rig/out/verdict-vN.md` exists and says so), the live bot plays; nothing is uploaded. |
 | T-3 | Dylan uploads or activates the chosen bot (a zip uploaded now is active only when its upload test ends); confirm in `state/status.md` that the portal runs it. After this nothing changes. |
 
 Between steps: keep subagents fed, answer Dylan, and make sure the challenger line never stops.
@@ -172,7 +185,11 @@ Bash call with `run_in_background: true` (the hook refuses the same loop in the 
 e.g. `n=$(wc -l < inbox/builder.log); until [ $(wc -l < inbox/builder.log) -gt $n ] || [ $SECONDS -gt 600 ]; do sleep 5; done`
 (in the background): it notifies you once when it ends. Read the new lines, then start it again.
 
-## If a script stops
+## If a script stops, or the clock moves
+
+If the clock posts "the clock was reset" or "minute 0 is now HH:MM:SS (was ...)", every time you have quoted is out of
+date: re-read `state/clock.md`, tell Dylan the new times in one line, and treat a step that arrives again as a
+reminder (check what is already running before you spawn anything).
 
 If `state/status.md` or `state/clock.md` is more than 2 minutes old, tell Dylan "tab 1 (or 2) stopped: run it again"
 (START.md). Never start `portal_watch.py` or `clock.py run` yourself.

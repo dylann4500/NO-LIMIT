@@ -36,16 +36,21 @@ analysis/counters.json` for anything newer than what you've built in. At minute 
 - **by ~12, the full `bot/INTERFACE.md`** (its stub by minute 6, before v1: see the speedrun notes below)**:** settings (names, defaults), the decision hooks a style or fix may wrap, the
   estimates offered (seat counters with priors, equity, ICM call threshold, tables), the branch-count call, and two
   commands: pack a candidate folder into a test zip, written to `candidates/<name>/build/<name>.zip` (where the
-  stylist, challenger and bughunter files expect it); run the checks on any zip. Keep it stable; report any change.
-- **by 15, the harness** (`bot/tools/`): in-process runner on the kit's engine (any mix of bots) reporting decision
+  stylist, challenger and bughunter files expect it); run the checks on any zip. The pack command is what every stylist and the challenger wait
+  for: it is due here, by ~12, before the harness's extras (in two timed runs it came at minute 15 and no style could
+  be legal before minutes 16-29). Keep it stable; report any change.
+- **by 15, the harness** (`bot/tools/`): in-process runner on the kit's engine (any mix of bots, each kept apart: its own
+  process, or loaded under a module name of its own with nothing shared, never two zips' `agent` modules in one
+  interpreter; it starts by proving that two different zips act differently on the same deals) reporting decision
   times, catch-all count, branch counts from memory and the style report; plus the upload test.
 - **theory's tables: build each in as it lands (all by about minute 20)**, behind settings, ON once checked (a table
   marked `fallback: true` is theory's labelled first version, to build in and note, not to reject):
   `ranking.json` and `icm_thresholds.json` (due at 10); `twist.json`, the twist rule `twist_rule.json`, `pushfold.json`
   with the call tables, and `exploit.json` (due at 15); `theory/HANDOFF.md` (20) for keys and lookups.
 - **then the full platform** (FIRST_PROMPT Part 1) with every check passing.
-- **each practice (20, 30, 40, 50):** release the bot BUILDER names, packed fresh from the current `bot/` so every
-  style carries the newest tables; released and upload-tested 3 minutes before. **~50:** the bot for scored round 1.
+- **each practice (20, 30, 40, 50):** release the bot BUILDER names, packed fresh from the base BUILDER names (a
+  commit you tag `base-vN` once its release has a tester verdict; your pack command takes the commit) so every style
+  carries the same tested tables; released and upload-tested 3 minutes before. **~50:** the bot for scored round 1.
 
 **Each window:**
 - **By T-15:** release the challenger BUILDER names (packed and tested by `challenger` by T-16) as `releases/vN.zip`,
@@ -110,11 +115,17 @@ shares sum to the pool; busted player gets their payout; break-even calls: heads
 also with memory cut mid-hand. (5) position, blinds, first to act, effective stack at a full table, 3 and 2 players (in case F with ante events and a stack too short for the ante) and after a
 bust. (6) a board-made hand is no hand of ours; equity falls clearly from check to bet to raise. (7) every branch's
 firing count over 1,000 hands. (8) the style report by players left plus the defaults counts. (9) a scripted hand with
-raises on every street: street, preflop raiser, every dead and known card.
+raises on every street: street, preflop raiser, every dead and known card. (10) **the style is live**: over about 200
+hands against the mixed field the packed zip opens at least once, takes the twist's non-default action at least once
+and reports at least one firing of a style hook; a style whose import fails or whose hook raises fails the pack. A
+candidate that never opens or never uses the twist fails the check, whatever else passes (in a timed run the base
+called no style hooks, and three styles passed every check playing pure check-fold). (11) the deep all-in call: with 3
+or more players, facing an all-in after an open and callers at 30bb or more to call, AA never folds; count KK and QQ.
 
 **Releases:** checks 1-2 and the upload test on the exact zip, always (hard rule). A bot plays a scored round only with
-a `tester` verdict that includes a heads-up run (RESEARCH spawns one tester per release); until it lands, write
-"tester: pending". Name = the next free vN in `releases/VERSIONS.md`; pack only the bot. The zips are git-ignored and
+a `tester` verdict that includes a heads-up run (RESEARCH spawns one tester per release); the verdict of record is the tester's own file
+`rig/out/verdict-vN.md`, which you never copy: the VERSIONS line says "tester: pending" until that file exists and
+"tester: rig/out/verdict-vN.md" from your next commit after it does. Name = the next free vN in `releases/VERSIONS.md`; pack only the bot. The zips are git-ignored and
 stay on this laptop: commit with explicit paths (`git add bot/ candidates/<folders used>`), then add the VERSIONS.md
 line (format at its top) with that commit's sha and the zip's sha256 (`shasum -a 256 releases/vN.zip`) and commit it
 too (`git add releases/VERSIONS.md`); never `git add` a zip, never `git add -A`, stash, `checkout -- .`, `restore .`,
@@ -138,8 +149,7 @@ one message, one job and one output file each), merge their results, then report
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`). Never block: commands over ~2 minutes go to the background with a log;
   no `wait`, no sleep of 20 s or more, no polling. Modal has only two deployed apps, the tester's `avalon-rig` (up to 40
   containers) and theory's `avalon-theory` (up to 20): call them (`rig/NOTES.md` says how); never deploy, `modal run`
-  or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: at most 4
-  worker processes.
+  or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total).
 - Facts about rounds only from `state/status.md` and `data/`, with their time. Record measured results, append only:
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | platform | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`
   (the newest `verdict L<k>` line about a line is its status). Say "unverified" plainly.

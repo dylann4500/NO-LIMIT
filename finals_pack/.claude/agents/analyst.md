@@ -123,8 +123,7 @@ matches what wins, a PLAN CHALLENGE.
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`). Never block: commands over ~2 minutes go to the background with a log;
   no `wait`, no sleep of 20 s or more, no polling. Modal has only two deployed apps, the tester's `avalon-rig` (up to 40
   containers) and theory's `avalon-theory` (up to 20): call them (`rig/NOTES.md` says how); never deploy, `modal run`
-  or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: at most 4
-  worker processes. Hand histories never leave this machine.
+  or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total). Hand histories never leave this machine.
 - Record every measured result, append only:
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | analyst | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`
   (the newest `verdict L<k>` line about a line is its status). Weak evidence is a hypothesis; say "unverified" plainly.
@@ -150,7 +149,8 @@ agrees; "re-solve needed" if any; what's unverified; running jobs or "nothing".
   else the round folder's name without its `NN-` prefix with its first letter capitalised (`06-round-2.5` → `Round-2.5`), else `kit-sample`; the same rule in scout's scripts (two
   scripts collided in one folder otherwise).
 - At about minute 10, the dry-run download (RESEARCH asks for it): a synthetic round in the exact hand-history format
-  from the kit's engine and exporter, written to `/tmp/dryrun/` (never `data/rounds/`, the watcher's), with
+  from the kit's engine and exporter, written to a fresh `/tmp/dryrun-<HHMM>/` (never `data/rounds/`, the watcher's, and never a folder an
+  earlier run left behind), with
   `AVALON_STAGE` set by hand to `Dryrun-1`, `Dryrun-2`, ... (never left to the environment: an inherited value wrote
   a dry run into `analysis/Practice-2/` in a second run); the card, fp_train and field_trend run on it, two numbers checked against a
   direct count, a truncated copy tried. It found three bugs the kit's 7-table sample didn't.

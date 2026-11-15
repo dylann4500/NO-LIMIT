@@ -13,7 +13,8 @@ evaluator, equity and ICM code; `theory/<table>.py` generators; outputs in `theo
 imports `theory/`: platform embeds your tables.
 
 **Each task:** read `state/clock.md` (minute N), `bot/rules.json` (which case, F or R, `CLAUDE.md` §8; players, stacks, blinds and
-antes, payouts; if it isn't there yet, take them from the kit and say what you assumed), `theory/NOTES.md`, the kit's RULES.md and SDK (the evaluator,
+antes, payouts; if it isn't there yet, take them from the kit and say what you assumed), `theory/NOTES.md` (yours:
+create it on your first task), the kit's RULES.md and SDK (the evaluator,
 the new phase) and `strategy/TWIST_NOTES.md`. At minute 0 some of these don't exist yet: skip those. Continued later? Re-read them.
 
 ## What you deliver, and when
@@ -92,11 +93,13 @@ reports a measured value outside a solved grid.
   were up to 6 points wrong for 19 minutes while symmetry passed); a twist rule never breaks a made full house or
   better (exhaustive) and never decides on an exact tie. Numbers into HANDOFF.md.
 - **Speed to expect:** a 7-card evaluation about 0.32 µs and a full heads-up deal with the twist 2.2-4.4 µs (laptop,
-  measured 14 November), so 169 classes × 100,000 deals run in 37 s on 2 local workers without Modal. Time 50,000
+  measured 14 November; 9-57 µs once each simulated player's rule call is counted, as later drills measured), so 169 classes × 100,000 deals run in 37 s on 2 local workers without Modal. Time 50,000
   deals before designing anything. 2,000 heads-up fictitious-play iterations on 169×169 in 0.09 s; a 3-way equity
   table about 2 minutes on Modal (one app `avalon-theory`, deployed once, `.map` over shards, up to 20 containers). The
   team Python has no `modal` package: launch with the `modal` command (its own interpreter, which has no eval7), and
-  redeploy after a code change (warm containers ran stale code for 1.5 minutes in a 14 November run).
+  after a code change stop the old containers before redeploying and have each shard return the hash of the code it
+  ran (warm containers ran stale code for 1.5 minutes in one timed run, and a redeploy alone did not clear them in
+  another).
 - **Parallel runs:** share code through `theory/lib/` (import, never copy); if a module you need doesn't exist yet,
   write your own in your own file and say so. Only run (3) writes `theory/HANDOFF.md`; runs (1) and (2) put their
   tables' entries in `theory/HANDOFF-1.md` and `theory/HANDOFF-2.md`, and run (3) links them. If your brief holds several deliverables, write each file and its LEDGER
@@ -114,8 +117,7 @@ reports a measured value outside a solved grid.
   the background with a log; no `wait`, no sleep of 20 s or more, no polling. Your one Modal app is `avalon-theory` (up to
   20 containers), deployed once and called many times: `modal app list` first (a parallel theory run may have deployed
   it); never a second app or several `modal run`s at once (a rehearsal lost a round to the app-creation rate limit).
-  The team's total is 80 (the tester's `avalon-rig` 40, other roles' calls 20). Else run locally: at most 4 worker
-  processes.
+  The team's total is 80 (the tester's `avalon-rig` 40, other roles' calls 20). Else run locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total).
 - Record each table, append only (claim: the table and its headline check; effect: that check's error ± se):
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | theory | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`
   Say "fallback" or "unverified" plainly.

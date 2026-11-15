@@ -46,7 +46,7 @@
     ],
     [
      "analyst",
-     "Parsers for today's hand-history format and analysis/roundcard.py <round folder> (card in under 60 s, stage from the AVALON_STAGE env var, writes analysis/<stage>/card.md, <stage> = the stage name with spaces as '-', e.g. analysis/Practice-1/), ready for practice 1's download (about minute 25); portal_watch runs it by itself when data lands. At about minute 10 (when v1 exists), the dry-run download into /tmp/dryrun/ (never data/rounds/)."
+     "Parsers for today's hand-history format and analysis/roundcard.py <round folder> (card in under 60 s, stage from the AVALON_STAGE env var, writes analysis/<stage>/card.md, <stage> = the stage name with spaces as '-', e.g. analysis/Practice-1/), ready for practice 1's download (about minute 25); portal_watch runs it by itself when data lands. At about minute 10 (when v1 exists), the dry-run download into a fresh /tmp/dryrun-<HHMM>/ (never data/rounds/)."
     ],
     [
      "tester",
@@ -88,7 +88,7 @@
   {
    "when": "b20",
    "to": "builder",
-   "text": "Practice round 1 plays now: the first legal, upload-tested style. Which bot plays each practice is your call: the most informative test, not a fixed rota. Pick which bot plays practice 2 ({p2}): the most informative test. Released and upload-tested by minute 27: declare it with live.py and tell Dylan the exact file.",
+   "text": "Practice round 1 plays now: the bot you declared for it. Which bot plays each practice is your call: the most informative test, not a fixed rota. Pick which bot plays practice 2 ({p2}): the most informative test. Released and upload-tested by minute 27: declare it with live.py and tell Dylan the exact file.",
    "tasks": [
     [
      "stylist",
@@ -134,7 +134,7 @@
   {
    "when": "b30",
    "to": "research",
-   "text": "Practice round 2 plays now. Practice 1's data is in data/rounds/; spawn the practice-2 tasks on its DATA LANDED (about minute 35), never to wait for it.",
+   "text": "Practice round 2 plays now. Practice 1's data should be in data/rounds/ (look; if it is not, say so to Samuel and BUILDER and carry on with what exists); spawn the practice-2 tasks on its DATA LANDED (about minute 35), never to wait for it.",
    "tasks": [
     [
      "theory",
@@ -173,7 +173,7 @@
   {
    "when": "b40",
    "to": "research",
-   "text": "Practice round 3 plays now. The round-1 live bot is declared at minute 50: tester's adjusted best scorer of practices 1-3 (DECISION_RULES §3 'Round 1'). Spawn both tasks now on practices 1-2 and continue them with practice 3's data when its DATA LANDED arrives (about minute 45); never wait for it.",
+   "text": "Practice round 3 plays now. The round-1 live bot is declared at minute 50: tester's adjusted best scorer of practices 1-3 (DECISION_RULES §3 'Round 1'). If no practice data has landed at all, say so to Samuel and BUILDER and have the tester rank on the rig's paired numbers, labelled as local, not field, results. Spawn both tasks now on practices 1-2 and continue them with practice 3's data when its DATA LANDED arrives (about minute 45); never wait for it.",
    "tasks": [
     [
      "tester",

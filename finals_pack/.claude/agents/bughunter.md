@@ -53,7 +53,8 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
 7. **Memory:** truncated, garbage and empty bytes at every phase; size vs the limit in `bot/rules.json`; nothing
    carried in globals or on self; the current hand rebuilt from the state (a scripted hand with raises on every
    street: street, preflop raiser, every dead and known card).
-8. **Worst-case time:** the slowest phase with the most opponents and options, p99 and max over 1,000+ calls; the
+8. **Worst-case time:** name today's variant explicitly in every local run (the kit's engine defaults to plain
+  hold'em); the slowest phase with the most opponents and options, p99 and max over 1,000+ calls; the
    upload test on the exact zip (heads-up vs the kit's check-or-fold, 20 hands, time bank 0, several seeds) and vs a
    call-everything bot so the twist fires.
 9. **Claimed rates:** if NOTES.md says a change targets a rate, measure it locally against sparring bots that behave
@@ -63,6 +64,10 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
 11. **Hard-coded format:** search the source for the table size, starting stack, blind and ante levels, payouts and
     time limits written as literals, then run the zip at another table size and payout list (table rules are set per
     round and can change between rounds: `CLAUDE.md` §8). A decision that ignores `state.config` is a bug.
+12. **The deep all-in call:** scripted spots with 3 or more players where an open, one or more callers and then an
+    all-in face us while we hold AA, and the same with KK, at 30bb or more to call and with a high tournament
+    break-even. AA must never fold; report how often KK and QQ fold and whether the design means it. Both timed runs
+    shipped a call rule that folded AA here, and three general reviews missed it.
 
 **A second opinion by a different method:** if `codex` is logged in, start `codex exec` in the background on the same
 target with this list (log in your folder), carry on, then merge its findings, re-running each before you report it.
@@ -82,8 +87,7 @@ breaks; effect: how often it fires per 1,000 hands, or the wrong number against 
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`). Never block: commands over ~2 minutes go to the background with a log;
   no `wait`, no sleep of 20 s or more, no polling. Modal has only two deployed apps, the tester's `avalon-rig` (up to 40
   containers) and theory's `avalon-theory` (up to 20): call them (`rig/NOTES.md` says how); never deploy, `modal run`
-  or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: at most 4
-  worker processes.
+  or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total).
 - Record results, append only:
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | bughunter | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`
 - The plan is a default, not a mandate: if a check shows a plan assumption is wrong (a default the design rests on
@@ -94,7 +98,7 @@ breaks; effect: how often it fires per 1,000 hands, or the wrong number against 
 Whoever spawned you (a main session, or the agent you're helping) relays it: you never write to the inboxes, message
 the humans or the other session, or run `scripts/say.py` or `scripts/live.py`.
 
-Line 1: "<target> (sha256 …): N bugs reproduced, worst: <one line>" or "<target>: no bug reproduced in checks 1-11".
+Line 1: "<target> (sha256 …): N bugs reproduced, worst: <one line>" or "<target>: no bug reproduced in checks 1-12".
 Then each bug, worst first: what it breaks, how often, the reproduction (path and command), who should fix it; the
 checks you ran with their numbers (failed decisions, p99, max, upload test); what's unverified; the Codex job (merged,
 or log path if still running); LEDGER ids; your folder.

@@ -115,8 +115,8 @@ SPEED: DESIGN FOR THE WORST DECISION, NOT THE AVERAGE
 The upload test gives no time bank, and the slowest decisions come from garbage-collection pauses, cold
 first calls and machine jitter, not from our logic. So: build all tables at import; run one full throwaway
 decision of every phase at import; then collect garbage once, freeze it and raise the collector's
-thresholds; cap any sampling by an iteration count and by a deadline of 0.15-0.2 ms from the start of
-the call (the rest of the decision needs time too), so typical compute stays near 0.1 ms. Exception: a
+thresholds; end any sampling at an iteration count, with a deadline of 0.15-0.2 ms from the start of
+the call only as a backstop that should never fire on an idle core (count its firings; the rest of the decision needs time too), so typical compute stays near 0.1 ms. Exception: a
 twist decision whose failure default is cheap (check the rules; a failed bid that just bids nothing is
 cheap) may take up to 0.5 ms while the time bank is healthy, if the extra time measurably buys points. A deadline
 can't protect against the process being paused mid-call, so keep the work small. Measure the maximum and
@@ -441,6 +441,8 @@ Build our test rig in rig/, separate from the bots. One deliverable first: rig/c
 --tables N --field F, printing for each candidate points per table with a standard error, the paired
 difference against LIVE with its standard error, failed decisions, and the 99th-percentile and maximum
 decision time.
+- Keep every bot's code apart (its own process, or its own module name: two zips both ship agent.py) and prove at
+  the start of each run that two different zips act differently on the same deals.
 - Run bots IN-PROCESS, not through the kit's command-line runner (it starts two processes per bot and is
   slow). In the regional kit that meant: an object with an async act(state, memory) returning the
   protocol's Reply(action, memory, bank_ms); tables played with the engine's play_table on a SitAndGo built
@@ -467,7 +469,8 @@ decision time.
   turn, burn, river). Check stacks every hand and drop tables that drift. Report where each candidate acts
   differently from the logged action and from the current live bot, how often per table, by situation.
   The outcome column is observational, not counterfactual.
-- Then, and only then: wrap the same shard function for Modal (check that modal imports first) and start
+- As soon as the runner prints a number: wrap the same shard function for Modal (launch with the `modal` command: the
+  team Python has no modal package) and start
   the image build in the background. It is the team's one test-rig app, `avalon-rig`: deploy it once and call
   it many times (`.map` over shards), up to 40 containers; never several `modal run`s at once (`CLAUDE.md` hard
   rule 8). Only `avalon-rig` and `avalon-theory` (up to 20) are deployed; the other roles call them or run

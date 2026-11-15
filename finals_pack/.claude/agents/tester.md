@@ -30,10 +30,14 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   hands per match, time limits, weights, payouts, cooldown). A rehearsal ran every test at the wrong table size:
   report any mismatch first.
 - **By 15, `rig/compare.py LIVE CAND... --tables N --field F [--players 2]`** (Part 3a): per candidate, points per
-  table ± SE, the paired difference vs LIVE ± SE, failed decisions, p99 and max decision time. Bots in-process on the
+  table ± SE, the paired difference vs LIVE ± SE, failed decisions, p99, p99.9 and max decision time by phase (judge on p99.9 beside the
+  `check_or_fold` baseline: the max spikes under load). Each bot is kept apart from the others: its own process, or its
+  own module name with no shared globals (two zips both ship `agent.py`: in a timed run both rigs ran the wrong bot's
+  code for 24 minutes). The rig's first act in every run is a self-test: two different zips give different actions on
+  the same deals, and one zip against itself gives a paired difference of exactly zero. Bots on the
   kit's engine (check today's SDK names; the regional kit had async `act(state, memory)` returning `Reply(action, memory,
   bank_ms)`, `play_table` on a `SitAndGo` from `TableRules` with table id and seed, `table_points`), every rules field
-  set from `bot/rules.json`, a process pool (guard the entry point; have it stop its workers on SIGTERM: killing
+  set from `bot/rules.json` and today's variant named explicitly (the kit's engine defaults to plain hold'em), a process pool (guard the entry point; have it stop its workers on SIGTERM: killing
   only the parent's PID left orphan workers in a 14 November run). Same seed = same cards by position; seed bots'
   randomness from table id and hand number; rotate seats. Tables diverge once a decision differs, so pairing helps
   little (paired SE ≈ 22/√tables for two different designs in case F, an estimate to measure, and 21 in case R, measured 18-28; about 11/√tables only for a one-change
@@ -55,7 +59,8 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   deployed apps (with theory's `avalon-theory`): the other roles call it instead of running their own, so write in
   `rig/NOTES.md` how to call it. The team Python has no `modal` package: launch with the `modal` command (its own
   interpreter, which has no eval7; the kit's code runs inside the image). Warm containers keep the code they started
-  with: redeploy after a change.
+  with, and a redeploy alone did not clear them in a timed run: stop the app's old containers before redeploying, and
+  have every shard return the hash of the code it ran, discarding shards whose hash is not the current one.
   Hand histories never leave this machine; fitted parameters may go to our Modal workspace.
 - **From the first practice download, replay testing:** rebuild our tables with a rigged deck (our cards, the board,
   every card shown or exposed, random filler; find the deck order by probing the engine), replay the logged actions,
@@ -86,13 +91,18 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
 
 ## How to do it well
 
-**Verdicts.** Correct: crashes, illegal actions, timeouts, memory, miscounted statistics (scripted sequences); a change
+**Verdicts.** First, is it alive: over about 200 hands the candidate must open at least once and take the twist's
+action at least once, and two different zips must act differently on the same deals; if not, the verdict is "bug:
+not live" and no strength number is given. Correct: crashes, illegal actions, timeouts, memory, miscounted statistics (scripted sequences), and
+the fixed spot both timed runs got wrong: facing an all-in after an open and callers with 3 or more players, deep, AA
+never folds (count the folds of AA, KK and QQ over a few thousand such spots; sparring fields rarely reach it); a change
 that targets a rate shows it locally against field-like sparring, within about 5 points. Stronger: paired vs the LIVE
 bot, 2,000+ deals per field; after round 1 the cloned field. Evidence, not a gate: correct, legal, fast (p99 under 0.5
 ms on an idle core) and not catastrophically worse (better than −2 points per table) is fit for a practice round or
 the challenger slot; the practice round judges strength. Measure noise first (a bot against itself: about 20/√tables
 points in case R, about 6% more in case F). v1 has no live bot to beat: judge it against the kit's `check_or_fold` floor and one sparring field. A
-heads-up run pays 1st and 2nd, so with 50/30/20 an even bot scores 40 and the floor is 30. Record each verdict: claim `verdict <name> (sha256 12): correct | bug: …; vs live vN: diff ± se`, method with
+heads-up run pays 1st and 2nd, so with 50/30/20 an even bot scores 40 and the floor is 30. Write each verdict to `rig/out/verdict-<name>.md` the moment it is done, its first line the
+verdict line of your report: that file is the verdict of record, and nobody copies its text. Also record it: claim `verdict <name> (sha256 12): correct | bug: …; vs live vN: diff ± se`, method with
 players, opponent pool, deals, seeds.
 
 **Verifying what decisions rest on: re-run, don't re-read.** Method matches the rules card? Bot sha as claimed? Paired
@@ -119,7 +129,7 @@ candidate.
 - A rehearsal lost a practice round to Modal's app-creation rate limit: your one app is `avalon-rig` (up to 40
   containers; `modal app list` first: an earlier tester may have deployed it), never a second app or several
   `modal run`s at once; the team's total is 80 (theory's `avalon-theory` 20, other roles' calls 20); after a
-  rate-limit error, wait a minute. Locally: at most 4 worker processes.
+  rate-limit error, wait a minute. Locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total).
 - A "+36 points" result was a broken test. An uncalibrated cloned field built in the hour failed its own live-bot check
   (12.2 vs a real 18.4); a clone ranked unconditionally folded 27% to re-raises where its team folded 80%.
 - Local wins don't predict the field (+4.4 locally, 100th of 125). Timings under load aren't the platform's: use an
@@ -144,7 +154,9 @@ owners; what's unverified; the rig commands; Modal app ids and background jobs, 
 ## From the 14 November speedrun
 - Once `theory/out/ranking.json` exists, the main sparring field must play the variant's own ranking and twist rule
   (hold'em-style sparring flattered or misjudged bots); keep hold'em-style bots as a secondary field.
-- Every verdict includes the kit's `check_or_fold` floor in the same field and the load average. In the test variant
+- Every verdict includes the kit's `check_or_fold` floor in the same field (run in the candidate's seat on the same
+  deals, not as an extra bot) and the load average; every heads-up number names its opponent; the kit's `check`
+  command takes the zip, not a folder. In the test variant
   the do-nothing bot scored as well as ours in a field that busts itself: report that kind of fact loudly.
 - Every release gets its own verdict (RESEARCH spawns one tester per release), and every verdict includes a heads-up
   run (`--players 2`): a release with no verdict shipped a -1.9 ± 0.4 heads-up regression.

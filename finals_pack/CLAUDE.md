@@ -54,7 +54,7 @@ Your own start-up instructions are in `prompts/BUILDER.md` or `prompts/RESEARCH.
 | `notes/format.md` | the organizers' Format page as Dylan pasted it at minute 0 (weights, payouts, cooldown) | BUILDER |
 | `bot/` | the platform (the bot's shared code) | `platform` only |
 | `candidates/<name>/` | styles, the challenger, fixes, each in its own folder | `stylist`, `challenger` |
-| `releases/vN.zip` + `releases/VERSIONS.md` | every released bot (zips stay local, git-ignored); one line each: commit, the zip's sha256, what changed, checks, role, the tester's verdict | `platform` only |
+| `releases/vN.zip` + `releases/VERSIONS.md` | every released bot (zips stay local, git-ignored); one line each: commit, the zip's sha256, what changed, checks, role, and a pointer to the tester's verdict, which lives in the tester's own `rig/out/verdict-vN.md` | `platform` only (the verdict file: `tester`) |
 | `theory/out/*.json` + `theory/HANDOFF.md` | today's maths tables (ranking, ICM, push/fold, twist, break-evens): **the single source of preflop and equity truth**. Everyone reads them; nobody re-derives them (only the clean-room design D may compute its own) | `theory` |
 | `starter-kit/.venv/bin/python` | **the team's Python** for anything that needs the kit's SDK or its evaluator (set up once at minute 0 by `platform` and announced; system `python3` may not build the evaluator) | `platform` |
 | `analysis/` | parsers, `roundcard.py`, `fp_train.py`, `field_trend.py`; per round `analysis/<stage>/card.md`, `field_trend.md`, lens reports, where `<stage>` is the stage name with spaces as '-' (`analysis/Practice-1/`, `analysis/Round-2.5/`) | `analyst`, `scout` |
@@ -102,7 +102,9 @@ confirm it.
    background with a log, end your turn, and check when woken. Main sessions: spawn subagents in the background
    (the default from a main session; say `run_in_background: true` if asked), so you stay free for the humans and
    the inbox.
-8. **Modal**: one app per purpose (deploy once and call it many times, or one `modal run` that fans out with `.map`).
+8. **Modal**: two deployed apps only, `avalon-rig` (the tester's, up to 40 containers) and `avalon-theory` (theory's, up
+   to 20), each deployed once and called many times with `.map`; every other role calls them or runs locally (20
+   containers between them).
    Never launch several `modal run`s at once: the workspace has an app-creation rate limit, and a rehearsal lost a
    round to it. Shared cap: 80 containers.
 
@@ -137,7 +139,7 @@ happen again.
 - **Share what changes everyone's work at once.** The first variant-level finding (e.g. "pocket pairs are the worst
   hands in this variant") goes to every agent building strategy the moment it's known, so nobody re-derives it.
 - **Fan out.** The day is time-boxed; serial work loses. Independent pieces run in parallel: several subagents in
-  one message (each in its own folder), Modal for compute, Codex (`codex exec`) for second opinions if logged in (if one call
+  one message (each in its own folder), Modal for compute (the two deployed apps), Codex (`codex exec`) for second opinions if logged in (if one call
   fails on a rate limit, drop Codex for the day).
   Subagents may spawn their own helpers (nesting stops at 3 levels; at most about 4 helpers each, one job and one
   output file per helper). Up to 40 subagents can run at once per session (`.claude/settings.json` sets
@@ -149,14 +151,23 @@ happen again.
 - **Check before you trust**: re-run, don't re-read. Local wins don't predict the field; the practice rounds do.
 - **The laptop's CPU is shared by every agent of both sessions** (a speedrun hit load 50 on 12 cores, and then even
   the kit's do-nothing bot failed timing tests; in a second run four agents at 4 workers each put this laptop's 15
-  cores at load 17-19 by minute 8 and v1's upload test was inconclusive). Each subagent runs at most 4 local worker processes; Monte Carlo or
-  match runs longer than about a minute of CPU go to Modal (one app per purpose). A timing or upload test counts only
+  cores at load 17-19 by minute 8 and v1's upload test was inconclusive). Each **session** keeps its subagents' local worker processes to about 6 in all
+  and enforces it itself: every brief gives a worker count (2 unless the session says otherwise, never more than 4),
+  and the session checks `uptime` before any timing test and whenever it adds an agent; Monte Carlo or
+  match runs longer than about a minute of CPU go to Modal (the two deployed apps, hard rule 8). A timing or upload test counts only
   if `uptime` shows load below the core count AND the kit's `check_or_fold` example runs in the same minute as a
-  baseline; otherwise say "inconclusive: machine loaded" and re-run.
+  baseline; otherwise say "inconclusive: machine loaded" and re-run. On this Mac a script that starts a process
+  pool needs an `if __name__ == "__main__":` guard (without it, it forks in a loop), and there is no `timeout`
+  command: cap a job inside Python or stop it by its PID.
 - **Silent fallbacks are bugs.** Every loader, packer, setting and table lookup fails loudly on a mismatch (unknown
   setting names, missing keys, a dropped file, a zip that wasn't overwritten). A speedrun had five silent fallbacks
   in 20 minutes, each switching off a feature without a sound.
 - **Run `date` before you write a time down**; never estimate the clock.
+- **Nothing wakes an agent at a clock time.** A main session acts at a time only because a line arrives then: the
+  clock posts every step and cut-off, the watcher every round start and result. If something must happen at a time
+  that has no clock step, tie it to the step before it or ask your human to say it; never plan to "come back at
+  HH:MM" (both timed runs missed their stop that way). A subagent's time limit is kept by the subagent itself, with
+  `date` at each step, and checked by the session that spawned it on every wake-up.
 - **A file named in your brief** (`REPORT.md`, `card.md`, `DESIGN.md`, ...) **is a requested deliverable: write it.**
 - **Keep your PLAN file current** (`notes/PLAN-<session>.md`; its first line names your role and prompt file):
   what's running where, open promises, next deadline. **After compaction or a restart, first re-read your prompt file

@@ -14,12 +14,15 @@ may spawn their own helpers.
 
 ## Start-up (now, before anything else)
 
-1. Read `CLAUDE.md` (you have it), then `strategy/DECISION_RULES.md` (always applies), `strategy/PLAN.md`,
-   `strategy/LESSONS.md`. Skim `strategy/FIRST_PROMPT.md` Parts 1b-4 and `strategy/FINGERPRINTING.md`: your
-   subagents use them.
-2. Start your inbox: run the Monitor tool on `python3 scripts/feed.py research` (timeout: the maximum, 30 minutes).
+1. Start your inbox first, before any reading (the feed shows only lines posted after it starts, and the reading
+   below takes minutes): run the Monitor tool on `python3 scripts/feed.py research` (timeout: the maximum, 30 minutes).
    Every line wakes you; a long clock line can arrive cut off, so read it whole with `tail -n 3 inbox/research.log`.
    **When the Monitor expires, re-arm it at once.**
+2. Read `CLAUDE.md` (you have it), then `strategy/DECISION_RULES.md` (always applies), `strategy/PLAN.md`,
+   `strategy/LESSONS.md`. Skim `strategy/FIRST_PROMPT.md` Parts 1b-4 and `strategy/FINGERPRINTING.md`: your
+   subagents use them.
+   Skim your side's notes in `notes/pre/` too: they are already there, while `notes/plan.md` exists only if someone ran
+   the morning research.
 3. `ListAgents` to find the BUILDER session; `SendMessage` it "RESEARCH ready"; note its name or id. Not listed yet (it
    starts after you): post it with `python3 scripts/say.py builder "RESEARCH ready"` and look again when its own
    "ready" arrives.
@@ -44,6 +47,9 @@ may spawn their own helpers.
   portal watcher says so in your inbox), ask Samuel for the hand download link from the portal (copied from the
   round's Download button), then run
   `python3 scripts/portal_watch.py --set-hands-url '<link>'` yourself.
+- If the clock posts "the clock was reset" or "minute 0 is now HH:MM:SS (was ...)", every time you have quoted is out
+  of date: re-read `state/clock.md`, tell Samuel the new times in one line, and treat a step that arrives again as a
+  reminder (check what is already running before you spawn anything).
 - If `state/status.md` or `state/clock.md` is more than 2 minutes old, tell Samuel "tab 1 (or 2) stopped: run it
   again" (START.md). Never start `portal_watch.py` or `clock.py run` yourself.
 
@@ -75,13 +81,18 @@ running before you spawn anything. The first thing to establish is which case th
 (6 players, 6,000 chips, antes), the main case, or case R (8 players, 2,000 chips, no ante). BUILDER tells you from
 `platform`'s rules card; until then every brief says "expect case F; check the kit first", and when it is known you
 send it to every running subagent. Every brief names the team Python (`starter-kit/.venv/bin/python`, announced by
-BUILDER once `platform` has set it up; system `python3` may not build the kit's evaluator) and the CPU budget (at
-most 4 local worker processes per subagent; longer runs go to Modal: `avalon-rig` for the tester, `avalon-theory` for
-theory). Spawn in ONE message, in the background:
+BUILDER once `platform` has set it up; system `python3` may not build the kit's evaluator) and the CPU budget (a
+worker count per subagent, 2 as a rule, about 6 for your whole session; longer runs go to Modal: `avalon-rig` for the tester, `avalon-theory` for
+theory) and the role's own pre-event note (`theory`: `notes/pre/variants.md`; `tester`: `testplan.md`; `scout`:
+`field.md`; `analyst` and `scout`: `stat_definitions.md`; all, in case F: `format_finals.md`). Spawn in ONE message, in
+the background:
 - `theory` x3 (the speedrun showed this lands everything by minute 12): (1) hand ranking + ICM thresholds by minute
   10; (2) the twist's option values and the twist decision rule (`theory/out/twist_rule.json`) by 15; (3) push/fold,
   call tables and break-evens by 15, `theory/HANDOFF.md` by 20. As each lands, `SendMessage` BUILDER one line with the
-  path and the headline (e.g. "pairs are the worst hands here"): BUILDER broadcasts it so nobody re-derives it.
+  path and the headline (e.g. "pairs are the worst hands here"): BUILDER broadcasts it so nobody re-derives it. Relay
+  a number only from the file itself, opened by you, never from a subagent's progress line: quote the file's
+  `version` and `made`, and say so if `fallback` is true (in two timed runs wrong numbers were relayed for 8 and 19
+  minutes).
 - `analyst`: parsers for today's hand-history format and `analysis/roundcard.py <round folder>` (card in under 60 s;
   stage folder `analysis/<stage>/`, the stage name with spaces as '-') ready for practice 1's download (about minute 25).
 - `tester`: check the rules card (`bot/rules.json`) against the kit and `notes/format.md` as soon as both exist; the
@@ -91,7 +102,8 @@ theory). Spawn in ONE message, in the background:
 
 Then, still in the build hour:
 - **About minute 10 (when v1 exists): a dry-run download.** `analyst` generates a synthetic round in the exact
-  hand-history format in `/tmp/dryrun/` (never `data/rounds/`): about 24 tables on the kit's engine with v1 and the
+  hand-history format in a fresh folder, `/tmp/dryrun-<HHMM>/` (never `data/rounds/`, and never a `/tmp/dryrun/` left
+  by an earlier run): about 24 tables on the kit's engine with v1 and the
   sparring bots, exported by the kit's own history code. It runs `roundcard.py`, `fp_train.py` and `field_trend.py`
   on it, checks two numbers against a direct count, and tries a truncated copy of the file. It's the only end-to-end
   test of the data path before practice 1 (in the speedrun it found three bugs that would have broken practice 1). Its
@@ -100,10 +112,12 @@ Then, still in the build hour:
 - **About minute 12 (when the first tables are in): theory wave 2.** The twist's value with betting, multiway all-in
   tables, the value of what the twist reveals about neighbours, and the tables' field columns refitted against
   variant-aware sparring. Don't let `theory` sit idle.
-- **On every release after v1** (BUILDER sends "RELEASED vN <sha256> ..."; v1's verdict comes from the minute-0
-  `tester`, which has the rig): spawn a fresh `tester` for that release, in parallel
-  with any others (one tester continued serially fell behind by three releases). Its verdict goes to BUILDER for the
-  `VERSIONS.md` line. **No bot plays a scored round without a tester verdict that includes a heads-up run** (heads-up
+- **On every release after v1** (v1's verdict comes from the minute-0 `tester`, which has the rig). The zip starts
+  the tester, not the message: a release exists when `releases/vN.zip` and its `VERSIONS.md` line exist, and the
+  tester checks the sha256 first; BUILDER's "RELEASED vN <sha256> ..." only adds the checks done. Nothing wakes you
+  when a file lands, so on every wake-up look for new files first (`ls -lt releases theory/out rig/out | head`): spawn a fresh `tester` for that release, in parallel
+  with any others (one tester continued serially fell behind by three releases). Its verdict is the file
+  `rig/out/verdict-vN.md`, written by the tester when it finishes: send BUILDER the path and its first line at once. **No bot plays a scored round without a tester verdict that includes a heads-up run** (heads-up
   decides 50 vs 30 points). Every verdict reports the kit's `check_or_fold` floor in the same field and the load
   average: in the speedrun's variant the do-nothing bot scored as well as ours in a field that busts itself, which is
   a PLAN CHALLENGE-sized fact if it holds on the real field.
