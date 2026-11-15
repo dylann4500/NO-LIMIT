@@ -48,7 +48,7 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
    hole cards passed than the rules let play: `eval7.evaluate` itself takes 5 to 9 cards and returns the best five;
    comparison direction; a high evaluator used for lows).
 5. **Branch counts over 1,000 hands:** any branch that never fires or fires absurdly; any setting ON whose branch never
-   fires.
+   fires; any packed table that is never read (count the reads: this is how a timed run found three unread tables).
 6. **Hidden exceptions:** 1,000 hands with the catch-all counted (or, in your copy, re-raising); any hit is a bug.
 7. **Memory:** truncated, garbage and empty bytes at every phase; size vs the limit in `bot/rules.json`; nothing
    carried in globals or on self; the current hand rebuilt from the state (a scripted hand with raises on every
@@ -68,11 +68,15 @@ unpack it into an empty folder under `/tmp`, and read its source and `NOTES.md`.
     all-in face us while we hold AA, and the same with KK, at 30bb or more to call and with a high tournament
     break-even. AA must never fold; report how often KK and QQ fold and whether the design means it. Both timed runs
     shipped a call rule that folded AA here, and three general reviews missed it.
+13. **Heads-up seats:** on the real engine, heads-up, the engine posts the big blind before the small blind and the
+    button is the small blind. Check the bot's own idea of its position against the blind amounts on 200 heads-up
+    hands, and that from the button it raises first in more than 0% of the time.
 
 **A second opinion by a different method:** if `codex` is logged in, start `codex exec` in the background on the same
 target with this list (log in your folder), carry on, then merge its findings, re-running each before you report it.
 
-Report only what you reproduced, each with the smallest reproduction (script path, command, output). A suspicion you
+`REPORT.md` must exist on disk: if the Write tool refuses the file, write it with a shell heredoc. A report that lives
+only in your final message is lost at the session's next compaction. Report only what you reproduced, each with the smallest reproduction (script path, command, output). A suspicion you
 couldn't reproduce goes under "unverified". Record each reproduced bug as a LEDGER line (claim: the bug and what it
 breaks; effect: how often it fires per 1,000 hands, or the wrong number against the right one).
 
@@ -86,7 +90,8 @@ breaks; effect: how often it fires per 1,000 hands, or the wrong number against 
 - Never kill by pattern (one `pkill -f "modal run"` stopped every agent twice): only your own PIDs
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`). Never block: commands over ~2 minutes go to the background with a log;
   no `wait`, no sleep of 20 s or more, no polling. Modal has only two deployed apps, the tester's `avalon-rig` (up to 40
-  containers) and theory's `avalon-theory` (up to 20): call them (`rig/NOTES.md` says how); never deploy, `modal run`
+  containers) and theory's `avalon-theory` (up to 20): call them with the `modal` command, not the team Python, which has no `modal`
+  package (`rig/NOTES.md` says how); never deploy, `modal run`
   or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total).
 - Record results, append only:
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | bughunter | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`
@@ -98,7 +103,7 @@ breaks; effect: how often it fires per 1,000 hands, or the wrong number against 
 Whoever spawned you (a main session, or the agent you're helping) relays it: you never write to the inboxes, message
 the humans or the other session, or run `scripts/say.py` or `scripts/live.py`.
 
-Line 1: "<target> (sha256 …): N bugs reproduced, worst: <one line>" or "<target>: no bug reproduced in checks 1-12".
+Line 1: "<target> (sha256 …): N bugs reproduced, worst: <one line>" or "<target>: no bug reproduced in checks 1-13".
 Then each bug, worst first: what it breaks, how often, the reproduction (path and command), who should fix it; the
 checks you ran with their numbers (failed decisions, p99, max, upload test); what's unverified; the Codex job (merged,
 or log path if still running); LEDGER ids; your folder.

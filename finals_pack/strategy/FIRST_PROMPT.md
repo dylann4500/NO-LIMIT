@@ -142,7 +142,7 @@ expensive scoring with a cheap rule of thumb and keep the cheap one if it is as 
   opponents can hold, and remove every card we know is dead from all sampling.
 - model what our OWN twist choice reveals to the others.
 - if the twist has a budget or resource (chips of another kind, a limited number of uses), plan it over
-  a whole table (about 150-160 hands in case F by simulation, 120-140 in case R; a currency left at the end is worth nothing), read opponents'
+  a whole table (150-175 hands in case F, 120-140 in case R; a currency left at the end is worth nothing), read opponents'
   public balance changes as information about their hands, and check what a failed decision costs.
 - when everyone's choices decide the twist together (an auction, a vote), tune ours against opponents
   who also play it well, not only against sparring bots that play it badly.

@@ -52,7 +52,8 @@ corner.
   right price; shove-or-fold first in at about 12bb or less (a case-R depth: with case F's antes a fold-through wins 2.7bb, not
   1.5, so recompute it, `notes/pre/format_finals.md`); fold one pair to raises and large late bets unless that
   seat has shown bluffs; fold to a 3-bet of our open no more than break-even (`theory/out/exploit.json`; usually
-  65-75% in case R and about 59-68% with case F's antes; a starting value). If the field pays for limping or flat-calling, that's a finding, not a failure.
+  65-75% in case R and about 59-68% with case F's antes, and about 57% for the open size a timed run used; a starting value: take
+  today's from `theory/out/exploit.json`). If the field pays for limping or flat-calling, that's a finding, not a failure.
 - **Adapt to seats, not "table mood":** blend the seat's live count with a prior, grow with observations, cap it, stay
   conservative on small counts. Against seats that raise, re-raise or shove a lot, call off and re-raise wider; tighten
   only against seats that call too much. Each adaptive rule is a named setting. Heads-up and three-handed get their
@@ -65,7 +66,10 @@ corner.
 - **Test every folder before reporting:** name today's variant explicitly in every local run (the kit's engine defaults to plain
   hold'em); pack it with the platform's pack command into
   `candidates/<name>/build/<name>.zip`, run the platform's check command on it (0 failed decisions, 0 catch-all, p99,
-  the upload test with no time bank, branch counts, the style report and defaults counts), give its sha256. Local
+  the upload test with no time bank, branch counts, the style report and defaults counts), give its sha256. Once you have
+  reported a zip, never repack it in place or edit that folder: a change is a new folder or a new zip name (releases
+  and testers held different bytes of one style in a timed run: three packings of C folded 18, 33 and 48% to a
+  flop bet). Local
   results against our own bots are sanity only; the practice rounds judge strength.
 - **Fan out:** one stylist per change. If your brief holds several, spawn up to 4 helpers yourself (in one message, one
   job and one output file each: one change, one folder), merge their results, then report. Sparring: run
@@ -81,7 +85,8 @@ corner.
 - Never kill by pattern (one `pkill -f "modal run"` stopped every agent twice): only your own PIDs
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`). Never block: commands over ~2 minutes go to the background with a log;
   no `wait`, no sleep of 20 s or more, no polling. Modal has only two deployed apps, the tester's `avalon-rig` (up to 40
-  containers) and theory's `avalon-theory` (up to 20): call them (`rig/NOTES.md` says how); never deploy, `modal run`
+  containers) and theory's `avalon-theory` (up to 20): call them with the `modal` command, not the team Python, which has no `modal`
+  package (`rig/NOTES.md` says how); never deploy, `modal run`
   or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total).
 - Facts about rounds only from `state/status.md` and `data/`, with their time. Record measured results, append only:
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | stylist | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`
@@ -103,6 +108,9 @@ style you'd play next and why (LEDGER ids); what's unverified; running jobs or "
 - Before simulating any equity, read `notes/LEDGER.md`, `theory/out/ranking.json`, `twist.json`, `twist_rule.json` and
   `theory/HANDOFF.md`: the variant's big finding is probably already there. Don't re-derive preflop equities (five
   agents did, with slightly different keep rules, and the numbers disagreed).
+- Count every twist default taken (a zero bid, a keep), every base action your style overrides and every fallback in
+  a counter of its own, and print them in the check's style report: one style counted its zero bids under the wrong
+  setting, so the bug read as the base's behaviour.
 - Add a self-check counter for every platform-derived field your style relies on (position, blinds, stack depth,
   players left): a style's own mismatch counter found the heads-up blind swap that the platform's checks missed.
 - Before each repack: `git log -1 -- bot/INTERFACE.md`; if it changed, re-read the settings list (a renamed setting

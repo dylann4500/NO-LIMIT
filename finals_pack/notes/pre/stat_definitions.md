@@ -10,7 +10,8 @@ The definitions behind the regional reference values in `field.md` Appendix A.
 
 - **Unit.** Chances and events are counted per team, over all its seats in the file. Filler seats and our
   own actions are excluded; hands we are in are not.
-- **Default: the team-equal mean.** Average the teams' rates, counting only teams that raise (PFR 3%+) and
+- **Default: the team-equal mean.** Average the teams' rates, counting only teams that raise (PFR 3%+; PFR is defined at the end of
+  this list) and
   have 20+ chances. Every threshold in `field.md` section 3 and every number in the plan means this figure.
   (Appendix A averaged all teams seen, which differs only for limps and short shoves.)
 - **Pooled by opportunity** (all opponents' chances added up) is the rate we meet at a random spot. Use it
@@ -55,9 +56,10 @@ common non-all-in open at over 20bb, in 0.25bb bins; its modal 3-bet is the rais
 - Amounts: a call's amount was chips added; a raise's was the raise-to total for the street; an all-in was a
   raise whose added chips met or passed the chips behind. A street's first bet may be logged as a `raise` event
   (it was in a mock kit on 14 November): check before counting bets.
-- The big blind was the seat of the last blind posted. An ante, straddle or dead blind breaks that, and every
-  row naming the big blind with it. Check heads-up on its own (the button posts the small blind and acts first before
-  the flop): on that mock kit the rule mislabelled 25% of heads-up hands.
+- The big blind is the seat that posted the larger blind. (This note first said "the seat of the last blind posted":
+  that is wrong heads-up, where the engine posts the big blind first and the button, the small blind, last; it
+  mislabelled 25% of heads-up hands in one timed run and positions in another. Antes are separate `ante` events
+  posted before the blinds.) A straddle or dead blind still breaks every row naming the big blind.
 - A street began at each board event. The twist's events (discards, reveals, bids) were skipped; a twist that
   adds a betting round or moves the flop shifts the postflop rows. Nothing here counts the twist itself: add today's
   (how often each option is taken, with which card) once the format is known.

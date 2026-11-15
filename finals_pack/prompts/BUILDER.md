@@ -13,6 +13,8 @@ of each release). They may spawn their own helpers.
 
 ## Start-up (now, before anything else)
 
+0. If `Monitor`, `SendMessage`, `ListAgents` or `TaskStop` are listed as deferred tools (the desktop app does this),
+   load them first: `ToolSearch` with `select:Monitor,SendMessage,ListAgents,TaskStop`.
 1. Start your inbox first, before any reading (the feed shows only lines posted after it starts, and the reading
    below takes minutes): run the Monitor tool on `python3 scripts/feed.py builder` (timeout: the maximum, 30 minutes).
    Every line that arrives wakes you; a long clock line can arrive cut off, so read it whole with
@@ -49,7 +51,10 @@ of each release). They may spawn their own helpers.
 
 ## Minute 0 (the clock posts `b0`, or Dylan says the variant is announced)
 
-If minute 0 has already passed when you see `b0` (a late start, a restart), it's a reminder: check what's already
+A subagent reports only when it ends, so for each deliverable you are waiting on (`bot/rules.json`, the interface
+stub, `releases/v1.zip`) arm a one-shot background watcher that exits when the file appears (`CLAUDE.md` hard rule 7):
+it wakes you. Re-arm the inbox Monitor when `b0` arrives, whatever time it has left, so that it next expires at minute 30 and not
+in the middle of the first picks. If minute 0 has already passed when you see `b0` (a late start, a restart), it's a reminder: check what's already
 running before you spawn anything.
 1. **Which case?** The first thing to establish (`CLAUDE.md` §8): is the table case F (6 players, 6,000 chips, antes) or case R (8 players, 2,000 chips, no ante),
    or something else? The kit's `state.config` and `RULES.md` and the Format page decide; `platform`'s rules card says
@@ -86,7 +91,10 @@ running before you spawn anything.
    `notes/format.md`. A team with no active bot scores zero.
 5. **Every release, from v1 on (D's included):** spawn a fresh `bughunter` on it at once (background, at most 8
    minutes; its brief names, as one question, the code path this release changed: general reviews missed a bug
-   that a narrow question found in under 4 minutes), and `SendMessage` RESEARCH "RELEASED vN <sha256> <one line>" so it spawns a tester for it. In the
+   that a narrow question found in under 4 minutes), and `SendMessage` RESEARCH "RELEASED vN <sha256> <one line>" so it
+   spawns a tester for it. A candidate you mean to pick gets its bughunter earlier, when its builder reports it legal:
+   a hunt takes 3-8 minutes and a pick is declared 3 minutes before its practice, so in a timed run every pick was
+   declared before its own review came back; its release then only confirms the bytes are the reviewed ones. In the
    speedrun both reviewed early releases had a real problem, and a release without a tester verdict shipped a
    heads-up regression. **No bot plays a scored round without a tester verdict that includes a heads-up run.**
 
@@ -94,7 +102,9 @@ running before you spawn anything.
 
 - Styles and design D were legal by minute 12-13 in one speedrun, so even practice 1 (minute 20) can play a style or
   D, not only the base. In a second run they were legal at minutes 16-29: nothing can be packed before `platform`'s
-  packer exists, and it landed at minute 15. Styles are legal 2-4 minutes after the packer.
+  packer exists, and it landed at minute 15. Styles are legal 2-4 minutes after the packer. In a third run design D,
+  which carried its own betting code, was legal at minute 11 and took practice 1; the styles followed at 17-19, once
+  the platform could be imported.
 - **You pick the bot for each practice: the most informative test**, not a fixed rota (DECISION_RULES §3
   "Exploration"): one practice must be design D; every style rebuilt on the current **base** before its upload,
   so practice scores compare styles, not timing. By 3 minutes before each practice the pick is released and
@@ -119,7 +129,7 @@ running before you spawn anything.
 - **Keep the stylists working:** once A/B/C are legal (minutes 12-29 in the two timed runs), continue the same `stylist` agents
   (SendMessage) for rebuilds and one-change candidates; a continued agent rebuilt in 1-2 minutes.
 - **CPU:** if `uptime` shows load above the core count, ask RESEARCH to move its rig to Modal and pause local fan-out
-  before any upload test; an upload test counts only next to the kit's `check_or_fold` run in the same minute.
+  before any upload test (say "no local match or Monte Carlo runs until HH:MM; Modal clients are fine"); an upload test counts only next to the kit's `check_or_fold` run in the same minute.
 - When a practice result lands (inbox), read `analysis/<stage>/card.md` and `field_trend.md` (stage with spaces as
   '-', e.g. `analysis/Practice-1/`) and RESEARCH's read.
 - **Round 1** (DECISION_RULES §3 "Round 1"): at minute 50, once practice 4 has started, `live.py` the tester's adjusted best scorer of practices
@@ -171,7 +181,8 @@ alternative for the next practice. A challenge never waits for the next schedule
   (SendMessage to its id) so it keeps its context; start a fresh one if it errored, drifted or its context is long.
   Exceptions: a fresh `bughunter` for every release; a fresh `challenger` for design D.
 - Independent work runs in parallel (several subagents in one message, each in its own folder). Only `platform`
-  touches `bot/` and `releases/`.
+  touches `bot/` and `releases/`; only you ask for a release, and with more than one platform run live you give the
+  version number in the brief.
 - When a subagent reports, check its claims (open the file, run the check) before you tell anyone. A bug a
   `bughunter` reproduces goes to `platform` first; one in a table or rule that came from `theory/` goes to RESEARCH
   with the report's path (theory fixes it and re-issues; `platform` builds the re-issue in).

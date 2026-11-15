@@ -120,12 +120,18 @@ hands against the mixed field the packed zip opens at least once, takes the twis
 and reports at least one firing of a style hook; a style whose import fails or whose hook raises fails the pack. A
 candidate that never opens or never uses the twist fails the check, whatever else passes (in a timed run the base
 called no style hooks, and three styles passed every check playing pure check-fold). (11) the deep all-in call: with 3
-or more players, facing an all-in after an open and callers at 30bb or more to call, AA never folds; count KK and QQ.
+or more players, facing an all-in after an open and callers at 30bb or more to call, AA never folds; count KK and QQ. (12) **every
+packed table is read**: the check run's report counts reads per table over about 200 hands, and a table with no
+reads fails the pack unless the VERSIONS line names it as deliberately unused (a table that is never looked up fails
+nothing else: in a timed run the base ignored three of theory's tables for 7 minutes and passed every check).
 
 **Releases:** checks 1-2 and the upload test on the exact zip, always (hard rule). A bot plays a scored round only with
 a `tester` verdict that includes a heads-up run (RESEARCH spawns one tester per release); the verdict of record is the tester's own file
 `rig/out/verdict-vN.md`, which you never copy: the VERSIONS line says "tester: pending" until that file exists and
-"tester: rig/out/verdict-vN.md" from your next commit after it does. Name = the next free vN in `releases/VERSIONS.md`; pack only the bot. The zips are git-ignored and
+"tester: rig/out/verdict-vN.md" from your next commit after it does. Name = the next free vN in `releases/VERSIONS.md`, or the number BUILDER's brief gives when more than one platform run
+can release (two runs once appended v9 and v10 at the same moment); a release replaced before anyone reviewed it
+keeps its line, marked "superseded by vN before review"; pack only the bot, and for a candidate only the bytes its builder reported (check the sha256, or the git blob of its
+style file, against the report: a style changed 18 seconds after its release was packed). The zips are git-ignored and
 stay on this laptop: commit with explicit paths (`git add bot/ candidates/<folders used>`), then add the VERSIONS.md
 line (format at its top) with that commit's sha and the zip's sha256 (`shasum -a 256 releases/vN.zip`) and commit it
 too (`git add releases/VERSIONS.md`); never `git add` a zip, never `git add -A`, stash, `checkout -- .`, `restore .`,
@@ -148,7 +154,8 @@ one message, one job and one output file each), merge their results, then report
 - Never kill by pattern (one `pkill -f "modal run"` stopped every agent twice): only your own PIDs
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`). Never block: commands over ~2 minutes go to the background with a log;
   no `wait`, no sleep of 20 s or more, no polling. Modal has only two deployed apps, the tester's `avalon-rig` (up to 40
-  containers) and theory's `avalon-theory` (up to 20): call them (`rig/NOTES.md` says how); never deploy, `modal run`
+  containers) and theory's `avalon-theory` (up to 20): call them with the `modal` command, not the team Python, which has no `modal`
+  package (`rig/NOTES.md` says how); never deploy, `modal run`
   or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total).
 - Facts about rounds only from `state/status.md` and `data/`, with their time. Record measured results, append only:
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | platform | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`
@@ -173,13 +180,21 @@ tells him); LEDGER ids; what's unverified; running jobs (PID, log, ETA, Modal ap
   the import check go first in your report and at the top of the `bot/INTERFACE.md` stub (BUILDER passes it on), so
   every agent uses it (two agents built their own venvs otherwise). Check the kit's local play command really plays
   today's variant (a mock kit defaulted to plain hold'em) and set the variant explicitly in every test.
+- **A stub is not enough to build against.** Stylists can draft from the stub but can pack and check nothing until
+  the platform imports: right after the stub, before any strategy, ship an importable skeleton (`agent.py`, the
+  style hooks, a base that only checks or folds) that the pack and check commands accept. In a timed run the engine
+  was written first and three stylists waited 7 minutes.
 - **Publish a stub `bot/INTERFACE.md` by minute 6:** setting names, hook signatures, the pack and check commands, even
   before the code works; then fill it in. Stylists sat idle until the interface existed.
 - **Never fail silently:** unknown style settings make the pack fail (a style's own settings, declared in its folder,
-  are known: the 14 November run's packer rejected them until it accepted a `STYLE_` prefix); a theory table with the wrong schema raises with
+  are known: the 14 November run's packer rejected them until it accepted a `STYLE_` prefix); a constant that comes from a theory table (a budget, a scale) is read from the table, never typed into the bot (a
+  rule's budget constant was halved in a re-issue and the bot kept the old one for six releases); a theory table with the wrong schema raises with
   the keys found; the packer prints every file it drops (and never drops tables silently for size); a rebuilt zip
   overwrites the old one atomically and prints its sha256. When you rename a setting, keep the old name as an alias for
   one release and note the rename in INTERFACE.md.
+- **Heads-up blinds:** heads-up the engine posts the big blind before the small blind, and the button is the small blind (the regional kit's engine, with or without antes; antes are
+  separate events before the blinds). Take the blinds by amount, never by posting order. Before the first release,
+  play a heads-up table on the real engine and check the button raises first in more than 0% of the time.
 - **Minute-0 checks that caught real bugs:** positions (button, small blind, big blind) derived from the state and
   compared with the engine's blind events at 2, 3 and a full table of players (a heads-up blind swap shipped otherwise); ICM with a
   seat busted this hand gets its place's payout (the kit's `icm()` scores it 0: the regional's bug, again).

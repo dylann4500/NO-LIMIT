@@ -14,6 +14,8 @@ may spawn their own helpers.
 
 ## Start-up (now, before anything else)
 
+0. If `Monitor`, `SendMessage`, `ListAgents` or `TaskStop` are listed as deferred tools (the desktop app does this),
+   load them first: `ToolSearch` with `select:Monitor,SendMessage,ListAgents,TaskStop`.
 1. Start your inbox first, before any reading (the feed shows only lines posted after it starts, and the reading
    below takes minutes): run the Monitor tool on `python3 scripts/feed.py research` (timeout: the maximum, 30 minutes).
    Every line wakes you; a long clock line can arrive cut off, so read it whole with `tail -n 3 inbox/research.log`.
@@ -76,7 +78,8 @@ may spawn their own helpers.
 
 ## Minute 0 (the clock posts `b0`)
 
-If minute 0 has already passed when you see `b0` (a late start, a restart), it's a reminder: check what's already
+Re-arm the inbox Monitor when `b0` arrives, whatever time it has left, so that it next expires at minute 30 and not
+in the middle of the first picks. If minute 0 has already passed when you see `b0` (a late start, a restart), it's a reminder: check what's already
 running before you spawn anything. The first thing to establish is which case the table is (`CLAUDE.md` §8): case F
 (6 players, 6,000 chips, antes), the main case, or case R (8 players, 2,000 chips, no ante). BUILDER tells you from
 `platform`'s rules card; until then every brief says "expect case F; check the kit first", and when it is known you
@@ -115,8 +118,14 @@ Then, still in the build hour:
 - **On every release after v1** (v1's verdict comes from the minute-0 `tester`, which has the rig). The zip starts
   the tester, not the message: a release exists when `releases/vN.zip` and its `VERSIONS.md` line exist, and the
   tester checks the sha256 first; BUILDER's "RELEASED vN <sha256> ..." only adds the checks done. Nothing wakes you
-  when a file lands, so on every wake-up look for new files first (`ls -lt releases theory/out rig/out | head`): spawn a fresh `tester` for that release, in parallel
-  with any others (one tester continued serially fell behind by three releases). Its verdict is the file
+  when a file lands unless you arm it: a one-shot background watcher per file you wait for (`CLAUDE.md` hard rule 7),
+  and on every wake-up a look for new files first (`ls -lt releases theory/out rig/out | head`): spawn a fresh `tester` for that release, in parallel
+  with any others (one tester continued serially fell behind by three releases). But a release that replaces one
+  whose verdict is not out yet gets no second tester: retarget the running one to the new release and keep the old
+  release as an extra paired arm. Testers share the rig's containers, so jobs queue: with another tester running, a
+  mix job took 181 s and 196 s against 68 s and 44 s alone, and five releases came in 7 minutes; keep each job small
+  while another runs (run C's RESEARCH proposed at most 1,000 tables a job), and ask BUILDER which verdict it needs
+  first. Its verdict is the file
   `rig/out/verdict-vN.md`, written by the tester when it finishes: send BUILDER the path and its first line at once. **No bot plays a scored round without a tester verdict that includes a heads-up run** (heads-up
   decides 50 vs 30 points). Every verdict reports the kit's `check_or_fold` floor in the same field and the load
   average: in the speedrun's variant the do-nothing bot scored as well as ours in a field that busts itself, which is

@@ -134,7 +134,7 @@
   {
    "when": "b30",
    "to": "research",
-   "text": "Practice round 2 plays now. Practice 1's data should be in data/rounds/ (look; if it is not, say so to Samuel and BUILDER and carry on with what exists); spawn the practice-2 tasks on its DATA LANDED (about minute 35), never to wait for it.",
+   "text": "Practice round 2 plays now. Practice 1's data should be in data/rounds/ (look; if it is not, say so to Samuel and BUILDER and carry on with what exists); spawn the practice-2 tasks on practice 2's own DATA LANDED (about minute 35, the same 5 minutes after the round as practice 1's), never to wait for it.",
    "tasks": [
     [
      "theory",

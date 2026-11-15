@@ -37,7 +37,9 @@ crowded, what punishes them, practice 1's field (mostly minimal bots) vs round 3
   calibration (ECE, 10 bins), drift per team, profiled-us, adaptation and the yardstick teams, and writes
   `analysis/<stage>/fp/` by the analyst's stage rule (`$AVALON_STAGE` with spaces as '-', e.g. `analysis/Round-2.5/fp/`;
   else the round folder's name without its `NN-` prefix with its first letter capitalised (`06-round-2.5` → `Round-2.5`); else `kit-sample`). Quick mode under 60 s; full under 2
-  minutes.
+  minutes. The earlier round it compares with is the latest lower-numbered `NN-` folder under `data/rounds/` that has
+  already been analysed, never a dry-run or test folder; teams are matched across rounds by team name (entry ids
+  change every round).
 - **~minute 35 (when practice 2's data lands):** the first FIELD TREND from practices 1-2 (practice 1's field is mostly minimal bots: say so), first
   profiles, recogniser accuracy (same-round) and how identifiable we are.
 
@@ -51,7 +53,9 @@ crowded, what punishes them, practice 1's field (mostly minimal bots) vs round 3
    `state/rounds_seen.json`; never print the key, never anything but GET). Then the field's rates this round vs
    earlier ones (open, limp, 3-bet, fold to 3-bet, open-shove by depth, fold to a bet by street, the twist's use; each
    counted as `notes/pre/stat_definitions.md` defines it: the plan's bands mean the team-equal mean), each with its
-   change in SE; the style cluster of the 5 best teams and how it moved; the yardstick teams; and all seven
+   change in SE; the style cluster of the 5 best teams and how it moved; the yardstick teams (before calling a move in a field rate a
+   trend, check it on pots we are not in: a rate measured against us moves when our own bot changes, as "fold to
+   3-bets" did from 46.0 to 39.4 between two rounds whose opponents were unchanged); and all seven
    plan assumptions of DECISION_RULES §5, each checked with data, n and SE. **An assumption off by 2 SE or more, or a
    top-5 cluster that moved, is a PLAN CHALLENGE:** report it at once (if your brief also holds the card, end the run,
    say "card not started", and let RESEARCH spawn it).
@@ -86,6 +90,8 @@ memo when §5's trigger fires (§6: close rare-spot gaps first; a size mask work
 
 ## How to do it well
 
+- Positions in a download: identify the blinds by amount, never by posting order (heads-up the engine posts the big
+  blind first and the button is the small blind; antes are separate events before the blinds).
 - The live bot sees anonymous seats and recognises teams by naive Bayes over bet-size and action tokens (§1); downloads
   have no timing data.
 - Never put team profiles into default play: counters only behind `CTR_<team>`. Nothing learned at one table carries
@@ -104,7 +110,8 @@ memo when §5's trigger fires (§6: close rare-spot gaps first; a size mask work
 - Never kill by pattern (one `pkill -f "modal run"` stopped every agent twice): only your own PIDs
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`). Never block: commands over ~2 minutes go to the background with a log;
   no `wait`, no sleep of 20 s or more, no polling. Modal has only two deployed apps, the tester's `avalon-rig` (up to 40
-  containers) and theory's `avalon-theory` (up to 20): call them (`rig/NOTES.md` says how); never deploy, `modal run`
+  containers) and theory's `avalon-theory` (up to 20): call them with the `modal` command, not the team Python, which has no `modal`
+  package (`rig/NOTES.md` says how); never deploy, `modal run`
   or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total). Hand histories never leave this machine.
 - Record every measured result, append only:
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | scout | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`

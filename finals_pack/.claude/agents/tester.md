@@ -21,8 +21,11 @@ verdicts given). Read-only: `bot/`, `candidates/`, `releases/`, `analysis/`, `th
 **Pre-event** (if briefed; notes only, NO code): `notes/pre/testplan.md` (FIRST_PROMPT Part 0, topic D). A draft from 14 November is already there: check and extend it in place and list what changed at the top; don't start over.
 
 **Every release, from v1 on** (v1's from the build-hour tester that builds the rig; from v2 on RESEARCH spawns one fresh
-tester per release): its verdict (below), always including a
-heads-up run (`--players 2`). A bot plays a scored round only with a tester verdict that includes one.
+tester per release, or retargets you to a release that replaced yours before your verdict: keep the old one as an extra
+paired arm): its verdict (below), always including a
+heads-up run (`--players 2`). A bot plays a scored round only with a tester verdict that includes one. For a release
+that changes heads-up play, also run it head to head against the live bot: against the sparring mix one heads-up
+fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0.4.
 
 **Build hour:**
 - **~minute 5:** check `bot/rules.json` field by field against the kit and the Format page, its first line (case F or
@@ -31,7 +34,9 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   report any mismatch first.
 - **By 15, `rig/compare.py LIVE CAND... --tables N --field F [--players 2]`** (Part 3a): per candidate, points per
   table ± SE, the paired difference vs LIVE ± SE, failed decisions, p99, p99.9 and max decision time by phase (judge on p99.9 beside the
-  `check_or_fold` baseline: the max spikes under load). Each bot is kept apart from the others: its own process, or its
+  `check_or_fold` baseline: the max spikes under load). It saves each bot's points per table, so two
+  runs on the same seeds can be paired afterwards, and it copies the theory tables its sparring bots play at the start
+  of a run (a table re-issued mid-run changed the sparring play between two pairings). Each bot is kept apart from the others: its own process, or its
   own module name with no shared globals (two zips both ship `agent.py`: in a timed run both rigs ran the wrong bot's
   code for 24 minutes). The rig's first act in every run is a self-test: two different zips give different actions on
   the same deals, and one zip against itself gives a paired difference of exactly zero. Bots on the
@@ -43,7 +48,9 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
   little (paired SE ≈ 22/√tables for two different designs in case F, an estimate to measure, and 21 in case R, measured 18-28; about 11/√tables only for a one-change
   variant): use many. Then the **first verdict on v1**.
 - **Sparring fields**, sanity only: calls everything, shoves constantly, plays only premiums, re-raises wide (enough
-  copies of each to fill the table, five in case F and seven in case R, plus a mix), all playing the variant's own decision, some at random and some well. Losing to one by more
+  copies of each to fill the table, five in case F and seven in case R, plus a mix), all playing the variant's own decision, some at random and some well, and in every mix one
+  bot that makes legal but odd bets (minimum raises, 1-chip all-ins, tiny flop bets): sparring that bets by theory's
+  tables never triggers the bugs odd bets do. Losing to one by more
   than 2 SE means a hole.
 - **Modal:** one app `avalon-rig` (deploy once, `.map` over shards, up to 40 containers), image built in the background;
   size each window's runs from measured speed. Measured on 14 November with the regional kit and bots: 20,000 tables
@@ -95,7 +102,9 @@ heads-up run (`--players 2`). A bot plays a scored round only with a tester verd
 action at least once, and two different zips must act differently on the same deals; if not, the verdict is "bug:
 not live" and no strength number is given. Correct: crashes, illegal actions, timeouts, memory, miscounted statistics (scripted sequences), and
 the fixed spot both timed runs got wrong: facing an all-in after an open and callers with 3 or more players, deep, AA
-never folds (count the folds of AA, KK and QQ over a few thousand such spots; sparring fields rarely reach it); a change
+never folds (count the folds of AA, KK and QQ over a few thousand such spots; sparring fields rarely reach it), and
+heads-up the bot's position agrees with the blind amounts and its button raises first in more than 0% of the time (the
+engine posts the big blind first heads-up; a bot and a parser each read it by posting order and got the seats wrong); a change
 that targets a rate shows it locally against field-like sparring, within about 5 points. Stronger: paired vs the LIVE
 bot, 2,000+ deals per field; after round 1 the cloned field. Evidence, not a gate: correct, legal, fast (p99 under 0.5
 ms on an idle core) and not catastrophically worse (better than −2 points per table) is fit for a practice round or

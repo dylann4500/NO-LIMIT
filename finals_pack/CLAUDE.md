@@ -49,14 +49,14 @@ Your own start-up instructions are in `prompts/BUILDER.md` or `prompts/RESEARCH.
 | `state/variant.md` | the variant's rules text as the portal's own API gives it, saved the moment it is announced, with the portal's time for minute 0. A head start while the kit unpacks: the kit and the Format page still decide the rules card | portal watcher |
 | `state/schedule.json`, `state/clock.md` | minute 0, the round times, the next steps | clock |
 | `state/live.json` | the bot we have **decided** should be active next: each build-hour practice pick, then the round-1 bot, then each scored round's bot (never a window's challenger: BUILDER tells Dylan that file directly) | BUILDER only: `python3 scripts/live.py vN "why"` |
-| `state/decisions.md` | every decision asked of the humans: question, evidence, the rule's answer, deadline, the human's words, outcome | BUILDER (bots), RESEARCH (plan challenges) |
+| `state/decisions.md` | every decision asked of the humans: question, evidence, the rule's answer, deadline, the human's words, outcome | BUILDER (bots), RESEARCH (plan challenges): each appends under its own dated heading and never rewrites the other's entry |
 | `data/rounds/<NN-stage>/` | `results.json`, `round.json`, `hands-first-1000.jsonl.gz`, then `hands-full.jsonl.gz`, `played_by.txt` | portal watcher (never in git) |
 | `notes/format.md` | the organizers' Format page as Dylan pasted it at minute 0 (weights, payouts, cooldown) | BUILDER |
 | `bot/` | the platform (the bot's shared code) | `platform` only |
 | `candidates/<name>/` | styles, the challenger, fixes, each in its own folder | `stylist`, `challenger` |
 | `releases/vN.zip` + `releases/VERSIONS.md` | every released bot (zips stay local, git-ignored); one line each: commit, the zip's sha256, what changed, checks, role, and a pointer to the tester's verdict, which lives in the tester's own `rig/out/verdict-vN.md` | `platform` only (the verdict file: `tester`) |
 | `theory/out/*.json` + `theory/HANDOFF.md` | today's maths tables (ranking, ICM, push/fold, twist, break-evens): **the single source of preflop and equity truth**. Everyone reads them; nobody re-derives them (only the clean-room design D may compute its own) | `theory` |
-| `starter-kit/.venv/bin/python` | **the team's Python** for anything that needs the kit's SDK or its evaluator (set up once at minute 0 by `platform` and announced; system `python3` may not build the evaluator) | `platform` |
+| `starter-kit/.venv/bin/python` | **the team's Python** for anything that needs the kit's SDK or its evaluator (set up once at minute 0 by `platform` and announced; system `python3` may not build the evaluator). It has no `modal` package: Modal jobs are launched with the `modal` command (`modal deploy`, `modal run`), whose own Python has no kit, so the kit's code runs only inside the image, built from the kit's requirements | `platform` |
 | `analysis/` | parsers, `roundcard.py`, `fp_train.py`, `field_trend.py`; per round `analysis/<stage>/card.md`, `field_trend.md`, lens reports, where `<stage>` is the stage name with spaces as '-' (`analysis/Practice-1/`, `analysis/Round-2.5/`) | `analyst`, `scout` |
 | `rig/` | the test rig: paired runner, sparring bots, Modal fan-out | `tester` |
 | `notes/LEDGER.md` | what the team knows: one line per result (id, claim, effect ± se, n, method, file, status) | everyone appends; `tester` marks validated/disputed |
@@ -92,18 +92,25 @@ confirm it.
 5. The organizers' portal is read-only for agents. Only Dylan uploads.
 6. **Never kill processes by name or pattern** (`pkill`, `killall`, `pgrep | xargs kill`): every Claude process's
    command line contains these instructions, so a pattern like `pkill -f "modal run"` kills every agent. Stop only
-   what you started, by PID (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`; later `kill $(cat /tmp/<job>.pid)`) or
+   what you started, by PID (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`; later `kill $(cat /tmp/<job>.pid)`; put your role and target in
+   `<job>`, as in `/tmp/tester-v7-mix.pid`: every agent of a session shares `/tmp` and the scratchpad) or
    `modal app stop --yes <id>` (without `--yes` it asks for confirmation and aborts when there is no terminal). A hook
    refuses pattern kills. The same hook refuses recursive deletes outside the repo and `/tmp` (or of a whole shared
    folder), `git stash`, `git reset --hard`, `git clean -f`, force pushes, `sudo`, Modal deletes and any write to the
    organizers' site. A refused command means find another way (leave the folder, use a new name), not rephrase it.
 7. **Never block your turn**: no foreground `wait`, no `sleep` of 20 s or more, no loops that poll (the hook refuses a shell loop that sleeps, also
-   as a Monitor's command: a watcher must be a script, as `scripts/feed.py` is). Start long jobs in the
+   as a Monitor's command: a watcher there must be a script, as `scripts/feed.py` is). What is allowed, and is the way to
+   be woken when a file appears or a job ends: a one-shot in the background that exits on a condition, as a Bash call
+   with `run_in_background: true` (`until [ -f releases/v1.zip ]; do sleep 3; done`); you are notified when it exits. A
+   subagent waits for its own job the same way, and carries on with other work meanwhile. The hook adds up the
+   pauses in one command and reads quoted text too: a note containing "until" or "while" and a pause word is refused
+   as a loop, so put such text in a file with the Write tool. Start long jobs in the
    background with a log, end your turn, and check when woken. Main sessions: spawn subagents in the background
    (the default from a main session; say `run_in_background: true` if asked), so you stay free for the humans and
    the inbox.
 8. **Modal**: two deployed apps only, `avalon-rig` (the tester's, up to 40 containers) and `avalon-theory` (theory's, up
-   to 20), each deployed once and called many times with `.map`; every other role calls them or runs locally (20
+   to 20), each deployed once and called many times with `.map`, and launched with the `modal`
+   command, never with the team Python (it has no `modal` package); every other role calls them or runs locally (20
    containers between them).
    Never launch several `modal run`s at once: the workspace has an app-creation rate limit, and a rehearsal lost a
    round to it. Shared cap: 80 containers.
@@ -141,7 +148,8 @@ happen again.
 - **Fan out.** The day is time-boxed; serial work loses. Independent pieces run in parallel: several subagents in
   one message (each in its own folder), Modal for compute (the two deployed apps), Codex (`codex exec`) for second opinions if logged in (if one call
   fails on a rate limit, drop Codex for the day).
-  Subagents may spawn their own helpers (nesting stops at 3 levels; at most about 4 helpers each, one job and one
+  Subagents may spawn their own helpers, in the background whenever the spawner has other work (a foreground
+  helper cost one theory run 4.7 minutes; nesting stops at 3 levels; at most about 4 helpers each, one job and one
   output file per helper). Up to 40 subagents can run at once per session (`.claude/settings.json` sets
   `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=40`; the default is 20); past that a spawn fails, so finish or stop idle ones first.
 - **Brief subagents like new teammates**: objective, exact input files, output (files plus a report of at most 300
@@ -156,7 +164,9 @@ happen again.
   and the session checks `uptime` before any timing test and whenever it adds an agent; Monte Carlo or
   match runs longer than about a minute of CPU go to Modal (the two deployed apps, hard rule 8). A timing or upload test counts only
   if `uptime` shows load below the core count AND the kit's `check_or_fold` example runs in the same minute as a
-  baseline; otherwise say "inconclusive: machine loaded" and re-run. On this Mac a script that starts a process
+  baseline; otherwise say "inconclusive: machine loaded" and re-run. A request
+  for a quiet window ("nothing heavy locally until HH:MM") means no local match or Monte Carlo runs; Modal clients,
+  one light process each, carry on, and nobody stops work altogether. On this Mac a script that starts a process
   pool needs an `if __name__ == "__main__":` guard (without it, it forks in a loop), and there is no `timeout`
   command: cap a job inside Python or stop it by its PID.
 - **Silent fallbacks are bugs.** Every loader, packer, setting and table lookup fails loudly on a mismatch (unknown
@@ -194,7 +204,7 @@ says which case holds (F, R, or what differs from both), and BUILDER tells every
 | The field's mean score | 16.7 a table | 12.5 |
 | Tables one opponent shares with us | about a quarter: roughly 250 of 1,000 | about a third: 300-350 |
 | Equity to call all-in, equal stacks | 58.1% on hand 1; 60.6% with 5 left, 65.2% with 4, 57.1% with 3, pot odds heads-up | 55.6% on hand 1; the same from 4 left down |
-| Hands a table | about 155; a seat is dealt 105-115 (simulated) | about 131; a seat is dealt 90 |
+| Hands a table | about 155 simulated with regional bots, 163-174 measured in a timed run; a seat is dealt 105-115 | about 131; a seat is dealt 90 |
 | One bot's spread a table; paired noise | 18.9; about 22/√tables (estimate: measure it) | 17.9; about 21/√tables |
 | Sparring field | five copies beside the candidate | seven |
 | Rig speed | about 0.9 of the case-R rate (estimate: time the first job) | as measured in `tester.md` |

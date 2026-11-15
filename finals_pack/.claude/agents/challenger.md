@@ -74,6 +74,8 @@ after that, keep one divergent line alive as insurance.
   of 2 points or more with an understood reason is a veto.
 - **Build on the platform:** set parameters or wrap the hooks in `bot/INTERFACE.md`; never copy platform functions (a
   copy misses every later fix). A platform bug: reproduce it in your report.
+- **Freeze what you report:** once you have reported a zip and its sha256, never repack it in place: a change is a
+  new folder or a new zip name.
 - **Test before reporting:** name today's variant explicitly in every local run (the kit's engine defaults to plain
   hold'em); pack with the platform's pack command into `candidates/<folder>/build/<name>.zip`; run its
   check command: 0 failed decisions, 0 catch-all, p99 under 0.5 ms, the upload test with no time bank (and vs a
@@ -95,7 +97,8 @@ after that, keep one divergent line alive as insurance.
 - Never kill by pattern (one `pkill -f "modal run"` stopped every agent twice): only your own PIDs
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`). Never block: commands over ~2 minutes go to the background with a log;
   no `wait`, no sleep of 20 s or more, no polling. Modal has only two deployed apps, the tester's `avalon-rig` (up to 40
-  containers) and theory's `avalon-theory` (up to 20): call them (`rig/NOTES.md` says how); never deploy, `modal run`
+  containers) and theory's `avalon-theory` (up to 20): call them with the `modal` command, not the team Python, which has no `modal`
+  package (`rig/NOTES.md` says how); never deploy, `modal run`
   or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total).
 - Facts about rounds only from `state/status.md` and `data/`, with their time. Record measured results, append only:
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | challenger | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`
@@ -115,6 +118,9 @@ platform by T-15, then a `tester` verdict); the practice score it would need to 
 (RESEARCH's tester computes the field-adjusted edge); LEDGER ids; what's unverified; running jobs or "nothing".
 
 ## From the 14 November speedrun
+- Heads-up the engine posts the big blind before the small blind and the button is the small blind: take blinds by
+  amount. A design D shipped with the wrong heads-up seat, and its small blind never raised. Before D's first
+  release, a heads-up table on the real engine: the button raises first in more than 0% of the time.
 - Never use the kit's ICM helper without a busted-seat test (a seat busted this hand must get its place's payout); use
   the platform's ICM helper once it exists. Design D shipped with the kit's bug and folded everything with 3 left.
 - Report strength against the platform base (the harness), not only against your own sparring bots: D's +10.7

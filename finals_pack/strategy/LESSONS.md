@@ -217,6 +217,14 @@ neither exists any more.
   verdict reports the floor bot; if folding is that strong on the real field, it's a PLAN CHALLENGE.
 - A fresh repo ignored `.claude/settings.json` until the folder was trusted. **Rule:** START.md step: trust it once.
 
+## From timed run C (14 November, six seats, antes)
+
+- Heads-up the kit's engine posts the big blind before the small blind, and the button is the small blind. A bot
+  (design D) and the analyst's parser each took the last blind posted for the big blind: D's heads-up small blind
+  never raised, and the parser mislabelled positions. **Rule:** blinds are identified by amount; before a first
+  release a heads-up table on the real engine shows the button raising first in more than 0% of the time; the
+  bughunter and the tester check it on every release.
+
 ## From the 14 November checks against the real portal (read-only, the regional's finished rounds)
 
 - The watcher's hand-download address was a guess copied from our own rehearsal portal; the real portal answered it
