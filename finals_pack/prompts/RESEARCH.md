@@ -75,8 +75,8 @@ running before you spawn anything. The first thing to establish is which case th
 (6 players, 6,000 chips, antes), the main case, or case R (8 players, 2,000 chips, no ante). BUILDER tells you from
 `platform`'s rules card; until then every brief says "expect case F; check the kit first", and when it is known you
 send it to every running subagent. Every brief names the team Python (`starter-kit/.venv/bin/python`, announced by
-BUILDER once `platform` has set it up; system `python3` may not build the kit's evaluator) and the CPU budget (at
-most 4 local worker processes per subagent; longer runs go to Modal: `avalon-rig` for the tester, `avalon-theory` for
+BUILDER once `platform` has set it up; system `python3` may not build the kit's evaluator) and the CPU budget (a
+worker count per subagent, 2 as a rule, about 6 for your whole session; longer runs go to Modal: `avalon-rig` for the tester, `avalon-theory` for
 theory). Spawn in ONE message, in the background:
 - `theory` x3 (the speedrun showed this lands everything by minute 12): (1) hand ranking + ICM thresholds by minute
   10; (2) the twist's option values and the twist decision rule (`theory/out/twist_rule.json`) by 15; (3) push/fold,

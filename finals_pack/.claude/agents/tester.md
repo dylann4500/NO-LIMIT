@@ -125,7 +125,7 @@ candidate.
 - A rehearsal lost a practice round to Modal's app-creation rate limit: your one app is `avalon-rig` (up to 40
   containers; `modal app list` first: an earlier tester may have deployed it), never a second app or several
   `modal run`s at once; the team's total is 80 (theory's `avalon-theory` 20, other roles' calls 20); after a
-  rate-limit error, wait a minute. Locally: at most 4 worker processes.
+  rate-limit error, wait a minute. Locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total).
 - A "+36 points" result was a broken test. An uncalibrated cloned field built in the hour failed its own live-bot check
   (12.2 vs a real 18.4); a clone ranked unconditionally folded 27% to re-raises where its team folded 80%.
 - Local wins don't predict the field (+4.4 locally, 100th of 125). Timings under load aren't the platform's: use an

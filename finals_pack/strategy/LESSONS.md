@@ -199,7 +199,7 @@ neither exists any more.
 ## From the 14 November speedrun (a timed build hour on an unseen variant, this bundle)
 
 - About 12 agents running simulations locally pushed the load to 50 on 12 cores; the kit's do-nothing bot then failed
-  timing tests too. **Rule:** at most 4 local workers per subagent, long runs on Modal, and a timing or upload test
+  timing tests too. **Rule:** about 6 local workers a session, handed out by the session (2 a subagent as a rule, never more than 4), long runs on Modal, and a timing or upload test
   counts only with load below the core count and `check_or_fold` run in the same minute.
 - Five agents re-derived the variant's hand ranking with their own simulations and disagreed. **Rule:** `theory/out`
   is the single source of equity truth; BUILDER broadcasts the first variant-level finding at once.

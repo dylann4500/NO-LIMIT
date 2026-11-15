@@ -149,7 +149,9 @@ happen again.
 - **Check before you trust**: re-run, don't re-read. Local wins don't predict the field; the practice rounds do.
 - **The laptop's CPU is shared by every agent of both sessions** (a speedrun hit load 50 on 12 cores, and then even
   the kit's do-nothing bot failed timing tests; in a second run four agents at 4 workers each put this laptop's 15
-  cores at load 17-19 by minute 8 and v1's upload test was inconclusive). Each subagent runs at most 4 local worker processes; Monte Carlo or
+  cores at load 17-19 by minute 8 and v1's upload test was inconclusive). Each **session** keeps its subagents' local worker processes to about 6 in all
+  and enforces it itself: every brief gives a worker count (2 unless the session says otherwise, never more than 4),
+  and the session checks `uptime` before any timing test and whenever it adds an agent; Monte Carlo or
   match runs longer than about a minute of CPU go to Modal (one app per purpose). A timing or upload test counts only
   if `uptime` shows load below the core count AND the kit's `check_or_fold` example runs in the same minute as a
   baseline; otherwise say "inconclusive: machine loaded" and re-run.

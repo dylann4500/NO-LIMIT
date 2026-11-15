@@ -68,7 +68,7 @@ corner.
   results against our own bots are sanity only; the practice rounds judge strength.
 - **Fan out:** one stylist per change. If your brief holds several, spawn up to 4 helpers yourself (in one message, one
   job and one output file each: one change, one folder), merge their results, then report. Sparring: run
-  `rig/compare.py` (the tester's, read-only) locally with at most 4 workers, or on `avalon-rig` as `rig/NOTES.md` says;
+  `rig/compare.py` (the tester's, read-only) locally with the worker count your brief gives (2 if none), or on `avalon-rig` as `rig/NOTES.md` says;
   never a Modal app of your own.
 
 ## Rules that bit us
@@ -81,8 +81,7 @@ corner.
   (`cmd > log 2>&1 & echo $! > /tmp/<job>.pid`). Never block: commands over ~2 minutes go to the background with a log;
   no `wait`, no sleep of 20 s or more, no polling. Modal has only two deployed apps, the tester's `avalon-rig` (up to 40
   containers) and theory's `avalon-theory` (up to 20): call them (`rig/NOTES.md` says how); never deploy, `modal run`
-  or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: at most 4
-  worker processes.
+  or stop an app yourself; all other roles share at most 20 containers (team total 80). Else run locally: the worker count your brief gives (2 if it gives none, never more than 4: the session holds the laptop's total).
 - Facts about rounds only from `state/status.md` and `data/`, with their time. Record measured results, append only:
   `n=$(grep -oE '^L[0-9]+' notes/LEDGER.md | tr -d L | sort -n | tail -1); echo "L$((${n:-0}+1)) | $(date +%H:%M) | stylist | <claim> | <effect ± se> | <n> | <method> | <file> | proposed" >> notes/LEDGER.md`
   (the newest `verdict L<k>` line about a line is its status). Say "unverified" plainly.
