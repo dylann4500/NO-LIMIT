@@ -5,7 +5,7 @@
   "cmd": "",
   "compute": "",
   "details": "",
-  "expires_at": "2026-11-15T13:35:14Z",
+  "expires_at": "2026-11-15T15:58:35Z",
   "id": "finals-saturday",
   "log": [
     {
@@ -77,6 +77,11 @@
       "at": "2026-11-15T09:36:33Z",
       "by": "dylann29",
       "text": "Full rehearsal ran 22:20-01:05 (six seats, 21 teams, rotating field, injected faults). True result: avalon 1st, about 50 standings points clear; bots improved from -2.3 to +9.6 a table against the unchanged opponents. Review on emu/rehearsal c651e10: finals_pack/prep/REHEARSAL_REVIEW_15NOV.md (+ seven reports in prep/rehearsal_15nov/). NOTHING in the bundle has changed; the page proposes 6 small edits and 4 habits for Dylan and Samuel to agree. Samuel: B2 edits hard rule 1 (failed decisions judged against check_or_fold in the same run), so it needs your yes too. Biggest finding: sessions freeze about 2 minutes when their context compacts; type /compact when each scored round starts, and leave roles as background subagents."
+    },
+    {
+      "at": "2026-11-15T11:58:35Z",
+      "by": "dylann29",
+      "text": "renewed 4h"
     }
   ],
   "owner": "dylann29",
@@ -89,5 +94,5 @@
   "result": "",
   "state": "active",
   "title": "Saturday handoff: review and merge the overnight research branches, apply speedrun findings, rehearsal prep on Dylan's Mac",
-  "updated_at": "2026-11-15T09:36:33Z"
+  "updated_at": "2026-11-15T11:58:35Z"
 }
