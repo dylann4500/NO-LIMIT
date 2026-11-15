@@ -75,7 +75,8 @@ confirm it.
 
 ## 4. Hard rules (these never bend)
 
-1. **Every uploaded bot is legal and fast**: zero failed decisions in the checks, the kit's check passes, and it
+1. **Every uploaded bot is legal and fast**: no more failed decisions in the checks than the kit's `check_or_fold`
+   bot has in the same run (a stalled machine fails every bot's decisions; on a quiet machine that is zero), the kit's check passes, and it
    passes the upload test with no time bank (2 players, 20 hands, time bank 0). A failed decision (timeout, error,
    illegal action) checks when checking is free and otherwise folds (§8).
 2. **Only tested zips are released and uploaded.** A tested bot is active by T-3 of every scored round. Each round
@@ -273,7 +274,8 @@ statement of the platform's rules: re-read Sunday's own pages at minute 0.
 - Scored play has a time bank: 100 ms a table by default (`state.config.time_bank_ms`); one timeout empties it and
   each table starts with a full one. The upload test has none: a heads-up match of up to 20 hands at the 1 ms limit
   against a check-or-fold bot, rejected if the bot does not start within the start-up allowance, crashes, or fails
-  more than 10% of its decisions. Our own bar stays zero failed decisions (hard rule 1).
+  more than 10% of its decisions. Our own bar stays stricter: no more failed decisions than the kit's `check_or_fold`
+  bot in the same run (hard rule 1).
 - Payouts can be drawn per table inside one round, and a round can change the table defaults: the bot reads
   `state.config.payouts` (and the rest of `state.config`) at every table. At the hand cap the bots still seated
   split the remaining points by ICM on their stacks.

@@ -194,7 +194,7 @@ answer as a released file with a tester verdict (in by T-4:00, the one switch de
 window), and the evidence (validated LEDGER lines, or labelled
 "unverified"). The practice result usually lands at T-8 to T-7: send the threshold first (the practice score the
 challenger needs), then the final answer the moment it lands. If the scored round's result or the practice result is missing at T-6, the rule's answer is
-the live bot; data that lands late (after T-10) stops only new changes to the live bot, not the which-bot decision. Samuel's answer to the decision: relay his exact words to BUILDER with SendMessage. If BUILDER reports that Dylan's answer is
+the live bot; data that lands late (after T-10) stops only new changes to the live bot, not the which-bot decision. Put BUILDER's question to Samuel in BUILDER's words, copied from its `state/decisions.md` entry, not a version of your own. Samuel's answer to the decision: relay his exact words to BUILDER with SendMessage. If BUILDER reports that Dylan's answer is
 the opposite of Samuel's, tell Samuel at once: the rule's answer stands until they agree. If BUILDER says the portal
 still shows the old bot at T-3, ask Samuel to fetch Dylan.
 

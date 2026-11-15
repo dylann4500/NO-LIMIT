@@ -23,7 +23,9 @@ verdicts given). Read-only: `bot/`, `candidates/`, `releases/`, `analysis/`, `th
 **Every release, from v1 on** (v1's from the build-hour tester that builds the rig; from v2 on RESEARCH spawns one fresh
 tester per release, or retargets you to a release that replaced yours before your verdict: keep the old one as an extra
 paired arm): its verdict (below), always including a
-heads-up run (`--players 2`). A bot plays a scored round only with a tester verdict that includes one. For a release
+heads-up run at the real table's settings (the day's full table with all but two seats already out, six seats with four
+out in case F, so `state.config` is the real one; a bare `--players 2` table is a format the event never shows, and
+platform bots refused it in the 14 November rehearsal). A bot plays a scored round only with a tester verdict that includes one. For a release
 that changes heads-up play, also run it head to head against the live bot: against the sparring mix one heads-up
 fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0.4.
 
@@ -35,7 +37,7 @@ fix read as −0.32 ± 0.28, and directly against the old bot as about +1.2 ± 0
   that line to your session at once. In the same report give today's per-table spread for one bot and the multiplier (spread /
   17.9; 1.06 in case F at 50/30/20): every figure in `DECISION_RULES.md` given in points per table is multiplied by
   it, and `platform` writes both numbers into `bot/rules.json` (DECISION_RULES §2 rule 3).
-- **By 15, `rig/compare.py LIVE CAND... --tables N --field F [--players 2]`** (Part 3a): per candidate, points per
+- **By 15, `rig/compare.py LIVE CAND... --tables N --field F`**, with a heads-up mode that plays the day's real table with two seats left (Part 3a): per candidate, points per
   table ± SE, the paired difference vs LIVE ± SE, failed decisions, p99, p99.9 and max decision time by phase (judge on p99.9 beside the
   `check_or_fold` baseline: the max spikes under load). It saves each bot's points per table, so two
   runs on the same seeds can be paired afterwards, and it copies the theory tables its sparring bots play at the start
@@ -184,6 +186,6 @@ owners; what's unverified; the rig commands; Modal app ids and background jobs, 
   command takes the zip, not a folder. In the test variant
   the do-nothing bot scored as well as ours in a field that busts itself: report that kind of fact loudly.
 - Every release gets its own verdict (RESEARCH spawns one tester per release), and every verdict includes a heads-up
-  run (`--players 2`): a release with no verdict shipped a -1.9 ± 0.4 heads-up regression.
+  run (at the real table's settings, as above): a release with no verdict shipped a -1.9 ± 0.4 heads-up regression.
 - Bots that seed randomness from the clock or cap work by wall-clock make paired tests noisy: say so, and ask platform
   for deterministic decisions.

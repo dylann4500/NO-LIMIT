@@ -33,7 +33,8 @@ working rules that never bend either: the portal is read-only for agents and onl
 never block your turn; Modal has only two deployed apps, `avalon-rig` (`tester`, up to 40 containers) and
 `avalon-theory` (`theory`, up to 20), and the other roles call them or run locally, sharing 20 (80 in all).)
 
-1. **Every bot we upload is legal and fast**: zero failed decisions in the checks, the kit's check passes,
+1. **Every bot we upload is legal and fast**: no more failed decisions in the checks than the kit's `check_or_fold`
+   bot has in the same run (a stalled machine fails every bot's decisions; on a quiet machine that is zero), the kit's check passes,
    and it passes the upload test with no time bank. *(A bot that times out or acts illegally checks when
    checking is free and otherwise folds, and can zero a round.)* **A bot plays a scored round only with a `tester` verdict that includes a heads-up run.**
    *(In a speedrun a release with no verdict shipped a heads-up regression of −1.9 ± 0.4.)* A verdict's first words are
@@ -126,7 +127,8 @@ alternatives alive and re-choose as results come in.
   predicts a loss of 2 points or more and the reason is understood.
 
 **A day with no practice round between scored rounds** (Dylan, 14 November; the organizers' pages promise practice
-rounds only in the build hour, and the first window shows which day it is). A challenger then has no free
+rounds only in the build hour, and the first window shows which day it is). **On a day with practice rounds, nothing
+in this section applies.** Without a practice round a challenger has no free
 measurement, so it is measured inside scored rounds, as cheaply as possible. Not tested in any timed run. **This is
 a default to start from, not a script:** Dylan and Samuel choose each round's bot or split in words, and the shares
 and thresholds below are starting values.
@@ -155,7 +157,7 @@ and thresholds below are starting values.
   or none. 4th or lower: 50/50 between the best measured style and a challenger.
 - **Rounds 5 and 6.** In the top 3: the best measured bot at every table. 4th to 8th: the arm that measured better;
   if the gap to 3rd on the standings is more than the remaining weight times the edge our best bot has shown, the
-  design with the most upside, measured or not (the last-rounds bar). 9th or lower: the most different design each
+  design with the most upside, measured or not. 9th or lower: the most different design each
   round.
 - A full switch to a bot the field has never measured is right only then: behind, and late. (In the model of
   `notes/pre/challenger_bar.md` a blind challenger does worse on average than no challenger.)

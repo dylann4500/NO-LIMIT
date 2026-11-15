@@ -243,8 +243,9 @@ An upload may be an activation (v1's upload settles it: minute-0 step 4). So Dyl
 that is not meant to be the next bot to play, never a zip "to have it ready"; after every upload and every click you
 confirm the active bot in `state/status.md` and say it back to him in one line.
 
-He reads your terminal between uploads. Keep it short: what's happening, what he must do and by when (exact file
-names: `releases/v7.zip`), or "nothing right now". Say each upload/activate request once, clearly, with the time.
+He reads your terminal between uploads. When he must act, that message holds only the action, the exact file
+(`releases/v7.zip`) and the deadline; everything else goes in a separate message. When nothing is needed from him,
+don't message him to say so. Say each upload/activate request once, clearly, with the time.
 Never ask him to run commands or check things you can check. When he asks something, your first sentence answers.
 
 ## After compaction or a restart

@@ -90,6 +90,10 @@ The detailed reports, with times and file pointers for every claim, are in `prep
 
 ### B. Edits to the bundle I recommend
 
+**Approved by Dylan and Samuel and applied on 15 November, 03:55** (full script tests pass, 228 of 228; the starting
+bundle zip is repacked). B2 also changed the second mention of the bar in `strategy/FIRST_PROMPT.md`'s upload-test
+check, and B5 was worded for either table ("the day's full table with all but two seats already out").
+
 | # | File | Change | Why |
 |---|---|---|---|
 | B1 | `strategy/DECISION_RULES.md`, the section for a day with no practice rounds | Delete "(the last-rounds bar)" from the "Rounds 5 and 6" bullet. After the section's opening sentence add: "On a day with practice rounds, nothing in this section applies." | Item 3. Both sessions quoted this section as a live rule on a day it didn't apply. The phrase was mine. |

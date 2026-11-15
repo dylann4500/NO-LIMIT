@@ -218,7 +218,8 @@ randomly and some well; ones that ignore it flatter us.
 
 CHECKS, BEFORE I UPLOAD ANYTHING (report the numbers, not "passed")
 1. The packed upload imports from an empty folder; the upload-test conditions (heads-up against the kit's
-   check-or-fold bot, 20 hands, no time bank) give zero failed decisions on several seeds. That bot folds
+   check-or-fold bot, 20 hands, no time bank) give no more failed decisions than that check-or-fold bot has in
+   the same run, on several seeds (on a quiet machine that is zero). That bot folds
    to everything, so the twist never fires: run the same conditions against a bot that calls everything
    and confirm the twist phase fired (count it).
 2. 100,000 states harvested from local play against sparring bots (generating legal states from scratch is
@@ -461,7 +462,7 @@ decision time.
   wide; each as enough copies to fill the table (five in case F, seven in case R), plus a mixed field. They must play the variant's own decision too, some at
   random and some well. A candidate that loses to one of these by more than 2 standard errors has a hole.
 - Pick up any folder under candidates/ and test it. Fit to play a practice round or be the challenger:
-  zero failed decisions, the kit's check passes, 99th-percentile time under 0.5 ms measured on an idle core
+  no more failed decisions than the kit's check-or-fold bot in the same run, the kit's check passes, 99th-percentile time under 0.5 ms measured on an idle core
   (timings under load are not the platform's), and no catastrophic loss (about -2 points/table) in the
   cloned field. Report the paired difference and sparring results as evidence; they are not a gate, because
   local wins don't predict the field. The practice round decides strength.
