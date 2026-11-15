@@ -48,7 +48,7 @@ DANGER = [
     (r"\bdd\s+if=", "dd"),
     (r">\s*/dev/(?:sd|disk)", "writing to a disk device"),
     (r"\bmodal\s+(?:app\s+(?:delete|rm)|volume\s+(?:rm|delete)|secret\s+(?:delete|rm)|environment\s+delete)",
-     "a Modal delete (use `modal app stop <id>` to stop an app)"),
+     "a Modal delete (use `modal app stop --yes <id>` to stop an app)"),
 ]
 _W = r"(?:-X\s*(?:POST|PATCH|PUT|DELETE)\b|--request[=\s]+(?:POST|PATCH|PUT|DELETE)\b|--data\b|--data-\w+|\s-d\s|\s-F\s|--form\b|\s-T\s|--upload-file\b|--json\b|--post-data\b|--post-file\b|--method[=\s]+(?:POST|PATCH|PUT|DELETE)\b)"
 _SITE = r"(?:pokerbot\.sequoiacap\.com|/tournament/api)"
@@ -64,7 +64,7 @@ PROC_KILL_HELP = ("Not run: killing processes by name or pattern (pkill, killall
                   "also matches the Claude sessions' own processes, whose command lines contain their instructions; it "
                   "killed every agent in a rehearsal. Stop only what you started, by PID: start background jobs as "
                   "`cmd > /tmp/<job>.log 2>&1 & echo $! > /tmp/<job>.pid`, then `kill $(cat /tmp/<job>.pid)`. Modal: "
-                  "`modal app stop <app-id>` (see `modal app list`). If these words were only text (a search, a file "
+                  "`modal app stop --yes <app-id>` (see `modal app list`). If these words were only text (a search, a file "
                   "you're writing), write them as p[k]ill / kill[a]ll or use the Write tool.")
 BLOCKING_HELP = ("Not run: a foreground `wait`, a `sleep` of 20 s or more, or a loop that sleeps blocks your whole turn, "
                  "so the humans and your inbox can't reach you until it ends. Start long jobs in the background with a "
