@@ -86,7 +86,8 @@ running before you spawn anything. The first thing to establish is which case th
 `platform`'s rules card; until then every brief says "expect case F; check the kit first", and when it is known you
 send it to every running subagent. Every brief names the team Python (`starter-kit/.venv/bin/python`, announced by
 BUILDER once `platform` has set it up; system `python3` may not build the kit's evaluator) and the CPU budget (a
-worker count per subagent, 2 as a rule, about 6 for your whole session; longer runs go to Modal: `avalon-rig` for the tester, `avalon-theory` for
+worker count per subagent: one each once more than six agents are live, and about 6 in all only as a guide for heavy
+local runs; longer runs go to Modal: `avalon-rig` for the tester, `avalon-theory` for
 theory) and the role's own pre-event note (`theory`: `notes/pre/variants.md`; `tester`: `testplan.md`; `scout`:
 `field.md`; `analyst` and `scout`: `stat_definitions.md`; all, in case F: `format_finals.md`). Spawn in ONE message, in
 the background:

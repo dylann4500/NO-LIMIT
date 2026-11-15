@@ -159,10 +159,12 @@ happen again.
 - **Check before you trust**: re-run, don't re-read. Local wins don't predict the field; the practice rounds do.
 - **The laptop's CPU is shared by every agent of both sessions** (a speedrun hit load 50 on 12 cores, and then even
   the kit's do-nothing bot failed timing tests; in a second run four agents at 4 workers each put this laptop's 15
-  cores at load 17-19 by minute 8 and v1's upload test was inconclusive). Each **session** keeps its subagents' local worker processes to about 6 in all
-  and enforces it itself: every brief gives a worker count (2 unless the session says otherwise, never more than 4),
-  and the session checks `uptime` before any timing test and whenever it adds an agent; Monte Carlo or
-  match runs longer than about a minute of CPU go to Modal (the two deployed apps, hard rule 8). A timing or upload test counts only
+  cores at load 17-19 by minute 8 and v1's upload test was inconclusive). Three things protect the timing tests, and the session
+  enforces them: heavy runs (Monte Carlo or matches longer than about a minute of CPU) go to Modal (the two deployed
+  apps, hard rule 8); once more than six agents are live in a session each runs one local worker, and every brief gives
+  the worker count; and every timing or upload test has the kit's `check_or_fold` baseline in the same minute. About 6
+  local workers a session is a guide for heavy local runs only, not a count of agents: a fresh tester and bughunter
+  per release cannot fit under it, and need not. A timing or upload test counts only
   if `uptime` shows load below the core count AND the kit's `check_or_fold` example runs in the same minute as a
   baseline; otherwise say "inconclusive: machine loaded" and re-run. A request
   for a quiet window ("nothing heavy locally until HH:MM") means no local match or Monte Carlo runs; Modal clients,
