@@ -179,6 +179,10 @@ a PLAN CHALLENGE. You own it:
 
 ## The T-9 recommendation (every window, including round 1)
 
+On a day with no practice round between scored rounds the recommendation is the split for the coming round
+(`DECISION_RULES.md` §3, "A day with no practice round between scored rounds"): the two arms' scores from the last
+round's hand file (`analyst`'s `arms` job), their difference with its SE, our standing, and the rule's answer.
+
 `SendMessage` BUILDER "RECOMMENDATION round <k>: ..." by T-9, applying DECISION_RULES §3 exactly: the challenger's
 field-adjusted edge against yardstick teams (teams that didn't change bot between the two rounds; `tester` computes
 it), z with the SE of the edge as DECISION_RULES §3 defines it (the yardsticks' own practice-to-scored spread with 6 or more

@@ -152,6 +152,11 @@ running before you spawn anything.
 
 ## Every window (scored round k at T-0; the clock posts each step)
 
+If the first window shows that today has no practice round between scored rounds, the table below loses its practice
+steps and `DECISION_RULES.md` §3 "A day with no practice round between scored rounds" decides what plays: tell Dylan
+in one line, have `platform` build the split upload for the two best designs, and ask the humans which split to play
+as you would ask "which bot?".
+
 | When | You |
 |---|---|
 | T-20 | The previous round started. Sync with RESEARCH in 3 lines (what changed, what you need, the plan). Start the "Which bot?" draft in `state/decisions.md`. If `state/clock.md` shows these are the last two rounds, apply the last-rounds bar (DECISION_RULES §3) and plan the last round (if it is the named final round, the portal holds its results and our bot's health report: `CLAUDE.md` §8). The challenger for this window should be packed and tested by T-16. |

@@ -125,6 +125,29 @@ alternatives alive and re-choose as results come in.
 - Divergent candidates are judged by the real field (practice rounds). The cloned field may veto one only if it
   predicts a loss of 2 points or more and the reason is understood.
 
+**A day with no practice round between scored rounds** (Dylan, 14 November; the organizers' pages promise practice
+rounds only in the build hour, and the first window shows which day it is). A challenger then has no free
+measurement, so it is measured inside scored rounds, as cheaply as possible. Not tested in any timed run.
+- **The split upload.** One zip plays two styles, each at about half of its tables, chosen by a key that is visible
+  in the hand file (our seat number at hand 1, or another value `platform` and `analyst` agree on and test first).
+  `analyst` scores each arm from the round's hand file: same round, same field, no yardsticks. With 5,000 tables the
+  difference between the arms has an SE of about 0.55 points at six seats, so arms 1.1 points apart are 2 SE apart.
+  Both arms pass every release check and the zip's VERSIONS line names the arms and the key. If the two designs cannot
+  share a zip (a standalone design), play one in round 1 and the other in round 2 and compare them against yardstick
+  teams.
+- **Rounds 1 and 2 are the test:** a 50/50 split of the two best designs of the build hour (the round-1 pick and its
+  challenger). Together these rounds are 3/21 of the total under linear weights.
+- **Rounds 3 and 4.** In the top 3: the better arm at three quarters or more of our tables, a challenger at the rest
+  or none. 4th or lower: 50/50 between the best measured style and a challenger.
+- **Rounds 5 and 6.** In the top 3: the best measured bot at every table. 4th to 8th: the arm that measured better;
+  if the gap to 3rd on the standings is more than the remaining weight times the edge our best bot has shown, the
+  design with the most upside, measured or not (the last-rounds bar). 9th or lower: the most different design each
+  round.
+- A full switch to a bot the field has never measured is right only then: behind, and late. (In the model of
+  `notes/pre/challenger_bar.md` a blind challenger does worse on average than no challenger.)
+- A round whose results have not landed changes nothing: the last split continues. Changes to the live bot keep their
+  own bars. As everywhere, the humans can overrule any line of this in words.
+
 **Plan challenges.** Any session or subagent whose evidence says a plan assumption (§5) or the base style is wrong
 for today raises a PLAN CHALLENGE: a subagent reports it at once to the session that spawned it, and that session
 tells the other one (`SendMessage` to BUILDER or RESEARCH, and `say.py --record`). Both sessions put it to their

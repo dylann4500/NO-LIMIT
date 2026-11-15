@@ -285,7 +285,9 @@ statement of the platform's rules: re-read Sunday's own pages at minute 0.
   round before each scored round is not promised; Bay Area had them. A scored round runs at least 5,000 iterations,
   one table a bot per iteration, and its results "normally arrive in the following 20-minute window": data can land
   later than the timeline's T-13. A window with no practice round has no practice result, and then, as already
-  written, the rule's answer is the live bot (`prompts/RESEARCH.md`).
+  written, the rule's answer is the live bot (`prompts/RESEARCH.md`). If the day has no practice rounds between scored
+  rounds at all, `DECISION_RULES.md` §3 "A day with no practice round between scored rounds" applies: two styles in
+  one upload, split by table, measured in the scored rounds themselves.
 - A tie on the final total is broken by countback: each team's share of tables won in each scored round, times
   that round's multiplier, summed; then the same for 2nd places, and so on. Nothing is decided by chance. A
   disqualified team has no rank and sits out later rounds.

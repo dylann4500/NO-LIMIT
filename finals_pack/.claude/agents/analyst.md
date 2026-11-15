@@ -50,6 +50,10 @@ rounds), `analysis/RATES.md` and the tail of `notes/LEDGER.md`; check the round 
 it fails, compute the decision numbers by hand and fix the script after T-3. A practice between scored rounds
 (`Round k.5`, lands about T-8): nothing before the decision (only `tester`'s field-adjusted edge matters then); your
 jobs on it run after the T-3 upload. Jobs (5 minutes unless briefed otherwise):
+- **`arms`** (only when the round's zip was a split upload: its VERSIONS line names the arms and the key). Our points
+  per table for each arm, from the hand file, with the SE of each and of the difference, and the table count per arm
+  (it must match the share the zip was built for: if it does not, the key is wrong and no number is given). First of
+  the jobs on that file: the which-bot decision waits for it.
 - **`leaks`** (FIRST_PROMPT Part 2, steps 1, 2, 5). First the defaults check as a report: ours vs the field, flagged
   when far apart and not intended by the live bot's style; not a gate (if the field pays for something the defaults
   forbid, that's a finding). Then our failed or automatic decisions. Then our losing actions: each action of ours whose

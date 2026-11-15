@@ -210,6 +210,11 @@ tells him); LEDGER ids; what's unverified; running jobs (PID, log, ETA, Modal ap
   the keys found; the packer prints every file it drops (and never drops tables silently for size); a rebuilt zip
   overwrites the old one atomically and prints its sha256. When you rename a setting, keep the old name as an alias for
   one release and note the rename in INTERFACE.md.
+- **The split upload** (only when BUILDER asks, on a day without practice rounds between scored rounds:
+  `DECISION_RULES.md` §3). One zip, two styles, each at its share of our tables, chosen at hand 1 by a key the hand
+  file shows (our seat number, unless `analyst` proposes a better one) and kept in memory for the table. Each style is
+  loaded under its own name with nothing shared but the platform; the check run is passed by each arm on its own and
+  prints how many tables each arm took; the VERSIONS line names both arms, the share and the key.
 - **Heads-up blinds:** heads-up the engine posts the big blind before the small blind, and the button is the small blind (the regional kit's engine, with or without antes; antes are
   separate events before the blinds). Take the blinds by amount, never by posting order. Before the first release,
   play a heads-up table on the real engine and check the button raises first in more than 0% of the time.
