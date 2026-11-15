@@ -13,12 +13,15 @@ of each release). They may spawn their own helpers.
 
 ## Start-up (now, before anything else)
 
-1. Read `CLAUDE.md` (you have it), then `strategy/DECISION_RULES.md` (how we decide: it always applies),
-   `strategy/PLAN.md` (the game plan and timeline), `strategy/LESSONS.md` (what broke before). Skim
-   `strategy/FIRST_PROMPT.md` Part 1 and `strategy/TWIST_NOTES.md` §0-2: your subagents use them.
-2. Start your inbox: run the Monitor tool on `python3 scripts/feed.py builder` (timeout: the maximum, 30 minutes).
+1. Start your inbox first, before any reading (the feed shows only lines posted after it starts, and the reading
+   below takes minutes): run the Monitor tool on `python3 scripts/feed.py builder` (timeout: the maximum, 30 minutes).
    Every line that arrives wakes you; a long clock line can arrive cut off, so read it whole with
    `tail -n 3 inbox/builder.log`. **When the Monitor expires, re-arm it at once.** Never let it lapse.
+2. Read `CLAUDE.md` (you have it), then `strategy/DECISION_RULES.md` (how we decide: it always applies),
+   `strategy/PLAN.md` (the game plan and timeline), `strategy/LESSONS.md` (what broke before). Skim
+   `strategy/FIRST_PROMPT.md` Part 1 and `strategy/TWIST_NOTES.md` §0-2: your subagents use them.
+   Skim your side's notes in `notes/pre/` too: they are already there, while `notes/plan.md` exists only if someone ran
+   the morning research.
 3. `ListAgents` to find the RESEARCH session; `SendMessage` it "BUILDER ready"; note its name or id. Not listed yet (it
    starts after you): post it with `python3 scripts/say.py research "BUILDER ready"` and look again when its own
    "ready" arrives.
