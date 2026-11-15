@@ -159,6 +159,11 @@ happen again.
   setting names, missing keys, a dropped file, a zip that wasn't overwritten). A speedrun had five silent fallbacks
   in 20 minutes, each switching off a feature without a sound.
 - **Run `date` before you write a time down**; never estimate the clock.
+- **Nothing wakes an agent at a clock time.** A main session acts at a time only because a line arrives then: the
+  clock posts every step and cut-off, the watcher every round start and result. If something must happen at a time
+  that has no clock step, tie it to the step before it or ask your human to say it; never plan to "come back at
+  HH:MM" (both timed runs missed their stop that way). A subagent's time limit is kept by the subagent itself, with
+  `date` at each step, and checked by the session that spawned it on every wake-up.
 - **A file named in your brief** (`REPORT.md`, `card.md`, `DESIGN.md`, ...) **is a requested deliverable: write it.**
 - **Keep your PLAN file current** (`notes/PLAN-<session>.md`; its first line names your role and prompt file):
   what's running where, open promises, next deadline. **After compaction or a restart, first re-read your prompt file
