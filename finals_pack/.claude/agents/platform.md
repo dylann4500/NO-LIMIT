@@ -76,6 +76,9 @@ Read the kit first (README, RULES.md, AGENTS.md, the SDK: engine, rules classes,
 hand-history README; `state.config`; where two of its files disagree, test what the engine does and record it in
 `bot/rules.json`), then `strategy/TWIST_NOTES.md` §2-3 and `strategy/FIRST_PROMPT.md` Part 1.
 
+- **Say where the stack is measured.** The interface states whether its effective stack is before or after posting
+  the ante and blind, and looks theory's tables up the way their keys say: two builders read a 10bb stack as the 8bb row
+  by measuring after the ante.
 - **Hard-code nothing about the format.** Table rules are set per round and can change between rounds (`CLAUDE.md`
   §8): seats, stack, blinds and antes, payouts and time limits are read from `state.config` at every table; a table
   from `theory/` that depends on them is chosen by them, never assumed. Check 2 below also runs at a second table size
@@ -132,7 +135,10 @@ hand is named: with a twist that reorders hands AA can be a fold (it ranked 164t
 never folds" failed four correct bots). (12) **every
 packed table is read**: the check run's report counts reads per table over about 200 hands, and a table with no
 reads fails the pack unless the VERSIONS line names it as deliberately unused (a table that is never looked up fails
-nothing else: in a timed run the base ignored three of theory's tables for 7 minutes and passed every check).
+nothing else: in a timed run the base ignored three of theory's tables for 7 minutes and passed every check). (13) **the
+format is read, not assumed**: run 200 states at payouts [100] and [40, 30, 20, 10] and at 2, 3 and 8 seats; the
+all-in call threshold must change with them and agree with theory's ICM (three of four designs and the platform's own
+helper hard-coded 50/30/20 at six seats in a timed run).
 
 **Releases** are made only when BUILDER asks, for a pick or for a fix to a pick; any other build stays a candidate in
 its folder. **Every release:** checks 1-2 and the upload test on the exact zip, always (hard rule). A bot plays a scored round only with

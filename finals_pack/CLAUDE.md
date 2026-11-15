@@ -207,11 +207,11 @@ says which case holds (F, R, or what differs from both), and BUILDER tells every
 | The field's mean score | 16.7 a table | 12.5 |
 | Tables one opponent shares with us | about a quarter: roughly 250 of 1,000 | about a third: 300-350 |
 | Equity to call all-in, equal stacks | 58.1% on hand 1; 60.6% with 5 left, 65.2% with 4, 57.1% with 3, pot odds heads-up | 55.6% on hand 1; the same from 4 left down |
-| Hands a table | about 155 simulated with regional bots, 163-174 measured in a timed run; a seat is dealt 105-115 | about 131; a seat is dealt 90 |
-| One bot's spread a table (its ratio to 17.9 is the day's multiplier for every figure in points per table, `DECISION_RULES.md` §2 rule 3: 1.06 in case F); paired noise | 18.9; about 22/√tables (estimate: measure it) | 17.9; about 21/√tables |
+| Hands a table | about 155 simulated with regional bots; 163-174 and 180 measured in two timed runs against sane bots (73-83 in a sparring mix that busts itself); a seat is dealt 105-115 | about 131; a seat is dealt 90 |
+| One bot's spread a table (its ratio to 17.9 is the day's multiplier for every figure in points per table, `DECISION_RULES.md` §2 rule 3: 1.06 in case F); paired noise | 18.9 by arithmetic, 20.2-20.4 measured in a timed run; about 21-22/√tables (measure it) | 17.9; about 21/√tables |
 | Sparring field | five copies beside the candidate | seven |
-| Rig speed | about 0.9 of the case-R rate (estimate: time the first job) | as measured in `tester.md` |
-| A bot that only folds | out near hand 121, about 11 of 16.7 (simulated) | out near hand 102, about 7 of 12.5 |
+| Rig speed | about 0.9 of the case-R rate for the same bots (an estimate; one timed run's own bots ran 28 tables a second a process): time the first job | as measured in `tester.md` |
+| A bot that only folds | out near hand 121-127; its score depends on the field: about 11 of 16.7 simulated against regional bots, 27-30 in a sparring mix that busts itself, about 1 in a sane field | out near hand 102, about 7 of 12.5 |
 | Round weights | linear, 1 to 6, as of Saturday afternoon | 1 to 6 at Bay Area |
 
 The case-F column is arithmetic, or simulation on the regional kit's engine, from `notes/pre/format_finals.md`, which
