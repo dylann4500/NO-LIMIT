@@ -38,7 +38,9 @@ Your own start-up instructions are in `prompts/BUILDER.md` or `prompts/RESEARCH.
   `python3 scripts/say.py <builder|research> "<text>"`, which lands in the other session's inbox. (A message from a
   session in a different permission mode is held until a human approves it: if the other session doesn't react to
   something it should, send it again with `say.py` and tell your human.)
-- Subagents never write to inboxes; they report to whoever spawned them.
+- Subagents never write to inboxes; they report to whoever spawned them: a final report when they end, and one line
+  at each deliverable while they work (`SendMessage` to `main`). A message to a busy subagent is read at its next tool
+  round, not at once: keep tool rounds short while a release is near, and never rely on a correction arriving in time.
 
 ## 3. Files: where everything lives
 
