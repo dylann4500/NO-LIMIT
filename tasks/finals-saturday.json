@@ -52,6 +52,11 @@
       "at": "2026-11-14T23:27:43Z",
       "by": "dylann29",
       "text": "emu/rehearsal d6e6570: 11 notes in finals_pack/notes/pre (new: first1000, placings, finalists, challenger_bar), 57 instruction fixes from a consistency read and a timed run of the bundle (full suite 228 passing), tabletop test of the decision rules in prep/TABLETOP_14NOV.md, decisions page prep/PROPOSALS_14NOV.md now has 24 items. Boston raw data is on Dylan's Mac (data/boston); Boston dossiers in progress. Samuel's regionals_web report seen (Pittsburgh top 12, weights 1,2,3,5,8,13). Running: timed runs B and C, a portal read, a 6-seat deep-stack format note."
+    },
+    {
+      "at": "2026-11-15T00:14:03Z",
+      "by": "dylann29",
+      "text": "emu/rehearsal 553c685: merged notes/pre/format_finals.md (six seats, 6,000 chips, antes worked through as the MAIN case; Appendix C lists all 491 lines in the pack that assume the regional table) and the Boston dossiers (finalists.md: Du-o, Situational Awareness, BHTG, Preesh, 0_o GTO Slop + Magnus RLsen, Hotwheels and three more from raw hands; field_two_regionals.md: Bay Area vs Boston field under one set of definitions). Full suite 228 passing. Boston raw data is here, so task boston-recheck is covered by these notes. Running: Pittsburgh dossiers, 39 open bundle defects from timed runs A and B (prep/SPEEDRUN_AB_14NOV.md), timed run C at six seats (ends 16:56)."
     }
   ],
   "owner": "dylann29",
@@ -64,5 +69,5 @@
   "result": "",
   "state": "active",
   "title": "Saturday handoff: review and merge the overnight research branches, apply speedrun findings, rehearsal prep on Dylan's Mac",
-  "updated_at": "2026-11-14T23:27:43Z"
+  "updated_at": "2026-11-15T00:14:03Z"
 }
