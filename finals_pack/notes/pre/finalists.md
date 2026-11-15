@@ -1,5 +1,10 @@
 # The finalists: what each did at its regional, and how to recognise it on Sunday
 
+> **Case label (14 November, evening).** Written for case R: 8 seats, 2,000 chips, no ante. The team's main case is
+> now case F (6 seats, 6,000 chips, antes): `CLAUDE.md` §8 has the two side by side and `notes/pre/format_finals.md`
+> what changes. Every rate here was measured at 8 seats; section 2 gives the six-seat sample sizes beside the
+> eight-seat ones.
+
 Drafted Saturday 14 November 2026, 06:30-06:55 PST, by a research session, for `scout` and `challenger`; Boston added
 15:25-15:55 PST and Pittsburgh 15:55-16:15 PST from their raw hand files. Notes only: the scripts behind the numbers
 were throwaway and have been deleted. Rates are counted exactly as in
@@ -18,18 +23,44 @@ family, and then as a candidate (grade C), never as a reason to block a change.
 ## The field
 
 The Finals competition on the portal lists 21 teams (`prep/PORTAL_SIGNED_IN_14NOV.md`); this replaces every earlier
-guess. All 20 opponents have a card below and a row in the recognition table, each from raw hand data. (A)
+guess. Every one of the 20 opponents was found in a regional's hand files and has a card and a row in the recognition
+table. (A)
 
-| Regional (variant) | In the Finals | Cards |
-|---|---|---|
-| Bay Area (three hole cards, discard and expose) | 2 Curry, Lemonade, AZ, sandylikesfrogs, Team 72 (top five); avalon (6th, us); Team 123 (7th) | Section 4 |
-| Boston (auctioned flop) | Du-o, Situational Awareness, BHTG, Preesh, 0_o GTO Slop (top five); Magnus RLsen (6th); Hotwheels | Section 5 |
-| Pittsburgh (two boards, discard after the turn) | Pluto, Cold Decks, Poker is all you need, Hold Em Trophies, Claude Mythos 5.5 (top five); LLinusLLoveBot (6th); AEPi AK (7th) | Section 6 |
+| Team | Regional | Official rank there | Card |
+|---|---|---|---|
+| 2 Curry | Bay Area | 1st of 148 | Section 4 |
+| Lemonade | Bay Area | 2nd | Section 4 |
+| AZ | Bay Area | 3rd | Section 4 |
+| sandylikesfrogs | Bay Area | 4th | Section 4 |
+| Team 72 | Bay Area | 5th | Section 4 |
+| Team 123 | Bay Area | 7th | Section 4 |
+| Du-o | Boston | 1st of 231 [I] | Section 5.3 |
+| Situational Awareness | Boston | 2nd [I] | Section 5.3 |
+| BHTG | Boston | 3rd [I] | Section 5.3 |
+| Preesh | Boston | 4th [I] | Section 5.3 |
+| 0_o GTO Slop | Boston | 5th [I] | Section 5.3 |
+| Magnus RLsen | Boston | 6th [I] | Section 5.3 |
+| Hotwheels | Boston | Not known; 6th or 7th at one team's tables | Section 5.3 |
+| Pluto | Pittsburgh | 1st of 146 | Section 6.4 |
+| Cold Decks | Pittsburgh | 2nd | Section 6.4 |
+| Poker is all you need | Pittsburgh | 3rd | Section 6.4 |
+| Hold Em Trophies | Pittsburgh | 4th | Section 6.4 |
+| Claude Mythos 5.5 | Pittsburgh | 5th | Section 6.4 |
+| LLinusLLoveBot | Pittsburgh | 6th | Section 6.4 |
+| AEPi AK | Pittsburgh | 7th | Section 6.4 |
+| avalon (us) | Bay Area | 6th | Section 4, for contrast |
 
-Hotwheels is the Boston team: the name is in Boston's 231 entries and not in Pittsburgh's 146. Its Boston rank is not
-official; at one team's tables it was 6th or 7th. Five teams carded earlier are **not** in the field and are kept only
-for reference: Team 82 and pocket rockets (Bay Area), triple t, REspect and Boston's own Team 72. The Team 72 in the
-Finals is the Bay Area's.
+Bay Area ranks are from the official results on this laptop; Pittsburgh's from the official top 12 in Samuel's
+`research/regionals_web/REPORT.md`; Boston's from a finalist's public photo of the standings.
+
+- **Hotwheels is the Boston team:** the name is in Boston's 231 entries and not in Pittsburgh's 146 (nor Bay Area's).
+- **Which Team 72.** All three regionals had an entry of that name. The portal gives the name only, so the files
+  cannot say which one it lists. The Bay Area's qualified by right (5th); Boston's was about 10th at one team's
+  tables, behind Magnus RLsen and Hotwheels; Pittsburgh's is not in its official top 12. Read it as the Bay Area's,
+  and check on Sunday with the recognition table: the Bay Area and Boston bots share almost nothing (section 4
+  against section 8).
+- **Five teams carded earlier are not on the portal's list:** Team 82 and pocket rockets (Bay Area), triple t, REspect
+  and Team 72 (Boston). Their cards are kept in section 8, below the finalists, and they have no recognition row.
 
 ## 1. Summary
 
@@ -67,15 +98,19 @@ Finals is the Bay Area's.
 
 ## 2. Recognition table for practice 1
 
-Each opposing team sits at about 7 of our 19 opponents' seats, so a 1,000-table practice file holds about 370 of its
-tables. **Same family** = at least two of its three rates inside the band. **Rewritten** = two or more outside.
+At eight seats (case R) each opposing team sits at about 7 of our 19 opponents' seats, so a 1,000-table practice
+file holds about 370 of its tables; with 21 teams at six seats (case F) it is 5 of 20 and about 250.
+**Same family** = at least two of its three rates inside the band. **Rewritten** = two or more outside.
 Otherwise **unclear**: test again on practice 2. Bands are the team's regional range widened by about 5 points,
 because a new variant moves every level. "Tables" is how many of that team's tables give enough chances for a rate
 5 points inside the band to be 2 standard errors from its edge (or, for a contrast, 150 chances on each side), at
-the regional's 90 hands dealt per seat per table. Run the cross-tabs A, B, D and H of Appendix C on every team
-(E as well, for shove calls): they are the same code for all of them.
+the regional's 90 hands dealt per seat per table. **In case F** a seat is dealt 105-115 hands, so a team needs about
+0.8 times the figure in tables shared with us, but shares 250 of our 1,000 and not 370: in tables of ours every figure
+is about 1.1 times larger (`format_finals.md` Appendix C.1). A row marked 250 or more needs most of a 1,000-table
+practice in either case, and one above about 310 (case F) or 370 (case R) will not settle in it. Run the cross-tabs A, B, D and H of Appendix C on every team (E as well, for
+shove calls): they are the same code for all of them.
 
-| Team (regional result) | Regional family | Rate 1 | Rate 2 | Rate 3 | Tables | Also look for |
+| Team (regional result) | Regional family | Rate 1 | Rate 2 | Rate 3 | Tables shared with us, case R (case F: about 0.8 times) | Also look for |
 |---|---|---|---|---|---|---|
 | **2 Curry** (Bay Area 1st) | Wide pressure, learns seats | 3-bet 28%+ with under 5% of them all-in (was 32-39%, 3%) | Opener folds to a 3-bet 75%+ (80-87%) | Cross-tab A: re-raise after one fold minus after one non-fold, +20 or more (+30 to +43) | 10 / 40 / 80 | Every open exactly 2.00bb, every 3-bet 3.25x; never limps, flat-calls 1-2%; small blind opens 97% |
 | **Lemonade** (2nd) | Limp or shove | Open-limp 15%+ while raising first in under 12% (21-24%; 8-11%) | 60%+ of its 3-bets all-in (72-93%) | A limper facing a raise folds under 25% (7% from round 3; 24% before) | 10 / 65 / 45 | Level 1: raises first in under 1%; 0% from early and middle seats |
@@ -262,30 +297,6 @@ opponent (Appendix A). Each card's "use" lines are grade C: the rate is measured
 - **To have removed it:** its fold to 4-bets rose all night, so nobody punished it there. But this team rewrote
   twice in six rounds: a different bot on Sunday is more likely than not.
 
-### Team 82 (8th: 18.6, 17.1, 16.2, 17.9, 17.7, 18.5; not in the Finals field)
-
-- **Class:** rounds 1-5 one tight family (VPIP 20-24%, 3-bets 3-8%, flat-calls 1-4%, big blind folds 75-89%), shoving
-  when short. Round 6 rewrite, half-visible in the practice before: big blind folds 75% to 25% and re-raises 53%,
-  3-bets 17%, folds to 4-bets 65% (n = 395).
-- **Within a table:** nothing on A, B or D.
-- **Against us:** -0.41 ± 0.27, and +0.35 beyond its score: the one team here we did relatively well against.
-- **Use:** (1) Re-raise its opens: it folded 84% in all six rounds (n = 27,812), and still 76% to a seat that had
-  re-raised three times. (2) Shove wide into it: it called shoves of 10bb or less 18% (n = 19,157), of 10-15bb 8%,
-  and 19% heads-up. (3) Its small-blind open is any two cards (100% from round 3, n = 30,394).
-- **To have removed it:** the fold to 3-bets survived the round-6 rewrite, so it is probably in the team's plan.
-
-### pocket rockets (9th: 18.9, 16.9, 18.0, 17.6, 16.6, 17.8; not in the Finals field)
-
-- **Class:** rounds 1-2 limped 21-24%; rounds 3-5 raise or fold (opens 45%, 3-bets 15%); round 6 wide pressure (3-bets
-  28% at 2.5-2.75x, big blind folds 64% to 40%), shown in the practice before it.
-- **Within a table:** nothing on A, B or D.
-- **Against us:** -1.00 ± 0.26; -0.25 beyond its score.
-- **Use:** (1) It never open-shoved above 15bb (0 of 259,671 chances) and 5% at 10-15bb; it makes a small raise
-  instead (51-53% of first-in chances at 10-20bb) and folds to a re-raise 79-80% there (n = 5,693). Re-shove over
-  its raises when it has 10-20bb. (2) 4-bet its round-6 3-bets: 73% folds (n = 1,115). (3) It bets the river 33%
-  when checked to (n = 5,721): its river bet is rarely a bluff.
-- **To have removed it:** the short-stack habit survived three versions; adding a push-or-fold table would end it.
-
 ### avalon (6th: 18.1, 16.7, 19.1, 18.3, 18.0, 17.5; our final bot, for contrast)
 
 - Folds to 3-bets 84-87% in every round, 80% even to small ones; folds to river bets 70-76%; open-shoves 78% at 10bb
@@ -348,8 +359,8 @@ total where known: Du-o 731 (727), Situational Awareness 685 (715), BHTG 646 (68
 601 (656), Hotwheels 591, Magnus RLsen 590 (641), triple t 577, REspect 570, Team 72 (Boston) 565; then Golem All in
 558, artisans 551, zakeburg 550, mao 550, molly tea 549. Each ± 18, and all below official because the viewpoint
 team took 14-18 points a table itself. **The top five are right; from 6th down this is one team's tables, and any
-of the last eight names could be 6th to 12th.** The five cards after the finalists' are the next five by this
-estimate.
+of the last eight names could be 6th to 12th.** Magnus RLsen and Hotwheels are in the Finals and have cards
+below; triple t, REspect and Team 72 (Boston) are not, and their cards are in section 8.
 
 ### 5.2 How Boston's finalists used the auction
 
@@ -478,31 +489,6 @@ We never played these teams, so there is no "against us".
   into folders (+17).
 - **Auction:** 39 a time unless all-in, then 154.
 - **Use:** steal its big blind (68% folds in rounds 3-6, n = 12,077); re-raise it once or twice a table, not more.
-
-#### triple t (estimated 8th, not in the Finals field; points 17.9, 19.2, 15.8, 15.9, 20.7, 17.6)
-
-- **Unstable:** three bots in four spells: in round 4 it went back to its round-1 bot. Rounds 5-6: opens 32% (small blind 91%,
-  button 35%), 4-bets 30% of the re-raises it faces and folds 49%, folds to 4-bets 63% (72% all-in, n = 308).
-- **Within a table:** steals more from folders (+17). **Auction:** front-loaded, 128 in hands 1-20 falling to 36.
-- **Use:** little is safe; treat as unknown until practice 1.
-
-#### REspect (estimated 9th, not in the Finals field; points 13.4, 12.6, 13.7, 18.9, 18.3, 19.1)
-
-- **Round-4 rewrite worth 5 points**, shown in a more extreme form in the practice before it: re-raises 35% (48% from
-  the blinds), **4-bets 59% of the re-raises it faces** and folds 33% (n = 3,938), folds to 4-bets 89% (n = 1,135),
-  big blind folds 31% and re-raises 68%, never flat-calls. Folds to flop bets 20-29% in all six rounds, but to turn
-  bets 67%.
-- **Within a table:** 2 Curry's rule appears in rounds 5-6 (+18).
-- **Use:** (1) 4-bet its re-raises. (2) Re-raise it for value only, and be ready for its 4-bet. (3) One flop bet
-  does not move it; the second one does.
-
-#### Team 72 (Boston) (estimated 10th, not in the Finals field; points 16.8, 17.8, 14.8, 12.9, 19.2, 19.2)
-
-- **Not the Bay Area's Team 72.** Three bots: passive in rounds 1-2; re-raising 24% in rounds 3-4 (its worst scores);
-  tight in rounds 5-6, in the practice before: opens 25% (button 22%, small blind 98%, level 1 15%), 4-bets 22%,
-  folds to 4-bets 86% (n = 471).
-- **Auction:** the most polarised: 25 a time with nobody all-in, 215 when all-in itself.
-- **Use:** its small-blind open is any two cards; 4-bet its re-raises.
 
 ## 6. Pittsburgh: which file is which round, and the cards
 
@@ -714,6 +700,60 @@ Official points per table are in the headings; round 1 is official only (no file
 Also public and relevant to every card: the per-round scores of the Bay Area leaders and the line that 2 Curry folded
 to 81% of re-raises are in a public Pittsburgh team's notes, which took them from our own write-up. Any finalist can
 read them, 2 Curry included.
+
+## 8. Teams carded earlier that are not in the Finals
+
+None of these five is on the portal's list. Their cards are kept because they were measured the same way; their
+rate tables are still in Appendices B, C, H and I.
+
+### Team 82 (Bay Area 8th: 18.6, 17.1, 16.2, 17.9, 17.7, 18.5; not in the Finals field)
+
+- **Class:** rounds 1-5 one tight family (VPIP 20-24%, 3-bets 3-8%, flat-calls 1-4%, big blind folds 75-89%), shoving
+  when short. Round 6 rewrite, half-visible in the practice before: big blind folds 75% to 25% and re-raises 53%,
+  3-bets 17%, folds to 4-bets 65% (n = 395).
+- **Within a table:** nothing on A, B or D.
+- **Against us:** -0.41 ± 0.27, and +0.35 beyond its score: the one team here we did relatively well against.
+- **Use:** (1) Re-raise its opens: it folded 84% in all six rounds (n = 27,812), and still 76% to a seat that had
+  re-raised three times. (2) Shove wide into it: it called shoves of 10bb or less 18% (n = 19,157), of 10-15bb 8%,
+  and 19% heads-up. (3) Its small-blind open is any two cards (100% from round 3, n = 30,394).
+- **To have removed it:** the fold to 3-bets survived the round-6 rewrite, so it is probably in the team's plan.
+
+### pocket rockets (Bay Area 9th: 18.9, 16.9, 18.0, 17.6, 16.6, 17.8; not in the Finals field)
+
+- **Class:** rounds 1-2 limped 21-24%; rounds 3-5 raise or fold (opens 45%, 3-bets 15%); round 6 wide pressure (3-bets
+  28% at 2.5-2.75x, big blind folds 64% to 40%), shown in the practice before it.
+- **Within a table:** nothing on A, B or D.
+- **Against us:** -1.00 ± 0.26; -0.25 beyond its score.
+- **Use:** (1) It never open-shoved above 15bb (0 of 259,671 chances) and 5% at 10-15bb; it makes a small raise
+  instead (51-53% of first-in chances at 10-20bb) and folds to a re-raise 79-80% there (n = 5,693). Re-shove over
+  its raises when it has 10-20bb. (2) 4-bet its round-6 3-bets: 73% folds (n = 1,115). (3) It bets the river 33%
+  when checked to (n = 5,721): its river bet is rarely a bluff.
+- **To have removed it:** the short-stack habit survived three versions; adding a push-or-fold table would end it.
+
+### triple t (Boston; estimated 8th, not in the Finals field; points 17.9, 19.2, 15.8, 15.9, 20.7, 17.6)
+
+- **Unstable:** three bots in four spells: in round 4 it went back to its round-1 bot. Rounds 5-6: opens 32% (small blind 91%,
+  button 35%), 4-bets 30% of the re-raises it faces and folds 49%, folds to 4-bets 63% (72% all-in, n = 308).
+- **Within a table:** steals more from folders (+17). **Auction:** front-loaded, 128 in hands 1-20 falling to 36.
+- **Use:** little is safe; treat as unknown until practice 1.
+
+### REspect (Boston; estimated 9th, not in the Finals field; points 13.4, 12.6, 13.7, 18.9, 18.3, 19.1)
+
+- **Round-4 rewrite worth 5 points**, shown in a more extreme form in the practice before it: re-raises 35% (48% from
+  the blinds), **4-bets 59% of the re-raises it faces** and folds 33% (n = 3,938), folds to 4-bets 89% (n = 1,135),
+  big blind folds 31% and re-raises 68%, never flat-calls. Folds to flop bets 20-29% in all six rounds, but to turn
+  bets 67%.
+- **Within a table:** 2 Curry's rule appears in rounds 5-6 (+18).
+- **Use:** (1) 4-bet its re-raises. (2) Re-raise it for value only, and be ready for its 4-bet. (3) One flop bet
+  does not move it; the second one does.
+
+### Team 72 (Boston) (estimated 10th, not in the Finals field; points 16.8, 17.8, 14.8, 12.9, 19.2, 19.2)
+
+- **Not the Bay Area's Team 72.** Three bots: passive in rounds 1-2; re-raising 24% in rounds 3-4 (its worst scores);
+  tight in rounds 5-6, in the practice before: opens 25% (button 22%, small blind 98%, level 1 15%), 4-bets 22%,
+  folds to 4-bets 86% (n = 471).
+- **Auction:** the most polarised: 25 a time with nobody all-in, 215 when all-in itself.
+- **Use:** its small-blind open is any two cards; 4-bet its re-raises.
 
 ## Appendix A: method and limits
 
@@ -1390,8 +1430,9 @@ Team 123's practice-3 bot had nothing in common with what they played in round 1
   - Hearsay that "the winner" let its coding agent work it out, regional not stated: https://x.com/flenrik/status/2119997406318321812
 - **Nothing found:** members or any strategy for Du-o, Situational Awareness, BHTG, Preesh, Lemonade, AZ, Team 72,
   Team 123, Team 82 and pocket rockets; anything first-hand from 2 Curry (its members are reported second-hand as
-  two UC Berkeley students); Steven Peng's team name; Pittsburgh's standings; the list of 20 finalists or of
-  wildcards; any team's plan for the Finals. The full search log is in the sessions' shared notes folder
+  two UC Berkeley students); a Pittsburgh recap or rules page from the organizers; any team's plan for the Finals.
+  (Pittsburgh's standings and the finalist list, not found in the morning, are now in Samuel's
+  `research/regionals_web/REPORT.md` and `prep/PORTAL_SIGNED_IN_14NOV.md`.) The full search log is in the sessions' shared notes folder
   (`finalists_web_findings.md`), outside the repo.
 
 ## Appendix H: Boston style cards by scored round
