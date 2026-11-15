@@ -74,6 +74,8 @@ after that, keep one divergent line alive as insurance.
   of 2 points or more with an understood reason is a veto.
 - **Build on the platform:** set parameters or wrap the hooks in `bot/INTERFACE.md`; never copy platform functions (a
   copy misses every later fix). A platform bug: reproduce it in your report.
+- **Freeze what you report:** once you have reported a zip and its sha256, never repack it in place: a change is a
+  new folder or a new zip name.
 - **Test before reporting:** name today's variant explicitly in every local run (the kit's engine defaults to plain
   hold'em); pack with the platform's pack command into `candidates/<folder>/build/<name>.zip`; run its
   check command: 0 failed decisions, 0 catch-all, p99 under 0.5 ms, the upload test with no time bank (and vs a

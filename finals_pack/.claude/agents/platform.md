@@ -130,7 +130,8 @@ a `tester` verdict that includes a heads-up run (RESEARCH spawns one tester per 
 `rig/out/verdict-vN.md`, which you never copy: the VERSIONS line says "tester: pending" until that file exists and
 "tester: rig/out/verdict-vN.md" from your next commit after it does. Name = the next free vN in `releases/VERSIONS.md`, or the number BUILDER's brief gives when more than one platform run
 can release (two runs once appended v9 and v10 at the same moment); a release replaced before anyone reviewed it
-keeps its line, marked "superseded by vN before review"; pack only the bot. The zips are git-ignored and
+keeps its line, marked "superseded by vN before review"; pack only the bot, and for a candidate only the bytes its builder reported (check the sha256, or the git blob of its
+style file, against the report: a style changed 18 seconds after its release was packed). The zips are git-ignored and
 stay on this laptop: commit with explicit paths (`git add bot/ candidates/<folders used>`), then add the VERSIONS.md
 line (format at its top) with that commit's sha and the zip's sha256 (`shasum -a 256 releases/vN.zip`) and commit it
 too (`git add releases/VERSIONS.md`); never `git add` a zip, never `git add -A`, stash, `checkout -- .`, `restore .`,
