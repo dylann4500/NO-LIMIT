@@ -97,7 +97,8 @@ asked by the BUILDER session at T-8; decided by the humans):
   heads-up run at b50**; a higher-ranked bot whose verdict lands by T-4 replaces it by a click, with no question asked
   (declared at b50 with `scripts/live.py`, no question asked then); practice 4's bot, if different, is the challenger; the edge = each
   bot's practice score minus the yardstick teams' scores in the same practice; the same bars; asked once, at T-8 of
-  round 1.
+  round 1. Between two close candidates for round 1, prefer the more aggressive: this is one sentence, not a rule, and
+  worth at most 1 point (early practices over-reward tight play).
 
 **Changes to the live bot each window:** every independent change that clears the bar, each in a different
 situation, each behind its own on/off setting, each with a branch-fired count, the combined build passing rule
