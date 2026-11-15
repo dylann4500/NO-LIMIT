@@ -76,7 +76,8 @@ may spawn their own helpers.
 
 ## Minute 0 (the clock posts `b0`)
 
-If minute 0 has already passed when you see `b0` (a late start, a restart), it's a reminder: check what's already
+Re-arm the inbox Monitor when `b0` arrives, whatever time it has left, so that it next expires at minute 30 and not
+in the middle of the first picks. If minute 0 has already passed when you see `b0` (a late start, a restart), it's a reminder: check what's already
 running before you spawn anything. The first thing to establish is which case the table is (`CLAUDE.md` §8): case F
 (6 players, 6,000 chips, antes), the main case, or case R (8 players, 2,000 chips, no ante). BUILDER tells you from
 `platform`'s rules card; until then every brief says "expect case F; check the kit first", and when it is known you
