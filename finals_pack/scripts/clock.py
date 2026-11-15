@@ -521,10 +521,13 @@ def quiet(text: str, now: float | None = None) -> None:
 # (id, owner session, cut-off T-, heads-up T- or None, what, fallback, line for the humans or None)
 GUARD = [
     ("data", "research", 10, None, "the previous scored round's results and hand data have landed (data/rounds/)",
-     "no new data this window. The live bot plays with only changes already supported by earlier rounds (persistent "
-     "leaks, validated LEDGER lines); analyst works from pooled earlier rounds; nothing waits for this data. When it "
-     "lands it feeds the next window",
-     "round data hadn't landed by T-10. The live bot plays with already-validated changes only."),
+     "no new changes to the live bot from that round: the live bot plus changes already supported by earlier rounds "
+     "(persistent leaks, validated LEDGER lines); analyst works from pooled earlier rounds. The which-bot decision "
+     "still runs: if that round's result and the practice result are both in by T-6, tester gives the edge "
+     "(yardsticks if the file exists, else scores minus the field median, said so) and the rule's answer follows "
+     "it; if either is missing at T-6, the rule's answer is the live bot",
+     "round data hadn't landed by T-10: no new changes to the live bot from it. The challenger is still judged if "
+     "that round's result and the practice result are both in by T-6."),
     ("card", "research", 8, None, "the round card is written (within 3 event-minutes of the data landing)",
      "stop fixing the card script. analyst computes the numbers the decision needs (the challenger's practice score vs "
      "the live bot's last comparable round, the top leak's size and z) with a one-off script, 3-minute cap; the card "

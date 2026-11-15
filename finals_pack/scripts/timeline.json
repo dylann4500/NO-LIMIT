@@ -287,7 +287,7 @@
   {
    "when": "T9",
    "to": "research",
-   "text": "Send BUILDER the recommendation for scored round {k} now (it asks the humans at T-8): RECOMMENDATION round {k}: the pre-registered rule (standings, the field-adjusted bar), both bots' numbers, the rule's answer as a released file, the evidence (validated, or labelled unverified). Until the practice result lands (usually T-8 to T-7) send the threshold (the practice score the challenger needs, given the yardstick teams), then the final answer the moment it lands; with no practice result by T-6 the rule's answer is the live bot."
+   "text": "Send BUILDER the recommendation for scored round {k} now (it asks the humans at T-8): RECOMMENDATION round {k}: the pre-registered rule (standings, the field-adjusted bar), both bots' numbers, the rule's answer as a released file, the evidence (validated, or labelled unverified). Until the practice result lands (usually T-8 to T-7) send the threshold (the practice score the challenger needs, given the yardstick teams), then the final answer the moment it lands; if the scored round's result or the practice result is missing at T-6 the rule's answer is the live bot."
   },
   {
    "when": "T8",

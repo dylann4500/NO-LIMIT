@@ -177,8 +177,8 @@ our total from each round's results x weights, and treat us as outside the top 3
 for our standing and the rounds left (the last-rounds bar if `state/clock.md` shows the last two rounds), the rule's
 answer as a released file with a tester verdict, and the evidence (validated LEDGER lines, or labelled
 "unverified"). The practice result usually lands at T-8 to T-7: send the threshold first (the practice score the
-challenger needs), then the final answer the moment it lands. With no practice result by T-6, the rule's answer is
-the live bot. Samuel's answer to the decision: relay his exact words to BUILDER with SendMessage.
+challenger needs), then the final answer the moment it lands. If the scored round's result or the practice result is missing at T-6, the rule's answer is
+the live bot; data that lands late (after T-10) stops only new changes to the live bot, not the which-bot decision. Samuel's answer to the decision: relay his exact words to BUILDER with SendMessage.
 
 ## Other duties
 

@@ -142,7 +142,7 @@ file (`notes/PLAN-<session>.md`): a late estimate only lets the session re-scope
 | Cut-off | If it hasn't happened | Who is told |
 |---|---|---|
 | T-12: a new challenger released (due by T-15) | Practice plays the most informative already-tested bot (else the live bot); the challenger keeps building for next window | BUILDER, Dylan (`challenger` isn't interrupted) |
-| T-10: last round's data landed | No change from new data; live bot plus already-validated changes | both sessions, both humans |
+| T-10: last round's data landed | No new **changes to the live bot** from that round: live bot plus already-validated changes. The which-bot decision still runs: if that round's result and the practice result are both in by T-6, `tester` gives the edge (yardsticks if the file exists, else scores minus the field median, said so) and the rule's answer follows it. If either is missing at T-6, the rule's answer is the live bot | both sessions, both humans |
 | 3 min after data: round card written | `analyst` computes the decision numbers by hand; the card script is fixed after T-3 | RESEARCH (it stops the card job and re-briefs `analyst`) |
 | T-8: one-change proposal recorded | No new-data change in the live bot; the idea goes to the challenger or next practice | RESEARCH (it stops `analyst`'s proposal), BUILDER |
 | T-7: "Which bot?" decision asked | BUILDER asks it at once, with the rule's answer as the default | BUILDER, both humans |
