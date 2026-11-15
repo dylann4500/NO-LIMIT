@@ -163,7 +163,8 @@ ask in your terminal, plain words, at the top of your reply:
 - what each answer means, and the **rule's answer, which plays if nobody answers by HH:MM**.
 
 Record only a clear answer, with the human's own words, in `state/decisions.md`. Samuel can answer too (RESEARCH
-relays his words to you with SendMessage). If they disagree, the rule's answer stands until they agree; say so to
+relays his words to you with SendMessage). If they disagree, the rule's answer stands until they agree, and Dylan makes the click it needs even if he argued
+against it (if he won't, the live bot stays active: re-declare it and record why); say so to
 both. A conditional answer is recorded when its condition holds.
 
 ## Plan challenges

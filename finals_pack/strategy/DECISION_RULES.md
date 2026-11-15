@@ -78,7 +78,12 @@ asked by the BUILDER session at T-8; decided by the humans):
 - Otherwise the live bot plays, with this window's changes (below).
 - BUILDER writes the question in `state/decisions.md` and asks it in its terminal, with the rule, both bots'
   numbers and the rule's answer. The rule's answer plays at T-5 if no human has answered (BUILDER applies it with
-  `scripts/live.py`); a human can always overrule it.
+  `scripts/live.py`); either human can overrule it, unless the other has given the opposite answer: then the rule's
+  answer stands until they agree, and both sessions say so to both humans at once. Dylan makes the click the rule's
+  answer needs even if he argued against it. If he won't, the live bot stays active: BUILDER re-declares it and records
+  why. If the portal still shows the old bot at T-3, BUILDER says so once to Dylan and has RESEARCH ask Samuel to fetch
+  him; the click stays valid until the round starts. If the round starts on the old bot, BUILDER re-declares the bot that
+  played (`live.py`), and the next window compares against it.
 - The practice's download (stage `Round k.5`) lands near T-8: before the decision only `tester`'s field-adjusted
   edge matters; the full analysis loop on it runs after T-3.
 - **Round 1:** the live bot is `tester`'s adjusted best scorer of practices 1-3 (declared at b50 with
