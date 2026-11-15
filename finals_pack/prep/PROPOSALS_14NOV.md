@@ -1,8 +1,11 @@
 # Decisions for Dylan and Samuel (Saturday night, 14 November)
 
-**Nothing in sections A to D is applied until one of you says so.** The quickest answer is "apply all as
-recommended", or that plus the numbers you want changed. I then put the wording into every copy in the bundle
-tonight and re-run the tests. Sections A to C change how the team decides, so they need both of you; D is Dylan's.
+**Status: approved and applied.** Dylan approved every recommendation as written on 14 November at about 17:10
+("go ahead and just implement as written the proposals"). Items 2 to 17, 19 to 24 and 30 are in the bundle (commits
+`cec5c95..e31d4de`, one per item, merged as `8f56d9a`; full tests pass), and items 25 and 27 are in `START.md`.
+Still open: 18 (undecided, nothing written), 22 (Samuel confirms the figure), 26 and 28 (yours to do), and the
+permission mode for Sunday's sessions (`START.md` states what was tested and leaves the choice to you). Samuel has
+not yet said he agrees with sections A to C: tell the lead session if anything should change.
 Evidence is in `notes/pre/` and in `prep/TABLETOP_14NOV.md` (the exact replacement wording for every item marked P).
 
 Words used below. **Live bot**: the bot currently chosen for scored rounds. **Challenger**: the new bot tried in the
@@ -86,6 +89,20 @@ judgement that is yours:
 - How withdrawn releases are named; the 300-word limit on subagent reports.
 - Plan assumptions 2 and 4 to 7 have no measurable test; the fingerprinting thresholds are untested.
 - Hold'em shove and call priors, push/fold keyed by players behind, the leaks lens ranking on outcomes.
+
+Added from timed run C (six seats), also left as they are:
+
+- Three `platform` runs at minute 0, with a clock step at minute 8 for an importable skeleton.
+- A bug hunter and a tester only for releases declared to play (the bundle keeps "every release").
+- A release cadence: ten releases in 20 minutes outran verdicts that take 4 to 8 minutes; nobody proposed a rule.
+- A job-size limit on the shared test rig (RESEARCH proposed at most 1,000 tables a job while another tester runs).
+- Script changes: a narrower loop pattern in the safety hook (it also matches prose), shorter clock lines, a file
+  watcher script.
+- Three open definitions in `stat_definitions.md`: which big blind sets the depth, whether a small-blind complete is
+  a limp, whether a raise over limpers is an open.
+
+Modal: the workspace is on the Starter plan with a cap of 100 containers (read in the dashboard on 14 November); the
+bundle uses 80. Dylan asked Modal for 400 that evening. Unless it is granted and measured, nothing changes.
 
 Three numbers a session chose while fixing instructions, for you to overrule: about 6 local worker processes per
 session and 2 per subagent; 200 hands for the check that a candidate is alive; 30 big blinds for the scripted spot
