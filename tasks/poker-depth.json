@@ -1,0 +1,28 @@
+{
+  "agent": "Dylans-MacBook-Pro-1228",
+  "assignee": "",
+  "claimed_at": "2026-11-24T02:25:16Z",
+  "cmd": "",
+  "compute": "",
+  "details": "",
+  "expires_at": "2026-11-24T06:25:16Z",
+  "id": "poker-depth",
+  "log": [
+    {
+      "at": "2026-11-24T02:25:16Z",
+      "by": "dylann29",
+      "text": "claimed"
+    }
+  ],
+  "owner": "dylann29",
+  "paths": [
+    "research/poker_depth"
+  ],
+  "posted_at": "",
+  "posted_by": "",
+  "priority": 0,
+  "result": "",
+  "state": "active",
+  "title": "Poker-side depth measures for Fish pitch table (skill chain, oracle gap, counter gain, cyclic share, games-to-separate), local only, <=4 procs",
+  "updated_at": "2026-11-24T02:25:16Z"
+}
