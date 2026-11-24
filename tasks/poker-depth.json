@@ -12,6 +12,11 @@
       "at": "2026-11-24T02:25:16Z",
       "by": "dylann29",
       "text": "claimed"
+    },
+    {
+      "at": "2026-11-24T02:29:59Z",
+      "by": "dylann29",
+      "text": "phase1 running: 4 local procs, in-process kit engine, ~37k tables (matrix 13 bots x150 dup pairs, oracle 400, counter-sel 8x8x100)"
     }
   ],
   "owner": "dylann29",
@@ -24,5 +29,5 @@
   "result": "",
   "state": "active",
   "title": "Poker-side depth measures for Fish pitch table (skill chain, oracle gap, counter gain, cyclic share, games-to-separate), local only, <=4 procs",
-  "updated_at": "2026-11-24T02:25:16Z"
+  "updated_at": "2026-11-24T02:29:59Z"
 }

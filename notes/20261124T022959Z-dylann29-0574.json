@@ -1,0 +1,8 @@
+{
+  "agent": "Dylans-MacBook-Pro-1228",
+  "at": "2026-11-24T02:29:59Z",
+  "by": "dylann29",
+  "pin": false,
+  "task": "poker-depth",
+  "text": "phase1 running: 4 local procs, in-process kit engine, ~37k tables (matrix 13 bots x150 dup pairs, oracle 400, counter-sel 8x8x100)"
+}
