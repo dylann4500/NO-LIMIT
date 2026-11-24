@@ -17,6 +17,11 @@
       "at": "2026-11-24T02:29:59Z",
       "by": "dylann29",
       "text": "phase1 running: 4 local procs, in-process kit engine, ~37k tables (matrix 13 bots x150 dup pairs, oracle 400, counter-sel 8x8x100)"
+    },
+    {
+      "at": "2026-11-24T03:10:09Z",
+      "by": "dylann29",
+      "text": "done: research/poker_depth/RESULTS.md on branch claude/poker-depth-reference-ecec7a (not pushed): chain 7, oracle 0.701, counter gain ~0, cyclic 0.10, 66 tables to separate"
     }
   ],
   "owner": "dylann29",
@@ -26,8 +31,8 @@
   "posted_at": "",
   "posted_by": "",
   "priority": 0,
-  "result": "",
-  "state": "active",
+  "result": "research/poker_depth/RESULTS.md on branch claude/poker-depth-reference-ecec7a (not pushed): chain 7, oracle 0.701, counter gain ~0, cyclic 0.10, 66 tables to separate",
+  "state": "done",
   "title": "Poker-side depth measures for Fish pitch table (skill chain, oracle gap, counter gain, cyclic share, games-to-separate), local only, <=4 procs",
-  "updated_at": "2026-11-24T02:29:59Z"
+  "updated_at": "2026-11-24T03:10:09Z"
 }
