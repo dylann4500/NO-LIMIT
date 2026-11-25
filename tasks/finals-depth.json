@@ -17,6 +17,11 @@
       "at": "2026-11-25T03:36:49Z",
       "by": "dylann29",
       "text": "phase1 running: 4 local procs, 35k six-seat tables (12-bot matrix x150 dup pairs, oracle 400, 20 draft x betting hybrids x 6 panel x 60)"
+    },
+    {
+      "at": "2026-11-25T04:06:40Z",
+      "by": "dylann29",
+      "text": "done: RESULTS_FINALS.md (193ec64): chain 6 (6-9), oracle 0.585, counter gain +0.013 (draft-only +0.006), cyclic 0.079, games to separate 805; draft layer = 99% of hybrid spread but a cliff (bid vs not); among value bidders betting is 93%"
     }
   ],
   "owner": "dylann29",
@@ -27,8 +32,8 @@
   "posted_at": "",
   "posted_by": "",
   "priority": 0,
-  "result": "",
-  "state": "active",
+  "result": "RESULTS_FINALS.md (193ec64): chain 6 (6-9), oracle 0.585, counter gain +0.013 (draft-only +0.006), cyclic 0.079, games to separate 805; draft layer = 99% of hybrid spread but a cliff (bid vs not); among value bidders betting is 93%",
+  "state": "done",
   "title": "Depth measures + draft/betting layer ablation of the Finals variant (draft hold'em), local, 4 procs",
-  "updated_at": "2026-11-25T03:36:49Z"
+  "updated_at": "2026-11-25T04:06:40Z"
 }
