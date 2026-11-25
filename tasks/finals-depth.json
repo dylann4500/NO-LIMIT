@@ -1,0 +1,29 @@
+{
+  "agent": "Dylans-MacBook-Pro-1228",
+  "assignee": "",
+  "claimed_at": "2026-11-25T03:31:59Z",
+  "cmd": "",
+  "compute": "",
+  "details": "",
+  "expires_at": "2026-11-25T07:31:59Z",
+  "id": "finals-depth",
+  "log": [
+    {
+      "at": "2026-11-25T03:31:59Z",
+      "by": "dylann29",
+      "text": "claimed"
+    }
+  ],
+  "owner": "dylann29",
+  "paths": [
+    "research/poker_depth/finals",
+    "research/poker_depth/RESULTS_FINALS.md"
+  ],
+  "posted_at": "",
+  "posted_by": "",
+  "priority": 0,
+  "result": "",
+  "state": "active",
+  "title": "Depth measures + draft/betting layer ablation of the Finals variant (draft hold'em), local, 4 procs",
+  "updated_at": "2026-11-25T03:31:59Z"
+}
