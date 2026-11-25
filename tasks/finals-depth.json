@@ -12,6 +12,11 @@
       "at": "2026-11-25T03:31:59Z",
       "by": "dylann29",
       "text": "claimed"
+    },
+    {
+      "at": "2026-11-25T03:36:49Z",
+      "by": "dylann29",
+      "text": "phase1 running: 4 local procs, 35k six-seat tables (12-bot matrix x150 dup pairs, oracle 400, 20 draft x betting hybrids x 6 panel x 60)"
     }
   ],
   "owner": "dylann29",
@@ -25,5 +30,5 @@
   "result": "",
   "state": "active",
   "title": "Depth measures + draft/betting layer ablation of the Finals variant (draft hold'em), local, 4 procs",
-  "updated_at": "2026-11-25T03:31:59Z"
+  "updated_at": "2026-11-25T03:36:49Z"
 }
